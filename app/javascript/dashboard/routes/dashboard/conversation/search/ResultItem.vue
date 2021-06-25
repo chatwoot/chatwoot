@@ -8,9 +8,11 @@
             <div class="name-wrap">
               <span class="sub-block-title">{{ userName }}</span>
             </div>
-            <div class="id-wrap">
-              <span class="conversation-id"># {{ conversationId }}</span>
-            </div>
+            <woot-label
+              :title="conversationsId"
+              :small="true"
+              color-scheme="secondary"
+            />
           </div>
           <span class="inbox-name">{{ inboxName }}</span>
         </div>
@@ -71,6 +73,9 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    conversationsId() {
+      return `# ${this.conversationId}`;
+    },
     readableTime() {
       if (!this.timestamp) {
         return '';
@@ -126,12 +131,6 @@ export default {
     .ion-ios-chatboxes-outline {
       color: var(--white);
     }
-    .id-wrap {
-      .conversation-id {
-        background: var(--w-50);
-        color: var(--s-500);
-      }
-    }
   }
 }
 
@@ -165,19 +164,6 @@ export default {
     .sub-block-title {
       font-weight: var(--font-weight-bold);
       margin-right: var(--space-micro);
-    }
-  }
-  .id-wrap {
-    .conversation-id {
-      background: var(--w-400);
-      border-radius: var(--border-radius-normal);
-      color: var(--w-50);
-      align-items: center;
-      font-size: var(--font-size-mini);
-      font-weight: var(--font-weight-bold);
-      padding: 0 var(--space-smaller);
-      white-space: nowrap;
-      line-height: 2;
     }
   }
 }
