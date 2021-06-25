@@ -31,7 +31,7 @@ export default {
       return (
         this.currentUser &&
         this.currentUser.accounts &&
-        this.currentUser.accounts.length !== 0
+        this.currentUser.accounts.length === 0
       );
     },
   },
