@@ -33,15 +33,10 @@ export const actions = {
     const { getConversationSize: conversationSize } = getters;
     const { content } = params;
     commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    const conversation = await sendMessageAPI(content);
-    // Update when new conversation started
+    await sendMessageAPI(content);
+    // Update conversation attributes on create conversation
     if (conversationSize === 0) {
-      const { conversation_status, conversation_id } = conversation.data;
-      dispatch(
-        'conversationAttributes/update',
-        { id: conversation_id, status: conversation_status },
-        { root: true }
-      );
+      dispatch('conversationAttributes/get', {}, { root: true });
     }
   },
 
