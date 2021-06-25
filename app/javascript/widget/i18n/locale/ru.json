@@ -59,6 +59,7 @@
   },
   "CSAT": {
     "TITLE": "Оцените разговор",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "Расскажите подробнее..."
   }
 }
