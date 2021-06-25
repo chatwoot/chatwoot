@@ -44,7 +44,11 @@
     <div v-if="isArticle">
       <chat-article :items="messageContentAttributes.items"></chat-article>
     </div>
-    <customer-satisfaction v-if="isCSAT" />
+    <customer-satisfaction
+      v-if="isCSAT"
+      :message-content-attributes="messageContentAttributes.submitted_values"
+      @submit="onCSATSubmit"
+    />
   </div>
 </template>
 
@@ -118,6 +122,17 @@ export default {
       }));
       this.onResponse({
         submittedValues: formValuesAsArray,
+        messageId: this.messageId,
+      });
+    },
+    onCSATSubmit({ feedback, rating }) {
+      this.onResponse({
+        submittedValues: {
+          csat_survey_response: {
+            rating,
+            feedback,
+          },
+        },
         messageId: this.messageId,
       });
     },
