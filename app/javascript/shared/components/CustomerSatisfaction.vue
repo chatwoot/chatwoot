@@ -1,8 +1,8 @@
 <template>
   <div class="customer-satisfcation">
-    <div class="title">
+    <h6 class="title">
       {{ title }}
-    </div>
+    </h6>
     <div class="ratings">
       <button
         v-for="rating in ratings"
@@ -120,34 +120,40 @@ export default {
 
   background: $color-white;
   border-bottom-left-radius: $space-smaller;
-  color: $color-body;
+  border-radius: $space-small;
   border-top: $space-micro solid $color-woot;
-  border-radius: $space-one;
+  color: $color-body;
   display: inline-block;
   line-height: 1.5;
-  width: 75%;
   margin-top: $space-smaller;
+  width: 80%;
+
   .title {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
-    padding-top: $space-two;
+    padding: $space-two $space-one 0;
     text-align: center;
   }
+
   .ratings {
     display: flex;
     justify-content: space-around;
     padding: $space-two $space-normal;
 
     .emoji-button {
-      font-size: $font-size-big;
-      outline: none;
       box-shadow: none;
       filter: grayscale(100%);
+      font-size: $font-size-big;
+      outline: none;
+
       &.selected,
-      &:hover {
+      &:hover,
+      &:focus,
+      &:active {
         filter: grayscale(0%);
         transform: scale(1.32);
       }
+
       &.disabled {
         cursor: default;
         opacity: 0.5;
@@ -157,22 +163,26 @@ export default {
   }
   .feedback-form {
     display: flex;
+
     input {
-      width: 100%;
-      border: none;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
-      padding: $space-one;
+      border-bottom-left-radius: $space-small;
+      border: 0;
       border-top: 1px solid $color-border;
+      padding: $space-one;
+      width: 100%;
     }
 
     .button {
+      appearance: none;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+      border-bottom-right-radius: $space-small;
       font-size: $font-size-large;
       height: auto;
       margin-left: -1px;
-      appearance: none;
+
       .spinner {
         display: block;
         padding: 0;
