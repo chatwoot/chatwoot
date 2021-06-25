@@ -9,7 +9,7 @@
         :header-title="$t('CREATE_ACCOUNT.NEW_ACCOUNT')"
         :header-content="$t('CREATE_ACCOUNT.SELECTOR_SUBTITLE')"
       />
-      <div v-if="hasNoAccounts" class="alert-wrap">
+      <div v-if="!hasAccounts" class="alert-wrap">
         <div class="callout alert">
           <div class="icon-wrap">
             <i class="ion-alert-circled"></i>
@@ -61,9 +61,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasNoAccounts: {
+    hasAccounts: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   data() {

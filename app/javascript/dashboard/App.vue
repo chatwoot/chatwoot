@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <add-account-modal :show="hasAccounts" has-no-accounts />
+    <add-account-modal :show="!hasAccounts" :has-accounts="hasAccounts" />
     <woot-snackbar-box />
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
       return (
         this.currentUser &&
         this.currentUser.accounts &&
-        this.currentUser.accounts.length === 0
+        this.currentUser.accounts.length !== 0
       );
     },
   },
