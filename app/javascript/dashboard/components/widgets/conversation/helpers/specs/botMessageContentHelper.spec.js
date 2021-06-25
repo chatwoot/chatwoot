@@ -17,6 +17,30 @@ describe('#generateBotMessageContent', () => {
     ).toEqual('<strong>hello@chatwoot.com</strong>');
   });
 
+  it('return correct input_csat content', () => {
+    expect(
+      generateBotMessageContent('input_csat', {
+        submitted_values: {
+          csat_survey_response: { rating: 5, feedback: 'Great Service' },
+        },
+      })
+    ).toEqual(
+      '<div><strong>Rating</strong></div><p>😍</p><div><strong>Feedback</strong></div><p>Great Service</p>'
+    );
+
+    expect(
+      generateBotMessageContent(
+        'input_csat',
+        {
+          submitted_values: {
+            csat_survey_response: { rating: 1, feedback: '' },
+          },
+        },
+        { csat: { ratingTitle: 'റേറ്റിംഗ്', feedbackTitle: 'പ്രതികരണം' } }
+      )
+    ).toEqual('<div><strong>റേറ്റിംഗ്</strong></div><p>😞</p>');
+  });
+
   it('return correct form content', () => {
     expect(
       generateBotMessageContent('form', {
