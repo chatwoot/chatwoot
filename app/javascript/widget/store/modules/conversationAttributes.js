@@ -15,7 +15,7 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }) => {
+  getAttributes: async ({ commit }) => {
     try {
       const { data } = await getConversationAPI();
       const { contact_last_seen_at: lastSeen } = data;

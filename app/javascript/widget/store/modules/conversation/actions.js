@@ -22,7 +22,7 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       refreshActionCableConnector(pubsubToken);
-      dispatch('conversationAttributes/get', {}, { root: true });
+      dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
       console.log(error);
       // Ignore error
@@ -30,14 +30,10 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ commit, dispatch }, params) => {
-    const { content, conversationSize } = params;
+  sendMessage: async ({ commit }, params) => {
+    const { content } = params;
     commit('pushMessageToConversation', createTemporaryMessage({ content }));
     await sendMessageAPI(content);
-    // Update conversation attributes on new conversation
-    if (conversationSize === 0) {
-      dispatch('conversationAttributes/get', {}, { root: true });
-    }
   },
 
   sendAttachment: async ({ commit }, params) => {

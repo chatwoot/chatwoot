@@ -56,12 +56,19 @@ export default {
       'sendAttachment',
       'clearConversations',
     ]),
-    ...mapActions('conversationAttributes', ['clearConversationAttributes']),
-    handleSendMessage(content) {
-      this.sendMessage({
+    ...mapActions('conversationAttributes', [
+      'getAttributes',
+      'clearConversationAttributes',
+    ]),
+    async handleSendMessage(content) {
+      const conversationSize = this.getConversationSize;
+      await this.sendMessage({
         content,
-        conversationSize: this.getConversationSize,
       });
+      // Update conversation attributes on new conversation
+      if (conversationSize === 0) {
+        this.getAttributes();
+      }
     },
     handleSendAttachment(attachment) {
       this.sendAttachment({ attachment });

@@ -8,7 +8,7 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends mutation if api is success', async () => {
       API.get.mockResolvedValue({ data: { id: 1, status: 'bot' } });
-      await actions.get({ commit });
+      await actions.getAttributes({ commit });
       expect(commit.mock.calls).toEqual([
         ['SET_CONVERSATION_ATTRIBUTES', { id: 1, status: 'bot' }],
         ['conversation/setMetaUserLastSeenAt', undefined, { root: true }],
@@ -16,7 +16,7 @@ describe('#actions', () => {
     });
     it('doesnot send mutation if api is error', async () => {
       API.get.mockRejectedValue({ message: 'Invalid Headers' });
-      await actions.get({ commit });
+      await actions.getAttributes({ commit });
       expect(commit.mock.calls).toEqual([]);
     });
   });
