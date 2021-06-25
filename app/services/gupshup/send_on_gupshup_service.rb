@@ -1,13 +1,13 @@
-class Twilio::SendOnTwilioService < Base::SendOnChannelService
+class Gupshup::SendOnGupshupService < Base::SendOnChannelService
   private
 
   def channel_class
-    Channel::TwilioSms
+    Channel::Gupshup
   end
 
   def perform_reply
-    twilio_message = client.messages.create(message_params)
-    message.update!(source_id: twilio_message.sid)
+    gupshup_message = client.send(message_params)
+    message.update!(source_id: gupshup_message.sid)
   end
 
   def message_params
@@ -37,6 +37,6 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def client
-    ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    ::Gupshup::REST::OutboundMessage.new(app=channel.app, apikey=channel.apikey, version=channel.version, phone=channel.phone)
   end
 end
