@@ -100,7 +100,13 @@ export default {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
-        this.$t('CONVERSATION.NO_RESPONSE')
+        {
+          noResponseText: this.$t('CONVERSATION.NO_RESPONSE'),
+          csat: {
+            ratingTitle: this.$t('CONVERSATION.RATING_TITLE'),
+            feedbackTitle: this.$t('CONVERSATION.FEEDBACK_TITLE'),
+          },
+        }
       );
 
       const {
