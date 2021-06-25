@@ -17,26 +17,26 @@ export const CSAT_RATINGS = [
   {
     key: 'disappointed',
     emoji: '😞',
-    value: 0,
+    value: 1,
   },
   {
     key: 'expressionless',
     emoji: '😑',
-    value: 1,
+    value: 2,
   },
   {
     key: 'neutral',
     emoji: '😐',
-    value: 2,
+    value: 3,
   },
   {
     key: 'grinning',
     emoji: '😀',
-    value: 3,
+    value: 4,
   },
   {
     key: 'smiling',
     emoji: '😍',
-    value: 4,
+    value: 5,
   },
 ];
