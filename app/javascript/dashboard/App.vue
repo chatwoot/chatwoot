@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <add-account-modal :show="showCreateAccountModal" show-no-account-warning />
+    <add-account-modal :show="hasAccounts" has-no-accounts />
     <woot-snackbar-box />
   </div>
 </template>
@@ -27,11 +27,11 @@ export default {
       getAccount: 'accounts/getAccount',
       currentUser: 'getCurrentUser',
     }),
-    showCreateAccountModal() {
+    hasAccounts() {
       return (
         this.currentUser &&
         this.currentUser.accounts &&
-        this.currentUser.accounts.length === 0
+        this.currentUser.accounts.length !== 0
       );
     },
   },
