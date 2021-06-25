@@ -30,10 +30,10 @@ export const actions = {
     }
   },
   sendMessage: async ({ getters, commit, dispatch }, params) => {
-    const { getConversationSize: conversationSize } = getters;
     const { content } = params;
     commit('pushMessageToConversation', createTemporaryMessage({ content }));
     await sendMessageAPI(content);
+    const { getConversationSize: conversationSize } = getters;
     // Update conversation attributes on create conversation
     if (conversationSize === 0) {
       dispatch('conversationAttributes/get', {}, { root: true });
