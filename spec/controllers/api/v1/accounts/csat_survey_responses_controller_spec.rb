@@ -32,6 +32,21 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body).first['feedback_message']).to eq(csat_survey_response.feedback_message)
       end
+
+      it 'filters csat responsed based on a date range' do
+        csat_10_days_ago = create(:csat_survey_response, account: account, created_at: 10.days.ago)
+        csat_3_days_ago = create(:csat_survey_response, account: account, created_at: 3.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses",
+            params: { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s },
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data.pluck('id')).to include(csat_3_days_ago.id)
+        expect(response_data.pluck('id')).not_to include(csat_10_days_ago.id)
+      end
     end
   end
 end
