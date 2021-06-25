@@ -1,24 +1,51 @@
 <template>
-  <footer class="footer">
+  <footer v-if="!hideReplyBox" class="footer">
     <ChatInputWrap
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
+  <custom-button
+    v-else
+    class="font-medium"
+    block
+    :bg-color="widgetColor"
+    :text-color="textColor"
+    @click="startNewConversation"
+  >
+    {{ $t('START_NEW_CONVERSATION') }}
+  </custom-button>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
+import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 
 export default {
   components: {
     ChatInputWrap,
+    CustomButton,
   },
   props: {
     msg: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    ...mapGetters({
+      conversationAttributes: 'conversationAttributes/getConversationParams',
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    hideReplyBox() {
+      const { csatSurveyEnabled } = window.chatwootWebChannel;
+      const { status } = this.conversationAttributes;
+      return csatSurveyEnabled && status === 'resolved';
     },
   },
   methods: {
@@ -31,6 +58,7 @@ export default {
     handleSendAttachment(attachment) {
       this.sendAttachment({ attachment });
     },
+    startNewConversation() {},
   },
 };
 </script>
