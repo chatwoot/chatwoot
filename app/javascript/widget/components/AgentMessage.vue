@@ -143,7 +143,7 @@ export default {
       return (
         this.messageContentAttributes.submitted_email ||
         (this.messageContentAttributes.submitted_values &&
-          this.contentType !== 'form')
+          !['form', 'input_csat'].includes(this.contentType))
       );
     },
     responseMessage() {
