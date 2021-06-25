@@ -272,7 +272,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
     t.bigint "conversation_id", null: false
     t.bigint "message_id", null: false
     t.integer "rating", null: false
-    t.text "feedback_text"
+    t.text "feedback_message"
     t.bigint "contact_id", null: false
     t.bigint "assigned_agent_id"
     t.datetime "created_at", precision: 6, null: false

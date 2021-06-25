@@ -30,7 +30,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).first['feedback_text']).to eq(csat_survey_response.feedback_text)
+        expect(JSON.parse(response.body).first['feedback_message']).to eq(csat_survey_response.feedback_message)
       end
     end
   end

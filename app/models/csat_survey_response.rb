@@ -3,7 +3,7 @@
 # Table name: csat_survey_responses
 #
 #  id                :bigint           not null, primary key
-#  feedback_text     :text
+#  feedback_message  :text
 #  rating            :integer          not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
