@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "ഏജന്റകളെ ഒന്നും കണ്ടെത്താൻ സാധിച്ചില്ല."
+      "NO_RESULTS": "No results found."
     }
   }
 }
