@@ -14,7 +14,7 @@
       </button>
     </div>
     <form
-      v-if="!checkCSATSubmitted"
+      v-if="!isCSATSubmitted"
       class="feedback-form"
       @submit.prevent="onSubmit()"
     >
@@ -64,7 +64,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    checkCSATSubmitted() {
+    isCSATSubmitted() {
       return (
         this.messageContentAttributes &&
         this.messageContentAttributes.csat_survey_response
@@ -74,14 +74,14 @@ export default {
       return !(this.selectedRating && this.feedback);
     },
     title() {
-      return this.checkCSATSubmitted
+      return this.isCSATSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.$t('CSAT.TITLE');
     },
   },
 
   mounted() {
-    if (this.checkCSATSubmitted) {
+    if (this.isCSATSubmitted) {
       const {
         csat_survey_response: { rating },
       } = this.messageContentAttributes;
@@ -93,8 +93,8 @@ export default {
     buttonClass(rating) {
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.checkCSATSubmitted },
-        { hover: this.checkCSATSubmitted },
+        { disabled: this.isCSATSubmitted },
+        { hover: this.isCSATSubmitted },
         'emoji-button',
       ];
     },
