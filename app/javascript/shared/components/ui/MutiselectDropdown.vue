@@ -9,7 +9,7 @@
     >
       <div class="selector-user-wrap">
         <Thumbnail
-          v-if="isValueExist"
+          v-if="hasValue"
           :src="selectedItem.thumbnail"
           size="24px"
           :status="selectedItem.availability_status"
@@ -18,7 +18,7 @@
         />
         <div class="selector-name-wrap">
           <h4
-            v-if="!isValueExist"
+            v-if="!hasValue"
             class="not-selected text-ellipsis text-block-title"
           >
             {{ multiselectorPlaceholder }}
@@ -96,7 +96,7 @@ export default {
     };
   },
   computed: {
-    isValueExist() {
+    hasValue() {
       if (this.selectedItem && this.selectedItem.id) {
         return true;
       }
