@@ -26,7 +26,7 @@
       />
       <button
         class="button"
-        :disabled="disableButton"
+        :disabled="isButtonDisabled"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
         <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
@@ -70,7 +70,7 @@ export default {
         this.messageContentAttributes.csat_survey_response
       );
     },
-    disableButton() {
+    isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
     },
     title() {
