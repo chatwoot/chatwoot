@@ -213,10 +213,13 @@
       "TITLE": "Primary contact"
     },
     "CHILD": {
-      "TITLE": "Contact to merge"
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
     },
     "SUMMARY": {
-      "TITLE": "Summary"
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
