@@ -1,6 +1,7 @@
 import {
   SET_CONVERSATION_ATTRIBUTES,
   UPDATE_CONVERSATION_ATTRIBUTES,
+  CLEAR_CONVERSATION_ATTRIBUTES,
 } from '../types';
 import { getConversationAPI } from '../../api/conversation';
 
@@ -27,6 +28,9 @@ export const actions = {
   update({ commit }, data) {
     commit(UPDATE_CONVERSATION_ATTRIBUTES, data);
   },
+  clearConversationAttributes: ({ commit }) => {
+    commit('CLEAR_CONVERSATION_ATTRIBUTES');
+  },
 };
 
 export const mutations = {
@@ -39,6 +43,10 @@ export const mutations = {
       $state.id = data.id;
       $state.status = data.status;
     }
+  },
+  [CLEAR_CONVERSATION_ATTRIBUTES]($state) {
+    $state.id = '';
+    $state.status = '';
   },
 };
 

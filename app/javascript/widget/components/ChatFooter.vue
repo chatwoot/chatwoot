@@ -22,6 +22,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -38,6 +39,7 @@ export default {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
+      getConversationSize: 'conversation/getConversationSize',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -49,16 +51,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
+    ...mapActions('conversation', [
+      'sendMessage',
+      'sendAttachment',
+      'clearConversations',
+    ]),
+    ...mapActions('conversationAttributes', ['clearConversationAttributes']),
     handleSendMessage(content) {
       this.sendMessage({
         content,
+        conversationSize: this.getConversationSize,
       });
     },
     handleSendAttachment(attachment) {
       this.sendAttachment({ attachment });
     },
-    startNewConversation() {},
+    startNewConversation() {
+      this.clearConversations();
+      this.clearConversationAttributes();
+      window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
+    },
   },
 };
 </script>

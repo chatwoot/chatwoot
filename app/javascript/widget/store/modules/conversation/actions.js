@@ -29,11 +29,10 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ getters, commit, dispatch }, params) => {
-    const { content } = params;
+  sendMessage: async ({ commit, dispatch }, params) => {
+    const { content, conversationSize } = params;
     commit('pushMessageToConversation', createTemporaryMessage({ content }));
     await sendMessageAPI(content);
-    const { getConversationSize: conversationSize } = getters;
     // Update conversation attributes on create conversation
     if (conversationSize === 0) {
       dispatch('conversationAttributes/get', {}, { root: true });

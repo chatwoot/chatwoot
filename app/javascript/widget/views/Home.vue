@@ -163,6 +163,9 @@ export default {
         this.showAttachmentError = false;
       }, 3000);
     });
+    bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
+      this.isOnCollapsedView = true;
+    });
   },
   methods: {
     startConversation() {
