@@ -34,3 +34,4 @@ exclude_patterns:
   - "stories/**/*"
   - "**/*.stories.js"
   - "**/stories/"
+  - "app/javascript/**/*.stories.js"
