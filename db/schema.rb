@@ -2,8 +2,8 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `bin/rails
-# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
@@ -175,9 +175,11 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
     t.string "account_id", null: false
     t.string "app", null: false
     t.string "apikey", null: false
-    t.integer "phone_number", null: false
+    t.string "phone_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_channel_gupshup_on_account_id"
+    t.index ["phone_number"], name: "index_channel_gupshup_on_phone_number"
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|

@@ -19,6 +19,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.API:
       return 'ion-cloud';
 
+    case INBOX_TYPES.GUPSHUP:
+      return 'ion-social-whatsapp-outline';
+
     case INBOX_TYPES.EMAIL:
       return 'ion-ios-email';
 

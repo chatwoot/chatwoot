@@ -6,6 +6,9 @@ export default {
     twilioCallbackURL() {
       return `${this.hostURL}/twilio/callback`;
     },
+    gupshupCallbackURL() {
+      return `${this.hostURL}/gupshup/callback`;
+    },
     vapidPublicKey() {
       return window.chatwootConfig.vapidPublicKey;
     },

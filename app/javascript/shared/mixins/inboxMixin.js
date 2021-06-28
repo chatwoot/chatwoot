@@ -5,6 +5,7 @@ export const INBOX_TYPES = {
   TWILIO: 'Channel::TwilioSms',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
+  GUPSHUP: 'Channel::Gupshup',
 };
 
 export default {
@@ -26,6 +27,9 @@ export default {
     },
     isATwilioChannel() {
       return this.channelType === INBOX_TYPES.TWILIO;
+    },
+    isAGupshupChannel() {
+      return this.channelType === INBOX_TYPES.GUPSHUP;
     },
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;
