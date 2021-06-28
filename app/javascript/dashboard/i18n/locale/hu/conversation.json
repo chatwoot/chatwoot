@@ -28,6 +28,8 @@
     "DOWNLOAD": "Letöltés",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "NO_RESPONSE": "Nincs válasz",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
