@@ -41,6 +41,7 @@ class Contact < ApplicationRecord
   has_many :contact_inboxes, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event, :ip_lookup
