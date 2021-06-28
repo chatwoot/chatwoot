@@ -96,7 +96,9 @@ export default {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
       if (this.isAGupshupInbox) {
-        return this.$t('INBOX_MGMT.ADD.GUPSHUP.FINISH_MESSAGE');
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.GUPSHUP.API_CALLBACK.SUBTITLE'
+        )}`;
       }
 
       if (!this.currentInbox.web_widget_script) {
