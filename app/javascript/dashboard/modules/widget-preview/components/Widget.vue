@@ -104,7 +104,7 @@ export default {
     },
     logo: {
       type: String,
-      default: 'http://localhost:8080/logo.jpeg',
+      default: '',
     },
     isExpanded: {
       type: Boolean,
