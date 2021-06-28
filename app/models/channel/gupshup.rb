@@ -16,6 +16,11 @@
 #  index_channel_gupshup_on_account_id    (account_id)
 #  index_channel_gupshup_on_phone_number  (phone_number)
 #
+# Indexes
+#
+#  index_channel_gupshup_on_account_id    (account_id)
+#  index_channel_gupshup_on_phone_number  (phone_number)
+#
 
 class Channel::Gupshup < ApplicationRecord
   self.table_name = 'channel_gupshup'
