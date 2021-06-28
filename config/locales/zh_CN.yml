@@ -16,7 +16,7 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-zh_CN:
+zh-CN:
   hello: "您好世界"
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
@@ -66,6 +66,7 @@ zh_CN:
       greeting_message_body: "%{account_name} 通常在几小时内回复。"
       ways_to_reach_you_message_body: "给团队一个联系您的方法。"
       email_input_box_message_body: "通过电子邮件得到通知"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "此对话中的新消息"
       transcript_subject: "Conversation Transcript"
