@@ -69,14 +69,12 @@ export const shouldPlayByBrowserBehavior = (
   return false;
 };
 export const getAssigneeFromNotification = currentConv => {
-  let id;
   if (currentConv.meta) {
-    const assignee = currentConv.meta.assignee;
-    if (assignee) {
-      id = assignee.id;
-    }
+    const { assignee = {} } = currentConv.meta;
+    const { id } = assignee;
+    return id;
   }
-  return id;
+  return undefined;
 };
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;

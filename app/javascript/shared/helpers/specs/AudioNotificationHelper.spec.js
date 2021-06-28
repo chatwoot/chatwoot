@@ -2,7 +2,11 @@
  * @jest-environment jsdom
  */
 
-import { shouldPlayByBrowserBehavior } from '../AudioNotificationHelper';
+import {
+  shouldPlayByBrowserBehavior,
+  shouldPlayByUserSettings,
+  getAssigneeFromNotification,
+} from '../AudioNotificationHelper';
 
 describe('shouldPlayByBrowserBehavior', () => {
   describe('Document active', () => {
@@ -105,5 +109,29 @@ describe('shouldPlayByBrowserBehavior', () => {
       );
       expect(result).toBe(false);
     });
+  });
+});
+describe('shouldPlayByUserSettings', () => {
+  it('Retuns true if mine', () => {
+    const [enableAudioAlerts, userId, id] = ['mine', 1, 1];
+    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    expect(result).toBe(true);
+  });
+  it('Retuns true if all', () => {
+    const [enableAudioAlerts, userId, id] = ['all', 1, 2];
+    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    expect(result).toBe(true);
+  });
+  it('Retuns false if none', () => {
+    const [enableAudioAlerts, userId, id] = ['none', 1, 2];
+    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    expect(result).toBe(false);
+  });
+});
+describe('getAssigneeFromNotification', () => {
+  it('Retuns true if gets notification from assignee', () => {
+    const currentConv = {};
+    const result = getAssigneeFromNotification(currentConv);
+    expect(result).toBe(undefined);
   });
 });
