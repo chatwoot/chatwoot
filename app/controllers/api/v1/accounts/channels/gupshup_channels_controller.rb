@@ -49,7 +49,6 @@ class Api::V1::Accounts::Channels::GupshupChannelsController < Api::V1::Accounts
 
   def permitted_params
     params.require(:gupshup_channel).permit(
-      :account_id,
       :app,
       :name,
       :apikey,

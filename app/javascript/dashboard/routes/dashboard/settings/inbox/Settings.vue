@@ -407,7 +407,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel || this.isAGupshupInbox) {
+      if (
+        this.isATwilioSMSChannel ||
+        this.isATwilioWhatsappChannel ||
+        this.isAGupshupInbox
+      ) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       return this.inbox.name;

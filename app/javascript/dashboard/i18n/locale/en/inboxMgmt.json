@@ -135,10 +135,6 @@
           "PLACEHOLDER": "Please enter your Gupshup Application Name",
           "ERROR": "This field is required"
         },
-        "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
-        },
         "APIKEY": {
           "LABEL": "Gupshup API Key",
           "PLACEHOLDER": "Please enter your Gupshup API Key",

@@ -92,7 +92,6 @@ export default {
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
         )}`;
       }
-
       if (this.isAEmailInbox) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
