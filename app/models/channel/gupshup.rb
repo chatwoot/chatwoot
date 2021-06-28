@@ -6,10 +6,15 @@
 #  id           :bigint           not null, primary key
 #  apikey       :string           not null
 #  app          :string           not null
-#  phone_number :integer          not null
+#  phone_number :string           not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :string           not null
+#
+# Indexes
+#
+#  index_channel_gupshup_on_account_id    (account_id)
+#  index_channel_gupshup_on_phone_number  (phone_number)
 #
 
 class Channel::Gupshup < ApplicationRecord
@@ -25,7 +30,7 @@ class Channel::Gupshup < ApplicationRecord
   has_one :inbox, as: :channel, dependent: :destroy
 
   def name
-    'Whatsapp'
+    'Gupshup'
   end
 
   def has_24_hour_messaging_window?

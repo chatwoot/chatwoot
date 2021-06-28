@@ -54,6 +54,11 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
+
+          namespace :channels do
+            resource :gupshup_channel, only: [:create]
+          end
+
           resources :conversations, only: [:index, :create, :show] do
             get 'meta', on: :collection
             get 'search', on: :collection
@@ -237,6 +242,9 @@ Rails.application.routes.draw do
   end
 
   namespace :twilio do
+    resources :callback, only: [:create]
+  end
+  namespace :gupshup do
     resources :callback, only: [:create]
   end
 

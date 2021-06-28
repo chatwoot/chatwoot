@@ -4,6 +4,7 @@ import Twitter from './channels/Twitter';
 import Twilio from './channels/Twilio';
 import Api from './channels/Api';
 import Email from './channels/Email';
+import Gupshup from './channels/Gupshup';
 
 const channelViewList = {
   facebook: Facebook,
@@ -12,6 +13,7 @@ const channelViewList = {
   twilio: Twilio,
   api: Api,
   email: Email,
+  gupshup: Gupshup,
 };
 
 export default {
@@ -25,6 +27,7 @@ export default {
       },
       name: 'new-channel-view',
       render(h) {
+        console.log(this.channel_name);
         return h(channelViewList[this.channel_name] || null);
       },
     };
