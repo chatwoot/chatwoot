@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
   end
 
   create_table "channel_gupshup", force: :cascade do |t|
-    t.string "account_id", null: false
+    t.integer "account_id", null: false
     t.string "app", null: false
     t.string "apikey", null: false
     t.string "phone_number", null: false
