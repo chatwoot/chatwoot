@@ -10,12 +10,9 @@
             :class="{ small: !isExpanded }"
           />
           <div v-if="!isExpanded">
-            <div class="text-black-900 font-medium text-base flex items-center">
+            <div class="title-block text-base font-medium">
               <span class="mr-1">{{ websiteName }}</span>
-              <div
-                v-if="isOnline"
-                class="status-view--badge rounded-full leading-4 bg-green-500"
-              ></div>
+              <div v-if="isOnline" class="online-dot"></div>
             </div>
             <div class="text-xs mt-1 text-black-700">
               {{ responseTime }}
@@ -138,6 +135,18 @@ export default {
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
   z-index: 99;
+}
+
+.title-block {
+  display: flex;
+  align-items: center;
+  .online-dot {
+    background-color: #10b981;
+    height: 8px;
+    width: 8px;
+    border-radius: 100%;
+    margin: 0 10px;
+  }
 }
 .header-wrapper {
   flex-shrink: 0;
