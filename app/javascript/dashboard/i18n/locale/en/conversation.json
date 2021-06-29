@@ -70,8 +70,8 @@
       "ASSIGN": "Assign"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy content",
-      "DELETE": "Delete message"
+      "COPY": "Copy",
+      "DELETE": "Delete"
     }
   },
   "EMAIL_TRANSCRIPT": {
