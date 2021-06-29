@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Nastavení účtu",
     "APPLICATIONS": "Applications",
     "LABELS": "Štítky",
-    "TEAMS": "Týmy"
+    "TEAMS": "Týmy",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nový účet",

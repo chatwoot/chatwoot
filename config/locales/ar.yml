@@ -66,6 +66,7 @@ ar:
       greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
       ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
       email_input_box_message_body: "احصل على الإشعارات في البريد الإلكتروني"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"

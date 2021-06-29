@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
       "404": "لا توجد جهات اتصال تطابق بحثك 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "الاسم",
         "PHONE_NUMBER": "رقم الهاتف",
