@@ -66,6 +66,7 @@ tr:
       greeting_message_body: "%{account_name} genellikle birkaç saat içinde yanıt verir."
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"

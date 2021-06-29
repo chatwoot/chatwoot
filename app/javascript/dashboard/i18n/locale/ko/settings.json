@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "계정 설정",
     "APPLICATIONS": "Applications",
     "LABELS": "라벨",
-    "TEAMS": "팀"
+    "TEAMS": "팀",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "새 계정",

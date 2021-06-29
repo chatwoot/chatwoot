@@ -28,6 +28,8 @@
     "DOWNLOAD": "تنزيل",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",

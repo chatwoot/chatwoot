@@ -28,6 +28,8 @@
     "DOWNLOAD": "دانلود",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "NO_RESPONSE": "بدون پاسخ",
+    "RATING_TITLE": "رتبه",
+    "FEEDBACK_TITLE": "بازخورد",
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
