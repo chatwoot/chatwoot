@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
     "APPLICATIONS": "Applications",
     "LABELS": "برچسب‌ها",
-    "TEAMS": "تیم‌ها"
+    "TEAMS": "تیم‌ها",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب‌کاربری جدید",

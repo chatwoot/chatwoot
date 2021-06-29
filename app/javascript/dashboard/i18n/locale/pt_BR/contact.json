@@ -19,8 +19,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Etiquetas de contato",
+        "ERROR": "Falha ao atualizar etiquetas"
       },
       "CONVERSATION": {
         "TITLE": "Marcador da conversa",
@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
+      "NO_CONTACTS": "Não há contatos disponíveis",
       "TABLE_HEADER": {
         "NAME": "Nome",
         "PHONE_NUMBER": "Número de Telefone",
@@ -153,11 +154,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Adicionar",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter para criar uma nota"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data de vencimento",
+      "LABEL_TITLE": "Definir tipo"
     }
   },
   "NOTES": {
@@ -175,11 +176,11 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Atividades"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "observações",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "Eventos",
       "PILL_BUTTON_CONVO": "conversas"
     }
   },

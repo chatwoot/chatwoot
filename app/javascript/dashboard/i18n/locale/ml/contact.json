@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
       "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "പേര്",
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",

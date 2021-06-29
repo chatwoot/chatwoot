@@ -28,6 +28,8 @@
     "DOWNLOAD": "ഡൗൺലോഡ്",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "പരിഹരിക്കുക",
       "REOPEN_ACTION": "വീണ്ടും തുറക്കുക",

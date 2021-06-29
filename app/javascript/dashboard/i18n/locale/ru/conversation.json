@@ -28,6 +28,8 @@
     "DOWNLOAD": "Скачать",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "NO_RESPONSE": "Нет ответа",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
