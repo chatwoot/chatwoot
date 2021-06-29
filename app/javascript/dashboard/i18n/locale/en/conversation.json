@@ -27,7 +27,7 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Download",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSSAGE": "Message deleted successfully",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",

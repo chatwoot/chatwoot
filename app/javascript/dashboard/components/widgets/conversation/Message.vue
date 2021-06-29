@@ -47,6 +47,7 @@
         v-if="isBubble"
         :is-open="showContextMenu"
         :show-copy="hasText"
+        :menu-position="contextMenuPosition"
         @toggle="handleContextMenuClick"
         @delete="handleDelete"
         @copy="handleCopy"
@@ -233,6 +234,10 @@ export default {
       if (this.isPending) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
+    contextMenuPosition() {
+      const { message_type: messageType } = this.data;
+      return messageType ? 'right' : 'left';
+    },
   },
   methods: {
     handleContextMenuClick() {
@@ -245,7 +250,7 @@ export default {
           conversationId,
           messageId,
         });
-        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSSAGE'));
+        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
         this.showContextMenu = false;
       } catch (error) {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));

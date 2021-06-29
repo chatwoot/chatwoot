@@ -2,6 +2,7 @@
   <div class="context-menu">
     <woot-button
       icon="ion-more"
+      size="large"
       class="button--delete-message"
       color-scheme="secondary"
       variant="clear"
@@ -11,6 +12,7 @@
       v-if="isOpen"
       v-on-clickaway="handleContextMenuClick"
       class="dropdown-pane dropdown-pane--open"
+      :class="`dropdown-pane--${menuPosition}`"
     >
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showCopy">
@@ -59,6 +61,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    menuPosition: {
+      type: String,
+      default: 'left',
+    },
   },
   methods: {
     handleContextMenuClick() {
@@ -73,3 +79,15 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+/* TDOD: Remove once MenuComponent supports postions */
+.dropdown-pane {
+  bottom: var(--space-large);
+}
+.dropdown-pane--left {
+  right: var(--space-small);
+}
+.dropdown-pane--right {
+  left: var(--space-small);
+}
+</style>
