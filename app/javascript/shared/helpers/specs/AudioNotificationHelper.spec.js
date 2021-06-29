@@ -130,6 +130,20 @@ describe('shouldPlayByUserSettings', () => {
 });
 describe('getAssigneeFromNotification', () => {
   it('Retuns true if gets notification from assignee', () => {
+    const currentConv = {
+      id: 1,
+      accountId: 1,
+      meta: {
+        assignee: {
+          id: 1,
+          name: 'John',
+        },
+      },
+    };
+    const result = getAssigneeFromNotification(currentConv);
+    expect(result).toBe(1);
+  });
+  it('Retuns true if gets notification from assignee is udefined', () => {
     const currentConv = {};
     const result = getAssigneeFromNotification(currentConv);
     expect(result).toBe(undefined);
