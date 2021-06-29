@@ -30,11 +30,11 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la boîte de réception",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Nom du site Web",
-        "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
+        "LABEL": "Nom du site web",
+        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "FB": {
         "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
@@ -223,7 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Veuillez taper {inboxName} pour confirmer",
         "YES": "Oui, supprimer ",
         "NO": "Non, Conserver "
       },
@@ -236,7 +236,7 @@
       "SETTINGS": "Paramètres",
       "COLLABORATORS": "Collaborateurs",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Campagnes",
       "PRE_CHAT_FORM": "Formulaire avant chat",
       "BUSINESS_HOURS": "Heures de bureau"
     },
