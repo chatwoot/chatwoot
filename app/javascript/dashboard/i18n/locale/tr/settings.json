@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Hesap ayarları",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiketler",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Yeni hesap",

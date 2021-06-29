@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
     "APPLICATIONS": "Applications",
     "LABELS": "ലേബലുകൾ",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",
