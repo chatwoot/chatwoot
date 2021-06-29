@@ -12,8 +12,10 @@
       />
 
       <file-upload
+        ref="upload"
         :size="4096 * 4096"
         accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+        :drop="true"
         @input-file="onFileUpload"
       >
         <woot-button
@@ -37,6 +39,17 @@
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       />
+      <transition name="modal-fade">
+        <div
+          v-show="$refs.upload && $refs.upload.dropActive"
+          class="drag-drop-modal"
+        >
+          <div class="ion-ios-cloud-upload-outline icon"></div>
+          <h4 class="text-block-title">
+            {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+          </h4>
+        </div>
+      </transition>
     </div>
     <div class="right-wrap">
       <div v-if="isFormatMode" class="enter-to-send--checkbox">
@@ -197,5 +210,19 @@ export default {
   &:hover .button {
     background: var(--s-100);
   }
+}
+
+.drag-drop-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+  text-align: center;
+  right: 0;
+  z-index: 1;
+}
+
+.icon {
+  font-size: var(--font-size-bigger);
 }
 </style>
