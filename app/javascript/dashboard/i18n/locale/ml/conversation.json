@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
     "DOWNLOAD": "ഡൗൺലോഡ്",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -66,6 +68,10 @@
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
       "REMOVE": "നീക്കം ചെയ്യുക",
       "ASSIGN": "നിയോഗിക്കുക"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "പകർത്തുക",
+      "DELETE": "ഇല്ലാതാക്കുക"
     }
   },
   "EMAIL_TRANSCRIPT": {
