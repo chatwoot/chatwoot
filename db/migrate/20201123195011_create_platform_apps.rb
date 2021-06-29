@@ -3,8 +3,7 @@ class CreatePlatformApps < ActiveRecord::Migration[6.0]
     create_table :platform_apps do |t|
       t.string :name, null: false
       t.integer :type, null: false, default: 0
-      t
-        .t.timestamps
+      t.timestamps
     end
   end
 end
