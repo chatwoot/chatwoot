@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "لا توجد استجابة",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -66,6 +68,10 @@
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
       "ASSIGN": "تكليف"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "نسخ",
+      "DELETE": "حذف"
     }
   },
   "EMAIL_TRANSCRIPT": {
