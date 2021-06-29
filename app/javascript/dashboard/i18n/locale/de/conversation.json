@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Keine Antwort",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -66,6 +68,10 @@
       "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
       "ASSIGN": "Zuordnen"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopieren",
+      "DELETE": "Löschen"
     }
   },
   "EMAIL_TRANSCRIPT": {
