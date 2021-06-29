@@ -116,7 +116,7 @@ export default {
     return {
       isOnCollapsedView: false,
       showAttachmentError: false,
-      startNewConversation: false,
+      isOnNewConversation: false,
     };
   },
   computed: {
@@ -172,7 +172,7 @@ export default {
     });
     bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
       this.isOnCollapsedView = true;
-      this.startNewConversation = true;
+      this.isOnNewConversation = true;
     });
   },
   methods: {
