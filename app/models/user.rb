@@ -71,6 +71,7 @@ class User < ApplicationRecord
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   alias_attribute :conversations, :assigned_conversations
+  has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
 
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
