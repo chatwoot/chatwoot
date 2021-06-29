@@ -49,7 +49,9 @@
           />
           <label for="audio_enable_alert">
             {{
-              $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVO')
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVERSATION'
+              )
             }}
           </label>
         </div>
