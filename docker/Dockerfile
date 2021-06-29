@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:2.7.2-alpine AS pre-builder
+FROM ruby:2.7.3-alpine AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -51,7 +51,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # final build stage
-FROM ruby:2.7.2-alpine
+FROM ruby:2.7.3-alpine
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_095823) do
+ActiveRecord::Schema.define(version: 2021_06_23_150613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -265,6 +265,18 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+  end
+
+  create_table "custom_filters", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "filter_type", default: 0, null: false
+    t.jsonb "query", default: "{}", null: false
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_filters_on_account_id"
+    t.index ["user_id"], name: "index_custom_filters_on_user_id"
   end
 
   create_table "data_imports", force: :cascade do |t|

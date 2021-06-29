@@ -28,6 +28,8 @@
     "DOWNLOAD": "Lataa",
     "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
     "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",

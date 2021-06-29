@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Không có sẵn",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
     "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "Địa chỉ IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
       "TITLE": "Cuộc trò chuyện trước đó"
@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Tên",
         "PHONE_NUMBER": "Số điện thoại",

@@ -83,6 +83,7 @@ class User < ApplicationRecord
   has_many :team_members, dependent: :destroy
   has_many :teams, through: :team_members
   has_many :notes, dependent: :nullify
+  has_many :custom_filters, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
 

@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Configurações da conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Marcadores",
-    "TEAMS": "Times"
+    "TEAMS": "Times",
+    "ALL_CONTACTS": "Todos os Contatos",
+    "TAGGED_WITH": "Marcado com"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nova conta",

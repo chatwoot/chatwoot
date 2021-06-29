@@ -66,6 +66,7 @@ zh_TW:
       greeting_message_body: "%{account_name} 通常在幾小時內回覆"
       ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
       email_input_box_message_body: "透過電子郵件得到通知。"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "在對話中的新訊息"
       transcript_subject: "對話紀錄"

@@ -66,6 +66,7 @@ sv:
       greeting_message_body: "%{account_name} svarar vanligtvis inom några timmar."
       ways_to_reach_you_message_body: "Ge teamet ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nya meddelanden i denna konversation"
       transcript_subject: "Konversationstranskribering"

@@ -1,0 +1,12 @@
+tags:
+  - Custom Filter
+operationId: delete-a-custom-filter
+summary: Delete a custom filter
+description: Delete a custom filter from the account
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The custom filter does not exist in the account
