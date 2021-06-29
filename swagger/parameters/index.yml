@@ -28,6 +28,8 @@ page:
 platform_user_id:
   $ref: ./platform_user_id.yml
 
+custom_filter_id:
+  $ref: ./custom_filter_id.yml
 
 public_inbox_identifier:
   $ref: ./public/inbox_identifier.yml

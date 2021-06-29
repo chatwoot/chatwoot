@@ -87,7 +87,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
             end
           end
-
+          resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
