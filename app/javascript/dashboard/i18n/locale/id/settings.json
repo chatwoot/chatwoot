@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
     "APPLICATIONS": "Applications",
     "LABELS": "Label",
-    "TEAMS": "Tim"
+    "TEAMS": "Tim",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Akun Baru",

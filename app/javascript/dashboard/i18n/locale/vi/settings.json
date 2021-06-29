@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
     "APPLICATIONS": "Applications",
     "LABELS": "Nhãn",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Tạo mới tài khoản",

@@ -66,6 +66,7 @@ hu:
       greeting_message_body: "%{account_name} általában néhány órán belül válaszol."
       ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
       email_input_box_message_body: "E-mail értesítés kérése"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Új üzenet a beszélgetésben"
       transcript_subject: "Beszélgetés kivonat"
