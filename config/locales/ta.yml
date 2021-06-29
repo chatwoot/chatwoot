@@ -66,6 +66,7 @@ ta:
       greeting_message_body: "%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்."
       ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."
       email_input_box_message_body: "இமெயில் மூலம் அறிய"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "இந்த உரையாடலில் புதிய செய்திகள்"
       transcript_subject: "Conversation Transcript"

@@ -56,5 +56,10 @@
     "INVALID": {
       "FIELD": "فیلد نامتعارف"
     }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "با تشکر از شما برای ثبت رتبه",
+    "PLACEHOLDER": "Tell us more..."
   }
 }

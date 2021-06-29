@@ -28,6 +28,8 @@
     "DOWNLOAD": "下載",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "NO_RESPONSE": "無回應",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
       "REOPEN_ACTION": "重新打開",
