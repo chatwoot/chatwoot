@@ -10,7 +10,7 @@ info:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 host: app.chatwoot.com
-basePath: 
+basePath:
 schemes:
   - https
 produces:
@@ -62,8 +62,9 @@ x-tagGroups:
       - Integrations
       - Profile
       - Teams
+      - Custom Filter
   - name: Public
-    tags: 
+    tags:
       - Contacts API
       - Conversations API
       - Messages API
