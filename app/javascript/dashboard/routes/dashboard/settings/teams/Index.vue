@@ -1,7 +1,7 @@
 <template>
   <div class="column content-box">
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <p v-if="!teamsList.length" class="no-items-error-message">
           {{ $t('TEAMS_SETTINGS.LIST.404') }}
           <router-link

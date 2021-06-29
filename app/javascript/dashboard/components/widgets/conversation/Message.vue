@@ -76,6 +76,8 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+import { stripStyleCharacters } from './helpers/EmailContentParser';
+
 export default {
   components: {
     BubbleActions,
@@ -100,7 +102,13 @@ export default {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
-        this.$t('CONVERSATION.NO_RESPONSE')
+        {
+          noResponseText: this.$t('CONVERSATION.NO_RESPONSE'),
+          csat: {
+            ratingTitle: this.$t('CONVERSATION.RATING_TITLE'),
+            feedbackTitle: this.$t('CONVERSATION.FEEDBACK_TITLE'),
+          },
+        }
       );
 
       const {
@@ -110,12 +118,10 @@ export default {
       } = this.contentAttributes;
 
       if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
-        let parsedContent = new DOMParser().parseFromString(
-          replyHTMLContent || fullHTMLContent || '',
-          'text/html'
-        );
-        if (!parsedContent.getElementsByTagName('parsererror').length) {
-          return parsedContent.body.innerHTML;
+        let contentToBeParsed = replyHTMLContent || fullHTMLContent || '';
+        const parsedContent = stripStyleCharacters(contentToBeParsed);
+        if (parsedContent) {
+          return parsedContent;
         }
       }
       return (
