@@ -3,12 +3,12 @@
  */
 
 import {
-  shouldPlayByBrowserBehavior,
-  shouldPlayByUserSettings,
+  shouldPlayAudio,
+  notificationEnabled,
   getAssigneeFromNotification,
 } from '../AudioNotificationHelper';
 
-describe('shouldPlayByBrowserBehavior', () => {
+describe('shouldPlayAudio', () => {
   describe('Document active', () => {
     it('Retuns true if incoming message', () => {
       const message = {
@@ -18,7 +18,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, false];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -34,7 +34,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, false];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -51,7 +51,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -67,7 +67,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: true,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -85,7 +85,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -101,7 +101,7 @@ describe('shouldPlayByBrowserBehavior', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayByBrowserBehavior(
+      const result = shouldPlayAudio(
         message,
         conversationId,
         userId,
@@ -111,20 +111,20 @@ describe('shouldPlayByBrowserBehavior', () => {
     });
   });
 });
-describe('shouldPlayByUserSettings', () => {
+describe('notificationEnabled', () => {
   it('Retuns true if mine', () => {
     const [enableAudioAlerts, userId, id] = ['mine', 1, 1];
-    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(true);
   });
   it('Retuns true if all', () => {
     const [enableAudioAlerts, userId, id] = ['all', 1, 2];
-    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(true);
   });
   it('Retuns false if none', () => {
     const [enableAudioAlerts, userId, id] = ['none', 1, 2];
-    const result = shouldPlayByUserSettings(enableAudioAlerts, userId, id);
+    const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(false);
   });
 });

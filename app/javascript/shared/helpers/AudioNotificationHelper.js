@@ -35,7 +35,7 @@ export const getAlertAudio = async () => {
   }
 };
 
-export const shouldPlayByUserSettings = (enableAudioAlerts, id, userId) => {
+export const notificationEnabled = (enableAudioAlerts, id, userId) => {
   if (enableAudioAlerts === 'mine') {
     return userId === id;
   }
@@ -47,12 +47,11 @@ export const shouldPlayByUserSettings = (enableAudioAlerts, id, userId) => {
   }
   return false;
 };
-
-export const shouldPlayByBrowserBehavior = (
+export const shouldPlayAudio = (
   message,
   conversationId,
   userId,
-  isDocHiddden
+  isDocHidden
 ) => {
   const {
     conversation_id: incomingConvId,
@@ -64,17 +63,19 @@ export const shouldPlayByBrowserBehavior = (
 
   const playAudio =
     !isFromCurrentUser && (messageType === MESSAGE_TYPE.INCOMING || isPrivate);
-  if (isDocHiddden) return playAudio;
+  if (isDocHidden) return playAudio;
   if (conversationId !== incomingConvId) return playAudio;
   return false;
 };
 export const getAssigneeFromNotification = currentConv => {
+  let id;
   if (currentConv.meta) {
-    const { assignee = {} } = currentConv.meta;
-    const { id } = assignee;
-    return id;
+    const assignee = currentConv.meta.assignee;
+    if (assignee) {
+      id = assignee.id;
+    }
   }
-  return undefined;
+  return id;
 };
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
@@ -83,22 +84,22 @@ export const newMessageNotification = data => {
   const currentConv =
     window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assigneeId = getAssigneeFromNotification(currentConv);
-  const isDocHiddden = document.hidden;
+  const isDocHidden = document.hidden;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
   } = window.WOOT.$store.getters.getUISettings;
-  const playAudio = shouldPlayByBrowserBehavior(
+  const playAudio = shouldPlayAudio(
     data,
     currentConvId,
     currentUserId,
-    isDocHiddden
+    isDocHidden
   );
-  const playAudioByUserSettings = shouldPlayByUserSettings(
+  const isNotificationEnabled = notificationEnabled(
     enableAudioAlerts,
     currentUserId,
     assigneeId
   );
-  if (playAudio && playAudioByUserSettings) {
+  if (playAudio && isNotificationEnabled) {
     window.playAudioAlert();
     showBadgeOnFavicon();
   }
