@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Tidak ada respon",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -66,6 +68,10 @@
       "SELECT_AGENT": "Pilih Agen",
       "REMOVE": "Hapus",
       "ASSIGN": "Tugaskan"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Salin",
+      "DELETE": "Hapus"
     }
   },
   "EMAIL_TRANSCRIPT": {
