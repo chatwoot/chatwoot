@@ -28,6 +28,8 @@
     "DOWNLOAD": "Hämta",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
     "NO_RESPONSE": "Inget svar",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",

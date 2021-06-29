@@ -28,6 +28,8 @@
     "DOWNLOAD": "Stáhnout",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "NO_RESPONSE": "Bez odpovědi",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",

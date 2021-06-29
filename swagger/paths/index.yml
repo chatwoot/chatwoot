@@ -92,7 +92,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     - $ref: '#/parameters/public_contact_identifier'
   post:
     $ref: ./public/inboxes/conversations/create.yml
-  get: 
+  get:
     $ref: ./public/inboxes/conversations/index.yml
 
 public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
@@ -102,7 +102,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     - $ref: '#/parameters/conversation_id'
   post:
     $ref: ./public/inboxes/messages/create.yml
-  get: 
+  get:
     $ref: ./public/inboxes/messages/index.yml
 public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
@@ -264,3 +264,31 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./teams/update.yml
   delete:
     $ref: ./teams/delete.yml
+
+### Custom Filters
+
+# Teams
+/api/v1/accounts/{account_id}/custom_filters:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: filter_type
+      schema:
+        type: string
+        enum: ['conversation', 'contact', 'report']
+      required: false
+      description: The type of custom filter
+  get:
+    $ref: ./custom_filters/index.yml
+  post:
+    $ref: ./custom_filters/create.yml
+/api/v1/accounts/{account_id}/custom_filters/{custom_filter_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/custom_filter_id'
+  get:
+    $ref: './custom_filters/show.yml'
+  patch:
+    $ref: ./custom_filters/update.yml
+  delete:
+    $ref: ./custom_filters/delete.yml

@@ -284,6 +284,18 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
   end
 
+  create_table "custom_filters", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "filter_type", default: 0, null: false
+    t.jsonb "query", default: "{}", null: false
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_filters_on_account_id"
+    t.index ["user_id"], name: "index_custom_filters_on_user_id"
+  end
+
   create_table "data_imports", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "data_type", null: false

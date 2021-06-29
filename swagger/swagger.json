@@ -2527,6 +2527,162 @@
           }
         }
       }
+    },
+    "/api/v1/accounts/{account_id}/custom_filters": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "filter_type",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "conversation",
+              "contact",
+              "report"
+            ]
+          },
+          "required": false,
+          "description": "The type of custom filter"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Custom Filter"
+        ],
+        "operationId": "list-all-filters",
+        "summary": "List all custom filters",
+        "description": "List all custom filters in a category of a user",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of custom filters",
+              "items": {
+                "$ref": "#/definitions/custom_filter"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Custom Filter"
+        ],
+        "operationId": "create-a-custom-filter",
+        "summary": "Create a custom filter",
+        "description": "Create a custom filter in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/custom_filter_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_filter"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/custom_filters/{custom_filter_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/custom_filter_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Custom Filter"
+        ],
+        "operationId": "get-details-of-a-single-custom-filter",
+        "summary": "Get a custom filter details",
+        "description": "Get the details of a custom filter in the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_filter"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given team ID does not exist in the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Custom Filter"
+        ],
+        "operationId": "update-a-custom-filter",
+        "summary": "Update a custom filter",
+        "description": "Update a custom filter's attributes",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/custom_filter_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_filter"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Custom Filter"
+        ],
+        "operationId": "delete-a-custom-filter",
+        "summary": "Delete a custom filter",
+        "description": "Delete a custom filter from the account",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The custom filter does not exist in the account"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2843,6 +2999,40 @@
         },
         "inbox": {
           "$ref": "#/definitions/inbox"
+        }
+      }
+    },
+    "custom_filter": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "The ID of the custom filter"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the custom filter"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "conversation",
+            "contact",
+            "report"
+          ],
+          "description": "The description about the custom filter"
+        },
+        "query": {
+          "type": "object",
+          "description": "A query that needs to be saved as a custom filter"
+        },
+        "created_at": {
+          "type": "datetime",
+          "description": "The time at which the custom filter was created"
+        },
+        "updated_at": {
+          "type": "datetime",
+          "description": "The time at which the custom filter was updated"
         }
       }
     },
@@ -3188,6 +3378,28 @@
         "allow_auto_assign": {
           "type": "boolean",
           "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        }
+      }
+    },
+    "custom_filter_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the custom filter"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "conversation",
+            "contact",
+            "report"
+          ],
+          "description": "The description about the custom filter"
+        },
+        "query": {
+          "type": "object",
+          "description": "A query that needs to be saved as a custom filter"
         }
       }
     },
@@ -3643,6 +3855,15 @@
       "required": true,
       "description": "The numeric ID of the user on the platform"
     },
+    "custom_filter_id": {
+      "in": "path",
+      "name": "custom_filter_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The numeric ID of the custom filter"
+    },
     "public_inbox_identifier": {
       "in": "path",
       "name": "inbox_identifier",
@@ -3684,7 +3905,8 @@
         "Messages",
         "Integrations",
         "Profile",
-        "Teams"
+        "Teams",
+        "Custom Filter"
       ]
     },
     {
