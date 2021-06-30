@@ -56,7 +56,8 @@
       "TIP_FORMAT_ICON": "Vis rik tekstredigering",
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
-      "ENTER_TO_SEND": "Trykk enter for å sende"
+      "ENTER_TO_SEND": "Trykk enter for å sende",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
     "CHANGE_STATUS": "Samtalestatus er endret",
