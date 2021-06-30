@@ -56,7 +56,8 @@
       "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
-      "ENTER_TO_SEND": "برای ارسال Enter را بزنید"
+      "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
