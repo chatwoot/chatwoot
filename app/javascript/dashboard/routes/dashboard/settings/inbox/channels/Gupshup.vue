@@ -81,8 +81,6 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
-
 export default {
   components: {
     PageHeader,
@@ -103,7 +101,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
+    phoneNumber: { required },
     apikey: { required },
     app: { required },
   },
@@ -123,7 +121,7 @@ export default {
               name: this.channelName,
               app: this.app,
               apikey: this.apikey,
-              phone_number: `+${this.phoneNumber.replace(/\D/g, '')}`,
+              phone_number: `${this.phoneNumber.replace(/\D/g, '')}`,
             },
           }
         );

@@ -6,17 +6,19 @@ class Gupshup::SendOnGupshupService < Base::SendOnChannelService
   end
 
   def perform_reply
-    gupshup_message = client.send(message_params)
-    message.update!(source_id: gupshup_message.sid)
+    gupshup_message = client.send(contact_inbox.source_id, message_params)
+    message.update!(source_id: gupshup_message.body['messageId'])
   end
 
   def message_params
     params = {
-      body: message.content,
-      from: channel.phone_number,
-      to: contact_inbox.source_id
+      'channel': 'whatsapp',
+      'message': { 'text': message.content, 'isHSM': false, 'type': 'text' }.to_json,
+      'source': channel.phone_number,
+      'destination': contact_inbox.source_id,
+      'src.name': channel.app
     }
-    params[:media_url] = attachments if channel.whatsapp? && message.attachments.present?
+    params[:media_url] = attachments if message.attachments.present?
     params
   end
 
@@ -37,6 +39,6 @@ class Gupshup::SendOnGupshupService < Base::SendOnChannelService
   end
 
   def client
-    ::Gupshup::REST::OutboundMessage.new(app=channel.app, apikey=channel.apikey, version=channel.version, phone=channel.phone)
+    Gupshup::WhatsApp.new(app=channel.app, apikey=channel.apikey, phone=channel.phone_number, version='2')
   end
 end

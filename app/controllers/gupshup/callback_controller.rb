@@ -27,7 +27,7 @@ class Gupshup::CallbackController < ApplicationController
       :source,
       'src.name',
       :message,
-      :payload=> [:id, :source, :text, :payload=>[:text], :sender => [:phone, :name]]
+      :payload => [:id, :source, :text, :payload=>[:text], :sender => [:phone, :name]]
     )
   end
 end
