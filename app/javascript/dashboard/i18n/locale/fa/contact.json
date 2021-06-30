@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
       "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "نام",
         "PHONE_NUMBER": "شماره تلفن",

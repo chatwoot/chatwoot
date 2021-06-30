@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Ρυθμίσεις Λογαριασμού",
     "APPLICATIONS": "Εφαρμογές",
     "LABELS": "Ετικέτες",
-    "TEAMS": "Ομάδες"
+    "TEAMS": "Ομάδες",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Νέος Λογαριασμός",

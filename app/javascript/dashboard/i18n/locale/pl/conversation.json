@@ -28,6 +28,8 @@
     "DOWNLOAD": "Pobierz",
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
     "NO_RESPONSE": "Brak odpowiedzi",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Rozwiąż",
       "REOPEN_ACTION": "Otwórz ponownie",
