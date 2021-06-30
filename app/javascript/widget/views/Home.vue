@@ -135,7 +135,7 @@ export default {
           return 'messageView';
         }
         if (
-          this.startNewConversation ||
+          this.isOnNewConversation ||
           (this.preChatFormEnabled && !currentUserEmail)
         ) {
           return 'preChatFormView';
