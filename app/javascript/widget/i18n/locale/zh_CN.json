@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "在线",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "当前已离线"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
@@ -21,7 +21,7 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "发自",
     "BOT": "机器人"
   },
   "BUBBLE": {
@@ -30,31 +30,36 @@
   "POWERED_BY": "由 Chatwoot 支持",
   "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
   "CHAT_PLACEHOLDER": "输入您的消息",
-  "TODAY": "今日",
-  "YESTERDAY": "昨日",
+  "TODAY": "今天",
+  "YESTERDAY": "昨天",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "名字",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "PLACEHOLDER": "请输入您的姓名",
+        "ERROR": "必须填写姓名"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "电子邮件地址",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "请输入您的邮箱地址",
+        "ERROR": "无效的邮箱地址"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "消息",
+        "PLACEHOLDER": "请输入您的消息",
+        "ERROR": "消息太短了"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "无效字段"
     }
+  },
+  "CSAT": {
+    "TITLE": "评价您的对话",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "请告诉我们更多..."
   }
 }

@@ -79,6 +79,7 @@ class Message < ApplicationRecord
   belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
+  has_one :csat_survey_response, dependent: :destroy
 
   after_create :reopen_conversation,
                :notify_via_mail

@@ -28,6 +28,8 @@
     "DOWNLOAD": "Descarrega",
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "NO_RESPONSE": "Sense resposta",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",

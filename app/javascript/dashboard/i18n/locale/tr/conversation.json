@@ -28,6 +28,8 @@
     "DOWNLOAD": "İndir",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "NO_RESPONSE": "Cevap Yok",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",

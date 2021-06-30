@@ -43,6 +43,16 @@
           :source-id="data.source_id"
         />
       </div>
+      <context-menu
+        v-if="isBubble"
+        :is-open="showContextMenu"
+        :show-copy="hasText"
+        :menu-position="contextMenuPosition"
+        @toggle="handleContextMenuClick"
+        @delete="handleDelete"
+        @copy="handleCopy"
+      />
+
       <spinner v-if="isPending" size="tiny" />
 
       <a
@@ -65,13 +75,18 @@
   </li>
 </template>
 <script>
+import copy from 'copy-text-to-clipboard';
+
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import Spinner from 'shared/components/Spinner';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
+
 import { isEmptyObject } from 'dashboard/helper/commons';
+import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -84,9 +99,10 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    ContextMenu,
     Spinner,
   },
-  mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
@@ -96,6 +112,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      showContextMenu: false,
+    };
   },
   computed: {
     message() {
@@ -147,10 +168,13 @@ export default {
     },
     alignBubble() {
       const { message_type: messageType } = this.data;
-      if (messageType === MESSAGE_TYPE.ACTIVITY) {
-        return 'center';
-      }
-      return !messageType ? 'left' : 'right';
+      const isCentered = messageType === MESSAGE_TYPE.ACTIVITY;
+      return {
+        center: isCentered,
+        left: !messageType,
+        right: !!messageType,
+        'has-context-menu': this.showContextMenu,
+      };
     },
     readableTime() {
       return this.messageStamp(
@@ -209,6 +233,33 @@ export default {
     isSentByBot() {
       if (this.isPending) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
+    },
+    contextMenuPosition() {
+      const { message_type: messageType } = this.data;
+      return messageType ? 'right' : 'left';
+    },
+  },
+  methods: {
+    handleContextMenuClick() {
+      this.showContextMenu = !this.showContextMenu;
+    },
+    async handleDelete() {
+      const { conversation_id: conversationId, id: messageId } = this.data;
+      try {
+        await this.$store.dispatch('deleteMessage', {
+          conversationId,
+          messageId,
+        });
+        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+        this.showContextMenu = false;
+      } catch (error) {
+        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+      }
+    },
+    handleCopy() {
+      copy(this.data.content);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.showContextMenu = false;
     },
   },
 };
@@ -293,5 +344,36 @@ export default {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
+}
+
+.button--delete-message {
+  visibility: hidden;
+}
+
+.wrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+li.right .wrap {
+  flex-direction: row-reverse;
+}
+
+li.left,
+li.right {
+  &:hover .button--delete-message {
+    visibility: visible;
+  }
+}
+
+.has-context-menu {
+  background: var(--color-background);
+  .button--delete-message {
+    visibility: visible;
+  }
+}
+
+.context-menu {
+  position: relative;
 }
 </style>

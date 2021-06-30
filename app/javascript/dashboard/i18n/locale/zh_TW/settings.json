@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "帳戶設定",
     "APPLICATIONS": "Applications",
     "LABELS": "標籤",
-    "TEAMS": "團隊"
+    "TEAMS": "團隊",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "新帳戶",

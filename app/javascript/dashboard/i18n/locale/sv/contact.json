@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Laddar kontakter...",
       "404": "Inga kontakter matchar din sökning 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Namn",
         "PHONE_NUMBER": "Telefonnummer",

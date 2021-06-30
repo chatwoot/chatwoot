@@ -66,6 +66,7 @@ pt_BR:
       greeting_message_body: "%{account_name} normalmente responde em algumas horas."
       ways_to_reach_you_message_body: "Informe uma forma para entrarmos em contato com você."
       email_input_box_message_body: "Seja notificado por e-mail"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
@@ -78,7 +79,7 @@ pt_BR:
       description: "Webhooks fornecem informações em tempo real sobre o que está acontecendo em sua conta. Você pode usar os webhooks para comunicar eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks."
     dialogflow:
       name: "Fluxo de diálogo"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Construa chatbots usando Dialogflow e conecte-os à sua caixa de entrada rapidamente. Deixe os bots lidarem com as consultas antes de entregá-los a um agente de atendimento ao cliente."
     fullcontact:
       name: "Contato completo"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
