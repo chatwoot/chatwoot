@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
     "APPLICATIONS": "Applications",
     "LABELS": "Cimkék",
-    "TEAMS": "Csapatok"
+    "TEAMS": "Csapatok",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Új fiók",

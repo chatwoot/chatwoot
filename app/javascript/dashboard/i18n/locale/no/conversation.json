@@ -28,6 +28,8 @@
     "DOWNLOAD": "Last ned",
     "UPLOADING_ATTACHMENTS": "Laster opp vedlegg...",
     "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
       "REOPEN_ACTION": "Gjenåpne",
