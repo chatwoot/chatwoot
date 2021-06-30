@@ -56,7 +56,8 @@
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
-      "ENTER_TO_SEND": "Entrer pour envoyer"
+      "ENTER_TO_SEND": "Entrer pour envoyer",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
