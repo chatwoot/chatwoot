@@ -56,7 +56,8 @@
       "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
-      "ENTER_TO_SEND": "Enter untuk mengirim"
+      "ENTER_TO_SEND": "Enter untuk mengirim",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
