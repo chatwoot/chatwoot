@@ -16,6 +16,7 @@
         :size="4096 * 4096"
         accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
         :drop="true"
+        :drop-directory="false"
         @input-file="onFileUpload"
       >
         <woot-button
@@ -42,10 +43,10 @@
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
-          class="drag-drop-modal"
+          class="modal-mask"
         >
-          <div class="ion-ios-cloud-upload-outline icon"></div>
-          <h4 class="text-block-title">
+          <i class="ion-ios-cloud-upload-outline icon"></i>
+          <h4 class="page-sub-title">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
@@ -212,17 +213,17 @@ export default {
   }
 }
 
-.drag-drop-modal {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: var(--white);
-  text-align: center;
-  right: 0;
-  z-index: 1;
+.modal-mask {
+  color: var(--s-600);
+  background: rgba(255, 255, 255, 0.9);
+  flex-direction: column;
+}
+
+.page-sub-title {
+  color: var(--s-600);
 }
 
 .icon {
-  font-size: var(--font-size-bigger);
+  font-size: 8rem;
 }
 </style>
