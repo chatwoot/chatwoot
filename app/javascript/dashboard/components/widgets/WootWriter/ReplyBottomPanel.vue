@@ -215,7 +215,7 @@ export default {
 
 .modal-mask {
   color: var(--s-600);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--white-transparent);
   flex-direction: column;
 }
 
