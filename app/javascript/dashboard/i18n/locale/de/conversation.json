@@ -56,7 +56,8 @@
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
-      "ENTER_TO_SEND": "Zum senden ENTER drücken"
+      "ENTER_TO_SEND": "Zum senden ENTER drücken",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
