@@ -34,13 +34,13 @@
         />
       </transition>
     </div>
-    <div v-if="showAttachmentError" class="banner">
+    <div
+      v-if="showBannerMessage"
+      class="banner"
+      :class="`banner banner__${bannerType}`"
+    >
       <span>
-        {{
-          $t('FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE: fileUploadSizeLimit,
-          })
-        }}
+        {{ bannerMessage }}
       </span>
     </div>
     <div class="flex flex-1 overflow-auto">
@@ -115,8 +115,10 @@ export default {
   data() {
     return {
       isOnCollapsedView: false,
-      showAttachmentError: false,
       isOnNewConversation: false,
+      showBannerMessage: false,
+      bannerMessage: '',
+      bannerType: 'error',
     };
   },
   computed: {
@@ -164,10 +166,12 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR, () => {
-      this.showAttachmentError = true;
+    bus.$on(BUS_EVENTS.SHOW_ALERT, ({ message, type = 'error' }) => {
+      this.bannerMessage = message;
+      this.bannerType = type;
+      this.showBannerMessage = true;
       setTimeout(() => {
-        this.showAttachmentError = false;
+        this.showBannerMessage = false;
       }, 3000);
     });
     bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
@@ -243,12 +247,17 @@ export default {
     padding: 0 $space-normal;
   }
   .banner {
-    background: $color-error;
     color: $color-white;
     font-size: $font-size-default;
     font-weight: $font-weight-bold;
     padding: $space-slab;
     text-align: center;
+    &__success {
+      background: $color-success;
+    }
+    &__error {
+      background: $color-error;
+    }
   }
 }
 </style>

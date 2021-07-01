@@ -12,7 +12,10 @@ const getters = {
 };
 
 const actions = {
-  update: async ({ commit }, { email, messageId, submittedValues }) => {
+  update: async (
+    { commit, dispatch },
+    { email, messageId, submittedValues }
+  ) => {
     commit('toggleUpdateStatus', true);
     try {
       const {
@@ -33,6 +36,7 @@ const actions = {
         },
         { root: true }
       );
+      dispatch('contacts/get', {}, { root: true });
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       // Ignore error
