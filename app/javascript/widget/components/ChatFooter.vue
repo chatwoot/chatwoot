@@ -95,7 +95,6 @@ export default {
       window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
     },
     async sendTranscript() {
-      console.log('currentUser', this.currentUser);
       const { email } = this.currentUser;
       if (email) {
         try {
