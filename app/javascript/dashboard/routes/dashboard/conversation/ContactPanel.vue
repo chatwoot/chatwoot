@@ -133,7 +133,7 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
-import multiselectDropdown from 'shared/components/ui/MutiselectDropdown.vue';
+import MultiselectDropdown from 'shared/components/ui/MutiselectDropdown.vue';
 
 import flag from 'country-code-emoji';
 
@@ -144,7 +144,7 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
-    multiselectDropdown,
+    MultiselectDropdown,
   },
   mixins: [alertMixin],
   props: {
