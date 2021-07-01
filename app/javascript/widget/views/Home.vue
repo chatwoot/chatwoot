@@ -34,15 +34,7 @@
         />
       </transition>
     </div>
-    <div
-      v-if="showBannerMessage"
-      class="banner"
-      :class="`banner banner__${bannerType}`"
-    >
-      <span>
-        {{ bannerMessage }}
-      </span>
-    </div>
+    <banner />
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap
         v-if="currentView === 'messageView'"
@@ -85,6 +77,7 @@ import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
+import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -100,6 +93,7 @@ export default {
     PreChatForm,
     Spinner,
     TeamAvailability,
+    Banner,
   },
   mixins: [configMixin],
   props: {
@@ -116,9 +110,6 @@ export default {
     return {
       isOnCollapsedView: false,
       isOnNewConversation: false,
-      showBannerMessage: false,
-      bannerMessage: '',
-      bannerType: 'error',
     };
   },
   computed: {
@@ -166,14 +157,6 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.SHOW_ALERT, ({ message, type = 'error' }) => {
-      this.bannerMessage = message;
-      this.bannerType = type;
-      this.showBannerMessage = true;
-      setTimeout(() => {
-        this.showBannerMessage = false;
-      }, 3000);
-    });
     bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
       this.isOnCollapsedView = true;
       this.isOnNewConversation = true;
@@ -245,19 +228,6 @@ export default {
 
   .input-wrap {
     padding: 0 $space-normal;
-  }
-  .banner {
-    color: $color-white;
-    font-size: $font-size-default;
-    font-weight: $font-weight-bold;
-    padding: $space-slab;
-    text-align: center;
-    &__success {
-      background: $color-success;
-    }
-    &__error {
-      background: $color-error;
-    }
   }
 }
 </style>
