@@ -28,6 +28,8 @@
     "DOWNLOAD": "Unduh",
     "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
     "NO_RESPONSE": "Tidak ada respon",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
       "REOPEN_ACTION": "Buka Kembali",

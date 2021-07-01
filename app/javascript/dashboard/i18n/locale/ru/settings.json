@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
     "APPLICATIONS": "Приложения",
     "LABELS": "Категории",
-    "TEAMS": "Команды"
+    "TEAMS": "Команды",
+    "ALL_CONTACTS": "Все контакты",
+    "TAGGED_WITH": "С метками"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Новый аккаунт",

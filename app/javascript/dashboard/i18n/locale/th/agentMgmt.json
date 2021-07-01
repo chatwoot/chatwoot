@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "ไม่พบพนักงาน"
+      "NO_RESULTS": "No results found."
     }
   }
 }
