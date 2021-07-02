@@ -11,7 +11,7 @@ import { refreshActionCableConnector } from '../../../helpers/actionCable';
 import { createTemporaryMessage, onNewMessageCreated } from './helpers';
 
 export const actions = {
-  createConversation: async ({ commit }, params) => {
+  createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
     try {
       const { data } = await createConversationAPI(params);
@@ -22,6 +22,7 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       refreshActionCableConnector(pubsubToken);
+      dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
       console.log(error);
       // Ignore error

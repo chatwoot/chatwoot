@@ -28,6 +28,8 @@
     "DOWNLOAD": "다운로드",
     "UPLOADING_ATTACHMENTS": "첨부 업로드 중...",
     "NO_RESPONSE": "응답없음",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
       "REOPEN_ACTION": "다시 열기",

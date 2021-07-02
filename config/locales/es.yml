@@ -66,6 +66,7 @@ es:
       greeting_message_body: "%{account_name} normalmente responde en unas pocas horas."
       ways_to_reach_you_message_body: "Dale al equipo una forma de llegar a ti."
       email_input_box_message_body: "Recibir notificaciones por correo electrónico"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nuevos mensajes en esta conversación"
       transcript_subject: "Transcripción de la conversación"

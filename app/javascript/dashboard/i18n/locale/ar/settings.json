@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
     "APPLICATIONS": "Applications",
     "LABELS": "الوسوم",
-    "TEAMS": "الفرق"
+    "TEAMS": "الفرق",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب جديد",
