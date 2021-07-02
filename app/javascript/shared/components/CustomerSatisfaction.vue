@@ -14,7 +14,7 @@
       </button>
     </div>
     <form
-      v-if="!isCSATSubmitted"
+      v-if="!isFeedbackSubmitted"
       class="feedback-form"
       @submit.prevent="onSubmit()"
     >
@@ -64,28 +64,30 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    isCSATSubmitted() {
-      return (
-        this.messageContentAttributes &&
-        this.messageContentAttributes.csat_survey_response
-      );
+    isRatingSubmitted() {
+      return this.messageContentAttributes?.csat_survey_response?.rating;
+    },
+    isFeedbackSubmitted() {
+      return this.messageContentAttributes?.csat_survey_response
+        ?.feedback_message;
     },
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
     },
     title() {
-      return this.isCSATSubmitted
+      return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.$t('CSAT.TITLE');
     },
   },
 
   mounted() {
-    if (this.isCSATSubmitted) {
+    if (this.isRatingSubmitted) {
       const {
-        csat_survey_response: { rating },
+        csat_survey_response: { rating, feedback },
       } = this.messageContentAttributes;
       this.selectedRating = rating;
+      this.feedback = feedback;
     }
   },
 
@@ -93,8 +95,8 @@ export default {
     buttonClass(rating) {
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.isCSATSubmitted },
-        { hover: this.isCSATSubmitted },
+        { disabled: this.isRatingSubmitted },
+        { hover: this.isRatingSubmitted },
         'emoji-button',
       ];
     },
@@ -106,6 +108,7 @@ export default {
     },
     selectRating(rating) {
       this.selectedRating = rating.value;
+      this.onSubmit();
     },
   },
 };
