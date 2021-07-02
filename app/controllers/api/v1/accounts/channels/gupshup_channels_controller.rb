@@ -36,10 +36,6 @@ class Api::V1::Accounts::Channels::GupshupChannelsController < Api::V1::Accounts
       apikey: permitted_params[:apikey],
       phone_number: phone_number
     )
-    puts permitted_params[:app]
-    puts permitted_params[:apikey]
-    puts phone_number
-    puts permitted_params[:name]
     @inbox = Current.account.inboxes.create(
       name: permitted_params[:name],
       channel: @gupshup_channel

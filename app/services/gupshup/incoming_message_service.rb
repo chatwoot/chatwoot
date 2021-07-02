@@ -6,6 +6,7 @@ class Gupshup::IncomingMessageService
   def perform
     set_contact
     set_conversation
+    puts "Performing"
     @message = @conversation.messages.create(
       content: params[:payload][:payload][:text],
       account_id: @inbox.account_id,
@@ -20,7 +21,6 @@ class Gupshup::IncomingMessageService
   private
 
   def gupshup_inbox
-    puts params[:app]
     @gupshup_inbox ||= ::Channel::Gupshup.find_by!(
       app: params[:app]
     )
@@ -32,14 +32,13 @@ class Gupshup::IncomingMessageService
 
   def account
     @account ||= inbox.account
-    puts @account
   end
 
   def phone_number
     params[:source]
   end
 
-  def formatted_phone_number
+  def contact_name
     params[:payload][:sender][:name]
   end
 
@@ -64,29 +63,27 @@ class Gupshup::IncomingMessageService
   end
 
   def set_conversation
-    puts "seeting convo"
     @conversation = @contact_inbox.conversations.first
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
-    puts conversation_params
   end
 
   def contact_attributes
     {
-      name: formatted_phone_number,
-      phone_number: phone_number,
+      name: contact_name,
+      phone_number: phone_number
     }
   end
 
   def attach_files
-    return if params[:MediaUrl0].blank?
 
-    file_resource = LocalResource.new(params[:MediaUrl0], params[:MediaContentType0])
+    return if params['payload']['url'].blank?
+    file_resource = LocalResource.new(params[:payload][:url], params[:payload][:contentType])
 
     attachment = @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:MediaContentType0])
+      file_type: file_type(params[:payload][:contentType])
     )
 
     attachment.file.attach(
