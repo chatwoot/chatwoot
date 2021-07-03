@@ -31,7 +31,7 @@
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
     "RATING_TITLE": "Note",
-    "FEEDBACK_TITLE": "Feedback",
+    "FEEDBACK_TITLE": "Commentaires",
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
@@ -57,13 +57,13 @@
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
       "ENTER_TO_SEND": "Entrer pour envoyer",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Glissez et déposez ici pour lier"
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
@@ -118,7 +118,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agent Assigné",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "M’assigner la conversation",
     "TEAM_LABEL": "Équipe assignée",
     "SELECT": {
       "PLACEHOLDER": "Aucun"
