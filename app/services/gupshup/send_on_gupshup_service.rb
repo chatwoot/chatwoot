@@ -6,13 +6,11 @@ class Gupshup::SendOnGupshupService < Base::SendOnChannelService
   end
 
   def perform_reply
-    gupshup_message = client.send(contact_inbox.source_id, message_params, message_params[:type])
-    message.update!(source_id: gupshup_message.body['messageId'])
+    gupshup_message = client.send(contact_inbox.source_id, message_params)
+    message.update!(source_id: gupshup_message.body[:messageId])
 
   end
-
   def message_params
-    puts message.inspect
     payload = {
       'isHSM': false,
       'type': 'text',
@@ -39,6 +37,6 @@ class Gupshup::SendOnGupshupService < Base::SendOnChannelService
   end
 
   def client
-    Gupshup::WhatsApp.new(app=channel.app, apikey=channel.apikey, phone=channel.phone_number, version='2')
+    Gupshup::REST::OutboundMessage.new(app=channel.app, apikey=channel.apikey, phone=channel.phone_number, version='2')
   end
 end

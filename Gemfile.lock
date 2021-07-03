@@ -13,11 +13,6 @@ GIT
     json_refs (0.1.6)
       hana
 
-PATH
-  remote: /Users/dev/RubymineProjects/gupshup_ruby
-  specs:
-    gupshup_whatsapp (0.1.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -102,7 +97,7 @@ GEM
     ast (2.4.2)
     attr_extras (6.2.4)
     aws-eventstream (1.1.1)
-    aws-partitions (1.472.0)
+    aws-partitions (1.473.0)
     aws-sdk-core (3.115.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -257,7 +252,7 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.1.0)
-    google-cloud-storage (1.33.0)
+    google-cloud-storage (1.34.0)
       addressable (~> 2.5)
       digest-crc (~> 0.4)
       google-apis-iamcredentials_v1 (~> 0.1)
@@ -284,6 +279,7 @@ GEM
     grpc (1.38.0)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
+    gupshup_whatsapp (0.2.5)
     haikunator (1.1.1)
     hairtrigger (0.2.24)
       activerecord (>= 5.0, < 7)
@@ -471,7 +467,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    rubocop (1.18.1)
+    rubocop (1.18.2)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -485,7 +481,7 @@ GEM
     rubocop-performance (1.11.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.11.1)
+    rubocop-rails (2.11.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
@@ -660,7 +656,7 @@ DEPENDENCIES
   google-cloud-dialogflow
   google-cloud-storage
   groupdate
-  gupshup_whatsapp!
+  gupshup_whatsapp (= 0.2.5)
   haikunator
   hairtrigger
   hashie

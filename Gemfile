@@ -155,5 +155,5 @@ group :development, :test do
 end
 
 
-gem 'gupshup_whatsapp', path: '~/RubymineProjects/gupshup_ruby/'
+gem 'gupshup_whatsapp', '0.2.5'
 

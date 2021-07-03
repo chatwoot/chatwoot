@@ -6,9 +6,8 @@ class Gupshup::IncomingMessageService
   def perform
     set_contact
     set_conversation
-    puts "Performing"
     @message = @conversation.messages.create(
-      content: params[:payload][:payload][:text],
+      content: payload,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -19,7 +18,17 @@ class Gupshup::IncomingMessageService
   end
 
   private
-
+  def payload
+    content = case params[:payload][:type]
+              when 'text'
+                params[:payload][:payload][:text]
+              when 'image'
+                params[:payload][:payload][:caption]
+              when 'video'
+                params[:payload][:payload][:caption]
+              end
+    content
+  end
   def gupshup_inbox
     @gupshup_inbox ||= ::Channel::Gupshup.find_by!(
       app: params[:app]
@@ -77,21 +86,17 @@ class Gupshup::IncomingMessageService
   end
 
   def attach_files
-
-    return if params['payload']['url'].blank?
-    file_resource = LocalResource.new(params[:payload][:url], params[:payload][:contentType])
-
+    return if params[:payload][:payload][:url].blank?
+    file_resource = LocalResource.new(params[:payload][:payload][:url], params[:payload][:payload][:contentType])
     attachment = @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:payload][:contentType])
+      file_type: file_type(params[:payload][:payload][:contentType])
     )
-
     attachment.file.attach(
       io: file_resource.file,
       filename: file_resource.tmp_filename,
       content_type: file_resource.encoding
     )
-
     @message.save!
   rescue *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "invalid url #{file_url} : #{e.message}"
