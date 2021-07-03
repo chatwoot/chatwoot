@@ -11,6 +11,7 @@ class Gupshup::SendOnGupshupService < Base::SendOnChannelService
 
   end
   def message_params
+    # Only text messages payload added. Yet to add other attachments
     payload = {
       'isHSM': false,
       'type': 'text',

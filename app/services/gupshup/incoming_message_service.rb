@@ -19,6 +19,7 @@ class Gupshup::IncomingMessageService
 
   private
   def payload
+    # Setting content parameter based on message type.
     content = case params[:payload][:type]
               when 'text'
                 params[:payload][:payload][:text]

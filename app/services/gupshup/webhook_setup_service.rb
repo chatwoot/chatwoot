@@ -5,8 +5,6 @@ class Gupshup::WebhookSetupService
   pattr_initialize [:inbox!]
 
   def perform
-    puts "hi"
-    true
+    Rails.logger.info "Gupshup webhook setup for: #{channel.phone_number}"
   end
 end
-

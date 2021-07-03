@@ -1,11 +1,10 @@
 class Gupshup::CallbackController < ApplicationController
   def create
-    if params['payload']['phone'] == 'callbackSetPhone'
+    if params['payload']['phone'] == 'callbackSetPhone' # Logs callback Url verification from gupshup dashboard
       Rails.logger.info 'GUPSHUP CALLBACK: Url set'
-      true
-    elsif ['delivered', 'sent','enqueued'].include? params['payload']['type']
+    elsif ['delivered', 'sent','enqueued'].include? params['payload']['type'] # Logs message status callbacks
       Rails.logger.info "GUPSHUP CALLBACK: App => #{params[:app]}, Timestamp => #{params[:timestamp]}, Status => #{params[:payload][:type]}"
-    else
+    else # Incoming message events
       Rails.logger.info 'Gupshup event recieved'
       ::Gupshup::IncomingMessageService.new(params: permitted_params).perform
       head :no_content
