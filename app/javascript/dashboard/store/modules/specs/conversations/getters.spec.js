@@ -102,4 +102,16 @@ describe('#getters', () => {
       ]);
     });
   });
+  describe('#getConversationById', () => {
+    it('get conversations based on id', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+          },
+        ],
+      };
+      expect(getters.getConversationById(state)(1)).toEqual({ id: 1 });
+    });
+  });
 });
