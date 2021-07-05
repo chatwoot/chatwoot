@@ -28,6 +28,8 @@
     "DOWNLOAD": "Herunterladen",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "NO_RESPONSE": "Keine Antwort",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
       "REOPEN_ACTION": "Wieder öffnen",

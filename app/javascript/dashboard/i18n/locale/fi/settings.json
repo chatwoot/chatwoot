@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Tilin asetukset",
     "APPLICATIONS": "Applications",
     "LABELS": "Tunnisteet",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Uusi tili",
