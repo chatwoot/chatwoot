@@ -30,7 +30,7 @@
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "NONE": "None",
         "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATION": "All Conversations"
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",

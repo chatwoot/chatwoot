@@ -12,27 +12,27 @@
       <div class="columns small-9">
         <div>
           <input
-            id="audio_enable_alert"
+            id="audio_enable_alert_none"
             v-model="enableAudioAlerts"
             class="notification--checkbox"
             type="radio"
             value="none"
             @input="handleAudioInput"
           />
-          <label for="audio_enable_alert">
+          <label for="audio_enable_alert_none">
             {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NONE') }}
           </label>
         </div>
         <div>
           <input
-            id="audio_enable_alert"
+            id="audio_enable_alert_mine"
             v-model="enableAudioAlerts"
             class="notification--checkbox"
             type="radio"
             value="mine"
             @input="handleAudioInput"
           />
-          <label for="audio_enable_alert">
+          <label for="audio_enable_alert_mine">
             {{
               $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ASSIGNED')
             }}
@@ -40,17 +40,17 @@
         </div>
         <div>
           <input
-            id="audio_enable_alert"
+            id="audio_enable_alert_all"
             v-model="enableAudioAlerts"
             class="notification--checkbox"
             type="radio"
             value="all"
             @input="handleAudioInput"
           />
-          <label for="audio_enable_alert">
+          <label for="audio_enable_alert_all">
             {{
               $t(
-                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVERSATION'
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVERSATIONS'
               )
             }}
           </label>

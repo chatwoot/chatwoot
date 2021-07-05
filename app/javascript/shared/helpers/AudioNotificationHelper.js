@@ -1,15 +1,6 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-const notificationAudio = require('shared/assets/audio/ding.mp3');
 import axios from 'axios';
 import { showBadgeOnFavicon } from './faviconHelper';
-
-export const playNotificationAudio = () => {
-  try {
-    new Audio(notificationAudio).play();
-  } catch (error) {
-    // error
-  }
-};
 
 export const getAlertAudio = async () => {
   window.playAudioAlert = () => {};
@@ -42,11 +33,9 @@ export const notificationEnabled = (enableAudioAlerts, id, userId) => {
   if (enableAudioAlerts === 'all') {
     return true;
   }
-  if (enableAudioAlerts === 'none') {
-    return false;
-  }
   return false;
 };
+
 export const shouldPlayAudio = (
   message,
   conversationId,
@@ -67,6 +56,7 @@ export const shouldPlayAudio = (
   if (conversationId !== incomingConvId) return playAudio;
   return false;
 };
+
 export const getAssigneeFromNotification = currentConv => {
   let id;
   if (currentConv.meta) {

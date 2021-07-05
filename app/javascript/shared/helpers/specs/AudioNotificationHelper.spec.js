@@ -112,17 +112,17 @@ describe('shouldPlayAudio', () => {
   });
 });
 describe('notificationEnabled', () => {
-  it('Retuns true if mine', () => {
+  it('returns true if mine', () => {
     const [enableAudioAlerts, userId, id] = ['mine', 1, 1];
     const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(true);
   });
-  it('Retuns true if all', () => {
+  it('returns true if all', () => {
     const [enableAudioAlerts, userId, id] = ['all', 1, 2];
     const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(true);
   });
-  it('Retuns false if none', () => {
+  it('returns false if none', () => {
     const [enableAudioAlerts, userId, id] = ['none', 1, 2];
     const result = notificationEnabled(enableAudioAlerts, userId, id);
     expect(result).toBe(false);
