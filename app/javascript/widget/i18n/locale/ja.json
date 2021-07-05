@@ -51,5 +51,15 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています"
+  "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  }
 }

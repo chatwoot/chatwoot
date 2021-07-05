@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "受信トレイ名",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "ウェブサイト名",
+        "PLACEHOLDER": "ウェブサイト名を入力してください(例：Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはChatwootによってアクセスすることはできません。",
         "CHOOSE_PAGE": "ページを選択",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "ウェブサイトサポートチャンネルの作成",
         "CHANNEL_AVATAR": {
           "LABEL": "チャネルアバター"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "ウェブサイト名",
-          "PLACEHOLDER": "ウェブサイト名を入力してください(例：Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "ウェブサイトのドメイン",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "有効です",
         "DISABLED": "無効です"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "有効です",
+        "DISABLED": "無効です"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "削除の確認",
         "MESSAGE": "削除してもよろしいですか？ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "削除する ",
         "NO": "いいえ、保存しておきます "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "担当者",
       "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
       "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "自動割り当てを有効にする",
       "INBOX_UPDATE_TITLE": "受信トレイの設定",
       "INBOX_UPDATE_SUB_TEXT": "受信トレイの設定を更新する",

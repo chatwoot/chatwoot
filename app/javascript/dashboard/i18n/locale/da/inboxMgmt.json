@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Indbakke Navn",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Websted Navn",
+        "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
+      },
       "FB": {
         "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
         "CHOOSE_PAGE": "Vælg Side",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Opretter Website Support Kanal",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Websted Navn",
-          "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Hjemmeside Domæne",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Aktiveret",
+        "DISABLED": "Deaktiveret"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Bekræft Sletning",
         "MESSAGE": "Er du sikker på du vil slette ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, Slet ",
         "NO": "Nej, Behold "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Tilføj eller fjern agenter fra denne indbakke",
       "UPDATE": "Opdater",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Aktiver automatisk tildeling",
       "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",

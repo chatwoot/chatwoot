@@ -57,6 +57,7 @@ export default {
   }
 }
 .contact--panel {
+  height: 100%;
   background: white;
   font-size: var(--font-size-small);
   overflow-y: auto;
@@ -64,7 +65,7 @@ export default {
   position: relative;
   border-left: 1px solid var(--color-border);
   padding: var(--space-medium) var(--space-two);
-  
+
   .contact-labels {
     padding-bottom: var(--space-normal);
   }

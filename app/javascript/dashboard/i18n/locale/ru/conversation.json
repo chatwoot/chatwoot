@@ -28,6 +28,8 @@
     "DOWNLOAD": "Скачать",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "NO_RESPONSE": "Нет ответа",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
@@ -108,8 +110,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Детали диалога",
     "ASSIGNEE_LABEL": "Назначенный агент",
+    "SELF_ASSIGN": "Назначить мне",
     "TEAM_LABEL": "Назначенная команда",
     "SELECT": {
       "PLACEHOLDER": "Ничего"

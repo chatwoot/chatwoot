@@ -1,5 +1,6 @@
 import { getters } from '../../campaign';
 import { campaigns } from './data';
+jest.mock('widget/store/index.js');
 
 describe('#getters', () => {
   it('getCampaigns', () => {
@@ -92,5 +93,40 @@ describe('#getters', () => {
         updated_at: '2021-05-03T10:22:51.025Z',
       },
     ]);
+  });
+
+  it('getActiveCampaign', () => {
+    const state = {
+      records: campaigns[0],
+    };
+    expect(getters.getCampaigns(state)).toEqual({
+      id: 1,
+      title: 'Welcome',
+      description: null,
+      account_id: 1,
+      inbox: {
+        id: 37,
+        channel_id: 1,
+        name: 'Chatwoot',
+        channel_type: 'Channel::WebWidget',
+      },
+      sender: {
+        account_id: 1,
+        availability_status: 'offline',
+        confirmed: true,
+        email: 'sojan@chatwoot.com',
+        available_name: 'Sojan',
+        id: 10,
+        name: 'Sojan',
+      },
+      message: 'Hey, What brings you today',
+      enabled: true,
+      trigger_rules: {
+        url: 'https://github.com',
+        time_on_page: 10,
+      },
+      created_at: '2021-05-03T04:53:36.354Z',
+      updated_at: '2021-05-03T04:53:36.354Z',
+    });
   });
 });

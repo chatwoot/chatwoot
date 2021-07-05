@@ -18,19 +18,14 @@
       "TITLE": "Conversații anterioare"
     },
     "LABELS": {
-      "TITLE": "Etichete conversație",
-      "MODAL": {
-        "TITLE": "Etichete pentru",
-        "ACTIVE_LABELS": "Etichete adăugate la conversație",
-        "INACTIVE_LABELS": "Etichete disponibile în cont",
-        "REMOVE": "Faceți clic pe pictograma X pentru a elimina eticheta",
-        "ADD": "Faceți clic pe + pictogramă pentru a adăuga eticheta",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Actualizare etichete",
-        "UPDATE_ERROR": "Nu s-au putut actualiza etichetele, încercați din nou."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Nu mai sunt etichete definite în cont.",
-      "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație.",
+      "CONVERSATION": {
+        "TITLE": "Etichete conversație",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -141,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nume",
         "PHONE_NUMBER": "Phone Number",
@@ -155,6 +151,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +172,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversații"
     }
   },
   "CUSTOM_ATTRIBUTES": {

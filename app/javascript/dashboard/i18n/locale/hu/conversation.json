@@ -28,6 +28,8 @@
     "DOWNLOAD": "Letöltés",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "NO_RESPONSE": "Nincs válasz",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
@@ -108,8 +110,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Beszélgetés részletei",
     "ASSIGNEE_LABEL": "Hozzárendelt ügynök",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
       "PLACEHOLDER": "Nincs"

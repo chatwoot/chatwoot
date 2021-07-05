@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "担当者が見つかりません"
+      "NO_RESULTS": "No results found."
     }
   }
 }

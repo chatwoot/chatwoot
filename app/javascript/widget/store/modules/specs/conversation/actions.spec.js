@@ -1,12 +1,8 @@
-import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
 jest.mock('../../../../helpers/uuid');
-jest.mock('shared/helpers/AudioNotificationHelper', () => ({
-  playNotificationAudio: jest.fn(),
-}));
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
@@ -20,7 +16,6 @@ describe('#actions', () => {
 
     it('plays audio when agent sends a message', () => {
       actions.addMessage({ commit }, { id: 1, message_type: 1 });
-      expect(playNotificationAudio).toBeCalled();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: 1,
         message_type: 1,
