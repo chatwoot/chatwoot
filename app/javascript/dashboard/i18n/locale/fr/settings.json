@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications audio",
         "NOTE": "Activer les notifications audio dans le tableau de bord pour les nouveaux messages et conversations.",
-        "ENABLE_AUDIO": "Jouer une notification audio lorsqu'une nouvelle conversation est créée ou que de nouveaux messages arrivent"
+        "NONE": "Aucun",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications par courriel",
