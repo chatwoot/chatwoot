@@ -8,7 +8,7 @@ import {
 } from 'widget/api/conversation';
 import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
-import { createTemporaryMessage, onNewMessageCreated } from './helpers';
+import { createTemporaryMessage } from './helpers';
 
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
@@ -78,7 +78,6 @@ export const actions = {
 
   addMessage: async ({ commit }, data) => {
     commit('pushMessageToConversation', data);
-    onNewMessageCreated(data);
   },
 
   updateMessage({ commit }, data) {
