@@ -1,79 +1,69 @@
-<!-- Deprecated in favour of separate files for SMS and Whatsapp and also to implement new providers for each platform in the future-->
 <template>
   <div class="wizard-body small-9 columns">
     <page-header
-      :header-title="$t('INBOX_MGMT.ADD.TWILIO.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.TWILIO.DESC')"
+      :header-title="$t('INBOX_MGMT.ADD.WHATSAPP.TITLE')"
+      :header-content="$t('INBOX_MGMT.ADD.WHATSAPP.DESC')"
     />
     <form class="row" @submit.prevent="createChannel()">
       <div class="medium-8 columns">
         <label :class="{ error: $v.channelName.$error }">
-          {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.CHANNEL_NAME.LABEL') }}
           <input
             v-model.trim="channelName"
             type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.PLACEHOLDER')"
+            :placeholder="
+              $t('INBOX_MGMT.ADD.WHATSAPP.CHANNEL_NAME.PLACEHOLDER')
+            "
             @blur="$v.channelName.$touch"
           />
           <span v-if="$v.channelName.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.ERROR')
-          }}</span>
-        </label>
-      </div>
-
-      <div class="medium-8 columns">
-        <label :class="{ error: $v.medium.$error }">
-          {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_TYPE.LABEL') }}
-          <select v-model="medium">
-            <option value="sms">SMS</option>
-            <option value="whatsapp">Whatsapp</option>
-          </select>
-          <span v-if="$v.medium.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_TYPE.ERROR')
+            $t('INBOX_MGMT.ADD.WHATSAPP.CHANNEL_NAME.ERROR')
           }}</span>
         </label>
       </div>
 
       <div class="medium-8 columns">
         <label :class="{ error: $v.phoneNumber.$error }">
-          {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.LABEL') }}
           <input
             v-model.trim="phoneNumber"
             type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.PLACEHOLDER')"
+            :placeholder="
+              $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.PLACEHOLDER')
+            "
             @blur="$v.phoneNumber.$touch"
           />
           <span v-if="$v.phoneNumber.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.ERROR')
+            $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.ERROR')
           }}</span>
         </label>
       </div>
 
       <div class="medium-8 columns">
         <label :class="{ error: $v.accountSID.$error }">
-          {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_SID.LABEL') }}
           <input
             v-model.trim="accountSID"
             type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
+            :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_SID.PLACEHOLDER')"
             @blur="$v.accountSID.$touch"
           />
           <span v-if="$v.accountSID.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.ERROR')
+            $t('INBOX_MGMT.ADD.WHATSAPP.ACCOUNT_SID.ERROR')
           }}</span>
         </label>
       </div>
       <div class="medium-8 columns">
         <label :class="{ error: $v.authToken.$error }">
-          {{ $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.AUTH_TOKEN.LABEL') }}
           <input
             v-model.trim="authToken"
             type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+            :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.AUTH_TOKEN.PLACEHOLDER')"
             @blur="$v.authToken.$touch"
           />
           <span v-if="$v.authToken.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.ERROR')
+            $t('INBOX_MGMT.ADD.WHATSAPP.AUTH_TOKEN.ERROR')
           }}</span>
         </label>
       </div>
@@ -81,7 +71,7 @@
       <div class="medium-12 columns">
         <woot-submit-button
           :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
+          :button-text="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
         />
       </div>
     </form>
@@ -106,7 +96,7 @@ export default {
     return {
       accountSID: '',
       authToken: '',
-      medium: '',
+      medium: 'whatsapp',
       channelName: '',
       phoneNumber: '',
     };
@@ -121,7 +111,6 @@ export default {
     phoneNumber: { required, shouldStartWithPlusSign },
     authToken: { required },
     accountSID: { required },
-    medium: { required },
   },
   methods: {
     async createChannel() {
@@ -152,7 +141,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE'));
       }
     },
   },

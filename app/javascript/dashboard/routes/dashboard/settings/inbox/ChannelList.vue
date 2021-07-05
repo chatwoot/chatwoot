@@ -42,7 +42,8 @@ export default {
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Facebook' },
         { key: 'twitter', name: 'Twitter' },
-        { key: 'twilio', name: 'Twilio' },
+        { key: 'whatsapp', name: 'Twilio Whatsapp' },
+        { key: 'sms', name: 'Twilio SMS' },
         { key: 'email', name: 'Email' },
         {
           key: 'api',
