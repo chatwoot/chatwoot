@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Όνομα",
         "PHONE_NUMBER": "Αριθμός Τηλεφώνου",

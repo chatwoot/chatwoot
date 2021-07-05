@@ -130,7 +130,7 @@ export default {
         submittedValues: {
           csat_survey_response: {
             rating,
-            feedback,
+            feedback_message: feedback,
           },
         },
         messageId: this.messageId,

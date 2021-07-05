@@ -28,6 +28,8 @@
     "DOWNLOAD": "Baixar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "NO_RESPONSE": "Sem resposta",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -109,7 +111,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente atribuído",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Atribuir a mim",
     "TEAM_LABEL": "Equipe Atribuída",
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"

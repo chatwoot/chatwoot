@@ -15,7 +15,7 @@
           "ERROR": "Title is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "消息",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -68,7 +68,7 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
+        "MESSAGE": "消息",
         "STATUS": "状态",
         "SENDER": "Sender",
         "URL": "URL",

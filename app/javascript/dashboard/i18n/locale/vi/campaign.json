@@ -82,7 +82,7 @@
       },
       "STATUS": {
         "ENABLED": "Bật",
-        "DISABLED": "Không bật"
+        "DISABLED": "Tắt"
       },
       "SENDER": {
         "BOT": "Bot"
