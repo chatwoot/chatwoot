@@ -1,9 +1,8 @@
 <template>
-  <div class="conversations-sidebar  medium-4 columns">
+  <div class="conversations-list-wrap">
     <slot></slot>
     <div class="chat-list__top">
       <h1 class="page-title text-truncate" :title="pageTitle">
-        <woot-sidemenu-icon />
         {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
@@ -25,6 +24,7 @@
         v-for="chat in conversationList"
         :key="chat.id"
         :active-label="label"
+        :team-id="teamId"
         :chat="chat"
       />
 
@@ -32,13 +32,14 @@
         <span class="spinner"></span>
       </div>
 
-      <div
+      <woot-button
         v-if="!hasCurrentPageEndReached && !chatListLoading"
-        class="clear button load-more-conversations"
+        variant="clear"
+        size="expanded"
         @click="fetchConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
-      </div>
+      </woot-button>
 
       <p
         v-if="
@@ -76,13 +77,13 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    teamId: {
+      type: [String, Number],
+      default: 0,
+    },
     label: {
       type: String,
       default: '',
-    },
-    activeTeam: {
-      type: Object,
-      default: () => {},
     },
   },
   data() {
@@ -116,7 +117,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
     currentPage() {
-      return this.$store.getters['conversationPage/getCurrentPage'](
+      return this.$store.getters['conversationPage/getCurrentPageFilter'](
         this.activeAssigneeTab
       );
     },
@@ -132,7 +133,7 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
-        teamId: this.activeTeam.name ? this.activeTeam.id : undefined,
+        teamId: this.teamId ? this.teamId : undefined,
       };
     },
     pageTitle() {
@@ -149,24 +150,22 @@ export default {
     },
     conversationList() {
       let conversationList = [];
+      const filters = this.conversationFilters;
       if (this.activeAssigneeTab === 'me') {
-        conversationList = this.mineChatsList.slice();
+        conversationList = [...this.mineChatsList(filters)];
       } else if (this.activeAssigneeTab === 'unassigned') {
-        conversationList = this.unAssignedChatsList.slice();
+        conversationList = [...this.unAssignedChatsList(filters)];
       } else {
-        conversationList = this.allChatList.slice();
+        conversationList = [...this.allChatList(filters)];
       }
 
-      if (!this.label) {
-        return conversationList;
+      return conversationList;
+    },
+    activeTeam() {
+      if (this.teamId) {
+        return this.$store.getters['teams/getTeam'](this.teamId);
       }
-
-      return conversationList.filter(conversation => {
-        const labels = this.$store.getters[
-          'conversationLabels/getConversationLabels'
-        ](conversation.id);
-        return labels.includes(this.label);
-      });
+      return {};
     },
   },
   watch: {
@@ -201,6 +200,7 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
@@ -218,9 +218,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/woot';
 .spinner {
-  margin-top: $space-normal;
-  margin-bottom: $space-normal;
+  margin-top: var(--space-normal);
+  margin-bottom: var(--space-normal);
+}
+
+.conversations-list-wrap {
+  flex-shrink: 0;
+  width: 34rem;
+
+  @include breakpoint(large up) {
+    width: 36rem;
+  }
+  @include breakpoint(xlarge up) {
+    width: 35rem;
+  }
+  @include breakpoint(xxlarge up) {
+    width: 38rem;
+  }
+  @include breakpoint(xxxlarge up) {
+    flex-basis: 46rem;
+  }
 }
 </style>

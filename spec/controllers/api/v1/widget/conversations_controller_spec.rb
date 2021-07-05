@@ -25,6 +25,46 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         expect(json_response['status']).to eq(conversation.status)
       end
     end
+
+    context 'with a conversation but invalid source id' do
+      it 'returns the correct conversation params' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        payload = { source_id: 'invalid source id', inbox_id: web_widget.inbox.id }
+        token = ::Widget::TokenService.new(payload: payload).generate_token
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/widget/conversations' do
+    it 'creates a conversation' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: 'contact-email@chatwoot.com'
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+
+      expect(json_response['id']).not_to eq nil
+      expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
+      expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
   end
 
   describe 'POST /api/v1/widget/conversations/toggle_typing' do
@@ -64,7 +104,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   describe 'POST /api/v1/widget/conversations/transcript' do
     context 'with a conversation' do
       it 'sends transcript email' do
-        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:conversation_transcript)
 
         post '/api/v1/widget/conversations/transcript',
              headers: { 'X-Auth-Token' => token },
@@ -72,7 +114,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
     end
   end

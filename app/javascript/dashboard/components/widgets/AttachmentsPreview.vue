@@ -11,9 +11,7 @@
           class="image-thumb"
           :src="attachment.thumb"
         />
-        <span v-else class="attachment-thumb">
-          📄
-        </span>
+        <span v-else class="attachment-thumb"> 📄 </span>
       </div>
       <div class="file-name-wrap">
         <span class="item">
@@ -37,8 +35,7 @@
   </div>
 </template>
 <script>
-import { formatBytes } from 'dashboard/helper/files';
-
+import { formatBytes } from 'shared/helpers/FileHelper';
 export default {
   props: {
     attachments: {
@@ -68,7 +65,11 @@ export default {
   display: flex;
   padding: var(--space-slab) 0 0;
   background: var(--color-background-light);
-  background: transparent;
+  background: var(--b-50);
+  border-radius: var(--border-radius-normal);
+  width: fit-content;
+  padding: var(--space-smaller);
+  margin-top: var(--space-normal);
 }
 
 .thumb-wrap {
@@ -117,6 +118,8 @@ export default {
   max-width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: var(--space-small);
+
   .item {
     height: var(--space-normal);
     overflow: hidden;
@@ -126,7 +129,7 @@ export default {
 }
 
 .file-size-wrap {
-  width: 20%;
+  width: 30%;
   justify-content: center;
 }
 

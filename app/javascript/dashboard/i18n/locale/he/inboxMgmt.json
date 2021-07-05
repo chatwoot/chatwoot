@@ -1,0 +1,306 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Inboxes",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "There are no inboxes attached to this account."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Choose Channel",
+        "route": "settings_inbox_new",
+        "body": "Choose the provider you want to integrate with Chatwoot."
+      },
+      {
+        "title": "Create Inbox",
+        "route": "settings_inboxes_page_channel",
+        "body": "Authenticate your account and create an inbox."
+      },
+      {
+        "title": "Add Agents",
+        "route": "settings_inboxes_add_agents",
+        "body": "Add agents to the created inbox."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "You are all set to go!"
+      }
+    ],
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
+      "FB": {
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
+      "TWITTER": {
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Website channel",
+        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
+        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Website Domain",
+          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widget Color",
+          "PLACEHOLDER": "Update the widget color used in widget"
+        },
+        "SUBMIT_BUTTON": "Create inbox"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Please enter your Twilio Account SID",
+          "ERROR": "This field is required"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Please enter your Twilio Auth Token",
+          "ERROR": "This field is required"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
+          "ERROR": "This field is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone number",
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
+        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
+          "ERROR": "This field is required"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "Webhook URL"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
+          "ERROR": "This field is required"
+        },
+        "EMAIL": {
+          "LABEL": "אימייל",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "אימייל"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
+      "AUTH": {
+        "TITLE": "Channels",
+        "DESC": "Currently, we support Website live chat widgets, Facebook Pages, Twitter profiles and Whatsapp as platforms. We have more platforms like Email, Telegram and Line in the works, which will be out soon."
+      },
+      "AGENTS": {
+        "TITLE": "סוכנים",
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
+      },
+      "DETAILS": {
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+      },
+      "FINISH": {
+        "TITLE": "Nailed It!",
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Authenticating you with Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Creating your Inbox...",
+      "TITLE": "Configure Inbox Details",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Add agents",
+      "ADD_AGENTS": "Adding Agents to your Inbox..."
+    },
+    "FINISH": {
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Take me there",
+      "MORE_SETTINGS": "More settings",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+    },
+    "REAUTH": "Reauthorize",
+    "VIEW": "View",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "הגדרות",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "קמפיין",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
+    },
+    "SETTINGS": "הגדרות",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "INBOX_AGENTS": "סוכנים",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "UPDATE": "Update",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reauthorize",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      }
+    }
+  }
+}

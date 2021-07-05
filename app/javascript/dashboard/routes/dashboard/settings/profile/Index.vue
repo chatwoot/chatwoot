@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
-    <form @submit.prevent="updateUser">
+  <div class="columns profile--settings">
+    <form @submit.prevent="updateUser('profile')">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
@@ -49,63 +49,25 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <woot-button type="submit" :is-loading="isProfileUpdating">
+            {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
+          </woot-button>
         </div>
       </div>
-      <div class="profile--settings--row row">
-        <div class="columns small-3 ">
-          <h4 class="block-title">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
-          </h4>
-          <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
-        </div>
-        <div class="columns small-9 medium-5">
-          <label :class="{ error: $v.password.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
-            <input
-              v-model.trim="password"
-              type="password"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-              @input="$v.password.$touch"
-            />
-            <span v-if="$v.password.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') }}
-            </span>
-          </label>
-          <label :class="{ error: $v.passwordConfirmation.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL') }}
-            <input
-              v-model.trim="passwordConfirmation"
-              type="password"
-              :placeholder="
-                $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
-              "
-              @input="$v.passwordConfirmation.$touch"
-            />
-            <span v-if="$v.passwordConfirmation.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
-            </span>
-          </label>
-        </div>
-      </div>
-      <notification-settings />
-      <div class="profile--settings--row row">
-        <div class="columns small-3 ">
-          <h4 class="block-title">
-            {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
-          </h4>
-          <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
-        </div>
-        <div class="columns small-9 medium-5">
-          <woot-code :script="currentUser.access_token"></woot-code>
-        </div>
-      </div>
-      <woot-submit-button
-        class="button nice success button--fixed-right-top"
-        :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
-        :loading="isUpdating"
-      >
-      </woot-submit-button>
     </form>
+    <change-password />
+    <notification-settings />
+    <div class="profile--settings--row row">
+      <div class="columns small-3">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
+        </h4>
+        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
+      </div>
+      <div class="columns small-9 medium-5">
+        <woot-code :script="currentUser.access_token"></woot-code>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -115,12 +77,14 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import ChangePassword from './ChangePassword.vue';
 
 export default {
   components: {
     NotificationSettings,
+    ChangePassword,
   },
-  mixin: [alertMixin],
+  mixins: [alertMixin],
   data() {
     return {
       avatarFile: '',
@@ -128,9 +92,8 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      password: '',
-      passwordConfirmation: '',
-      isUpdating: false,
+      isProfileUpdating: false,
+      errorMessage: '',
     };
   },
   validations: {
@@ -142,18 +105,6 @@ export default {
     email: {
       required,
       email,
-    },
-    password: {
-      minLength: minLength(6),
-    },
-    passwordConfirmation: {
-      minLength: minLength(6),
-      isEqPassword(value) {
-        if (value !== this.password) {
-          return false;
-        }
-        return true;
-      },
     },
   },
   computed: {
@@ -187,24 +138,30 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
-      this.isUpdating = true;
+
+      this.isProfileUpdating = true;
       const hasEmailChanged = this.currentUser.email !== this.email;
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
           email: this.email,
           avatar: this.avatarFile,
-          password: this.password,
           displayName: this.displayName,
-          password_confirmation: this.passwordConfirmation,
         });
-        this.isUpdating = false;
+        this.isProfileUpdating = false;
         if (hasEmailChanged) {
           clearCookiesOnLogout();
-          this.showAlert(this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED'));
+          this.errorMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
         }
+        this.errorMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
       } catch (error) {
-        this.isUpdating = false;
+        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        if (error?.response?.data?.error) {
+          this.errorMessage = error.response.data.error;
+        }
+      } finally {
+        this.isProfileUpdating = false;
+        this.showAlert(this.errorMessage);
       }
     },
     handleImageUpload({ file, url }) {

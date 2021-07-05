@@ -4,7 +4,7 @@
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link"
+      class="branding--link w-full justify-center"
     >
       <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
       <span>

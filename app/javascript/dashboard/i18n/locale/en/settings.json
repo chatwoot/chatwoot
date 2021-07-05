@@ -3,6 +3,8 @@
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
     "BTN_TEXT": "Update Profile",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profile Image",
@@ -16,11 +18,19 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "NONE": "None",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
@@ -59,16 +69,17 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
-        ]
+        "STATUSES_LIST": ["Online", "Busy", "Offline"]
       },
       "EMAIL": {
         "LABEL": "Your email address",
         "ERROR": "Please enter a valid email address",
         "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -125,8 +136,11 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",
@@ -143,6 +157,5 @@
       },
       "SUBMIT": "Submit"
     }
-
   }
 }

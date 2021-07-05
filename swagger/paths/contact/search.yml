@@ -2,12 +2,14 @@ get:
   tags:
     - Contact
   operationId: contactSearch
-  description: Search the contacts using a search key, currently supports email search
+  description: Search the contacts using a search key, currently supports email search (Page size = 15)
   summary: Search Contacts
   parameters:
     - name: q
       in: query
       type: string
+    - $ref: '#/parameters/contact_sort_param'
+    - $ref: '#/parameters/page'
   responses:
     200:
       description: Success

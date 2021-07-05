@@ -44,5 +44,15 @@ describe ::ContactIdentifyAction do
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
+      it 'updates the attributes of contact passed in to identify action' do
+        create(:contact, account: account, identifier: '')
+        params = { identifier: '', name: 'new name' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).to eq contact.id
+        expect(result.name).to eq 'new name'
+      end
+    end
   end
 end

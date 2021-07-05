@@ -12,26 +12,25 @@
     "INITIATED_FROM": "Zahájeno od",
     "INITIATED_AT": "Zahájeno v",
     "IP_ADDRESS": "IP adresa",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nejsou přiřazeny žádné předchozí konverzace.",
       "TITLE": "Předchozí konverzace"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Vlastní atributy"
-    },
     "LABELS": {
-      "TITLE": "Štítky konverzace",
-      "MODAL": {
-        "TITLE": "Štítky pro",
-        "ACTIVE_LABELS": "Štítky přidány do konverzace",
-        "INACTIVE_LABELS": "Štítky dostupné v účtu",
-        "REMOVE": "Kliknutím na ikonu X odstraníte štítek",
-        "ADD": "Kliknutím na ikonu + přidáte štítek",
-        "UPDATE_BUTTON": "Aktualizovat štítky",
-        "UPDATE_ERROR": "Nelze aktualizovat štítky, zkuste to znovu."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "V účtu nejsou definovány žádné další štítky.",
-      "NO_AVAILABLE_LABELS": "Do této konverzace nebyly přidány žádné štítky."
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Ztlumit konverzaci",
     "UNMUTE_CONTACT": "Zrušit ztlumení konverzace",
@@ -43,7 +42,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Upravit kontakt",
     "TITLE": "Upravit kontakt",
-    "DESC": "Upravit kontaktní údaje",
+    "DESC": "Upravit kontaktní údaje"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nový kontakt",
+    "TITLE": "Vytvořit nový kontakt",
+    "DESC": "Přidat základní informace o kontaktu."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Odeslat",
       "CANCEL": "Zrušit",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
-        "LABEL": "Telefonní číslo"
+        "LABEL": "Telefonní číslo",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Zadejte lokaci kontaktu",
@@ -93,9 +101,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakt byl úspěšně aktualizován",
+    "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
     "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
-    "ERROR_MESSAGE": "Při aktualizaci kontaktu se vyskytla chyba, zkuste to prosím znovu"
+    "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Zpráva",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Zrušit",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
@@ -104,12 +136,73 @@
     "LIST": {
       "LOADING_MESSAGE": "Načítání kontaktů...",
       "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
-      "TABLE_HEADER": [
-        "Název",
-        "Telefonní číslo",
-        "Konverzace",
-        "Naposledy kontaktováno"
-      ]
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Název",
+        "PHONE_NUMBER": "Telefonní číslo",
+        "CONVERSATIONS": "Konverzace",
+        "LAST_ACTIVITY": "Poslední aktivita",
+        "COUNTRY": "Země",
+        "CITY": "Město",
+        "SOCIAL_PROFILES": "Sociální profily",
+        "COMPANY": "Společnost",
+        "EMAIL_ADDRESS": "E-mailová adresa"
+      },
+      "VIEW_DETAILS": "Zobrazit detaily"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "konverzace"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Vlastní atributy",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Zrušit",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

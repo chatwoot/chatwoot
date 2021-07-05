@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "இன்பாக்ஸ் பெயர்",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "கவனத்திற்கு: உள்நுழைவதன் மூலம், உங்கள் பக்கத்தின் செய்திகளை மட்டுமே நாங்கள் அணுகுவோம். உங்கள் தனிப்பட்ட செய்திகளை ஒருபோதும் சாட்வூட்டால் அணுக முடியாது.",
         "CHOOSE_PAGE": "பக்கத்தைத் தேர்வுசெய்க",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "மதிப்பைத் தேர்ந்தெடுங்கள்"
       },
       "TWITTER": {
-        "HELP": "உங்கள் ட்விட்டர் சுயவிவரத்தை ஒரு சேனலாக சேர்க்க, 'ட்விட்டருடன் உள்நுழைக' என்பதைக் கிளிக் செய்யாவும், இதன் மூலம் உங்கள் சுயவிவரத்தை ட்விட்டர் வாயிலாக அங்கீகரிக்கிறீர்கள் "
+        "HELP": "உங்கள் ட்விட்டர் சுயவிவரத்தை ஒரு சேனலாக சேர்க்க, 'ட்விட்டருடன் உள்நுழைக' என்பதைக் கிளிக் செய்யாவும், இதன் மூலம் உங்கள் சுயவிவரத்தை ட்விட்டர் வாயிலாக அங்கீகரிக்கிறீர்கள் ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "வலைத்தள சேனல்",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "வலைத்தள சேவை சேனலை உருவாக்குதல்",
         "CHANNEL_AVATAR": {
           "LABEL": "சேனல் அவதார்"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "வலைத்தளத்தின் பெயர்",
-          "PLACEHOLDER": "உங்கள் இணையதள பெயரை உள்ளிடவும் (eg: உதாரணமாக Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "இணையதள களம்",
@@ -193,6 +198,7 @@
       "TITLE": "உங்கள் இன்பாக்ஸ் தயாராக உள்ளது!",
       "MESSAGE": "உங்கள் புதிய சேனல் மூலம் இப்போது உங்கள் வாடிக்கையாளர்களுடன் ஈடுபடலாம். மகிழ்ச்சியாய் ஆதரவு அளியுங்கள் ",
       "BUTTON_TEXT": "என்னை அங்கே அழைத்துச் செல்லுங்கள்",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்."
     },
     "REAUTH": "மறு அங்கீகாரம்",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
         "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "ஆம், நீக்கு ",
         "NO": "இல்லை, வைத்திரு "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "அமைப்புகள்",
       "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "அமைப்புகள்",
     "FEATURES": {
@@ -238,6 +252,8 @@
       "INBOX_AGENTS": "ஏஜென்ட்கள்",
       "INBOX_AGENTS_SUB_TEXT": "இந்த இன்பாக்ஸிலிருந்து ஏஜென்ட்களைச் சேர்க்கவும் அல்லது அகற்றவும்",
       "UPDATE": "புதுப்பிப்பு",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "தானாக ஒதுக்கீட்டை இயக்கு",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
@@ -250,6 +266,41 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      }
     }
   }
 }

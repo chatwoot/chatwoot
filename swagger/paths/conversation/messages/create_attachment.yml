@@ -1,0 +1,47 @@
+post:
+  tags:
+    - Messages
+  operationId: conversationNewMessageAttachment
+  summary: Create New Message Attachment
+  description: Create an attachment Message
+  consumes:
+    - multipart/form-data
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+      required: true
+    - in: formData
+      name: content
+      type: string
+      description: The content of the message
+      required: true
+    - in: formData
+      name: message_type
+      type: string
+      enum: ['outgoing', 'incoming']
+    - in: formData
+      name: private
+      type: boolean
+      description: Flag to identify if it is a private note
+    - in: formData
+      name: attachments
+      type: array
+      description: The files to be uploaded.
+      items:
+        type: file
+
+
+  responses:
+    200:
+      description: Success
+      schema:
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
+    404:
+      description: Conversation not found
+    403:
+      description: Access denied

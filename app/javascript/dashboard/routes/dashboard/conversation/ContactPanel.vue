@@ -4,10 +4,74 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
+    <div class="conversation--actions">
+      <div class="multiselect-wrap--small">
+        <contact-details-item
+          :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+          icon="ion-headphone"
+          emoji="🧑‍🚀"
+        >
+          <template v-slot:button>
+            <woot-button
+              v-if="showSelfAssign"
+              icon="ion-arrow-right-c"
+              variant="link"
+              size="small"
+              class-names="button-content"
+              @click="onSelfAssign"
+            >
+              {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+            </woot-button>
+          </template>
+        </contact-details-item>
+        <multiselect
+          v-model="assignedAgent"
+          :options="agentsList"
+          label="name"
+          track-by="id"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
+          :allow-empty="true"
+        >
+          <template slot="option" slot-scope="props">
+            <div class="option__desc">
+              <availability-status-badge
+                :status="props.option.availability_status"
+              />
+              <span class="option__title">{{ props.option.name }}</span>
+            </div>
+          </template>
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
+      </div>
+      <div class="multiselect-wrap--small">
+        <contact-details-item
+          :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+          icon="ion-ios-people"
+          emoji="🎢"
+        />
+        <multiselect
+          v-model="assignedTeam"
+          :options="teamsList"
+          label="name"
+          track-by="id"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
+          :allow-empty="true"
+        >
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
+      </div>
+    </div>
+    <conversation-labels :conversation-id="conversationId" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
-        :title="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
+        :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
         :value="location"
         icon="ion-map"
         emoji="📍"
@@ -56,7 +120,6 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
-    <conversation-labels :conversation-id="conversationId" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
@@ -67,12 +130,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
+
 import flag from 'country-code-emoji';
 
 export default {
@@ -82,11 +148,17 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
+    AvailabilityStatusBadge,
   },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
+    },
+    inboxId: {
+      type: Number,
+      default: undefined,
     },
     onToggle: {
       type: Function,
@@ -96,6 +168,10 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
@@ -141,7 +217,7 @@ export default {
         return '';
       }
       const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${countryFlag} ${cityAndCountry}`;
+      return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
       const {
@@ -158,6 +234,55 @@ export default {
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+    agentsList() {
+      return [{ id: 0, name: 'None' }, ...this.getAgents(this.inboxId)];
+    },
+    teamsList() {
+      return [{ id: 0, name: 'None' }, ...this.teams];
+    },
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    assignedTeam: {
+      get() {
+        return this.currentChat.meta.team;
+      },
+      set(team) {
+        const teamId = team ? team.id : 0;
+        this.$store.dispatch('setCurrentChatTeam', team);
+        this.$store
+          .dispatch('assignTeam', {
+            conversationId: this.currentChat.id,
+            teamId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+          });
+      },
+    },
+    showSelfAssign() {
+      if (!this.assignedAgent) {
+        return true;
+      }
+      if (this.assignedAgent.id !== this.currentUser.id) {
+        return true;
+      }
+      return false;
     },
   },
   watch: {
@@ -185,26 +310,65 @@ export default {
     openTranscriptModal() {
       this.showTranscriptModal = true;
     },
+    onSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      };
+      this.assignedAgent = selfAssign;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
 
 .contact--panel {
-  @include border-normal-left;
-
   background: white;
+  border-left: 1px solid var(--color-border);
   font-size: $font-size-small;
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-one;
 
   i {
     margin-right: $space-smaller;
+  }
+}
+
+::v-deep {
+  .contact--profile {
+    padding-bottom: var(--space-slab);
+    margin-bottom: var(--space-normal);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .multiselect-wrap--small {
+    .multiselect {
+      padding-left: var(--space-medium);
+      box-sizing: border-box;
+    }
+    .multiselect__element {
+      span {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -214,10 +378,6 @@ export default {
   top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
-}
-
-.conversation--details {
-  padding: 0 var(--space-slab);
 }
 
 .conversation--labels {
@@ -245,5 +405,20 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.conversation--actions {
+  margin-bottom: var(--space-normal);
+}
+
+.option__desc {
+  display: flex;
+  align-items: center;
+
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+  }
 }
 </style>

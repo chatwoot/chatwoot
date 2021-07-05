@@ -7,7 +7,7 @@
     <div class="row channels">
       <channel-item
         v-for="channel in channelList"
-        :key="channel"
+        :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
         @channel-item-click="initChannelAuth"
@@ -29,16 +29,6 @@ export default {
   },
   data() {
     return {
-      channelList: [
-        { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Facebook' },
-        { key: 'twitter', name: 'Twitter' },
-        { key: 'twilio', name: 'Twilio' },
-        { key: 'email', name: 'Email' },
-        { key: 'api', name: 'API' },
-        { key: 'telegram', name: 'Telegram' },
-        { key: 'line', name: 'Line' },
-      ],
       enabledFeatures: {},
     };
   },
@@ -46,8 +36,26 @@ export default {
     account() {
       return this.$store.getters['accounts/getAccount'](this.accountId);
     },
+    channelList() {
+      const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
+      return [
+        { key: 'website', name: 'Website' },
+        { key: 'facebook', name: 'Facebook' },
+        { key: 'twitter', name: 'Twitter' },
+        { key: 'twilio', name: 'Twilio' },
+        { key: 'email', name: 'Email' },
+        {
+          key: 'api',
+          name: apiChannelName || 'API',
+          thumbnail: apiChannelThumbnail,
+        },
+        { key: 'telegram', name: 'Telegram' },
+        { key: 'line', name: 'Line' },
+      ];
+    },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
   },
   mounted() {

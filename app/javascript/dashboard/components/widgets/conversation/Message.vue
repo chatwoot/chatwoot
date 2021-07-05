@@ -43,6 +43,16 @@
           :source-id="data.source_id"
         />
       </div>
+      <context-menu
+        v-if="isBubble"
+        :is-open="showContextMenu"
+        :show-copy="hasText"
+        :menu-position="contextMenuPosition"
+        @toggle="handleContextMenuClick"
+        @delete="handleDelete"
+        @copy="handleCopy"
+      />
+
       <spinner v-if="isPending" size="tiny" />
 
       <a
@@ -65,26 +75,34 @@
   </li>
 </template>
 <script>
+import copy from 'copy-text-to-clipboard';
+
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import Spinner from 'shared/components/Spinner';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 
+import { isEmptyObject } from 'dashboard/helper/commons';
+import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+import { stripStyleCharacters } from './helpers/EmailContentParser';
+
 export default {
   components: {
     BubbleActions,
     BubbleText,
     BubbleImage,
     BubbleFile,
+    ContextMenu,
     Spinner,
   },
-  mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
@@ -97,7 +115,7 @@ export default {
   },
   data() {
     return {
-      isHovered: false,
+      showContextMenu: false,
     };
   },
   computed: {
@@ -105,13 +123,31 @@ export default {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
-        this.$t('CONVERSATION.NO_RESPONSE')
+        {
+          noResponseText: this.$t('CONVERSATION.NO_RESPONSE'),
+          csat: {
+            ratingTitle: this.$t('CONVERSATION.RATING_TITLE'),
+            feedbackTitle: this.$t('CONVERSATION.FEEDBACK_TITLE'),
+          },
+        }
       );
-      let messageContent =
-        this.formatMessage(this.data.content, this.isATweet) +
-        botMessageContent;
 
-      return messageContent;
+      const {
+        email: {
+          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
+        } = {},
+      } = this.contentAttributes;
+
+      if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
+        let contentToBeParsed = replyHTMLContent || fullHTMLContent || '';
+        const parsedContent = stripStyleCharacters(contentToBeParsed);
+        if (parsedContent) {
+          return parsedContent;
+        }
+      }
+      return (
+        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+      );
     },
     contentAttributes() {
       return this.data.content_attributes || {};
@@ -131,10 +167,20 @@ export default {
       return `https://twitter.com/${screenName}`;
     },
     alignBubble() {
-      return !this.data.message_type ? 'left' : 'right';
+      const { message_type: messageType } = this.data;
+      const isCentered = messageType === MESSAGE_TYPE.ACTIVITY;
+      return {
+        center: isCentered,
+        left: !messageType,
+        right: !!messageType,
+        'has-context-menu': this.showContextMenu,
+      };
     },
     readableTime() {
-      return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
+      return this.messageStamp(
+        this.contentAttributes.external_created_at || this.data.created_at,
+        'LLL d, h:mm a'
+      );
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
@@ -158,8 +204,7 @@ export default {
     },
     sentByMessage() {
       const { sender } = this;
-
-      return this.data.message_type === 1 && !this.isHovered && sender
+      return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
@@ -179,10 +224,42 @@ export default {
         'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
         'is-text': this.hasText,
+        'is-from-bot': this.isSentByBot,
       };
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
+    },
+    isSentByBot() {
+      if (this.isPending) return false;
+      return !this.sender.type || this.sender.type === 'agent_bot';
+    },
+    contextMenuPosition() {
+      const { message_type: messageType } = this.data;
+      return messageType ? 'right' : 'left';
+    },
+  },
+  methods: {
+    handleContextMenuClick() {
+      this.showContextMenu = !this.showContextMenu;
+    },
+    async handleDelete() {
+      const { conversation_id: conversationId, id: messageId } = this.data;
+      try {
+        await this.$store.dispatch('deleteMessage', {
+          conversationId,
+          messageId,
+        });
+        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+        this.showContextMenu = false;
+      } catch (error) {
+        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+      }
+    },
+    handleCopy() {
+      copy(this.data.content);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.showContextMenu = false;
     },
   },
 };
@@ -208,8 +285,36 @@ export default {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
+
+    &.is-private .file.message-text__wrap {
+      .ion-document-text {
+        color: var(--w-400);
+      }
+      .text-block-title {
+        color: #3c4858;
+      }
+      .download.button {
+        color: var(--w-400);
+      }
+    }
+
     &.is-private.is-text > .message-text__wrap .link {
       color: var(--w-700);
+    }
+    &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
+      font-weight: var(--font-weight-black);
+      background: none;
+      border-radius: var(--border-radius-small);
+      padding: 0;
+      color: var(--color-body);
+      text-decoration: underline;
+    }
+
+    &.is-from-bot {
+      background: var(--v-400);
+      .message-text--metadata .time {
+        color: var(--v-50);
+      }
     }
   }
 
@@ -239,5 +344,36 @@ export default {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
+}
+
+.button--delete-message {
+  visibility: hidden;
+}
+
+.wrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+li.right .wrap {
+  flex-direction: row-reverse;
+}
+
+li.left,
+li.right {
+  &:hover .button--delete-message {
+    visibility: visible;
+  }
+}
+
+.has-context-menu {
+  background: var(--color-background);
+  .button--delete-message {
+    visibility: visible;
+  }
+}
+
+.context-menu {
+  position: relative;
 }
 </style>

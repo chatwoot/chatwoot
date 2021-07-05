@@ -51,25 +51,6 @@
   }
 }
 
-
-input,
-textarea,
-select {
-  border-radius: var(--space-smaller) !important;
-}
-
-.input-group {
-  .input-group-label:first-child {
-    border-bottom-left-radius: var(--space-smaller);
-    border-top-left-radius: var(--space-smaller);
-  }
-
-  .input-group-field {
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;
-  }
-}
-
 .justify-space-between {
   justify-content: space-between;
 }

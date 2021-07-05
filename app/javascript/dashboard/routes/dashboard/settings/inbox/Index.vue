@@ -2,7 +2,7 @@
   <div class="column content-box">
     <!-- List Canned Response -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <p v-if="!inboxesList.length" class="no-items-error-message">
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
@@ -49,7 +49,7 @@
                   Email
                 </span>
                 <span v-if="item.channel_type === 'Channel::Api'">
-                  Api
+                  {{ globalConfig.apiChannelName || 'API' }}
                 </span>
               </td>
 
@@ -59,22 +59,28 @@
                   <router-link
                     :to="addAccountScoping(`settings/inboxes/${item.id}`)"
                   >
-                    <woot-submit-button
+                    <woot-button
                       v-if="isAdmin"
-                      :button-text="$t('INBOX_MGMT.SETTINGS')"
-                      icon-class="ion-gear-b"
-                      button-class="link hollow grey-btn"
-                    />
+                      icon="ion-gear-b"
+                      variant="link"
+                      color-scheme="secondary"
+                      class-names="grey-btn"
+                    >
+                      {{ $t('INBOX_MGMT.SETTINGS') }}
+                    </woot-button>
                   </router-link>
 
-                  <woot-submit-button
+                  <woot-button
                     v-if="isAdmin"
-                    :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                    :loading="loading[item.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
+                    variant="link"
+                    color-scheme="secondary"
+                    class-names="grey-btn"
+                    :is-loading="loading[item.id]"
+                    icon="ion-close-circled"
                     @click="openDelete(item)"
-                  />
+                  >
+                    {{ $t('INBOX_MGMT.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>
@@ -100,14 +106,16 @@
       :inbox="selectedInbox"
     />
 
-    <woot-delete-modal
+    <woot-confirm-delete-modal
       :show.sync="showDeletePopup"
-      :on-close="closeDelete"
-      :on-confirm="confirmDeletion"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="confirmDeleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
+      :confirm-value="selectedInbox.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>
@@ -147,10 +155,15 @@ export default {
         this.selectedInbox.name
       }`;
     },
-    deleteMessage() {
+    confirmDeleteMessage() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
       } ?`;
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+        inboxName: this.selectedInbox.name,
+      })}`;
     },
   },
   methods: {

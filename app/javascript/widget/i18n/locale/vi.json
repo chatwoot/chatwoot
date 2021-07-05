@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "Chúng tôi đang ngoại tuyến"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
-    "CLOSE_MESSAGES_BUTTON": "Đóng"
+    "CLOSE_MESSAGES_BUTTON": "Đóng",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Trò chuyện với chúng tôi"
@@ -29,5 +31,35 @@
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
   "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
   "TODAY": "Hôm nay",
-  "YESTERDAY": "Hôm qua"
+  "YESTERDAY": "Hôm qua",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Tên đầy đủ",
+        "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  }
 }

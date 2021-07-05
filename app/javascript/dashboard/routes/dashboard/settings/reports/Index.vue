@@ -1,12 +1,13 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-download"
       @click="downloadAgentReports"
     >
-      <i class="icon ion-android-download"></i>
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
-    </button>
+    </woot-button>
     <div class="small-3 pull-right">
       <multiselect
         v-model="currentDateRangeSelection"
@@ -83,7 +84,14 @@ export default {
       return getUnixTime(startOfDay(new Date()));
     },
     from() {
-      const diff = this.currentDateRangeSelection.id ? 29 : 6;
+      const dateRange = {
+        0: 6,
+        1: 29,
+        2: 89,
+        3: 179,
+        4: 364,
+      };
+      const diff = dateRange[this.currentDateRangeSelection.id];
       const fromDate = subDays(new Date(), diff);
       return getUnixTime(startOfDay(fromDate));
     },

@@ -20,8 +20,6 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Team < ApplicationRecord
-  include RegexHelper
-
   belongs_to :account
   has_many :team_members, dependent: :destroy
   has_many :members, through: :team_members, source: :user
@@ -29,7 +27,6 @@ class Team < ApplicationRecord
 
   validates :name,
             presence: { message: 'must not be blank' },
-            format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
   before_validation do

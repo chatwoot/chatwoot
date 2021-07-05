@@ -6,6 +6,13 @@ RSpec.describe MailPresenter do
     let(:mail) { create_inbound_email_from_fixture('welcome.eml').mail }
     let(:decorated_mail) { described_class.new(mail) }
 
+    let(:mail_with_no_subject) { create_inbound_email_from_fixture('mail_with_no_subject.eml').mail }
+    let(:decorated_mail_with_no_subject) { described_class.new(mail_with_no_subject) }
+
+    it 'give default subject line if mail subject is empty' do
+      expect(decorated_mail_with_no_subject.subject).to eq('')
+    end
+
     it 'give utf8 encoded content' do
       expect(decorated_mail.subject).to eq("Discussion: Let's debate these attachments")
       expect(decorated_mail.text_content[:full]).to eq("Let's talk about these images:\r\n\r\n")

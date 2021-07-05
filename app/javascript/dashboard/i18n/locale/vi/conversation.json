@@ -11,7 +11,7 @@
       "TITLE": "Search messages",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
@@ -20,18 +20,26 @@
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "LAST_INCOMING_TWEET": "Bạn đang trả lời tweet đến cuối cùng",
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
+      "OPEN_ACTION": "Mở",
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
@@ -51,6 +59,8 @@
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
     "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
     "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi",
+    "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
@@ -73,6 +83,38 @@
         "PLACEHOLDER": "Nhập địa chỉ emai",
         "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

@@ -44,6 +44,9 @@ Metrics/BlockLength:
     - '**/routes.rb'
     - 'config/environments/*'
     - db/schema.rb
+Metrics/ModuleLength:
+  Exclude:
+    - lib/woot_message_seeder.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -51,6 +54,7 @@ Rails/ApplicationController:
     - 'app/controllers/widget_tests_controller.rb'
     - 'app/controllers/widgets_controller.rb'
     - 'app/controllers/platform_controller.rb'
+    - 'app/controllers/public_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
@@ -101,10 +105,12 @@ Rails/BulkChangeTable:
     - 'db/migrate/20170511134418_latlong.rb'
     - 'db/migrate/20191027054756_create_contact_inboxes.rb'
     - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
+    - 'db/migrate/20210425093724_convert_integration_hook_settings_field.rb'
 Rails/UniqueValidationWithoutIndex: 
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+    - 'app/models/contact.rb'
 Rails/RenderInline:
   Exclude:
     - 'app/controllers/swagger_controller.rb'

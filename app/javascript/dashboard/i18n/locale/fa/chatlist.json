@@ -80,6 +80,7 @@
     "RECEIVED_VIA_EMAIL": "از طریق ایمیل دریافت شد",
     "VIEW_TWEET_IN_TWITTER": "مشاهده توییت در توییتر",
     "REPLY_TO_TWEET": "پاسخ به این توییت",
-    "NO_MESSAGES": "هیچ پیامی وجود ندارد"
+    "NO_MESSAGES": "هیچ پیامی وجود ندارد",
+    "NO_CONTENT": "هیچ محتوایی موجود نیست"
   }
 }

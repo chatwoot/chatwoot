@@ -54,8 +54,10 @@
   opacity: 0;
 }
 
-.menu-slide-enter-active, .menu-slide-leave-active {
-  transition: all .15s $ease-in-cubic;
+.menu-slide-enter-active,
+.menu-slide-leave-active {
+  transform: translateY(0);
+  transition: transform 0.25s $ease-in-cubic, opacity 0.15s $ease-in-cubic;
 }
 
 .menu-slide-enter, .menu-slide-leave-to

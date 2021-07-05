@@ -26,3 +26,11 @@ export const IFrameHelper = {
   },
   getMessage: e => JSON.parse(e.data.replace(WOOT_PREFIX, '')),
 };
+export const RNHelper = {
+  isRNWebView: () => window.ReactNativeWebView,
+  sendMessage: msg => {
+    window.ReactNativeWebView.postMessage(
+      `chatwoot-widget:${JSON.stringify({ ...msg })}`
+    );
+  },
+};

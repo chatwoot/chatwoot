@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Utwórz nowy zespół",
+    "HEADER": "Zespoły",
+    "SIDEBAR_TXT": "<p><b>Zespoły</b></p> <p>pozwalają Ci zorganizować swoich agentów w grupy w oparciu o ich obowiązki. <br /> Użytkownik może być częścią wielu zespołów. Możesz przypisać rozmowy do zespołu, gdy pracujesz wspólnie. </p>",
+    "LIST": {
+      "404": "Na tym koncie nie ma żadnych zespołów.",
+      "EDIT_TEAM": "Edytuj zespół"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Utwórz nowy zespół",
+        "DESC": "Dodaj tytuł i opis do swojego nowego zespołu."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Dodaj agentów do zespołu",
+        "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+        "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie."
+      },
+      "WIZARD": [
+        {
+          "title": "Stwórz",
+          "route": "settings_teams_new",
+          "body": "Stwórz nowy zespół agentów."
+        },
+        {
+          "title": "Dodaj agentów",
+          "route": "settings_teams_add_agents",
+          "body": "Dodaj agentów do zespołu."
+        },
+        {
+          "title": "Zakończ",
+          "route": "settings_teams_finish",
+          "body": "Wszystko jest gotowe!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Edytuj dane swojego zespołu",
+        "DESC": "Edytuj tytuł i opis swojego zespołu.",
+        "BUTTON_TEXT": "Aktualizuj zespół"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Aktualizuj agentów w zespole",
+        "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+        "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Wszyscy dodani agenci zostaną powiadomieni, gdy rozmowa zostanie przypisana do tego zespołu."
+      },
+      "WIZARD": [
+        {
+          "title": "Szczegóły zespołu",
+          "route": "settings_teams_edit",
+          "body": "Zmień nazwę, opis i inne dane."
+        },
+        {
+          "title": "Edytuj agentów",
+          "route": "settings_teams_edit_members",
+          "body": "Edytuj agentów w zespole."
+        },
+        {
+          "title": "Zakończ",
+          "route": "settings_teams_edit_finish",
+          "body": "Wszystko jest gotowe!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "EMAIL",
+      "BUTTON_TEXT": "Dodaj agentów",
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "SELECT": "wybierz",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+    },
+    "ADD": {
+      "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+      "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie.",
+      "SELECT": "wybierz",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "BUTTON_TEXT": "Dodaj agentów",
+      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+    },
+    "FINISH": {
+      "TITLE": "Your team is ready!",
+      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "BUTTON_TEXT": "Zakończ"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "YES": "Usuń ",
+        "NO": "Anuluj"
+      }
+    },
+    "SETTINGS": "Ustawienia",
+    "FORM": {
+      "UPDATE": "Aktualizuj zespół",
+      "CREATE": "Utwórz zespół",
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "Utwórz zespół"
+    }
+  }
+}

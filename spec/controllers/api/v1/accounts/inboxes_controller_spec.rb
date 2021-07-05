@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Inboxes API', type: :request do
   let(:account) { create(:account) }
+  let(:agent) { create(:user, account: account, role: :agent) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes' do
     context 'when it is an unauthenticated user' do
@@ -15,11 +17,11 @@ RSpec.describe 'Inboxes API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox) { create(:inbox, account: account) }
 
       before do
         create(:inbox, account: account)
-        second_inbox = create(:inbox, account: account)
-        create(:inbox_member, user: agent, inbox: second_inbox)
+        create(:inbox_member, user: agent, inbox: inbox)
       end
 
       it 'returns all inboxes of current_account as administrator' do
@@ -38,6 +40,75 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignable_agents' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignable_agents"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+      end
+
+      it 'returns all assignable inbox members along with administrators' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignable_agents",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+        expect(response_data.size).to eq(2)
+        expect(response_data.pluck(:role)).to include('agent', 'administrator')
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/campaigns' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox) }
+
+      it 'returns unauthorized for agents' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns all campaigns belonging to the inbox to administrators' do
+        # create a random campaign
+        create(:campaign, account: account)
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body.first[:id]).to eq(campaign.display_id)
+        expect(body.length).to eq(1)
       end
     end
   end
@@ -141,7 +212,18 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:valid_params) { {  enable_auto_assignment: false, channel: { website_url: 'test.com' } } }
 
-      it 'updates inbox' do
+      it 'will not update inbox for agent' do
+        agent = create(:user, account: account, role: :agent)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: agent.create_new_auth_token,
+              params: valid_params,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates inbox when administrator' do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
               headers: admin.create_new_auth_token,
               params: valid_params,
@@ -151,7 +233,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.reload.enable_auto_assignment).to be_falsey
       end
 
-      it 'updates avatar' do
+      it 'updates avatar when administrator' do
         # no avatar before upload
         expect(inbox.avatar.attached?).to eq(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
@@ -165,15 +247,59 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.avatar.attached?).to eq(true)
       end
 
-      it 'will not update inbox for agent' do
-        agent = create(:user, account: account, role: :agent)
-
+      it 'updates working hours when administrator' do
+        params = {
+          working_hours: [{ 'day_of_week' => 0, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0 }],
+          working_hours_enabled: true,
+          out_of_office_message: 'hello'
+        }
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-              headers: agent.create_new_auth_token,
-              params: valid_params,
-              as: :json
+              params: valid_params.merge(params),
+              headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        inbox.reload
+        expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/agent_bot' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    before do
+      create(:inbox_member, user: agent, inbox: inbox)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/agent_bot"
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns empty when no agent bot is present' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/agent_bot",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        inbox_data = JSON.parse(response.body, symbolize_names: true)
+        expect(inbox_data[:agent_bot].blank?).to eq(true)
+      end
+
+      it 'returns the agent bot attached to the inbox' do
+        agent_bot = create(:agent_bot)
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: inbox)
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/agent_bot",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        inbox_data = JSON.parse(response.body, symbolize_names: true)
+        expect(inbox_data[:agent_bot][:name]).to eq agent_bot.name
       end
     end
   end

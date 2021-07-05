@@ -28,41 +28,58 @@ es:
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       failed: Registro fallido
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Reportando el periodo desde %{since} hasta %{until}
+    agent_csv:
+      agent_name: Nombre del agente
+      conversations_count: Cantidad de conversaciones
+      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
+      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
+      conversation_assignment: "[Asignado a usted] - #%{display_id} le ha sido asignado a usted"
+      assigned_conversation_new_message: "[Nuevo mensaje] - #%{display_id} %{content}"
+      conversation_mention: "Ha sido mencionado en la conversación [ID - %{display_id}] por %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Este mensaje se ha eliminado
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
         open: "La conversación fue reabierta por %{user_name}"
+        bot: "La conversación fue transferida al botón por %{user_name}"
         auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
       assignee:
         self_assigned: "%{user_name} auto-asignado a esta conversación"
         assigned: "Asignado a %{assignee_name} por %{user_name}"
         removed: "Conversación no asignada por %{user_name}"
+      team:
+        assigned: "Asignado a %{team_name} por %{user_name}"
+        assigned_with_assignee: "Asignado a %{assignee_name} via %{team_name} por %{user_name}"
+        removed: "Desasignado de %{team_name} por %{user_name}"
       labels:
         added: "%{user_name} agregó %{labels}"
         removed: "%{user_name} eliminó a %{labels}"
       muted: "%{user_name} ha silenciado la conversación"
-      unmuted: "%{user_name} ha dessilenciado la conversación"
+      unmuted: "%{user_name} ha anulado el silenciado de la conversación"
     templates:
       greeting_message_body: "%{account_name} normalmente responde en unas pocas horas."
       ways_to_reach_you_message_body: "Dale al equipo una forma de llegar a ti."
       email_input_box_message_body: "Recibir notificaciones por correo electrónico"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nuevos mensajes en esta conversación"
       transcript_subject: "Transcripción de la conversación"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhook"
+      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente."
+    fullcontact:
+      name: "Nombre completo"
+      description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."

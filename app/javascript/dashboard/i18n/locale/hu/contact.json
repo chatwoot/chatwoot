@@ -1,115 +1,208 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Nem elérhető",
     "EMAIL_ADDRESS": "Email cím",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
+    "PHONE_NUMBER": "Telefonszám",
+    "COPY_SUCCESSFUL": "Vágólapra másolva",
+    "COMPANY": "Cég",
+    "LOCATION": "Hely",
+    "CONVERSATION_TITLE": "Beszélgetés részletei",
+    "BROWSER": "Böngésző",
+    "OS": "Operációs rendszer",
+    "INITIATED_FROM": "Kezdeményezve",
+    "INITIATED_AT": "Kezdeményezve",
+    "IP_ADDRESS": "IP cím",
+    "NEW_MESSAGE": "Új üzenet",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
-    },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
+      "TITLE": "Korábbi beszélgetések"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
-      "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "CONVERSATION": {
+        "TITLE": "Beszélgetés cimkék",
+        "ADD_BUTTON": "Címkék hozzáadása"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Címkék hozzáadása",
+        "PLACEHOLDER": "Címkék keresése",
+        "NO_RESULT": "Nem találtunk címkét"
+      }
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "Beszélgetés elnémítása",
+    "UNMUTE_CONTACT": "Beszélgetés elnémításának feloldása",
+    "MUTED_SUCCESS": "A beszélgetés 6 órára elnémítva",
+    "UNMUTED_SUCCESS": "A beszélgetés elnémítása megszűntetve",
+    "SEND_TRANSCRIPT": "Jegyzetek elküldése",
+    "EDIT_LABEL": "Szerkesztés"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Jegyzetek szerkesztése",
+    "TITLE": "Kontakt szerkesztése",
+    "DESC": "Kontakt részletek szerkesztése"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Új kontakt",
+    "TITLE": "Új kontakt létrehozása",
+    "DESC": "Alapvető információ a kontaktról."
+  },
+  "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "Elküldés",
+      "CANCEL": "Mégse",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Kontakt avatarja"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "A kontakt teljes nevének megadása",
+        "LABEL": "Teljes név"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "A kontakt önéletrajzának megadása",
+        "LABEL": "Önéletrajz"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "A kontakt e-mailjének megadása",
         "LABEL": "Email cím"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "A kontakt telefonszámának megadása",
+        "LABEL": "Telefonszám",
+        "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
+        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "A kontakt helyének megadása",
+        "LABEL": "Hely"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Cégnév megadása",
+        "LABEL": "Cégnév"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Facebook felhasználó megadása",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitter felhasználó megadása",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Linkedin usernév hozzáadása",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Github felhasználó megadása",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
+    "CONTACT_ALREADY_EXIST": "Az e-mailcím már egy másik kontakthoz tartozik.",
+    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Beszélgetés megkezdése",
+    "TITLE": "Új beszélgetés",
+    "DESC": "Kezdjen új beszélgetést egy új üzenet küldésével.",
+    "NO_INBOX": "Nem találtam postafiókot, hogy új beszélgetést kezdeményezzek ezzel a kapcsolattal.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Üzenet",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Mégse",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kontaktok",
+    "SEARCH_BUTTON": "Keresés",
+    "SEARCH_INPUT_PLACEHOLDER": "Kontaktok keresése",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "Név",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
-      ]
+      "LOADING_MESSAGE": "Kontaktok betöltése...",
+      "404": "Nincs a keresésnek megfelelő kontakt 🔍",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "PHONE_NUMBER": "Telefonszám",
+        "CONVERSATIONS": "Beszélgetések",
+        "LAST_ACTIVITY": "Utolsó aktivitás",
+        "COUNTRY": "Ország",
+        "CITY": "Város",
+        "SOCIAL_PROFILES": "Social media profilok",
+        "COMPANY": "Cég",
+        "EMAIL_ADDRESS": "Email cím"
+      },
+      "VIEW_DETAILS": "Részletek megtekintése"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "beszélgetések"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Egyedi atribútumok",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Mégse",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

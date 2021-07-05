@@ -5,6 +5,7 @@ import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
   getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
+  getIsCreating: _state => _state.uiFlags.isCreating,
   getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
@@ -26,6 +27,9 @@ export const getters = {
     }));
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
+  getMessageCount: _state => {
+    return Object.values(_state.conversations).length;
+  },
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
     const count = Object.values(_state.conversations).filter(chat => {

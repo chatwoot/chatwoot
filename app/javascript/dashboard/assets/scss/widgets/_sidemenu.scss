@@ -49,10 +49,8 @@
       margin-top: $space-micro;
 
       .inbox-icon {
-        $icon-top-space: -1px;
         display: inline-block;
         margin-right: $space-micro;
-        margin-top: $icon-top-space;
         min-width: $space-normal;
         text-align: center;
       }
@@ -69,22 +67,15 @@
   flex-direction: column;
   position: relative;
 
+  &:hover {
+    background: var(--color-background-light);
+  }
+
   .dropdown-pane {
-    @include elegant-card;
-    @include border-light;
     bottom: 6rem;
     display: block;
-    left: 5rem;
     visibility: visible;
-    width: 80%;
-    z-index: 999;
-
-    &::before {
-      @include arrow(bottom, $color-white, $space-slab);
-      bottom: -$space-slab;
-      position: absolute;
-      right: $space-slab;
-    }
+    width: fit-content;
   }
 
   .active {

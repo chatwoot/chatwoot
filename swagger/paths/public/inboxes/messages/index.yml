@@ -1,0 +1,15 @@
+tags:
+  - Messages API
+operationId: list-all-converation-messages
+summary: List all messages
+description: List all messages in the conversation
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of messages'
+      items:
+        $ref: '#/definitions/public_message'
+  401:
+    description: Unauthorized

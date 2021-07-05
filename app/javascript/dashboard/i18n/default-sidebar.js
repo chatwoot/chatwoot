@@ -66,6 +66,29 @@ export const getSidebarItems = accountId => ({
       },
     },
   },
+  contacts: {
+    routes: [
+      'contacts_dashboard',
+      'contacts_dashboard_manage',
+      'contacts_labels_dashboard',
+    ],
+    menuItems: {
+      back: {
+        icon: 'ion-ios-arrow-back',
+        label: 'HOME',
+        hasSubMenu: false,
+        toStateName: 'home',
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
+      },
+      contacts: {
+        icon: 'ion-person',
+        label: 'ALL_CONTACTS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/contacts`),
+        toStateName: 'contacts_dashboard',
+      },
+    },
+  },
   settings: {
     routes: [
       'agent_list',
@@ -81,8 +104,18 @@ export const getSidebarItems = accountId => ({
       'settings_integrations',
       'settings_integrations_webhook',
       'settings_integrations_integration',
+      'settings_applications',
+      'settings_applications_webhook',
+      'settings_applications_integration',
       'general_settings',
       'general_settings_index',
+      'settings_teams_list',
+      'settings_teams_new',
+      'settings_teams_add_agents',
+      'settings_teams_finish',
+      'settings_teams_edit',
+      'settings_teams_edit_members',
+      'settings_teams_edit_finish',
     ],
     menuItems: {
       back: {
@@ -98,6 +131,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
         toStateName: 'agent_list',
+      },
+      teams: {
+        icon: 'ion-ios-people',
+        label: 'TEAMS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
+        toStateName: 'settings_teams_list',
       },
       inboxes: {
         icon: 'ion-archive',
@@ -128,6 +168,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
+      },
+      settings_applications: {
+        icon: 'ion-asterisk',
+        label: 'APPLICATIONS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/applications`),
+        toStateName: 'settings_applications',
       },
       general_settings_index: {
         icon: 'ion-gear-a',

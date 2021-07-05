@@ -29,6 +29,11 @@
       failed: Registrering mislyktes
   reports:
     period: Rapporteringsperiode %{since} til %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,11 +47,16 @@
       status:
         resolved: "Samtale ble løst av %{user_name}"
         open: "Samtalen ble gjenåpnet av %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
       assignee:
         self_assigned: "%{user_name} tilordnet seg denne samtalen"
         assigned: "Tildelt til %{assignee_name} av %{user_name}"
         removed: "%{user_name} fjernet tildelingen til samtalen"
+      team:
+        assigned: "Tildelt til %{team_name} av %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} la til %{labels}"
         removed: "%{user_name} fjernet %{labels}"
@@ -56,6 +66,7 @@
       greeting_message_body: "%{account_name} svarer vanligvis innen et par timer."
       ways_to_reach_you_message_body: "Gi oss en måte å ta kontakt med deg på."
       email_input_box_message_body: "Få beskjed via e-post"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nye meldinger i denne samtalen"
       transcript_subject: "Kopi av samtale"
@@ -66,3 +77,9 @@
     webhooks:
       name: "Webhooks"
       description: "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer med kontoen din. Du kan bruke webhooks for å sende hendelsene til favorittappene dine, som Slack eller Github. Klikk på Konfigurer for å sette opp webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

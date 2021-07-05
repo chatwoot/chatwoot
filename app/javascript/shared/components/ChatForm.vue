@@ -1,11 +1,32 @@
 <template>
   <div class="form chat-bubble agent">
     <form @submit.prevent="onSubmit">
-      <div v-for="item in items" :key="item.key" class="form-block">
+      <div
+        v-for="item in items"
+        :key="item.key"
+        class="form-block"
+        :class="{
+          'has-submitted': hasSubmitted,
+        }"
+      >
         <label>{{ item.label }}</label>
         <input
-          v-if="item.type === 'email' || item.type === 'text'"
+          v-if="item.type === 'email'"
           v-model="formValues[item.name]"
+          :type="item.type"
+          :pattern="item.regex"
+          :title="item.title"
+          :required="item.required && 'required'"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <input
+          v-else-if="item.type === 'text'"
+          v-model="formValues[item.name]"
+          :required="item.required && 'required'"
+          :pattern="item.pattern"
+          :title="item.title"
           :type="item.type"
           :name="item.name"
           :placeholder="item.placeholder"
@@ -14,6 +35,8 @@
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
+          :required="item.required && 'required'"
+          :title="item.title"
           :name="item.name"
           :placeholder="item.placeholder"
           :disabled="!!submittedValues.length"
@@ -21,6 +44,7 @@
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
+          :required="item.required && 'required'"
         >
           <option
             v-for="option in item.options"
@@ -30,13 +54,16 @@
             {{ option.label }}
           </option>
         </select>
+        <span class="error-message">
+          {{ item.pattern_error || $t('CHAT_FORM.INVALID.FIELD') }}
+        </span>
       </div>
       <button
         v-if="!submittedValues.length"
         class="button block"
         type="submit"
-        :disabled="!isFormValid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
+        @click="onSubmitClick"
       >
         {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
       </button>
@@ -64,6 +91,7 @@ export default {
   data() {
     return {
       formValues: {},
+      hasSubmitted: false,
     };
   },
   computed: {
@@ -84,6 +112,9 @@ export default {
     }
   },
   methods: {
+    onSubmitClick() {
+      this.hasSubmitted = true;
+    },
     onSubmit() {
       if (!this.isFormValid) {
         return;
@@ -170,6 +201,30 @@ export default {
 
   .button {
     font-size: $font-size-default;
+  }
+
+  .error-message {
+    display: none;
+    margin-top: $space-smaller;
+    color: $color-error;
+  }
+
+  .has-submitted {
+    input:invalid {
+      border: 1px solid $color-error;
+    }
+
+    input:invalid + .error-message {
+      display: block;
+    }
+
+    textarea:invalid {
+      border: 1px solid $color-error;
+    }
+
+    textarea:invalid + .error-message {
+      display: block;
+    }
   }
 }
 </style>

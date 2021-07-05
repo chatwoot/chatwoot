@@ -1,12 +1,8 @@
-import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
 jest.mock('../../../../helpers/uuid');
-jest.mock('shared/helpers/AudioNotificationHelper', () => ({
-  playNotificationAudio: jest.fn(),
-}));
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
@@ -20,11 +16,47 @@ describe('#actions', () => {
 
     it('plays audio when agent sends a message', () => {
       actions.addMessage({ commit }, { id: 1, message_type: 1 });
-      expect(playNotificationAudio).toBeCalled();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: 1,
         message_type: 1,
       });
+    });
+  });
+
+  describe('#createConversation', () => {
+    it('sends correct mutations', async () => {
+      API.post.mockResolvedValue({
+        data: {
+          contact: { name: 'contact-name' },
+          messages: [{ id: 1, content: 'This is a test message' }],
+        },
+      });
+      let windowSpy = jest.spyOn(window, 'window', 'get');
+      windowSpy.mockImplementation(() => ({
+        WOOT_WIDGET: {
+          $root: {
+            $i18n: {
+              locale: 'el',
+            },
+          },
+        },
+        location: {
+          search: '?param=1',
+        },
+      }));
+      await actions.createConversation(
+        { commit },
+        { contact: {}, message: 'This is a test message' }
+      );
+      expect(commit.mock.calls).toEqual([
+        ['setConversationUIFlag', { isCreating: true }],
+        [
+          'pushMessageToConversation',
+          { id: 1, content: 'This is a test message' },
+        ],
+        ['setConversationUIFlag', { isCreating: false }],
+      ]);
+      windowSpy.mockRestore();
     });
   });
 

@@ -12,26 +12,25 @@
     "INITIATED_FROM": "Aloitettu lähteestä",
     "INITIATED_AT": "Aloitettu lähteestä",
     "IP_ADDRESS": "IP-osoite",
+    "NEW_MESSAGE": "Uusi viesti",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
       "TITLE": "Edelliset keskustelut"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Mukautetut attribuutit"
-    },
     "LABELS": {
-      "TITLE": "Keskustelutunnisteet",
-      "MODAL": {
-        "TITLE": "Tunnisteet kohteelle",
-        "ACTIVE_LABELS": "Keskusteluun lisätyt tunnisteet",
-        "INACTIVE_LABELS": "Tilissä saatavilla olevat tunnisteet",
-        "REMOVE": "Napsauta X-kuvaketta poistaaksesi tunnisteen",
-        "ADD": "Napsauta + kuvaketta lisätäksesi tunnisteen",
-        "UPDATE_BUTTON": "Päivitä tunnisteet",
-        "UPDATE_ERROR": "Tunnisteita ei voitu päivittää, yritä uudelleen."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Tällä tilillä ei ole enempää tunnisteita.",
-      "NO_AVAILABLE_LABELS": "Tälle keskustelulle ei ole lisätty tunnisteita."
+      "CONVERSATION": {
+        "TITLE": "Keskustelutunnisteet",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mykistä Keskustelu",
     "UNMUTE_CONTACT": "Poista keskustelun mykistys",
@@ -43,7 +42,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Muokkaa yhteystietoa",
     "TITLE": "Muokkaa yhteystietoa",
-    "DESC": "Muokkaa yhteystietoja",
+    "DESC": "Muokkaa yhteystietoja"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Uusi kontakti",
+    "TITLE": "Luo uusi kontakti",
+    "DESC": "Lisää kontaktin yhteystiedot."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Lähetä",
       "CANCEL": "Peruuta",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",
-        "LABEL": "Puhelinnumero"
+        "LABEL": "Puhelinnumero",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Anna yhteystiedon sijainti",
@@ -93,9 +101,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Yhteystiedon päivitys onnistui",
+    "SUCCESS_MESSAGE": "Kontakti tallennettu onnistuneesti",
     "CONTACT_ALREADY_EXIST": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
-    "ERROR_MESSAGE": "Yhteystiedon päivityksessä tapahtui virhe. Ole hyvä ja yritä uudelleen"
+    "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Aloita keskustelu",
+    "TITLE": "Uusi keskustelu",
+    "DESC": "Aloita uusi keskustelu lähettämällä uusi viesti.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Peruuta",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Yhteystiedot",
@@ -104,12 +136,73 @@
     "LIST": {
       "LOADING_MESSAGE": "Ladataan yhteystietoja...",
       "404": "Ei hakua vastaavia yhteystietoja 🔍",
-      "TABLE_HEADER": [
-        "Nimi",
-        "Puhelinnumero",
-        "Keskustelut",
-        "Viimeksi otettu yhteyttä"
-      ]
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Nimi",
+        "PHONE_NUMBER": "Puhelinnumero",
+        "CONVERSATIONS": "Keskustelut",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Yritys",
+        "EMAIL_ADDRESS": "Sähköpostiosoite"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "keskustelut"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Mukautetut attribuutit",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Peruuta",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

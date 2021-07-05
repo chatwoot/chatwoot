@@ -3,7 +3,7 @@
     "HEADER": "Informes",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -38,6 +38,18 @@
       {
         "id": 1,
         "name": "Últimos 30 días"
+      },
+      {
+        "id": 2,
+        "name": "Últimos 3 meses"
+      },
+      {
+        "id": 3,
+        "name": "Últimos 6 meses"
+      },
+      {
+        "id": 4,
+        "name": "Último año"
       }
     ]
   }

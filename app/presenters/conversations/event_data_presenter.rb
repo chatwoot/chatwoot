@@ -1,8 +1,4 @@
 class Conversations::EventDataPresenter < SimpleDelegator
-  def lock_data
-    { id: display_id, locked: locked? }
-  end
-
   def push_data
     {
       additional_attributes: additional_attributes,

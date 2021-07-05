@@ -1,0 +1,6 @@
+in: path
+name: id
+schema:
+  type: integer
+required: true
+description: The ID of the team to be updated

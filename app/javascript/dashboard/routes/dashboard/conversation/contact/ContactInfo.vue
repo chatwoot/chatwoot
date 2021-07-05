@@ -3,19 +3,18 @@
     <div class="contact--info">
       <thumbnail
         :src="contact.thumbnail"
-        size="64px"
-        :badge="channelType"
+        size="56px"
         :username="contact.name"
         :status="contact.availability_status"
       />
 
       <div class="contact--details">
-        <div class="contact--name">
+        <h3 class="sub-block-title contact--name">
           {{ contact.name }}
-        </div>
-        <div v-if="additionalAttributes.description" class="contact--bio">
+        </h3>
+        <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
-        </div>
+        </p>
         <social-icons :social-profiles="socialProfiles" />
         <div class="contact--metadata">
           <contact-info-row
@@ -50,17 +49,40 @@
         </div>
       </div>
       <woot-button
-        class="clear edit-contact"
-        variant="primary small"
+        v-if="!showNewMessage"
+        class="edit-contact"
+        variant="link"
+        size="small"
         @click="toggleEditModal"
       >
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
       </woot-button>
+      <div v-else class="contact-actions">
+        <woot-button
+          class="new-message"
+          size="small expanded"
+          @click="toggleConversationModal"
+        >
+          {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
+        </woot-button>
+        <woot-button
+          variant="smooth"
+          size="small expanded"
+          @click="toggleEditModal"
+        >
+          {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+        </woot-button>
+      </div>
       <edit-contact
         v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
+      />
+      <new-conversation
+        :show="showConversationModal"
+        :contact="contact"
+        @cancel="toggleConversationModal"
       />
     </div>
   </div>
@@ -70,6 +92,7 @@ import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
+import NewConversation from './NewConversation';
 
 export default {
   components: {
@@ -77,6 +100,7 @@ export default {
     EditContact,
     Thumbnail,
     SocialIcons,
+    NewConversation,
   },
   props: {
     contact: {
@@ -87,10 +111,15 @@ export default {
       type: String,
       default: '',
     },
+    showNewMessage: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       showEditModal: false,
+      showConversationModal: false,
     };
   },
   computed: {
@@ -110,6 +139,9 @@ export default {
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
+    toggleConversationModal() {
+      this.showConversationModal = !this.showConversationModal;
+    },
   },
 };
 </script>
@@ -119,7 +151,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 .contact--profile {
   align-items: flex-start;
-  padding: var(--space-normal) var(--space-normal) var(--space-large);
+  margin-bottom: var(--space-normal);
 
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -129,44 +161,35 @@ export default {
 .contact--details {
   margin-top: $space-small;
   width: 100%;
-
-  p {
-    margin-bottom: 0;
-  }
 }
 
 .contact--info {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
   text-align: left;
 }
 
 .contact--name {
-  @include text-ellipsis;
   text-transform: capitalize;
   white-space: normal;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-default;
-}
-
-.contact--bio {
-  margin: $space-small 0 0;
 }
 
 .contact--metadata {
-  margin: var(--space-normal) 0 0;
+  margin-bottom: var(--space-small);
 }
 
-.social--icons {
-  i {
-    font-size: $font-weight-normal;
-  }
+.contact-actions {
+  margin-top: var(--space-small);
+}
+.button.edit-contact {
+  margin-left: var(--space-medium);
 }
 
-.edit-contact {
-  padding: 0 var(--space-slab);
-  margin-left: var(--space-slab);
-  margin-top: var(--space-smaller);
+.button.new-message {
+  margin-right: var(--space-small);
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 </style>

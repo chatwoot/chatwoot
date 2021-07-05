@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
-    "OFFLINE": "ഞങ്ങൾ ഓഫ്‌ലൈനിലാണ്"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
-    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക"
+    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
+    "COMPANY_FROM": "from",
+    "BOT": "ബോട്ട്"
   },
   "BUBBLE": {
     "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
@@ -29,5 +31,35 @@
   "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
   "CHAT_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക",
   "TODAY": "ഇന്ന്",
-  "YESTERDAY": "ഇന്നലെ"
+  "YESTERDAY": "ഇന്നലെ",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "പൂർണ്ണമായ പേര്",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ഇമെയിൽ വിലാസം",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  }
 }

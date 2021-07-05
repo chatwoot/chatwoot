@@ -12,26 +12,25 @@
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
     "IP_ADDRESS": "آدرس آی‌پی",
+    "NEW_MESSAGE": "پیام جدید",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
       "TITLE": "گفتگوهای قبلی"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "ویژگی‌های سفارشی"
-    },
     "LABELS": {
-      "TITLE": "برچسب‌های گفتگو",
-      "MODAL": {
-        "TITLE": "برچسب‌ها برای",
-        "ACTIVE_LABELS": "برچسب‌ها اضافه شد به گفتگو",
-        "INACTIVE_LABELS": "برچسب‌های موجود در حساب‌کاربری",
-        "REMOVE": "برای پاک کردن برچسب، روی آیکون X کلیک کنید",
-        "ADD": "برای افزودن برچسب بر روی آیکون + کلیک کنید",
-        "UPDATE_BUTTON": "تغییر برچسب‌ها",
-        "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "هیچ برچسبی در حساب‌کاربری تعریف نشده است.",
-      "NO_AVAILABLE_LABELS": "هیچ برچسبی به این گفتگو اضافه نشده است."
+      "CONVERSATION": {
+        "TITLE": "برچسب‌های گفتگو",
+        "ADD_BUTTON": "افزودن برچسب‌ها"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "افزودن برچسب‌ها",
+        "PLACEHOLDER": "جستجو برچسب‌ها",
+        "NO_RESULT": "هیچ برچسبی یافت نشد"
+      }
     },
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
     "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
@@ -43,7 +42,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "ویرایش مخاطب",
     "TITLE": "ویرایش مخاطب",
-    "DESC": "ویرایش اطلاعات مخاطب",
+    "DESC": "ویرایش اطلاعات مخاطب"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "ثبت",
       "CANCEL": "انصراف",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "شماره تلفن مخاطب را وارد کنید",
-        "LABEL": "شماره تلفن"
+        "LABEL": "شماره تلفن",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "مکان مخاطب را وارد کنید",
@@ -93,9 +101,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "مخاطب با موفقیت به روز شد",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "این آدرس ایمیل برای مخاطب دیگری در حال استفاده است.",
-    "ERROR_MESSAGE": "خطایی در به‌روزرسانی مخاطب رخ داده، لطفا دوباره امتحان کنید"
+    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "شروع گفتگو",
+    "TITLE": "گفتگوی جدید",
+    "DESC": "با ارسال پیام جدید، گفتگوی جدیدی را شروع کنید.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "به"
+      },
+      "INBOX": {
+        "LABEL": "صندوق ورودی",
+        "ERROR": "انتخاب صندوق ورودی"
+      },
+      "MESSAGE": {
+        "LABEL": "پیام",
+        "PLACEHOLDER": "پیام خود را اینجا بنویسید",
+        "ERROR": "پیام نمی‌تواند خالی باشد"
+      },
+      "SUBMIT": "ارسال پیام",
+      "CANCEL": "انصراف",
+      "SUCCESS_MESSAGE": "پیام ارسال شد!",
+      "ERROR_MESSAGE": "ارسال نشد! دوباره امتحان کنید"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "مخاطبین",
@@ -104,12 +136,73 @@
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
       "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
-      "TABLE_HEADER": [
-        "نام",
-        "شماره تلفن",
-        "گفتگوها",
-        "آخرین تماس"
-      ]
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "PHONE_NUMBER": "شماره تلفن",
+        "CONVERSATIONS": "گفتگوها",
+        "LAST_ACTIVITY": "آخرین فعالیت",
+        "COUNTRY": "کشور",
+        "CITY": "شهر",
+        "SOCIAL_PROFILES": "پروفایل‌های اجتماعی",
+        "COMPANY": "شرکت",
+        "EMAIL_ADDRESS": "ایمیل"
+      },
+      "VIEW_DETAILS": "مشاهده جزئیات"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "افزودن",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "افزودن",
+      "PLACEHOLDER": "افزودن یادداشت",
+      "TITLE": "برای ایجاد یادداشت Shift + Enter را فشار دهید"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "گفتگوها"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "ویژگی‌های سفارشی",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "انصراف",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

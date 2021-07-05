@@ -1,4 +1,6 @@
 class Twitter::CallbacksController < Twitter::BaseController
+  include TwitterConcern
+
   def show
     return redirect_to twitter_app_redirect_url if permitted_params[:denied]
 

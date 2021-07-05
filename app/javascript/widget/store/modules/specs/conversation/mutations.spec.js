@@ -73,6 +73,17 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#setConversationUIFlag', () => {
+    it('set uiFlags correctly', () => {
+      const state = { uiFlags: { isFetchingList: false } };
+      mutations.setConversationUIFlag(state, { isCreating: true });
+      expect(state.uiFlags).toEqual({
+        isFetchingList: false,
+        isCreating: true,
+      });
+    });
+  });
+
   describe('#setMessagesInConversation', () => {
     it('sets allMessagesLoaded flag if payload is empty', () => {
       const state = { uiFlags: { allMessagesLoaded: false } };

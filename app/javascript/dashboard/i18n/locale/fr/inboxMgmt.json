@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nom de la boîte de réception",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nom du site Web",
+        "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
+      },
       "FB": {
         "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
         "CHOOSE_PAGE": "Choisir la page",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "Choisir une valeur"
       },
       "TWITTER": {
-        "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' "
+        "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal site Web",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "Création du canal de support du site Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar du canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nom du site Web",
-          "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domaine du site Web",
@@ -193,6 +198,7 @@
       "TITLE": "Votre boîte de réception est prête !",
       "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance ",
       "BUTTON_TEXT": "Emmenez-moi là",
+      "MORE_SETTINGS": "Plus de paramètres",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception."
     },
     "REAUTH": "Réautoriser",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Oui, supprimer ",
         "NO": "Non, Conserver "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "Paramètres",
       "COLLABORATORS": "Collaborateurs",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Formulaire avant chat",
+      "BUSINESS_HOURS": "Heures de bureau"
     },
     "SETTINGS": "Paramètres",
     "FEATURES": {
@@ -238,6 +252,8 @@
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
       "UPDATE": "Mettre à jour",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
@@ -250,6 +266,41 @@
       "SUBTITLE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
       "MESSAGE_SUCCESS": "Reconnexion réussie",
       "MESSAGE_ERROR": "Une erreur est survenue, veuillez réessayer"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Les formulaires précédant le chat vous permettent de saisir les informations de l'utilisateur avant qu'ils ne commencent à discuter avec vous.",
+      "ENABLE": {
+        "LABEL": "Activer le formulaire précédant le chat",
+        "OPTIONS": {
+          "ENABLED": "Oui",
+          "DISABLED": "Non"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Message avant le chat",
+        "PLACEHOLDER": "Ce message serait visible pour les utilisateurs avec le formulaire"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Les visiteurs doivent indiquer leur nom et leur courriel avant de commencer le chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Définissez votre disponibilité",
+      "SUBTITLE": "Définissez votre disponibilité sur votre widget livechat",
+      "WEEKLY_TITLE": "Définissez vos horaires de travail",
+      "TIMEZONE_LABEL": "Sélectionnez le fuseau horaire",
+      "UPDATE": "Mettre à jour les paramètres des heures de bureau",
+      "TOGGLE_AVAILABILITY": "Activer la disponibilité aux heures de bureau pour cette boîte de réception",
+      "UNAVAILABLE_MESSAGE_LABEL": "Message indisponible pour les visiteurs",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Nous ne sommes pas disponibles pour le moment. Laissez-nous un message, et nous répondrons dès notre retour.",
+      "TOGGLE_HELP": "Activer la disponibilité aux heures de bureau montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
+      "DAY": {
+        "ENABLE": "Activer la disponibilité pour ce jour",
+        "UNAVAILABLE": "Non disponible",
+        "HOURS": "heures",
+        "VALIDATION_ERROR": "L'heure de début doit être avant l'heure de fermeture.",
+        "CHOOSE": "Sélectionner"
+      }
     }
   }
 }

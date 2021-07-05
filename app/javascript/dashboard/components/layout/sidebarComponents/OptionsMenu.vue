@@ -3,36 +3,48 @@
     <div
       v-if="show"
       v-on-clickaway="() => $emit('close')"
-      class="dropdown-pane top"
+      class="dropdown-pane dropdowm--top"
     >
-      <ul class="vertical dropdown menu">
-        <li v-if="showChangeAccountOption">
-          <button
-            class="button clear change-accounts--button"
+      <woot-dropdown-menu>
+        <woot-dropdown-item v-if="showChangeAccountOption">
+          <woot-button
+            variant="clear"
+            size="small"
+            class=" change-accounts--button"
             @click="$emit('toggle-accounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
-          </button>
-        </li>
-        <li v-if="globalConfig.chatwootInboxToken">
-          <button
-            class="button clear change-accounts--button"
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="globalConfig.chatwootInboxToken">
+          <woot-button
+            variant="clear"
+            size="small"
+            class=" change-accounts--button"
             @click="$emit('show-support-chat-window')"
           >
             Contact Support
-          </button>
-        </li>
-        <li>
-          <router-link :to="`/app/accounts/${accountId}/profile/settings`">
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <router-link
+            :to="`/app/accounts/${accountId}/profile/settings`"
+            class="button clear small change-accounts--button"
+          >
             {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
           </router-link>
-        </li>
-        <li>
-          <a href="#" @click.prevent="logout">
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            size="small"
+            class=" change-accounts--button"
+            @click="logout"
+          >
             {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
-          </a>
-        </li>
-      </ul>
+          </woot-button>
+        </woot-dropdown-item>
+      </woot-dropdown-menu>
     </div>
   </transition>
 </template>
@@ -41,8 +53,14 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 export default {
+  components: {
+    WootDropdownMenu,
+    WootDropdownItem,
+  },
   mixins: [clickaway],
   props: {
     show: {
@@ -74,3 +92,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.dropdown-pane {
+  right: 0;
+}
+</style>

@@ -29,6 +29,11 @@ ta:
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,11 +47,16 @@ ta:
       status:
         resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"
         open: "உரையாடலை %{user_name} மீண்டும் திறந்துள்ளார்"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{user_name} இதை %{assignee_name}க்கு ஒதுக்கியுள்ளார்"
         removed: "%{user_name} இதை ஒதுக்க படாத உரையாடளாக்கியுள்ளார்"
+      team:
+        assigned: "%{user_name} இதை %{team_name}க்கு ஒதுக்கியுள்ளார்"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
@@ -56,6 +66,7 @@ ta:
       greeting_message_body: "%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்."
       ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."
       email_input_box_message_body: "இமெயில் மூலம் அறிய"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "இந்த உரையாடலில் புதிய செய்திகள்"
       transcript_subject: "Conversation Transcript"
@@ -66,3 +77,9 @@ ta:
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

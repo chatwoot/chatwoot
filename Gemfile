@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '2.7.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -31,6 +31,8 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Validate Data against JSON Schema
+gem 'json_schemer'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -57,6 +59,7 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
+gem 'devise-secure_password', '~> 2.0'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -70,7 +73,7 @@ gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
 # TODO: bump up gem to 2.0
-gem 'facebook-messenger', '1.5.0'
+gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
@@ -80,6 +83,8 @@ gem 'twitty'
 gem 'koala'
 # slack client
 gem 'slack-ruby-client'
+# for dialogflow integrations
+gem 'google-cloud-dialogflow'
 
 ##--- gems for debugging and error reporting ---##
 # static analysis
@@ -105,6 +110,8 @@ gem 'maxminddb'
 # to create db triggers
 gem 'hairtrigger'
 
+gem 'procore-sift'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -112,7 +119,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: '131b11294fd6af9c428171f38516e6222a58c874'
 
   # When we want to squash migrations
   gem 'squasher'
@@ -126,8 +133,6 @@ group :test do
 end
 
 group :development, :test do
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
-  gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'

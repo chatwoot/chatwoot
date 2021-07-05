@@ -22,3 +22,15 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.text-content {
+  overflow: auto;
+
+  &::v-deep {
+    ul,
+    ol {
+      margin-left: var(--space-normal);
+    }
+  }
+}
+</style>

@@ -12,26 +12,25 @@
     "INITIATED_FROM": "Iniciada des de",
     "INITIATED_AT": "Iniciada a les",
     "IP_ADDRESS": "Adreça IP",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
       "TITLE": "Converses prèvies"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Atributs personalitzats"
-    },
     "LABELS": {
-      "TITLE": "Etiquetes de converses",
-      "MODAL": {
-        "TITLE": "Etiquetes per a",
-        "ACTIVE_LABELS": "S'han afegit etiquetes a la conversa",
-        "INACTIVE_LABELS": "Etiquetes disponibles al compte",
-        "REMOVE": "Fes clic a la icona X per eliminar l'etiqueta",
-        "ADD": "Fes clic a la icona + per afegir l'etiqueta",
-        "UPDATE_BUTTON": "Actualitza les etiquetes",
-        "UPDATE_ERROR": "No s'han pogut actualitzar les etiquetes, torna-ho a provar."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "No hi ha cap etiqueta definida al compte.",
-      "NO_AVAILABLE_LABELS": "No hi ha etiquetes afegides a aquesta conversa."
+      "CONVERSATION": {
+        "TITLE": "Etiquetes de converses",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Silencia la conversa",
     "UNMUTE_CONTACT": "Desactiva el silenci de la conversa",
@@ -43,7 +42,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edita el contacte",
     "TITLE": "Edita el contacte",
-    "DESC": "Edita els detalls de contacte",
+    "DESC": "Edita els detalls de contacte"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nou Contacte",
+    "TITLE": "Crear un nou contacte",
+    "DESC": "Afegir informació bàsica sobre el contacte."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Envia",
       "CANCEL": "Cancel·la",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
-        "LABEL": "Número de telèfon"
+        "LABEL": "Número de telèfon",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Introdueix la ubicació del contacte",
@@ -93,9 +101,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "S'ha actualitzat correctament el contacte",
+    "SUCCESS_MESSAGE": "Contacte guardat correctament",
     "CONTACT_ALREADY_EXIST": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
-    "ERROR_MESSAGE": "S'ha produït un error en actualitzar el contacte. Tornau-ho a provar"
+    "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "Nova conversació",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Cancel·la",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactes",
@@ -104,12 +136,73 @@
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
-      "TABLE_HEADER": [
-        "Nom",
-        "Número de telèfon",
-        "Converses",
-        "Darrer contacte"
-      ]
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "PHONE_NUMBER": "Número de telèfon",
+        "CONVERSATIONS": "Converses",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Companyia",
+        "EMAIL_ADDRESS": "Adreça de correu electrònic"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "converses"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Atributs personalitzats",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Cancel·la",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

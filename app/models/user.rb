@@ -53,7 +53,8 @@ class User < ApplicationRecord
          :rememberable,
          :trackable,
          :validatable,
-         :confirmable
+         :confirmable,
+         :password_has_required_content
 
   enum availability: { online: 0, offline: 1, busy: 2 }
 
@@ -70,6 +71,7 @@ class User < ApplicationRecord
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   alias_attribute :conversations, :assigned_conversations
+  has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
 
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
@@ -81,6 +83,8 @@ class User < ApplicationRecord
   has_many :notification_subscriptions, dependent: :destroy
   has_many :team_members, dependent: :destroy
   has_many :teams, through: :team_members
+  has_many :notes, dependent: :nullify
+  has_many :custom_filters, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
 
@@ -90,7 +94,7 @@ class User < ApplicationRecord
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
   def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+    devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
   end
 
   def set_password_and_uid
@@ -121,7 +125,7 @@ class User < ApplicationRecord
   end
 
   def assigned_inboxes
-    inboxes.where(account_id: Current.account.id)
+    administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
   end
 
   def administrator?

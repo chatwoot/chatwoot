@@ -38,6 +38,18 @@
       {
         "id": 1,
         "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Die letzten 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Die letzten 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
       }
     ]
   }

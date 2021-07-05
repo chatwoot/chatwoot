@@ -47,13 +47,15 @@ describe NotificationListener do
   describe 'message_created' do
     let(:event_name) { :'message.created' }
 
+    before do
+      notification_setting = agent_with_notification.notification_settings.find_by(account_id: account.id)
+      notification_setting.selected_email_flags = [:email_conversation_mention]
+      notification_setting.selected_push_flags = []
+      notification_setting.save!
+    end
+
     context 'when message contains mention' do
       it 'creates notifications for inbox member who was mentioned' do
-        notification_setting = agent_with_notification.notification_settings.find_by(account_id: account.id)
-        notification_setting.selected_email_flags = [:email_conversation_mention]
-        notification_setting.selected_push_flags = []
-        notification_setting.save!
-
         builder = double
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
@@ -76,6 +78,29 @@ describe NotificationListener do
                                                                 user: agent_with_notification,
                                                                 account: account,
                                                                 primary_actor: message)
+      end
+    end
+
+    context 'when message content is empty' do
+      it 'creates notifications' do
+        builder = double
+        allow(NotificationBuilder).to receive(:new).and_return(builder)
+        allow(builder).to receive(:perform)
+
+        create(:inbox_member, user: agent_with_notification, inbox: inbox)
+        conversation.reload
+
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: nil,
+          private: true
+        )
+
+        event = Events::Base.new(event_name, Time.zone.now, message: message)
+        # want to validate message_created doesnt throw an error
+        expect(listener.message_created(event)).to eq nil
       end
     end
   end

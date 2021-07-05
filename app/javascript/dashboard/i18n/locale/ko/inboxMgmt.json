@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "받은 메시지함 이름",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "웹사이트 이름",
+        "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
+      },
       "FB": {
         "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
         "CHOOSE_PAGE": "페이지 선택",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "값 선택"
       },
       "TWITTER": {
-        "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. "
+        "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. ",
+        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도해주세요."
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "웹사이트 채널",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "웹사이트 지원 채널 만들기",
         "CHANNEL_AVATAR": {
           "LABEL": "채널 아바타"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "웹사이트 이름",
-          "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "웹사이트 도메인",
@@ -193,6 +198,7 @@
       "TITLE": "받은 메시지함이 준비됨!",
       "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원 ",
       "BUTTON_TEXT": "나를 그곳으로 데려주세요.",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 편지함에 자동으로 표시됩니다."
     },
     "REAUTH": "재승인",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "삭제 확인",
         "MESSAGE": "삭제하시겠습니까? ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "예, 삭제합니다. ",
         "NO": "아니요, 유지해주세요. "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "설정",
       "COLLABORATORS": "협력자",
-      "CONFIGURATION": "설치"
+      "CONFIGURATION": "설치",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "대화 전 설문",
+      "BUSINESS_HOURS": "영업시간"
     },
     "SETTINGS": "설정",
     "FEATURES": {
@@ -238,18 +252,55 @@
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
       "UPDATE": "업데이트",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "자동 할당 사용",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "사용자 신원 검증",
+      "HMAC_DESCRIPTION": "사용자 신원 검증을 위해 SDK에서 각 사용자별 `identity_hash`를 전달할 수 있습니다. 옆에 보이는 키를 'sha256'으로 해싱하여 HMAC를 생성할 수 있습니다."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",
       "SUBTITLE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
       "MESSAGE_SUCCESS": "다시 연결 성공",
       "MESSAGE_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "대화 전 설문을 통해, 실제 대화 전에 사용자 정보를 확보할 수 있습니다.",
+      "ENABLE": {
+        "LABEL": "대화 전 설문 사용하기",
+        "OPTIONS": {
+          "ENABLED": "예",
+          "DISABLED": "아니오"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "대화 전 설문용 메시지",
+        "PLACEHOLDER": "이 메시지가 대화전 설문과 함께 사용자에게 보여집니다."
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "대화 전 사용자들에게 이름과 이메일 주소를 요구합니다."
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "영업시간 설정",
+      "SUBTITLE": "라이브챗 위젯의 대화용 영업시간을 설정하세요.",
+      "WEEKLY_TITLE": "일주일 중 영업시간 설정",
+      "TIMEZONE_LABEL": "표준시간대 선택",
+      "UPDATE": "변경된 영업시간 적용",
+      "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
+      "UNAVAILABLE_MESSAGE_LABEL": "영업외 시간에 표시할 메시지",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "현재 담당자가 자리비움 상태입니다. 메시지를 남겨주시면 담당자 복귀 시 답변드리겠습니다.",
+      "TOGGLE_HELP": "영업시간 설정을 적용할 경우 라이브챗 위젯에 해당 시간을 표시합니다. 담당자가 현재 오프라인 상태일 때도 해당 영업시간을 표시합니다. 영업 외 시간에는 사용자에게 아래 메시지와 대화 전 설문을 대신 보여줍니다.",
+      "DAY": {
+        "ENABLE": "아래 날짜에 대해 영업시간 설정 적용",
+        "UNAVAILABLE": "영업 종료",
+        "HOURS": "시간",
+        "VALIDATION_ERROR": "영업시작 시간은 영업종료 시간보다 빨라야 합니다.",
+        "CHOOSE": "선택"
+      }
     }
   }
 }

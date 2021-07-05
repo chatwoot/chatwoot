@@ -16,6 +16,11 @@ describe('#getters', () => {
     });
   });
 
+  it('getIsCreating', () => {
+    const state = { uiFlags: { isCreating: true } };
+    expect(getters.getIsCreating(state)).toEqual(true);
+  });
+
   it('getConversationSize', () => {
     const state = {
       conversations: {
@@ -428,5 +433,16 @@ describe('#getters', () => {
         },
       ]);
     });
+  });
+
+  it('getMessageCount', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hey, how are you?',
+        },
+      },
+    };
+    expect(getters.getMessageCount(state)).toEqual(1);
   });
 });

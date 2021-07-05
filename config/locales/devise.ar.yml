@@ -59,7 +59,7 @@ ar:
       not_saved:
         zero: "%{count} خطأ حظر هذا %{resource} من الحفظ:"
         one: "خطأ واحد حظر هذا %{resource} من الحفظ:"
-        two: "%{count} errors prohibited this %{resource} from being saved:"
-        few: "%{count} أخطاء حظرت %{resource} من الحفظ:"
-        many: "%{count} أخطاء حظرت %{resource} من الحفظ:"
-        other: "%{count} أخطاء حظرت %{resource} من الحفظ:"
+        two: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
+        few: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
+        many: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
+        other: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"

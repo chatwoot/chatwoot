@@ -1,5 +1,5 @@
 <template>
-  <header class="header-expanded py-8 px-6 bg-white relative box-border w-full">
+  <header class="header-expanded bg-white py-8 px-6 relative box-border w-full">
     <div class="flex justify-between items-start">
       <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
       <header-actions :show-popout-button="showPopoutButton" />
@@ -49,12 +49,13 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/mixins.scss';
 
-.header-expanded {
-  @include shadow-large;
+$logo-size: 56px;
 
+.header-expanded {
   .logo {
-    width: 56px;
-    height: 56px;
+    width: $logo-size;
+    height: $logo-size;
+    border-radius: $logo-size;
   }
 }
 </style>

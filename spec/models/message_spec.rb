@@ -17,6 +17,10 @@ RSpec.describe Message, type: :model do
       expect(message.created_at).to eq message.conversation.last_activity_at
     end
 
+    it 'updates contact last_activity_at when created' do
+      expect { message.save! }.to(change { message.sender.last_activity_at })
+    end
+
     it 'triggers ::MessageTemplates::HookExecutionService' do
       hook_execution_service = double
       allow(::MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)

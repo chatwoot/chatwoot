@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er pålogget",
-    "OFFLINE": "Vi er frakoblet"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Start samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
-    "CLOSE_MESSAGES_BUTTON": "Lukk"
+    "CLOSE_MESSAGES_BUTTON": "Lukk",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chat med oss"
@@ -29,5 +31,35 @@
   "EMAIL_PLACEHOLDER": "Skriv inn din e-post",
   "CHAT_PLACEHOLDER": "Skriv inn meldingen",
   "TODAY": "I dag",
-  "YESTERDAY": "I går"
+  "YESTERDAY": "I går",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Fullt navn",
+        "PLACEHOLDER": "Skriv inn fullt navn",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-postadresse",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  }
 }

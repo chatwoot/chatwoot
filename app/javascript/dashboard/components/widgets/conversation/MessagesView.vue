@@ -1,19 +1,32 @@
 <template>
-  <div class="view-box columns">
-    <conversation-header
-      :chat="currentChat"
-      :is-contact-panel-open="isContactPanelOpen"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-    <div v-if="!currentChat.can_reply" class="banner messenger-policy--banner">
+  <div class="view-box fill-height">
+    <div
+      v-if="!currentChat.can_reply && !isATwilioWhatsappChannel"
+      class="banner messenger-policy--banner"
+    >
       <span>
         {{ $t('CONVERSATION.CANNOT_REPLY') }}
         <a
-          href="https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/"
+          :href="facebookReplyPolicy"
           rel="noopener noreferrer nofollow"
           target="_blank"
         >
           {{ $t('CONVERSATION.24_HOURS_WINDOW') }}
+        </a>
+      </span>
+    </div>
+    <div
+      v-if="!currentChat.can_reply && isATwilioWhatsappChannel"
+      class="banner messenger-policy--banner"
+    >
+      <span>
+        {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
+        <a
+          :href="twilioWhatsAppReplyPolicy"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          {{ $t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW') }}
         </a>
       </span>
     </div>
@@ -43,6 +56,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
+        class="message--read"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -59,6 +73,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
+        class="message--unread"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -86,27 +101,22 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ConversationHeader from './ConversationHeader';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 
 export default {
   components: {
-    ConversationHeader,
     Message,
     ReplyBox,
   },
-
-  mixins: [conversationMixin],
-
+  mixins: [conversationMixin, inboxMixin],
   props: {
-    inboxId: {
-      type: [Number, String],
-      required: true,
-    },
     isContactPanelOpen: {
       type: Boolean,
       default: false,
@@ -131,6 +141,12 @@ export default {
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+    inboxId() {
+      return this.currentChat.inbox_id;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
 
     typingUsersList() {
       const userList = this.$store.getters[
@@ -169,7 +185,7 @@ export default {
     },
     shouldShowSpinner() {
       return (
-        this.getMessages.dataFetched === undefined ||
+        (this.getMessages && this.getMessages.dataFetched === undefined) ||
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
@@ -197,6 +213,12 @@ export default {
         return selectedMessage.content || '';
       }
       return '';
+    },
+    facebookReplyPolicy() {
+      return REPLY_POLICY.FACEBOOK;
+    },
+    twilioWhatsAppReplyPolicy() {
+      return REPLY_POLICY.TWILIO_WHATSAPP;
     },
   },
 
@@ -240,7 +262,23 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
+      let relevantMessages = [];
+      if (this.getUnreadCount > 0) {
+        // capturing only the unread messages
+        relevantMessages = this.conversationPanel.querySelectorAll(
+          '.message--unread'
+        );
+      } else {
+        // capturing last message from the messages list
+        relevantMessages = Array.from(
+          this.conversationPanel.querySelectorAll('.message--read')
+        ).slice(-1);
+      }
+      this.conversationPanel.scrollTop = calculateScrollTop(
+        this.conversationPanel.scrollHeight,
+        this.$el.scrollHeight,
+        relevantMessages
+      );
     },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
@@ -315,5 +353,11 @@ export default {
 
 .spinner--container {
   min-height: var(--space-jumbo);
+}
+
+.view-box.fill-height {
+  height: auto;
+  flex-grow: 1;
+  min-width: 0;
 }
 </style>

@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'
@@ -16,11 +16,18 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
+  rescue_from(*ExceptionList::SMTP_EXCEPTIONS, with: :handle_smtp_exceptions)
+
   def smtp_config_set_or_development?
     ENV.fetch('SMTP_ADDRESS', nil).present? || Rails.env.development?
   end
 
   private
+
+  def handle_smtp_exceptions(message)
+    Rails.logger.info 'Failed to send Email'
+    Rails.logger.info "Exception: #{message}"
+  end
 
   def send_mail_with_liquid(*args)
     mail(*args) do |format|
@@ -58,6 +65,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def ensure_current_account(account)
+    Current.reset
     Current.account = account if account.present?
   end
 

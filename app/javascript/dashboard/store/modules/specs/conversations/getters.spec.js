@@ -47,33 +47,71 @@ describe('#getters', () => {
       ]);
     });
   });
-  describe('#getNextChatConversation', () => {
-    it('return the next chat', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-          },
-          {
-            id: 2,
-          },
-        ],
-        selectedChatId: 1,
-      };
-      expect(getters.getNextChatConversation(state)).toEqual({
-        id: 2,
-      });
+  describe('#getUnAssignedChats', () => {
+    it('order returns only chats assigned to user', () => {
+      const conversationList = [
+        {
+          id: 1,
+          inbox_id: 2,
+          status: 1,
+          meta: { assignee: { id: 1 } },
+          labels: ['sales', 'dev'],
+        },
+        {
+          id: 2,
+          inbox_id: 2,
+          status: 1,
+          meta: {},
+          labels: ['dev'],
+        },
+        {
+          id: 11,
+          inbox_id: 3,
+          status: 1,
+          meta: { assignee: { id: 1 } },
+          labels: [],
+        },
+        {
+          id: 22,
+          inbox_id: 4,
+          status: 1,
+          meta: { team: { id: 5 } },
+          labels: ['sales'],
+        },
+      ];
+
+      expect(
+        getters.getUnAssignedChats({ allConversations: conversationList })({
+          status: 1,
+        })
+      ).toEqual([
+        {
+          id: 2,
+          inbox_id: 2,
+          status: 1,
+          meta: {},
+          labels: ['dev'],
+        },
+        {
+          id: 22,
+          inbox_id: 4,
+          status: 1,
+          meta: { team: { id: 5 } },
+          labels: ['sales'],
+        },
+      ]);
     });
-    it('return null when there is only one chat', () => {
+  });
+  describe('#getConversationById', () => {
+    it('get conversations based on id', () => {
       const state = {
         allConversations: [
           {
             id: 1,
           },
         ],
-        selectedChatId: 1,
       };
-      expect(getters.getNextChatConversation(state)).toBeNull();
+      expect(getters.getConversationById(state)(1)).toEqual({ id: 1 });
     });
   });
 });

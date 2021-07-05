@@ -1,8 +1,5 @@
 export default {
   computed: {
-    hideInputForBotConversations() {
-      return window.chatwootWebChannel.hideInputForBotConversations;
-    },
     useInboxAvatarForBot() {
       return window.chatwootWidgetDefaults.useInboxAvatarForBot;
     },
@@ -21,20 +18,21 @@ export default {
     hasAttachmentsEnabled() {
       return this.channelConfig.enabledFeatures.includes('attachments');
     },
-    replyTime() {
-      return window.chatwootWebChannel.replyTime;
+    preChatFormEnabled() {
+      return window.chatwootWebChannel.preChatFormEnabled;
     },
-    replyTimeStatus() {
-      switch (this.replyTime) {
-        case 'in_a_few_minutes':
-          return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
-        case 'in_a_few_hours':
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-        case 'in_a_day':
-          return this.$t('REPLY_TIME.IN_A_DAY');
-        default:
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
+    preChatFormOptions() {
+      let requireEmail = false;
+      let preChatMessage = '';
+      const options = window.chatwootWebChannel.preChatFormOptions || {};
+      if (!this.isOnNewConversation) {
+        requireEmail = options.require_email;
+        preChatMessage = options.pre_chat_message;
       }
+      return {
+        requireEmail,
+        preChatMessage,
+      };
     },
   },
 };

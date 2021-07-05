@@ -6,12 +6,15 @@
 #
 #  id                     :integer          not null, primary key
 #  channel_type           :string
+#  csat_survey_enabled    :boolean          default(FALSE)
 #  email_address          :string
 #  enable_auto_assignment :boolean          default(TRUE)
+#  enable_email_collect   :boolean          default(TRUE)
 #  greeting_enabled       :boolean          default(FALSE)
 #  greeting_message       :string
 #  name                   :string           not null
 #  out_of_office_message  :string
+#  timezone               :string           default("UTC")
 #  working_hours_enabled  :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -29,11 +32,13 @@ class Inbox < ApplicationRecord
   include OutOfOffisable
 
   validates :account_id, presence: true
+  validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
 
   belongs_to :account
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
+  has_many :campaigns, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :contacts, through: :contact_inboxes
 
@@ -63,11 +68,11 @@ class Inbox < ApplicationRecord
   end
 
   def facebook?
-    channel.class.name.to_s == 'Channel::FacebookPage'
+    channel_type == 'Channel::FacebookPage'
   end
 
   def web_widget?
-    channel.class.name.to_s == 'Channel::WebWidget'
+    channel_type == 'Channel::WebWidget'
   end
 
   def inbox_type

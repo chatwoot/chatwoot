@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Назва сайту",
+        "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Канал Веб-сайт",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "Створення каналу підтримки веб-сайту",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Назва сайту",
-          "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Домен сайту",
@@ -193,6 +198,7 @@
       "TITLE": "Ваша поштова скринька готова!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
       "BUTTON_TEXT": "Давай туди",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні."
     },
     "REAUTH": "Повторна авторизація",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Увімкнено",
+        "DISABLED": "Вимкнено"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
         "MESSAGE": "Справді бажаєте видалити ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Так, видалити ",
         "NO": "No, Keep "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "Налаштування",
       "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -238,6 +252,8 @@
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
       "UPDATE": "Оновити",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
@@ -250,6 +266,41 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      }
     }
   }
 }

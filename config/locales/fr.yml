@@ -29,12 +29,17 @@ fr:
       failed: L'inscription a échoué
   reports:
     period: Période de rapport %{since} à %{until}
+    agent_csv:
+      agent_name: Nom de l'agent
+      conversations_count: Nombre de conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
+      conversation_assignment: "[Vous a été assigné] - #%{display_id} vous a été assigné"
+      assigned_conversation_new_message: "[Nouveau message] - #%{display_id} %{content}"
+      conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
   conversations:
     messages:
       deleted: Ce message a été supprimé
@@ -42,11 +47,16 @@ fr:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
         open: "La conversation a été ré-ouverte par %{user_name}"
+        bot: "La conversation a été transférée au robot par %{user_name}"
         auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
       assignee:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
         assigned: "Assigné à %{assignee_name} par %{user_name}"
         removed: "Responsable de la conversation supprimé par %{user_name}"
+      team:
+        assigned: "Assigné à %{team_name} par %{user_name}"
+        assigned_with_assignee: "Assigné à %{assignee_name} via %{team_name} par %{user_name}"
+        removed: "Non assigné de %{team_name} par %{user_name}"
       labels:
         added: "%{user_name} a ajouté %{labels}"
         removed: "%{user_name} a supprimé %{labels}"
@@ -56,6 +66,7 @@ fr:
       greeting_message_body: "%{account_name} répond généralement en quelques heures."
       ways_to_reach_you_message_body: "Donnez à l'équipe un moyen de vous recontacter."
       email_input_box_message_body: "Recevez des notifications par courriel"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nouveaux messages dans cette conversation"
       transcript_subject: "Transcription de conversation"
@@ -66,3 +77,9 @@ fr:
     webhooks:
       name: "Webhooks"
       description: "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte. Vous pouvez utiliser les webhooks pour communiquer les événements à vos applications préférées comme Slack ou Github. Cliquez sur Configurer pour configurer vos webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

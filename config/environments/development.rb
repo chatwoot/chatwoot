@@ -34,40 +34,6 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
-  # Email related config
-  config.action_mailer.perform_caching = false
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
-
-  smtp_settings = {
-    port: ENV['SMTP_PORT'] || 25,
-    domain: ENV['SMTP_DOMAIN'] || 'localhost',
-    address: ENV['SMTP_ADDRESS'] || 'chatwoot.com'
-  }
-
-  if ENV['SMTP_AUTHENTICATION'].present?
-    smtp_settings[:user_name] = ENV['SMTP_USERNAME']
-    smtp_settings[:password] = ENV['SMTP_PASSWORD']
-    smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION']
-    smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
-  end
-
-  if ENV['LETTER_OPENER']
-    config.action_mailer.delivery_method = :letter_opener
-  else
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = smtp_settings
-  end
-
-  # Set this to appropriate ingress service for which the options are :
-  # :relay for Exim, Postfix, Qmail
-  # :mailgun for Mailgun
-  # :mandrill for Mandrill
-  # :postmark for Postmark
-  # :sendgrid for Sendgrid
-  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
-
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.
@@ -110,4 +76,16 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # ref: https://github.com/cyu/rack-cors
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '/packs/*', headers: :any, methods: [:get, :options]
+      resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
+    end
+  end
+
+  # ref : https://medium.com/@emikaijuin/connecting-to-action-cable-without-rails-d39a8aaa52d5
+  config.action_cable.disable_request_forgery_protection = true
 end

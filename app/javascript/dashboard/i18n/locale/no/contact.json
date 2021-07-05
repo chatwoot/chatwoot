@@ -12,26 +12,25 @@
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Started",
     "IP_ADDRESS": "IP Adresse",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det er ingen tidligere samtaler knyttet til denne kontakten.",
       "TITLE": "Tidligere samtaler"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Egendefinerte verdier"
-    },
     "LABELS": {
-      "TITLE": "Samtaleetiketter",
-      "MODAL": {
-        "TITLE": "Etiketter for",
-        "ACTIVE_LABELS": "Etiketter lagt til i samtalen",
-        "INACTIVE_LABELS": "Etiketter tilgjengelig i kontoen",
-        "REMOVE": "Klikk på X ikonet for å fjerne etiketten",
-        "ADD": "Klikk på + ikonet for å legge til etiketten",
-        "UPDATE_BUTTON": "Oppdater etiketter",
-        "UPDATE_ERROR": "Kunne ikke oppdatere etiketter, prøv på nytt."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Det er ingen flere etiketter definert i kontoen.",
-      "NO_AVAILABLE_LABELS": "Det er ingen etiketter lagt til i denne samtalen."
+      "CONVERSATION": {
+        "TITLE": "Samtaleetiketter",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Demp samtale",
     "UNMUTE_CONTACT": "Skru av demping",
@@ -43,7 +42,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Rediger kontakt",
     "TITLE": "Rediger kontakt",
-    "DESC": "Rediger kontaktopplysninger",
+    "DESC": "Rediger kontaktopplysninger"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Send",
       "CANCEL": "Avbryt",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",
-        "LABEL": "Telefonnummer"
+        "LABEL": "Telefonnummer",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Angi plasseringen til kontakten",
@@ -93,9 +101,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakten er oppdatert",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
-    "ERROR_MESSAGE": "Det oppstod en feil under oppdatering av kontakten. Prøv igjen"
+    "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "Ny samtale",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Avbryt",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
@@ -104,12 +136,73 @@
     "LIST": {
       "LOADING_MESSAGE": "Laster inn kontakter...",
       "404": "Ingen kontakter samsvarer med søket ditt 🔍",
-      "TABLE_HEADER": [
-        "Navn",
-        "Telefonnummer",
-        "Samtaler",
-        "Siste kontakt"
-      ]
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "PHONE_NUMBER": "Telefonnummer",
+        "CONVERSATIONS": "Samtaler",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Firma",
+        "EMAIL_ADDRESS": "E-postadresse"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "samtaler"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Egendefinerte verdier",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Avbryt",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

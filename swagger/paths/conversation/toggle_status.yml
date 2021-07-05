@@ -1,35 +1,29 @@
-post:
-  tags:
-    - Conversation
-  operationId: conversationToggleStatus
-  summary: Toggle Status
-  description: Toggles the status of the conversation between open and resolved
-  security:
-    - userApiKey: []
-    - agentBotApiKey: []
-  parameters:
-    - name: id
-      in: path
-      type: number
-      description: ID of the conversation
-      required: true
-    - name: data
-      in: body
-      required: true
-      schema:
-        type: object
-        properties:
-          status:
-            type: string
-            enum: ["open", "resolved", "bot"]
-            required: true
-            description: The status of the conversation
-  responses:
-    200:
-      description: Success
-      schema:
-        $ref: '#/definitions/conversation_status_toggle'
-    404:
-      description: Conversation not found
-    403:
-      description: Access denied
+tags:
+  - Conversation
+operationId: toggle-status-of-a-conversation
+summary: Toggle Status
+description: Toggles the status of the conversation between open and resolved
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: ["open", "resolved", "bot"]
+          required: true
+          description: The status of the conversation
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/conversation_status_toggle'
+  404:
+    description: Conversation not found
+  401:
+    description: Unauthorized

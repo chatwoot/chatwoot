@@ -3,6 +3,63 @@
     <div class="profile--settings--row row">
       <div class="columns small-3 ">
         <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE') }}
+        </p>
+      </div>
+      <div class="columns small-9">
+        <div>
+          <input
+            id="audio_enable_alert_none"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="radio"
+            value="none"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert_none">
+            {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NONE') }}
+          </label>
+        </div>
+        <div>
+          <input
+            id="audio_enable_alert_mine"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="radio"
+            value="mine"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert_mine">
+            {{
+              $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ASSIGNED')
+            }}
+          </label>
+        </div>
+        <div>
+          <input
+            id="audio_enable_alert_all"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="radio"
+            value="all"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert_all">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVERSATIONS'
+              )
+            }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="profile--settings--row row">
+      <div class="columns small-3 ">
+        <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
@@ -185,6 +242,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -192,11 +250,12 @@ import {
 } from '../../../../helper/pushHelper';
 
 export default {
-  mixins: [alertMixin, configMixin],
+  mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       selectedEmailFlags: [],
       selectedPushFlags: [],
+      enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
     };
   },
@@ -204,6 +263,7 @@ export default {
     ...mapGetters({
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
+      uiSettings: 'getUISettings',
     }),
     isBrowserSafari() {
       if (window.browserConfig) {
@@ -219,6 +279,10 @@ export default {
     pushFlags(value) {
       this.selectedPushFlags = value;
     },
+    uiSettings(value) {
+      const { enable_audio_alerts: enableAudio = false } = value;
+      this.enableAudioAlerts = enableAudio;
+    },
   },
   mounted() {
     if (hasPushPermissions()) {
@@ -226,6 +290,8 @@ export default {
     }
 
     this.$store.dispatch('userNotificationSettings/get');
+    const { enable_audio_alerts: enableAudio = false } = this.uiSettings;
+    this.enableAudioAlerts = enableAudio;
   },
   methods: {
     onRegistrationSuccess() {
@@ -276,6 +342,13 @@ export default {
       );
 
       this.updateNotificationSettings();
+    },
+    handleAudioInput(e) {
+      this.enableAudioAlerts = e.target.value;
+      this.updateUISettings({
+        enable_audio_alerts: this.enableAudioAlerts,
+      });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {

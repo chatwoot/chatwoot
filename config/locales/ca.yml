@@ -29,12 +29,17 @@ ca:
       failed: El registre ha fallat
   reports:
     period: Període d'informes %{since} a %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
+      conversation_assignment: "[Assignada a tu] - #%{display_id} t'ha sigut assignada"
+      assigned_conversation_new_message: "[Nou missatge] - #%{display_id} %{content}"
+      conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
       deleted: Aquest missatge a sigut eliminat
@@ -42,11 +47,16 @@ ca:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
         open: "La conversa es va reobrir per %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
       assignee:
         self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
         assigned: "Assignada a %{assignee_name} per %{user_name}"
         removed: "%{user_name} ha tret l'assignació de la conversa"
+      team:
+        assigned: "Assignada a %{team_name} per %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} ha afegit %{labels}"
         removed: "%{user_name} ha eliminat %{labels}"
@@ -56,6 +66,7 @@ ca:
       greeting_message_body: "%{account_name} normalment respon a les poques hores."
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
@@ -66,3 +77,9 @@ ca:
     webhooks:
       name: "Webhooks"
       description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

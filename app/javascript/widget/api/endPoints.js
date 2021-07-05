@@ -1,5 +1,24 @@
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 
+const createConversation = params => {
+  const referrerURL = window.referrerURL || '';
+  const search = buildSearchParamsWithLocale(window.location.search);
+  return {
+    url: `/api/v1/widget/conversations${search}`,
+    params: {
+      contact: {
+        name: params.fullName,
+        email: params.emailAddress,
+      },
+      message: {
+        content: params.message,
+        timestamp: new Date().toString(),
+        referer_url: referrerURL,
+      },
+    },
+  };
+};
+
 const sendMessage = content => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -45,11 +64,32 @@ const getAvailableAgents = token => ({
     website_token: token,
   },
 });
+const getCampaigns = token => ({
+  url: '/api/v1/widget/campaigns',
+  params: {
+    website_token: token,
+  },
+});
+const triggerCampaign = ({ websiteToken, campaignId }) => ({
+  url: '/api/v1/widget/events',
+  data: {
+    name: 'campaign.triggered',
+    event_info: {
+      campaign_id: campaignId,
+    },
+  },
+  params: {
+    website_token: websiteToken,
+  },
+});
 
 export default {
+  createConversation,
   sendMessage,
   sendAttachment,
   getConversation,
   updateMessage,
   getAvailableAgents,
+  getCampaigns,
+  triggerCampaign,
 };

@@ -1,10 +1,7 @@
 <template>
   <div class="status">
     <div class="status-view">
-      <div
-        :class="`status-badge status-badge__${currentUserAvailabilityStatus}`"
-      />
-
+      <availability-status-badge :status="currentUserAvailabilityStatus" />
       <div class="status-view--title">
         {{ availabilityDisplayLabel }}
       </div>
@@ -15,31 +12,38 @@
         <div
           v-if="isStatusMenuOpened"
           v-on-clickaway="closeStatusMenu"
-          class="dropdown-pane top"
+          class="dropdown-pane dropdowm--top"
         >
-          <ul class="vertical dropdown menu">
-            <li
+          <woot-dropdown-menu>
+            <woot-dropdown-item
               v-for="status in availabilityStatuses"
               :key="status.value"
               class="status-items"
             >
-              <div :class="`status-badge status-badge__${status.value}`" />
-
-              <button
-                class="button clear status-change--dropdown-button"
-                :disabled="status.disabled"
+              <woot-button
+                variant="clear"
+                size="small"
+                color-scheme="secondary"
+                class-names="status-change--dropdown-button"
+                :is-disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
+                <availability-status-badge :status="status.value" />
                 {{ status.label }}
-              </button>
-            </li>
-          </ul>
+              </woot-button>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
         </div>
       </transition>
 
-      <button class="status-change--change-button" @click="openStatusMenu">
+      <woot-button
+        variant="clear"
+        color-scheme="secondary"
+        class-names="status-change--change-button link"
+        @click="openStatusMenu"
+      >
         {{ $t('SIDEBAR_ITEMS.CHANGE_AVAILABILITY_STATUS') }}
-      </button>
+      </woot-button>
     </div>
   </div>
 </template>
@@ -47,9 +51,19 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
+
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
+  components: {
+    WootDropdownMenu,
+    WootDropdownItem,
+    AvailabilityStatusBadge,
+  },
+
   mixins: [clickaway],
 
   data() {
@@ -121,7 +135,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: $space-micro $space-smaller;
+  padding: var(--space-micro) var(--space-smaller);
 }
 
 .status-view {
@@ -129,10 +143,10 @@ export default {
   align-items: baseline;
 
   & &--title {
-    color: $color-gray;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin-left: $space-small;
+    color: var(--b-600);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    margin-left: var(--space-small);
 
     &:first-letter {
       text-transform: capitalize;
@@ -142,49 +156,13 @@ export default {
 
 .status-change {
   .dropdown-pane {
-    top: -130px;
+    top: -132px;
+    right: var(--space-normal);
   }
 
   .status-items {
     display: flex;
     align-items: baseline;
-  }
-
-  & &--change-button {
-    color: $color-gray;
-    font-size: $font-size-small;
-    border-bottom: 1px solid $color-gray;
-    cursor: pointer;
-
-    &:hover {
-      border-bottom: none;
-    }
-  }
-
-  & &--dropdown-button {
-    font-weight: $font-weight-normal;
-    font-size: $font-size-small;
-    padding: $space-small $space-one;
-    text-align: left;
-    width: 100%;
-  }
-}
-
-.status-badge {
-  width: $space-one;
-  height: $space-one;
-  border-radius: 50%;
-
-  &__online {
-    background: $success-color;
-  }
-
-  &__offline {
-    background: $color-gray;
-  }
-
-  &__busy {
-    background: $warning-color;
   }
 }
 </style>

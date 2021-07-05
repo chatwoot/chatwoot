@@ -8,14 +8,19 @@ Rails.application.routes.draw do
     token_validations: 'devise_overrides/token_validations'
   }, via: [:get, :post]
 
-  root to: 'dashboard#index'
+  ## renders the frontend paths only if its not an api only server
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
+    root to: 'api#index'
+  else
+    root to: 'dashboard#index'
 
-  get '/app', to: 'dashboard#index'
-  get '/app/*params', to: 'dashboard#index'
-  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+    get '/app', to: 'dashboard#index'
+    get '/app/*params', to: 'dashboard#index'
+    get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
-  resource :widget, only: [:show]
+    resource :widget, only: [:show]
+  end
 
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
@@ -33,6 +38,8 @@ Rails.application.routes.draw do
           end
 
           resources :agents, except: [:show, :edit, :new]
+          resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -42,6 +49,8 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -69,22 +78,21 @@ Rails.application.routes.draw do
               get :search
               post :import
             end
+            member do
+              get :contactable_inboxes
+            end
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
             end
           end
-
-          resources :facebook_indicators, only: [] do
-            collection do
-              post :mark_seen
-              post :typing_on
-              post :typing_off
-            end
-          end
-
+          resources :csat_survey_responses, only: [:index]
+          resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :create, :update, :destroy] do
+            get :assignable_agents, on: :member
+            get :campaigns, on: :member
+            get :agent_bot, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -107,9 +115,14 @@ Rails.application.routes.draw do
             end
           end
 
+          namespace :twitter do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
+            resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
           resources :working_hours, only: [:update]
@@ -139,19 +152,18 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :update]
       resource :notification_subscriptions, only: [:create]
 
-      resources :agent_bots, only: [:index]
-
       namespace :widget do
+        resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index] do
+        resources :conversations, only: [:index, :create] do
           collection do
             post :update_last_seen
             post :toggle_typing
             post :transcript
           end
         end
-        resource :contact, only: [:update]
+        resource :contact, only: [:show, :update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end
@@ -181,10 +193,29 @@ Rails.application.routes.draw do
             get :login
           end
         end
+        resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
               delete :destroy
+            end
+          end
+        end
+      end
+    end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for inbox APIs Exposed to contacts
+  namespace :public, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        resources :inboxes do
+          scope module: :inboxes do
+            resources :contacts, only: [:create, :show, :update] do
+              resources :conversations, only: [:index, :create] do
+                resources :messages, only: [:index, :create, :update]
+              end
             end
           end
         end
@@ -207,7 +238,6 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
   namespace :twitter do
-    resource :authorization, only: [:create]
     resource :callback, only: [:show]
   end
 
@@ -218,6 +248,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
+  get '.well-known/assetlinks.json' => 'android_app#assetlinks'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
@@ -240,6 +271,7 @@ Rails.application.routes.draw do
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

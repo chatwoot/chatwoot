@@ -1,9 +1,5 @@
 .settings {
   overflow: auto;
-
-  .page-top-bar {
-    @include padding($space-normal $space-two $zero);
-  }
 }
 
 // Conversation header - Light BG
@@ -27,7 +23,6 @@
     @include flex-align($x: center, $y: middle);
     @include margin($zero);
   }
-
 }
 
 .wizard-box {

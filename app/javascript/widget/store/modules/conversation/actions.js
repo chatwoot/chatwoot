@@ -1,14 +1,35 @@
 import {
+  createConversationAPI,
   sendMessageAPI,
   getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
 } from 'widget/api/conversation';
+import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
-import { createTemporaryMessage, onNewMessageCreated } from './helpers';
+import { createTemporaryMessage } from './helpers';
 
 export const actions = {
+  createConversation: async ({ commit, dispatch }, params) => {
+    commit('setConversationUIFlag', { isCreating: true });
+    try {
+      const { data } = await createConversationAPI(params);
+      const {
+        contact: { pubsub_token: pubsubToken },
+        messages,
+      } = data;
+      const [message = {}] = messages;
+      commit('pushMessageToConversation', message);
+      refreshActionCableConnector(pubsubToken);
+      dispatch('conversationAttributes/getAttributes', {}, { root: true });
+    } catch (error) {
+      console.log(error);
+      // Ignore error
+    } finally {
+      commit('setConversationUIFlag', { isCreating: false });
+    }
+  },
   sendMessage: async ({ commit }, params) => {
     const { content } = params;
     commit('pushMessageToConversation', createTemporaryMessage({ content }));
@@ -57,7 +78,6 @@ export const actions = {
 
   addMessage: async ({ commit }, data) => {
     commit('pushMessageToConversation', data);
-    onNewMessageCreated(data);
   },
 
   updateMessage({ commit }, data) {

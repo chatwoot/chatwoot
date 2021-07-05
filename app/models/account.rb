@@ -10,7 +10,6 @@
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
 #  support_email         :string(100)
-#  timezone              :string           default("UTC")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
@@ -35,9 +34,13 @@ class Account < ApplicationRecord
   has_many :account_users, dependent: :destroy
   has_many :workflow_account_templates, dependent: :destroy, class_name: 'Workflow::AccountTemplate'
   has_many :agent_bot_inboxes, dependent: :destroy
+  has_many :agent_bots, dependent: :destroy
+  has_many :csat_survey_responses, dependent: :destroy
   has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
+  has_many :notes, dependent: :destroy
+  has_many :campaigns, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :contacts, dependent: :destroy
@@ -58,6 +61,7 @@ class Account < ApplicationRecord
   has_many :kbase_categories, dependent: :destroy, class_name: '::Kbase::Category'
   has_many :kbase_articles, dependent: :destroy, class_name: '::Kbase::Article'
   has_many :teams, dependent: :destroy
+  has_many :custom_filters, dependent: :destroy
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
@@ -89,6 +93,14 @@ class Account < ApplicationRecord
     }
   end
 
+  def inbound_email_domain
+    domain || GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN'] || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false)
+  end
+
+  def support_email
+    super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  end
+
   private
 
   def notify_creation
@@ -97,5 +109,9 @@ class Account < ApplicationRecord
 
   trigger.after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
+  end
+
+  trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
   end
 end

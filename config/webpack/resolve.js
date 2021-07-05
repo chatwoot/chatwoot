@@ -8,6 +8,10 @@ const resolve = {
     widget: path.resolve('./app/javascript/widget'),
     assets: path.resolve('./app/javascript/dashboard/assets'),
     components: path.resolve('./app/javascript/dashboard/components'),
+    './iconfont.eot': 'vue-easytable/libs/font/iconfont.eot',
+    './iconfont.woff': 'vue-easytable/libs/font/iconfont.woff',
+    './iconfont.ttf': 'vue-easytable/libs/font/iconfont.ttf',
+    './iconfont.svg': 'vue-easytable/libs/font/iconfont.svg',
   },
 };
 

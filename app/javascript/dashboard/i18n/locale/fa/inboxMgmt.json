@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "عنوان صندوق ورودی",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "عنوان سایت",
+        "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
+      },
       "FB": {
         "HELP": "پانویس: با وارد شدن ما فقط به پیام‌های صفحه دسترسی پیدا می‌کنیم. پیام‌های خصوصی شما را هرگز نخواهیم دید",
         "CHOOSE_PAGE": "انتخاب صفحه",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "یک مقدار انتخاب کنید"
       },
       "TWITTER": {
-        "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' "
+        "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "کانال وب سایت",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "در حال ساخت کانال پشتیبانی آنلاین سایت",
         "CHANNEL_AVATAR": {
           "LABEL": "آواتار کانال"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "عنوان سایت",
-          "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "دامنه سایت",
@@ -193,6 +198,7 @@
       "TITLE": "صندوق ورودی حاضره!",
       "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت ",
       "BUTTON_TEXT": "نشانم بده",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود."
     },
     "REAUTH": "احراز هویت مجدد",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
         "MESSAGE": "مطمئن هستید که حذف شود ",
+        "PLACE_HOLDER": "برای تایید لطفا {inboxName} را تایپ کنید",
         "YES": "بله، حذف شود ",
         "NO": "نه، بماند "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "تنظیمات",
       "COLLABORATORS": "همکاران",
-      "CONFIGURATION": "پیکربندی"
+      "CONFIGURATION": "پیکربندی",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "ساعت کاری"
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
@@ -238,6 +252,8 @@
       "INBOX_AGENTS": "اپراتورها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی اپراتور به صندوق ورودی",
       "UPDATE": "اعمال شود",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به اپراتورها",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
@@ -250,6 +266,41 @@
       "SUBTITLE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
       "MESSAGE_SUCCESS": "اتصال مجدد موفقیت آمیز بود",
       "MESSAGE_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "ساعت",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "انتخاب کنید"
+      }
     }
   }
 }

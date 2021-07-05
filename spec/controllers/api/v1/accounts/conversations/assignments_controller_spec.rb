@@ -14,9 +14,13 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to the inbox' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:team) { create(:team, account: account) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'assigns a user to the conversation' do
         params = { assignee_id: agent.id }
@@ -48,6 +52,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
       before do
         conversation.update!(assignee: agent)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
       it 'unassigns the assignee from the conversation' do
@@ -69,6 +74,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
       before do
         conversation.update!(team: team)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
       it 'unassigns the team from the conversation' do

@@ -7,6 +7,7 @@
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
+#  last_activity_at      :datetime
 #  name                  :string
 #  phone_number          :string
 #  pubsub_token          :string
@@ -31,12 +32,17 @@ class Contact < ApplicationRecord
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
+  validates :phone_number,
+            allow_blank: true, uniqueness: { scope: [:account_id] },
+            format: { with: /\+[1-9]\d{1,14}\z/, message: 'should be in e164 format' }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
+  has_many :csat_survey_responses, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event, :ip_lookup
@@ -49,6 +55,7 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
+      custom_attributes: custom_attributes,
       email: email,
       id: id,
       identifier: identifier,

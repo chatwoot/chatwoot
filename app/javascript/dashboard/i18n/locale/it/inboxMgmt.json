@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome Posta In Arrivo",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
         "CHOOSE_PAGE": "Scegli una Pagina",
@@ -38,7 +46,8 @@
         "PICK_A_VALUE": "Scegli un valore"
       },
       "TWITTER": {
-        "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' "
+        "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canale sito web",
@@ -46,10 +55,6 @@
         "LOADING_MESSAGE": "Creazione del Canale di Supporto Sito Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canale"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nome Sito Web",
-          "PLACEHOLDER": "Inserisci il nome del tuo sito web (es: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del Sito",
@@ -193,6 +198,7 @@
       "TITLE": "La posta in arrivo è pronta!",
       "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
       "BUTTON_TEXT": "Portami lì",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella di posta."
     },
     "REAUTH": "Riautorizza",
@@ -206,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
       }
     },
     "DELETE": {
@@ -213,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Sì, elimina ",
         "NO": "No, Conserva "
       },
@@ -224,7 +235,10 @@
     "TABS": {
       "SETTINGS": "Impostazioni",
       "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
@@ -238,6 +252,8 @@
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella di posta",
       "UPDATE": "Aggiornamento",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
@@ -250,6 +266,41 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      }
     }
   }
 }

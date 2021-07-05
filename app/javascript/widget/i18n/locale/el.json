@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Είμαστε online",
-    "OFFLINE": "Είμαστε offline"
+    "OFFLINE": "Προς το παρόν, είμαστε εκτός"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
-    "CLOSE_MESSAGES_BUTTON": "Κλείσιμο"
+    "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
+    "COMPANY_FROM": "από",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Συνομιλήστε μαζί μας"
@@ -29,5 +31,35 @@
   "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
   "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας",
   "TODAY": "Σήμερα",
-  "YESTERDAY": "Χτες"
+  "YESTERDAY": "Χτες",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Πλήρες Όνομα",
+        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας",
+        "ERROR": "Απαιτείται πλήρες όνομα"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Διεύθυνση Email",
+        "PLACEHOLDER": "Παρακαλούμε εισάγετε τη διεύθυνση email σας",
+        "ERROR": "Μη έγκυρη διεύθυνση email"
+      },
+      "MESSAGE": {
+        "LABEL": "Μήνυμα",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμά σας",
+        "ERROR": "Πολύ σύντομο μήνυμα"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Μη έγκυρο πεδίο"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  }
 }

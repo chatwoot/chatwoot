@@ -9,22 +9,15 @@
     }"
   >
     <home
-      v-if="!showUnreadView"
-      :grouped-messages="groupedMessages"
-      :conversation-size="conversationSize"
-      :available-agents="availableAgents"
+      v-if="showHomePage"
       :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
     />
     <unread
       v-else
-      :unread-messages="unreadMessages"
-      :conversation-size="conversationSize"
-      :available-agents="availableAgents"
+      :show-unread-view="showUnreadView"
       :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
       :hide-message-bubble="hideMessageBubble"
     />
@@ -42,22 +35,6 @@ export default {
     Unread,
   },
   props: {
-    groupedMessages: {
-      type: Array,
-      default: () => [],
-    },
-    unreadMessages: {
-      type: Array,
-      default: () => [],
-    },
-    conversationSize: {
-      type: Number,
-      default: 0,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
     hasFetched: {
       type: Boolean,
       default: false,
@@ -74,13 +51,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    hideMessageBubble: {
+    showCampaignView: {
       type: Boolean,
       default: false,
     },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
+    hideMessageBubble: {
+      type: Boolean,
+      default: false,
     },
     unreadMessageCount: {
       type: Number,
@@ -89,6 +66,11 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    showHomePage() {
+      return !this.showUnreadView && !this.showCampaignView;
     },
   },
 };

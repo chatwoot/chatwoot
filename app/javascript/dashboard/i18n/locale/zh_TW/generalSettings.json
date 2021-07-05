@@ -47,29 +47,29 @@
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "按下 enter 以選擇",
+      "ENTER_TO_REMOVE": "按下 enter 以移除",
+      "SELECT_ONE": "選擇其中一項"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "通知",
+    "MARK_ALL_DONE": "全部標記完成",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "載入更多通知...",
+      "404": "沒有通知",
       "TABLE_HEADER": [
-        "姓名：",
+        "姓名",
         "聯絡人電話",
-        "會話",
-        "Last Contacted"
+        "對話",
+        "最後聯絡"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
+      "conversation_creation": "新對話",
       "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "assigned_conversation_new_message": "新訊息",
+      "conversation_mention": "被提及"
     }
   }
 }

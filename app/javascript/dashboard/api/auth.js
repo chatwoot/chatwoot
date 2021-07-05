@@ -29,6 +29,7 @@ export default {
           account_name: creds.accountName.trim(),
           user_full_name: creds.fullName.trim(),
           email: creds.email,
+          password: creds.password,
         })
         .then(response => {
           setAuthCredentials(response);
@@ -61,7 +62,9 @@ export default {
   },
 
   isLoggedIn() {
-    return !!Cookies.getJSON('auth_data');
+    const hasAuthCookie = !!Cookies.getJSON('auth_data');
+    const hasUserCookie = !!Cookies.getJSON('user');
+    return hasAuthCookie && hasUserCookie;
   },
 
   isAdmin() {
@@ -79,7 +82,9 @@ export default {
   },
   getPubSubToken() {
     if (this.isLoggedIn()) {
-      return Cookies.getJSON('user').pubsub_token;
+      const user = Cookies.getJSON('user') || {};
+      const { pubsub_token: pubsubToken } = user;
+      return pubsubToken;
     }
     return null;
   },
@@ -91,8 +96,18 @@ export default {
   },
 
   verifyPasswordToken({ confirmationToken }) {
-    return axios.post('auth/confirmation', {
-      confirmation_token: confirmationToken,
+    return new Promise((resolve, reject) => {
+      axios
+        .post('auth/confirmation', {
+          confirmation_token: confirmationToken,
+        })
+        .then(response => {
+          setAuthCredentials(response);
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
     });
   },
 

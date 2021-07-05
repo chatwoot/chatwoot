@@ -1,6 +1,12 @@
 import endPoints from 'widget/api/endPoints';
 import { API } from 'widget/helpers/axios';
 
+const createConversationAPI = async content => {
+  const urlData = endPoints.createConversation(content);
+  const result = await API.post(urlData.url, urlData.params);
+  return result;
+};
+
 const sendMessageAPI = async content => {
   const urlData = endPoints.sendMessage(content);
   const result = await API.post(urlData.url, urlData.params);
@@ -38,6 +44,7 @@ const setUserLastSeenAt = async ({ lastSeen }) => {
 };
 
 export {
+  createConversationAPI,
   sendMessageAPI,
   getConversationAPI,
   getMessagesAPI,

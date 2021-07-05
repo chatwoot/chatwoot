@@ -56,7 +56,7 @@ export const actions = {
     commit(SET_TEAM_UI_FLAG, { isUpdating: true });
     try {
       const response = await TeamsAPI.update(id, updateObj);
-      commit(EDIT_TEAM, response.data.payload);
+      commit(EDIT_TEAM, response.data);
     } catch (error) {
       throw new Error(error);
     } finally {

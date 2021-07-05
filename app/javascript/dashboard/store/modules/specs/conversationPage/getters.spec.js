@@ -9,12 +9,25 @@ describe('#getters', () => {
         all: 3,
       },
     };
-    expect(getters.getCurrentPage(state)('me')).toEqual(1);
-    expect(getters.getCurrentPage(state)('unassigned')).toEqual(2);
-    expect(getters.getCurrentPage(state)('all')).toEqual(3);
+    expect(getters.getCurrentPage(state)).toHaveProperty('me');
+    expect(getters.getCurrentPage(state)).toHaveProperty('unassigned');
+    expect(getters.getCurrentPage(state)).toHaveProperty('all');
   });
 
-  it('getCurrentPage', () => {
+  it('getCurrentPageFilter', () => {
+    const state = {
+      currentPage: {
+        me: 1,
+        unassigned: 2,
+        all: 3,
+      },
+    };
+    expect(getters.getCurrentPageFilter(state)('me')).toEqual(1);
+    expect(getters.getCurrentPageFilter(state)('unassigned')).toEqual(2);
+    expect(getters.getCurrentPageFilter(state)('all')).toEqual(3);
+  });
+
+  it('getHasEndReached', () => {
     const state = {
       hasEndReached: {
         me: false,

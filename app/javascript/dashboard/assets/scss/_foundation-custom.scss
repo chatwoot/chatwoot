@@ -5,18 +5,15 @@
   &.round {
     border-radius: 1000px;
   }
-
-  &.grey-btn {
-    color: $color-gray;
-
-    &:hover {
-      color: $color-light-gray;
-    }
-  }
 }
 
-.label {
-  font-weight: $font-weight-bold;
+.card {
+  margin-bottom: var(--space-small);
+  padding: var(--space-small);
+}
+
+.button-wrapper .button.link.grey-btn {
+  margin-left: var(--space-normal);
 }
 
 .tooltip {
@@ -43,4 +40,12 @@ code {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+// remove when grid gutters are fixed
+.columns.with-right-space {
+  padding-right: var(--space-normal);
 }

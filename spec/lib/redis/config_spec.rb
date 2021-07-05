@@ -16,14 +16,14 @@ describe ::Redis::Config do
 
     it 'checks for app redis config' do
       app_config = described_class.app
-      expect(app_config.keys).to match_array([:url, :password])
+      expect(app_config.keys).to match_array([:url, :password, :network_timeout, :reconnect_attempts])
       expect(app_config[:url]).to eq(redis_url)
       expect(app_config[:password]).to eq(redis_pasword)
     end
 
     it 'checks for sidekiq redis config' do
       sidekiq_config = described_class.sidekiq
-      expect(sidekiq_config.keys).to match_array([:url, :password, :size])
+      expect(sidekiq_config.keys).to match_array([:url, :password, :size, :network_timeout, :reconnect_attempts])
       expect(sidekiq_config[:url]).to eq redis_url
       expect(sidekiq_config[:password]).to eq redis_pasword
       expect(sidekiq_config[:size]).to eq described_class::SIDEKIQ_SIZE
@@ -54,13 +54,13 @@ describe ::Redis::Config do
     end
 
     it 'checks for app redis config' do
-      expect(described_class.app.keys).to match_array([:url, :password, :sentinels])
+      expect(described_class.app.keys).to match_array([:url, :password, :sentinels, :network_timeout, :reconnect_attempts])
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
     end
 
     it 'checks for sidekiq redis config' do
-      expect(described_class.sidekiq.keys).to match_array([:url, :password, :sentinels, :size])
+      expect(described_class.sidekiq.keys).to match_array([:url, :password, :sentinels, :size, :network_timeout, :reconnect_attempts])
       expect(described_class.sidekiq[:size]).to eq described_class::SIDEKIQ_SIZE
     end
   end

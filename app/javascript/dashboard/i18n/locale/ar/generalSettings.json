@@ -34,42 +34,42 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "عدد الأيام بعد التذكرة التي يجب أن يحل تلقائياً إذا لم يكن هناك أي نشاط",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "الرجاء إدخال مدة الحل التلقائي صحيحة (يوم واحد على الأقل)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
+      "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
+      "SELECT_ONE": "اختر واحدا"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
-    "MARK_ALL_DONE": "Mark All Done",
+    "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
+      "404": "لا يوجد إشعارات",
       "TABLE_HEADER": [
         "الاسم",
         "رقم الهاتف",
         "المحادثات",
-        "Last Contacted"
+        "آخر تواصل"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "محادثة جديدة",
+      "conversation_assignment": "تم تعيين المحادثة",
+      "assigned_conversation_new_message": "رسالة جديدة",
+      "conversation_mention": "إشارة"
     }
   }
 }

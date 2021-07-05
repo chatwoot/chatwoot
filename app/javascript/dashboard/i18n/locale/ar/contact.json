@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "غير متاح",
     "EMAIL_ADDRESS": "عنوان البريد الإلكتروني",
     "PHONE_NUMBER": "رقم الهاتف",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
@@ -11,39 +11,45 @@
     "OS": "نظام التشغيل",
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "عنوان IP",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
       "TITLE": "المحادثات السابقة"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "سمات مخصصة"
-    },
     "LABELS": {
-      "TITLE": "وسوم المحادثة",
-      "MODAL": {
-        "TITLE": "الوسوم الخاصة بـ",
-        "ACTIVE_LABELS": "تم إضافة الوسوم للمحادثة",
-        "INACTIVE_LABELS": "الوسوم المتاحة في الحساب",
-        "REMOVE": "انقر على أيقونة X لإزالة الوسم",
-        "ADD": "اضغط على أيقونة + لإضافة وسوم",
-        "UPDATE_BUTTON": "تحديث الوسوم",
-        "UPDATE_ERROR": "تعذر تحديث الوسوم، الرجاء المحاولة مرة أخرى."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "لا يوجد وسوم في الحساب.",
-      "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة."
+      "CONVERSATION": {
+        "TITLE": "وسوم المحادثة",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "كتم المحادثة",
-    "UNMUTE_CONTACT": "Unmute Conversation",
+    "UNMUTE_CONTACT": "إلغاء كتم المحادثة",
     "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTED_SUCCESS": "تم إلغاء كتم هذه المحادثة",
     "SEND_TRANSCRIPT": "إرسال النص",
     "EDIT_LABEL": "تعديل"
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "تعديل جهة الاتصال",
     "TITLE": "تعديل جهة الاتصال",
-    "DESC": "تعديل تفاصيل جهة الاتصال",
+    "DESC": "تعديل تفاصيل جهة الاتصال"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "جهة اتصال جديدة",
+    "TITLE": "إنشاء جهة اتصال جديدة",
+    "DESC": "إضافة معلومات أساسية حول جهة الاتصال."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "إرسال",
       "CANCEL": "إلغاء",
@@ -64,7 +70,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
-        "LABEL": "رقم الهاتف"
+        "LABEL": "رقم الهاتف",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "أدخل موقع جهة الاتصال",
@@ -93,23 +101,108 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "تم تحديث جهة الاتصال بنجاح",
+    "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
     "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
-    "ERROR_MESSAGE": "حدث خطأ أثناء تحديث جهة الاتصال، الرجاء المحاولة مرة أخرى"
+    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "محادثة جديدة",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "إلغاء",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "جهات الاتصال",
+    "SEARCH_BUTTON": "بحث",
+    "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "الاسم",
-        "رقم الهاتف",
-        "المحادثات",
-        "Last Contacted"
-      ]
+      "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
+      "404": "لا توجد جهات اتصال تطابق بحثك 🔍",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "PHONE_NUMBER": "رقم الهاتف",
+        "CONVERSATIONS": "المحادثات",
+        "LAST_ACTIVITY": "آخر نشاط",
+        "COUNTRY": "الدولة",
+        "CITY": "المدينة",
+        "SOCIAL_PROFILES": "حسابات التواصل الاجتماعي",
+        "COMPANY": "الشركة",
+        "EMAIL_ADDRESS": "عنوان البريد الإلكتروني"
+      },
+      "VIEW_DETAILS": "عرض التفاصيل"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "المحادثات"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "سمات مخصصة",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "إلغاء",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

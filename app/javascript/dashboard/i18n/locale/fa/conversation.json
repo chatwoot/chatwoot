@@ -11,7 +11,7 @@
       "TITLE": "جستجو پیام‌ها",
       "LOADING_MESSAGE": "درحال پردازش داده...",
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
-      "NO_MATCHING_RESULTS": "گفتگویی با مشخصات ورودی یافت نشد."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
     "UNREAD_MESSAGE": "پیام خوانده نشده",
@@ -20,18 +20,26 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
     "LAST_INCOMING_TWEET": "شما در حال پاسخ به آخرین توییت ورودی هستید",
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "NO_RESPONSE": "بدون پاسخ",
+    "RATING_TITLE": "رتبه",
+    "FEEDBACK_TITLE": "بازخورد",
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
+      "OPEN_ACTION": "باز",
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
       "DETAILS": "جزئیات"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "با ربات باز کنید"
     },
     "FOOTER": {
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
@@ -51,6 +59,8 @@
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
+    "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
@@ -73,6 +83,38 @@
         "PLACEHOLDER": "یک آدرس ایمیل وارد کنید",
         "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

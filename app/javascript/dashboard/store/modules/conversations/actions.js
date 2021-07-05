@@ -103,21 +103,44 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ commit }, { conversationId, agentId }) => {
+  assignAgent: async ({ dispatch }, { conversationId, agentId }) => {
     try {
       const response = await ConversationApi.assignAgent({
         conversationId,
         agentId,
       });
-      commit(types.default.ASSIGN_AGENT, response.data);
+      dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
       // Handle error
     }
   },
 
-  toggleStatus: async ({ commit }, data) => {
+  setCurrentChatAssignee({ commit }, assignee) {
+    commit(types.default.ASSIGN_AGENT, assignee);
+  },
+
+  assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
     try {
-      const response = await ConversationApi.toggleStatus(data);
+      const response = await ConversationApi.assignTeam({
+        conversationId,
+        teamId,
+      });
+      dispatch('setCurrentChatTeam', response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setCurrentChatTeam({ commit }, team) {
+    commit(types.default.ASSIGN_TEAM, team);
+  },
+
+  toggleStatus: async ({ commit }, { conversationId, status }) => {
+    try {
+      const response = await ConversationApi.toggleStatus({
+        conversationId,
+        status,
+      });
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
@@ -153,6 +176,20 @@ const actions = {
 
   updateMessage({ commit }, message) {
     commit(types.default.ADD_MESSAGE, message);
+  },
+
+  deleteMessage: async function deleteLabels(
+    { commit },
+    { conversationId, messageId }
+  ) {
+    try {
+      const response = await MessageApi.delete(conversationId, messageId);
+      const { data } = response;
+      // The delete message is actually deleting the content.
+      commit(types.default.ADD_MESSAGE, data);
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 
   addConversation({ commit, state, dispatch }, conversation) {

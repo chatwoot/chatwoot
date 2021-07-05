@@ -9,8 +9,8 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Мы онлайн",
-    "OFFLINE": "Мы оффлайн"
+    "ONLINE": "Мы в сети",
+    "OFFLINE": "В данный момент мы отсутствуем"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Начать диалог",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
-    "CLOSE_MESSAGES_BUTTON": "Закрыть"
+    "CLOSE_MESSAGES_BUTTON": "Закрыть",
+    "COMPANY_FROM": "от",
+    "BOT": "Бот"
   },
   "BUBBLE": {
     "LABEL": "Пообщайтесь с нами"
@@ -29,5 +31,35 @@
   "EMAIL_PLACEHOLDER": "Пожалуйста, введите ваш email",
   "CHAT_PLACEHOLDER": "Введите сообщение",
   "TODAY": "Сегодня",
-  "YESTERDAY": "Вчера"
+  "YESTERDAY": "Вчера",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Полное имя",
+        "PLACEHOLDER": "Пожалуйста, введите ваше ФИО",
+        "ERROR": "Необходимо указать имя"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Пожалуйста, введите ваш адрес электронной почты",
+        "ERROR": "Неправильный адрес электронной почты"
+      },
+      "MESSAGE": {
+        "LABEL": "Сообщение",
+        "PLACEHOLDER": "Пожалуйста, введите ваше сообщение здесь",
+        "ERROR": "Сообщение слишком короткое"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Неверное поле"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Оцените разговор",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Расскажите подробнее..."
+  }
 }

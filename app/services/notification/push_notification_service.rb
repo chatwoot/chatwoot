@@ -26,7 +26,7 @@ class Notification::PushNotificationService
   end
 
   def conversation
-    @conversation ||= notification.primary_actor
+    @conversation ||= notification.conversation
   end
 
   def push_message
@@ -79,12 +79,12 @@ class Notification::PushNotificationService
 
   def fcm_options
     {
-      "notification": {
-        "title": notification.notification_type.titleize,
-        "body": notification.push_message_title
+      notification: {
+        title: notification.notification_type.titleize,
+        body: notification.push_message_title
       },
-      "data": { notification: notification.push_event_data.to_json },
-      "collapse_key": "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
+      data: { notification: notification.push_event_data.to_json },
+      collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
   end
 end

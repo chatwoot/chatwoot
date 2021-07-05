@@ -3,7 +3,6 @@
 </template>
 
 <script>
-/* global bus */
 export default {
   methods: {
     onMenuItemClick() {
@@ -12,3 +11,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.ion-android-menu {
+  font-size: var(--font-size-big);
+}
+</style>

@@ -5,12 +5,21 @@ export const frontendURL = (path, params) => {
   return `/app/${path}${stringifiedParams}`;
 };
 
-export const conversationUrl = ({ accountId, activeInbox, id, label }) => {
+export const conversationUrl = ({
+  accountId,
+  activeInbox,
+  id,
+  label,
+  teamId,
+}) => {
   if (activeInbox) {
     return `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`;
   }
   if (label) {
     return `accounts/${accountId}/label/${label}/conversations/${id}`;
+  }
+  if (teamId) {
+    return `accounts/${accountId}/team/${teamId}/conversations/${id}`;
   }
   return `accounts/${accountId}/conversations/${id}`;
 };

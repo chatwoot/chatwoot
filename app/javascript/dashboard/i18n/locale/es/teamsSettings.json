@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Crear un nuevo equipo",
+    "HEADER": "Equipos",
+    "SIDEBAR_TXT": "<p><b>Equipos</b></p> <p>Los equipos le permiten organizar sus agentes en grupos con base en sus responsabilidades,<br />Un usuario puede ser parte de varios equipos. Usted puede asignar conversaciones a un equipo cuando ellos están trabajando colaborativamente.</p>",
+    "LIST": {
+      "404": "No hay equipos creados en ésta cuenta.",
+      "EDIT_TEAM": "Editar equipo"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Crear un nuevo equipo",
+        "DESC": "Añada un título y una descripción a su nuevo equipo."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Añadir agentes al equipo",
+        "TITLE": "Añadir agentes al equipo - %{teamName}",
+        "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
+      },
+      "WIZARD": [
+        {
+          "title": "Crear",
+          "route": "settings_teams_new",
+          "body": "Crear un nuevo equipo de agentes."
+        },
+        {
+          "title": "Añadir agentes",
+          "route": "settings_teams_add_agents",
+          "body": "Añadir agentes al equipo."
+        },
+        {
+          "title": "Finalizar",
+          "route": "settings_teams_finish",
+          "body": "¡Todo está listo!"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Editar los detalles del equipo",
+        "DESC": "Editar el título y la descripción de su equipo.",
+        "BUTTON_TEXT": "Actualizar el equipo"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Actualizar los agentes en el equipo",
+        "TITLE": "Añadir agentes al equipo - %{teamName}",
+        "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
+      },
+      "WIZARD": [
+        {
+          "title": "Detalles del equipo",
+          "route": "settings_teams_edit",
+          "body": "Cambiar nombre, descripción y otros detalles."
+        },
+        {
+          "title": "Editar Agentes",
+          "route": "settings_teams_edit_members",
+          "body": "Editar agentes en su equipo."
+        },
+        {
+          "title": "Finalizar",
+          "route": "settings_teams_edit_finish",
+          "body": "¡Todo está listo!"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "No se han podido guardar los detalles del equipo. Intente nuevamente."
+    },
+    "AGENTS": {
+      "AGENT": "AGENTE",
+      "EMAIL": "Correo electrónico",
+      "BUTTON_TEXT": "Añadir agentes",
+      "ADD_AGENTS": "Añadiendo agentes a su equipo...",
+      "SELECT": "seleccionar",
+      "SELECT_ALL": "seleccionar todos los agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes seleccionados."
+    },
+    "ADD": {
+      "TITLE": "Añadir agentes al equipo - %{teamName}",
+      "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación.",
+      "SELECT": "seleccionar",
+      "SELECT_ALL": "seleccionar todos los agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes seleccionados.",
+      "BUTTON_TEXT": "Añadir agentes",
+      "AGENT_VALIDATION_ERROR": "Seleccione al menos un agente."
+    },
+    "FINISH": {
+      "TITLE": "¡Su equipo está listo!",
+      "MESSAGE": "Usted ahora puede colaborar como un equipo en las conversaciones. Feliz soporte ",
+      "BUTTON_TEXT": "Finalizar"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "API": {
+        "SUCCESS_MESSAGE": "Equipo borrado correctamente.",
+        "ERROR_MESSAGE": "No se pudo borrar el equipo. Intente nuevamente."
+      },
+      "CONFIRM": {
+        "TITLE": "¿Está seguro que quiere borrar - %{teamName}?",
+        "PLACE_HOLDER": "Por favor escriba {teamName} para confirmar",
+        "MESSAGE": "Al borrar el equipo se quitara la asignación del equipo en las conversaciones asignadas a éste equipo.",
+        "YES": "Eliminar ",
+        "NO": "Cancelar"
+      }
+    },
+    "SETTINGS": "Ajustes",
+    "FORM": {
+      "UPDATE": "Actualizar el equipo",
+      "CREATE": "Crear equipo",
+      "NAME": {
+        "LABEL": "Nombre del equipo",
+        "PLACEHOLDER": "Ejemplo: Ventas, soporte"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción del Equipo",
+        "PLACEHOLDER": "Descripción corta acerca de este equipo."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Permitir auto asignar para este equipo."
+      },
+      "SUBMIT_CREATE": "Crear equipo"
+    }
+  }
+}

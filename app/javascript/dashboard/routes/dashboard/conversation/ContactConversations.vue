@@ -16,7 +16,7 @@
           v-for="conversation in previousConversations"
           :key="conversation.id"
           :chat="conversation"
-          :hide-inbox-name="true"
+          :hide-inbox-name="false"
           :hide-thumbnail="true"
           class="compact"
         />
@@ -77,13 +77,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-.contact-conversation--panel {
-  padding: 0 var(--space-slab) var(--space-two);
-}
-
 .contact-conversation__wrap {
   margin-left: var(--space-medium);
 }

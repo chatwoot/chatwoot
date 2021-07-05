@@ -10,20 +10,16 @@ class Platform::Api::V1::UsersController < PlatformController
     @resource.confirm
     @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
-    render json: @resource
   end
 
   def login
     render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{@resource.email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
-  def show
-    render json: @resource
-  end
+  def show; end
 
   def update
     @resource.update!(user_params)
-    render json: @resource
   end
 
   def destroy

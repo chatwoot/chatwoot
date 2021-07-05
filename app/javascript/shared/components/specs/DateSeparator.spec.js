@@ -11,7 +11,7 @@ describe('DateSeparator', () => {
         $t: () => {},
       },
     });
-    expect(wrapper.isVueInstance()).toBeTruthy();
+    expect(wrapper.vm).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });
 });

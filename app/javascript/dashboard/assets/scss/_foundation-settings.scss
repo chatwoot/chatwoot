@@ -49,7 +49,7 @@ $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
-  secondary: #35c5ff,
+  secondary: #5d7592,
   success: #44ce4b,
   warning: #ffc532,
   alert: #ff382d);
@@ -89,7 +89,9 @@ $breakpoints: (small: 0,
   medium: 640px,
   large: 1024px,
   xlarge: 1200px,
-  xxlarge: 1440px);
+  xxlarge: 1400px,
+  xxxlarge: 1600px,
+);
 $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
 
@@ -129,7 +131,7 @@ $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
 $paragraph-lineheight: 1.45;
-$paragraph-margin-bottom: 1rem;
+$paragraph-margin-bottom: var(--space-small);
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
 $code-font-family: $font-family-monospace;
@@ -236,7 +238,7 @@ $breadcrumbs-item-slash: true;
 // 11. Button
 // ----------
 
-$button-padding: var(--space-one) var(--space-slab);
+$button-padding: var(--space-smaller) 1em;
 $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
@@ -244,7 +246,7 @@ $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
 $button-radius: var(--border-radius-normal);
-$button-sizes: (tiny: var(--font-size-nano),
+$button-sizes: (tiny: var(--font-size-micro),
   small: var(--font-size-mini),
   default: var(--font-size-small),
   large: var(--font-size-medium));
@@ -258,11 +260,11 @@ color 0.25s ease-out;
 // 12. Button Group
 // ----------------
 
-$buttongroup-margin: 1rem;
-$buttongroup-spacing: 1px;
+$buttongroup-margin: 0;
+$buttongroup-spacing: 0;
 $buttongroup-child-selector: '.button';
 $buttongroup-expand-max: 6;
-$buttongroup-radius-on-each: true;
+$buttongroup-radius-on-each: false;
 
 // 13. Callout
 // -----------
@@ -283,10 +285,10 @@ $callout-link-tint: 30%;
 $card-background: $white;
 $card-font-color: $body-font-color;
 $card-divider-background: $light-gray;
-$card-border: 1px solid $light-gray;
-$card-shadow: none;
-$card-border-radius: $global-radius;
-$card-padding: $global-padding;
+$card-border: 1px solid var(--color-border);
+$card-shadow: var(--shadow-small);
+$card-border-radius: var(--border-radius-normal);
+$card-padding: var(--space-small);
 $card-margin: $global-margin;
 
 // 15. Close Button
@@ -343,21 +345,21 @@ $fieldset-padding: $space-two;
 $fieldset-margin: $space-one $zero;
 $legend-padding: rem-calc(0 3);
 $form-spacing: $space-normal;
-$helptext-color: $header-color;
+$helptext-color: $color-body;
 $helptext-font-size: $font-size-small;
 $helptext-font-style: italic;
-$input-prefix-color: $header-color;
+$input-prefix-color: $color-body;
 $input-prefix-background: var(--b-100);
 $input-prefix-border: 1px solid $color-border;
 $input-prefix-padding: 1rem;
-$form-label-color: $header-color;
+$form-label-color: $color-body;
 $form-label-font-size: rem-calc(14);
 $form-label-font-weight: $font-weight-medium;
 $form-label-line-height: 1.8;
 $select-background: $white;
 $select-triangle-color: $dark-gray;
-$select-radius: $global-radius;
-$input-color: $header-color;
+$select-radius: var(--border-radius-normal);
+$input-color: $color-body;
 $input-placeholder-color: $light-gray;
 $input-font-family: inherit;
 $input-font-size: $font-size-default;
@@ -372,19 +374,19 @@ $input-shadow-focus: 0;
 $input-cursor-disabled: not-allowed;
 $input-transition: border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $global-radius;
-$form-button-radius: $global-radius;
+$input-radius: var(--border-radius-normal);
+$form-button-radius: var(--border-radius-normal);
 
 // 20. Label
 // ---------
 
-$label-background: lighten($primary-color, 40%);
-$label-color: $primary-color;
+$label-background: $primary-color;
+$label-color: $white;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
-$label-font-size: $font-size-micro;
+$label-font-size: $font-size-mini;
 $label-padding: $space-smaller $space-small;
-$label-radius: $space-micro;
+$label-radius: var(--border-radius-small);
 
 // 21. Media Object
 // ----------------

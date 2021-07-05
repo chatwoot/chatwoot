@@ -41,6 +41,13 @@ export const mutations = {
     }
   },
 
+  setConversationUIFlag($state, uiFlags) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
+      ...uiFlags,
+    };
+  },
+
   setConversationListLoading($state, status) {
     $state.uiFlags.isFetchingList = status;
   },

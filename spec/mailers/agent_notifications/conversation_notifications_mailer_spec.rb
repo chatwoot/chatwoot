@@ -52,10 +52,11 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'assigned_conversation_new_message' do
-    let(:mail) { described_class.assigned_conversation_new_message(conversation, agent).deliver_now }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+    let(:mail) { described_class.assigned_conversation_new_message(message, agent).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq("#{agent.available_name}, New message in your assigned conversation [ID - #{conversation.display_id}].")
+      expect(mail.subject).to eq("#{agent.available_name}, New message in your assigned conversation [ID - #{message.conversation.display_id}].")
     end
 
     it 'renders the receiver email' do
