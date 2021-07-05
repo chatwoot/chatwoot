@@ -1,5 +1,4 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
 import getUuid from '../../../helpers/uuid';
@@ -47,12 +46,3 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
   Object.values(messageInbox).filter(
     message => message.content === content && message.status === 'in_progress'
   );
-
-export const onNewMessageCreated = data => {
-  const { message_type: messageType } = data;
-  const isIncomingMessage = messageType === MESSAGE_TYPE.OUTGOING;
-
-  if (isIncomingMessage) {
-    playNotificationAudio();
-  }
-};
