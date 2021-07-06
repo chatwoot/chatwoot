@@ -1,12 +1,7 @@
 <template>
   <header class="header-collapsed">
     <div class="header-branding">
-      <img
-        v-if="avatarUrl"
-        class="inbox--avatar mr-3"
-        :src="avatarUrl"
-        alt="avatar"
-      />
+      <img class="inbox--avatar mr-3" src="/rick2.png" alt="avatar" />
       <div>
         <div class="text-black-900 font-medium text-base flex items-center">
           <span class="mr-1" v-html="title" />
@@ -88,6 +83,7 @@ export default {
   padding: $space-two $space-medium;
   width: 100%;
   box-sizing: border-box;
+  background-color: #c8c8c8;
 
   .header-branding {
     display: flex;

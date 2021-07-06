@@ -1,9 +1,9 @@
 <template>
   <header class="header-expanded bg-white py-8 px-6 relative box-border w-full">
     <div class="flex justify-between items-start">
-      <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
+    <img class="inbox--avatar mr-3" src="/rick2.png" alt="avatar" />
     <h2
       class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
       v-html="introHeading"
@@ -23,7 +23,7 @@ export default {
   props: {
     avatarUrl: {
       type: String,
-      default: '',
+      default: '/rick2.png',
     },
     introHeading: {
       type: String,

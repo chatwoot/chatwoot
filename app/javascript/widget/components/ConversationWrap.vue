@@ -109,6 +109,7 @@ export default {
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  background-color: #fff;
 }
 
 .conversation-wrap {

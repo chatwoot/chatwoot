@@ -4,7 +4,7 @@
     :style="[style, customStyle]"
     aria-hidden="true"
   >
-    <span>{{ userInitial }}</span>
+    <img class="inbox--avatar" src="/rick2.png" alt="avatar" />
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
     },
     src: {
       type: String,
-      default: '',
+      default: '/rick2.png',
     },
     rounded: {
       type: Boolean,

@@ -44,6 +44,7 @@ export default {
   background: $color-white;
   box-sizing: border-box;
   padding: $space-small $space-slab;
+  margin-bottom: 1rem;
   width: 100%;
   border-radius: 7px;
   @include shadow-big;

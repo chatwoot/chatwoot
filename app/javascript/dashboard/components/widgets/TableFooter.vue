@@ -156,6 +156,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-normal);
+  margin-bottom: 1rem;
 }
 .page-meta {
   font-size: var(--font-size-mini);

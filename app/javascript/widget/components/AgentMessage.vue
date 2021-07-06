@@ -40,7 +40,7 @@
           </div>
         </div>
         <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
-          {{ agentName }}
+          Rick
         </p>
       </div>
     </div>
