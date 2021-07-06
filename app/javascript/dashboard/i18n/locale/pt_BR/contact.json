@@ -131,7 +131,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contato",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Campos de contatos",
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "LIST": {
@@ -207,31 +207,31 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "Mesclar contatos",
+    "DESCRIPTION": "Mesclar contatos é útil quando se tem entradas duplicadas de um mesmo contato. Essa ação trata um contato como primário e outro como derivado/secundário/filho. Após mesclar, todos os detalhes do contato primário serão preservados. Se o contato primário não tiver um dos campo listados, será utilizado o valor do campo do contato derivado. Se ocorrem conflitos, os campos do contato primário serão mantidos, e a as diferenças serão copiadas para campos personalizados.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Contato principal"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "Contato para mesclar",
+      "PLACEHOLDER": "Selecione um contato"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Sumário",
+      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong>será excluído.",
+      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "Mensagem de erro"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Mesclar contatos",
       "CANCEL": "Cancelar",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Selecione um contato filho para mesclar"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
     }
   }
 }
