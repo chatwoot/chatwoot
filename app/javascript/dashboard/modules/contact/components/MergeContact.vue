@@ -69,7 +69,7 @@
       :child-contact-name="childContactName"
     />
     <div class="footer">
-      <woot-button variant="clear" @click.prevent="closeModal">
+      <woot-button variant="clear" @click.prevent="onCancel">
         {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
       </woot-button>
       <woot-button type="submit" :is-loading="isMerging">
@@ -136,6 +136,9 @@ export default {
         return;
       }
       this.$emit('submit', this.childContact.id);
+    },
+    onCancel() {
+      this.$emit('cancel');
     },
   },
 };

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Thumbnail from '../../widgets/Thumbnail';
+import Thumbnail from '../../../components/widgets/Thumbnail';
 
 export default {
   components: {
