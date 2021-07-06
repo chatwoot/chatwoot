@@ -42,7 +42,7 @@
     />
     <img
       v-if="channel.key === 'gupshup'"
-      src="http://www.gupshup.io/developer/resources/img/ogp.jpg"
+      src="~dashboard/assets/images/channels/gupshup.png"
     />
     <h3 class="channel__title">
       {{ channel.name }}

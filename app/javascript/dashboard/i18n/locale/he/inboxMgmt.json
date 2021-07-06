@@ -127,42 +127,6 @@
           "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
-      "GUPSHUP": {
-        "TITLE": "Gupshup Whatsapp Channel",
-        "DESC": "Integrate Gupshup and start supporting your customers via Whatsapp.",
-        "APP": {
-          "LABEL": "Gupshup Application Name",
-          "PLACEHOLDER": "Please enter your Gupshup Application Name",
-          "ERROR": "This field is required"
-        },
-        "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
-        },
-        "APIKEY": {
-          "LABEL": "Gupshup API Key",
-          "PLACEHOLDER": "Please enter your Gupshup API Key",
-          "ERROR": "This field is required"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Gupshup with the URL mentioned here."
-        },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
-        }
-      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",

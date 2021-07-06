@@ -38,7 +38,6 @@ export default {
     },
     channelList() {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
-      console.log('haha');
       return [
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Facebook' },
@@ -74,7 +73,6 @@ export default {
         page: 'new',
         sub_page: channel,
       };
-      console.log(channel);
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
   },

@@ -27,7 +27,6 @@ export default {
       },
       name: 'new-channel-view',
       render(h) {
-        console.log(this.channel_name);
         return h(channelViewList[this.channel_name] || null);
       },
     };

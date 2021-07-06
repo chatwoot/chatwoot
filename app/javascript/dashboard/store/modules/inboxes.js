@@ -123,7 +123,6 @@ export const actions = {
   createGupshupChannel: async ({ commit }, params) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
-      console.log(params);
       const response = await GupshupChannel.create(params);
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
