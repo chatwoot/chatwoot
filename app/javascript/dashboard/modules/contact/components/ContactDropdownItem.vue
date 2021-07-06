@@ -8,7 +8,12 @@
 </template>
 
 <script>
+import Thumbnail from '../../widgets/Thumbnail';
+
 export default {
+  components: {
+    Thumbnail,
+  },
   props: {
     name: {
       type: String,
