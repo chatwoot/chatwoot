@@ -359,7 +359,7 @@ export default {
     margin-bottom: var(--space-normal);
     border-bottom: 1px solid var(--color-border-light);
   }
-  .multiselect-wrap--small {
+  .conversation--actions .multiselect-wrap--small {
     .multiselect {
       padding-left: var(--space-medium);
       box-sizing: border-box;
