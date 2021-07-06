@@ -41,15 +41,20 @@ class Integrations::Dialogflow::ProcessorService
   def process_response(message, response)
     fulfillment_messages = response.query_result['fulfillment_messages']
     fulfillment_messages.each do |fulfillment_message|
-      text_response = fulfillment_message['text'].to_h
-      content_params = { content: text_response[:text].first } if text_response[:text].present?
-      content_params ||= fulfillment_message['payload'].to_h
+      content_params = generate_content_params(fulfillment_message)
       if content_params['action'].present?
         process_action(message, content_params['action'])
       else
         create_conversation(message, content_params)
       end
     end
+  end
+
+  def generate_content_params(fulfillment_message)
+    text_response = fulfillment_message['text'].to_h
+    content_params = { content: text_response[:text].first } if text_response[:text].present?
+    content_params ||= fulfillment_message['payload'].to_h
+    content_params
   end
 
   def create_conversation(message, content_params)
