@@ -16,16 +16,16 @@
           @blur="$v.title.$touch"
         />
 
-        <label :class="{ error: $v.message.$error }">
+        <label class="editor-wrap">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-          <textarea
+          <woot-message-editor
             v-model="message"
-            rows="5"
-            type="text"
+            class="editor"
+            :class="{ editor_warning: $v.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
             @blur="$v.message.$touch"
           />
-          <span v-if="$v.message.$error" class="message">
+          <span v-if="$v.message.$error" class="warning-message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
@@ -100,7 +100,11 @@
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 export default {
+  components: {
+    WootMessageEditor,
+  },
   mixins: [alertMixin],
   props: {
     senderList: {
@@ -188,3 +192,28 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.editor-wrap {
+  margin-bottom: var(--space-normal);
+}
+
+.editor {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-normal);
+  padding: 0 var(--space-small);
+  margin-bottom: 0;
+}
+
+.editor_warning {
+  border: 1px solid var(--r-400);
+}
+
+.warning-message {
+  color: var(--r-400);
+  padding: var(--space-smaller) 0 0 0;
+}
+
+::v-deep .ProseMirror-woot-style {
+  height: 8rem;
+}
+</style>

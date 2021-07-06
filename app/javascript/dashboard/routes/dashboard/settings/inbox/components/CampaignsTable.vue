@@ -23,6 +23,7 @@ import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import CampaignSender from './CampaignSender';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
@@ -30,7 +31,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, messageFormatterMixin],
   props: {
     campaigns: {
       type: Array,
@@ -69,11 +70,16 @@ export default {
           align: 'left',
           width: 350,
           renderBodyCell: ({ row }) => {
-            return (
-              <div class="text-truncate">
-                <span title={row.message}>{row.message}</span>
-              </div>
-            );
+            if (row.message) {
+              return (
+                <div class="text-truncate">
+                  <span
+                    domPropsInnerHTML={this.convertedMessage(row.message)}
+                  ></span>
+                </div>
+              );
+            }
+            return '';
           },
         },
         {
@@ -166,6 +172,11 @@ export default {
           timeOnPage: item.trigger_rules.time_on_page,
         };
       });
+    },
+  },
+  methods: {
+    convertedMessage(messages) {
+      return this.formatMessage(messages);
     },
   },
 };
