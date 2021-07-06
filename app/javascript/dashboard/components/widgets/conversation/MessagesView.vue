@@ -292,7 +292,9 @@ export default {
       this.setScrollParams();
 
       const dataFetchCheck =
-        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
+        this.getMessages &&
+        this.getMessages.dataFetched === true &&
+        this.shouldLoadMoreChats;
       if (
         e.target.scrollTop < 100 &&
         !this.isLoadingPrevious &&
