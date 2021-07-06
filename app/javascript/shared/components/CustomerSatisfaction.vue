@@ -29,8 +29,8 @@
         :disabled="isButtonDisabled"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
-        <spinner v-else />
+        <spinner v-if="isUpdating && feedback" />
+        <i v-else class="ion-ios-arrow-forward" />
       </button>
     </form>
   </div>
@@ -106,16 +106,21 @@ export default {
     },
     async onSubmit() {
       this.isUpdating = true;
-      await this.$store.dispatch('message/update', {
-        submittedValues: {
-          csat_survey_response: {
-            rating: this.selectedRating,
-            feedback_message: this.feedback,
+      try {
+        await this.$store.dispatch('message/update', {
+          submittedValues: {
+            csat_survey_response: {
+              rating: this.selectedRating,
+              feedback_message: this.feedback,
+            },
           },
-        },
-        messageId: this.messageId,
-      });
-      this.isUpdating = false;
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
     },
     selectRating(rating) {
       this.selectedRating = rating.value;

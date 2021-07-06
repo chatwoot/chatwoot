@@ -73,11 +73,16 @@ export default {
         return;
       }
       this.isUpdating = true;
-      await this.$store.dispatch('message/update', {
-        email: this.email,
-        messageId: this.messageId,
-      });
-      this.isUpdating = false;
+      try {
+        await this.$store.dispatch('message/update', {
+          email: this.email,
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
     },
   },
 };
