@@ -29,8 +29,8 @@
         "TITLE": "Звуковые уведомления",
         "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
         "NONE": "Ничего",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ASSIGNED": "Назначенные беседы",
+        "ALL_CONVERSATIONS": "Диалоги"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Уведомления",
