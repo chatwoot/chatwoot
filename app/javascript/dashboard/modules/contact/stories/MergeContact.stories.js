@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import MergeContact from 'dashboard/modules/contact/MergeContact';
+import MergeContact from 'dashboard/modules/contact/components/MergeContact';
 
 export default {
   title: 'Components/Contact/MergeContacts',

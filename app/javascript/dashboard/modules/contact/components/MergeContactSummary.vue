@@ -6,15 +6,24 @@
     <ul class="summary-items">
       <li>
         <span>❌</span>
-        Contact of
-        <strong>{{ childContactName }}</strong>
-        will be deleted.
+        <span
+          v-html="
+            $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
+              childContactName,
+            })
+          "
+        />
       </li>
       <li>
         <span>✅</span>
-        Contact details of <strong>{{ childContactName }}</strong> will be
-        copied to
-        <strong>{{ primaryContactName }}</strong>
+        <span
+          v-html="
+            $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
+              childContactName,
+              primaryContactName,
+            })
+          "
+        />
       </li>
     </ul>
   </div>

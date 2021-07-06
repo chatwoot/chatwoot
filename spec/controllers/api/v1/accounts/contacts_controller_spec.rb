@@ -40,6 +40,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
         expect(response_body['payload'].first['last_seen_at']).present?
       end
+
+      it 'filters contacts based on label filter' do
+        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, account: account)
+        contact_with_label1.update_labels(['label1'])
+        contact_with_label2.update_labels(['label2'])
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            params: { labels: %w[label1 label2] },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['meta']['count']).to eq(2)
+        expect(response_body['payload'].pluck('email')).to include(contact_with_label1.email, contact_with_label2.email)
+      end
     end
   end
 

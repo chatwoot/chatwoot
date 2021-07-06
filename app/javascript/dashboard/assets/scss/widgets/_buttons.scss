@@ -6,6 +6,10 @@ $default-button-height: 4.0rem;
   height: $default-button-height;
   margin-bottom: 0;
 
+  .button__content {
+    width: 100%;
+  }
+
   .spinner {
     padding: 0 var(--space-small);
   }

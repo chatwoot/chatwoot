@@ -14,14 +14,10 @@
           track-by="id"
         >
           <template slot="singleLabel" slot-scope="props">
-            <thumbnail
-              :src="props.option.thumbnail"
-              size="24px"
-              :username="props.option.name"
+            <contact-dropdown-item
+              :thumbnail="props.option.thumbnail"
+              :name="props.option.name"
             />
-            <span class="option__title">
-              {{ props.option.name }}
-            </span>
           </template>
         </multiselect>
       </div>
@@ -45,7 +41,7 @@
             :internal-search="false"
             :clear-on-select="false"
             :show-labels="false"
-            placeholder="Choose a contact"
+            :placeholder="$t('MERGE_CONTACTS.CHILD.PLACEHOLDER')"
             :allow-empty="true"
             :loading="isSearching"
             :max-height="150"
@@ -53,14 +49,10 @@
             @search-change="searchChange"
           >
             <template slot="singleLabel" slot-scope="props">
-              <thumbnail
-                :src="props.option.thumbnail"
-                size="24px"
-                :username="props.option.name"
+              <contact-dropdown-item
+                :thumbnail="props.option.thumbnail"
+                :name="props.option.name"
               />
-              <span class="option__title">
-                {{ props.option.name }}
-              </span>
             </template>
             <span slot="noResult">
               {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
@@ -77,7 +69,7 @@
       :child-contact-name="childContactName"
     />
     <div class="footer">
-      <woot-button variant="clear" @click.prevent="closeModal">
+      <woot-button variant="clear" @click.prevent="onCancel">
         {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
       </woot-button>
       <woot-button type="submit" :is-loading="isMerging">
@@ -92,19 +84,15 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import ContactDropdownItem from './ContactDropdownItem';
 
 export default {
-  components: { Thumbnail, MergeContactSummary },
+  components: { MergeContactSummary, ContactDropdownItem },
   mixins: [alertMixin],
   props: {
     primaryContact: {
       type: Object,
       required: true,
-    },
-    onContactSearch: {
-      type: Function,
-      default: () => {},
     },
     isSearching: {
       type: Boolean,
@@ -148,6 +136,9 @@ export default {
         return;
       }
       this.$emit('submit', this.childContact.id);
+    },
+    onCancel() {
+      this.$emit('cancel');
     },
   },
 };

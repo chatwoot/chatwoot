@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "帐户设置",
     "APPLICATIONS": "Applications",
     "LABELS": "标签",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",
