@@ -175,8 +175,8 @@ export default {
     },
   },
   methods: {
-    convertedMessage(messages) {
-      return this.formatMessage(messages);
+    convertedMessage(message) {
+      return this.formatMessage(message);
     },
   },
 };

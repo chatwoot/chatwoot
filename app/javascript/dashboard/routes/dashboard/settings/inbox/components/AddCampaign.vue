@@ -200,7 +200,7 @@ export default {
 .editor {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-normal);
-  padding: 0 var(--space-small);
+  padding: 0 var(--space-slab);
   margin-bottom: 0;
 }
 
@@ -210,6 +210,7 @@ export default {
 
 .warning-message {
   color: var(--r-400);
+  font-weight: var(--font-weight-normal);
   padding: var(--space-smaller) 0 0 0;
 }
 
