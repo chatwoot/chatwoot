@@ -50,6 +50,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    messageId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -84,10 +88,10 @@ export default {
   mounted() {
     if (this.isRatingSubmitted) {
       const {
-        csat_survey_response: { rating, feedback },
+        csat_survey_response: { rating, feedback_message },
       } = this.messageContentAttributes;
       this.selectedRating = rating;
-      this.feedback = feedback;
+      this.feedback = feedback_message;
     }
   },
 
@@ -100,11 +104,18 @@ export default {
         'emoji-button',
       ];
     },
-    onSubmit() {
-      this.$emit('submit', {
-        rating: this.selectedRating,
-        feedback: this.feedback,
+    async onSubmit() {
+      this.isUpdating = true;
+      await this.$store.dispatch('message/update', {
+        submittedValues: {
+          csat_survey_response: {
+            rating: this.selectedRating,
+            feedback_message: this.feedback,
+          },
+        },
+        messageId: this.messageId,
       });
+      this.isUpdating = false;
     },
     selectRating(rating) {
       this.selectedRating = rating.value;
