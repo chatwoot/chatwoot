@@ -34,7 +34,7 @@ window.chatwootSettings = {
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-
+  console.log(window.$chatwoot);
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
