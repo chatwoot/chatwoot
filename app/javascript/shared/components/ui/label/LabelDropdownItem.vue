@@ -9,9 +9,11 @@
               class="label-color--display"
               :style="{ backgroundColor: color }"
             />
-            <span>{{ title }}</span>
+            <span class="label-text" :title="title">{{ title }}</span>
           </div>
-          <i v-if="selected" class="icon ion-checkmark-round" />
+          <div>
+            <i v-if="selected" class="icon ion-checkmark-round" />
+          </div>
         </div>
       </woot-button>
     </div>
@@ -47,9 +49,14 @@ export default {
 .item-wrap {
   display: flex;
 
+  ::v-deep .button__content {
+    width: 100%;
+  }
+
   .button-wrap {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 
     &.active {
       display: flex;
@@ -59,14 +66,24 @@ export default {
 
     .name-label-wrap {
       display: flex;
-    }
+      min-width: 0;
+      width: 100%;
 
-    .label-color--display {
-      margin-right: var(--space-small);
-    }
+      .label-color--display {
+        margin-right: var(--space-small);
+      }
 
-    .icon {
-      font-size: var(--font-size-small);
+      .label-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1.1;
+        padding-right: var(--space-small);
+      }
+
+      .icon {
+        font-size: var(--font-size-small);
+      }
     }
   }
 

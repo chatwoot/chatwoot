@@ -3,7 +3,7 @@
     <div class="search-message">
       <div class="user-wrap">
         <div class="name-wrap">
-          <span class="user-name">{{ userName }}</span>
+          <span class="text-block-title">{{ userName }}</span>
           <div>
             <i v-if="isOutgoingMessage" class="ion-headphone" />
           </div>
@@ -109,10 +109,9 @@ export default {
 
 .name-wrap {
   display: flex;
-  width: 22rem;
+  max-width: 22rem;
 
-  .user-name {
-    font-size: var(--font-size-small);
+  .text-block-title {
     font-weight: var(--font-weight-bold);
     text-overflow: ellipsis;
     overflow: hidden;
@@ -141,6 +140,7 @@ p {
 .message-content {
   font-size: var(--font-size-small);
   margin-bottom: var(--space-micro);
+  margin-top: var(--space-micro);
   padding: 0;
   line-height: 1.35;
   overflow-wrap: break-word;

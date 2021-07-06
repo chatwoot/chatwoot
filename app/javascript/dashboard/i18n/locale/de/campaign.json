@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "YES": "Ja, löschen ",
+        "NO": "Nein, behalten "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Die Kampagne konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal."
+      }
+    },
     "EDIT": {
       "TITLE": "Kampagne bearbeiten",
       "UPDATE_BUTTON_TEXT": "Aktualisieren",
@@ -52,7 +65,7 @@
     },
     "LIST": {
       "LOADING_MESSAGE": "Lade Kampagnen...",
-      "404": "There are no campaigns created for this inbox.",
+      "404": "Es wurden keine Kampagnen für diesen Posteingang erstellt.",
       "TABLE_HEADER": {
         "TITLE": "Titel",
         "MESSAGE": "Nachricht",

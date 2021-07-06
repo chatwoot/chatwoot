@@ -28,6 +28,8 @@
     "DOWNLOAD": "பதிவிறக்கம்",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "NO_RESPONSE": "No response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "தீர்",
       "REOPEN_ACTION": "மீண்டும் திற",
@@ -108,8 +110,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
     "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
       "PLACEHOLDER": "None"

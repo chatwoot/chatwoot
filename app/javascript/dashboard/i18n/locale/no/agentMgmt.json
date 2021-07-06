@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Ingen agenter funnet."
+      "NO_RESULTS": "No results found."
     }
   }
 }

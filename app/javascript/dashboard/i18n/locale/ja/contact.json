@@ -18,19 +18,14 @@
       "TITLE": "前の会話"
     },
     "LABELS": {
-      "TITLE": "会話のラベル",
-      "MODAL": {
-        "TITLE": "ラベル：",
-        "ACTIVE_LABELS": "会話にラベルを追加",
-        "INACTIVE_LABELS": "アカウントで利用可能なラベル名",
-        "REMOVE": "ラベルを削除するには×アイコンをクリックします",
-        "ADD": "+アイコンをクリックしてラベルを追加",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "ラベルの更新",
-        "UPDATE_ERROR": "ラベルを更新できませんでした。再度お試し下さい。"
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "アカウントに定義されているラベルがありません。",
-      "NO_AVAILABLE_LABELS": "この会話に追加されたラベルはありません。",
+      "CONVERSATION": {
+        "TITLE": "会話のラベル",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -141,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "名前",
         "PHONE_NUMBER": "電話番号",
@@ -155,6 +151,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +172,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "会話データ"
     }
   },
   "CUSTOM_ATTRIBUTES": {

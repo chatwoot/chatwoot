@@ -18,19 +18,14 @@
       "TITLE": "Conversations précédentes"
     },
     "LABELS": {
-      "TITLE": "Étiquettes de conversation",
-      "MODAL": {
-        "TITLE": "Étiquettes pour",
-        "ACTIVE_LABELS": "Étiquettes ajoutées à la conversation",
-        "INACTIVE_LABELS": "Étiquettes disponibles dans le compte",
-        "REMOVE": "Cliquez sur l'icône X pour supprimer l'étiquette",
-        "ADD": "Cliquez sur l'icône + pour ajouter l'étiquette",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Mettre à jour les étiquettes",
-        "UPDATE_ERROR": "Impossible de mettre à jour les étiquettes. Veuillez réessayer."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Il n'y a pas d'autres étiquettes définies dans le compte.",
-      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation.",
+      "CONVERSATION": {
+        "TITLE": "Étiquettes de conversation",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -141,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nom",
         "PHONE_NUMBER": "Numéro de téléphone",
@@ -155,6 +151,16 @@
       "VIEW_DETAILS": "Voir les détails"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +172,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversations"
     }
   },
   "CUSTOM_ATTRIBUTES": {

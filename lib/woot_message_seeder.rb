@@ -10,6 +10,17 @@ module WootMessageSeeder
     )
   end
 
+  def self.create_sample_csat_collect_message(conversation)
+    Message.create!(
+      account: conversation.account,
+      inbox: conversation.inbox,
+      conversation: conversation,
+      message_type: :template,
+      content_type: :input_csat,
+      content: 'Please rate the support'
+    )
+  end
+
   def self.create_sample_cards_message(conversation)
     Message.create!(
       account: conversation.account,

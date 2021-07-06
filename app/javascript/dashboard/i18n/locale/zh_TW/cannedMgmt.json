@@ -1,14 +1,14 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "罐頭回覆",
-    "HEADER_BTN_TXT": "新增罐頭回覆",
-    "LOADING": "取得罐頭回覆",
+    "HEADER": "預設回覆",
+    "HEADER_BTN_TXT": "新增預設回覆",
+    "LOADING": "取得預設回覆",
     "SEARCH_404": "沒有任何項目符合此查詢",
     "SIDEBAR_TXT": "<p><b>預設回覆</b> </p><p> 將預設回覆保存為回覆模板，用來快速發送回覆到對話。 </p><p> 若要建立預設回覆，只需點擊 <b>建立預設回覆</b>。 您也可以通過點擊編輯或刪除按鈕來編輯或刪除現有的預設回覆 </p><p> 在 <b>簡碼</b> 的幫助下使用預設的回覆方式。 客服在聊天時可以通過輸入 <b>'/'</b> 然後是簡碼使用預設回覆 </p>",
     "LIST": {
       "404": "此帳戶中沒有可用的罐頭回覆。",
-      "TITLE": "管理罐頭回覆",
-      "DESC": "罐頭回覆是預定義的回覆模板，可以用來快速發送對工單的回覆。",
+      "TITLE": "管理預設回覆",
+      "DESC": "預設回覆是預定義的回覆模板，可以用來快速發送對工單的回覆。",
       "TABLE_HEADER": [
         "簡碼",
         "内容",
@@ -16,8 +16,8 @@
       ]
     },
     "ADD": {
-      "TITLE": "建立罐頭回覆",
-      "DESC": "罐頭回覆是保存的回覆模板，可以用來快速發送回覆到對話中。",
+      "TITLE": "建立預設回覆",
+      "DESC": "預設回覆是保存的回覆模板，可以用來快速發送回覆到對話中。",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
@@ -33,12 +33,12 @@
         "SUBMIT": "送出"
       },
       "API": {
-        "SUCCESS_MESSAGE": "已成功新增罐頭回覆",
+        "SUCCESS_MESSAGE": "已成功新增預設回覆",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "EDIT": {
-      "TITLE": "編輯罐頭回覆",
+      "TITLE": "編輯預設回覆",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
@@ -55,14 +55,14 @@
       },
       "BUTTON_TEXT": "編輯",
       "API": {
-        "SUCCESS_MESSAGE": "罐頭回覆已成功更新",
+        "SUCCESS_MESSAGE": "預設回覆已成功更新",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "罐頭回覆已成功刪除",
+        "SUCCESS_MESSAGE": "預設回覆已成功刪除",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "CONFIRM": {

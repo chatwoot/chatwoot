@@ -51,5 +51,15 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}"
+  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Неверное поле"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Оцените разговор",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Расскажите подробнее..."
+  }
 }

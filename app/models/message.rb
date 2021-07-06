@@ -49,7 +49,8 @@ class Message < ApplicationRecord
     cards: 5,
     form: 6,
     article: 7,
-    incoming_email: 8
+    incoming_email: 8,
+    input_csat: 9
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -78,6 +79,7 @@ class Message < ApplicationRecord
   belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
+  has_one :csat_survey_response, dependent: :destroy
 
   after_create :reopen_conversation,
                :notify_via_mail

@@ -21,6 +21,9 @@ Rails.application.configure do
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_SERVE_STATIC_FILES', true))
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{1.year.to_i}"
+  }
   # Compress JavaScripts and CSS.
   # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
@@ -42,9 +45,12 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
-  if ENV['FRONTEND_URL'].present?
-    config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}]
-  end
+
+  # to enable connecting to the API channel public APIs
+  config.action_cable.disable_request_forgery_protection = true
+  # if ENV['FRONTEND_URL'].present?
+  #   config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}]
+  # end
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))

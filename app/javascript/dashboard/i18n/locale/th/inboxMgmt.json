@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "ชื่อกล่องข้อความ",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "ชื่อเว็บไซต์",
+        "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
+      },
       "FB": {
         "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น Chatwoot ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
         "CHOOSE_PAGE": "เลือกหน้า",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "กำลังสร้างช่องช่วยเหลือสำหรับเว็บไซต์",
         "CHANNEL_AVATAR": {
           "LABEL": "รูปของช่อง"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "ชื่อเว็บไซต์",
-          "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "โดเมนเว็บไซต์",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "ยืนยันการลบ",
         "MESSAGE": "คุณต้องการที่จะลบไหม ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "เอาเลย ",
         "NO": "ไม่อะเก็บไว้ "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "พนักงาน",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",

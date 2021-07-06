@@ -30,4 +30,12 @@
   // Use 'postCreateCommand' to run commands after the container is created.
   // #TODO: can we move logic of copy env file into dockerfile ?
   "postCreateCommand": "cp .env.example .env",
+  "portsAttributes": {
+    "3000": {
+      "label": "Rails Server"
+    },
+    "8025": {
+      "label": "Mailhog UI"
+    }
+  },
 }
