@@ -235,6 +235,10 @@ export default {
         rgba($color-background, 0)
       );
     }
+
+    button {
+      margin-bottom: 1rem;
+    }
   }
 
   .input-wrap {

@@ -1,13 +1,13 @@
 {
-  "application.js": "/packs/js/application-d9e8f4fb56a147eba799.js",
-  "application.js.map": "/packs/js/application-d9e8f4fb56a147eba799.js.map",
+  "application.js": "/packs/js/application-d86de18319e502a7d719.js",
+  "application.js.map": "/packs/js/application-d86de18319e502a7d719.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-d9e8f4fb56a147eba799.js"
+        "/packs/js/application-d86de18319e502a7d719.js"
       ],
       "js.map": [
-        "/packs/js/application-d9e8f4fb56a147eba799.js.map"
+        "/packs/js/application-d86de18319e502a7d719.js.map"
       ]
     },
     "sdk": {
@@ -20,26 +20,26 @@
     },
     "superadmin_pages": {
       "js": [
-        "/packs/js/superadmin_pages-d9e8f4fb56a147eba799.js"
+        "/packs/js/superadmin_pages-d86de18319e502a7d719.js"
       ],
       "js.map": [
-        "/packs/js/superadmin_pages-d9e8f4fb56a147eba799.js.map"
+        "/packs/js/superadmin_pages-d86de18319e502a7d719.js.map"
       ]
     },
     "superadmin": {
       "js": [
-        "/packs/js/superadmin-d9e8f4fb56a147eba799.js"
+        "/packs/js/superadmin-d86de18319e502a7d719.js"
       ],
       "js.map": [
-        "/packs/js/superadmin-d9e8f4fb56a147eba799.js.map"
+        "/packs/js/superadmin-d86de18319e502a7d719.js.map"
       ]
     },
     "widget": {
       "js": [
-        "/packs/js/widget-d9e8f4fb56a147eba799.js"
+        "/packs/js/widget-d86de18319e502a7d719.js"
       ],
       "js.map": [
-        "/packs/js/widget-d9e8f4fb56a147eba799.js.map"
+        "/packs/js/widget-d86de18319e502a7d719.js.map"
       ]
     }
   },
@@ -82,10 +82,10 @@
   "media/widget/assets/images/typing.gif": "/packs/media/widget/assets/images/typing-6027d21b24f45e3377a729a55158f948.gif",
   "sdk.js": "/packs/js/sdk.js",
   "sdk.js.map": "/packs/js/sdk.js.map",
-  "superadmin.js": "/packs/js/superadmin-d9e8f4fb56a147eba799.js",
-  "superadmin.js.map": "/packs/js/superadmin-d9e8f4fb56a147eba799.js.map",
-  "superadmin_pages.js": "/packs/js/superadmin_pages-d9e8f4fb56a147eba799.js",
-  "superadmin_pages.js.map": "/packs/js/superadmin_pages-d9e8f4fb56a147eba799.js.map",
-  "widget.js": "/packs/js/widget-d9e8f4fb56a147eba799.js",
-  "widget.js.map": "/packs/js/widget-d9e8f4fb56a147eba799.js.map"
+  "superadmin.js": "/packs/js/superadmin-d86de18319e502a7d719.js",
+  "superadmin.js.map": "/packs/js/superadmin-d86de18319e502a7d719.js.map",
+  "superadmin_pages.js": "/packs/js/superadmin_pages-d86de18319e502a7d719.js",
+  "superadmin_pages.js.map": "/packs/js/superadmin_pages-d86de18319e502a7d719.js.map",
+  "widget.js": "/packs/js/widget-d86de18319e502a7d719.js",
+  "widget.js.map": "/packs/js/widget-d86de18319e502a7d719.js.map"
 }

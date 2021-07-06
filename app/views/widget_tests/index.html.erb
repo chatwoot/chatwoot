@@ -11,36 +11,36 @@
 
 %>
 <script>
+  // window.chatwootSettings = {
+  //   hideMessageBubble: false,
+  //   position: 'left',
+  //   locale: 'en',
+  //   type: 'expanded_bubble',
+  //   showPopoutButton: true,
+  // };
 
-window.chatwootSettings = {
-  hideMessageBubble: false,
-  position: 'left',
-  locale: 'en',
-  type: 'expanded_bubble',
-  showPopoutButton: true,
-};
+  (function(d, t) {
+    var BASE_URL = '';
+    var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    g.src = BASE_URL + "/packs/js/sdk.js";
+    s.parentNode.insertBefore(g, s);
+    g.onload = function() {
+      window.chatwootSDK.run({
+        websiteToken: '<%= @web_widget.website_token %>',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document, "script");
 
-(function(d,t) {
-  var BASE_URL = '';
-  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src= BASE_URL + "/packs/js/sdk.js";
-  s.parentNode.insertBefore(g,s);
-  g.onload=function(){
-    window.chatwootSDK.run({
-      websiteToken: '<%= @web_widget.website_token %>',
-      baseUrl: BASE_URL
-    })
-  }
-})(document,"script");
-
-window.addEventListener('chatwoot:ready', function() {
-  console.log(window.$chatwoot);
-  if (window.location.search.includes('setUser')) {
-    window.$chatwoot.setUser('<%= user_id %>', {
-      identifier_hash: '<%= user_hash %>',
-      email: 'jane@example.com',
-      name: 'Jane Doe'
-    });
-  }
-})
+  // window.addEventListener('chatwoot:ready', function() {
+  //   console.log(window.$chatwoot);
+  //   if (window.location.search.includes('setUser')) {
+  //     window.$chatwoot.setUser('<%= user_id %>', {
+  //       identifier_hash: '<%= user_hash %>',
+  //       email: 'jane@example.com',
+  //       name: 'Jane Doe'
+  //     });
+  //   }
+  // })
 </script>

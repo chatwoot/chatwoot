@@ -3,11 +3,11 @@
     <div class="flex justify-between items-start">
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
-    <img class="inbox--avatar mr-3" src="/rick2.png" alt="avatar" />
     <h2
       class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
       v-html="introHeading"
     />
+    <img class="inbox--avatar" src="/rick2.png" alt="avatar" />
     <p class="text-lg text-black-700 leading-normal" v-html="introBody" />
   </header>
 </template>
@@ -56,6 +56,10 @@ $logo-size: 56px;
     width: $logo-size;
     height: $logo-size;
     border-radius: $logo-size;
+  }
+  .inbox--avatar {
+    width: 3rem;
+    height: 3rem;
   }
 }
 </style>
