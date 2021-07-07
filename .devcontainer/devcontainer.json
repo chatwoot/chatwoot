@@ -15,7 +15,8 @@
     "wingrunr21.vscode-ruby",
     "davidpallinder.rails-test-runner",
     "eamodio.gitlens",
-    "github.copilot"
+    "github.copilot",
+    "mrmlnc.vscode-duplicate"
   ],
 
 

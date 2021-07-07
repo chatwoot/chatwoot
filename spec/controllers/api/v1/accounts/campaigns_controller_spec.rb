@@ -116,7 +116,7 @@ RSpec.describe 'Campaigns API', type: :request do
         post "/api/v1/accounts/#{account.id}/campaigns",
              params: {
                inbox_id: twilio_inbox.id, title: 'test', message: 'test message',
-               trigger_time: 2.days.from_now,
+               scheduled_at: 2.days.from_now,
                audience: [{ type: 'Label', id: label1.id }, { type: 'Label', id: label2.id }]
              },
              headers: administrator.create_new_auth_token,
@@ -125,7 +125,7 @@ RSpec.describe 'Campaigns API', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data[:campaign_type]).to eq('one_off')
-        expect(response_data[:trigger_time].present?).to eq true
+        expect(response_data[:scheduled_at].present?).to eq true
         expect(response_data[:audience].pluck(:id)).to include(label1.id, label2.id)
       end
     end

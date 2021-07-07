@@ -32,13 +32,13 @@ RSpec.describe Campaign, type: :model do
     end
   end
 
-  context 'when a campaign is locked' do
-    let!(:campaign) { create(:campaign, locked: true) }
+  context 'when a campaign is completed' do
+    let!(:campaign) { create(:campaign, campaign_status: :completed) }
 
     it 'would prevent further updates' do
       campaign.title = 'new name'
       expect(campaign.save).to eq false
-      expect(campaign.errors.full_messages.first).to eq 'Locked The campaign is locked'
+      expect(campaign.errors.full_messages.first).to eq 'Status The campaign is already completed'
     end
 
     it 'can be deleted' do
@@ -53,11 +53,11 @@ RSpec.describe Campaign, type: :model do
       let!(:twilio_inbox) { create(:inbox, channel: twilio_sms) }
       let(:campaign) { build(:campaign, inbox: twilio_inbox) }
 
-      it 'only saves campaign type as oneoff and wont leave trigger_time empty' do
+      it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
         campaign.campaign_type = 'ongoing'
         campaign.save!
         expect(campaign.reload.campaign_type).to eq 'one_off'
-        expect(campaign.trigger_time.present?).to eq true
+        expect(campaign.scheduled_at.present?).to eq true
       end
     end
 

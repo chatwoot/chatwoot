@@ -2,27 +2,30 @@
 #
 # Table name: campaigns
 #
-#  id            :bigint           not null, primary key
-#  audience      :jsonb
-#  campaign_type :integer          default("ongoing"), not null
-#  description   :text
-#  enabled       :boolean          default(TRUE)
-#  locked        :boolean          default(FALSE), not null
-#  message       :text             not null
-#  title         :string           not null
-#  trigger_rules :jsonb
-#  trigger_time  :datetime
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :bigint           not null
-#  display_id    :integer          not null
-#  inbox_id      :bigint           not null
-#  sender_id     :integer
+#  id              :bigint           not null, primary key
+#  audience        :jsonb
+#  campaign_status :integer          default("active"), not null
+#  campaign_type   :integer          default("ongoing"), not null
+#  description     :text
+#  enabled         :boolean          default(TRUE)
+#  message         :text             not null
+#  scheduled_at    :datetime
+#  title           :string           not null
+#  trigger_rules   :jsonb
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  account_id      :bigint           not null
+#  display_id      :integer          not null
+#  inbox_id        :bigint           not null
+#  sender_id       :integer
 #
 # Indexes
 #
-#  index_campaigns_on_account_id  (account_id)
-#  index_campaigns_on_inbox_id    (inbox_id)
+#  index_campaigns_on_account_id       (account_id)
+#  index_campaigns_on_campaign_status  (campaign_status)
+#  index_campaigns_on_campaign_type    (campaign_type)
+#  index_campaigns_on_inbox_id         (inbox_id)
+#  index_campaigns_on_scheduled_at     (scheduled_at)
 #
 # Foreign Keys
 #
@@ -35,12 +38,14 @@ class Campaign < ApplicationRecord
   validates :title, presence: true
   validates :message, presence: true
   validate :validate_campaign_inbox
-  validate :prevent_locked_record_from_update, on: :update
+  validate :prevent_completed_campaign_from_update, on: :update
   belongs_to :account
   belongs_to :inbox
   belongs_to :sender, class_name: 'User', optional: true
 
   enum campaign_type: { ongoing: 0, one_off: 1 }
+  # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
+  enum campaign_status: { active: 0, completed: 1 }
 
   has_many :conversations, dependent: :nullify, autosave: true
 
@@ -65,15 +70,15 @@ class Campaign < ApplicationRecord
 
     if inbox.inbox_type == 'Twilio SMS'
       self.campaign_type = 'one_off'
-      self.trigger_time ||= Time.now.utc
+      self.scheduled_at ||= Time.now.utc
     else
       self.campaign_type = 'ongoing'
-      self.trigger_time = nil
+      self.scheduled_at = nil
     end
   end
 
-  def prevent_locked_record_from_update
-    errors.add :locked, 'The campaign is locked' if locked
+  def prevent_completed_campaign_from_update
+    errors.add :status, 'The campaign is already completed' if completed?
   end
 
   # creating db triggers
