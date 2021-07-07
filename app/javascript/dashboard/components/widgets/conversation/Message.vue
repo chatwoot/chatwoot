@@ -47,6 +47,7 @@
         v-if="isBubble"
         :is-open="showContextMenu"
         :show-copy="hasText"
+        :show-delete="showDelete"
         :menu-position="contextMenuPosition"
         @toggle="handleContextMenuClick"
         @delete="handleDelete"
@@ -201,6 +202,9 @@ export default {
     },
     hasText() {
       return !!this.data.content;
+    },
+    showDelete() {
+      return !this.contentAttributes.deleted;
     },
     sentByMessage() {
       const { sender } = this;
