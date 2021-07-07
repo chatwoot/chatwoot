@@ -216,6 +216,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
       }
     },
     "DELETE": {
@@ -255,6 +259,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "தானாக ஒதுக்கீட்டை இயக்கு",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",
