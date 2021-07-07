@@ -131,7 +131,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Контакты",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Поля контакта",
     "SEARCH_BUTTON": "Поиск",
     "SEARCH_INPUT_PLACEHOLDER": "Поиск по контактам",
     "LIST": {
@@ -207,31 +207,31 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "Объединить контакты",
+    "DESCRIPTION": "Объединение контактов полезно, когда у вас есть несколько похожих записей контактов. Объединение связывает первичный контакт и похожие контакты. После слияния все детали основного контакта останутся прежними. Если первичный контакт не имеет поля, то значение из похожих контактов будут использованы после слияния. Если произойдет конфликт, поля в первичном контакте не будут затронуты, но поля похожего контакта будут скопированы в дополнительные поля основного.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Основной контакт"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "Контакт для слияния",
+      "PLACEHOLDER": "Выберите контакт"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Краткая информация",
+      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> будет удален.",
+      "ATTRIBUTE_WARNING": "Контактная информация <strong>%{childContactName}</strong> будет скопирована в <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Объединить контакты",
       "CANCEL": "Отменить",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Выберите контакт, для объединения"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "Контакт успешно объединён",
+      "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
     }
   }
 }
