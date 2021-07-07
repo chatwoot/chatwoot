@@ -10,6 +10,12 @@ json.sender do
 end
 json.message resource.message
 json.enabled resource.enabled
+json.campaign_type resource.campaign_type
+if resource.campaign_type == 'one_off'
+  json.trigger_time resource.trigger_time
+  json.audience resource.audience
+end
+json.locked resource.locked
 json.trigger_rules resource.trigger_rules
 json.created_at resource.created_at
 json.updated_at resource.updated_at

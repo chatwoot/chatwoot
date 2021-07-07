@@ -14,7 +14,8 @@
     "misogi.ruby-rubocop",
     "wingrunr21.vscode-ruby",
     "davidpallinder.rails-test-runner",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "github.copilot"
   ],
 
 

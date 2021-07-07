@@ -68,6 +68,7 @@ class Campaign < ApplicationRecord
       self.trigger_time ||= Time.now.utc
     else
       self.campaign_type = 'ongoing'
+      self.trigger_time = nil
     end
   end
 
