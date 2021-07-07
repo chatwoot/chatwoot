@@ -37,10 +37,6 @@
       src="~dashboard/assets/images/channels/website.png"
     />
     <img
-      v-if="channel.key === 'twilio'"
-      src="~dashboard/assets/images/channels/twilio.png"
-    />
-    <img
       v-if="channel.key === 'sms'"
       src="~dashboard/assets/images/channels/sms.png"
     />
