@@ -22,7 +22,7 @@
           :message="message.content"
         />
         <div
-          v-if="hasAttachments"
+          v-if="showAttachements"
           class="chat-bubble has-attachment agent"
           :class="wrapClass"
         >
@@ -98,6 +98,12 @@ export default {
       return !!(
         this.message.attachments && this.message.attachments.length > 0
       );
+    },
+    isMessageDeleted() {
+      return this.messageContentAttributes.deleted;
+    },
+    showAttachements() {
+      return this.hasAttachments && !this.isMessageDeleted;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
