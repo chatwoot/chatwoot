@@ -27,9 +27,11 @@
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
+    "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
+    "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Оценка",
+    "FEEDBACK_TITLE": "Обратная связь",
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
-      "ENTER_TO_SEND": "Введите чтобы отправить"
+      "ENTER_TO_SEND": "Введите чтобы отправить",
+      "DRAG_DROP": "Перетащите сюда, чтобы прикрепить"
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Выбрать Агента",
       "REMOVE": "Удалить",
       "ASSIGN": "Назначить"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Копировать",
+      "DELETE": "Удалить"
     }
   },
   "EMAIL_TRANSCRIPT": {
