@@ -47,7 +47,7 @@
     <customer-satisfaction
       v-if="isCSAT"
       :message-content-attributes="messageContentAttributes.submitted_values"
-      @submit="onCSATSubmit"
+      :message-id="messageId"
     />
   </div>
 </template>
@@ -122,17 +122,6 @@ export default {
       }));
       this.onResponse({
         submittedValues: formValuesAsArray,
-        messageId: this.messageId,
-      });
-    },
-    onCSATSubmit({ feedback, rating }) {
-      this.onResponse({
-        submittedValues: {
-          csat_survey_response: {
-            rating,
-            feedback_message: feedback,
-          },
-        },
         messageId: this.messageId,
       });
     },
