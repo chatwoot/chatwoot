@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "無回應",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
-      "ENTER_TO_SEND": "按下 Enter 傳送"
+      "ENTER_TO_SEND": "按下 Enter 傳送",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "選擇客服",
       "REMOVE": "刪除",
       "ASSIGN": "指派"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "複製",
+      "DELETE": "刪除"
     }
   },
   "EMAIL_TRANSCRIPT": {

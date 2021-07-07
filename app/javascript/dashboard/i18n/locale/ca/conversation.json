@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Sense resposta",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
-      "ENTER_TO_SEND": "Intro per enviar"
+      "ENTER_TO_SEND": "Intro per enviar",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Seleccionar Agent",
       "REMOVE": "Suprimeix",
       "ASSIGN": "Assignar"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copia",
+      "DELETE": "Esborrar"
     }
   },
   "EMAIL_TRANSCRIPT": {

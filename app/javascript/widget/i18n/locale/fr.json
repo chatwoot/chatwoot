@@ -18,10 +18,11 @@
     "IN_A_DAY": "Répond généralement dans la journée"
   },
   "START_CONVERSATION": "Démarrer la conversation",
+  "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
     "CLOSE_MESSAGES_BUTTON": "Fermer",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "de",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,15 +52,15 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Champ non valide"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Évaluer votre conversation",
+    "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
+    "PLACEHOLDER": "Dites-nous en plus..."
   }
 }

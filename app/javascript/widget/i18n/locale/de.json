@@ -18,6 +18,7 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
   "START_CONVERSATION": "Sende uns eine Nachricht",
+  "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
     "CLOSE_MESSAGES_BUTTON": "Schließen",
@@ -58,8 +59,8 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Bewerte deine Unterhaltung",
+    "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",
+    "PLACEHOLDER": "Erzähl uns mehr..."
   }
 }
