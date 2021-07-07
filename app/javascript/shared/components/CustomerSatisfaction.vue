@@ -29,8 +29,8 @@
         :disabled="isButtonDisabled"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
-        <spinner v-else />
+        <spinner v-if="isUpdating && feedback" />
+        <i v-else class="ion-ios-arrow-forward" />
       </button>
     </form>
   </div>
@@ -49,6 +49,10 @@ export default {
     messageContentAttributes: {
       type: Object,
       default: () => {},
+    },
+    messageId: {
+      type: Number,
+      required: true,
     },
   },
   data() {
@@ -84,10 +88,10 @@ export default {
   mounted() {
     if (this.isRatingSubmitted) {
       const {
-        csat_survey_response: { rating, feedback },
+        csat_survey_response: { rating, feedback_message },
       } = this.messageContentAttributes;
       this.selectedRating = rating;
-      this.feedback = feedback;
+      this.feedback = feedback_message;
     }
   },
 
@@ -100,11 +104,23 @@ export default {
         'emoji-button',
       ];
     },
-    onSubmit() {
-      this.$emit('submit', {
-        rating: this.selectedRating,
-        feedback: this.feedback,
-      });
+    async onSubmit() {
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('message/update', {
+          submittedValues: {
+            csat_survey_response: {
+              rating: this.selectedRating,
+              feedback_message: this.feedback,
+            },
+          },
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
     },
     selectRating(rating) {
       this.selectedRating = rating.value;
