@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_155413) do
+ActiveRecord::Schema.define(version: 2021_07_07_142801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -126,6 +126,10 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
     t.jsonb "trigger_rules", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "campaign_type", default: 0, null: false
+    t.boolean "locked", default: false, null: false
+    t.jsonb "audience", default: []
+    t.datetime "trigger_time"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
   end
