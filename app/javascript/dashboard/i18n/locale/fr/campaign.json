@@ -1,45 +1,45 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER": "Campagnes",
+    "SIDEBAR_TXT": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, qui déclenchent plus de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
+    "HEADER_BTN_TXT": "Créer une campagne",
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "Créer une campagne",
+      "DESC": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, ce qui déclencherait plus de conversations.",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "CREATE_BUTTON_TEXT": "Créer",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Titre",
+          "PLACEHOLDER": "Veuillez entrer le titre de la campagne",
+          "ERROR": "Le titre est requis"
         },
         "MESSAGE": {
           "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "PLACEHOLDER": "Veuillez entrer le titre de la campagne",
+          "ERROR": "Le message est obligatoire"
         },
         "SENT_BY": {
           "LABEL": "Envoyé par",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "PLACEHOLDER": "Veuillez sélectionner le contenu de la campagne",
+          "ERROR": "L'expéditeur est requis"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "Veuillez saisir l'URL",
           "ERROR": "Veuillez entrer une URL valide"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "Temps sur la page (secondes)",
+          "PLACEHOLDER": "Veuillez indiquer le temps",
+          "ERROR": "Le temps sur la page est requis"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "Activer la campagne",
+        "SUBMIT": "Ajouter une campagne"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Compte créé avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
       }
     },
     "DELETE": {
@@ -51,32 +51,32 @@
         "NO": "Non, Conserver "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "La campagne a bien été supprimée",
+        "ERROR_MESSAGE": "Impossible de supprimer la campagne. Veuillez réessayer plus tard."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Modifier la campagne",
       "UPDATE_BUTTON_TEXT": "Mettre à jour",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Campagne mise à jour avec succès",
         "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "Chargement des campagnes...",
+      "404": "Il n'y a aucune campagne pour cette boîte de réception.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
+        "TITLE": "Titre",
         "MESSAGE": "Message",
         "STATUS": "État",
-        "SENDER": "Sender",
+        "SENDER": "Expéditeur",
         "URL": "URL",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "TIME_ON_PAGE": "Temps(secondes)",
+        "CREATED_AT": "Créé le"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Ajouter",
         "EDIT": "Modifier",
         "DELETE": "Supprimer"
       },
