@@ -43,16 +43,6 @@
           :source-id="data.source_id"
         />
       </div>
-      <context-menu
-        v-if="isBubble"
-        :is-open="showContextMenu"
-        :show-copy="hasText"
-        :menu-position="contextMenuPosition"
-        @toggle="handleContextMenuClick"
-        @delete="handleDelete"
-        @copy="handleCopy"
-      />
-
       <spinner v-if="isPending" size="tiny" />
 
       <a
@@ -72,6 +62,15 @@
         </div>
       </a>
     </div>
+    <context-menu
+      v-if="isBubble"
+      :is-open="showContextMenu"
+      :show-copy="hasText"
+      :menu-position="contextMenuPosition"
+      @toggle="handleContextMenuClick"
+      @delete="handleDelete"
+      @copy="handleCopy"
+    />
   </li>
 </template>
 <script>
@@ -169,10 +168,13 @@ export default {
     alignBubble() {
       const { message_type: messageType } = this.data;
       const isCentered = messageType === MESSAGE_TYPE.ACTIVITY;
+      const isLeftAligned = messageType === MESSAGE_TYPE.INCOMING;
+      const isRightAligned = messageType === MESSAGE_TYPE.OUTGOING;
+
       return {
         center: isCentered,
-        left: !messageType,
-        right: !!messageType,
+        left: isLeftAligned,
+        right: isRightAligned,
         'has-context-menu': this.showContextMenu,
       };
     },
@@ -350,20 +352,27 @@ export default {
   visibility: hidden;
 }
 
-.wrap {
-  display: flex;
-  align-items: flex-end;
-}
-
-li.right .wrap {
-  flex-direction: row-reverse;
-}
-
 li.left,
 li.right {
+  display: flex;
+  align-items: flex-end;
+
   &:hover .button--delete-message {
     visibility: visible;
   }
+}
+
+li.left .context-menu {
+  margin-bottom: var(--space-medium);
+}
+
+li.right .context-menu {
+  margin-left: auto;
+}
+
+li.right {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
 }
 
 .has-context-menu {
