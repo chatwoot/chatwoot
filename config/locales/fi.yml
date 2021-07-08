@@ -66,6 +66,7 @@ fi:
       greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"

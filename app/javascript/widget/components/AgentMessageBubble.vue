@@ -44,7 +44,11 @@
     <div v-if="isArticle">
       <chat-article :items="messageContentAttributes.items"></chat-article>
     </div>
-    <customer-satisfaction v-if="isCSAT" />
+    <customer-satisfaction
+      v-if="isCSAT"
+      :message-content-attributes="messageContentAttributes.submitted_values"
+      :message-id="messageId"
+    />
   </div>
 </template>
 

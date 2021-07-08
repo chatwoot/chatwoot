@@ -77,7 +77,7 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
-    this.$store.dispatch('conversationAttributes/get');
+    this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
     this.registerCampaignEvents();

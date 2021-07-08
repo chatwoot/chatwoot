@@ -1,21 +1,20 @@
 <template>
   <div class="customer-satisfcation">
-    <div class="title">
-      {{ $t('CSAT.TITLE') }}
-    </div>
+    <h6 class="title">
+      {{ title }}
+    </h6>
     <div class="ratings">
       <button
         v-for="rating in ratings"
         :key="rating.key"
-        class="emoji-button"
-        :class="{ selected: rating.key === selectedRating }"
+        :class="buttonClass(rating)"
         @click="selectRating(rating)"
       >
         {{ rating.emoji }}
       </button>
     </div>
     <form
-      v-if="!hasSubmitted"
+      v-if="!isFeedbackSubmitted"
       class="feedback-form"
       @submit.prevent="onSubmit()"
     >
@@ -27,11 +26,11 @@
       />
       <button
         class="button"
-        :disabled="!selectedRating"
+        :disabled="isButtonDisabled"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
-        <spinner v-else />
+        <spinner v-if="isUpdating && feedback" />
+        <i v-else class="ion-ios-arrow-forward" />
       </button>
     </form>
   </div>
@@ -46,6 +45,16 @@ export default {
   components: {
     Spinner,
   },
+  props: {
+    messageContentAttributes: {
+      type: Object,
+      default: () => {},
+    },
+    messageId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       email: '',
@@ -53,19 +62,69 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
-      hasSubmitted: false,
     };
   },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    isRatingSubmitted() {
+      return this.messageContentAttributes?.csat_survey_response?.rating;
+    },
+    isFeedbackSubmitted() {
+      return this.messageContentAttributes?.csat_survey_response
+        ?.feedback_message;
+    },
+    isButtonDisabled() {
+      return !(this.selectedRating && this.feedback);
+    },
+    title() {
+      return this.isRatingSubmitted
+        ? this.$t('CSAT.SUBMITTED_TITLE')
+        : this.$t('CSAT.TITLE');
+    },
+  },
+
+  mounted() {
+    if (this.isRatingSubmitted) {
+      const {
+        csat_survey_response: { rating, feedback_message },
+      } = this.messageContentAttributes;
+      this.selectedRating = rating;
+      this.feedback = feedback_message;
+    }
   },
 
   methods: {
-    onSubmit() {},
+    buttonClass(rating) {
+      return [
+        { selected: rating.value === this.selectedRating },
+        { disabled: this.isRatingSubmitted },
+        { hover: this.isRatingSubmitted },
+        'emoji-button',
+      ];
+    },
+    async onSubmit() {
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('message/update', {
+          submittedValues: {
+            csat_survey_response: {
+              rating: this.selectedRating,
+              feedback_message: this.feedback,
+            },
+          },
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
+    },
     selectRating(rating) {
-      this.selectedRating = rating.key;
+      this.selectedRating = rating.value;
+      this.onSubmit();
     },
   },
 };
@@ -77,54 +136,72 @@ export default {
 
 .customer-satisfcation {
   @include light-shadow;
+
   background: $color-white;
   border-bottom-left-radius: $space-smaller;
-  color: $color-body;
+  border-radius: $space-small;
   border-top: $space-micro solid $color-woot;
-  border-radius: $space-one;
+  color: $color-body;
   display: inline-block;
   line-height: 1.5;
-  width: 75%;
+  margin-top: $space-smaller;
+  width: 80%;
+
   .title {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
-    padding-top: $space-two;
+    padding: $space-two $space-one 0;
     text-align: center;
   }
+
   .ratings {
     display: flex;
     justify-content: space-around;
     padding: $space-two $space-normal;
 
     .emoji-button {
-      font-size: $font-size-big;
-      outline: none;
       box-shadow: none;
       filter: grayscale(100%);
-      &.selected {
+      font-size: $font-size-big;
+      outline: none;
+
+      &.selected,
+      &:hover,
+      &:focus,
+      &:active {
         filter: grayscale(0%);
         transform: scale(1.32);
+      }
+
+      &.disabled {
+        cursor: default;
+        opacity: 0.5;
+        pointer-events: none;
       }
     }
   }
   .feedback-form {
     display: flex;
+
     input {
-      width: 100%;
-      border: none;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
-      padding: $space-one;
+      border-bottom-left-radius: $space-small;
+      border: 0;
       border-top: 1px solid $color-border;
+      padding: $space-one;
+      width: 100%;
     }
 
     .button {
+      appearance: none;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+      border-bottom-right-radius: $space-small;
       font-size: $font-size-large;
       height: auto;
       margin-left: -1px;
-      appearance: none;
+
       .spinner {
         display: block;
         padding: 0;
