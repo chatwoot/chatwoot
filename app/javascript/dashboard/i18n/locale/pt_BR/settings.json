@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "ENABLE_AUDIO": "Reproduzir notificação de áudio quando uma nova conversa é criada ou novas mensagens chegam"
+        "NONE": "Nenhuma",
+        "ASSIGNED": "Conversas atribuídas",
+        "ALL_CONVERSATIONS": "Todas as conversas"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",

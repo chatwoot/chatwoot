@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "NONE": "None",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
