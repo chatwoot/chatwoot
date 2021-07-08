@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifier",
-        "TITLE": "Edit webhook",
+        "TITLE": "Modifier le webhook",
         "CANCEL": "Annuler",
         "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "Exemple : https://exemple/api/webhook",
             "ERROR": "Veuillez entrer une URL valide"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "Modifier le webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "URL du webhook mise à jour avec succès",
           "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
         }
       },
@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Utilisation de l'intégration Slack",
+        "BODY": "<br/><p>Chatwoot va maintenant synchroniser toutes les conversations entrantes dans le canal <b><i>customer-conversations</i></b> à l'intérieur de Workspace Sack.</p><p>Répondre à un fil de conversation dans le canal Slack <b><i>customer-conversations</i></b> créera une réponse au client via chatwoot.</p><p>Commencez les réponses avec <b><i>note :</i></b> pour créer des notes privées au lieu de réponses.</p><p>Si le répondant sur Slack a un profil d'agent dans le chat avec la même adresse email, les réponses seront associées en conséquence.</p><p>Lorsque le répondant n'a pas de profil d'agent associé, les réponses seront faites avec le profil du bot.</p>"
       }
     },
     "DELETE": {

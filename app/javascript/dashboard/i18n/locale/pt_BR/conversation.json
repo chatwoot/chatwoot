@@ -27,8 +27,10 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
+    "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
+    "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
-    "RATING_TITLE": "Rating",
+    "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
-      "ENTER_TO_SEND": "Enter para enviar"
+      "ENTER_TO_SEND": "Enter para enviar",
+      "DRAG_DROP": "Arraste e solte aqui para anexar"
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Selecione Agente",
       "REMOVE": "Excluir",
       "ASSIGN": "Atribua"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copiar",
+      "DELETE": "Excluir"
     }
   },
   "EMAIL_TRANSCRIPT": {

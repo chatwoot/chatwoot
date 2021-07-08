@@ -34,7 +34,7 @@
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
-        "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (eg: Acme Inc)"
+        "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
@@ -216,6 +216,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
         "DISABLED": "Behindert"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Behindert"
       }
     },
     "DELETE": {
@@ -255,6 +259,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
+      "ENABLE_CSAT": "CSAT aktivieren",
+      "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
