@@ -74,14 +74,10 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
 
 const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 export default {
-  components: {
-    PageHeader,
-  },
   mixins: [alertMixin],
 	props: {
 		type: {
