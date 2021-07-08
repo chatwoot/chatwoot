@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "הורד",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "ENTER_TO_SEND": "Enter to send",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "בחר סוכן",
       "REMOVE": "Remove",
       "ASSIGN": "Assign"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copy",
+      "DELETE": "מחק"
     }
   },
   "EMAIL_TRANSCRIPT": {

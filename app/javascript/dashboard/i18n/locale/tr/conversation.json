@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Cevap Yok",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
-      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın"
+      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
       "ASSIGN": "Atama yap"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopyala",
+      "DELETE": "Sil"
     }
   },
   "EMAIL_TRANSCRIPT": {
