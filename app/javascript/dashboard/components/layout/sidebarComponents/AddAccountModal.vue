@@ -106,7 +106,7 @@ export default {
 .alert-wrap {
   margin: var(--space-zero) var(--space-large);
   margin-top: var(--space-medium);
-  :first-child {
+  .callout {
     display: flex;
     justify-content: center;
   }
