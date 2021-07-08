@@ -1,15 +1,18 @@
 <template>
   <transition name="menu-slide">
     <div
-      v-if="show"
       v-on-clickaway="() => $emit('close')"
-      class="dropdown-pane dropdowm--top"
+      class="dropdown-pane"
+      :class="{ 'dropdown-pane--open': show }"
     >
+      <availability-status />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
+            icon="ion-arrow-swap"
             class=" change-accounts--button"
             @click="$emit('toggle-accounts')"
           >
@@ -19,7 +22,9 @@
         <woot-dropdown-item v-if="globalConfig.chatwootInboxToken">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
+            icon="ion-help-buoy"
             class=" change-accounts--button"
             @click="$emit('show-support-chat-window')"
           >
@@ -29,15 +34,20 @@
         <woot-dropdown-item>
           <router-link
             :to="`/app/accounts/${accountId}/profile/settings`"
-            class="button clear small change-accounts--button"
+            class="button clear small secondary change-accounts--button"
           >
-            {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+            <i class="icon ion-person" />
+            <span class="button__content">
+              {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+            </span>
           </router-link>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
+            icon="ion-log-out"
             class=" change-accounts--button"
             @click="logout"
           >
@@ -53,13 +63,15 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus';
 
 export default {
   components: {
     WootDropdownMenu,
     WootDropdownItem,
+    AvailabilityStatus,
   },
   mixins: [clickaway],
   props: {
@@ -94,6 +106,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-pane {
-  right: 0;
+  left: var(--space-slab);
+  bottom: var(--space-larger);
 }
 </style>

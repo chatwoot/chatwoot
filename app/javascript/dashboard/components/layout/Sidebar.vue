@@ -1,18 +1,15 @@
 <template>
-  <aside class="sidebar animated shrink columns">
-    <div class="logo">
-      <router-link :to="dashboardPath" replace>
-        <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
-      </router-link>
-    </div>
+  <aside class="woot-sidebar">
+    <primary-sidebar
+      :logo-source="globalConfig.logo"
+      :installation-name="globalConfig.installationName"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      @toggle-accounts="toggleAccountModal"
+    />
 
     <div class="main-nav">
       <transition-group name="menu-list" tag="ul" class="menu vertical">
-        <sidebar-item
-          v-for="item in accessibleMenuItems"
-          :key="item.toState"
-          :menu-item="item"
-        />
         <sidebar-item
           v-if="shouldShowTeams"
           :key="teamSection.toState"
@@ -36,22 +33,6 @@
           @add-label="showAddLabelPopup"
         />
       </transition-group>
-    </div>
-
-    <div class="bottom-nav">
-      <availability-status />
-    </div>
-
-    <div class="bottom-nav app-context-menu" @click="toggleOptions">
-      <agent-details @show-options="toggleOptions" />
-      <notification-bell />
-      <span class="current-user--options icon ion-android-more-vertical" />
-      <options-menu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @close="toggleOptions"
-      />
     </div>
 
     <account-selector
@@ -80,23 +61,21 @@ import AvailabilityStatus from './AvailabilityStatus';
 import { frontendURL } from '../../helper/URLHelper';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
-import NotificationBell from './sidebarComponents/NotificationBell';
-import AgentDetails from './sidebarComponents/AgentDetails.vue';
-import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
+
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
+import PrimarySidebar from 'dashboard/modules/sidebar/components/Primary';
 
 export default {
   components: {
-    AgentDetails,
     SidebarItem,
     AvailabilityStatus,
-    NotificationBell,
-    OptionsMenu,
+
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
+    PrimarySidebar,
   },
   mixins: [adminMixin, alertMixin],
   data() {
@@ -121,6 +100,13 @@ export default {
 
     sidemenuItems() {
       return getSidebarItems(this.accountId);
+    },
+    primaryMenuItems() {
+      const menuItems = Object.values(
+        getSidebarItems(this.accountId).common.menuItems
+      );
+
+      return menuItems;
     },
     accessibleMenuItems() {
       // get all keys in menuGroup
@@ -280,9 +266,7 @@ export default {
           ) > -1
       );
     },
-    toggleOptions() {
-      this.showOptionsMenu = !this.showOptionsMenu;
-    },
+
     toggleAccountModal() {
       this.showAccountModal = !this.showAccountModal;
     },
@@ -302,6 +286,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.woot-sidebar {
+  display: flex;
+  width: 256px;
+}
+</style>
 
 <style lang="scss">
 @import '~dashboard/assets/scss/variables';

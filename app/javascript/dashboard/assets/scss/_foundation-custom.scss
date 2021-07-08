@@ -45,7 +45,12 @@ code {
 .cursor-pointer {
   cursor: pointer;
 }
+
 // remove when grid gutters are fixed
 .columns.with-right-space {
   padding-right: var(--space-normal);
+}
+
+.badge {
+  border-radius: var(--border-radius-normal);
 }
