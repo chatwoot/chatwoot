@@ -169,13 +169,16 @@ export default {
       const { message_type: messageType } = this.data;
       const isCentered = messageType === MESSAGE_TYPE.ACTIVITY;
       const isLeftAligned = messageType === MESSAGE_TYPE.INCOMING;
-      const isRightAligned = messageType === MESSAGE_TYPE.OUTGOING;
+      const isRightAligned =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.TEMPLATE;
 
       return {
         center: isCentered,
         left: isLeftAligned,
         right: isRightAligned,
         'has-context-menu': this.showContextMenu,
+        'has-tweet-menu': this.isATweet,
       };
     },
     readableTime() {
@@ -362,7 +365,7 @@ li.right {
   }
 }
 
-li.left .context-menu {
+li.left.has-tweet-menu .context-menu {
   margin-bottom: var(--space-medium);
 }
 
