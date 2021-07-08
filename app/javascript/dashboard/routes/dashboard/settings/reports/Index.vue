@@ -153,7 +153,10 @@ export default {
       }));
     },
     customDateSelection() {
-      return this.currentDateRangeSelection.id === 5;
+      return (
+        this.currentDateRangeSelection &&
+        this.currentDateRangeSelection.id === 5
+      );
     },
   },
   mounted() {
