@@ -4,9 +4,6 @@ RSpec.describe TriggerScheduledItemsJob, type: :job do
   subject(:job) { described_class.perform_later }
 
   let(:account) { create(:account) }
-  let(:hook) { create(:integrations_hook, account: account) }
-  let(:event_name) { 'message.created' }
-  let(:event_data) { { message: create(:message, account: account) } }
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)

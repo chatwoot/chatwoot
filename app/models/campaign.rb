@@ -52,6 +52,13 @@ class Campaign < ApplicationRecord
   before_validation :ensure_correct_campaign_attributes
   after_commit :set_display_id, unless: :display_id?
 
+  def trigger!
+    return unless one_off?
+    return if completed?
+
+    Twilio::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Twilio SMS'
+  end
+
   private
 
   def set_display_id
@@ -78,7 +85,7 @@ class Campaign < ApplicationRecord
   end
 
   def prevent_completed_campaign_from_update
-    errors.add :status, 'The campaign is already completed' if completed?
+    errors.add :status, 'The campaign is already completed' if !campaign_status_changed? && completed?
   end
 
   # creating db triggers

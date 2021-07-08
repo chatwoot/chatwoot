@@ -45,6 +45,11 @@ RSpec.describe Campaign, type: :model do
       campaign.destroy!
       expect(described_class.exists?(campaign.id)).to eq false
     end
+
+    it 'cant be triggered' do
+      expect(Twilio::OneoffSmsCampaignService).not_to receive(:new).with(campaign: campaign)
+      expect(campaign.trigger!).to eq nil
+    end
   end
 
   describe 'ensure_correct_campaign_attributes' do
@@ -58,6 +63,14 @@ RSpec.describe Campaign, type: :model do
         campaign.save!
         expect(campaign.reload.campaign_type).to eq 'one_off'
         expect(campaign.scheduled_at.present?).to eq true
+      end
+
+      it 'calls twilio service on trigger!' do
+        sms_service = double
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform)
+        campaign.save!
+        campaign.trigger!
       end
     end
 
