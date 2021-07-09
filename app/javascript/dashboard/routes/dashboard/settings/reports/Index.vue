@@ -8,19 +8,28 @@
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-    <div class="small-3 pull-right">
-      <multiselect
-        v-model="currentDateRangeSelection"
-        track-by="name"
-        label="name"
-        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        :options="dateRange"
-        :searchable="false"
-        :allow-empty="true"
-        @select="changeDateSelection"
+    <div class="range-selector">
+      <div class="small-3 pull-right">
+        <multiselect
+          v-model="currentDateRangeSelection"
+          track-by="name"
+          label="name"
+          :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+          selected-label
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+          :options="dateRange"
+          :searchable="false"
+          :allow-empty="true"
+          @select="changeDateSelection"
+        />
+      </div>
+      <woot-date-range-picker
+        v-if="customDateSelection"
+        :value="customDateRange"
+        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+        @change="onChange"
       />
     </div>
     <div class="row">
@@ -57,6 +66,7 @@ import subDays from 'date-fns/subDays';
 import getUnixTime from 'date-fns/getUnixTime';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -68,11 +78,15 @@ const REPORTS_KEYS = {
 };
 
 export default {
+  components: {
+    WootDateRangePicker,
+  },
   data() {
     return {
       currentSelection: 0,
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
+      customDateRange: [new Date(), new Date()],
     };
   },
   computed: {
@@ -81,9 +95,15 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
+      if (this.currentDateRangeSelection.id === 5) {
+        return getUnixTime(startOfDay(this.customDateRange[1]));
+      }
       return getUnixTime(startOfDay(new Date()));
     },
     from() {
+      if (this.currentDateRangeSelection.id === 5) {
+        return getUnixTime(startOfDay(this.customDateRange[0]));
+      }
       const dateRange = {
         0: 6,
         1: 29,
@@ -130,6 +150,12 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
+    customDateSelection() {
+      return (
+        this.currentDateRangeSelection &&
+        this.currentDateRangeSelection.id === 5
+      );
+    },
   },
   mounted() {
     this.fetchAllData();
@@ -170,6 +196,15 @@ export default {
         to,
       });
     },
+    onChange(value) {
+      this.customDateRange = value;
+      this.fetchAllData();
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.range-selector {
+  display: flex;
+}
+</style>
