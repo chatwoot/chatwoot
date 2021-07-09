@@ -23,6 +23,14 @@
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
+            v-if="isAGupshupInbox"
+            lang="html"
+            :script="gupshupCallbackURL"
+          >
+          </woot-code>
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
             v-if="isAEmailInbox"
             lang="html"
             :script="currentInbox.forward_to_email"
@@ -75,15 +83,22 @@ export default {
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
     },
+    isAGupshupInbox() {
+      return this.currentInbox.channel_type === 'Channel::Gupshup';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
         )}`;
       }
-
       if (this.isAEmailInbox) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
+      }
+      if (this.isAGupshupInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.GUPSHUP.API_CALLBACK.SUBTITLE'
+        )}`;
       }
 
       if (!this.currentInbox.web_widget_script) {

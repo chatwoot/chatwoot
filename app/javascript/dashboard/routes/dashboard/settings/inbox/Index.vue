@@ -45,6 +45,9 @@
                 <span v-if="item.channel_type === 'Channel::TwilioSms'">
                   Twilio SMS
                 </span>
+                <span v-if="item.channel_type === 'Channel::Gupshup'">
+                  Gupshup
+                </span>
                 <span v-if="item.channel_type === 'Channel::Email'">
                   Email
                 </span>

@@ -11,6 +11,8 @@ class SendReplyJob < ApplicationJob
       ::Twitter::SendOnTwitterService.new(message: message).perform
     when 'Channel::TwilioSms'
       ::Twilio::SendOnTwilioService.new(message: message).perform
+    when 'Channel::Gupshup'
+      ::Gupshup::SendOnGupshupService.new(message: message).perform
     end
   end
 end

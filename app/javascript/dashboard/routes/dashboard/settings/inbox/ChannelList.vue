@@ -44,6 +44,7 @@ export default {
         { key: 'twitter', name: 'Twitter' },
         { key: 'twilio', name: 'Twilio' },
         { key: 'email', name: 'Email' },
+        { key: 'gupshup', name: 'Gupshup' },
         {
           key: 'api',
           name: apiChannelName || 'API',
@@ -65,6 +66,7 @@ export default {
     async initializeEnabledFeatures() {
       await this.$store.dispatch('accounts/get', this.accountId);
       this.enabledFeatures = this.account.features;
+      console.log(this.account.features);
     },
     initChannelAuth(channel) {
       const params = {

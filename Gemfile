@@ -153,3 +153,7 @@ group :development, :test do
   gem 'spring-watcher-listen'
   gem 'webmock'
 end
+
+
+gem 'gupshup_whatsapp', '0.2.5'
+

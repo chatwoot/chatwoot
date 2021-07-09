@@ -262,6 +262,14 @@
           <woot-code :script="twilioCallbackURL" lang="html"></woot-code>
         </settings-section>
       </div>
+      <div v-if="isAGupshupChannel" class="settings--content">
+        <settings-section
+          :title="$t('INBOX_MGMT.ADD.GUPSHUP.API_CALLBACK.TITLE')"
+          :sub-title="$t('INBOX_MGMT.ADD.GUPSHUP.API_CALLBACK.SUBTITLE')"
+        >
+          <woot-code :script="gupshupCallbackURL" lang="html"></woot-code>
+        </settings-section>
+      </div>
       <div v-else-if="isAWebWidgetInbox">
         <div class="settings--content">
           <settings-section
@@ -396,6 +404,15 @@ export default {
           },
         ];
       }
+      if (this.isAGupshupChannel) {
+        return [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
 
       return visibleToAllChannelTabs;
     },
@@ -406,7 +423,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+      if (
+        this.isATwilioSMSChannel ||
+        this.isATwilioWhatsappChannel ||
+        this.isAGupshupInbox
+      ) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       return this.inbox.name;
