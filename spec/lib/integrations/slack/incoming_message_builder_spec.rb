@@ -33,6 +33,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         allow(builder).to receive(:sender).and_return(nil)
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
       end
 
       it 'does not create message for invalid event type' do
