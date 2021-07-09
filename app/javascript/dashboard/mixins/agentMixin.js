@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    getAgents() {
+    assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
         this.inboxId
       );
@@ -11,7 +11,7 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     agentsList() {
-      const agents = this.getAgents || [];
+      const agents = this.assignableAgents || [];
       return [
         {
           confirmed: true,
