@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "لا توجد استجابة",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
-      "ENTER_TO_SEND": "زر الإدخل للإرسال"
+      "ENTER_TO_SEND": "زر الإدخل للإرسال",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
       "ASSIGN": "تكليف"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "نسخ",
+      "DELETE": "حذف"
     }
   },
   "EMAIL_TRANSCRIPT": {

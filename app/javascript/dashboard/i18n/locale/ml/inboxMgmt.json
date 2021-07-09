@@ -216,6 +216,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       }
     },
     "DELETE": {
@@ -255,6 +259,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "ഓട്ടോ അസൈൻമെന്റ് പ്രവർത്തനക്ഷമമാക്കുക",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "പുതിയ സംഭാഷണങ്ങളിൽ ലഭ്യമായ ഏജന്റുമാരുടെ ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് പ്രാപ്തമാക്കുകയോ അപ്രാപ്തമാക്കുകയോ ചെയ്യുക",

@@ -39,7 +39,7 @@
           :loading="uiFlags.isFetching"
           :allow-empty="true"
           deselect-label=""
-          :options="agentList"
+          :options="agentsList"
           :placeholder="$t('CONVERSATION.ASSIGNMENT.SELECT_AGENT')"
           select-label=""
           label="name"
@@ -67,6 +67,7 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+import agentMixin from '../../../mixins/agentMixin.js';
 import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
 
 export default {
@@ -75,7 +76,7 @@ export default {
     Thumbnail,
     AvailabilityStatusBadge,
   },
-
+  mixins: [agentMixin],
   props: {
     chat: {
       type: Object,
@@ -90,12 +91,12 @@ export default {
   data() {
     return {
       currentChatAssignee: null,
+      inboxId: null,
     };
   },
 
   computed: {
     ...mapGetters({
-      getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
@@ -109,22 +110,10 @@ export default {
         this.chat.meta.sender.id
       );
     },
-
-    agentList() {
-      const { inbox_id: inboxId } = this.chat;
-      const agents = this.getAgents(inboxId) || [];
-      return [
-        {
-          confirmed: true,
-          name: 'None',
-          id: 0,
-          role: 'agent',
-          account_id: 0,
-          email: 'None',
-        },
-        ...agents,
-      ];
-    },
+  },
+  mounted() {
+    const { inbox_id: inboxId } = this.chat;
+    this.inboxId = inboxId;
   },
 
   methods: {

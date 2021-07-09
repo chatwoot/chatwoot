@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Nincs válasz",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
-      "ENTER_TO_SEND": "Enter-rel elküld"
+      "ENTER_TO_SEND": "Enter-rel elküld",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Ügynök kiválasztása",
       "REMOVE": "Eltávolítás",
       "ASSIGN": "Hozzárendelés"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Másolás",
+      "DELETE": "Törlés"
     }
   },
   "EMAIL_TRANSCRIPT": {
