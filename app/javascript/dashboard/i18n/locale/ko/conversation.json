@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
     "UPLOADING_ATTACHMENTS": "첨부 업로드 중...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "응답없음",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
-      "ENTER_TO_SEND": "엔터를 눌러 전송하기"
+      "ENTER_TO_SEND": "엔터를 눌러 전송하기",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
     "CHANGE_STATUS": "대화 상태가 변경됨",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "에이전트 선택",
       "REMOVE": "제거",
       "ASSIGN": "할당하다"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "복사",
+      "DELETE": "삭제"
     }
   },
   "EMAIL_TRANSCRIPT": {
