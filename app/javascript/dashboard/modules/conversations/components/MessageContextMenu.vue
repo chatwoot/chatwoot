@@ -25,7 +25,7 @@
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
           </woot-button>
         </woot-dropdown-item>
-        <woot-dropdown-item v-if="showDelete">
+        <woot-dropdown-item>
           <woot-button
             variant="clear"
             color-scheme="alert"
@@ -58,10 +58,6 @@ export default {
       default: false,
     },
     showCopy: {
-      type: Boolean,
-      default: false,
-    },
-    showDelete: {
       type: Boolean,
       default: false,
     },
