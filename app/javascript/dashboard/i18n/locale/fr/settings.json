@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications audio",
         "NOTE": "Activer les notifications audio dans le tableau de bord pour les nouveaux messages et conversations.",
-        "ENABLE_AUDIO": "Jouer une notification audio lorsqu'une nouvelle conversation est créée ou que de nouveaux messages arrivent"
+        "NONE": "Aucun",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications par courriel",
@@ -79,9 +81,9 @@
         "PLACEHOLDER": "Veuillez entrer votre adresse de courriel, cela sera affiché dans les conversations"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Mot de passe actuel",
+        "ERROR": "Veuillez entrer le mot de passe actuel",
+        "PLACEHOLDER": "Veuillez entrer le mot de passe actuel"
       },
       "PASSWORD": {
         "LABEL": "Mot de passe",
@@ -140,8 +142,8 @@
     "APPLICATIONS": "Applications",
     "LABELS": "Étiquettes",
     "TEAMS": "Équipes",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with"
+    "ALL_CONTACTS": "Tous les contacts",
+    "TAGGED_WITH": "Tagué avec"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nouveau compte",

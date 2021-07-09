@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Ήχου",
         "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
-        "ENABLE_AUDIO": "Αναπαραγωγή ηχητικής ειδοποίησης όταν δημιουργείται μια νέα συνομιλία ή φτάνουν νέα μηνύματα"
+        "NONE": "Κανένα",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Email",

@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Tidak ada respon",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
-      "ENTER_TO_SEND": "Enter untuk mengirim"
+      "ENTER_TO_SEND": "Enter untuk mengirim",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Pilih Agen",
       "REMOVE": "Hapus",
       "ASSIGN": "Tugaskan"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Salin",
+      "DELETE": "Hapus"
     }
   },
   "EMAIL_TRANSCRIPT": {
