@@ -3,7 +3,10 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <add-account-modal :show="!hasAccounts" :has-accounts="hasAccounts" />
+    <add-account-modal
+      :show="showAddAccountModal"
+      :has-accounts="hasAccounts"
+    />
     <woot-snackbar-box />
   </div>
 </template>
@@ -22,6 +25,12 @@ export default {
     AddAccountModal,
   },
 
+  data() {
+    return {
+      showAddAccountModal: false,
+    };
+  },
+
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
@@ -36,6 +45,13 @@ export default {
     },
   },
 
+  watch: {
+    currentUser() {
+      if (!this.hasAccounts) {
+        this.showAddAccountModal = true;
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('setUser');
     this.setLocale(window.chatwootConfig.selectedLocale);
