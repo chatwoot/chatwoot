@@ -24,16 +24,13 @@
           @select="changeDateSelection"
         />
       </div>
-      <div class="date-picker">
-        <date-picker
-          v-if="customDateSelection"
-          v-model="customDateRange"
-          :range="true"
-          :confirm="true"
-          :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-          :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        />
-      </div>
+      <woot-date-range-picker
+        v-if="customDateSelection"
+        :value="customDateRange"
+        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+        @change="onChange"
+      />
     </div>
     <div class="row">
       <woot-report-stats-card
@@ -69,8 +66,7 @@ import subDays from 'date-fns/subDays';
 import getUnixTime from 'date-fns/getUnixTime';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -82,7 +78,9 @@ const REPORTS_KEYS = {
 };
 
 export default {
-  components: { DatePicker },
+  components: {
+    WootDateRangePicker,
+  },
   data() {
     return {
       currentSelection: 0,
@@ -97,13 +95,13 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      if (this.dateRange[5]) {
+      if (this.currentDateRangeSelection.id === 5) {
         return getUnixTime(startOfDay(this.customDateRange[1]));
       }
       return getUnixTime(startOfDay(new Date()));
     },
     from() {
-      if (this.dateRange[5]) {
+      if (this.currentDateRangeSelection.id === 5) {
         return getUnixTime(startOfDay(this.customDateRange[0]));
       }
       const dateRange = {
@@ -198,25 +196,15 @@ export default {
         to,
       });
     },
+    onChange(value) {
+      this.customDateRange = value;
+      this.fetchAllData();
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .range-selector {
   display: flex;
-}
-
-.date-picker {
-  margin-left: var(--space-smaller);
-}
-
-::v-deep {
-  .mx-input {
-    display: flex;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-normal);
-    box-shadow: none;
-    height: 4.6rem;
-  }
 }
 </style>
