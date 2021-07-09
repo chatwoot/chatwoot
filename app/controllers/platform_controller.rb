@@ -1,6 +1,4 @@
-class PlatformController < ActionController::Base
-  protect_from_forgery with: :null_session
-
+class PlatformController < ActionController::API
   before_action :ensure_access_token
   before_action :set_platform_app
   before_action :set_resource, only: [:update, :show, :destroy]
