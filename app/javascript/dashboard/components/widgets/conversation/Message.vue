@@ -44,7 +44,6 @@
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
-
       <a
         v-if="isATweet && isIncoming && sender"
         class="sender--info"
@@ -63,7 +62,7 @@
       </a>
     </div>
     <context-menu
-      v-if="isBubble"
+      v-if="isBubble && !isMessageDeleted"
       :is-open="showContextMenu"
       :show-copy="hasText"
       :menu-position="contextMenuPosition"
@@ -206,6 +205,9 @@ export default {
     },
     hasText() {
       return !!this.data.content;
+    },
+    isMessageDeleted() {
+      return this.contentAttributes.deleted;
     },
     sentByMessage() {
       const { sender } = this;
