@@ -5,7 +5,7 @@
       size="large"
       class="button--delete-message"
       color-scheme="secondary"
-      variant="clear"
+      variant="link"
       @click="handleContextMenuClick"
     />
     <div
@@ -82,7 +82,7 @@ export default {
 <style lang="scss" scoped>
 /* TDOD: Remove once MenuComponent supports postions */
 .dropdown-pane {
-  bottom: var(--space-large);
+  bottom: var(--space-medium);
 }
 .dropdown-pane--left {
   right: var(--space-small);
