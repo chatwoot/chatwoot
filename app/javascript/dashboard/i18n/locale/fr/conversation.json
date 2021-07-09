@@ -20,16 +20,18 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
     "LAST_INCOMING_TWEET": "Vous répondez au dernier tweet entrant",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
+    "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
+    "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Note",
+    "FEEDBACK_TITLE": "Commentaires",
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
@@ -54,18 +56,23 @@
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
-      "ENTER_TO_SEND": "Entrer pour envoyer"
+      "ENTER_TO_SEND": "Entrer pour envoyer",
+      "DRAG_DROP": "Glissez et déposez ici pour lier"
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
       "REMOVE": "Supprimer",
       "ASSIGN": "Assigner"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copier",
+      "DELETE": "Supprimer"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -111,7 +118,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agent Assigné",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "M’assigner la conversation",
     "TEAM_LABEL": "Équipe assignée",
     "SELECT": {
       "PLACEHOLDER": "Aucun"

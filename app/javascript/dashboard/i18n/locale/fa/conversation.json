@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
-      "ENTER_TO_SEND": "برای ارسال Enter را بزنید"
+      "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "انتخاب ایجنت",
       "REMOVE": "حذف",
       "ASSIGN": "اختصاص دادن"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "کپی",
+      "DELETE": "حذف"
     }
   },
   "EMAIL_TRANSCRIPT": {

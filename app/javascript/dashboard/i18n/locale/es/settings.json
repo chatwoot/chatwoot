@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
-        "ENABLE_AUDIO": "Realizar un sonido cuando una nueva conversación ha sido creada o un nuevo mensaje llegue"
+        "NONE": "Ninguna",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",

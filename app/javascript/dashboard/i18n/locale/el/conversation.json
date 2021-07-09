@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Καμία ανταπόκριση",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Προβολή επεξεργαστή εμπλουτισμένου κειμένου",
       "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
       "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
-      "ENTER_TO_SEND": "Εισαγωγή για αποστολή"
+      "ENTER_TO_SEND": "Εισαγωγή για αποστολή",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Επιλογή πράκτορα",
       "REMOVE": "Διαγραφή",
       "ASSIGN": "Αντιστοίχιση"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Αντιγραφή",
+      "DELETE": "Διαγραφή"
     }
   },
   "EMAIL_TRANSCRIPT": {

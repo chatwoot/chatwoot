@@ -12,24 +12,24 @@
     "INITIATED_FROM": "Initié depuis",
     "INITIATED_AT": "Initié à",
     "IP_ADDRESS": "Adresse IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Nouveau message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
       "TITLE": "Conversations précédentes"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Libellés des contacts",
+        "ERROR": "Impossible de mettre à jour les étiquettes"
       },
       "CONVERSATION": {
         "TITLE": "Étiquettes de conversation",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Ajouter des étiquettes"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Ajouter une étiquette",
+        "PLACEHOLDER": "Rechercher des étiquettes",
+        "NO_RESULT": "Aucune étiquette trouvée"
       }
     },
     "MUTE_CONTACT": "Mettre la conversation en sourdine",
@@ -71,8 +71,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
         "LABEL": "Numéro de téléphone",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "Le numéro de téléphone doit être au format E.164. Ex. : +1415555555 [+][code pays][code régional][numéro de téléphone local]",
+        "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164"
       },
       "LOCATION": {
         "PLACEHOLDER": "Entrez l'emplacement du contact",
@@ -106,37 +106,38 @@
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Nouvelle conversation",
     "TITLE": "Nouvelle conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Commencez une nouvelle conversation en envoyant un nouveau message.",
+    "NO_INBOX": "Impossible de trouver une boîte de réception pour lancer une nouvelle conversation avec ce contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "À"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Boîte de réception",
+        "ERROR": "Sélectionner une boîte de réception"
       },
       "MESSAGE": {
         "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Ecrivez votre message ici",
+        "ERROR": "Le message ne peut être vide"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Envoyer un message",
       "CANCEL": "Annuler",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Message envoyé !",
+      "ERROR_MESSAGE": "Impossible d'envoyer ! Veuillez réessayer"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Rechercher",
     "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Il n'y a aucun contact disponible",
       "TABLE_HEADER": {
         "NAME": "Nom",
         "PHONE_NUMBER": "Numéro de téléphone",
@@ -153,12 +154,12 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Ajouter",
+      "TITLE": "Shift + Entrée pour créer une tâche"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Date d'échéance",
+      "LABEL_TITLE": "Définir le type"
     }
   },
   "NOTES": {
@@ -166,43 +167,71 @@
       "TITLE": "Notes"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Ajouter",
+      "PLACEHOLDER": "Ajouter une note",
+      "TITLE": "Shift + Entrée pour créer une note"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "BUTTON": "Voir toutes les notes"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Activités"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "Notes",
+      "PILL_BUTTON_EVENTS": "Evénements",
       "PILL_BUTTON_CONVO": "conversations"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Attributs personnalisés",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Ajouter un attribut personnalisé",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Créer un attribut personnalisé",
+      "DESC": "Ajouter des informations personnalisées à ce contact."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Ajouter un attribut",
       "CANCEL": "Annuler",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Nom de l'attribut personnalisé",
+        "PLACEHOLDER": "Ex. : id shopify",
+        "ERROR": "Nom de l'attribut personnalisé invalide"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Valeur de l'attribut",
+        "PLACEHOLDER": "Ex.: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Annuler",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }
