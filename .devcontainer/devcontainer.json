@@ -29,7 +29,7 @@
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // #TODO: can we move logic of copy env file into dockerfile ?
-  "postCreateCommand": "cp .env.example .env",
+  "postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"

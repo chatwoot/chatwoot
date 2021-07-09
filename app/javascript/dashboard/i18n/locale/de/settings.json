@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio-Benachrichtigungen",
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
-        "ENABLE_AUDIO": "Audio-Benachrichtigung abspielen, wenn eine neue Unterhaltung erstellt wurde oder neue Nachrichten eintreffen"
+        "NONE": "Keine",
+        "ASSIGNED": "Zugewiesene Unterhaltungen",
+        "ALL_CONVERSATIONS": "Alle Unterhaltungen"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
