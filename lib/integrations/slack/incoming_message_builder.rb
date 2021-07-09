@@ -83,7 +83,7 @@ class Integrations::Slack::IncomingMessageBuilder
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: params[:event][:text],
+      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: sender
