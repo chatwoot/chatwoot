@@ -27,7 +27,7 @@ describe('agentMixin', () => {
         return { inboxId: 1 };
       },
       computed: {
-        getAgents() {
+        assignableAgents() {
           return agentFixtures.allAgents;
         },
       },
