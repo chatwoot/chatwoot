@@ -95,14 +95,16 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      if (this.currentDateRangeSelection.id === 5) {
-        return getUnixTime(startOfDay(this.customDateRange[1]));
+      const CUSTOM_DATE_RANGE_ID = 5;
+      if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
+        return this.fromCustomDate(this.customDateRange[1]);
       }
-      return getUnixTime(startOfDay(new Date()));
+      return this.fromCustomDate(new Date());
     },
     from() {
-      if (this.currentDateRangeSelection.id === 5) {
-        return getUnixTime(startOfDay(this.customDateRange[0]));
+      const CUSTOM_DATE_RANGE_ID = 5;
+      if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
+        return this.fromCustomDate(this.customDateRange[0]);
       }
       const dateRange = {
         0: 6,
@@ -113,7 +115,7 @@ export default {
       };
       const diff = dateRange[this.currentDateRangeSelection.id];
       const fromDate = subDays(new Date(), diff);
-      return getUnixTime(startOfDay(fromDate));
+      return this.fromCustomDate(fromDate);
     },
     collection() {
       if (this.accountReport.isFetching) {
@@ -195,6 +197,9 @@ export default {
         from,
         to,
       });
+    },
+    fromCustomDate(date) {
+      return getUnixTime(startOfDay(date));
     },
     onChange(value) {
       this.customDateRange = value;
