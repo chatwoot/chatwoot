@@ -1,8 +1,22 @@
 import Widget from '../components/Widget';
 
+const ReplayTime = {
+  'In a few minutes': 'in_a_few_minutes',
+  'In a few hours': 'in_a_few_hours',
+  'In a few day': 'in_a_day',
+};
+
 export default {
   title: 'components/Widget',
   component: Widget,
+  argTypes: {
+    replyTime: {
+      control: {
+        type: 'select',
+        options: ReplayTime,
+      },
+    },
+  },
 };
 
 const Template = (args, { argTypes }) => ({
