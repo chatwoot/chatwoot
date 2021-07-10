@@ -12,8 +12,8 @@
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
+        data-testid="label-title"
         @input="$v.title.$touch"
-        data-testId="label-title"
       />
 
       <woot-input
@@ -22,8 +22,8 @@
         class="medium-12 columns"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
+        data-testid="label-description"
         @input="$v.description.$touch"
-         data-testId="label-description"
       />
 
       <div class="medium-12">

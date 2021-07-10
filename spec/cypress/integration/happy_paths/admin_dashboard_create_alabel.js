@@ -2,9 +2,7 @@ describe('AdminCreateLabel', () => {
   before(() => {
     cy.wait(3000);
   });
-  it('open sidebar', () => {
-    cy.get('i.ion-android-menu.hamburger--menu').click();
-  });
+
   it('open add label modal', () => {
     cy.get(
       'ul.menu.vertical > li:last-child > a.sub-menu-title.side-menu > span.child-icon.ion-android-add-circle'
