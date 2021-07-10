@@ -7,12 +7,15 @@ describe Integrations::Dialogflow::ProcessorService do
   let(:message) { create(:message, account: account, conversation: conversation) }
   let(:event_name) { 'message.created' }
   let(:event_data) { { message: message } }
+  let(:dialogflow_text_double) { double }
 
   describe '#perform' do
     let(:dialogflow_service) { double }
     let(:dialogflow_response) do
       ActiveSupport::HashWithIndifferentAccess.new(
-        fulfillment_text: 'hello'
+        fulfillment_messages: [
+          { text: dialogflow_text_double }
+        ]
       )
     end
 
@@ -21,23 +24,26 @@ describe Integrations::Dialogflow::ProcessorService do
     before do
       allow(dialogflow_service).to receive(:query_result).and_return(dialogflow_response)
       allow(processor).to receive(:get_dialogflow_response).and_return(dialogflow_service)
+      allow(dialogflow_text_double).to receive(:to_h).and_return({ text: ['hello payload'] })
     end
 
     context 'when valid message and dialogflow returns fullfillment text' do
       it 'creates the response message' do
-        expect(processor.perform.content).to eql('hello')
+        processor.perform
+        expect(conversation.reload.messages.last.content).to eql('hello payload')
       end
     end
 
     context 'when dialogflow returns fullfillment text to be empty' do
       let(:dialogflow_response) do
         ActiveSupport::HashWithIndifferentAccess.new(
-          fulfillment_messages: [{ payload: { content: 'hello payload' } }]
+          fulfillment_messages: [{ payload: { content: 'hello payload random' } }]
         )
       end
 
       it 'creates the response message based on fulfillment messages' do
-        expect(processor.perform.content).to eql('hello payload')
+        processor.perform
+        expect(conversation.reload.messages.last.content).to eql('hello payload random')
       end
     end
 
@@ -51,6 +57,20 @@ describe Integrations::Dialogflow::ProcessorService do
       it 'handsoff the conversation to agent' do
         processor.perform
         expect(conversation.status).to eql('open')
+      end
+    end
+
+    context 'when dialogflow returns action and messages if available' do
+      let(:dialogflow_response) do
+        ActiveSupport::HashWithIndifferentAccess.new(
+          fulfillment_messages: [{ payload: { action: 'handoff' } }, { text: dialogflow_text_double }]
+        )
+      end
+
+      it 'handsoff the conversation to agent' do
+        processor.perform
+        expect(conversation.reload.status).to eql('open')
+        expect(conversation.messages.last.content).to eql('hello payload')
       end
     end
 

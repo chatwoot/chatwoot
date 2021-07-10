@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Nom de l'étiquette",
         "PLACEHOLDER": "Nom de l'étiquette",
-        "ERROR": "Le nom de l'étiquette est requis"
+        "REQUIRED_ERROR": "Le nom de l'étiquette est requis",
+        "MINIMUM_LENGTH_ERROR": "Longueur minimale de 2 requise",
+        "VALID_ERROR": "Seuls les caractères alphabétiques, les chiffres, les traits d'union et les tirets bas sont autorisés"
       },
       "DESCRIPTION": {
         "LABEL": "Description",

@@ -1,4 +1,5 @@
 class V2::ReportBuilder
+  include DateRangeHelper
   attr_reader :account, :params
 
   def initialize(account, params)
@@ -83,10 +84,6 @@ class V2::ReportBuilder
          .average(:value)
   end
 
-  def range
-    parse_date_time(params[:since])..parse_date_time(params[:until])
-  end
-
   # Taking average of average is not too accurate
   # https://en.wikipedia.org/wiki/Simpson's_paradox
   # TODO: Will optimize this later
@@ -100,12 +97,5 @@ class V2::ReportBuilder
     return 0 if avg_first_response_time.values.empty?
 
     (avg_first_response_time.values.sum / avg_first_response_time.values.length)
-  end
-
-  def parse_date_time(datetime)
-    return datetime if datetime.is_a?(DateTime)
-    return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
-
-    DateTime.strptime(datetime, '%s')
   end
 end

@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "削除",
+      "CONFIRM": {
+        "TITLE": "削除の確認",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "削除する ",
+        "NO": "いいえ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "更新",

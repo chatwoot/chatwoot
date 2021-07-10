@@ -66,6 +66,7 @@ tr:
       greeting_message_body: "%{account_name} genellikle birkaç saat içinde yanıt verir."
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
@@ -78,4 +79,7 @@ tr:
       description: "Webhook olayları size hesabınızda gerçekleşen gerçek zamanlı bilgileri getirmenizi sağlar. Bu webhookları kullanarak olaylar ile favori uygulamalarınızı haberleştirebilirsiniz(ör: Slack , \n Github). Yapılandıra basarak webhooklarınızı ayarlayabilirsiniz."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

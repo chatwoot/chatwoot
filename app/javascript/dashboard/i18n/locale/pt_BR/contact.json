@@ -18,23 +18,18 @@
       "TITLE": "Conversas anteriores"
     },
     "LABELS": {
-      "TITLE": "Marcador da conversa",
-      "MODAL": {
-        "TITLE": "Marcadores para",
-        "ACTIVE_LABELS": "Marcadores adicionados à conversa",
-        "INACTIVE_LABELS": "Marcadores disponíveis na conta",
-        "REMOVE": "Clique no ícone X para remover o marcador",
-        "ADD": "Clique no ícone + para adicionar o marcador",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Atualizar marcadores",
-        "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
+      "CONTACT": {
+        "TITLE": "Etiquetas de contato",
+        "ERROR": "Falha ao atualizar etiquetas"
       },
-      "NO_LABELS_TO_ADD": "Não há mais marcadores definidos na conta.",
-      "NO_AVAILABLE_LABELS": "Não há marcadores adicionados a esta conversa.",
+      "CONVERSATION": {
+        "TITLE": "Marcador da conversa",
+        "ADD_BUTTON": "Adicionar marcador"
+      },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Adicionar marcador",
+        "PLACEHOLDER": "Pesquisar marcador ",
+        "NO_RESULT": "Nenhum rótulo encontrado"
       }
     },
     "MUTE_CONTACT": "Silenciar Conversa",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contato",
+    "FIELDS": "Campos de contatos",
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
+      "NO_CONTACTS": "Não há contatos disponíveis",
       "TABLE_HEADER": {
         "NAME": "Nome",
         "PHONE_NUMBER": "Número de Telefone",
@@ -155,38 +152,86 @@
       "VIEW_DETAILS": "Ver detalhes"
     }
   },
-  "NOTES": {
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Adicionar",
+      "TITLE": "Shift + Enter para criar uma nota"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "DUE_DATE": "Data de vencimento",
+      "LABEL_TITLE": "Definir tipo"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Observações"
+    },
+    "ADD": {
+      "BUTTON": "Adicionar",
+      "PLACEHOLDER": "Adicionar uma nota",
+      "TITLE": "Shift + Enter para criar uma nota"
+    },
+    "FOOTER": {
+      "BUTTON": "Ver todas as notas"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Atividades"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "observações",
+      "PILL_BUTTON_EVENTS": "Eventos",
+      "PILL_BUTTON_CONVO": "conversas"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Atributos Personalizados",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Criar atributo personalizado",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Criar atributo personalizado",
+      "DESC": "Adicionar informações personalizadas a este contato."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Adicionar atributo",
       "CANCEL": "Cancelar",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Atributos Personalizados",
+        "PLACEHOLDER": "Por exemplo: ID shopify",
+        "ERROR": "Nome de atributo personalizado inválido"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Valor do atributo",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Mesclar contatos",
+    "DESCRIPTION": "Mesclar contatos é útil quando se tem entradas duplicadas de um mesmo contato. Essa ação trata um contato como primário e outro como derivado/secundário/filho. Após mesclar, todos os detalhes do contato primário serão preservados. Se o contato primário não tiver um dos campo listados, será utilizado o valor do campo do contato derivado. Se ocorrem conflitos, os campos do contato primário serão mantidos, e a as diferenças serão copiadas para campos personalizados.",
+    "PRIMARY": {
+      "TITLE": "Contato principal"
+    },
+    "CHILD": {
+      "TITLE": "Contato para mesclar",
+      "PLACEHOLDER": "Selecione um contato"
+    },
+    "SUMMARY": {
+      "TITLE": "Sumário",
+      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong>será excluído.",
+      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "Mensagem de erro"
+    },
+    "FORM": {
+      "SUBMIT": " Mesclar contatos",
+      "CANCEL": "Cancelar",
+      "CHILD_CONTACT": {
+        "ERROR": "Selecione um contato filho para mesclar"
+      },
+      "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
     }
   }
 }
