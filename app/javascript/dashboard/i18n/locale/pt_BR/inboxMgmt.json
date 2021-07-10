@@ -216,6 +216,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
       }
     },
     "DELETE": {
@@ -255,6 +259,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de coleta de e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
+      "ENABLE_CSAT": "Habilitar CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações de caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",

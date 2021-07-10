@@ -43,7 +43,7 @@ const generateCSATContent = (
   const {
     submitted_values: { csat_survey_response: surveyResponse = {} } = {},
   } = contentAttributes;
-  const { rating, feedback } = surveyResponse || {};
+  const { rating, feedback_message } = surveyResponse || {};
 
   let messageContent = '';
   if (rating) {
@@ -53,9 +53,9 @@ const generateCSATContent = (
     messageContent += `<div><strong>${ratingTitle}</strong></div>`;
     messageContent += `<p>${ratingObject.emoji}</p>`;
   }
-  if (feedback) {
+  if (feedback_message) {
     messageContent += `<div><strong>${feedbackTitle}</strong></div>`;
-    messageContent += `<p>${feedback}</p>`;
+    messageContent += `<p>${feedback_message}</p>`;
   }
   return messageContent;
 };
