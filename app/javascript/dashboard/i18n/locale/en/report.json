@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
+    "HEADER": "Overview",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
@@ -52,5 +52,18 @@
         "name": "Last year"
       }
     ]
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+
+    "LOADING_MESSAGE": "Fetching CSAT survey responses...",
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Assigned agent",
+        "RATING": "Rating",
+        "FEEBACK_TEXT": "Feedback comment"
+      }
+    }
   }
 }

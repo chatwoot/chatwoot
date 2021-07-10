@@ -1,4 +1,4 @@
-import { Bar } from 'vue-chartjs';
+import { HorizontalBar } from 'vue-chartjs';
 
 const fontFamily =
   '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -38,9 +38,12 @@ const chartOptions = {
 };
 
 export default {
-  extends: Bar,
-  props: ['collection'],
+  extends: HorizontalBar,
+  props: ['collection', 'chartOptions'],
   mounted() {
-    this.renderChart(this.collection, chartOptions);
+    this.renderChart(this.collection, {
+      ...chartOptions,
+      ...this.chartOptions,
+    });
   },
 };
