@@ -15,7 +15,7 @@
           "ERROR": "Title is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "消息",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "是的，删除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "更新",
@@ -55,7 +68,7 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
+        "MESSAGE": "消息",
         "STATUS": "状态",
         "SENDER": "Sender",
         "URL": "URL",

@@ -18,19 +18,14 @@
       "TITLE": "Conversaciones anteriores"
     },
     "LABELS": {
-      "TITLE": "Etiquetas de conversación",
-      "MODAL": {
-        "TITLE": "Etiquetas para",
-        "ACTIVE_LABELS": "Etiquetas añadidas a la conversación",
-        "INACTIVE_LABELS": "Etiquetas disponibles en la cuenta",
-        "REMOVE": "Haga clic en el icono X para quitar la etiqueta",
-        "ADD": "Haga clic en el icono + para añadir la etiqueta",
-        "ADD_BUTTON": "Añadir etiquetas",
-        "UPDATE_BUTTON": "Actualizar etiquetas",
-        "UPDATE_ERROR": "No se han podido actualizar las etiquetas, inténtelo de nuevo."
+      "CONTACT": {
+        "TITLE": "Etiqueta de Contacto",
+        "ERROR": "No se pudo actualizar etiquetas de contacto"
       },
-      "NO_LABELS_TO_ADD": "No hay más etiquetas definidas en la cuenta.",
-      "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación.",
+      "CONVERSATION": {
+        "TITLE": "Etiquetas de conversación",
+        "ADD_BUTTON": "Añadir etiquetas"
+      },
       "LABEL_SELECT": {
         "TITLE": "Añadir etiquetas",
         "PLACEHOLDER": "Buscar etiquetas",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactos",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Buscar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "LIST": {
       "LOADING_MESSAGE": "Cargando contactos...",
       "404": "No hay contactos que coincidan con tu búsqueda 🔍",
+      "NO_CONTACTS": "No hay contactos disponibles",
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "PHONE_NUMBER": "Número telefónico",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "Ver detalles"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Añadir",
+      "TITLE": "Shift + Enter para crear una tarea"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Fecha límite",
+      "LABEL_TITLE": "Establecer el tipo"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notas"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "Ver todas las notas"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Actividades"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notas",
+      "PILL_BUTTON_EVENTS": "Eventos",
+      "PILL_BUTTON_CONVO": "conversaciones"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Cancelar",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

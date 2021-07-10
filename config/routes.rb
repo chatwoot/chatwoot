@@ -49,7 +49,7 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
-          resources :campaigns, only: [:index, :create, :show, :update]
+          resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
           namespace :channels do
             resource :twilio_channel, only: [:create]
@@ -87,7 +87,8 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
             end
           end
-
+          resources :csat_survey_responses, only: [:index]
+          resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
@@ -192,6 +193,24 @@ Rails.application.routes.draw do
           resources :account_users, only: [:index, :create] do
             collection do
               delete :destroy
+            end
+          end
+        end
+      end
+    end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for inbox APIs Exposed to contacts
+  namespace :public, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        resources :inboxes do
+          scope module: :inboxes do
+            resources :contacts, only: [:create, :show, :update] do
+              resources :conversations, only: [:index, :create] do
+                resources :messages, only: [:index, :create, :update]
+              end
             end
           end
         end

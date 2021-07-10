@@ -30,4 +30,15 @@ describe('#mutations', () => {
       expect(state).toEqual({ id: 1, status: 'bot' });
     });
   });
+
+  describe('#CLEAR_CONVERSATION_ATTRIBUTES', () => {
+    it('clear status if it is same conversation', () => {
+      const state = { id: 1, status: 'open' };
+      mutations.CLEAR_CONVERSATION_ATTRIBUTES(state, {
+        id: 1,
+        status: 'open',
+      });
+      expect(state).toEqual({ id: '', status: '' });
+    });
+  });
 });

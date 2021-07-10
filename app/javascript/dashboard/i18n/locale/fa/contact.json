@@ -18,19 +18,14 @@
       "TITLE": "گفتگوهای قبلی"
     },
     "LABELS": {
-      "TITLE": "برچسب‌های گفتگو",
-      "MODAL": {
-        "TITLE": "برچسب‌ها برای",
-        "ACTIVE_LABELS": "برچسب‌ها اضافه شد به گفتگو",
-        "INACTIVE_LABELS": "برچسب‌های موجود در حساب‌کاربری",
-        "REMOVE": "برای پاک کردن برچسب، روی آیکون X کلیک کنید",
-        "ADD": "برای افزودن برچسب بر روی آیکون + کلیک کنید",
-        "ADD_BUTTON": "افزودن برچسب‌ها",
-        "UPDATE_BUTTON": "تغییر برچسب‌ها",
-        "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "هیچ برچسبی در حساب‌کاربری تعریف نشده است.",
-      "NO_AVAILABLE_LABELS": "هیچ برچسبی به این گفتگو اضافه نشده است.",
+      "CONVERSATION": {
+        "TITLE": "برچسب‌های گفتگو",
+        "ADD_BUTTON": "افزودن برچسب‌ها"
+      },
       "LABEL_SELECT": {
         "TITLE": "افزودن برچسب‌ها",
         "PLACEHOLDER": "جستجو برچسب‌ها",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "مخاطبین",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "جستجو",
     "SEARCH_INPUT_PLACEHOLDER": "جستجوی مخاطبین",
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
       "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "نام",
         "PHONE_NUMBER": "شماره تلفن",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "مشاهده جزئیات"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "افزودن",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "گفتگوها"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "انصراف",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

@@ -18,10 +18,11 @@
     "IN_A_DAY": "Responde normalmente em um dia"
   },
   "START_CONVERSATION": "Iniciar Conversa",
+  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
     "CLOSE_MESSAGES_BUTTON": "Fechar",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "De",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,5 +52,15 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}"
+  "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Campo inválido"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Avalie sua conversa",
+    "SUBMITTED_TITLE": "Obrigado por enviar a classificação",
+    "PLACEHOLDER": "Conte-nos mais..."
+  }
 }
