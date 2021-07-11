@@ -7,6 +7,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   before_action :set_csat_survey_responses, only: [:index, :metrics]
   before_action :set_current_page, only: [:index]
   before_action :set_current_page_surveys, only: [:index]
+  before_action :set_total_sent_messages_count, only: [:metrics]
 
   def index; end
 
@@ -16,6 +17,12 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   private
+
+  def set_total_sent_messages_count
+    @csat_messages = Current.account.messages.input_csat
+    @csat_messages = @csat_messages.where(created_at: range) if range.present?
+    @total_sent_messages_count = @csat_messages.count
+  end
 
   def set_csat_survey_responses
     @csat_survey_responses = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
