@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "我们无法验证 Twilio 凭据，请重试"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API 频道",
         "DESC": "Integrate with API channel and start supporting your customers.",
