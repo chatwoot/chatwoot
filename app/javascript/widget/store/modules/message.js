@@ -7,11 +7,11 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getUIFlags: $state => $state.uiFlags,
 };
 
-const actions = {
+export const actions = {
   update: async (
     { commit, dispatch },
     { email, messageId, submittedValues }
@@ -45,7 +45,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   toggleUpdateStatus($state, status) {
     $state.uiFlags.isUpdating = status;
   },
