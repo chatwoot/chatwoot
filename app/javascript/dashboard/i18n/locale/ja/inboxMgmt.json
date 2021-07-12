@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Twilio の認証ができませんでした。もう一度やり直してください。"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "APIチャンネル",
         "DESC": "APIチャンネルと連携し、顧客のサポートを開始します。",
