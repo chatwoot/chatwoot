@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Twilio kimlik bilgilerini doğrulayamadık, lütfen tekrar deneyin"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Kanalı",
         "DESC": "API kanalı ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
