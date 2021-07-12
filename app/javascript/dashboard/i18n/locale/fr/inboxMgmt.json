@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Canal API",
         "DESC": "Intégrez le canal API et commencez à aider vos clients.",
