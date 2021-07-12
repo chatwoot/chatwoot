@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "No hem pogut autenticar les credencials de Twilio, prova de nou"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Canal de l'API",
         "DESC": "Integra’t amb el canal API i comença a donar suport als teus clients.",
