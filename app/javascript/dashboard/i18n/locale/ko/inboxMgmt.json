@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Twilio 자격 증명을 인증할 수 없습니다. 다시 시도하십시오."
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API 채널",
         "DESC": "API 채널과 통합하여 고객 지원을 시작하십시오.",
