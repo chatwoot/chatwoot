@@ -128,12 +128,12 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "Canal SMS via Twilio",
+        "DESC": "Comece a apoiar seus clientes através de SMS com integração Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "Canal do Whatsapp via Twilio",
+        "DESC": "Comece a apoiar seus clientes através do Whatsapp com integração com Twilio."
       },
       "API_CHANNEL": {
         "TITLE": "Canal da API",
