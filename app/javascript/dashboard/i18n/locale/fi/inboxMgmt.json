@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Emme pystyneet todentamaan Twilio tunnuksia, yritä uudelleen"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API-rajapinta",
         "DESC": "Integroi API-rajapintaan ja aloita tukemaan asiakkaitasi.",
