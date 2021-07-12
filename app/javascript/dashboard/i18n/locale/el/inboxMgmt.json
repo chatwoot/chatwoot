@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Κανάλι API",
         "DESC": "Ενσωματώστε ένα κανάλι APΙ και ξεκινήσετε την υποστήριξη των πελατών σας.",
