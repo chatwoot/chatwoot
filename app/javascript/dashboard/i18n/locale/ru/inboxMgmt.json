@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Мы не смогли авторизоваться в Twilio. Пожалуйста, попробуйте еще раз"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Источник API",
         "DESC": "Интегрируйте с API каналом и начните поддерживать ваших клиентов.",
