@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "我們無法驗證 Twilio 憑證，請重試"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API 頻道",
         "DESC": "與 API 頻道互動，開始服務客戶。",
