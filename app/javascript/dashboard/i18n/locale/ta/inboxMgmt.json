@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "ட்விலியோ கிரேடின்டியல்செய் எங்களால் அங்கீகரிக்க முடியவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
