@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais Twilio, por favor, tente novamente"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
