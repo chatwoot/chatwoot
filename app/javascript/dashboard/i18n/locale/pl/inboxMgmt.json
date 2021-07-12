@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Nie byliśmy w stanie uwierzytelnić danych logowania Twilio, spróbuj ponownie"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Kanał API",
         "DESC": "Integrate with API channel and start supporting your customers.",
