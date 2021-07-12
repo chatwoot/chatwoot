@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "เราไม่สามารถยืนยันใบรับลองของ Twilio ได้กรุณาลองใหม่อีกครั้ง"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "ช่อง API",
         "DESC": "สร้างช่องด้วย API เเละเริ่มช่วยเหลือลูกค้าของคุณ",
