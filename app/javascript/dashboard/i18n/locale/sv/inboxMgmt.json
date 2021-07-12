@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Vi kunde inte autentisera Twilio-uppgifterna, försök igen"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API-kanal",
         "DESC": "Integrera med API-kanalen och börja supporta dina kunder.",
