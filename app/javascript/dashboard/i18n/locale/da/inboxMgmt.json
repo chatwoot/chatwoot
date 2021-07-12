@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Kanal",
         "DESC": "Integrer med API-kanal og begynd at supportere dine kunder.",
