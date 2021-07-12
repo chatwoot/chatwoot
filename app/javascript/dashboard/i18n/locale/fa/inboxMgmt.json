@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "متاسفانه Twilio اطلاعات ارائه شده را تایید نمی کند، لطفا اصلاح و مجددا تلاش کنید"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "کانال API",
         "DESC": "با کانال API ادغام شده و از مشتریان خود پشتیبانی کنید.",
