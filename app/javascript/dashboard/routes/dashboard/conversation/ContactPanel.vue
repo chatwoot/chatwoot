@@ -127,6 +127,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import agentMixin from '../../../mixins/agentMixin';
 
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
@@ -146,7 +147,7 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -166,7 +167,6 @@ export default {
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
       currentUser: 'getCurrentUser',
-      getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
@@ -191,8 +191,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -230,9 +231,6 @@ export default {
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
-    },
-    agentsList() {
-      return [{ id: 0, name: 'None' }, ...this.getAgents(this.inboxId)];
     },
     teamsList() {
       return [{ id: 0, name: 'None' }, ...this.teams];
