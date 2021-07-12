@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "تعذر تكوين المصادقة بواسطة بيانات الاعتماد الخاصة بحسابك على Twilio، يرجى المحاولة مرة أخرى"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "قناة API",
         "DESC": "اربط مع قناة API وابدأ في دعم عملائك.",
