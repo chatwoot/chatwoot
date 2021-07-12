@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="showBannerMessage"
-    class="banner"
-    :class="`banner banner__${bannerType}`"
-  >
+  <div v-if="showBannerMessage" :class="`banner ${bannerType}`">
     <span>
       {{ bannerMessage }}
     </span>
@@ -42,10 +38,10 @@ export default {
   font-weight: $font-weight-bold;
   padding: $space-slab;
   text-align: center;
-  &__success {
+  &.success {
     background: $color-success;
   }
-  &__error {
+  &.error {
     background: $color-error;
   }
 }
