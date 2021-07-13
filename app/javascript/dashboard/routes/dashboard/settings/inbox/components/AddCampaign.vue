@@ -30,6 +30,41 @@
           </span>
         </label>
 
+        <label :class="{ error: $v.scheduledAt.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          <woot-date-time-picker
+            :value="scheduledAt"
+            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
+            @change="onChange"
+          />
+          <span v-if="$v.scheduledAt.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.SCHEDULED_AT.ERROR') }}
+          </span>
+        </label>
+
+        <label :class="{ error: $v.message.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
+          <multiselect
+            v-model="selectedAudience"
+            :options="audienceList"
+            track-by="id"
+            label="name"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :hide-selected="true"
+            placeholder="Pick some"
+            selected-label
+            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+            :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+            @select="$v.selectedAudience.$touch"
+          />
+          <span v-if="$v.message.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.AUDIENCE.ERROR') }}
+          </span>
+        </label>
+
         <label :class="{ error: $v.selectedSender.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
@@ -100,7 +135,12 @@
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+
 export default {
+  components: {
+    WootDateTimePicker,
+  },
   mixins: [alertMixin],
   props: {
     senderList: {
@@ -117,6 +157,16 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
+      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
+      dateRange: this.$t('REPORT.DATE_RANGE'),
+      scheduledAt: null,
+      selectedAudience: [],
+      audienceList: [
+        {
+          id: 13,
+          name: 'sales',
+        },
+      ],
     };
   },
   validations: {
@@ -136,6 +186,14 @@ export default {
     },
     timeOnPage: {
       required,
+    },
+    scheduledAt: {
+      required,
+    },
+    selectedAudience: {
+      isEmpty() {
+        return !!this.selectedAudience.length;
+      },
     },
   },
   computed: {
@@ -165,6 +223,9 @@ export default {
   methods: {
     onClose() {
       this.$emit('on-close');
+    },
+    onChange(value) {
+      this.scheduledAt = value;
     },
     async addCampaign() {
       try {
