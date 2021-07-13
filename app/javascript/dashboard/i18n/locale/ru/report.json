@@ -53,12 +53,12 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Настраиваемый диапазон даты"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
     }
   }
 }
