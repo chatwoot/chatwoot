@@ -46,7 +46,7 @@ module SlackStubs
     {
       "client_msg_id": 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
       "type": 'message',
-      "text": 'this is test',
+      "text": 'this is test <https://chatwoot.com> Hey <@U019KT237LP|Sojan> Test again',
       "user": 'ULYPAKE5S',
       "ts": '1588623033.006000',
       "team": 'TLST3048H',

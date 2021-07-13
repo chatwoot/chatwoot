@@ -1,20 +1,31 @@
 <template>
-  <footer v-if="!hideReplyBox" class="footer">
-    <ChatInputWrap
-      :on-send-message="handleSendMessage"
-      :on-send-attachment="handleSendAttachment"
-    />
-  </footer>
-  <custom-button
-    v-else
-    class="font-medium"
-    block
-    :bg-color="widgetColor"
-    :text-color="textColor"
-    @click="startNewConversation"
-  >
-    {{ $t('START_NEW_CONVERSATION') }}
-  </custom-button>
+  <div>
+    <footer v-if="!hideReplyBox" class="footer">
+      <ChatInputWrap
+        :on-send-message="handleSendMessage"
+        :on-send-attachment="handleSendAttachment"
+      />
+    </footer>
+    <div v-else>
+      <custom-button
+        class="font-medium"
+        block
+        :bg-color="widgetColor"
+        :text-color="textColor"
+        @click="startNewConversation"
+      >
+        {{ $t('START_NEW_CONVERSATION') }}
+      </custom-button>
+      <custom-button
+        v-if="showEmailTranscriptButton"
+        type="clear"
+        class="font-normal"
+        @click="sendTranscript"
+      >
+        {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+      </custom-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -23,6 +34,7 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { sendEmailTranscript } from 'widget/api/conversation';
 
 export default {
   components: {
@@ -40,6 +52,7 @@ export default {
       conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
       getConversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -48,6 +61,9 @@ export default {
       const { csatSurveyEnabled } = window.chatwootWebChannel;
       const { status } = this.conversationAttributes;
       return csatSurveyEnabled && status === 'resolved';
+    },
+    showEmailTranscriptButton() {
+      return this.currentUser && this.currentUser.email;
     },
   },
   methods: {
@@ -77,6 +93,24 @@ export default {
       this.clearConversations();
       this.clearConversationAttributes();
       window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
+    },
+    async sendTranscript() {
+      const { email } = this.currentUser;
+      if (email) {
+        try {
+          await sendEmailTranscript({
+            email,
+          });
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+            message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
+            type: 'success',
+          });
+        } catch (error) {
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+            message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
+          });
+        }
+      }
     },
   },
 };
