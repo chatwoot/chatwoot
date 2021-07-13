@@ -75,7 +75,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     acts-as-taggable-on (6.5.0)
       activerecord (>= 5.0, < 6.1)
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     administrate (0.16.0)
       actionpack (>= 5.0)
