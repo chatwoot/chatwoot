@@ -1,5 +1,5 @@
 <template>
-  <div class="medium-2 csat--metric-card">
+  <div class="medium-2 small-6 csat--metric-card">
     <h3 class="heading">
       <span>{{ label }}</span>
       <i v-tooltip="infoText" class="csat--icon ion-ios-information" />
