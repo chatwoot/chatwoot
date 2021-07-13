@@ -1,6 +1,6 @@
 <template>
   <div
-    class="small-3 columns channel"
+    class="small-6 medium-4 large-3 columns channel"
     :class="{ inactive: !isActive }"
     @click="onItemClick"
   >
