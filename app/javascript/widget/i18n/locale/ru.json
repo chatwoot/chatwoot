@@ -64,7 +64,7 @@
     "PLACEHOLDER": "Расскажите подробнее..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Запросить историю разговора",
     "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз"
   }
