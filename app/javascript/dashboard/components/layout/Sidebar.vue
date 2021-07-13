@@ -1,5 +1,5 @@
 <template>
-  <aside class="woot-sidebar">
+  <aside class="woot-sidebar" :class="{ 'only-primary': !showSecondaryMenu }">
     <primary-sidebar
       :logo-source="globalConfig.logo"
       :installation-name="globalConfig.installationName"
@@ -8,7 +8,7 @@
       @toggle-accounts="toggleAccountModal"
     />
 
-    <div class="main-nav">
+    <div v-if="showSecondaryMenu" class="main-nav secondary-menu">
       <transition-group name="menu-list" tag="ul" class="menu vertical">
         <sidebar-item
           v-if="shouldShowTeams"
@@ -31,6 +31,16 @@
           :key="contactLabelSection.key"
           :menu-item="contactLabelSection"
           @add-label="showAddLabelPopup"
+        />
+        <sidebar-item
+          v-if="shouldShowSettingsSideMenu"
+          :key="settingsSubMenu.key"
+          :menu-item="settingsSubMenu"
+        />
+        <sidebar-item
+          v-if="shouldShowNotificationsSideMenu"
+          :key="notificationsSubMenu.key"
+          :menu-item="notificationsSubMenu"
         />
       </transition-group>
     </div>
@@ -57,7 +67,6 @@ import { mapGetters } from 'vuex';
 
 import adminMixin from '../../mixins/isAdmin';
 import SidebarItem from './SidebarItem';
-import AvailabilityStatus from './AvailabilityStatus';
 import { frontendURL } from '../../helper/URLHelper';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -70,8 +79,6 @@ import PrimarySidebar from 'dashboard/modules/sidebar/components/Primary';
 export default {
   components: {
     SidebarItem,
-    AvailabilityStatus,
-
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
@@ -134,6 +141,17 @@ export default {
     showShowContactSideMenu() {
       return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
     },
+    shouldShowSettingsSideMenu() {
+      return this.sidemenuItems.settings.routes.includes(this.currentRoute);
+    },
+    shouldShowReportsSideMenu() {
+      return this.sidemenuItems.reports.routes.includes(this.currentRoute);
+    },
+    shouldShowNotificationsSideMenu() {
+      return this.sidemenuItems.notifications.routes.includes(
+        this.currentRoute
+      );
+    },
     shouldShowTeams() {
       return this.shouldShowSidebarItem && this.teams.length;
     },
@@ -143,6 +161,7 @@ export default {
         label: 'INBOXES',
         hasSubMenu: true,
         newLink: true,
+        newLinkTag: 'NEW_INBOX',
         key: 'inbox',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
@@ -163,6 +182,7 @@ export default {
         label: 'LABELS',
         hasSubMenu: true,
         newLink: true,
+        newLinkTag: 'NEW_LABEL',
         key: 'label',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -187,6 +207,7 @@ export default {
         hasSubMenu: true,
         key: 'label',
         newLink: false,
+        newLinkTag: 'NEW_LABEL',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
@@ -209,6 +230,7 @@ export default {
         label: 'TEAMS',
         hasSubMenu: true,
         newLink: true,
+        newLinkTag: 'NEW_TEAM',
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
@@ -222,8 +244,48 @@ export default {
         })),
       };
     },
+    settingsSubMenu() {
+      const menuItems = Object.values(this.sidemenuItems.settings.menuItems);
+      return {
+        icon: 'ion-settings',
+        label: 'SETTINGS',
+        hasSubMenu: true,
+        key: 'settings',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings`),
+        children: menuItems.map(item => ({
+          ...item,
+          label: this.$t(`SIDEBAR.${item.label}`),
+        })),
+      };
+    },
+    reportsSubMenu() {
+      return {
+        icon: 'ion-ion-arrow-graph-up-right',
+        cssClass: 'menu-title align-justify',
+        label: 'REPORTS',
+        hasSubMenu: false,
+        key: 'reports',
+        children: [],
+      };
+    },
+    notificationsSubMenu() {
+      return {
+        icon: 'ion-ios-bell',
+        label: 'NOTIFICATIONS',
+        hasSubMenu: false,
+        cssClass: 'menu-title align-justify',
+        key: 'notifications',
+        children: [],
+      };
+    },
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
+    },
+    showSecondaryMenu() {
+      if (this.shouldShowReportsSideMenu) return false;
+      if (this.shouldShowNotificationsSideMenu) return false;
+      return true;
     },
   },
   watch: {
@@ -290,7 +352,20 @@ export default {
 <style lang="scss" scoped>
 .woot-sidebar {
   display: flex;
-  width: 256px;
+
+  &.only-primary {
+    width: auto;
+  }
+}
+
+.secondary-menu {
+  background: var(--white);
+  border-right: 1px solid var(--s-50);
+  height: 100vh;
+  width: 216px;
+  flex-shrink: 0;
+  overflow: auto;
+  padding: var(--space-small);
 }
 </style>
 
@@ -358,7 +433,7 @@ export default {
   margin-top: auto;
 }
 
-.teams-sidebar-menu + .nested.vertical.menu {
-  padding-left: calc(var(--space-medium) - var(--space-one));
+.secondary-menu .nested.vertical.menu {
+  margin-left: var(--space-small);
 }
 </style>

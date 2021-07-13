@@ -1,7 +1,8 @@
 <template>
   <transition name="menu-slide">
     <div
-      v-on-clickaway="() => $emit('close')"
+      v-if="show"
+      v-on-clickaway="onClickAway"
       class="dropdown-pane"
       :class="{ 'dropdown-pane--open': show }"
     >
@@ -90,7 +91,9 @@ export default {
       if (this.globalConfig.createNewAccountFromDashboard) {
         return true;
       }
-      return this.currentUser.accounts.length > 1;
+
+      const { accounts = [] } = this.currentUser;
+      return accounts.length > 1;
     },
   },
   methods: {
@@ -100,6 +103,9 @@ export default {
       if (this.globalConfig.chatwootInboxToken) {
         window.$chatwoot.reset();
       }
+    },
+    onClickAway() {
+      if (this.show) this.$emit('close');
     },
   },
 };
