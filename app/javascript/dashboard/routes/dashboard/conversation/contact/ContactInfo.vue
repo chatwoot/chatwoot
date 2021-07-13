@@ -254,12 +254,12 @@ export default {
 
 .button--contact-menu {
   position: absolute;
-  right: 0;
+  right: var(--space-normal);
   top: 0;
 }
 
 .dropdown-pane {
   top: var(--space-large);
-  right: 0;
+  right: var(--space-normal);
 }
 </style>
