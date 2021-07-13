@@ -173,8 +173,8 @@
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email."
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Выберите источник",
+        "DESC": "Chatwoot поддерживает виджет живого-чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
       },
       "AGENTS": {
         "TITLE": "Операторы",
