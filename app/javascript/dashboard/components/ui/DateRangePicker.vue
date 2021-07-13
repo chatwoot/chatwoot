@@ -4,6 +4,7 @@
       :range="true"
       :confirm="true"
       :clearable="false"
+      :editable="false"
       :confirm-text="confirmText"
       :placeholder="placeholder"
       :value="value"
@@ -52,6 +53,12 @@ export default {
     border-radius: var(--border-radius-normal);
     box-shadow: none;
     height: 4.6rem;
+  }
+
+  .mx-input:disabled,
+  .mx-input[readonly] {
+    background-color: var(--white);
+    cursor: pointer;
   }
 }
 </style>
