@@ -1,18 +1,12 @@
 <template>
-  <div class="current-user--row">
+  <woot-button variant="link" class="current-user" @click="handleClick">
     <thumbnail
       :src="currentUser.avatar_url"
-      :username="currentUserAvailableName"
+      :username="currentUser.name"
+      :status="currentUser.availability_status"
+      size="32px"
     />
-    <div class="current-user--data">
-      <h3 class="current-user--name text-truncate">
-        {{ currentUserAvailableName }}
-      </h3>
-      <h5 v-if="currentRole" class="current-user--role">
-        {{ $t(`AGENT_MGMT.AGENT_TYPES.${currentRole.toUpperCase()}`) }}
-      </h5>
-    </div>
-  </div>
+  </woot-button>
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -27,37 +21,20 @@ export default {
       currentUser: 'getCurrentUser',
       currentRole: 'getCurrentRole',
     }),
-    currentUserAvailableName() {
-      return this.currentUser.name;
+  },
+  methods: {
+    handleClick() {
+      this.$emit('toggle-menu');
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.current-user--row {
+.current-user {
   align-items: center;
   display: flex;
-}
-
-.current-user--data {
-  display: flex;
-  flex-direction: column;
-
-  .current-user--name {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    margin-bottom: var(--space-micro);
-    margin-left: var(--space-one);
-    max-width: 12rem;
-  }
-
-  .current-user--role {
-    color: var(--color-gray);
-    font-size: var(--font-size-mini);
-    margin-bottom: var(--zero);
-    margin-left: var(--space-one);
-    text-transform: capitalize;
-  }
+  border-radius: 50%;
+  border: 2px solid var(--white);
 }
 </style>
