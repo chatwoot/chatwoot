@@ -77,6 +77,8 @@ const REPORTS_KEYS = {
   RESOLUTION_COUNT: 'resolutions_count',
 };
 
+const CUSTOM_DATE_RANGE_ID = 5;
+
 export default {
   components: {
     WootDateRangePicker,
@@ -95,14 +97,12 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      const CUSTOM_DATE_RANGE_ID = 5;
       if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
         return this.fromCustomDate(this.customDateRange[1]);
       }
       return this.fromCustomDate(new Date());
     },
     from() {
-      const CUSTOM_DATE_RANGE_ID = 5;
       if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
         return this.fromCustomDate(this.customDateRange[0]);
       }
