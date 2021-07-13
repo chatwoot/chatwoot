@@ -11,7 +11,12 @@
       />
     </div>
     <div class="list-scroll-container">
-      <div class="dropdown-list">
+      <div
+        ref="dropdownItem"
+        class="dropdown-list"
+        @keyup.up="onArrowUp"
+        @keyup.down="onArrowDown"
+      >
         <woot-dropdown-menu>
           <woot-dropdown-item
             v-for="option in filteredOptions"
@@ -22,6 +27,7 @@
               variant="clear"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
+                hover: arrowIndex === (option && option.id),
               }"
               @click="() => onclick(option)"
             >
@@ -89,6 +95,7 @@ export default {
   data() {
     return {
       search: '',
+      arrowIndex: 0,
     };
   },
 
@@ -102,16 +109,41 @@ export default {
       return this.filteredOptions.length === 0 && this.search !== '';
     },
   },
+
   mounted() {
     this.focusInput();
   },
+
   methods: {
     onclick(option) {
       this.$emit('click', option);
     },
-
     focusInput() {
       this.$refs.searchbar.focus();
+    },
+    activeDOMElement() {
+      return this.$refs.dropdownItem.querySelectorAll(
+        'ul > li > button.dropdown-item'
+      )[this.arrowIndex];
+    },
+    onArrowUp() {
+      if (this.arrowIndex <= this.options.length) {
+        this.arrowIndex -= 1;
+      }
+      if (this.arrowIndex < 0) {
+        this.arrowIndex = this.options.length;
+        this.arrowIndex -= 1;
+      }
+      this.activeDOMElement().focus();
+    },
+    onArrowDown() {
+      if (this.arrowIndex < this.options.length) {
+        this.arrowIndex += 1;
+      }
+      if (this.arrowIndex === this.options.length) {
+        this.arrowIndex = 0;
+      }
+      this.activeDOMElement().focus();
     },
   },
 };
@@ -164,6 +196,10 @@ export default {
 
   &.active {
     font-weight: var(--font-weight-bold);
+  }
+
+  &.hover {
+    background-color: var(--color-background);
   }
 }
 

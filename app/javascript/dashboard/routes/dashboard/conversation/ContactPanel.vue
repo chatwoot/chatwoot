@@ -134,7 +134,7 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
-import MultiselectDropdown from 'shared/components/ui/MutiselectDropdown.vue';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 
 import flag from 'country-code-emoji';
 
@@ -191,9 +191,8 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${
-        this.browser.browser_version || ''
-      }`;
+      return `${this.browser.browser_name || ''} ${this.browser
+        .browser_version || ''}`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
