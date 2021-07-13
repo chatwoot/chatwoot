@@ -91,7 +91,7 @@ export default {
         {
           field: 'feedbackText',
           key: 'feedbackText',
-          title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEBACK_TEXT'),
+          title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
           align: 'left',
         },
         {

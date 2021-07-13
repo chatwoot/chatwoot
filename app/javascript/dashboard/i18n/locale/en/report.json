@@ -69,13 +69,13 @@
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
         "RATING": "Rating",
-        "FEEBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Feedback comment"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Total responses",
-        "TOOLTIP": "Total number of reponses collected"
+        "TOOLTIP": "Total number of responses collected"
       },
       "SATISFACTION_SCORE": {
          "LABEL": "Satisfaction score",
