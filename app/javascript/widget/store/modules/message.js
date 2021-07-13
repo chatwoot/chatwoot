@@ -7,12 +7,15 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getUIFlags: $state => $state.uiFlags,
 };
 
-const actions = {
-  update: async ({ commit }, { email, messageId, submittedValues }) => {
+export const actions = {
+  update: async (
+    { commit, dispatch },
+    { email, messageId, submittedValues }
+  ) => {
     commit('toggleUpdateStatus', true);
     try {
       const {
@@ -33,6 +36,7 @@ const actions = {
         },
         { root: true }
       );
+      dispatch('contacts/get', {}, { root: true });
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       // Ignore error
@@ -41,7 +45,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   toggleUpdateStatus($state, status) {
     $state.uiFlags.isUpdating = status;
   },
