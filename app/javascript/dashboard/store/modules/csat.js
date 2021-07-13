@@ -20,9 +20,6 @@ export const state = {
   },
   uiFlags: {
     isFetching: false,
-    isFetchingItem: false,
-    isCreating: false,
-    isDeleting: false,
     isFetchingMetrics: false,
   },
 };
@@ -97,14 +94,14 @@ export const actions = {
     }
   },
   getMetrics: async function getMetrics({ commit }) {
-    commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: true });
+    commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: true });
     try {
       const response = await CSATReports.getMetrics();
       commit(types.SET_CSAT_RESPONSE_METRICS, response.data);
     } catch (error) {
       // Ignore error
     } finally {
-      commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: false });
+      commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: false });
     }
   },
 };
@@ -126,9 +123,15 @@ export const mutations = {
       total_sent_messages_count: totalSentMessagesCount,
     }
   ) {
-    _state.metrics.totalResponseCount = totalResponseCount;
-    _state.metrics.ratingsCount = ratingsCount;
-    _state.metrics.totalSentMessagesCount = totalSentMessagesCount;
+    _state.metrics.totalResponseCount = totalResponseCount || 0;
+    _state.metrics.ratingsCount = {
+      1: ratingsCount['1'] || 0,
+      2: ratingsCount['2'] || 0,
+      3: ratingsCount['3'] || 0,
+      4: ratingsCount['4'] || 0,
+      5: ratingsCount['5'] || 0,
+    };
+    _state.metrics.totalSentMessagesCount = totalSentMessagesCount || 0;
   },
 };
 

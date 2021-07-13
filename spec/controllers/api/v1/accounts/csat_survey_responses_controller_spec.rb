@@ -49,4 +49,52 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/csat_survey_responses/metrics' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns unauthorized for agents' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns csat metrics for administrators' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data['total_count']).to eq 1
+        expect(response_data['total_sent_messages_count']).to eq 0
+        expect(response_data['ratings_count']).to eq({ "1" => 1 })
+      end
+
+      it 'filters csat metrics based on a date range' do
+        create(:csat_survey_response, account: account, created_at: 10.days.ago)
+        create(:csat_survey_response, account: account, created_at: 3.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
+            params: { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s },
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data['total_count']).to eq 1
+        expect(response_data['total_sent_messages_count']).to eq 0
+        expect(response_data['ratings_count']).to eq({ "1" => 1 })
+      end
+    end
+  end
 end

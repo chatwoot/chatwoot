@@ -11,7 +11,7 @@ class CSATReportsAPI extends ApiClient {
   }
 
   getMetrics() {
-    return axios.get(`${this.url}/metrics`, {});
+    return axios.get(`${this.url}/metrics`);
   }
 }
 
