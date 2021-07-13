@@ -107,10 +107,6 @@ export default {
       const { content_type: type = '' } = this.message;
       return type;
     },
-    messageContentAttributes() {
-      const { content_attributes: attribute = {} } = this.message;
-      return attribute;
-    },
     agentName() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return 'Bot';
