@@ -30,11 +30,11 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la boîte de réception",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Nom du site Web",
-        "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
+        "LABEL": "Nom du site web",
+        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "FB": {
         "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
@@ -216,6 +216,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
       }
     },
     "DELETE": {
@@ -223,7 +227,7 @@
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Veuillez taper {inboxName} pour confirmer",
         "YES": "Oui, supprimer ",
         "NO": "Non, Conserver "
       },
@@ -236,7 +240,7 @@
       "SETTINGS": "Paramètres",
       "COLLABORATORS": "Collaborateurs",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Campagnes",
       "PRE_CHAT_FORM": "Formulaire avant chat",
       "BUSINESS_HOURS": "Heures de bureau"
     },
@@ -252,9 +256,11 @@
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
       "UPDATE": "Mettre à jour",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Activer la boîte de collecte des courriels",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activer ou désactiver la boîte de collecte des courriels pour les nouvelles conversations",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",

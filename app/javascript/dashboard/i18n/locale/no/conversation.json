@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Fjern utvalget",
     "DOWNLOAD": "Last ned",
     "UPLOADING_ATTACHMENTS": "Laster opp vedlegg...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Vis rik tekstredigering",
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
-      "ENTER_TO_SEND": "Trykk enter for å sende"
+      "ENTER_TO_SEND": "Trykk enter for å sende",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
     "CHANGE_STATUS": "Samtalestatus er endret",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Velg agent",
       "REMOVE": "Fjern",
       "ASSIGN": "Tildel"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopier",
+      "DELETE": "Slett"
     }
   },
   "EMAIL_TRANSCRIPT": {
