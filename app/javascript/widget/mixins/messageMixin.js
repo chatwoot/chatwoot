@@ -12,8 +12,5 @@ export default {
         this.message.attachments && this.message.attachments.length > 0
       );
     },
-    showAttachments() {
-      return this.hasAttachments && !this.isMessageDeleted;
-    },
   },
 };

@@ -22,7 +22,7 @@
           :message="message.content"
         />
         <div
-          v-if="showAttachments"
+          v-if="hasAttachments && !isMessageDeleted"
           class="chat-bubble has-attachment agent"
           :class="wrapClass"
         >

@@ -9,7 +9,7 @@
           :widget-color="widgetColor"
         />
         <div
-          v-if="showAttachments"
+          v-if="hasAttachments && !isMessageDeleted"
           class="chat-bubble has-attachment user"
           :style="{ backgroundColor: widgetColor }"
         >

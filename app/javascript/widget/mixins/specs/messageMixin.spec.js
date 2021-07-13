@@ -22,7 +22,6 @@ describe('messageMixin', () => {
       deleted: true,
     });
     expect(wrapper.vm.hasAttachments).toBe(false);
-    expect(wrapper.vm.showAttachments).toBe(false);
   });
   it('non-deleted messages', async () => {
     const wrapper = shallowMount(Component, {
@@ -35,6 +34,5 @@ describe('messageMixin', () => {
     expect(wrapper.vm.deletedMessage).toBe(undefined);
     expect(wrapper.vm.messageContentAttributes).toEqual({});
     expect(wrapper.vm.hasAttachments).toBe(true);
-    expect(wrapper.vm.showAttachments).toBe(true);
   });
 });
