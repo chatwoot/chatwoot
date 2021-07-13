@@ -116,7 +116,6 @@ export const actions = {
     commit(types.SET_CONTACT_UI_FLAG, { isMerging: true });
     try {
       const response = await AccountActionsAPI.merge(parentId, childId);
-      console.log(response.data);
       commit(types.SET_CONTACT_ITEM, response.data);
     } catch (error) {
       throw new Error(error);
