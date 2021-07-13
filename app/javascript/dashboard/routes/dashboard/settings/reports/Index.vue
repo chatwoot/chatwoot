@@ -17,15 +17,15 @@
           :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
           selected-label
           :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+          deselect-label=""
           :options="dateRange"
           :searchable="false"
-          :allow-empty="true"
+          :allow-empty="false"
           @select="changeDateSelection"
         />
       </div>
       <woot-date-range-picker
-        v-if="customDateSelection"
+        v-if="isDateRangeSelected"
         :value="customDateRange"
         :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
         :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
@@ -152,11 +152,8 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
-    customDateSelection() {
-      return (
-        this.currentDateRangeSelection &&
-        this.currentDateRangeSelection.id === 5
-      );
+    isDateRangeSelected() {
+      return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
   },
   mounted() {
