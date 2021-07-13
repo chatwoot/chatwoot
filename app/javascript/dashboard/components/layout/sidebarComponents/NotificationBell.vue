@@ -20,11 +20,11 @@ export default {
     }),
     unreadCount() {
       if (!this.notificationMetadata.unreadCount) {
-        return 0;
+        return '0';
       }
 
       return this.notificationMetadata.unreadCount < 100
-        ? this.notificationMetadata.unreadCount
+        ? `${this.notificationMetadata.unreadCount}`
         : '99+';
     },
   },
