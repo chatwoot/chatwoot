@@ -52,6 +52,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    type: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
