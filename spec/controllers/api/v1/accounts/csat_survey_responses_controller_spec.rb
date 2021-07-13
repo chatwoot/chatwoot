@@ -77,7 +77,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         response_data = JSON.parse(response.body)
         expect(response_data['total_count']).to eq 1
         expect(response_data['total_sent_messages_count']).to eq 0
-        expect(response_data['ratings_count']).to eq({ "1" => 1 })
+        expect(response_data['ratings_count']).to eq({ '1' => 1 })
       end
 
       it 'filters csat metrics based on a date range' do
@@ -93,7 +93,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         response_data = JSON.parse(response.body)
         expect(response_data['total_count']).to eq 1
         expect(response_data['total_sent_messages_count']).to eq 0
-        expect(response_data['ratings_count']).to eq({ "1" => 1 })
+        expect(response_data['ratings_count']).to eq({ '1' => 1 })
       end
     end
   end
