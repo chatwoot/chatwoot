@@ -22,7 +22,7 @@
           :message="message.content"
         />
         <div
-          v-if="showAttachements"
+          v-if="showAttachments"
           class="chat-bubble has-attachment agent"
           :class="wrapClass"
         >
@@ -65,6 +65,7 @@ import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
+import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
   name: 'AgentMessage',
@@ -75,7 +76,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin],
+  mixins: [timeMixin, configMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -93,17 +94,6 @@ export default {
       }
       if (!this.message.content) return false;
       return true;
-    },
-    hasAttachments() {
-      return !!(
-        this.message.attachments && this.message.attachments.length > 0
-      );
-    },
-    isMessageDeleted() {
-      return this.messageContentAttributes.deleted;
-    },
-    showAttachements() {
-      return this.hasAttachments && !this.isMessageDeleted;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

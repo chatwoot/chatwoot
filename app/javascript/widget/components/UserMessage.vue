@@ -9,7 +9,7 @@
           :widget-color="widgetColor"
         />
         <div
-          v-if="showAttachements"
+          v-if="showAttachments"
           class="chat-bubble has-attachment user"
           :style="{ backgroundColor: widgetColor }"
         >
@@ -37,6 +37,7 @@ import UserMessageBubble from 'widget/components/UserMessageBubble';
 import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
 import timeMixin from 'dashboard/mixins/time';
+import messageMixin from '../mixins/messageMixin';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -46,7 +47,7 @@ export default {
     ImageBubble,
     FileBubble,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -61,22 +62,6 @@ export default {
     isInProgress() {
       const { status = '' } = this.message;
       return status === 'in_progress';
-    },
-
-    messageContentAttributes() {
-      const { content_attributes: attribute = {} } = this.message;
-      return attribute;
-    },
-    isMessageDeleted() {
-      return this.messageContentAttributes.deleted;
-    },
-    hasAttachments() {
-      return !!(
-        this.message.attachments && this.message.attachments.length > 0
-      );
-    },
-    showAttachements() {
-      return this.hasAttachments && !this.isMessageDeleted;
     },
     showTextBubble() {
       const { message } = this;
