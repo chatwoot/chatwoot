@@ -97,13 +97,13 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
+      if (this.isDateRangeSelected) {
         return this.fromCustomDate(this.customDateRange[1]);
       }
       return this.fromCustomDate(new Date());
     },
     from() {
-      if (this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID) {
+      if (this.isDateRangeSelected) {
         return this.fromCustomDate(this.customDateRange[0]);
       }
       const dateRange = {
