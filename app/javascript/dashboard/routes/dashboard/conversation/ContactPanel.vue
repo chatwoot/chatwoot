@@ -1,8 +1,5 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <span class="close-button" @click="onPanelToggle">
-      <i class="ion-chevron-right" />
-    </span>
     <contact-info :contact="contact" :channel-type="channelType" />
     <div class="conversation--actions">
       <div class="multiselect-wrap--small">
@@ -195,9 +192,8 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${
-        this.browser.browser_version || ''
-      }`;
+      return `${this.browser.browser_name || ''} ${this.browser
+        .browser_version || ''}`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};

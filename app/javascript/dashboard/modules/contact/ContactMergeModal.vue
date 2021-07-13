@@ -1,5 +1,5 @@
 <template>
-  <woot-modal :show="true" :on-close="onClose">
+  <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('MERGE_CONTACTS.TITLE')"
       :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
@@ -32,6 +32,10 @@ export default {
     primaryContact: {
       type: Object,
       required: true,
+    },
+    show: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -74,6 +78,7 @@ export default {
           parentId: this.primaryContact.id,
         });
         this.showAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
+        this.onClose();
       } catch (error) {
         this.showAlert(this.$t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
       }

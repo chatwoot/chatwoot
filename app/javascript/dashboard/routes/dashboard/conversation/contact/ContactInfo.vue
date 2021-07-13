@@ -91,9 +91,40 @@
         @close="toggleMergeModal"
       />
     </div>
+
+    <woot-button
+      variant="secondary"
+      color-scheme="clear"
+      icon="ion-android-more-vertical"
+      class="button--contact-menu"
+      size="large"
+      :title="$t('CONTACT_PANEL.CONTACT_ACTIONS')"
+      @click="toggleContactActions"
+    />
+    <div
+      v-if="showContactActions"
+      v-on-clickaway="hideContactActions"
+      class="dropdown-pane"
+      :class="{ 'dropdown-pane--open': showContactActions }"
+    >
+      <woot-dropdown-menu>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            @click="openMergeModal"
+          >
+            {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
+          </woot-button>
+        </woot-dropdown-item>
+      </woot-dropdown-menu>
+    </div>
   </div>
 </template>
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
@@ -110,6 +141,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
+  mixins: [clickaway],
   props: {
     contact: {
       type: Object,
@@ -129,6 +161,7 @@ export default {
       showEditModal: false,
       showConversationModal: false,
       showMergeModal: false,
+      showContactActions: false,
     };
   },
   computed: {
@@ -154,24 +187,35 @@ export default {
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
     },
+    hideContactActions() {
+      if (this.showContactActions) {
+        this.showContactActions = false;
+      }
+    },
+    toggleContactActions() {
+      this.showContactActions = !this.showContactActions;
+    },
+    openMergeModal() {
+      this.toggleMergeModal();
+      this.hideContactActions();
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
 .contact--profile {
+  position: relative;
   align-items: flex-start;
   margin-bottom: var(--space-normal);
 
   .user-thumbnail-box {
-    margin-right: $space-normal;
+    margin-right: var(--space-normal);
   }
 }
 
 .contact--details {
-  margin-top: $space-small;
+  margin-top: var(--space-small);
   width: 100%;
 }
 
@@ -206,5 +250,16 @@ export default {
 }
 .merege-summary--card {
   padding: var(--space-normal);
+}
+
+.button--contact-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.dropdown-pane {
+  top: var(--space-large);
+  right: 0;
 }
 </style>
