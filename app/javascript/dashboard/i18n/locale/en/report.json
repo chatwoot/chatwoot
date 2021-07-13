@@ -50,8 +50,16 @@
       {
         "id": 4,
         "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
       }
-    ]
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
