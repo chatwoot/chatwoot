@@ -7,10 +7,16 @@ export const mutations = {
     Vue.set($state, 'conversations', {});
   },
   pushMessageToConversation($state, message) {
-    const { id, status, message_type: type } = message;
+    const { id, status, message_type: type, content_attributes } = message;
+
     const messagesInbox = $state.conversations;
     const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
     const isTemporaryMessage = status === 'in_progress';
+
+    if (content_attributes && content_attributes.deleted) {
+      Vue.delete(messagesInbox, id);
+      return;
+    }
 
     if (!isMessageIncoming || isTemporaryMessage) {
       Vue.set(messagesInbox, id, message);
