@@ -17,7 +17,6 @@ describe('messageMixin', () => {
         };
       },
     });
-    expect(wrapper.vm.isMessageDeleted).toBe(true);
     expect(wrapper.vm.messageContentAttributes).toEqual({
       deleted: true,
     });

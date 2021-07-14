@@ -63,7 +63,7 @@
     </div>
     <div class="context-menu-wrap">
       <context-menu
-        v-if="isBubble && !isMessageDeleted"
+        v-if="isBubble"
         :is-open="showContextMenu"
         :show-copy="hasText"
         :menu-position="contextMenuPosition"
@@ -207,9 +207,6 @@ export default {
     },
     hasText() {
       return !!this.data.content;
-    },
-    isMessageDeleted() {
-      return this.contentAttributes.deleted;
     },
     sentByMessage() {
       const { sender } = this;

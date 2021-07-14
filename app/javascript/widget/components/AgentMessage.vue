@@ -22,7 +22,7 @@
           :message="message.content"
         />
         <div
-          v-if="hasAttachments && !isMessageDeleted"
+          v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
           :class="wrapClass"
         >
@@ -145,9 +145,8 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [
-            selectionOption = {},
-          ] = this.messageContentAttributes.submitted_values;
+          const [selectionOption = {}] =
+            this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }
