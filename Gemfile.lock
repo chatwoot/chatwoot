@@ -384,6 +384,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack-timeout (0.6.0)
     rails (6.0.3.7)
       actioncable (= 6.0.3.7)
       actionmailbox (= 6.0.3.7)
@@ -666,6 +667,7 @@ DEPENDENCIES
   puma
   pundit
   rack-cors
+  rack-timeout
   rails
   redis
   redis-namespace
