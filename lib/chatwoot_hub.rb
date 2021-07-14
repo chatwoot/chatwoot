@@ -1,9 +1,8 @@
 class ChatwootHub
   BASE_URL = ENV['CHATWOOT_HUB_URL'] || 'https://hub.2.chatwoot.com'
-  PING_URL = "#{BASE_URL}/ping"
-  REGISTRATION_URL = "#{BASE_URL}/instances"
-  EVENTS_URL = "#{BASE_URL}/events"
-  
+  PING_URL = "#{BASE_URL}/ping".freeze
+  REGISTRATION_URL = "#{BASE_URL}/instances".freeze
+  EVENTS_URL = "#{BASE_URL}/events".freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
@@ -20,15 +19,15 @@ class ChatwootHub
   end
 
   def self.instance_metrics
-    { 
-      accounts_count: Account.count, 
+    {
+      accounts_count: Account.count,
       users_count: User.count,
       inboxes_count: Inbox.count,
       conversations_count: Conversation.count,
-      incoming_messages_count: Message.incoming.count ,
+      incoming_messages_count: Message.incoming.count,
       outgoing_messages_count: Message.outgoing.count,
       additional_information: {}
-    } 
+    }
   end
 
   def self.latest_version
@@ -56,7 +55,8 @@ class ChatwootHub
 
   def self.emit_event(event_name, event_data)
     return if ENV['DISABLE_TELEMETRY']
-    info =  { event_name: event_name, event_data: event_data }
+
+    info = { event_name: event_name, event_data: event_data }
     RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
