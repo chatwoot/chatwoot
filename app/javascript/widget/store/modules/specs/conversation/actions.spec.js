@@ -46,7 +46,7 @@ describe('#actions', () => {
   });
 
   describe('#addOrUpdateMessage', () => {
-    it('sends correct mutations', () => {
+    it('sends correct actions for non-deleted message', () => {
       actions.addOrUpdateMessage(
         { commit },
         {
@@ -60,6 +60,17 @@ describe('#actions', () => {
         content: 'Hey',
         content_attributes: {},
       });
+    });
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: { deleted: true },
+        }
+      );
+      expect(commit).toBeCalledWith('deleteMessage', 1);
     });
 
     it('plays audio when agent sends a message', () => {
@@ -162,6 +173,40 @@ describe('#actions', () => {
     it('sends correct mutations', () => {
       actions.clearConversations({ commit });
       expect(commit).toBeCalledWith('clearConversations');
+    });
+  });
+
+  describe('#fetchOldConversations', () => {
+    it('sends correct actions', async () => {
+      API.get.mockResolvedValue({
+        data: [
+          {
+            id: 1,
+            text: 'hey',
+            content_attributes: {},
+          },
+          {
+            id: 2,
+            text: 'welcome',
+            content_attributes: { deleted: true },
+          },
+        ],
+      });
+      await actions.fetchOldConversations({ commit }, {});
+      expect(commit.mock.calls).toEqual([
+        ['setConversationListLoading', true],
+        [
+          'setMessagesInConversation',
+          [
+            {
+              id: 1,
+              text: 'hey',
+              content_attributes: {},
+            },
+          ],
+        ],
+        ['setConversationListLoading', false],
+      ]);
     });
   });
 });
