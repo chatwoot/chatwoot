@@ -1,5 +1,5 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body small-12 medium-9 columns height-auto">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.AUTH.DESC')"
@@ -77,3 +77,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.height-auto {
+  height: auto;
+}
+</style>
