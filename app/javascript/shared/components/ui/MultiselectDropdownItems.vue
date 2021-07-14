@@ -27,7 +27,6 @@
               variant="clear"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
-                hover: arrowIndex === (option && option.id),
               }"
               @click="() => onclick(option)"
             >
@@ -127,20 +126,20 @@ export default {
       )[this.arrowIndex];
     },
     onArrowUp() {
-      if (this.arrowIndex <= this.options.length) {
+      if (this.arrowIndex <= this.filteredOptions.length) {
         this.arrowIndex -= 1;
       }
       if (this.arrowIndex < 0) {
-        this.arrowIndex = this.options.length;
+        this.arrowIndex = this.filteredOptions.length;
         this.arrowIndex -= 1;
       }
       this.activeDOMElement().focus();
     },
     onArrowDown() {
-      if (this.arrowIndex < this.options.length) {
+      if (this.arrowIndex < this.filteredOptions.length) {
         this.arrowIndex += 1;
       }
-      if (this.arrowIndex === this.options.length) {
+      if (this.arrowIndex === this.filteredOptions.length) {
         this.arrowIndex = 0;
       }
       this.activeDOMElement().focus();
@@ -195,10 +194,12 @@ export default {
   width: 100%;
 
   &.active {
+    background-color: var(--w-50);
+    color: var(--w-900);
     font-weight: var(--font-weight-bold);
   }
 
-  &.hover {
+  &:focus {
     background-color: var(--color-background);
   }
 }
