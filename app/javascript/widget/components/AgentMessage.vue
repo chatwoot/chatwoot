@@ -101,7 +101,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt);
+      return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;
