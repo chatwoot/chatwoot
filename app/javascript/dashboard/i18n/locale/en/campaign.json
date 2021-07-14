@@ -22,7 +22,7 @@
         },
         "AUDIENCE": {
           "LABEL": "Audience",
-          "PLACEHOLDER": "Please select the audience",
+          "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
         "MESSAGE": {
