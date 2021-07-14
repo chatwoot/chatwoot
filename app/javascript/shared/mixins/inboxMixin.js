@@ -1,4 +1,3 @@
-import { CAMPAIGN_TYPES } from '../constants/campaign';
 export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
@@ -38,12 +37,6 @@ export default {
     isATwilioWhatsappChannel() {
       const { phone_number: phoneNumber = '' } = this.inbox;
       return this.isATwilioChannel && phoneNumber.startsWith('whatsapp');
-    },
-    campaignType() {
-      if (this.isAWebWidgetInbox) {
-        return CAMPAIGN_TYPES.ONGOING;
-      }
-      return CAMPAIGN_TYPES.ONE_OFF;
     },
   },
 };
