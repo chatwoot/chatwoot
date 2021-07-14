@@ -15,7 +15,12 @@ describe('#Reports API', () => {
       expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses',
         {
-          params: { page: 1, since: 1622485800, until: 1623695400 },
+          params: {
+            page: 1,
+            since: 1622485800,
+            until: 1623695400,
+            sort: '-created_at',
+          },
         }
       );
     });

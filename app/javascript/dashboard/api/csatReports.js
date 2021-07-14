@@ -7,7 +7,9 @@ class CSATReportsAPI extends ApiClient {
   }
 
   get({ page, from, to } = {}) {
-    return axios.get(this.url, { params: { page, since: from, until: to } });
+    return axios.get(this.url, {
+      params: { page, since: from, until: to, sort: '-created_at' },
+    });
   }
 
   getMetrics({ from, to } = {}) {
