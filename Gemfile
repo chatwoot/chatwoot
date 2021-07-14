@@ -53,6 +53,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
+gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
