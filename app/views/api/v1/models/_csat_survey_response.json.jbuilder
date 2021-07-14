@@ -14,4 +14,4 @@ if resource.assigned_agent
     json.partial! 'api/v1/models/agent.json.jbuilder', resource: resource.assigned_agent
   end
 end
-json.created_at resource.created_at
+json.created_at resource.created_at.to_i

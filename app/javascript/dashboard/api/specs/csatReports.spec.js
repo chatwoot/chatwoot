@@ -11,18 +11,26 @@ describe('#Reports API', () => {
   });
   describeWithAPIMock('API calls', context => {
     it('#get', () => {
-      csatReportsAPI.get({ page: 1 });
+      csatReportsAPI.get({ page: 1, from: 1622485800, to: 1623695400 });
       expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses',
         {
-          params: { page: 1 },
+          params: {
+            page: 1,
+            since: 1622485800,
+            until: 1623695400,
+            sort: '-created_at',
+          },
         }
       );
     });
     it('#getMetrics', () => {
-      csatReportsAPI.getMetrics();
+      csatReportsAPI.getMetrics({ from: 1622485800, to: 1623695400 });
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/csat_survey_responses/metrics'
+        '/api/v1/csat_survey_responses/metrics',
+        {
+          params: { since: 1622485800, until: 1623695400 },
+        }
       );
     });
   });
