@@ -41,6 +41,7 @@ describe ::ConversationFinder do
 
     context 'with assignee_type unassigned' do
       let(:params) { { assignee_type: 'unassigned' } }
+
       it 'filter conversations by assignee type unassigned' do
         result = conversation_finder.perform
         expect(result[:conversations].count).to be 1
@@ -49,12 +50,12 @@ describe ::ConversationFinder do
 
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
+
       it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
         expect(result[:conversations].count).to be 3
       end
     end
-
 
     context 'with team' do
       let(:team) { create(:team, account: account) }
