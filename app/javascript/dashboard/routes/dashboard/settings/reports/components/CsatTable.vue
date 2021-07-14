@@ -1,7 +1,7 @@
 <template>
   <div class="csat--table-container">
     <ve-table
-      max-height="calc(100vh - 30rem)"
+      max-height="calc(100vh - 35rem)"
       :fixed-header="true"
       :columns="columns"
       :table-data="tableData"
@@ -25,12 +25,14 @@ import { VeTable, VePagination } from 'vue-easytable';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     VeTable,
     VePagination,
   },
+  mixins: [timeMixin],
   props: {
     pageIndex: {
       type: Number,
@@ -93,6 +95,7 @@ export default {
           key: 'feedbackText',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
           align: 'left',
+          width: 400,
         },
         {
           field: 'converstionId',
@@ -106,9 +109,14 @@ export default {
               params: { conversation_id: row.conversationId },
             };
             return (
-              <router-link to={routerParams}>
-                {`#${row.conversationId}`}
-              </router-link>
+              <div class="text-right">
+                <router-link to={routerParams}>
+                  {`#${row.conversationId}`}
+                </router-link>
+                <div class="csat--timestamp" v-tooltip={row.createdAt}>
+                  {row.createdAgo}
+                </div>
+              </div>
             );
           },
         },
@@ -121,6 +129,8 @@ export default {
         rating: response.rating,
         feedbackText: response.feedback_message || '---',
         conversationId: response.conversation_id,
+        createdAgo: this.dynamicTime(response.created_at),
+        createdAt: this.messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
       }));
     },
   },
@@ -187,5 +197,10 @@ export default {
   justify-content: center;
   margin-top: -1px;
   width: 100%;
+}
+
+.csat--timestamp {
+  color: var(--b-400);
+  font-size: var(--font-size-small);
 }
 </style>

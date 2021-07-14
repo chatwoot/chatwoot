@@ -6,12 +6,14 @@ class CSATReportsAPI extends ApiClient {
     super('csat_survey_responses', { accountScoped: true });
   }
 
-  get({ page } = {}) {
-    return axios.get(this.url, { params: { page } });
+  get({ page, from, to } = {}) {
+    return axios.get(this.url, { params: { page, since: from, until: to } });
   }
 
-  getMetrics() {
-    return axios.get(`${this.url}/metrics`);
+  getMetrics({ from, to } = {}) {
+    return axios.get(`${this.url}/metrics`, {
+      params: { since: from, until: to },
+    });
   }
 }
 
