@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Visão geral",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
@@ -62,28 +62,28 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Relatórios CSAT",
+    "NO_RECORDS": "Não há respostas de pesquisa em CSAT disponíveis.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contato",
+        "AGENT_NAME": "Agente atribuído",
         "RATING": "Classificação",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Comentário do feedback"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas coletadas"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Pontuação de satisfação",
+        "TOOLTIP": "Número total de respostas positivas / Número total de respostas * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Taxa de resposta",
+        "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT de pesquisa enviadas * 100"
       }
     }
   }
