@@ -30,7 +30,7 @@
           </span>
         </label>
 
-        <label :class="{ error: $v.scheduledAt.$error }">
+        <label v-if="isOnOffType" :class="{ error: $v.scheduledAt.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           <woot-date-time-picker
             :value="scheduledAt"
@@ -39,17 +39,20 @@
             @change="onChange"
           />
           <span v-if="$v.scheduledAt.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.SCHEDULED_AT.ERROR') }}
+            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.ERROR') }}
           </span>
         </label>
 
-        <label :class="{ error: $v.message.$error }">
+        <label
+          v-if="isOnOffType"
+          :class="{ error: $v.selectedAudience.$error }"
+        >
           {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
           <multiselect
             v-model="selectedAudience"
             :options="audienceList"
             track-by="id"
-            label="name"
+            label="title"
             :multiple="true"
             :close-on-select="false"
             :clear-on-select="false"
@@ -58,14 +61,18 @@
             selected-label
             :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
             :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+            @blur="$v.selectedAudience.$touch"
             @select="$v.selectedAudience.$touch"
           />
-          <span v-if="$v.message.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.AUDIENCE.ERROR') }}
+          <span v-if="$v.selectedAudience.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
           </span>
         </label>
 
-        <label :class="{ error: $v.selectedSender.$error }">
+        <label
+          v-if="isOngoingType"
+          :class="{ error: $v.selectedSender.$error }"
+        >
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
             <option
@@ -82,6 +89,7 @@
         </label>
 
         <woot-input
+          v-if="isOngoingType"
           v-model="endPoint"
           :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
           type="text"
@@ -93,6 +101,7 @@
           @blur="$v.endPoint.$touch"
         />
         <woot-input
+          v-if="isOngoingType"
           v-model="timeOnPage"
           :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
           type="text"
@@ -105,7 +114,7 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
           @blur="$v.timeOnPage.$touch"
         />
-        <label>
+        <label v-if="isOngoingType">
           <input
             v-model="enabled"
             type="checkbox"
@@ -136,6 +145,7 @@ import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import { CAMPAIGN_TYPES } from 'shared/constants/campaign';
 
 export default {
   components: {
@@ -147,6 +157,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    audienceList: {
+      type: Array,
+      default: () => [],
+    },
+    campaignType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -157,16 +175,8 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
       scheduledAt: null,
       selectedAudience: [],
-      audienceList: [
-        {
-          id: 13,
-          name: 'sales',
-        },
-      ],
     };
   },
   validations: {
@@ -201,12 +211,21 @@ export default {
       uiFlags: 'campaigns/getUIFlags',
     }),
     buttonDisabled() {
+      if (this.isOngoingType) {
+        return (
+          this.$v.message.$invalid ||
+          this.$v.title.$invalid ||
+          this.$v.selectedSender.$invalid ||
+          this.$v.endPoint.$invalid ||
+          this.$v.timeOnPage.$invalid ||
+          this.uiFlags.isCreating
+        );
+      }
       return (
         this.$v.message.$invalid ||
         this.$v.title.$invalid ||
-        this.$v.selectedSender.$invalid ||
-        this.$v.endPoint.$invalid ||
-        this.$v.timeOnPage.$invalid ||
+        this.$v.scheduledAt.$invalid ||
+        this.$v.selectedAudience.$invalid ||
         this.uiFlags.isCreating
       );
     },
@@ -219,12 +238,19 @@ export default {
         ...this.senderList,
       ];
     },
+    isOngoingType() {
+      return this.campaignType === CAMPAIGN_TYPES.ONGOING;
+    },
+    isOnOffType() {
+      return this.campaignType === CAMPAIGN_TYPES.ON_OFF;
+    },
   },
   methods: {
     onClose() {
       this.$emit('on-close');
     },
     onChange(value) {
+      this.$v.scheduledAt.$touch();
       this.scheduledAt = value;
     },
     async addCampaign() {

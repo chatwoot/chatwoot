@@ -1,3 +1,4 @@
+import { CAMPAIGN_TYPES } from '../constants/campaign';
 export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
@@ -5,11 +6,6 @@ export const INBOX_TYPES = {
   TWILIO: 'Channel::TwilioSms',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
-};
-
-export const CAMPAIGN_TYPES = {
-  ONGOING: 'ongoing',
-  ON_OFF: 'on_off',
 };
 
 export default {

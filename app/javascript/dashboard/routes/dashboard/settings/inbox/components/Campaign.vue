@@ -14,7 +14,12 @@
     />
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :sender-list="selectedAgents" @on-close="hideAddPopup" />
+      <add-campaign
+        :sender-list="selectedAgents"
+        :audience-list="labelList"
+        :campaign-type="type"
+        @on-close="hideAddPopup"
+      />
     </woot-modal>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
@@ -70,6 +75,7 @@ export default {
     ...mapGetters({
       records: 'campaigns/getCampaigns',
       uiFlags: 'campaigns/getUIFlags',
+      labelList: 'labels/getLabels',
     }),
     showEmptyResult() {
       const hasEmptyResults =

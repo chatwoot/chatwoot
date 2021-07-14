@@ -28,7 +28,7 @@ export default {
       default: '',
     },
     value: {
-      type: Array,
+      type: Date,
       default: () => [],
     },
   },
