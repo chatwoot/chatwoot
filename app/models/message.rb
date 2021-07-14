@@ -86,7 +86,7 @@ class Message < ApplicationRecord
 
   after_create_commit :execute_after_create_commit_callbacks
 
-  after_update :dispatch_update_event
+  after_update_commit :dispatch_update_event
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
