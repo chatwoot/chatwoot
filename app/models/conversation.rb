@@ -60,6 +60,8 @@ class Conversation < ApplicationRecord
   belongs_to :campaign, optional: true
 
   has_many :messages, dependent: :destroy, autosave: true
+  has_one :csat_survey_response, dependent: :destroy
+  has_many :notifications, as: :primary_actor, dependent: :destroy
 
   before_create :set_bot_conversation
 

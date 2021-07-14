@@ -1,14 +1,14 @@
 /* eslint no-plusplus: 0 */
-/* eslint-env browser */
 import AvatarUploader from './widgets/forms/AvatarUploader.vue';
 import Bar from './widgets/chart/BarChart';
 import Button from './ui/WootButton';
 import Code from './Code';
 import ColorPicker from './widgets/ColorPicker';
-import DeleteModal from './widgets/modal/DeleteModal.vue';
 import ConfirmDeleteModal from './widgets/modal/ConfirmDeleteModal.vue';
+import DeleteModal from './widgets/modal/DeleteModal.vue';
 import DropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import HorizontalBar from './widgets/chart/HorizontalBarChart';
 import Input from './widgets/forms/Input.vue';
 import Label from './ui/Label';
 import LoadingState from './widgets/LoadingState';
@@ -28,12 +28,14 @@ const WootUIKit = {
   Button,
   Code,
   ColorPicker,
+  ConfirmDeleteModal,
   DeleteModal,
   DropdownItem,
   DropdownMenu,
+  HorizontalBar,
   Input,
-  LoadingState,
   Label,
+  LoadingState,
   Modal,
   ModalHeader,
   ReportStatsCard,
@@ -43,7 +45,6 @@ const WootUIKit = {
   Tabs,
   TabsItem,
   Thumbnail,
-  ConfirmDeleteModal,
   install(Vue) {
     const keys = Object.keys(this);
     keys.pop(); // remove 'install' from keys

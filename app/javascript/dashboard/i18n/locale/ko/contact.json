@@ -131,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "연락처",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "검색",
     "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "이름",
         "PHONE_NUMBER": "전화 번호",
@@ -202,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "취소",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

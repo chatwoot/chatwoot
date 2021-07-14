@@ -22,8 +22,8 @@ apt install -y \
 
 adduser --disabled-login --gecos "" chatwoot
 
-gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 curl -sSL https://get.rvm.io | bash -s stable
 addgroup chatwoot rvm
 
@@ -50,8 +50,8 @@ RAILS_ENV=production
 sudo -i -u chatwoot << EOF
 rvm --version
 rvm autolibs disable
-rvm install "ruby-2.7.2"
-rvm use 2.7.2 --default
+rvm install "ruby-2.7.3"
+rvm use 2.7.3 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot

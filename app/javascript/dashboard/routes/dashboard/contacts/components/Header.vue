@@ -3,7 +3,7 @@
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
         <h1 class="page-title">
-          {{ $t('CONTACTS_PAGE.HEADER') }}
+          {{ headerTitle ? `#${headerTitle}` : $t('CONTACTS_PAGE.HEADER') }}
         </h1>
       </div>
       <div class="right-aligned-wrap">
@@ -42,6 +42,10 @@
 export default {
   components: {},
   props: {
+    headerTitle: {
+      type: String,
+      default: '',
+    },
     searchQuery: {
       type: String,
       default: '',
