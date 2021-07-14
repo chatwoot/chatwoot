@@ -6,7 +6,7 @@ class RemoveDuplicateAccessTokensForExistingUsers < ActiveRecord::Migration[6.0]
       # we want to keep the latest token as it is being used in all requests
       duplicates.pop
       # Remaining ones are duplicates, delete them all
-      duplicates.each { |double| AccessToken.find_by(id: double).destroy }
+      duplicates.each { |duplicate| AccessToken.find_by(id: duplicate).destroy }
     end
   end
 end
