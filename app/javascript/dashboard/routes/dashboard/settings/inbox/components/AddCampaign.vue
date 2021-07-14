@@ -32,7 +32,8 @@
 
         <label v-if="isOnOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
-          <woot-date-time-picker
+          <woot-date-picker
+            type="datetime"
             :value="scheduledAt"
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
             :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
@@ -142,12 +143,10 @@ import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
-import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import WootDatePicker from 'dashboard/components/ui/DatePicker.vue';
 
 export default {
-  components: {
-    WootDateTimePicker,
-  },
+  components: { WootDatePicker },
   mixins: [alertMixin, campaignMixin],
   props: {
     senderList: {
