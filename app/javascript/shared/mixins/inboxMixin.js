@@ -43,7 +43,7 @@ export default {
       if (this.isAWebWidgetInbox) {
         return CAMPAIGN_TYPES.ONGOING;
       }
-      return CAMPAIGN_TYPES.ON_OFF;
+      return CAMPAIGN_TYPES.ONE_OFF;
     },
   },
 };

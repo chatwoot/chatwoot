@@ -242,7 +242,7 @@ export default {
       return this.campaignType === CAMPAIGN_TYPES.ONGOING;
     },
     isOnOffType() {
-      return this.campaignType === CAMPAIGN_TYPES.ON_OFF;
+      return this.campaignType === CAMPAIGN_TYPES.ONE_OFF;
     },
   },
   methods: {
@@ -254,8 +254,9 @@ export default {
       this.scheduledAt = value;
     },
     async addCampaign() {
-      try {
-        await this.$store.dispatch('campaigns/create', {
+      let campaignDetails = null;
+      if (this.isOngoingType) {
+        campaignDetails = {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
@@ -265,11 +266,30 @@ export default {
             url: this.endPoint,
             time_on_page: this.timeOnPage,
           },
+        };
+      } else {
+        const audience = this.selectedAudience.map(item => {
+          return {
+            id: item.id,
+            type: 'Label',
+          };
         });
+        campaignDetails = {
+          title: this.title,
+          message: this.message,
+          inbox_id: this.$route.params.inboxId,
+          scheduled_at: this.scheduledAt,
+          audience,
+        };
+      }
+      try {
+        await this.$store.dispatch('campaigns/create', campaignDetails);
         this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
   },
