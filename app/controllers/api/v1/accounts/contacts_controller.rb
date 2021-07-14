@@ -7,7 +7,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :last_activity_at, type: :datetime
 
   RESULTS_PER_PAGE = 15
-  protect_from_forgery with: :null_session
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
