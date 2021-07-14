@@ -76,7 +76,7 @@ RSpec.describe User do
   describe 'access token' do
     it 'creates a single access token upon user creation' do
       new_user = create(:user)
-      token_count = AccessToken.where(owner_id: new_user.id).count
+      token_count = AccessToken.where(owner: new_user).count
       expect(token_count).to eq(1)
     end
   end
