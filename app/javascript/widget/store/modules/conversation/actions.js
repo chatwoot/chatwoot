@@ -76,11 +76,12 @@ export const actions = {
     commit('clearConversations');
   },
 
-  addMessage: async ({ commit }, data) => {
-    commit('pushMessageToConversation', data);
-  },
-
-  updateMessage({ commit }, data) {
+  addOrUpdateMessage: async ({ commit }, data) => {
+    const { id, content_attributes } = data;
+    if (content_attributes && content_attributes.deleted) {
+      commit('deleteMessage', id);
+      return;
+    }
     commit('pushMessageToConversation', data);
   },
 
