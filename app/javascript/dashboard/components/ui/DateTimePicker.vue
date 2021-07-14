@@ -8,6 +8,7 @@
       :confirm-text="confirmText"
       :placeholder="placeholder"
       :value="value"
+      :disabled-date="disableBeforeToday"
       @change="handleChange"
     />
   </div>
@@ -35,6 +36,12 @@ export default {
   methods: {
     handleChange(value) {
       this.$emit('change', value);
+    },
+    disableBeforeToday(date) {
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      return date < yesterday;
     },
   },
 };

@@ -287,7 +287,7 @@
       <weekly-availability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'campaign'">
-      <campaign :selected-agents="selectedAgents"  />
+      <campaign :selected-agents="selectedAgents" />
     </div>
   </div>
 </template>
@@ -394,6 +394,16 @@ export default {
             key: 'campaign',
             name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
           },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.isATwilioWhatsappChannel) {
+        return [
+          ...visibleToAllChannelTabs,
           {
             key: 'configuration',
             name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
