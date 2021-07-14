@@ -287,7 +287,7 @@
       <weekly-availability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'campaign'">
-      <campaign :selected-agents="selectedAgents" :type="campaignType" />
+      <campaign :selected-agents="selectedAgents"  />
     </div>
   </div>
 </template>
@@ -387,8 +387,7 @@ export default {
         ];
       }
 
-      // TODO: Change this condition later isATwilioSMSChannel
-      if (this.isATwilioChannel) {
+      if (this.isATwilioSMSChannel) {
         return [
           ...visibleToAllChannelTabs,
           {

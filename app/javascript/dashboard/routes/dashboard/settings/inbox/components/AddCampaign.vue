@@ -144,14 +144,14 @@
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
-import { CAMPAIGN_TYPES } from 'shared/constants/campaign';
 
 export default {
   components: {
     WootDateTimePicker,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, campaignMixin],
   props: {
     senderList: {
       type: Array,
@@ -160,10 +160,6 @@ export default {
     audienceList: {
       type: Array,
       default: () => [],
-    },
-    campaignType: {
-      type: String,
-      default: '',
     },
   },
   data() {
@@ -237,12 +233,6 @@ export default {
         },
         ...this.senderList,
       ];
-    },
-    isOngoingType() {
-      return this.campaignType === CAMPAIGN_TYPES.ONGOING;
-    },
-    isOnOffType() {
-      return this.campaignType === CAMPAIGN_TYPES.ONE_OFF;
     },
   },
   methods: {

@@ -15,13 +15,13 @@
           "ERROR": "Title is required"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled date and time",
-          "PLACEHOLDER": "Please select the date and time",
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
           "CONFIRM": "Confirm",
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
-          "LABEL": "AUDIENCE",
+          "LABEL": "Audience",
           "PLACEHOLDER": "Please select the audience",
           "ERROR": "Audience is required"
         },
@@ -83,6 +83,7 @@
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
@@ -93,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "DISABLED": "Disabled",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Bot"

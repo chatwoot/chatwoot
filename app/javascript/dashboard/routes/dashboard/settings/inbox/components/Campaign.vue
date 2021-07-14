@@ -9,6 +9,7 @@
       :campaigns="records"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
+      :campaign-type="type"
       @on-edit-click="openEditPopup"
       @on-delete-click="openDeletePopup"
     />
