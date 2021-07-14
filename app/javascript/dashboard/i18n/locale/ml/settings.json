@@ -143,7 +143,9 @@
     "LABELS": "ലേബലുകൾ",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with"
+    "TAGGED_WITH": "Tagged with",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",

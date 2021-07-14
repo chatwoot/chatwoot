@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Отчёты",
+    "HEADER": "Обзор",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
@@ -50,7 +50,41 @@
       {
         "id": 4,
         "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
       }
-    ]
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Отчёты CSAT",
+    "NO_RECORDS": "Нет ответов на опрос CSAT.",
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Контакт",
+        "AGENT_NAME": "Назначенный сотрудник",
+        "RATING": "Оценка",
+        "FEEDBACK_TEXT": "Комментарий отзыва"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      }
+    }
   }
 }
