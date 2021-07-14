@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Brak odpowiedzi",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
-      "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać"
+      "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Wybierz Agenta",
       "REMOVE": "Usuń",
       "ASSIGN": "Przypisz"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copy",
+      "DELETE": "Usuń"
     }
   },
   "EMAIL_TRANSCRIPT": {

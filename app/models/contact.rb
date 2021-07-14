@@ -55,6 +55,7 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
+      custom_attributes: custom_attributes,
       email: email,
       id: id,
       identifier: identifier,

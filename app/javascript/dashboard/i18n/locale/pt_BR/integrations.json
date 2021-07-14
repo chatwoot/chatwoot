@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Usando a integração com Slack",
+        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as conversas recebidas no canal de <b><i>conversas com clientes</i></b> dentro de seu local de trabalho de slack.</p><p>A resposta para uma conversa em <b><i>conversas ao cliente</i></b> canal de slack irá criar uma resposta para o cliente através do chatwoot.</p><p>Inicie as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no chatwoot sob o mesmo e-mail, as respostas serão associadas de acordo.</p><p>Quando o respondente não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>"
       }
     },
     "DELETE": {
