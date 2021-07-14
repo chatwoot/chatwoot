@@ -30,7 +30,7 @@
           </span>
         </label>
 
-        <label v-if="isOnOffType" :class="{ error: $v.scheduledAt.$error }">
+        <label v-if="isOnOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           <woot-date-time-picker
             :value="scheduledAt"
@@ -38,9 +38,6 @@
             :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
             @change="onChange"
           />
-          <span v-if="$v.scheduledAt.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.ERROR') }}
-          </span>
         </label>
 
         <label
@@ -193,9 +190,6 @@ export default {
     timeOnPage: {
       required,
     },
-    scheduledAt: {
-      required,
-    },
     selectedAudience: {
       isEmpty() {
         return !!this.selectedAudience.length;
@@ -220,7 +214,6 @@ export default {
       return (
         this.$v.message.$invalid ||
         this.$v.title.$invalid ||
-        this.$v.scheduledAt.$invalid ||
         this.$v.selectedAudience.$invalid ||
         this.uiFlags.isCreating
       );
@@ -240,7 +233,6 @@ export default {
       this.$emit('on-close');
     },
     onChange(value) {
-      this.$v.scheduledAt.$touch();
       this.scheduledAt = value;
     },
     async addCampaign() {
