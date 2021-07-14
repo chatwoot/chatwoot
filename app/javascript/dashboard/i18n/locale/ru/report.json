@@ -74,16 +74,16 @@
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Всего ответов",
+        "TOOLTIP": "Общее количество собранных ответов"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Оценка удовлетворенности",
+        "TOOLTIP": "Общее количество положительных ответов / Общее количество ответов * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Доля откликов",
+        "TOOLTIP": "Общее количество ответов / Общее количество отправленных сообщений CSAT опросов * 100"
       }
     }
   }
