@@ -73,6 +73,8 @@ class ConversationFinder
       @conversations = @conversations.assigned_to(current_user)
     when 'unassigned'
       @conversations = @conversations.unassigned
+    when 'assigned'
+      @conversations = @conversations.where.not(assignee_id: nil)
     end
     @conversations
   end

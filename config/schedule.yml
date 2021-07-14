@@ -12,3 +12,4 @@ internal_check_new_versions_job:
   cron: "*/5 * * * *"
   class: "TriggerScheduledItemsJob"
   queue: scheduled_jobs
+  
