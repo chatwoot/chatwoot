@@ -12,7 +12,10 @@ class MailPresenter < SimpleDelegator
   end
 
   def text_content
-    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || fallback_content)
+    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || mail.decoded || '')
+
+    return {} if @decoded_text_content.blank?
+
     @text_content ||= {
       full: @decoded_text_content,
       reply: extract_reply(@decoded_text_content)[:reply],
@@ -21,16 +24,15 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_content
-    @decoded_html_content ||= encode_to_unicode(html_part&.decoded || fallback_content)
+    @decoded_html_content ||= encode_to_unicode(html_part&.decoded)
+
+    return {} if @decoded_html_content.blank?
+
     @html_content ||= {
       full: @decoded_html_content,
       reply: extract_reply(@decoded_html_content)[:reply],
       quoted: extract_reply(@decoded_html_content)[:quoted_text]
     }
-  end
-
-  def fallback_content
-    body&.decoded || ''
   end
 
   def attachments
@@ -69,6 +71,8 @@ class MailPresenter < SimpleDelegator
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
   def encode_to_unicode(str)
+    return '' if str.blank?
+
     current_encoding = str.encoding.name
     return str if current_encoding == 'UTF-8'
 
