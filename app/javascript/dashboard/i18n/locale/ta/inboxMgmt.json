@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "ட்விலியோ கிரேடின்டியல்செய் எங்களால் அங்கீகரிக்க முடியவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
-        "TITLE": "சேனல்கள்",
-        "DESC": "தற்போது வலைத்தள நேரடி சாட் விட்ஜெட்டுகள், பேஸ்புக் பக்கங்கள் மற்றும் ட்விட்டர் சுயவிவரங்களை தளங்களாக ஆதரிக்கிறோம். விரைவில் வாட்ஸ்அப், ஈ-மெயில், டெலிகிராம் மற்றும் லைன் போன்ற பல தளங்களிலும் வர இருக்கிறது."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "ஏஜென்ட்கள்",

@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please enter the message of campaign",
@@ -72,6 +83,7 @@
         "STATUS": "സ്റ്റാറ്റസ്",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
-        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "ബോട്ട്"
