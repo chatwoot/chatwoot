@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Informes",
+    "HEADER": "Overview",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
@@ -50,7 +50,41 @@
       {
         "id": 4,
         "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
       }
-    ]
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Assigned agent",
+        "RATING": "Rating",
+        "FEEDBACK_TEXT": "Feedback comment"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      }
+    }
   }
 }
