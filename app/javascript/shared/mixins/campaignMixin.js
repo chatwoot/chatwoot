@@ -1,6 +1,7 @@
 import { CAMPAIGN_TYPES } from '../constants/campaign';
-
+import inboxMixin from './inboxMixin';
 export default {
+  mixins: [inboxMixin],
   computed: {
     campaignType() {
       if (this.isAWebWidgetInbox) {

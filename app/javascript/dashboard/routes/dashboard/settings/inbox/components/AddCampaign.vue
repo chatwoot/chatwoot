@@ -157,6 +157,7 @@ export default {
       default: () => [],
     },
   },
+
   data() {
     return {
       title: '',
@@ -170,6 +171,7 @@ export default {
       selectedAudience: [],
     };
   },
+
   validations: {
     title: {
       required,
@@ -198,6 +200,12 @@ export default {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
     }),
+    currentInboxId() {
+      return this.$route.params.inboxId;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
     buttonDisabled() {
       if (this.isOngoingType) {
         return (
@@ -233,7 +241,7 @@ export default {
     onChange(value) {
       this.scheduledAt = value;
     },
-    async addCampaign() {
+    getCampaignDetails() {
       let campaignDetails = null;
       if (this.isOngoingType) {
         campaignDetails = {
@@ -262,7 +270,11 @@ export default {
           audience,
         };
       }
+      return campaignDetails;
+    },
+    async addCampaign() {
       try {
+        const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
         this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();

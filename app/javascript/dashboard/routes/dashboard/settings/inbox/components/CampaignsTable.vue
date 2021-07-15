@@ -49,6 +49,12 @@ export default {
   },
 
   computed: {
+    currentInboxId() {
+      return this.$route.params.inboxId;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
     tableData() {
       if (this.isLoading) {
         return [];
