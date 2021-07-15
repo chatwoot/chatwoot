@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Canal API",
         "DESC": "Intégrez le canal API et commencez à aider vos clients.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Commencez à transférer vos courriels à l'adresse suivante."
       },
       "AUTH": {
-        "TITLE": "Canaux",
-        "DESC": "Actuellement, nous prenons en charge les widgets de chat en direct, les pages Facebook et les profils Twitter en tant que plateformes. Plus de plateformes telles que Whatsapp, Courriels, Telegram et Line sont en cours de développement et seront prochainement disponibles."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agents",
