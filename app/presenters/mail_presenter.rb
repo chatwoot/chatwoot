@@ -12,7 +12,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def text_content
-    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || mail.decoded || '')
+    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || decoded_message || '')
 
     return {} if @decoded_text_content.blank?
 
@@ -45,6 +45,14 @@ class MailPresenter < SimpleDelegator
       )
       { original: attachment, blob: blob }
     end
+  end
+
+  def decoded_message
+    if mail.multipart?
+      return mail.text_part ? mail.text_part.decoded : nil
+    end
+
+    mail.decoded
   end
 
   def number_of_attachments
