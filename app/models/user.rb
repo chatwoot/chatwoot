@@ -88,7 +88,6 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
 
-  after_create_commit :create_access_token
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
