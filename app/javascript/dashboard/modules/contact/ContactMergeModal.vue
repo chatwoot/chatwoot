@@ -7,11 +7,11 @@
 
     <merge-contact
       :primary-contact="primaryContact"
-      :on-contact-search="onContactSearch"
       :is-searching="isSearching"
       :is-merging="uiFlags.isMerging"
       :search-results="searchResults"
       @search="onContactSearch"
+      @cancel="onClose"
       @submit="onMergeContacts"
     />
   </woot-modal>

@@ -5,7 +5,7 @@
     </h5>
     <ul class="summary-items">
       <li>
-        <span>❌</span>
+        <span class="bullet">❌</span>
         <span
           v-html="
             $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
@@ -15,7 +15,7 @@
         />
       </li>
       <li>
-        <span>✅</span>
+        <span class="bullet">✅</span>
         <span
           v-html="
             $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
@@ -58,5 +58,10 @@ export default {
   li {
     margin-bottom: var(--space-smaller);
   }
+}
+
+.bullet {
+  display: inline-block;
+  margin-right: var(--space-smaller);
 }
 </style>
