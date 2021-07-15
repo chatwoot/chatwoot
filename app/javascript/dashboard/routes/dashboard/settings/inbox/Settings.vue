@@ -387,7 +387,21 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel) {
+      if (this.isATwilioSMSChannel) {
+        return [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'campaign',
+            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
+          },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.isATwilioWhatsappChannel) {
         return [
           ...visibleToAllChannelTabs,
           {
@@ -459,6 +473,7 @@ export default {
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
+      this.$store.dispatch('labels/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
