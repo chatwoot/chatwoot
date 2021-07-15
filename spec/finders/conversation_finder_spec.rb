@@ -6,7 +6,7 @@ describe ::ConversationFinder do
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
-  let!(:inbox) { create(:inbox, account: account) }
+  let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
 
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
@@ -15,6 +15,8 @@ describe ::ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
     create(:conversation, account: account, inbox: inbox, assignee: user_2)
+    # unassigned conversation
+    create(:conversation, account: account, inbox: inbox)
     Current.account = account
   end
 
@@ -28,10 +30,28 @@ describe ::ConversationFinder do
       end
     end
 
-    context 'with assignee' do
+    context 'with assignee_type all' do
       let(:params) { { assignee_type: 'all' } }
 
-      it 'filter conversations by assignee' do
+      it 'filter conversations by assignee type all' do
+        result = conversation_finder.perform
+        expect(result[:conversations].count).to be 4
+      end
+    end
+
+    context 'with assignee_type unassigned' do
+      let(:params) { { assignee_type: 'unassigned' } }
+
+      it 'filter conversations by assignee type unassigned' do
+        result = conversation_finder.perform
+        expect(result[:conversations].count).to be 1
+      end
+    end
+
+    context 'with assignee_type assigned' do
+      let(:params) { { assignee_type: 'assigned' } }
+
+      it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
         expect(result[:conversations].count).to be 3
       end
