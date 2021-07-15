@@ -1,8 +1,8 @@
 import { action } from '@storybook/addon-actions';
-import WootDateRangePicker from '../DateRangePicker.vue';
+import WootDateTimePicker from '../DateTimePicker.vue';
 
 export default {
-  title: 'Components/Date Picker/Date Range Picker',
+  title: 'Components/Date Picker/Date Time Picker',
   argTypes: {
     confirmText: {
       defaultValue: 'Apply',
@@ -11,7 +11,7 @@ export default {
       },
     },
     placeholder: {
-      defaultValue: 'Select date range',
+      defaultValue: 'Select date time',
       control: {
         type: 'text',
       },
@@ -26,13 +26,13 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { WootDateRangePicker },
+  components: { WootDateTimePicker },
   template:
-    '<woot-date-range-picker v-bind="$props" @change="onChange"></woot-date-range-picker>',
+    '<woot-date-time-picker v-bind="$props" @change="onChange"></woot-date-time-picker>',
 });
 
-export const DateRangePicker = Template.bind({});
-DateRangePicker.args = {
+export const DateTimePicker = Template.bind({});
+DateTimePicker.args = {
   onChange: action('applied'),
   value: new Date(),
 };

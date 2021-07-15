@@ -17,6 +17,7 @@
     </div>
     <woot-date-range-picker
       v-if="isDateRangeSelected"
+      show-range
       :value="customDateRange"
       :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
@@ -89,3 +90,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.date-picker {
+  margin-left: var(--space-smaller);
+}
+</style>
