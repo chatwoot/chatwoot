@@ -1,14 +1,8 @@
 module Redis::Config
   DEFAULT_SENTINEL_PORT ||= '26379'.freeze
-  SIDEKIQ_SIZE ||= 25
-
   class << self
     def app
       config
-    end
-
-    def sidekiq
-      app.merge(size: SIDEKIQ_SIZE)
     end
 
     def config

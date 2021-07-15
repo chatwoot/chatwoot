@@ -24,6 +24,7 @@ import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import CampaignSender from './CampaignSender';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 
 export default {
   components: {
@@ -101,7 +102,7 @@ export default {
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
           align: 'left',
           renderBodyCell: ({ row }) => {
-            if (row.sender) return <CampaignSender sender={row.sender} />;
+            if (row.sender) return <UserAvatarWithName user={row.sender} />;
             return this.$t('CAMPAIGN.LIST.SENDER.BOT');
           },
         },

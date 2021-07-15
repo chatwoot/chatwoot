@@ -8,21 +8,7 @@
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-    <div class="small-3 pull-right">
-      <multiselect
-        v-model="currentDateRangeSelection"
-        track-by="name"
-        label="name"
-        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        :options="dateRange"
-        :searchable="false"
-        :allow-empty="true"
-        @select="changeDateSelection"
-      />
-    </div>
+    <report-date-range-selector @date-range-change="onDateRangeChange" />
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
@@ -52,11 +38,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import startOfDay from 'date-fns/startOfDay';
-import subDays from 'date-fns/subDays';
-import getUnixTime from 'date-fns/getUnixTime';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
+import ReportDateRangeSelector from './components/DateRangeSelector';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -68,33 +52,17 @@ const REPORTS_KEYS = {
 };
 
 export default {
+  components: {
+    ReportDateRangeSelector,
+  },
   data() {
-    return {
-      currentSelection: 0,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
-    };
+    return { from: 0, to: 0, currentSelection: 0 };
   },
   computed: {
     ...mapGetters({
       accountSummary: 'getAccountSummary',
       accountReport: 'getAccountReports',
     }),
-    to() {
-      return getUnixTime(startOfDay(new Date()));
-    },
-    from() {
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
-      };
-      const diff = dateRange[this.currentDateRangeSelection.id];
-      const fromDate = subDays(new Date(), diff);
-      return getUnixTime(startOfDay(fromDate));
-    },
     collection() {
       if (this.accountReport.isFetching) {
         return {};
@@ -131,28 +99,10 @@ export default {
       }));
     },
   },
-  mounted() {
-    this.fetchAllData();
-  },
   methods: {
     fetchAllData() {
       const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-      });
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
-      });
-    },
-    changeDateSelection(selectedRange) {
-      this.currentDateRangeSelection = selectedRange;
-      this.fetchAllData();
-    },
-    changeSelection(index) {
-      this.currentSelection = index;
+      this.$store.dispatch('fetchAccountSummary', { from, to });
       this.fetchChartData();
     },
     fetchChartData() {
@@ -165,10 +115,16 @@ export default {
     },
     downloadAgentReports() {
       const { from, to } = this;
-      this.$store.dispatch('downloadAgentReports', {
-        from,
-        to,
-      });
+      this.$store.dispatch('downloadAgentReports', { from, to });
+    },
+    changeSelection(index) {
+      this.currentSelection = index;
+      this.fetchChartData();
+    },
+    onDateRangeChange({ from, to }) {
+      this.from = from;
+      this.to = to;
+      this.fetchAllData();
     },
   },
 };

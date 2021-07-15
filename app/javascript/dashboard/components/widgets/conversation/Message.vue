@@ -61,15 +61,17 @@
         </div>
       </a>
     </div>
-    <context-menu
-      v-if="isBubble && !isMessageDeleted"
-      :is-open="showContextMenu"
-      :show-copy="hasText"
-      :menu-position="contextMenuPosition"
-      @toggle="handleContextMenuClick"
-      @delete="handleDelete"
-      @copy="handleCopy"
-    />
+    <div class="context-menu-wrap">
+      <context-menu
+        v-if="isBubble && !isMessageDeleted"
+        :is-open="showContextMenu"
+        :show-copy="hasText"
+        :menu-position="contextMenuPosition"
+        @toggle="handleContextMenuClick"
+        @delete="handleDelete"
+        @copy="handleCopy"
+      />
+    </div>
   </li>
 </template>
 <script>
@@ -371,7 +373,7 @@ li.left.has-tweet-menu .context-menu {
   margin-bottom: var(--space-medium);
 }
 
-li.right .context-menu {
+li.right .context-menu-wrap {
   margin-left: auto;
 }
 
