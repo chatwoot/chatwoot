@@ -33,6 +33,7 @@ export default {
           'height',
           'lang',
           'align',
+          'size',
         ],
       });
     },
