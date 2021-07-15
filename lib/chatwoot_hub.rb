@@ -13,7 +13,7 @@ class ChatwootHub
   def self.instance_config
     {
       installation_identifier: installation_identifier,
-      current_version: Chatwoot.config[:version],
+      installation_version: Chatwoot.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host
     }
   end
