@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Niciun agent găsit."
+      "NO_RESULTS": "No results found."
     }
   }
 }

@@ -44,7 +44,6 @@
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
-
       <a
         v-if="isATweet && isIncoming && sender"
         class="sender--info"
@@ -62,29 +61,47 @@
         </div>
       </a>
     </div>
+    <div class="context-menu-wrap">
+      <context-menu
+        v-if="isBubble && !isMessageDeleted"
+        :is-open="showContextMenu"
+        :show-copy="hasText"
+        :menu-position="contextMenuPosition"
+        @toggle="handleContextMenuClick"
+        @delete="handleDelete"
+        @copy="handleCopy"
+      />
+    </div>
   </li>
 </template>
 <script>
+import copy from 'copy-text-to-clipboard';
+
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import Spinner from 'shared/components/Spinner';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 
+import { isEmptyObject } from 'dashboard/helper/commons';
+import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+
 export default {
   components: {
     BubbleActions,
     BubbleText,
     BubbleImage,
     BubbleFile,
+    ContextMenu,
     Spinner,
   },
-  mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
@@ -97,7 +114,7 @@ export default {
   },
   data() {
     return {
-      isHovered: false,
+      showContextMenu: false,
     };
   },
   computed: {
@@ -105,7 +122,13 @@ export default {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
-        this.$t('CONVERSATION.NO_RESPONSE')
+        {
+          noResponseText: this.$t('CONVERSATION.NO_RESPONSE'),
+          csat: {
+            ratingTitle: this.$t('CONVERSATION.RATING_TITLE'),
+            feedbackTitle: this.$t('CONVERSATION.FEEDBACK_TITLE'),
+          },
+        }
       );
 
       const {
@@ -115,12 +138,10 @@ export default {
       } = this.contentAttributes;
 
       if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
-        let parsedContent = new DOMParser().parseFromString(
-          replyHTMLContent || fullHTMLContent || '',
-          'text/html'
-        );
-        if (!parsedContent.getElementsByTagName('parsererror').length) {
-          return parsedContent.body.innerHTML;
+        let contentToBeParsed = replyHTMLContent || fullHTMLContent || '';
+        const parsedContent = this.stripStyleCharacters(contentToBeParsed);
+        if (parsedContent) {
+          return parsedContent;
         }
       }
       return (
@@ -146,10 +167,19 @@ export default {
     },
     alignBubble() {
       const { message_type: messageType } = this.data;
-      if (messageType === MESSAGE_TYPE.ACTIVITY) {
-        return 'center';
-      }
-      return !messageType ? 'left' : 'right';
+      const isCentered = messageType === MESSAGE_TYPE.ACTIVITY;
+      const isLeftAligned = messageType === MESSAGE_TYPE.INCOMING;
+      const isRightAligned =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.TEMPLATE;
+
+      return {
+        center: isCentered,
+        left: isLeftAligned,
+        right: isRightAligned,
+        'has-context-menu': this.showContextMenu,
+        'has-tweet-menu': this.isATweet,
+      };
     },
     readableTime() {
       return this.messageStamp(
@@ -166,6 +196,9 @@ export default {
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
     },
+    isMessageDeleted() {
+      return this.contentAttributes.deleted;
+    },
     hasImageAttachment() {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
@@ -178,9 +211,11 @@ export default {
       return !!this.data.content;
     },
     sentByMessage() {
+      if (this.isMessageDeleted) {
+        return false;
+      }
       const { sender } = this;
-
-      return this.data.message_type === 1 && !this.isHovered && sender
+      return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
@@ -209,6 +244,33 @@ export default {
     isSentByBot() {
       if (this.isPending) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
+    },
+    contextMenuPosition() {
+      const { message_type: messageType } = this.data;
+      return messageType ? 'right' : 'left';
+    },
+  },
+  methods: {
+    handleContextMenuClick() {
+      this.showContextMenu = !this.showContextMenu;
+    },
+    async handleDelete() {
+      const { conversation_id: conversationId, id: messageId } = this.data;
+      try {
+        await this.$store.dispatch('deleteMessage', {
+          conversationId,
+          messageId,
+        });
+        this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+        this.showContextMenu = false;
+      } catch (error) {
+        this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+      }
+    },
+    handleCopy() {
+      copy(this.data.content);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.showContextMenu = false;
     },
   },
 };
@@ -293,5 +355,43 @@ export default {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
+}
+
+.button--delete-message {
+  visibility: hidden;
+}
+
+li.left,
+li.right {
+  display: flex;
+  align-items: flex-end;
+
+  &:hover .button--delete-message {
+    visibility: visible;
+  }
+}
+
+li.left.has-tweet-menu .context-menu {
+  margin-bottom: var(--space-medium);
+}
+
+li.right .context-menu-wrap {
+  margin-left: auto;
+}
+
+li.right {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.has-context-menu {
+  background: var(--color-background);
+  .button--delete-message {
+    visibility: visible;
+  }
+}
+
+.context-menu {
+  position: relative;
 }
 </style>
