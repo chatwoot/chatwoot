@@ -9,12 +9,18 @@
       :campaigns="records"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
+      :campaign-type="type"
       @on-edit-click="openEditPopup"
       @on-delete-click="openDeletePopup"
     />
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :sender-list="selectedAgents" @on-close="hideAddPopup" />
+      <add-campaign
+        :sender-list="selectedAgents"
+        :audience-list="labelList"
+        :campaign-type="type"
+        @on-close="hideAddPopup"
+      />
     </woot-modal>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
@@ -52,6 +58,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    type: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -66,6 +76,7 @@ export default {
     ...mapGetters({
       records: 'campaigns/getCampaigns',
       uiFlags: 'campaigns/getUIFlags',
+      labelList: 'labels/getLabels',
     }),
     showEmptyResult() {
       const hasEmptyResults =
