@@ -8,6 +8,7 @@
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
+
     <report-date-range-selector @date-range-change="onDateRangeChange" />
     <div class="row">
       <woot-report-stats-card
