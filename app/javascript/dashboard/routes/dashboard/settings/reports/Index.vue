@@ -130,11 +130,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.range-selector {
-  display: flex;
-}
-.date-picker {
-  margin-left: var(--space-smaller);
-}
-</style>

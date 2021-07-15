@@ -15,7 +15,7 @@
         @select="changeDateSelection"
       />
     </div>
-    <woot-date-picker
+    <woot-date-range-picker
       v-if="isDateRangeSelected"
       show-range
       :value="customDateRange"
@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import WootDatePicker from 'dashboard/components/ui/DatePicker.vue';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 const CUSTOM_DATE_RANGE_ID = 5;
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
@@ -34,7 +34,7 @@ import getUnixTime from 'date-fns/getUnixTime';
 
 export default {
   components: {
-    WootDatePicker,
+    WootDateRangePicker,
   },
   data() {
     return {
@@ -90,3 +90,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.date-picker {
+  margin-left: var(--space-smaller);
+}
+</style>
