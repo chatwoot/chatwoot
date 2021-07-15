@@ -1,7 +1,7 @@
 <template>
   <woot-dropdown-item>
     <div class="item-wrap">
-      <woot-button variant="clear" @click="onClick">
+      <woot-button variant="clear" class="label-button" @click="onClick">
         <div class="button-wrap">
           <div class="name-label-wrap">
             <div
@@ -51,6 +51,12 @@ export default {
 
   ::v-deep .button__content {
     width: 100%;
+  }
+
+  .label-button {
+    &:focus {
+      background-color: var(--color-background);
+    }
   }
 
   .button-wrap {

@@ -14,7 +14,12 @@
       />
     </div>
     <div class="list-wrap">
-      <div class="list">
+      <div
+        ref="labelList"
+        class="list"
+        @keyup.up="onArrowUp"
+        @keyup.down="onArrowDown"
+      >
         <woot-dropdown-menu>
           <label-dropdown-item
             v-for="label in filteredActiveLabels"
@@ -54,6 +59,7 @@ export default {
   data() {
     return {
       search: '',
+      arrowIndex: 0,
     };
   },
 
@@ -96,6 +102,36 @@ export default {
       } else {
         this.onAdd(label);
       }
+    },
+    activeDOMElement() {
+      return this.$refs.labelList.querySelectorAll(
+        'div > ul > li > div > button.button'
+      )[this.arrowIndex];
+    },
+    onArrowUp() {
+      if (this.arrowIndex <= this.filteredActiveLabels.length) {
+        this.arrowIndex -= 1;
+      }
+      if (this.arrowIndex < 0) {
+        this.arrowIndex = this.filteredActiveLabels.length;
+        this.arrowIndex -= 1;
+      }
+      if (this.arrowIndex > this.filteredActiveLabels.length) {
+        this.arrowIndex = 1;
+      }
+      this.activeDOMElement().focus();
+    },
+    onArrowDown() {
+      if (this.arrowIndex < this.filteredActiveLabels.length) {
+        this.arrowIndex += 1;
+      }
+      if (this.arrowIndex === this.filteredActiveLabels.length) {
+        this.arrowIndex = 0;
+      }
+      if (this.arrowIndex > this.filteredActiveLabels.length) {
+        this.arrowIndex = 1;
+      }
+      this.activeDOMElement().focus();
     },
   },
 };
