@@ -8,7 +8,7 @@ import {
 } from 'widget/api/conversation';
 import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
-import { createTemporaryMessage } from './helpers';
+import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
@@ -60,12 +60,12 @@ export const actions = {
       // Show error
     }
   },
-
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
       const { data } = await getMessagesAPI({ before });
-      commit('setMessagesInConversation', data);
+      const formattedMessages = getNonDeletedMessages({ messages: data });
+      commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
       commit('setConversationListLoading', false);
@@ -76,11 +76,12 @@ export const actions = {
     commit('clearConversations');
   },
 
-  addMessage: async ({ commit }, data) => {
-    commit('pushMessageToConversation', data);
-  },
-
-  updateMessage({ commit }, data) {
+  addOrUpdateMessage: async ({ commit }, data) => {
+    const { id, content_attributes } = data;
+    if (content_attributes && content_attributes.deleted) {
+      commit('deleteMessage', id);
+      return;
+    }
     commit('pushMessageToConversation', data);
   },
 
