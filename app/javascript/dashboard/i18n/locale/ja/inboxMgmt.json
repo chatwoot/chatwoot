@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Twilio の認証ができませんでした。もう一度やり直してください。"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "APIチャンネル",
         "DESC": "APIチャンネルと連携し、顧客のサポートを開始します。",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "以下のメールアドレスにメールを転送します。"
       },
       "AUTH": {
-        "TITLE": "チャンネル",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "担当者",

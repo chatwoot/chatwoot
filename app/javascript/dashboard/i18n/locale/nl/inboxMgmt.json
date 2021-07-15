@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Het is niet gelukt om Twilio referenties te verifiëren, probeer het opnieuw"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
-        "TITLE": "Kanalen",
-        "DESC": "Momenteel ondersteunen we website live chat widgets, Facebook pagina's en Twitter-profielen als platformen. We hebben meer platforms zoals Whatsapp, E-mail, Telegram en Lijn in de werken, die binnenkort zullen verschijnen."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenten",
