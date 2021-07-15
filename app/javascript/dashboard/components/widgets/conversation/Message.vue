@@ -63,7 +63,7 @@
     </div>
     <div class="context-menu-wrap">
       <context-menu
-        v-if="isBubble"
+        v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
         :show-copy="hasText"
         :menu-position="contextMenuPosition"
@@ -196,6 +196,9 @@ export default {
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
     },
+    isMessageDeleted() {
+      return this.contentAttributes.deleted;
+    },
     hasImageAttachment() {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
@@ -208,6 +211,9 @@ export default {
       return !!this.data.content;
     },
     sentByMessage() {
+      if (this.isMessageDeleted) {
+        return false;
+      }
       const { sender } = this;
       return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {
