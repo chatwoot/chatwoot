@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "ENABLE_AUDIO": "Reproduzir notificação de áudio quando uma nova conversa é criada ou novas mensagens chegam"
+        "NONE": "Nenhuma",
+        "ASSIGNED": "Conversas atribuídas",
+        "ALL_CONVERSATIONS": "Todas as conversas"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -139,7 +141,11 @@
     "ACCOUNT_SETTINGS": "Configurações da conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Marcadores",
-    "TEAMS": "Times"
+    "TEAMS": "Times",
+    "ALL_CONTACTS": "Todos os Contatos",
+    "TAGGED_WITH": "Marcado com",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nova conta",
