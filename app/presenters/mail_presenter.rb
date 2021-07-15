@@ -51,6 +51,7 @@ class MailPresenter < SimpleDelegator
     if mail.multipart?
       return mail.text_part ? mail.text_part.decoded : nil
     end
+
     nil
   end
 
