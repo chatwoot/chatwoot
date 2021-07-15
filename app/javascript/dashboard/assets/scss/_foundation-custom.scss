@@ -42,6 +42,14 @@ code {
   white-space: nowrap;
 }
 
+.text-capitalize {
+  text-transform: capitalize;
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+// remove when grid gutters are fixed
+.columns.with-right-space {
+  padding-right: var(--space-normal);
 }

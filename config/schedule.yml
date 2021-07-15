@@ -6,3 +6,10 @@ internal_check_new_versions_job:
   cron: "0 12 */1 * *"
   class: "Internal::CheckNewVersionsJob"
   queue: scheduled_jobs
+
+# executed At every 5th minute..
+internal_check_new_versions_job:
+  cron: "*/5 * * * *"
+  class: "TriggerScheduledItemsJob"
+  queue: scheduled_jobs
+  

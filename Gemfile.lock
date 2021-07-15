@@ -75,7 +75,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     acts-as-taggable-on (6.5.0)
       activerecord (>= 5.0, < 6.1)
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     administrate (0.16.0)
       actionpack (>= 5.0)
@@ -384,6 +384,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack-timeout (0.6.0)
     rails (6.0.3.7)
       actioncable (= 6.0.3.7)
       actionmailbox (= 6.0.3.7)
@@ -666,6 +667,7 @@ DEPENDENCIES
   puma
   pundit
   rack-cors
+  rack-timeout
   rails
   redis
   redis-namespace
@@ -704,7 +706,7 @@ DEPENDENCIES
   wisper (= 2.0.0)
 
 RUBY VERSION
-   ruby 2.7.2p137
+   ruby 2.7.3p183
 
 BUNDLED WITH
    2.1.4
