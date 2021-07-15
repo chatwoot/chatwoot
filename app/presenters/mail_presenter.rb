@@ -52,7 +52,7 @@ class MailPresenter < SimpleDelegator
       return mail.text_part ? mail.text_part.decoded : nil
     end
 
-    nil
+    mail.decoded
   end
 
   def number_of_attachments
