@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Vi kunne ikke godkjenne Twilio legitimasjonsopplysningene, vennligst prøv igjen"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Kanal",
         "DESC": "Integrer med en API-kanal for å støtte dine kunder.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Begynn å videresende e-post til følgende e-postadresse."
       },
       "AUTH": {
-        "TITLE": "Kanaler",
-        "DESC": "Vi støtter for tiden live chat widgets, Facebook sider, Twitter profiler og Whatsapp. Vi har flere plattformer er på vei som e-post, Telegram og Line. Disse vil lanseres snart."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenter",
