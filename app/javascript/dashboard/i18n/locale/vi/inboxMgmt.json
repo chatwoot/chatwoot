@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Chúng tôi không thể xác thực thông tin đăng nhập Twilio, vui lòng thử lại"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Kênh API",
         "DESC": "Tích hợp với kênh API và bắt đầu hỗ trợ khách hàng của bạn.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau."
       },
       "AUTH": {
-        "TITLE": "Kênh",
-        "DESC": "Hiện tại, chúng tôi hỗ trợ các tiện ích trò chuyện trực tiếp trên Trang web, Trang Facebook và hồ sơ Twitter làm nền tảng. Chúng tôi có nhiều nền tảng hơn như Whatsapp, Email, Telegram và Line đang hoạt động, sẽ sớm ra mắt."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
