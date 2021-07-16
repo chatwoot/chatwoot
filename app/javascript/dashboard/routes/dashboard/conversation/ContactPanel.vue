@@ -332,7 +332,6 @@ export default {
       } else {
         this.assignedAgent = selectedItem;
       }
-      return this.assignedAgent;
     },
 
     onClickAssignTeam(selectedItemTeam) {
@@ -341,7 +340,6 @@ export default {
       } else {
         this.assignedTeam = selectedItemTeam;
       }
-      return this.assignedTeam;
     },
   },
 };

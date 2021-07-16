@@ -94,7 +94,6 @@ export default {
   data() {
     return {
       search: '',
-      arrowIndex: 0,
     };
   },
 
@@ -120,29 +119,37 @@ export default {
     focusInput() {
       this.$refs.searchbar.focus();
     },
-    activeDOMElement() {
-      return this.$refs.dropdownItem.querySelectorAll(
-        'ul > li > button.dropdown-item'
-      )[this.arrowIndex];
-    },
     onArrowUp() {
-      if (this.arrowIndex <= this.filteredOptions.length) {
-        this.arrowIndex -= 1;
+      const array = this.$refs.dropdownItem.querySelectorAll(
+        'ul > li > button'
+      );
+      const focusElement = this.$refs.dropdownItem.querySelector(
+        'ul > li > button.dropdown-item:focus'
+      );
+      const activeElementIndex = [...array].indexOf(focusElement);
+      if (activeElementIndex <= 0) {
+        array[activeElementIndex].focus();
       }
-      if (this.arrowIndex < 0) {
-        this.arrowIndex = this.filteredOptions.length;
-        this.arrowIndex -= 1;
+      if (activeElementIndex >= 1) {
+        array[activeElementIndex - 1].focus();
       }
-      this.activeDOMElement().focus();
     },
     onArrowDown() {
-      if (this.arrowIndex < this.filteredOptions.length) {
-        this.arrowIndex += 1;
+      const array = this.$refs.dropdownItem.querySelectorAll(
+        'ul > li > button'
+      );
+      const focusElement = this.$refs.dropdownItem.querySelector(
+        'ul > li > button.dropdown-item:focus'
+      );
+      const lastElement = array[array.length - 1];
+      const activeElementIndex = [...array].indexOf(focusElement);
+      const lastElementIndex = [...array].indexOf(lastElement);
+
+      if (activeElementIndex === lastElementIndex) {
+        array[activeElementIndex].focus();
+      } else {
+        array[activeElementIndex + 1].focus();
       }
-      if (this.arrowIndex === this.filteredOptions.length) {
-        this.arrowIndex = 0;
-      }
-      this.activeDOMElement().focus();
     },
   },
 };
