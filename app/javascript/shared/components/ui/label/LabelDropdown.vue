@@ -59,7 +59,6 @@ export default {
   data() {
     return {
       search: '',
-      arrowIndex: 0,
     };
   },
 
@@ -103,35 +102,40 @@ export default {
         this.onAdd(label);
       }
     },
-    activeDOMElement() {
-      return this.$refs.labelList.querySelectorAll(
-        'div > ul > li > div > button.button'
-      )[this.arrowIndex];
-    },
     onArrowUp() {
-      if (this.arrowIndex <= this.filteredActiveLabels.length) {
-        this.arrowIndex -= 1;
+      const array = this.$refs.labelList.querySelectorAll(
+        'div > ul > li > div > button'
+      );
+      const focusedElement = this.$refs.labelList.querySelector(
+        'div > ul > li > div > button:focus'
+      );
+
+      const activeElementIndex = [...array].indexOf(focusedElement);
+
+      if (activeElementIndex <= 0) {
+        array[activeElementIndex - 0].focus();
       }
-      if (this.arrowIndex < 0) {
-        this.arrowIndex = this.filteredActiveLabels.length;
-        this.arrowIndex -= 1;
+      if (activeElementIndex >= 1) {
+        array[activeElementIndex - 1].focus();
       }
-      if (this.arrowIndex > this.filteredActiveLabels.length) {
-        this.arrowIndex = 1;
-      }
-      this.activeDOMElement().focus();
     },
     onArrowDown() {
-      if (this.arrowIndex < this.filteredActiveLabels.length) {
-        this.arrowIndex += 1;
+      const array = this.$refs.labelList.querySelectorAll(
+        'div > ul > li > div > button'
+      );
+      const focusedElement = this.$refs.labelList.querySelector(
+        'div > ul > li > div > button:focus'
+      );
+      const lastElement = array[array.length - 1];
+
+      const activeElementIndex = [...array].indexOf(focusedElement);
+      const lastElementIndex = [...array].indexOf(lastElement);
+
+      if (activeElementIndex === lastElementIndex) {
+        array[activeElementIndex].focus();
+      } else {
+        array[activeElementIndex + 1].focus();
       }
-      if (this.arrowIndex === this.filteredActiveLabels.length) {
-        this.arrowIndex = 0;
-      }
-      if (this.arrowIndex > this.filteredActiveLabels.length) {
-        this.arrowIndex = 1;
-      }
-      this.activeDOMElement().focus();
     },
   },
 };
