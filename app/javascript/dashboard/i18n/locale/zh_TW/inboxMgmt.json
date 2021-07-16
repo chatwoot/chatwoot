@@ -17,7 +17,7 @@
         "body": "驗證您的帳戶並建立建立收件匣。"
       },
       {
-        "title": "建立客服",
+        "title": "新增客服",
         "route": "settings_inboxes_add_agents",
         "body": "將客服增加到建立的收件匣。"
       },
