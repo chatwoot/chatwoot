@@ -24,7 +24,7 @@
           "body": "為客服建立一個新團隊"
         },
         {
-          "title": "建立客服",
+          "title": "新增客服",
           "route": "settings_teams_add_agents",
           "body": "將客服加入團隊"
         },
