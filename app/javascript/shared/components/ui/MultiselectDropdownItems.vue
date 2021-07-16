@@ -123,10 +123,10 @@ export default {
       const array = this.$refs.dropdownItem.querySelectorAll(
         'ul > li > button'
       );
-      const focusElement = this.$refs.dropdownItem.querySelector(
+      const focusedElement = this.$refs.dropdownItem.querySelector(
         'ul > li > button.dropdown-item:focus'
       );
-      const activeElementIndex = [...array].indexOf(focusElement);
+      const activeElementIndex = [...array].indexOf(focusedElement);
       if (activeElementIndex <= 0) {
         array[activeElementIndex].focus();
       }
@@ -138,11 +138,11 @@ export default {
       const array = this.$refs.dropdownItem.querySelectorAll(
         'ul > li > button'
       );
-      const focusElement = this.$refs.dropdownItem.querySelector(
+      const focusedElement = this.$refs.dropdownItem.querySelector(
         'ul > li > button.dropdown-item:focus'
       );
       const lastElement = array[array.length - 1];
-      const activeElementIndex = [...array].indexOf(focusElement);
+      const activeElementIndex = [...array].indexOf(focusedElement);
       const lastElementIndex = [...array].indexOf(lastElement);
 
       if (activeElementIndex === lastElementIndex) {
