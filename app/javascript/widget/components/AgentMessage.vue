@@ -65,6 +65,7 @@ import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
+import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
   name: 'AgentMessage',
@@ -75,7 +76,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin],
+  mixins: [timeMixin, configMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -94,11 +95,6 @@ export default {
       if (!this.message.content) return false;
       return true;
     },
-    hasAttachments() {
-      return !!(
-        this.message.attachments && this.message.attachments.length > 0
-      );
-    },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
       return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
@@ -110,10 +106,6 @@ export default {
     contentType() {
       const { content_type: type = '' } = this.message;
       return type;
-    },
-    messageContentAttributes() {
-      const { content_attributes: attribute = {} } = this.message;
-      return attribute;
     },
     agentName() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
@@ -153,9 +145,8 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [
-            selectionOption = {},
-          ] = this.messageContentAttributes.submitted_values;
+          const [selectionOption = {}] =
+            this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }
