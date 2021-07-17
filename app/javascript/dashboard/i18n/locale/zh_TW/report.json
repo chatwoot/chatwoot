@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "報表",
+    "HEADER": "Overview",
     "LOADING_CHART": "正在載入图表數據...",
     "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
     "DOWNLOAD_AGENT_REPORTS": "下載客服報告",
@@ -50,7 +50,41 @@
       {
         "id": 4,
         "name": "去年"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
       }
-    ]
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Assigned agent",
+        "RATING": "Rating",
+        "FEEDBACK_TEXT": "Feedback comment"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      }
+    }
   }
 }

@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Emme pystyneet todentamaan Twilio tunnuksia, yritä uudelleen"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API-rajapinta",
         "DESC": "Integroi API-rajapintaan ja aloita tukemaan asiakkaitasi.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Aloita välittämällä sähköpostit seuraavaan osoitteeseen."
       },
       "AUTH": {
-        "TITLE": "Kanavat",
-        "DESC": "Tällä hetkellä tuemme sivuston chat widgettejä, Facebook-sivuja, Twitter profiileja ja Whatsappia alustoina. Meillä on enemmän alustoja kuten sähköposti, Telegram ja Line kehityksen alla, jotka tulevat pian käyttöösi."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Edustajat",

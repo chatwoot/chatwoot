@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Κανάλι API",
         "DESC": "Ενσωματώστε ένα κανάλι APΙ και ξεκινήσετε την υποστήριξη των πελατών σας.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
       },
       "AUTH": {
-        "TITLE": "Κανάλια",
-        "DESC": "Επί του παρόντος υποστηρίζονται widgets για Ιστοσελίδες, και σελίδες Facebook, Προφίλ Twitter ως πλατφόρμες. Έχουμε ακόμη περισσότερες πλατφόρμες όπως Whatsapp, Email, Telegram and Line υπό ανάπτυξη, οι οποίες θα είναι διαθέσιμες σύντομα."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Πράκτορες",

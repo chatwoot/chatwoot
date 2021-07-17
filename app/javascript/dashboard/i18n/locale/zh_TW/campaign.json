@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "標題為必填"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "訊息",
           "PLACEHOLDER": "Please enter the message of campaign",
@@ -72,6 +83,7 @@
         "STATUS": "狀態",
         "SENDER": "發送者",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "時間（秒）",
         "CREATED_AT": "建立於"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "已啟用",
-        "DISABLED": "已停用"
+        "DISABLED": "已停用",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "機器人"

@@ -72,4 +72,12 @@ RSpec.describe User do
       expect(user.valid_sso_auth_token?(sso_auth_token)).to eq false
     end
   end
+
+  describe 'access token' do
+    it 'creates a single access token upon user creation' do
+      new_user = create(:user)
+      token_count = AccessToken.where(owner: new_user).count
+      expect(token_count).to eq(1)
+    end
+  end
 end
