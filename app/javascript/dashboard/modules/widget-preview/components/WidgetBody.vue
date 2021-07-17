@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$tailwind-black-700: #3c4858;
 .conversation--container {
   width: 100%;
   padding: 20px;
@@ -45,32 +46,34 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
-      margin: 0 0.25rem 0.125rem auto;
+      margin-top: 0;
+      margin-bottom: var(--space-smaller);
+      margin-left: auto;
       max-width: 85%;
       text-align: right;
     }
     .message-wrap {
-      margin-right: 0.5rem;
+      margin-right: var(--space-smaller);
       max-width: 100%;
       .chat-bubble {
         box-shadow: var(--shadow-medium);
         background: var(--color-woot);
-        border-radius: 1.25rem;
-        color: #fff;
+        border-radius: var(--border-radius-large);
+        color: var(--white);
         display: inline-block;
-        font-size: 0.875rem;
+        font-size: var(--font-size-nano);
         line-height: 1.5;
-        padding: 0.75rem 1rem 0.75rem 1rem;
+        padding: var(--space-small) var(--space-one);
         text-align: left;
         word-break: break-word;
         max-width: 100%;
         &.user {
-          border-bottom-right-radius: 0.25rem;
+          border-bottom-right-radius: var(--border-radius-small);
         }
         &.agent {
-          background: #fff;
-          border-bottom-left-radius: 0.25rem;
-          color: #3c4858;
+          background: var(--white);
+          border-bottom-left-radius: var(--border-radius-small);
+          color: $tailwind-black-700;
         }
       }
     }

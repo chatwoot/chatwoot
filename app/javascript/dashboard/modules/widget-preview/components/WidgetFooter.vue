@@ -11,6 +11,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$tailwind-slate-50: #f4f6fb;
 .footer-wrap {
   flex-shrink: 0;
   width: 100%;
@@ -25,14 +26,14 @@ export default {
     width: 100%;
     height: 1rem;
     opacity: 0.1;
-    background: linear-gradient(to top, #f4f6fb, rgba(244, 246, 251, 0));
+    background: $tailwind-slate-50;
   }
 
   .input-area {
-    background-color: #fff;
-    border-radius: 4px;
-    height: 40px;
-    margin: 20px 20px 30px;
+    background-color: var(--white);
+    border-radius: var(--border-radius-normal);
+    height: var(--space-larger);
+    margin: var(--space-two);
   }
 }
 </style>

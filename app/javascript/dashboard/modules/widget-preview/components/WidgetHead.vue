@@ -59,11 +59,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$sucess-green: #10b981;
 .header-wrapper {
   flex-shrink: 0;
   transition: max-height 300ms;
-  background-color: #fff;
-  padding: 20px;
+  background-color: var(--white);
+  padding: var(--space-two);
 
   .header-branding {
     max-height: 16rem;
@@ -73,20 +74,20 @@ export default {
       align-items: center;
       justify-content: start;
       .logo {
-        width: 56px;
-        height: 56px;
+        width: var(--space-jumbo);
+        height: var(--space-jumbo);
         border-radius: 100%;
         transition: all 0.5s ease;
         margin-right: var(--space-small);
         &.small {
-          width: 32px;
-          height: 32px;
+          width: var(--space-large);
+          height: var(--space-large);
         }
       }
     }
   }
   .text-base {
-    font-size: 16px;
+    font-size: var(--font-size-default);
   }
   .mt-6 {
     margin-top: var(--space-medium);
@@ -95,9 +96,9 @@ export default {
     display: flex;
     align-items: center;
     .online-dot {
-      background-color: #10b981;
-      height: 8px;
-      width: 8px;
+      background-color: $sucess-green;
+      height: var(--space-small);
+      width: var(--space-small);
       border-radius: 100%;
       margin: 0 10px;
     }

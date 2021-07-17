@@ -72,6 +72,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$tailwind-slate-50: #f4f6fb;
 .text-lg {
   font-size: var(--font-size-default);
 }
@@ -79,7 +80,7 @@ export default {
   width: 400px;
   box-shadow: var(--shadow-larger);
   border-radius: var(--border-radius-large);
-  background-color: #f4f6fb;
+  background-color: $tailwind-slate-50;
   z-index: 99;
 }
 </style>
