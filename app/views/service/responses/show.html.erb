@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @global_config['INSTALLATION_NAME'] %></title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <script>
+      window.chatwootWebChannel = {
+        avatarUrl: '<%= @web_widget.inbox.avatar_url %>',
+        hasAConnectedAgentBot: '<%= @web_widget.inbox.agent_bot&.name %>',
+        locale: '<%= @web_widget.account.locale %>',
+        websiteName: '<%= @web_widget.inbox.name %>',
+        websiteToken: '<%= @web_widget.website_token %>',
+        welcomeTagline: '<%= @web_widget.welcome_tagline %>',
+        welcomeTitle: '<%= @web_widget.welcome_title %>',
+        widgetColor: '<%= @web_widget.widget_color %>',
+        enabledFeatures: <%= @web_widget.selected_feature_flags.to_json.html_safe %>,
+        enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
+        replyTime: '<%= @web_widget.reply_time %>',
+        preChatFormEnabled: <%= @web_widget.pre_chat_form_enabled %>,
+        preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>,
+        workingHoursEnabled: <%= @web_widget.inbox.working_hours_enabled %>,
+        csatSurveyEnabled: <%= @web_widget.inbox.csat_survey_enabled %>,
+        workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
+        outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
+        utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].formatted_offset %>'
+      }
+      window.chatwootWidgetDefaults = {
+        useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
+      }
+      window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
+      window.authToken = '<%= @token %>'
+      window.globalConfig = <%= raw @global_config.to_json %>
+    </script>
+    <%= javascript_pack_tag 'widget' %>
+    <%= stylesheet_pack_tag 'widget' %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <%= yield %>
+  </body>
+</html>
