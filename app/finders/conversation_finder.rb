@@ -21,15 +21,7 @@ class ConversationFinder
   end
 
   def perform
-    set_inboxes
-    set_team
-    set_assignee_type
-
-    find_all_conversations
-    filter_by_status unless params[:q]
-    filter_by_team if @team
-    filter_by_labels if params[:labels]
-    filter_by_query if params[:q]
+    set_up
 
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
@@ -48,6 +40,18 @@ class ConversationFinder
   end
 
   private
+
+  def set_up
+    set_inboxes
+    set_team
+    set_assignee_type
+
+    find_all_conversations
+    filter_by_status unless params[:q]
+    filter_by_team if @team
+    filter_by_labels if params[:labels]
+    filter_by_query if params[:q]
+  end
 
   def set_inboxes
     @inbox_ids = if params[:inbox_id]
