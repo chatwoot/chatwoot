@@ -143,7 +143,9 @@
     "LABELS": "Étiquettes",
     "TEAMS": "Équipes",
     "ALL_CONTACTS": "Tous les contacts",
-    "TAGGED_WITH": "Tagué avec"
+    "TAGGED_WITH": "Tagué avec",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nouveau compte",
