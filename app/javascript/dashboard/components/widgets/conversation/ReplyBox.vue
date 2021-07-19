@@ -274,7 +274,12 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        const holder = document.querySelector(
+          '.editor-root .ProseMirror.ProseMirror-woot-style'
+        );
+        const plainText = holder.innerText;
+        const newMessage = this.showFormatting ? this.message : plainText;
+
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {

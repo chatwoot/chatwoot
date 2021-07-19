@@ -8,9 +8,9 @@
     <canned-response
       v-if="showCannedMenu"
       :search-key="cannedSearchTerm"
-      @click="insertCannedResponse"
+      @click="insertTextIntoEditor"
     />
-    <div ref="editor"></div>
+    <div id="woot-editor" ref="editor"></div>
   </div>
 </template>
 
@@ -86,6 +86,7 @@ export default {
       cannedSearchTerm: '',
       editorView: null,
       range: null,
+      view: null,
     };
   },
   computed: {
@@ -163,13 +164,16 @@ export default {
         this.view.updateState(this.state);
       }
     },
-    isFormatMode(newValue) {
+    isFormatMode() {
+      this.view.destroy();
       this.state = createState(
         this.value,
         this.placeholder,
         this.plugins,
-        newValue
+        this.isFormatMode
       );
+      this.initView();
+
       this.view.updateState(this.state);
       this.setFocusToLast();
     },
@@ -183,26 +187,43 @@ export default {
     );
   },
   mounted() {
-    this.view = new EditorView(this.$refs.editor, {
-      state: this.state,
-      dispatchTransaction: tx => {
-        this.state = this.state.apply(tx);
-        this.emitOnChange();
-      },
-      handleDOMEvents: {
-        keyup: () => {
-          this.onKeyup();
-        },
-        focus: () => {
-          this.onFocus();
-        },
-        blur: () => {
-          this.onBlur();
-        },
-      },
-    });
+    this.initView();
   },
   methods: {
+    initView() {
+      this.view = new EditorView(this.$refs.editor, {
+        state: this.state,
+        dispatchTransaction: tx => {
+          this.state = this.state.apply(tx);
+          this.emitOnChange();
+        },
+        transformPastedHTML: pastedHTML => {
+          if (!this.isFormatMode) return '';
+          return pastedHTML;
+        },
+        handleDOMEvents: {
+          keyup: () => {
+            this.onKeyup();
+          },
+          focus: () => {
+            this.onFocus();
+          },
+          blur: () => {
+            this.onBlur();
+          },
+        },
+      });
+      // TODO - 07/2021
+      // This is a fix for converting the html pasted into editor to plain text.
+      // There could be a solution with https://prosemirror.net/docs/ref/#view.EditorProps.handlePaste
+      const wootWriterDOM = document.querySelector('[contenteditable]');
+      wootWriterDOM.addEventListener('paste', e => {
+        if (this.isFormatMode) return;
+        e.preventDefault();
+        const text = e.clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+      });
+    },
     insertMentionNode(mentionItem) {
       if (!this.view) {
         return null;
@@ -221,7 +242,7 @@ export default {
       return this.emitOnChange();
     },
 
-    insertCannedResponse(cannedItem) {
+    insertTextIntoEditor(cannedItem) {
       if (!this.view) {
         return null;
       }

@@ -25,6 +25,7 @@ export default {
 <style lang="scss" scoped>
 .text-content {
   overflow: auto;
+  white-space: pre-wrap;
 
   &::v-deep {
     ul,
