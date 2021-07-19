@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
           "ERROR": "Titel ist erforderlich"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "Nachricht",
           "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein",
@@ -72,6 +83,7 @@
         "STATUS": "Status",
         "SENDER": "Absender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Zeit (Sekunden)",
         "CREATED_AT": "Erstellt am"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert"
+        "DISABLED": "Behindert",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Bot"
