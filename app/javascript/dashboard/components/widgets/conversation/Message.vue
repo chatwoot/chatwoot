@@ -134,11 +134,17 @@ export default {
       const {
         email: {
           html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
+          text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
       } = this.contentAttributes;
 
-      if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
-        let contentToBeParsed = replyHTMLContent || fullHTMLContent || '';
+      let contentToBeParsed =
+        replyHTMLContent ||
+        replyTextContent ||
+        fullHTMLContent ||
+        fullTextContent ||
+        '';
+      if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
           return parsedContent;
