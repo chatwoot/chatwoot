@@ -1,0 +1,60 @@
+@import 'reset';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'variables';
+@import 'buttons';
+@import 'mixins';
+@import 'forms';
+@import 'shared/assets/fonts/widget_fonts';
+@import '~shared/assets/stylesheets/ionicons';
+@import '~spinkit/scss/spinners/7-three-bounce';
+
+html,
+body {
+  font-family: $font-family;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+.woot-widget-wrap {
+  height: 100%;
+}
+
+.is-mobile {
+  .actions {
+    .close-button {
+      display: block !important;
+    }
+
+    .new-window--button {
+      display: none !important;
+    }
+  }
+}
+
+.is-bubble-hidden {
+  .actions {
+    .close-button {
+      display: block !important;
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+
+.message-content {
+  ul {
+    list-style: disc;
+    padding-left: $space-slab;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: $space-normal;
+  }
+}

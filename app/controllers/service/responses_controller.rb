@@ -17,8 +17,6 @@ class Service::ResponsesController  < ActionController::Base
     @web_widget = ::Channel::WebWidget.find_by!(website_token: '4cWzuf9i9jxN9tbnv8K9STKU')
   end
 
-  def
-
   def set_token
     @token = permitted_params[:cw_conversation]
     @auth_token_params = if @token.present?

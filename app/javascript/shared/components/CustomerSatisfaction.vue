@@ -65,9 +65,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+    // ...mapGetters({
+    //   widgetColor: 'appConfig/getWidgetColor',
+    // }),
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },

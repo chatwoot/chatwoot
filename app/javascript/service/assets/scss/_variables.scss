@@ -1,0 +1,94 @@
+// Font sizes
+$font-size-micro: 0.5rem;
+$font-size-mini: 0.625rem;
+$font-size-small: 0.75rem;
+$font-size-default: 0.875rem;
+$font-size-medium: 1rem;
+$font-size-large: 1.25rem;
+$font-size-big: 1.5rem;
+$font-size-bigger: 2rem;
+$font-size-mega: 2.5rem;
+$font-size-giga: 3.5rem;
+
+// spaces
+$zero: 0;
+$space-micro: 0.125rem;
+$space-smaller: 0.25rem;
+$space-small: 0.5rem;
+$space-one: 0.625rem;
+$space-slab: 0.75rem;
+$space-normal: 1rem;
+$space-two: 1.25rem;
+$space-medium: 1.5rem;
+$space-large: 2rem;
+$space-larger: 3rem;
+$space-big: 4rem;
+$space-jumbo: 5rem;
+$space-mega: 6.25rem;
+
+// font-weight
+$font-weight-feather: 100;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+$font-weight-black: 700;
+
+// Colors
+$color-woot: #1f93ff;
+$color-primary: $color-woot;
+$color-gray: #6e6f73;
+$color-light-gray: #999a9b;
+$color-border: #e0e6ed;
+$color-border-transparent: rgba(224, 230, 237, 0.5);
+$color-border-light: #f0f4f5;
+$color-border-dark: #cad0d4;
+$color-background: #f4f6fb;
+$color-background-light: #fafafa;
+$color-white: #fff;
+$color-body: #3c4858;
+$color-heading: #1f2d3d;
+$color-error: #ff382d;
+$color-success: #44ce4b;
+
+// Color-palettes
+
+$color-primary-light: #c7e3ff;
+$color-primary-dark: darken($color-woot, 20%);
+
+// Spinner
+$spinkit-spinner-color: $color-white !default;
+$spinkit-spinner-margin: 0 0 0 1.6rem !default;
+$spinkit-size: 1.6rem !default;
+
+// Snackbar default
+$woot-snackbar-bg: #323232;
+$woot-snackbar-button: #ffeb3b;
+
+$swift-ease-out-duration: .4s !default;
+$swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
+$swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
+
+$border-radius: 0.1875px;
+$line-height: 1;
+$footer-height: 11.2rem;
+$header-expanded-height: $space-medium * 10;
+
+$font-family: 'Inter',
+-apple-system,
+system-ui,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+"Helvetica Neue",
+Tahoma,
+Arial,
+sans-serif;
+$ionicons-font-path: '~ionicons/fonts';
+
+// Break points
+$break-point-medium: 667px;
+
+// Timing functions
+
+$ease-in-cubic: cubic-bezier(.17, .67, .83, .67);
