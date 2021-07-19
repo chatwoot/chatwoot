@@ -31,7 +31,8 @@ class ConversationFinder
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
 
-    mine_count, unassigned_count, all_count = set_count_for_all_conversations
+    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
 
@@ -39,6 +40,7 @@ class ConversationFinder
       conversations: conversations,
       count: {
         mine_count: mine_count,
+        assigned_count: assigned_count,
         unassigned_count: unassigned_count,
         all_count: all_count
       }
@@ -74,7 +76,7 @@ class ConversationFinder
     when 'unassigned'
       @conversations = @conversations.unassigned
     when 'assigned'
-      @conversations = @conversations.where.not(assignee_id: nil)
+      @conversations = @conversations.assigned
     end
     @conversations
   end
