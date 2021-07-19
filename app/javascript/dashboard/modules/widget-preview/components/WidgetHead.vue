@@ -106,7 +106,7 @@ $sucess-green: #10b981;
       height: var(--space-small);
       width: var(--space-small);
       border-radius: 100%;
-      margin: 0 10px;
+      margin: var(--space-zero) var(--space-one);
     }
   }
 }

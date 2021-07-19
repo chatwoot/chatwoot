@@ -21,10 +21,10 @@ $tailwind-slate-50: #f4f6fb;
   &::before {
     content: '';
     position: absolute;
-    top: -1rem;
+    top: var(--space-one);
     left: 0;
     width: 100%;
-    height: 1rem;
+    height: var(--space-one);
     opacity: 0.1;
     background: $tailwind-slate-50;
   }
