@@ -345,8 +345,8 @@ RSpec.describe Conversation, type: :model do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
 
-    it 'returns conversation status as bot' do
-      expect(conversation.status).to eq('bot')
+    it 'returns conversation status as pending' do
+      expect(conversation.status).to eq('pending')
     end
   end
 
@@ -354,8 +354,8 @@ RSpec.describe Conversation, type: :model do
     let(:hook) { create(:integrations_hook, :dialogflow) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
-    it 'returns conversation status as bot' do
-      expect(conversation.status).to eq('bot')
+    it 'returns conversation status as pending' do
+      expect(conversation.status).to eq('pending')
     end
   end
 
