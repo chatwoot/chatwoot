@@ -104,27 +104,28 @@ export default {
     },
     onArrowUp() {
       const array = this.$refs.labelList.querySelectorAll(
-        'div > ul > li > div > button'
+        '.list .label-button'
       );
       const focusedElement = this.$refs.labelList.querySelector(
-        'div > ul > li > div > button:focus'
+        '.list .label-button:focus'
       );
+      const lastElement = array[array.length - 1];
 
       const activeElementIndex = [...array].indexOf(focusedElement);
+      const lastElementIndex = [...array].indexOf(lastElement);
 
-      if (activeElementIndex <= 0) {
-        array[activeElementIndex - 0].focus();
-      }
       if (activeElementIndex >= 1) {
         array[activeElementIndex - 1].focus();
+      } else {
+        array[lastElementIndex].focus();
       }
     },
     onArrowDown() {
       const array = this.$refs.labelList.querySelectorAll(
-        'div > ul > li > div > button'
+        '.list .label-button'
       );
       const focusedElement = this.$refs.labelList.querySelector(
-        'div > ul > li > div > button:focus'
+        '.list .label-button:focus'
       );
       const lastElement = array[array.length - 1];
 
@@ -132,7 +133,7 @@ export default {
       const lastElementIndex = [...array].indexOf(lastElement);
 
       if (activeElementIndex === lastElementIndex) {
-        array[activeElementIndex].focus();
+        array[0].focus();
       } else {
         array[activeElementIndex + 1].focus();
       }
