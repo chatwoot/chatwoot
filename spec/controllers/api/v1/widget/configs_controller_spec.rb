@@ -10,7 +10,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
 
   describe 'POST /api/v1/widget/config' do
     let(:params) { { website_token: web_widget.website_token } }
-    let(:response_keys) { %w[chatwoot_website_channel chatwoot_widget_defaults contact auth_token global_config contact_reset] }
+    let(:response_keys) { %w[chatwoot_website_channel chatwoot_widget_defaults contact auth_token global_config] }
 
     context 'with invalid website token' do
       it 'returns not found' do
@@ -30,7 +30,6 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)
         expect(response_data.keys).to include(*response_keys)
-        expect(response_data['contact_reset']).to eq(false)
       end
     end
 
@@ -46,7 +45,6 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)
         expect(response_data.keys).to include(*response_keys)
-        expect(response_data['contact_reset']).to eq(false)
         expect(response_data['contact']['pubsub_token']).to eq(contact.pubsub_token)
       end
     end
@@ -63,7 +61,6 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)
         expect(response_data.keys).to include(*response_keys)
-        expect(response_data['contact_reset']).to eq(true)
       end
     end
   end

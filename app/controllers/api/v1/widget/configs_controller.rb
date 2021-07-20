@@ -24,7 +24,6 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
 
     @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
     @contact = @contact_inbox.contact
-    @contact_reset = true if request.headers['X-Auth-Token'].present?
   end
 
   def set_token

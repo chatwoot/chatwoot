@@ -26,4 +26,3 @@ json.contact do
 end
 json.auth_token @token
 json.global_config @global_config
-json.contact_reset @contact_reset.present?
