@@ -211,7 +211,7 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:status]).to eq('pending')
         end
 
-        # TODO: remove this spec when we remove the condition check in controller 
+        # TODO: remove this spec when we remove the condition check in controller
         # Added for backwards compatibility for bot status
         it 'creates a conversation as pending if status is specified as bot' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
