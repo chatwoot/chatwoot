@@ -211,6 +211,20 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:status]).to eq('pending')
         end
 
+        # TODO: remove this spec when we remove the condition check in controller 
+        # Added for backwards compatibility for bot status
+        it 'creates a conversation as pending if status is specified as bot' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, status: 'bot' },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:status]).to eq('pending')
+        end
+
         it 'creates a new conversation with message when message is passed' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",

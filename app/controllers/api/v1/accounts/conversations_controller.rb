@@ -106,6 +106,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
     status = params[:status].present? ? { status: params[:status] } : {}
+
+    # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
+    status = { status: 'pending' } if status[:status] == 'bot'
     {
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
