@@ -12,8 +12,8 @@
     </div>
     <div class="list-scroll-container">
       <div
-        ref="dropdownItem"
-        class="dropdown-list"
+        ref="multiselectDropdown"
+        class="multiselect-dropdown--list"
         @keyup.up="onArrowUp"
         @keyup.down="onArrowDown"
       >
@@ -23,7 +23,7 @@
             :key="option.id"
           >
             <woot-button
-              class="dropdown-item"
+              class="multiselect-dropdown--item"
               variant="clear"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
@@ -120,33 +120,35 @@ export default {
       this.$refs.searchbar.focus();
     },
     onArrowUp() {
-      const array = this.$refs.dropdownItem.querySelectorAll(
-        'ul > li > button'
+      const array = this.$refs.multiselectDropdown.querySelectorAll(
+        '.dropdown .multiselect-dropdown--item'
       );
-      const focusedElement = this.$refs.dropdownItem.querySelector(
-        'ul > li > button.dropdown-item:focus'
+      const focusedElement = this.$refs.multiselectDropdown.querySelector(
+        '.dropdown .multiselect-dropdown--item:focus'
       );
+      const lastElement = array[array.length - 1];
       const activeElementIndex = [...array].indexOf(focusedElement);
-      if (activeElementIndex <= 0) {
-        array[activeElementIndex].focus();
-      }
+      const lastElementIndex = [...array].indexOf(lastElement);
+
       if (activeElementIndex >= 1) {
         array[activeElementIndex - 1].focus();
+      } else {
+        array[lastElementIndex].focus();
       }
     },
     onArrowDown() {
-      const array = this.$refs.dropdownItem.querySelectorAll(
-        'ul > li > button'
+      const array = this.$refs.multiselectDropdown.querySelectorAll(
+        '.dropdown .multiselect-dropdown--item'
       );
-      const focusedElement = this.$refs.dropdownItem.querySelector(
-        'ul > li > button.dropdown-item:focus'
+      const focusedElement = this.$refs.multiselectDropdown.querySelector(
+        '.dropdown .multiselect-dropdown--item:focus'
       );
       const lastElement = array[array.length - 1];
       const activeElementIndex = [...array].indexOf(focusedElement);
       const lastElementIndex = [...array].indexOf(lastElement);
 
       if (activeElementIndex === lastElementIndex) {
-        array[activeElementIndex].focus();
+        array[0].focus();
       } else {
         array[activeElementIndex + 1].focus();
       }
@@ -191,12 +193,12 @@ export default {
   overflow: auto;
 }
 
-.dropdown-list {
+.multiselect-dropdown--list {
   width: 100%;
   max-height: 12rem;
 }
 
-.dropdown-item {
+.multiselect-dropdown--item {
   justify-content: space-between;
   width: 100%;
 
