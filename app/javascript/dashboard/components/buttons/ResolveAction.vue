@@ -65,6 +65,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import { hasPressedShiftAndEKey } from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -107,7 +108,15 @@ export default {
       return !this.isBot;
     },
   },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedShiftAndEKey(e)) {
+        this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+      }
+    },
     closeDropdown() {
       this.showDropdown = false;
     },

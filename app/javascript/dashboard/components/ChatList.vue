@@ -19,7 +19,7 @@
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
-    <div class="conversations-list">
+    <div ref="activeConversation" class="conversations-list">
       <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
@@ -64,6 +64,10 @@ import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
+import {
+  hasPressedCommandAndJKey,
+  hasPressedCommandAndKKey,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -94,6 +98,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentChat: 'getSelectedChat',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -182,12 +187,49 @@ export default {
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
+    document.addEventListener('keydown', this.handleKeyEvents);
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedCommandAndJKey(e)) {
+        const allConversation = this.$refs.activeConversation.querySelectorAll(
+          'div.conversation'
+        );
+        const activeConversation = this.$refs.activeConversation.querySelector(
+          'div.conversation.active'
+        );
+        const activeConversationIndex = [...allConversation].indexOf(
+          activeConversation
+        );
+        if (activeConversationIndex <= 0) {
+          allConversation[0].click();
+        }
+        if (activeConversationIndex >= 1) {
+          allConversation[activeConversationIndex - 1].click();
+        }
+      }
+      if (hasPressedCommandAndKKey(e)) {
+        const allConversation = this.$refs.activeConversation.querySelectorAll(
+          'div.conversation'
+        );
+        const activeConversation = this.$refs.activeConversation.querySelector(
+          'div.conversation.active'
+        );
+        const activeConversationIndex = [...allConversation].indexOf(
+          activeConversation
+        );
+        const lastConversationIndex = allConversation.length - 1;
+        if (activeConversationIndex >= lastConversationIndex) {
+          allConversation[lastConversationIndex].click();
+        } else {
+          allConversation[activeConversationIndex + 1].click();
+        }
+      }
+    },
     resetAndFetchData() {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');

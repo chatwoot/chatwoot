@@ -10,6 +10,7 @@
 </template>
 <script>
 import wootConstants from '../../constants';
+import { hasPressedShiftAndNKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   props: {
@@ -27,7 +28,19 @@ export default {
       return this.items.findIndex(item => item.key === this.activeTab);
     },
   },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedShiftAndNKey(e)) {
+        if (this.activeTabIndex === 2) {
+          this.onTabChange(0);
+        } else {
+          this.onTabChange(this.activeTabIndex + 1);
+        }
+      }
+    },
     onTabChange(selectedTabIndex) {
       if (this.items[selectedTabIndex].key !== this.activeTab) {
         this.$emit('chatTabChange', this.items[selectedTabIndex].key);

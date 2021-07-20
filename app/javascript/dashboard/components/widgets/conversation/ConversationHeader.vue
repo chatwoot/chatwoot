@@ -69,6 +69,7 @@ import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
 import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
+import { hasPressedShiftAndOKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -114,9 +115,15 @@ export default {
   mounted() {
     const { inbox_id: inboxId } = this.chat;
     this.inboxId = inboxId;
+    document.addEventListener('keydown', this.handleKeyEvents);
   },
 
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedShiftAndOKey(e)) {
+        this.$emit('contact-panel-toggle');
+      }
+    },
     assignAgent(agent) {
       this.$store
         .dispatch('assignAgent', {

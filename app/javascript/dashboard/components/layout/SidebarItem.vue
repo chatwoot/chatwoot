@@ -59,6 +59,12 @@
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
+import {
+  hasPressedShiftAndCKey,
+  hasPressedShiftAndVKey,
+  hasPressedShiftAndRKey,
+  hasPressedShiftAndSKey,
+} from 'shared/helpers/KeyboardHelpers';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 export default {
@@ -94,6 +100,9 @@ export default {
       return ' ';
     },
   },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
@@ -115,6 +124,20 @@ export default {
         if (item.modalName === 'AddLabel') {
           this.$emit('add-label');
         }
+      }
+    },
+    handleKeyEvents(e) {
+      if (hasPressedShiftAndCKey(e)) {
+        router.push({ name: 'home' });
+      }
+      if (hasPressedShiftAndVKey(e)) {
+        router.push({ name: 'contacts_dashboard' });
+      }
+      if (hasPressedShiftAndRKey(e)) {
+        router.push({ name: 'settings_account_reports' });
+      }
+      if (hasPressedShiftAndSKey(e)) {
+        router.push({ name: 'settings_home' });
       }
     },
     showItem(item) {

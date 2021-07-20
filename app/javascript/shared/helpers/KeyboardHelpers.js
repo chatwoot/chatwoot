@@ -9,3 +9,55 @@ export const isEscape = e => {
 export const hasPressedShift = e => {
   return e.shiftKey;
 };
+
+export const hasPressedShiftAndCKey = e => {
+  return e.shiftKey && e.keyCode === 67;
+};
+
+export const hasPressedShiftAndVKey = e => {
+  return e.shiftKey && e.keyCode === 86;
+};
+
+export const hasPressedShiftAndRKey = e => {
+  return e.shiftKey && e.keyCode === 82;
+};
+
+export const hasPressedShiftAndSKey = e => {
+  return e.shiftKey && e.keyCode === 83;
+};
+
+export const hasPressedShiftAndBKey = e => {
+  return e.shiftKey && e.keyCode === 66;
+};
+
+export const hasPressedShiftAndNKey = e => {
+  return e.shiftKey && e.keyCode === 78;
+};
+
+export const hasPressedShiftAndWKey = e => {
+  return e.shiftKey && e.keyCode === 87;
+};
+
+export const hasPressedShiftAndPKey = e => {
+  return e.shiftKey && e.keyCode === 80;
+};
+
+export const hasPressedShiftAndLKey = e => {
+  return e.shiftKey && e.keyCode === 76;
+};
+
+export const hasPressedShiftAndEKey = e => {
+  return e.shiftKey && e.keyCode === 69;
+};
+
+export const hasPressedShiftAndOKey = e => {
+  return e.shiftKey && e.keyCode === 79;
+};
+
+export const hasPressedCommandAndJKey = e => {
+  return e.metaKey && e.keyCode === 74;
+};
+
+export const hasPressedCommandAndKKey = e => {
+  return e.metaKey && e.keyCode === 75;
+};

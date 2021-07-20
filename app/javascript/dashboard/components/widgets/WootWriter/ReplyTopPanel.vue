@@ -32,6 +32,10 @@
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import {
+  hasPressedShiftAndPKey,
+  hasPressedShiftAndLKey,
+} from 'shared/helpers/KeyboardHelpers';
 export default {
   name: 'ReplyTopPanel',
   components: {
@@ -75,7 +79,18 @@ export default {
         : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
   },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedShiftAndPKey(e)) {
+        this.handleNoteClick();
+      }
+      if (hasPressedShiftAndLKey(e)) {
+        this.handleReplyClick();
+      }
+    },
     handleReplyClick() {
       this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
     },
