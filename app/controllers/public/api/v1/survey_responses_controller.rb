@@ -10,6 +10,7 @@ class Public::Api::V1::SurveyResponsesController < PublicController
 
   def set_conversation
     return if params[:id].blank?
+
     @conversation = Conversation.find_by!(uuid: params[:id])
   end
 
@@ -21,5 +22,3 @@ class Public::Api::V1::SurveyResponsesController < PublicController
     params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
   end
 end
-
-
