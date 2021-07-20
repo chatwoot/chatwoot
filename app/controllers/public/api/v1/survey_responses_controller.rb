@@ -2,6 +2,8 @@ class Public::Api::V1::SurveyResponsesController < PublicController
   before_action :set_conversation
   before_action :set_message
 
+  def show; end
+
   def update
     @message.update!(message_update_params[:message])
   end
