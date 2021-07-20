@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="woot-widget-wrap">
+  <div id="app" class="woot-service-wrap">
     <home />
   </div>
 </template>

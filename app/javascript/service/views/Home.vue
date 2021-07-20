@@ -1,13 +1,13 @@
 <template>
-  <div
-    v-if="showHomePage"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
-  >
-    <spinner size="" />
-  </div>
-  <div v-else class="home">
+  <div class="home">
     <div class="flex flex-1 overflow-auto">
-      <customer-satisfaction :message-id="messageId" />
+      <div class="container">
+        <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
+        <h2 class="rating--intro">
+          Dear customer 👋, please give us some feeback on our chatbot.
+        </h2>
+        <h2 class="rating--header">Share your feedback</h2>
+      </div>
     </div>
     <div class="footer-wrap">
       <branding></branding>
@@ -17,15 +17,11 @@
 
 <script>
 import Branding from 'service/components/Branding.vue';
-import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
 import configMixin from '../mixins/configMixin';
-import Spinner from 'shared/components/Spinner.vue';
 export default {
   name: 'Home',
   components: {
     Branding,
-    Spinner,
-    CustomerSatisfaction,
   },
   mixins: [configMixin],
   props: {
@@ -65,7 +61,20 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   overflow: hidden;
-  background: $color-background;
+  background: $color-white;
+  .container {
+    margin: 0 auto;
+  }
+  .logo {
+    width: 500px;
+  }
+  .rating--intro {
+    font-size: $font-size-default;
+  }
+  .rating-header {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+  }
 
   .header-wrap {
     border-radius: $space-normal $space-normal 0 0;
