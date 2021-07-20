@@ -1,4 +1,4 @@
-class Public::Api::V1::SurveyResponsesController < PublicController
+class Public::Api::V1::CsatServiceController < PublicController
   before_action :set_conversation
   before_action :set_message
 
