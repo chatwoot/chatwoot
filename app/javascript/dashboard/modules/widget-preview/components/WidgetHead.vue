@@ -41,8 +41,7 @@ export default {
     },
   },
   computed: {
-    // eslint-disable-next-line func-names
-    responseTime: function() {
+    responseTime() {
       switch (this.config.replyTime) {
         case 'in_a_few_minutes':
           return this.$t(

@@ -1,6 +1,6 @@
 import Widget from '../components/Widget';
 
-const ReplayTime = {
+const ReplyTime = {
   'In a few minutes': 'in_a_few_minutes',
   'In a few hours': 'in_a_few_hours',
   'In a few day': 'in_a_day',
@@ -13,7 +13,7 @@ export default {
     replyTime: {
       control: {
         type: 'select',
-        options: ReplayTime,
+        options: ReplyTime,
       },
     },
   },

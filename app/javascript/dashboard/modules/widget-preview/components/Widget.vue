@@ -54,8 +54,7 @@ export default {
     },
   },
   computed: {
-    // eslint-disable-next-line func-names
-    getWidgetHeadConfig: function() {
+    getWidgetHeadConfig() {
       return {
         welcomeHeading: this.welcomeHeading,
         welcomeTagLine: this.welcomeTagLine,
@@ -72,15 +71,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$tailwind-slate-50: #f4f6fb;
 .text-lg {
   font-size: var(--font-size-default);
 }
 .widget-wrapper {
-  width: 400px;
   box-shadow: var(--shadow-larger);
   border-radius: var(--border-radius-large);
-  background-color: $tailwind-slate-50;
+  background-color: var(--color-background);
   z-index: 99;
 }
 </style>
