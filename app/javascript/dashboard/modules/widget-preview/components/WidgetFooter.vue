@@ -11,7 +11,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tailwind-slate-50: #f4f6fb;
 .footer-wrap {
   flex-shrink: 0;
   width: 100%;
@@ -26,7 +25,7 @@ $tailwind-slate-50: #f4f6fb;
     width: 100%;
     height: var(--space-one);
     opacity: 0.1;
-    background: $tailwind-slate-50;
+    background: var(--color-background);
   }
 
   .input-area {
