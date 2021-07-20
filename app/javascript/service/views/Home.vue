@@ -7,6 +7,9 @@
           Dear customer 👋, please give us some feeback on our chatbot.
         </h2>
         <h2 class="rating--header">Share your feedback</h2>
+        <rating />
+        <input class="form-input" :placeholder="$t('CSAT.PLACEHOLDER')" />
+        <custom-button class="button font-medium" block> Submit </custom-button>
       </div>
     </div>
     <div class="footer-wrap">
@@ -17,11 +20,15 @@
 
 <script>
 import Branding from 'service/components/Branding.vue';
+import Rating from 'service/components/Rating.vue';
+import CustomButton from 'shared/components/Button';
 import configMixin from '../mixins/configMixin';
 export default {
   name: 'Home',
   components: {
     Branding,
+    Rating,
+    CustomButton,
   },
   mixins: [configMixin],
   props: {
@@ -63,37 +70,25 @@ export default {
   overflow: hidden;
   background: $color-white;
   .container {
+    min-width: 476px;
+    max-width: 476px;
     margin: 0 auto;
+    padding: 1rem;
   }
   .logo {
     width: 500px;
   }
   .rating--intro {
     font-size: $font-size-default;
+    padding-top: 1rem;
   }
-  .rating-header {
+  .rating--header {
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
+    padding-top: 1rem;
   }
-
-  .header-wrap {
-    border-radius: $space-normal $space-normal 0 0;
-    flex-shrink: 0;
-    transition: max-height 300ms;
-    z-index: 99;
-    @include shadow-large;
-
-    &.expanded {
-      max-height: 16rem;
-    }
-
-    &.collapsed {
-      max-height: 4.5rem;
-    }
-
-    @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
-      border-radius: 0;
-    }
+  .button {
+    margin-top: 1rem;
   }
 
   .footer-wrap {
