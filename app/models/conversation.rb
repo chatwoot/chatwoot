@@ -49,6 +49,7 @@ class Conversation < ApplicationRecord
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
+  scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 
   belongs_to :account
