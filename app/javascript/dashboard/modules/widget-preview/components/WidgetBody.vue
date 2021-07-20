@@ -38,7 +38,7 @@ export default {
 $tailwind-black-700: #3c4858;
 .conversation--container {
   width: 100%;
-  padding: 20px;
+  padding: var(--space-two);
   .conversation-wrap {
     min-height: 200px;
     .user-message {
