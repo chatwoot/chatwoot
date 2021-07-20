@@ -14,7 +14,7 @@ get:
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'bot']
+      enum: ['open', 'resolved', 'pending']
       required: true
     - name: page
       in: query
