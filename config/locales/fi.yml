@@ -47,7 +47,7 @@ fi:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
         open: "%{user_name} uudelleenavasi keskustelun"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Keskustelu merkittiin ratkaistuksi automaattisesti, sillä on kulunut %{duration} päivää viimeisestä viestistä"
       assignee:
         self_assigned: "%{user_name} ilmottautui keskusteluun"
