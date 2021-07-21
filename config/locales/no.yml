@@ -47,7 +47,7 @@
       status:
         resolved: "Samtale ble løst av %{user_name}"
         open: "Samtalen ble gjenåpnet av %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
       assignee:
         self_assigned: "%{user_name} tilordnet seg denne samtalen"
