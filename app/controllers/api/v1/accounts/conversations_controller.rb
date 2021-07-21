@@ -49,7 +49,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     if params[:status]
-      @conversation.status = params[:status]
+      status = params[:status] == 'bot' ? 'pending' : params[:status]
+      @conversation.status = status
       @status = @conversation.save
     else
       @status = @conversation.toggle_status
