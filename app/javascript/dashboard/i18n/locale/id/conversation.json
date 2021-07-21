@@ -41,7 +41,7 @@
       "DETAILS": "detail"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Buka dengan bot"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
