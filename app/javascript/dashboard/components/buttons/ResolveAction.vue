@@ -53,7 +53,7 @@
             variant="clear"
             @click="() => toggleStatus(STATUS_TYPE.PENDING)"
           >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.OPEN_BOT') }}
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
