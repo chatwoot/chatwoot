@@ -47,7 +47,7 @@ hu:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
-        bot: "A beszélgetés áthelyezve bothoz %{user_name} által"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
       assignee:
         self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
