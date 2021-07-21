@@ -47,8 +47,8 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Бот",
-        "VALUE": "бот"
+        "TEXT": "Pending",
+        "VALUE": "pending"
       }
     ],
     "ATTACHMENTS": {
