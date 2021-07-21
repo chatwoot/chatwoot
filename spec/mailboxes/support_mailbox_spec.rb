@@ -59,6 +59,13 @@ RSpec.describe SupportMailbox, type: :mailbox do
         described_subject
         expect(conversation.messages.last.sender.id).to eq(contact.id)
       end
+
+      it 'does not create new contact if email is given with different case' do
+        contact_inbox.contact.email = contact.email.capitalize
+        contact_inbox.save!
+        described_subject
+        expect(conversation.messages.last.sender.id).to eq(contact.id)
+      end
     end
   end
 end
