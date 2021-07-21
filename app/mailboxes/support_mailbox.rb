@@ -58,16 +58,15 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    begin
-      @contact = @inbox.contacts.find_by(email: processed_mail.from.first.downcase)
-      if @contact.present?
-        @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
-      else
-        create_contact
-      end
-    rescue Exception => e
-      Rails.logger.info "#{e.message} in find/create_contact :: backtrace: #{e.backtrace}"
+    # changing to downcase to avoid case mismatch while finding
+    @contact = @inbox.contacts.find_by(email: processed_mail.from.first.downcase)
+    if @contact.present?
+      @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
+    else
+      create_contact
     end
+  rescue StandardError => e
+    Rails.logger.info "#{e.message} in find/create_contact :: backtrace: #{e.backtrace}"
   end
 
   def create_contact
