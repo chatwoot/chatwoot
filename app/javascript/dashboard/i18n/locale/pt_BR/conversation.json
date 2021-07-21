@@ -41,7 +41,7 @@
       "DETAILS": "detalhes"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Abra com bot"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
