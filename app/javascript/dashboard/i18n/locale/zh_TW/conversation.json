@@ -41,7 +41,7 @@
       "DETAILS": "詳情"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "使用 bot 開啟"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
