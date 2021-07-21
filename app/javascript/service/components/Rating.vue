@@ -1,8 +1,5 @@
 <template>
   <div class="customer-satisfcation">
-    <h6 class="title">
-      {{ title }}
-    </h6>
     <div class="ratings">
       <button
         v-for="rating in ratings"

@@ -1,18 +1,39 @@
 <template>
-  <div class="home">
+  <div
+    class="w-full h-full flex flex-col flex-no-wrap overflow-hidden bg-white"
+  >
     <div class="flex flex-1 overflow-auto">
-      <div class="container">
-        <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
-        <h2 class="rating--intro">
-          Dear customer 👋, please give us some feeback on our chatbot.
-        </h2>
-        <h2 class="rating--header">Share your feedback</h2>
+      <div class="max-w-screen-sm w-full mt-0 mb-0 m-auto p-8">
+        <img
+          src="/brand-assets/logo.svg"
+          alt="Chatwoot logo"
+          class="logo mt-0 mb-0 m-auto"
+        />
+        <div class="text-black-800 text-sm leading-5 pt-5">
+          Dear customer 👋 , please take a few moments to complete the
+          satisafcations survey. Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Quam consequatur aperiam, enim repellendus
+          cupiditate non tenetur iusto possimus vero, repellat reprehenderit ad
+          dolorem, magni quisquam impedit? Amet eligendi consequuntur labore.
+        </div>
+        <div class="text-xs font-medium text-black-800 pt-5">
+          Rate your conversation
+        </div>
         <rating />
-        <input class="form-input" :placeholder="$t('CSAT.PLACEHOLDER')" />
-        <custom-button class="button font-medium" block> Submit </custom-button>
+        <text-area
+          v-model="message"
+          class="my-5"
+          label="Do you have any thoguhts you'd like to share?"
+          placeholder="Your feefback(optional)"
+        />
+
+        <custom-button class="font-medium">
+          <spinner v-if="isSubmitted" class="p-0" />
+          Submit
+        </custom-button>
       </div>
     </div>
-    <div class="footer-wrap">
+    <div class="footer-wrap flex-shrink-0 w-full flex flex-col relative">
       <branding></branding>
     </div>
   </div>
@@ -22,6 +43,7 @@
 import Branding from 'service/components/Branding.vue';
 import Rating from 'service/components/Rating.vue';
 import CustomButton from 'shared/components/Button';
+import TextArea from '../components/TextArea.vue';
 import configMixin from '../mixins/configMixin';
 export default {
   name: 'Home',
@@ -29,6 +51,7 @@ export default {
     Branding,
     Rating,
     CustomButton,
+    TextArea,
   },
   mixins: [configMixin],
   props: {
@@ -39,86 +62,16 @@ export default {
   },
   data() {
     return {
-      isOnCollapsedView: false,
-      isOnNewConversation: false,
-      messageId: 1212,
+      message: '',
+      isSubmitted: false,
     };
   },
-  computed: {
-    isHeaderCollapsed() {
-      return this.isOnCollapsedView;
-    },
-    hasIntroText() {
-      return (
-        this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
-      );
-    },
-  },
+  computed: {},
 };
 </script>
 
 <style scoped lang="scss">
-@import '~service/assets/scss/variables';
-@import '~service/assets/scss/mixins';
-
-.home {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  background: $color-white;
-
-  .container {
-    max-width: 640px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  .logo {
-    max-height: 2rem;
-    display: block;
-    margin: 0 auto;
-  }
-  .rating--intro {
-    font-size: $font-size-default;
-    padding-top: 1rem;
-  }
-  .rating--header {
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    padding-top: 1rem;
-  }
-  .button {
-    margin-top: 1rem;
-  }
-
-  .footer-wrap {
-    flex-shrink: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: -$space-normal;
-      left: 0;
-      width: 100%;
-      height: $space-normal;
-      opacity: 0.1;
-      background: linear-gradient(
-        to top,
-        $color-background,
-        rgba($color-background, 0)
-      );
-    }
-  }
-
-  .input-wrap {
-    padding: 0 $space-normal;
-  }
+.logo {
+  max-height: 2rem;
 }
 </style>
