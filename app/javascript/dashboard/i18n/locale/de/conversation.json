@@ -41,7 +41,7 @@
       "DETAILS": "Einzelheiten"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Mit Bot öffnen"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
