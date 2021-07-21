@@ -47,7 +47,7 @@ cs:
       status:
         resolved: "Konverzace byla vyřešena uživatelem %{user_name}"
         open: "Konverzace byla znovu otevřena uživatelem %{user_name}"
-        bot: "Konverzace byla převedena na bota od %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
