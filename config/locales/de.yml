@@ -47,7 +47,7 @@ de:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
-        bot: "Unterhaltung wurde von %{user_name} an Bot übertragen"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Unterhaltung wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
       assignee:
         self_assigned: "%{user_name} hat sich diese Unterhaltung selbst zugewiesen"
