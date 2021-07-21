@@ -47,7 +47,7 @@ el:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
-        bot: "Η συνομιλία μεταφέρθηκε στο bot από τον/την %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
       assignee:
         self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
