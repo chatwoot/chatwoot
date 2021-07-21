@@ -24,7 +24,7 @@
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-else-if="isPending"
+        v-else-if="showOpen"
         class-names="resolve"
         color-scheme="primary"
         icon="ion-person"
@@ -48,6 +48,14 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
+        <woot-dropdown-item v-if="isOpen">
+          <woot-button
+            variant="clear"
+            @click="() => toggleStatus(STATUS_TYPE.SNOOZED)"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE') }}
+          </woot-button>
+        </woot-dropdown-item>
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
@@ -108,6 +116,12 @@ export default {
     },
   },
   methods: {
+    showOpen() {
+      return this.isResolved() || this.isSnoozed();
+    },
+    showSnoozeOptions() {
+      return !this.isSnoozed();
+    },
     closeDropdown() {
       this.showDropdown = false;
     },

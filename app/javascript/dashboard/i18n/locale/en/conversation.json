@@ -41,7 +41,8 @@
       "DETAILS": "details"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": "Snooze till Tomorrow"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
