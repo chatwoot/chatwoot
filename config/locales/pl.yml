@@ -47,7 +47,7 @@ pl:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
+        pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
