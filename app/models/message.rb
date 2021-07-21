@@ -167,7 +167,7 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed? 
+    conversation.open! if conversation.resolved? || conversation.snoozed?
   end
 
   def execute_message_template_hooks

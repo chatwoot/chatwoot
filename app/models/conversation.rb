@@ -46,7 +46,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
 
-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3}
+  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
@@ -65,8 +65,8 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
-  before_create :mark_conversation_pending_if_bot
   before_save :ensure_snooze_until_set
+  before_create :mark_conversation_pending_if_bot
 
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
@@ -143,9 +143,8 @@ class Conversation < ApplicationRecord
   private
 
   def ensure_snooze_until_set
-    return unless snoozed?
-
     self.snoozed_until ||= Time.current + 24.hours
+    self.snoozed_until = nil unless snoozed?
   end
 
   def validate_additional_attributes
