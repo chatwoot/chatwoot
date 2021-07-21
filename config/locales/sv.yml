@@ -47,7 +47,7 @@ sv:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
         open: "Konversationen öppnades igen av %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Konversationen har markerats som löst av systemet på grund av %{duration} dagars inaktivitet"
       assignee:
         self_assigned: "%{user_name} har tilldelat sig denna konversation"
