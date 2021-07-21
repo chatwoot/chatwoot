@@ -47,7 +47,7 @@ ru:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
-        bot: "Разговор передан боту %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"
