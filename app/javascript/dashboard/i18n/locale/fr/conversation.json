@@ -41,7 +41,7 @@
       "DETAILS": "détails"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Ouvrir avec le robot"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
