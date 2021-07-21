@@ -47,7 +47,7 @@ pt_BR:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
-        bot: "Conversa foi marcada como resolvida por %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
