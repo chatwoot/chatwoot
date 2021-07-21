@@ -63,7 +63,7 @@ en:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
         open: "Conversation was reopened by %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
