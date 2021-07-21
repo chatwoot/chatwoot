@@ -41,7 +41,7 @@
       "DETAILS": "tiedot"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
