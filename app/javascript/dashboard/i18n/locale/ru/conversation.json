@@ -41,7 +41,7 @@
       "DETAILS": "подробности"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Открыть с помощью бота"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
