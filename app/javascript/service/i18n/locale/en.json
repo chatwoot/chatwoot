@@ -9,5 +9,6 @@
       "PLACEHOLDER": "Your feedback(optional)",
       "BUTTON_TEXT": "Submit feedback"
     }
-  }
+  },
+  "POWERED_BY": "Powered by Chatwoot"
 }
