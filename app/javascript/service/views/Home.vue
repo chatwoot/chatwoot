@@ -4,32 +4,23 @@
   >
     <div class="flex flex-1 overflow-auto">
       <div class="max-w-screen-sm w-full mt-0 mb-0 m-auto p-8">
-        <img
-          src="/brand-assets/logo.svg"
-          alt="Chatwoot logo"
-          class="logo mt-0 mb-0 m-auto"
-        />
+        <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
         <div class="text-black-800 text-sm leading-5 pt-5">
-          Dear customer 👋 , please take a few moments to complete the
-          satisafcations survey. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Quam consequatur aperiam, enim repellendus
-          cupiditate non tenetur iusto possimus vero, repellat reprehenderit ad
-          dolorem, magni quisquam impedit? Amet eligendi consequuntur labore.
+          {{ $t('SURVEY.DESCRIPTION') }}
         </div>
         <div class="text-xs font-medium text-black-800 pt-5">
-          Rate your conversation
+          {{ $t('SURVEY.RATING.LABEL') }}
         </div>
         <rating />
         <text-area
           v-model="message"
           class="my-5"
-          label="Do you have any thoguhts you'd like to share?"
-          placeholder="Your feefback(optional)"
+          :label="$t('SURVEY.FEEDBACK.LABEL')"
+          :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
         />
-
-        <custom-button class="font-medium">
+        <custom-button class="font-medium float-right">
           <spinner v-if="isSubmitted" class="p-0" />
-          Submit
+          {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
         </custom-button>
       </div>
     </div>
@@ -43,7 +34,7 @@
 import Branding from 'service/components/Branding.vue';
 import Rating from 'service/components/Rating.vue';
 import CustomButton from 'shared/components/Button';
-import TextArea from '../components/TextArea.vue';
+import TextArea from 'shared/components/TextArea.vue';
 import configMixin from '../mixins/configMixin';
 export default {
   name: 'Home',
