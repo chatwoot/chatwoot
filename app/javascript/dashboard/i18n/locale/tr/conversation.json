@@ -41,7 +41,7 @@
       "DETAILS": "detaylar"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bot ile aç"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
