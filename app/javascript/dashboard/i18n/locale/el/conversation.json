@@ -41,7 +41,7 @@
       "DETAILS": "Λεπτομέρειες"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Άνοιγμα με bot"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
