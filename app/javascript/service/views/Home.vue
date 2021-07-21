@@ -69,14 +69,17 @@ export default {
   flex-wrap: nowrap;
   overflow: hidden;
   background: $color-white;
+
   .container {
-    min-width: 476px;
-    max-width: 476px;
+    max-width: 640px;
+    width: 100%;
     margin: 0 auto;
     padding: 1rem;
   }
   .logo {
-    width: 500px;
+    max-height: 2rem;
+    display: block;
+    margin: 0 auto;
   }
   .rating--intro {
     font-size: $font-size-default;
