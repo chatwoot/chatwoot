@@ -47,7 +47,7 @@ da:
       status:
         resolved: "Samtalen blev markeret som løst af %{user_name}"
         open: "Samtalen blev genåbnet af %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
         auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
       assignee:
         self_assigned: "%{user_name} selv-tildelte denne samtale"
