@@ -41,7 +41,7 @@
       "DETAILS": "részletek"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bottal megnyitni"
+      "MARK_PENDING": "Mark as pending"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
