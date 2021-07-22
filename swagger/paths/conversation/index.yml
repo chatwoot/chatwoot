@@ -15,7 +15,7 @@ get:
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'bot']
+      enum: ['open', 'resolved', 'pending']
     - name: page
       in: query
       type: integer
@@ -71,8 +71,8 @@ post:
             description: Lets you specify attributes like browser information
           status:
             type: string
-            enum: ['open', 'resolved', 'bot']
-            description: Specify the conversation whether it's bot, open, closed
+            enum: ['open', 'resolved', 'pending']
+            description: Specify the conversation whether it's pending, open, closed
 
   responses:
     200:
