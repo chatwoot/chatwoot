@@ -43,7 +43,7 @@
           <woot-button
             :is-disabled="$v.title.$invalid || uiFlags.isCreating"
             :is-loading="uiFlags.isCreating"
-            data-testId="label-submit"
+            data-testid="label-submit"
           >
             {{ $t('LABEL_MGMT.FORM.CREATE') }}
           </woot-button>
