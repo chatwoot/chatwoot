@@ -65,7 +65,7 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
-  before_save :ensure_snooze_until_set
+  before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
 
   # wanted to change this to after_update commit. But it ended up creating a loop
@@ -142,8 +142,7 @@ class Conversation < ApplicationRecord
 
   private
 
-  def ensure_snooze_until_set
-    self.snoozed_until ||= Time.current + 24.hours
+  def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
   end
 

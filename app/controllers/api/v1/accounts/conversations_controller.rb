@@ -51,6 +51,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     if params[:status]
       status = params[:status] == 'bot' ? 'pending' : params[:status]
       @conversation.status = status
+      @conversation.snoozed_until = params[:snoozed_until] if params[:snoozed_until]
       @status = @conversation.save
     else
       @status = @conversation.toggle_status
@@ -115,7 +116,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: additional_attributes
+      additional_attributes: additional_attributes,
+      snoozed_until: params[:snoozed_until]
     }.merge(status)
   end
 

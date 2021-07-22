@@ -48,14 +48,6 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
-        <woot-dropdown-item v-if="isOpen">
-          <woot-button
-            variant="clear"
-            @click="() => toggleStatus(STATUS_TYPE.SNOOZED)"
-          >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE') }}
-          </woot-button>
-        </woot-dropdown-item>
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
@@ -64,6 +56,40 @@
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
+
+        <woot-dropdown-sub-menu
+          v-if="isOpen"
+          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
+        >
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="
+                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
+              "
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="
+                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
+              "
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
+            </woot-button>
+          </woot-dropdown-item>
+        </woot-dropdown-sub-menu>
       </woot-dropdown-menu>
     </div>
   </div>
@@ -75,13 +101,23 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from '../../constants';
+import {
+  getUnixTime,
+  addMonths,
+  addWeeks,
+  startOfTomorrow,
+  startOfWeek,
+  startOfMonth,
+} from 'date-fns';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
+    WootDropdownSubMenu,
   },
   mixins: [clickaway, alertMixin],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -114,6 +150,13 @@ export default {
     showDropDown() {
       return !this.isPending;
     },
+    snoozeTimes() {
+      return {
+        tomorrow: getUnixTime(startOfTomorrow()),
+        nextWeek: getUnixTime(startOfWeek(addWeeks(new Date(), 1))),
+        nextMonth: getUnixTime(startOfMonth(addMonths(new Date(), 1))),
+      };
+    },
   },
   methods: {
     showOpen() {
@@ -128,13 +171,14 @@ export default {
     openDropdown() {
       this.showDropdown = true;
     },
-    toggleStatus(status) {
+    toggleStatus(status, snoozeUntil) {
       this.closeDropdown();
       this.isLoading = true;
       this.$store
         .dispatch('toggleStatus', {
           conversationId: this.currentChat.id,
           status,
+          snoozeUntil,
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
