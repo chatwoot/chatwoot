@@ -40,7 +40,7 @@ shared_examples_for 'round_robin_handler' do
         account: account,
         contact: create(:contact, account: account),
         inbox: inbox,
-        status: 'bot',
+        status: 'pending',
         assignee: nil
       )
 
