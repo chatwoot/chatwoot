@@ -1417,7 +1417,7 @@
             "enum": [
               "open",
               "resolved",
-              "bot"
+              "pending"
             ]
           },
           {
@@ -1508,9 +1508,9 @@
                   "enum": [
                     "open",
                     "resolved",
-                    "bot"
+                    "pending"
                   ],
-                  "description": "Specify the conversation whether it's bot, open, closed"
+                  "description": "Specify the conversation whether it's pending, open, closed"
                 }
               }
             }
@@ -1574,7 +1574,7 @@
             "enum": [
               "open",
               "resolved",
-              "bot"
+              "pending"
             ],
             "required": true
           },
@@ -1688,7 +1688,7 @@
                   "enum": [
                     "open",
                     "resolved",
-                    "bot"
+                    "pending"
                   ],
                   "required": true,
                   "description": "The status of the conversation"
@@ -2850,7 +2850,7 @@
           "enum": [
             "open",
             "resolved",
-            "bot"
+            "pending"
           ],
           "description": "The status of the conversation"
         },

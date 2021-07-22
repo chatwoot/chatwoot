@@ -24,7 +24,7 @@
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-else-if="isBot"
+        v-else-if="isPending"
         class-names="resolve"
         color-scheme="primary"
         icon="ion-person"
@@ -48,12 +48,12 @@
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
-        <woot-dropdown-item v-if="!isBot">
+        <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
-            @click="() => toggleStatus(STATUS_TYPE.BOT)"
+            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
           >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.OPEN_BOT') }}
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
       </woot-dropdown-menu>
@@ -91,20 +91,20 @@ export default {
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
-    isBot() {
-      return this.currentChat.status === wootConstants.STATUS_TYPE.BOT;
+    isPending() {
+      return this.currentChat.status === wootConstants.STATUS_TYPE.PENDING;
     },
     isResolved() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
     },
     buttonClass() {
-      if (this.isBot) return 'primary';
+      if (this.isPending) return 'primary';
       if (this.isOpen) return 'success';
       if (this.isResolved) return 'warning';
       return '';
     },
     showDropDown() {
-      return !this.isBot;
+      return !this.isPending;
     },
   },
   methods: {
