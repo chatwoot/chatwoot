@@ -118,6 +118,10 @@ export default {
     document.addEventListener('keydown', this.handleKeyEvents);
   },
 
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
+
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndOKey(e)) {

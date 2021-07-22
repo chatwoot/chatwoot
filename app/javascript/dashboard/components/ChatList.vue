@@ -193,6 +193,9 @@ export default {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedCommandAndJKey(e)) {

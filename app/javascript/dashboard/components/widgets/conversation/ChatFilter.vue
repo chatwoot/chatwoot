@@ -21,14 +21,17 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.handleKeyEvents);
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndBKey(e)) {
         if (this.activeStatus === wootConstants.STATUS_TYPE.OPEN) {
           this.activeStatus = wootConstants.STATUS_TYPE.RESOLVED;
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.RESOLVED) {
-          this.activeStatus = wootConstants.STATUS_TYPE.BOT;
-        } else if (this.activeStatus === wootConstants.STATUS_TYPE.BOT) {
+          this.activeStatus = wootConstants.STATUS_TYPE.PENDING;
+        } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
           this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
         }
       }

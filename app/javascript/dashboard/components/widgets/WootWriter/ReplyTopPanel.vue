@@ -82,6 +82,9 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.handleKeyEvents);
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndPKey(e)) {

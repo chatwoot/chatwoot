@@ -78,7 +78,10 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
-import { hasPressedShiftAndWKey } from 'shared/helpers/KeyboardHelpers';
+import {
+  hasPressedShiftAndWKey,
+  hasPressedShiftAndAKey,
+} from 'shared/helpers/KeyboardHelpers';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
@@ -159,10 +162,16 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.handleKeyEvents);
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndWKey(e)) {
         this.toggleFormatMode();
+      }
+      if (hasPressedShiftAndAKey(e)) {
+        this.$refs.upload.$children[1].$el.click();
       }
     },
     toggleFormatMode() {

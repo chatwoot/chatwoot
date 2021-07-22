@@ -103,6 +103,9 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.handleKeyEvents);
   },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     computedInboxClass(child) {
       const { type, phoneNumber } = child;

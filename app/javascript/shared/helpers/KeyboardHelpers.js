@@ -38,6 +38,10 @@ export const hasPressedShiftAndWKey = e => {
   return e.shiftKey && e.keyCode === 87;
 };
 
+export const hasPressedShiftAndAKey = e => {
+  return e.shiftKey && e.keyCode === 65;
+};
+
 export const hasPressedShiftAndPKey = e => {
   return e.shiftKey && e.keyCode === 80;
 };
