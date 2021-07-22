@@ -45,10 +45,11 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
 
-  enum status: { open: 0, resolved: 1, bot: 2 }
+  enum status: { open: 0, resolved: 1, pending: 2 }
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
+  scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 
   belongs_to :account
@@ -63,7 +64,7 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
-  before_create :set_bot_conversation
+  before_create :mark_conversation_pending_if_bot
 
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
@@ -90,7 +91,7 @@ class Conversation < ApplicationRecord
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
-    self.status = :open if bot?
+    self.status = :open if pending?
     save
   end
 
@@ -143,8 +144,9 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def set_bot_conversation
-    self.status = :bot if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
+  def mark_conversation_pending_if_bot
+    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
+    self.status = :pending if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
   end
 
   def notify_conversation_creation
