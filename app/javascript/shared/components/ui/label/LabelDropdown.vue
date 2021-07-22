@@ -103,39 +103,41 @@ export default {
       }
     },
     onArrowUp() {
-      const array = this.$refs.labelList.querySelectorAll(
+      const allDropdownButtons = this.$refs.labelList.querySelectorAll(
         '.list .label-button'
       );
       const focusedElement = this.$refs.labelList.querySelector(
         '.list .label-button:focus'
       );
-      const lastElement = array[array.length - 1];
 
-      const activeElementIndex = [...array].indexOf(focusedElement);
-      const lastElementIndex = [...array].indexOf(lastElement);
+      const activeElementIndex = [...allDropdownButtons].indexOf(
+        focusedElement
+      );
+      const lastElementIndex = allDropdownButtons.length - 1;
 
       if (activeElementIndex >= 1) {
-        array[activeElementIndex - 1].focus();
+        allDropdownButtons[activeElementIndex - 1].focus();
       } else {
-        array[lastElementIndex].focus();
+        allDropdownButtons[lastElementIndex].focus();
       }
     },
     onArrowDown() {
-      const array = this.$refs.labelList.querySelectorAll(
+      const allDropdownButtons = this.$refs.labelList.querySelectorAll(
         '.list .label-button'
       );
       const focusedElement = this.$refs.labelList.querySelector(
         '.list .label-button:focus'
       );
-      const lastElement = array[array.length - 1];
 
-      const activeElementIndex = [...array].indexOf(focusedElement);
-      const lastElementIndex = [...array].indexOf(lastElement);
+      const activeElementIndex = [...allDropdownButtons].indexOf(
+        focusedElement
+      );
+      const lastElementIndex = allDropdownButtons.length - 1;
 
       if (activeElementIndex === lastElementIndex) {
-        array[0].focus();
+        allDropdownButtons[0].focus();
       } else {
-        array[activeElementIndex + 1].focus();
+        allDropdownButtons[activeElementIndex + 1].focus();
       }
     },
   },
