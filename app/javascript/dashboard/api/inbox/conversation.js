@@ -28,7 +28,7 @@ class ConversationApi extends ApiClient {
     });
   }
 
-  toggleStatus({ conversationId, status, snoozeUntil }) {
+  toggleStatus({ conversationId, status, snoozeUntil = null }) {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {
       status,
       snooze_until: snoozeUntil,

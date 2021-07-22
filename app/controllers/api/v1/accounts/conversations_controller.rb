@@ -51,8 +51,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     if params[:status]
       status = params[:status] == 'bot' ? 'pending' : params[:status]
       @conversation.status = status
-      @conversation.snoozed_until = params[:snoozed_until] if params[:snoozed_until]
-      @status = @conversation.save
+      @conversation.snoozed_until = params[:snoozed_until]
     else
       @status = @conversation.toggle_status
     end
