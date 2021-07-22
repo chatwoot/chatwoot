@@ -137,13 +137,13 @@ const actions = {
 
   toggleStatus: async (
     { commit },
-    { conversationId, status, snoozeUntil = null }
+    { conversationId, status, snoozedUntil = null }
   ) => {
     try {
       const response = await ConversationApi.toggleStatus({
         conversationId,
         status,
-        snoozeUntil,
+        snoozedUntil,
       });
       commit(
         types.default.RESOLVE_CONVERSATION,

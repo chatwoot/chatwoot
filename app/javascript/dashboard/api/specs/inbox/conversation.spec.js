@@ -69,7 +69,7 @@ describe('#ConversationAPI', () => {
         `/api/v1/conversations/12/toggle_status`,
         {
           status: 'online',
-          snooze_until: null,
+          snoozed_until: null,
         }
       );
     });

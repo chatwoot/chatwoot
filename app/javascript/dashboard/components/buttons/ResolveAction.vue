@@ -106,8 +106,9 @@ import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from '../../constants';
 import {
   getUnixTime,
-  addMonths,
+  addHours,
   addWeeks,
+  addMonths,
   startOfTomorrow,
   startOfWeek,
   startOfMonth,
@@ -152,8 +153,12 @@ export default {
     },
     snoozeTimes() {
       return {
-        tomorrow: getUnixTime(startOfTomorrow()),
-        nextWeek: getUnixTime(startOfWeek(addWeeks(new Date(), 1))),
+        // tomorrow  = 9am next day
+        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
+        // next week =  monday of next week
+        nextWeek: getUnixTime(
+          startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 })
+        ),
         nextMonth: getUnixTime(startOfMonth(addMonths(new Date(), 1))),
       };
     },
@@ -171,14 +176,14 @@ export default {
     openDropdown() {
       this.showDropdown = true;
     },
-    toggleStatus(status, snoozeUntil) {
+    toggleStatus(status, snoozedUntil) {
       this.closeDropdown();
       this.isLoading = true;
       this.$store
         .dispatch('toggleStatus', {
           conversationId: this.currentChat.id,
           status,
-          snoozeUntil,
+          snoozedUntil,
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
