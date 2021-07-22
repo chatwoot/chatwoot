@@ -127,7 +127,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
     end
 
     context 'when it is an authenticated admin user' do
-      it 'deletes custom filter if it is attached to the current user and account' do
+      it 'deletes custom attribute' do
         delete "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
                headers: user.create_new_auth_token,
                as: :json
