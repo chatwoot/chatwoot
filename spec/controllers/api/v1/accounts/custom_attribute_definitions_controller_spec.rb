@@ -55,21 +55,24 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/custom_attribute_definitions' do
-    let(:payload) {
+    let(:payload) do
       {
         custom_attribute_definition: {
           attribute_display_name: 'Developer ID',
           attribute_key: 'developer_id',
           attribute_model: 'contact_attribute',
           attribute_display_type: 'text',
-          default_value: '',
+          default_value: ''
         }
       }
-    }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", params: payload }.to change(CustomAttributeDefinition, :count).by(0)
+        expect do
+          post "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
+               params: payload
+        end.to change(CustomAttributeDefinition, :count).by(0)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -79,7 +82,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
       it 'creates the filter' do
         expect do
           post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", headers: user.create_new_auth_token,
-                                                                params: payload
+                                                                              params: payload
         end.to change(CustomAttributeDefinition, :count).by(1)
 
         expect(response).to have_http_status(:success)

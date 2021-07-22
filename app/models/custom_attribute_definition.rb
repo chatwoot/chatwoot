@@ -18,7 +18,9 @@
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
-  validates :attribute_display_name,
+  validates :attribute_display_name, presence: true
+
+  validates :attribute_key,
             presence: true,
             uniqueness: { scope: :attribute_model }
 

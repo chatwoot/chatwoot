@@ -40,7 +40,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
       :attribute_display_type,
       :attribute_key,
       :attribute_model,
-      :default_value,
+      :default_value
     )
   end
 
