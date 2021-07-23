@@ -48,6 +48,7 @@ ar:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
