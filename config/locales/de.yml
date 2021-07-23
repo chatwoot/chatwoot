@@ -48,6 +48,7 @@ de:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Unterhaltung wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
       assignee:
         self_assigned: "%{user_name} hat sich diese Unterhaltung selbst zugewiesen"
