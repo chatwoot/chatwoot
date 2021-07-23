@@ -33,7 +33,7 @@ RSpec.describe 'Public Survey Responses API', type: :request do
 
     it 'returns update error if CSAT message sent more than 14 days' do
       conversation = create(:conversation)
-      message = create(:message, conversation: conversation, content_type: 'input_csat', created_at: Time.now - 15.days)
+      message = create(:message, conversation: conversation, content_type: 'input_csat', created_at: 15.days.ago)
       patch "/public/api/v1/csat_service/#{conversation.uuid}",
             params: { message: { submitted_values: { csat_survey_response: { rating: 4, feedback_message: 'amazing' } } } },
             as: :json

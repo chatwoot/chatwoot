@@ -27,6 +27,6 @@ class Public::Api::V1::CsatServiceController < PublicController
   end
 
   def check_csat_locked
-    (Time.now.to_date - @message.created_at.to_date).to_i > 1
+    (Time.zone.now.to_date - @message.created_at.to_date).to_i > 14
   end
 end
