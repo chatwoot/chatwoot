@@ -41,7 +41,13 @@
       "DETAILS": "detalhes"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Marcar como pendente"
+      "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
