@@ -41,7 +41,13 @@
       "DETAILS": "詳情"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
