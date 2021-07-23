@@ -49,6 +49,10 @@
       {
         "TEXT": "Pendente",
         "VALUE": "pendente"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
