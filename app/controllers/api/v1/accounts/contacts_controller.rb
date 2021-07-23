@@ -89,14 +89,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contacts_with_conversation_count(contacts)
     contacts_with_conversation_count = filtrate(contacts).left_outer_joins(:conversations)
-                      .select('contacts.*, COUNT(conversations.id) as conversations_count')
-                      .group('contacts.id')
-                      .includes([{ avatar_attachment: [:blob] }])
-                      .page(@current_page).per(RESULTS_PER_PAGE)
+                                                         .select('contacts.*, COUNT(conversations.id) as conversations_count')
+                                                         .group('contacts.id')
+                                                         .includes([{ avatar_attachment: [:blob] }])
+                                                         .page(@current_page).per(RESULTS_PER_PAGE)
 
-    if @include_contact_inboxes
-      return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }])
-    end
+    return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
+
     contacts_with_conversation_count
   end
 
@@ -124,11 +123,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def set_include_contact_inboxes
-    if params[:include_contact_inboxes].present?
-      @include_contact_inboxes = params[:include_contact_inboxes] === 'true'
-    else
-      @include_contact_inboxes = true
-    end
+    @include_contact_inboxes = if params[:include_contact_inboxes].present?
+                                 params[:include_contact_inboxes] == 'true'
+                               else
+                                 true
+                               end
   end
 
   def fetch_contact

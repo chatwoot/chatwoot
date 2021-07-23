@@ -40,7 +40,6 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['contact_inboxes'].blank?).to eq(true)
       end
 
-
       it 'returns includes conversations count and last seen at' do
         create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
         get "/api/v1/accounts/#{account.id}/contacts",
