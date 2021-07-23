@@ -48,6 +48,7 @@ zh-CN:
         resolved: "对话被标记由 %{user_name} 解决"
         open: "对话被 %{user_name} 重新打开"
         pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
