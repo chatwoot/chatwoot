@@ -41,7 +41,13 @@
       "DETAILS": "szczegóły"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Oznacz jako oczekujące"
+      "MARK_PENDING": "Oznacz jako oczekujące",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
