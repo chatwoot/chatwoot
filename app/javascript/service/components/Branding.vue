@@ -50,7 +50,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '~service/assets/scss/variables.scss';
+@import '~widget/assets/scss/variables.scss';
 
 .branding {
   align-items: center;

@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋 , please take a few moments to complete the the feedback about the conversation. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam consequatur aperiam, enim repellendus ",
+    "DESCRIPTION": "Dear customer 👋 , please take a few moments to complete the the feedback about the conversation.",
     "RATING": {
       "LABEL": "Rate your conversation"
     },

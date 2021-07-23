@@ -35,7 +35,7 @@ import Branding from 'service/components/Branding.vue';
 import Rating from 'service/components/Rating.vue';
 import CustomButton from 'shared/components/Button';
 import TextArea from 'shared/components/TextArea.vue';
-import configMixin from '../mixins/configMixin';
+import configMixin from 'shared/mixins/configMixin';
 export default {
   name: 'Home',
   components: {
