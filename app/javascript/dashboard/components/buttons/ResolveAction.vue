@@ -24,7 +24,7 @@
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-else-if="isPending"
+        v-else-if="showOpenButton"
         class-names="resolve"
         color-scheme="primary"
         icon="ion-person"
@@ -34,7 +34,7 @@
         {{ this.$t('CONVERSATION.HEADER.OPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-if="showDropDown"
+        v-if="showAdditionalActions"
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="ion-arrow-down-b"
@@ -43,7 +43,7 @@
       />
     </div>
     <div
-      v-if="showDropdown"
+      v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open"
     >
@@ -56,6 +56,40 @@
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
+
+        <woot-dropdown-sub-menu
+          v-if="isOpen"
+          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
+        >
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="
+                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
+              "
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              @click="
+                () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
+              "
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
+            </woot-button>
+          </woot-dropdown-item>
+        </woot-dropdown-sub-menu>
       </woot-dropdown-menu>
     </div>
   </div>
@@ -67,20 +101,29 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import wootConstants from '../../constants';
+import {
+  getUnixTime,
+  addHours,
+  addWeeks,
+  startOfTomorrow,
+  startOfWeek,
+} from 'date-fns';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
+    WootDropdownSubMenu,
   },
   mixins: [clickaway, alertMixin],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
       isLoading: false,
-      showDropdown: false,
+      showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
     };
   },
@@ -97,30 +140,47 @@ export default {
     isResolved() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
     },
+    isSnoozed() {
+      return this.currentChat.status === wootConstants.STATUS_TYPE.SNOOZED;
+    },
     buttonClass() {
       if (this.isPending) return 'primary';
       if (this.isOpen) return 'success';
       if (this.isResolved) return 'warning';
       return '';
     },
-    showDropDown() {
-      return !this.isPending;
+    showAdditionalActions() {
+      return !this.isPending && !this.isSnoozed;
+    },
+    snoozeTimes() {
+      return {
+        // tomorrow  = 9AM next day
+        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
+        // next week = 9AM Monday, next week
+        nextWeek: getUnixTime(
+          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
+        ),
+      };
     },
   },
   methods: {
+    showOpenButton() {
+      return this.isResolved || this.isSnoozed;
+    },
     closeDropdown() {
-      this.showDropdown = false;
+      this.showActionsDropdown = false;
     },
     openDropdown() {
-      this.showDropdown = true;
+      this.showActionsDropdown = true;
     },
-    toggleStatus(status) {
+    toggleStatus(status, snoozedUntil) {
       this.closeDropdown();
       this.isLoading = true;
       this.$store
         .dispatch('toggleStatus', {
           conversationId: this.currentChat.id,
           status,
+          snoozedUntil,
         })
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
