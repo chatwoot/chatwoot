@@ -306,6 +306,19 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('pending')
       end
 
+      it 'toggles the conversation status to snoozed when parameter is passed' do
+        expect(conversation.status).to eq('open')
+        snoozed_until = (DateTime.now.utc + 2.days).to_i
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'snoozed', snoozed_until: snoozed_until },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('snoozed')
+        expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
+      end
+
       # TODO: remove this spec when we remove the condition check in controller
       # Added for backwards compatibility for bot status
       it 'toggles the conversation status to pending status when parameter bot is passed' do
