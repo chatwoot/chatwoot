@@ -295,6 +295,19 @@ ActiveRecord::Schema.define(version: 2021_07_23_095657) do
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
   end
 
+  create_table "custom_attribute_definitions", force: :cascade do |t|
+    t.string "attribute_display_name"
+    t.string "attribute_key"
+    t.integer "attribute_display_type", default: 0
+    t.integer "default_value"
+    t.integer "attribute_model", default: 0
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+  end
+
   create_table "custom_filters", force: :cascade do |t|
     t.string "name", null: false
     t.integer "filter_type", default: 0, null: false
