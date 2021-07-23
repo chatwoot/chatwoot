@@ -8,6 +8,7 @@
 #  contact_last_seen_at  :datetime
 #  identifier            :string
 #  last_activity_at      :datetime         not null
+#  snoozed_until         :datetime
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
 #  created_at            :datetime         not null
@@ -45,7 +46,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
 
-  enum status: { open: 0, resolved: 1, pending: 2 }
+  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
@@ -64,6 +65,7 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
+  before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
 
   # wanted to change this to after_update commit. But it ended up creating a loop
@@ -91,7 +93,7 @@ class Conversation < ApplicationRecord
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
-    self.status = :open if pending?
+    self.status = :open if pending? || snoozed?
     save
   end
 
@@ -139,6 +141,10 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def ensure_snooze_until_reset
+    self.snoozed_until = nil unless snoozed?
+  end
 
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)

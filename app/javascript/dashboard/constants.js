@@ -9,6 +9,7 @@ export default {
     OPEN: 'open',
     RESOLVED: 'resolved',
     PENDING: 'pending',
+    SNOOZED: 'snoozed',
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
