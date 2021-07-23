@@ -49,6 +49,10 @@
       {
         "TEXT": "Oczekujące",
         "VALUE": "oczekujące"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
