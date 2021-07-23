@@ -24,7 +24,7 @@
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-else-if="showOpen"
+        v-else-if="showOpenButton"
         class-names="resolve"
         color-scheme="primary"
         icon="ion-person"
@@ -34,7 +34,7 @@
         {{ this.$t('CONVERSATION.HEADER.OPEN_ACTION') }}
       </woot-button>
       <woot-button
-        v-if="showDropDown"
+        v-if="showAdditionalActions"
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="ion-arrow-down-b"
@@ -43,7 +43,7 @@
       />
     </div>
     <div
-      v-if="showDropdown"
+      v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open"
     >
@@ -108,10 +108,8 @@ import {
   getUnixTime,
   addHours,
   addWeeks,
-  addMonths,
   startOfTomorrow,
   startOfWeek,
-  startOfMonth,
 } from 'date-fns';
 
 export default {
@@ -125,7 +123,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      showDropdown: false,
+      showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
     };
   },
@@ -142,39 +140,38 @@ export default {
     isResolved() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
     },
+    isSnoozed() {
+      return this.currentChat.status === wootConstants.STATUS_TYPE.SNOOZED;
+    },
     buttonClass() {
       if (this.isPending) return 'primary';
       if (this.isOpen) return 'success';
       if (this.isResolved) return 'warning';
       return '';
     },
-    showDropDown() {
-      return !this.isPending;
+    showAdditionalActions() {
+      return !this.isPending && !this.isSnoozed;
     },
     snoozeTimes() {
       return {
-        // tomorrow  = 9am next day
+        // tomorrow  = 9AM next day
         tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
-        // next week =  monday of next week
+        // next week = 9AM Monday, next week
         nextWeek: getUnixTime(
-          startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 })
+          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
         ),
-        nextMonth: getUnixTime(startOfMonth(addMonths(new Date(), 1))),
       };
     },
   },
   methods: {
-    showOpen() {
-      return this.isResolved() || this.isSnoozed();
-    },
-    showSnoozeOptions() {
-      return !this.isSnoozed();
+    showOpenButton() {
+      return this.isResolved || this.isSnoozed;
     },
     closeDropdown() {
-      this.showDropdown = false;
+      this.showActionsDropdown = false;
     },
     openDropdown() {
-      this.showDropdown = true;
+      this.showActionsDropdown = true;
     },
     toggleStatus(status, snoozedUntil) {
       this.closeDropdown();
