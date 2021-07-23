@@ -137,7 +137,7 @@ export default {
           text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
       } = this.contentAttributes;
-
+      const hasHTMLContent = replyHTMLContent || fullHTMLContent;
       let contentToBeParsed =
         replyHTMLContent ||
         replyTextContent ||
@@ -147,6 +147,12 @@ export default {
       if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
+          if (!hasHTMLContent) {
+            return this.renderEmailMarkdownContent(parsedContent, {
+              gfm: true,
+              breaks: true,
+            });
+          }
           return parsedContent;
         }
       }

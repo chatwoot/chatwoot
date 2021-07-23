@@ -1,5 +1,6 @@
 import MessageFormatter from '../helpers/MessageFormatter';
 import DOMPurify from 'dompurify';
+import marked from 'marked';
 
 export default {
   methods: {
@@ -10,6 +11,9 @@ export default {
     getPlainText(message, isATweet) {
       const messageFormatter = new MessageFormatter(message, isATweet);
       return messageFormatter.plainText;
+    },
+    renderEmailMarkdownContent(message = '') {
+      return marked(message, { gfm: true, breaks: true });
     },
     truncateMessage(description = '') {
       if (description.length < 100) {
