@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(version: 2021_07_22_095814) do
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
     t.bigint "campaign_id"
+    t.datetime "snoozed_until"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
