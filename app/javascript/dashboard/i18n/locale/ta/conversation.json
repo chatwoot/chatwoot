@@ -41,7 +41,13 @@
       "DETAILS": "விவரங்கள்"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "புதிய வரிக்கு Shift + Enter ஐ அழுத்தவும். பதிவு செய்யப்பட்ட பதிலைத் தேர்ந்தெடுக்க '/' உடன் தொடங்கவும்.",
