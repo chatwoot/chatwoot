@@ -271,11 +271,10 @@ ActiveRecord::Schema.define(version: 2021_07_23_095657) do
     t.datetime "snoozed_until"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
-    t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
+    t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
-    t.index ["snoozed_until"], name: "index_conversations_on_snoozed_until"
-    t.index ["status"], name: "index_conversations_on_status"
+    t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
 
