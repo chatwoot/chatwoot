@@ -9,7 +9,7 @@ describe '/service/response', type: :request do
     end
 
     it 'returns 404 when called with invalid conversation uuid' do
-      get service_response_url(id:'')
+      get service_response_url(id: '')
       expect(response.status).to eq(404)
     end
   end
