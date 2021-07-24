@@ -3,7 +3,7 @@
     class="w-full h-full flex flex-col flex-no-wrap overflow-hidden bg-white"
   >
     <div class="flex flex-1 overflow-auto">
-      <div class="max-w-screen-sm w-full mt-0 mb-0 m-auto p-8">
+      <div class="max-w-screen-sm w-full my-0 m-auto p-8">
         <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
         <div class="text-black-800 text-sm leading-5 pt-5">
           {{ $t('SURVEY.DESCRIPTION') }}
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Branding from 'service/components/Branding.vue';
+import Branding from 'shared/components/Branding.vue';
 import Rating from 'service/components/Rating.vue';
 import CustomButton from 'shared/components/Button';
 import TextArea from 'shared/components/TextArea.vue';
