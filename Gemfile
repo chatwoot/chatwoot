@@ -33,6 +33,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# Rack middleware for blocking & throttling abusive requests
+gem 'rack-attack'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false

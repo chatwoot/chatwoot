@@ -376,6 +376,8 @@ GEM
     raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
+    rack-attack (6.5.0)
+      rack (>= 1.0, < 3)
     rack-cache (1.12.0)
       rack (>= 0.4)
     rack-cors (1.1.1)
@@ -666,6 +668,7 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
+  rack-attack
   rack-cors
   rack-timeout
   rails
