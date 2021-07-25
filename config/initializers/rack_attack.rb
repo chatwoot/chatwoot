@@ -23,13 +23,16 @@ class Rack::Attack
   # Throttle all requests by IP (60rpm)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
-  throttle('req/ip', limit: 300, period: 5.minutes) do |req|
-    req.ip
-  end
+  throttle('req/ip', limit: 300, period: 5.minutes) { |req| req.ip }
 
   ### Prevent Brute-Force Login Attacks ###
   throttle('login/ip', limit: 5, period: 20.seconds) do |req|
     req.ip if req.path == '/auth/sign_in' && req.post?
+  end
+
+  ### Prevent Brute-Force Signup Attacks ###
+  throttle('accounts/ip', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path == '/api/v1/accounts' && req.post?
   end
 
   throttle('login/email', limit: 5, period: 20.seconds) do |req|
