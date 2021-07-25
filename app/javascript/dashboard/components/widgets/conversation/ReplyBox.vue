@@ -419,12 +419,10 @@ export default {
       this.updateUISettings({ display_rich_content_editor: value });
     },
     isMessageEmpty() {
-      if(this.message) {
-        return !this.message.trim().replace(/\n/g, '').length;
+      if(!this.message) {
+        this.message = '';
       }
-      // setting back to default value if message is undefined or null
-      this.message = '';
-      return false;
+      return !this.message.trim().replace(/\n/g, '').length;
     },
   },
 };
