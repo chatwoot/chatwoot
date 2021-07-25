@@ -17,10 +17,11 @@
 #
 # Indexes
 #
-#  index_contacts_on_account_id         (account_id)
-#  index_contacts_on_pubsub_token       (pubsub_token) UNIQUE
-#  uniq_email_per_account_contact       (email,account_id) UNIQUE
-#  uniq_identifier_per_account_contact  (identifier,account_id) UNIQUE
+#  index_contacts_on_account_id                   (account_id)
+#  index_contacts_on_phone_number_and_account_id  (phone_number,account_id)
+#  index_contacts_on_pubsub_token                 (pubsub_token) UNIQUE
+#  uniq_email_per_account_contact                 (email,account_id) UNIQUE
+#  uniq_identifier_per_account_contact            (identifier,account_id) UNIQUE
 #
 
 class Contact < ApplicationRecord
