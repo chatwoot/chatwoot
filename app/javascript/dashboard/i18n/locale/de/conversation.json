@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Nachrichten durchsuchen",
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
+      "RESULT_TITLE": "Suchergebnisse",
       "LOADING_MESSAGE": "Daten werden geladen...",
       "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
       "NO_MATCHING_RESULTS": "Keine Ergebnisse gefunden."
@@ -41,12 +42,12 @@
       "DETAILS": "Einzelheiten"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Als ausstehend markieren",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Erinnern",
+        "NEXT_REPLY": "Bei Antwort",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Nächste Woche"
       }
     },
     "FOOTER": {
@@ -84,8 +85,8 @@
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Konversations-Transkript senden",
     "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
-    "SUBMIT": "Einreichen",
-    "CANCEL": "Stornieren",
+    "SUBMIT": "Speichern",
+    "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
     "FORM": {
