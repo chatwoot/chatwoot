@@ -21,7 +21,7 @@
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
+          "LABEL": "Zielgruppe",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
