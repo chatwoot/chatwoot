@@ -35,6 +35,7 @@
       </woot-button>
       <woot-button
         v-if="showAdditionalActions"
+        ref="arrowDownButton"
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="ion-arrow-down-b"
@@ -99,7 +100,9 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
+  hasPressedShiftAndMKey,
   hasPressedShiftAndEKey,
   hasPressedCommandPlusShiftAndEKey,
 } from 'shared/helpers/KeyboardHelpers';
@@ -122,7 +125,7 @@ export default {
     WootDropdownMenu,
     WootDropdownSubMenu,
   },
-  mixins: [clickaway, alertMixin],
+  mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -167,14 +170,11 @@ export default {
       };
     },
   },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
-  },
   methods: {
     handleKeyEvents(e) {
+      if (hasPressedShiftAndMKey(e)) {
+        this.$refs.arrowDownButton.$el.click();
+      }
       if (hasPressedShiftAndEKey(e)) {
         this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
       }

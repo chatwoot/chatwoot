@@ -82,11 +82,13 @@ import {
   hasPressedShiftAndWKey,
   hasPressedShiftAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
   components: { FileUpload },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -158,12 +160,6 @@ export default {
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     handleKeyEvents(e) {

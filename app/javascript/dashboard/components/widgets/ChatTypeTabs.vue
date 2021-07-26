@@ -10,9 +10,11 @@
 </template>
 <script>
 import wootConstants from '../../constants';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { hasPressedShiftAndNKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
+  mixins: [eventListenerMixins],
   props: {
     items: {
       type: Array,
@@ -27,12 +29,6 @@ export default {
     activeTabIndex() {
       return this.items.findIndex(item => item.key === this.activeTab);
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     handleKeyEvents(e) {

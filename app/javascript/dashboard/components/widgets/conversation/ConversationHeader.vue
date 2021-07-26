@@ -68,6 +68,7 @@ import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
 import { hasPressedShiftAndOKey } from 'shared/helpers/KeyboardHelpers';
 
@@ -77,7 +78,7 @@ export default {
     Thumbnail,
     AvailabilityStatusBadge,
   },
-  mixins: [agentMixin],
+  mixins: [agentMixin, eventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -115,11 +116,6 @@ export default {
   mounted() {
     const { inbox_id: inboxId } = this.chat;
     this.inboxId = inboxId;
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
 
   methods: {

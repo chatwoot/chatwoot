@@ -36,11 +36,13 @@ import {
   hasPressedShiftAndPKey,
   hasPressedShiftAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
   components: {
     EmojiOrIcon,
   },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -78,12 +80,6 @@ export default {
         ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
         : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     handleKeyEvents(e) {

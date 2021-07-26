@@ -62,6 +62,7 @@ import ChatFilter from './widgets/conversation/ChatFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import {
@@ -75,7 +76,7 @@ export default {
     ConversationCard,
     ChatFilter,
   },
-  mixins: [timeMixin, conversationMixin],
+  mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -187,14 +188,10 @@ export default {
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
-    document.addEventListener('keydown', this.handleKeyEvents);
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     handleKeyEvents(e) {

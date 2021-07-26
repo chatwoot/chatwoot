@@ -74,6 +74,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -105,7 +106,13 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    eventListenerMixins,
+  ],
   props: {
     inReplyTo: {
       type: [String, Number],
@@ -262,12 +269,6 @@ export default {
         this.showMentions = false;
       }
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     toggleUserMention(currentMentionState) {

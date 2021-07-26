@@ -12,18 +12,14 @@
 
 <script>
 import wootConstants from '../../../constants';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { hasPressedShiftAndBKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
+  mixins: [eventListenerMixins],
   data: () => ({
     activeStatus: wootConstants.STATUS_TYPE.OPEN,
   }),
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
-  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndBKey(e)) {

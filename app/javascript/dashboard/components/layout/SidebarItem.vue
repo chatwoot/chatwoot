@@ -66,9 +66,10 @@ import {
   hasPressedShiftAndSKey,
 } from 'shared/helpers/KeyboardHelpers';
 import adminMixin from '../../mixins/isAdmin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 export default {
-  mixins: [adminMixin],
+  mixins: [adminMixin, eventListenerMixins],
   props: {
     menuItem: {
       type: Object,
@@ -99,12 +100,6 @@ export default {
       }
       return ' ';
     },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     computedInboxClass(child) {
