@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
     "SEARCH": {
       "TITLE": "Cerca missatges",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "S'estan restringint les dades...",
       "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
       "NO_MATCHING_RESULTS": "No results found."
