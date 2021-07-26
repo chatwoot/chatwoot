@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "SEARCH": {
       "TITLE": "搜尋訊息",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "輸入任何文字以搜尋訊息",
       "NO_MATCHING_RESULTS": "查無結果。"
