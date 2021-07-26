@@ -175,6 +175,7 @@ export default {
       if (hasPressedShiftAndEKey(e)) {
         this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
       }
+    },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
     },
