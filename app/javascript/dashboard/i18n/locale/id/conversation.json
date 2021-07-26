@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
     "SEARCH": {
       "TITLE": "Mencari pesan",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Mengolah data...",
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
       "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan."
