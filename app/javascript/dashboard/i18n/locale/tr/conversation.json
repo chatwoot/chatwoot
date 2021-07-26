@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Sohbetlerde ara",
     "SEARCH": {
       "TITLE": "Mesajları ara",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
       "NO_MATCHING_RESULTS": "Sonuç bulunamadı."
