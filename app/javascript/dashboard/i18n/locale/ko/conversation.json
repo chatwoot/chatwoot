@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
       "TITLE": "메시지 검색",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "데이터 처리 중...",
       "PLACEHOLDER": "검색할 텍스트를 입력하세요",
       "NO_MATCHING_RESULTS": "검색 결과가 없습니다."
