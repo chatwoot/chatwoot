@@ -47,7 +47,6 @@ gem 'groupdate'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
-gem 'redis-rack-cache'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
