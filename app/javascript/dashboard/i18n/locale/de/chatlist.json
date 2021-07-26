@@ -47,12 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+        "TEXT": "Ausstehend",
+        "VALUE": "ausstehend"
       },
       {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+        "TEXT": "Erinnern",
+        "VALUE": "erinnern"
       }
     ],
     "ATTACHMENTS": {
