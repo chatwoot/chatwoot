@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
     "SEARCH": {
       "TITLE": "Søg efter beskeder",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Behandler data...",
       "PLACEHOLDER": "Skriv tekst for at søge i beskeder",
       "NO_MATCHING_RESULTS": "No results found."
