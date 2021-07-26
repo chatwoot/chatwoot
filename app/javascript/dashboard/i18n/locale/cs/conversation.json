@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
     "SEARCH": {
       "TITLE": "Hledat zprávy",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Načítám data...",
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Žádné výsledky."
