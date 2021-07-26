@@ -48,7 +48,7 @@ pt_BR:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
         pending: "Conversa foi marcada como pendente por %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
