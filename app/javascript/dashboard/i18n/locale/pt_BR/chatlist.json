@@ -51,8 +51,8 @@
         "VALUE": "pendente"
       },
       {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+        "TEXT": "Adiado",
+        "VALUE": "adiado"
       }
     ],
     "ATTACHMENTS": {
