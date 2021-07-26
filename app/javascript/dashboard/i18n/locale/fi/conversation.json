@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Etsi viestejä keskusteluissa",
     "SEARCH": {
       "TITLE": "Etsi viestejä",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Rouskutetaan dataa...",
       "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
       "NO_MATCHING_RESULTS": "No results found."
