@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "SEARCH": {
       "TITLE": "Поиск сообщений",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Сохранение данных...",
       "PLACEHOLDER": "Введите любой текст для поиска сообщений",
       "NO_MATCHING_RESULTS": "Результаты не найдены."
