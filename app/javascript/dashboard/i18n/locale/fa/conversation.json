@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
     "SEARCH": {
       "TITLE": "جستجو پیام‌ها",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "درحال پردازش داده...",
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
       "NO_MATCHING_RESULTS": "No results found."
