@@ -6,7 +6,7 @@
     "ADD": {
       "TITLE": "Kampagne erstellen",
       "DESC": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde.",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "CREATE_BUTTON_TEXT": "Erstellen",
       "FORM": {
         "TITLE": {
