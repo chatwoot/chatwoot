@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "സംഭാഷണങ്ങളിൽ സന്ദേശങ്ങൾക്കായി തിരയുക",
     "SEARCH": {
       "TITLE": "സന്ദേശങ്ങൾ തിരയുക",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "ഡാറ്റ ലോഡുചെയ്യുന്നു...",
       "PLACEHOLDER": "സന്ദേശങ്ങൾ തിരയാൻ ഏതെങ്കിലും വാചകം ടൈപ്പുചെയ്യുക",
       "NO_MATCHING_RESULTS": "No results found."
