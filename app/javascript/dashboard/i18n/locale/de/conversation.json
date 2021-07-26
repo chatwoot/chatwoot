@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Nachrichten durchsuchen",
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
+      "RESULT_TITLE": "Suchergebnisse",
       "LOADING_MESSAGE": "Daten werden geladen...",
       "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
       "NO_MATCHING_RESULTS": "Keine Ergebnisse gefunden."
