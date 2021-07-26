@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
     "SEARCH": {
       "TITLE": "Üzenetekben keresés",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Adatelemzés...",
       "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
       "NO_MATCHING_RESULTS": "Nincs találat."
