@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
     "SEARCH": {
       "TITLE": "Αναζήτηση μηνυμάτων",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Σύμπτυξη δεδομένων...",
       "PLACEHOLDER": "Εισάγετε κείμενο για αναζήτηση μηνυμάτων",
       "NO_MATCHING_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
