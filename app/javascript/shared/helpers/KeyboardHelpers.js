@@ -54,14 +54,18 @@ export const hasPressedShiftAndEKey = e => {
   return e.shiftKey && e.keyCode === 69;
 };
 
+export const hasPressedCommandPlusShiftAndEKey = e => {
+  return e.metaKey && e.shiftKey && e.keyCode === 69;
+};
+
 export const hasPressedShiftAndOKey = e => {
   return e.shiftKey && e.keyCode === 79;
 };
 
-export const hasPressedCommandAndJKey = e => {
-  return e.metaKey && e.keyCode === 74;
+export const hasPressedShiftAndJKey = e => {
+  return e.shiftKey && e.keyCode === 74;
 };
 
-export const hasPressedCommandAndKKey = e => {
-  return e.metaKey && e.keyCode === 75;
+export const hasPressedShiftAndKKey = e => {
+  return e.shiftKey && e.keyCode === 75;
 };

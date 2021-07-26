@@ -32,6 +32,8 @@ export default {
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.RESOLVED) {
           this.activeStatus = wootConstants.STATUS_TYPE.PENDING;
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
+          this.activeStatus = wootConstants.STATUS_TYPE.SNOOZED;
+        } else if (this.activeStatus === wootConstants.STATUS_TYPE.SNOOZED) {
           this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
         }
       }
