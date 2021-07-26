@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
     "SEARCH": {
       "TITLE": "Sök meddelanden",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Tuggar data...",
       "PLACEHOLDER": "Skriv valfri text för att söka efter meddelanden",
       "NO_MATCHING_RESULTS": "No results found."
