@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "جار تجزئة البيانات...",
       "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
       "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
