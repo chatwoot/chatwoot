@@ -47,11 +47,11 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+        "TEXT": "در انتظار",
+        "VALUE": "در انتظار"
       },
       {
-        "TEXT": "Snoozed",
+        "TEXT": "به تعویق افتاد",
         "VALUE": "snoozed"
       }
     ],
