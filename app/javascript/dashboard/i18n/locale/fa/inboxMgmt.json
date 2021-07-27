@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "متاسفانه Twilio اطلاعات ارائه شده را تایید نمی کند، لطفا اصلاح و مجددا تلاش کنید"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "کانال API",
         "DESC": "با کانال API ادغام شده و از مشتریان خود پشتیبانی کنید.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
       },
       "AUTH": {
-        "TITLE": "کانال‌ها",
-        "DESC": "در حال حاضر ما ابزارک‌های پشتیبانی آنلاین سایت‌ها، صفحات فیس‌بوک و پروفایل‌های توییتر را پشتیبانی می‌کنیم. پلتفرم‌های دیگری مثل واتس‌اپ، ایمیل، تلگرام و لاین در برنامه کاری ما قرار دارد و به زودی آماده خواهند شد."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "اپراتورها",

@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "No hem pogut autenticar les credencials de Twilio, prova de nou"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Canal de l'API",
         "DESC": "Integra’t amb el canal API i comença a donar suport als teus clients.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Comença a reenviar els teus correus electrònics a la següent adreça electrònica."
       },
       "AUTH": {
-        "TITLE": "Canals",
-        "DESC": "Actualment estan suportats widgets de xat en directe per a llocs web, pàgines de Facebook i perfils de Twitter. Estem treballant en més plataformes com Whatsapp, correu electrònic, Telegram i Line, que estaran disponibles en breu."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agents",
