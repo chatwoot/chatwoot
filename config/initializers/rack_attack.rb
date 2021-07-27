@@ -40,7 +40,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  throttle('req/ip', limit: 300, period: 5.minutes, &:ip)
+  throttle('req/ip', limit: 300, period: 1.minutes, &:ip)
 
   ### Prevent Brute-Force Login Attacks ###
   throttle('login/ip', limit: 5, period: 20.seconds) do |req|
@@ -48,12 +48,12 @@ class Rack::Attack
   end
 
   ## Prevent Brute-Force Signup Attacks ###
-  throttle('accounts/ip', limit: 5, period: 1.hour) do |req|
+  throttle('accounts/ip', limit: 5, period: 5.minutes) do |req|
     req.ip if req.path == '/api/v1/accounts' && req.post?
   end
 
   # ref: https://github.com/rack/rack-attack/issues/399
-  throttle('login/email', limit: 5, period: 20.seconds) do |req|
+  throttle('login/email', limit: 20, period: 5.minutes) do |req|
     email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
     email.to_s.downcase.gsub(/\s+/, '') if req.path == '/auth/sign_in' && req.post?
   end
@@ -68,3 +68,5 @@ end
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
   Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
 end
+
+Rack::Attack.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', false))
