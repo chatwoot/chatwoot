@@ -40,17 +40,17 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  # throttle('req/ip', limit: 300, period: 5.minutes, &:ip)
+  throttle('req/ip', limit: 300, period: 5.minutes, &:ip)
 
-  # ### Prevent Brute-Force Login Attacks ###
-  # throttle('login/ip', limit: 5, period: 20.seconds) do |req|
-  #   req.ip if req.path == '/auth/sign_in' && req.post?
-  # end
+  ### Prevent Brute-Force Login Attacks ###
+  throttle('login/ip', limit: 5, period: 20.seconds) do |req|
+    req.ip if req.path == '/auth/sign_in' && req.post?
+  end
 
-  ### Prevent Brute-Force Signup Attacks ###
-  # throttle('accounts/ip', limit: 5, period: 1.hour) do |req|
-  #   req.ip if req.path == '/api/v1/accounts' && req.post?
-  # end
+  ## Prevent Brute-Force Signup Attacks ###
+  throttle('accounts/ip', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path == '/api/v1/accounts' && req.post?
+  end
 
   # ref: https://github.com/rack/rack-attack/issues/399
   throttle('login/email', limit: 5, period: 20.seconds) do |req|
