@@ -177,11 +177,10 @@ export default {
         return true;
       }
 
-      const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
-
       if (this.hasAttachments) return false;
+
       return (
-        isMessageEmpty ||
+        this.isMessageEmpty ||
         this.message.length === 0 ||
         this.message.length > this.maxLength
       );
@@ -255,6 +254,12 @@ export default {
         } = {},
       } = selectedTweet;
       return screenName ? screenName.length : 0;
+    },
+    isMessageEmpty() {
+      if(!this.message) {
+        this.message = '';
+      }
+      return !this.message.trim().replace(/\n/g, '').length;
     },
   },
   watch: {
