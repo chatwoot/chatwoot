@@ -22,7 +22,6 @@ import Spinner from 'shared/components/Spinner.vue';
 import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
-import CampaignSender from './CampaignSender';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 import campaignMixin from 'shared/mixins/campaignMixin';

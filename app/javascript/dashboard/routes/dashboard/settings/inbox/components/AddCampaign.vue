@@ -146,7 +146,11 @@ import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 
 export default {
-  components: { WootDateTimePicker, WootMessageEditor },
+  components: {
+    WootDateTimePicker,
+    WootMessageEditor,
+  },
+
   mixins: [alertMixin, campaignMixin],
 
   props: {
