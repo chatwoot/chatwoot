@@ -130,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Nic"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
