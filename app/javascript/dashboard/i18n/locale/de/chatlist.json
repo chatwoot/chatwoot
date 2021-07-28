@@ -48,7 +48,7 @@
       },
       {
         "TEXT": "Ausstehend",
-        "VALUE": "ausstehend"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Erinnern",
