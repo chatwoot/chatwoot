@@ -130,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Keine"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "An",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Betreff"
   }
 }
