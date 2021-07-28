@@ -130,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Para",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
