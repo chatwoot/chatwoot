@@ -130,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Κανένα"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Προς",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
