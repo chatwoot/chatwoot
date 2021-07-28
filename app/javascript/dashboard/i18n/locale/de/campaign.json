@@ -94,7 +94,7 @@
       },
       "STATUS": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert",
+        "DISABLED": "Inaktiv",
         "COMPLETED": "Completed",
         "ACTIVE": "Active"
       },
