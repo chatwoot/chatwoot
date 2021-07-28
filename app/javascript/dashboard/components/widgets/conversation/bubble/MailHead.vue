@@ -5,16 +5,22 @@
     :class="{ 'is-incoming': isIncoming }"
   >
     <div v-if="toMails" class="meta-wrap">
-      <strong>TO:</strong>
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.TO') }}:</span>
       <span>{{ toMails }}</span>
     </div>
     <div v-if="ccMails" class="meta-wrap">
-      <strong>CC:</strong>
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.CC') }}:</span>
       <span>{{ ccMails }}</span>
     </div>
     <div v-if="bccMails" class="meta-wrap">
-      <strong>BCC:</strong>
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.BCC') }}:</span>
       <span>{{ bccMails }}</span>
+    </div>
+    <div v-if="subject" class="meta-wrap">
+      <span class="message__content--type">
+        {{ $t('EMAIL_HEADER.SUBJECT') }}:
+      </span>
+      <span>{{ subject }}</span>
     </div>
   </div>
 </template>
@@ -44,6 +50,9 @@ export default {
       const bcc = this.emailAttributes.bcc || [];
       return bcc.join(', ');
     },
+    subject() {
+      return this.emailAttributes.subject || '';
+    },
     showHead() {
       return this.toMails || this.ccMails || this.bccMails;
     },
@@ -62,8 +71,9 @@ export default {
 }
 
 .meta-wrap {
-  strong {
-    font-size: var(--font-size-micro);
+  .message__content--type {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-mini);
   }
   span {
     font-size: var(--font-size-mini);
