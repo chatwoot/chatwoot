@@ -197,10 +197,10 @@ export default {
     handleKeyEvents(e) {
       if (hasPressedShiftAndJKey(e)) {
         const allConversation = this.$refs.activeConversation.querySelectorAll(
-          'div.conversation'
+          'div.conversations-list div.conversation'
         );
         const activeConversation = this.$refs.activeConversation.querySelector(
-          'div.conversation.active'
+          'div.conversations-list div.conversation.active'
         );
         const activeConversationIndex = [...allConversation].indexOf(
           activeConversation
@@ -214,10 +214,10 @@ export default {
       }
       if (hasPressedShiftAndKKey(e)) {
         const allConversation = this.$refs.activeConversation.querySelectorAll(
-          'div.conversation'
+          'div.conversations-list div.conversation'
         );
         const activeConversation = this.$refs.activeConversation.querySelector(
-          'div.conversation.active'
+          'div.conversations-list div.conversation.active'
         );
         const activeConversationIndex = [...allConversation].indexOf(
           activeConversation

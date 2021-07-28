@@ -179,18 +179,19 @@ export default {
         this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
       }
       if (hasPressedCommandPlusShiftAndEKey(e)) {
-        this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-        const allConversation = document.querySelectorAll(
-          '.conversations-list .conversation'
-        );
-        const loadMoreConversation = document.querySelector(
-          '.conversations-list .button'
-        );
-        if (allConversation.length >= 1) {
-          allConversation[1].click();
-        } else {
-          loadMoreConversation.focus();
-        }
+        setTimeout(() => {
+          const allConversation = document.querySelectorAll(
+            '.conversations-list .conversation'
+          );
+          const loadMoreConversation = document.querySelector(
+            '.conversations-list .button'
+          );
+          if (allConversation.length >= 1) {
+            allConversation[0].click();
+          } else {
+            loadMoreConversation.focus();
+          }
+        }, 200);
       }
     },
     showOpenButton() {

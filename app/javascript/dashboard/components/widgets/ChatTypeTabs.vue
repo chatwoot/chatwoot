@@ -33,7 +33,7 @@ export default {
   methods: {
     handleKeyEvents(e) {
       if (hasPressedShiftAndNKey(e)) {
-        if (this.activeTabIndex === 2) {
+        if (this.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
           this.onTabChange(0);
         } else {
           this.onTabChange(this.activeTabIndex + 1);

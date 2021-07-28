@@ -73,3 +73,11 @@ export const hasPressedShiftAndKKey = e => {
 export const hasPressedShiftAndMKey = e => {
   return e.shiftKey && e.keyCode === 77;
 };
+
+export const hasPressedArrowUpKey = e => {
+  return e.keyCode === 38;
+};
+
+export const hasPressedArrowDownKey = e => {
+  return e.keyCode === 40;
+};
