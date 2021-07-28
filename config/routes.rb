@@ -220,6 +220,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :csat_survey, only: [:show, :update]
       end
     end
   end
