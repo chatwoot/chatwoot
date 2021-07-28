@@ -20,5 +20,10 @@ RSpec.describe TriggerScheduledItemsJob, type: :job do
       expect(Campaigns::TriggerOneoffCampaignJob).to receive(:perform_later).with(campaign).once
       described_class.perform_now
     end
+
+    it 'triggers  Conversations::ReopenSnoozedConversationsJob' do
+      expect(Conversations::ReopenSnoozedConversationsJob).to receive(:perform_later).once
+      described_class.perform_now
+    end
   end
 end

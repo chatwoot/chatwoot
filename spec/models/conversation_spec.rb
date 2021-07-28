@@ -181,13 +181,37 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe '#toggle_status' do
-    subject(:toggle_status) { conversation.toggle_status }
-
-    let(:conversation) { create(:conversation, status: :open) }
-
-    it 'toggles conversation status' do
-      expect(toggle_status).to eq(true)
+    it 'toggles conversation status to resolved when open' do
+      conversation = create(:conversation, status: 'open')
+      expect(conversation.toggle_status).to eq(true)
       expect(conversation.reload.status).to eq('resolved')
+    end
+
+    it 'toggles conversation status to open when resolved' do
+      conversation = create(:conversation, status: 'resolved')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'toggles conversation status to open when pending' do
+      conversation = create(:conversation, status: 'pending')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'toggles conversation status to open when snoozed' do
+      conversation = create(:conversation, status: 'snoozed')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+  end
+
+  describe '#ensure_snooze_until_reset' do
+    it 'resets the snoozed_until when status is toggled' do
+      conversation = create(:conversation, status: 'snoozed', snoozed_until: 2.days.from_now)
+      expect(conversation.snoozed_until).not_to eq nil
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.snoozed_until).to eq(nil)
     end
   end
 

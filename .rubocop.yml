@@ -29,7 +29,8 @@ Style/OptionalBooleanParameter:
     - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
   Exclude:
-    - 'config/initializers/redis.rb'
+    - 'config/initializers/01_redis.rb'
+    - 'config/initializers/rack_attack.rb'
     - 'lib/redis/alfred.rb'
     - 'lib/global_config.rb'
 Style/ClassVars:
