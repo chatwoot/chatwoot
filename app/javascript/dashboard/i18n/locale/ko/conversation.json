@@ -130,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "없음"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
