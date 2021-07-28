@@ -219,7 +219,7 @@ Rails.application.routes.draw do
             end
           end
         end
-        resources :csat_service, only: [:show, :update]
+        resources :csat_survey, only: [:show, :update]
       end
     end
   end
