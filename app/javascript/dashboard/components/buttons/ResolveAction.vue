@@ -171,27 +171,24 @@ export default {
     },
   },
   methods: {
-    handleKeyEvents(e) {
+    async handleKeyEvents(e) {
+      const allConversation = document.querySelectorAll(
+        '.conversations-list .conversation'
+      );
       if (hasPressedShiftAndMKey(e)) {
         this.$refs.arrowDownButton.$el.click();
       }
       if (hasPressedShiftAndEKey(e)) {
-        this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-      }
-      if (hasPressedCommandPlusShiftAndEKey(e)) {
-        setTimeout(() => {
-          const allConversation = document.querySelectorAll(
-            '.conversations-list .conversation'
-          );
-          const loadMoreConversation = document.querySelector(
-            '.conversations-list .button'
-          );
-          if (allConversation.length >= 1) {
-            allConversation[0].click();
-          } else {
-            loadMoreConversation.focus();
+        await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+        if (allConversation.length >= 2) {
+          if (hasPressedCommandPlusShiftAndEKey(e)) {
+            setTimeout(() => {
+              if (allConversation.length >= 1) {
+                allConversation[1].click();
+              }
+            }, 160);
           }
-        }, 200);
+        }
       }
     },
     showOpenButton() {
