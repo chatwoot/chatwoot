@@ -176,7 +176,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
+      const isMessageEmpty = this.isMessageEmpty;
 
       if (this.hasAttachments) return false;
       return (
@@ -241,6 +241,12 @@ export default {
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
+    },
+    isMessageEmpty() {
+      if(!this.message) {
+        this.message = '';
+      }
+      return !this.message.trim().replace(/\n/g, '').length;
     },
   },
   watch: {
