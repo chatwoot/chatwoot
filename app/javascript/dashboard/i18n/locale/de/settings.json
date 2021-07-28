@@ -98,7 +98,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Wechseln",
+    "CHANGE_AVAILABILITY_STATUS": "Ändern",
     "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
