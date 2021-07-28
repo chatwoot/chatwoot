@@ -33,7 +33,7 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Label in der Seitenleiste anzeigen"
       },
-      "EDIT": "Bearbeiten",
+      "EDIT": "Speichern",
       "CREATE": "Erstellen",
       "DELETE": "Löschen",
       "CANCEL": "Abbrechen"
