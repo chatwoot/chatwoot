@@ -133,8 +133,8 @@
   },
   "EMAIL_HEADER": {
     "TO": "Para",
-    "BCC": "Bcc",
+    "BCC": "CCO",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Assunto"
   }
 }
