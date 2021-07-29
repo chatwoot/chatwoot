@@ -139,8 +139,17 @@ export default {
     value(newValue = '') {
       if (newValue !== this.lastValue) {
         const { tr } = this.state;
-        tr.insertText(newValue, 0, tr.doc.content.size);
-        this.state = this.view.state.apply(tr);
+        if (this.isFormatMode) {
+          this.state = createState(
+            newValue,
+            this.placeholder,
+            this.plugins,
+            this.isFormatMode
+          );
+        } else {
+          tr.insertText(newValue, 0, tr.doc.content.size);
+          this.state = this.view.state.apply(tr);
+        }
         this.view.updateState(this.state);
       }
     },
