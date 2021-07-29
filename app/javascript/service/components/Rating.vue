@@ -1,6 +1,6 @@
 <template>
   <div class="customer-satisfcation">
-    <div class="ratings flex justify-between py-5 px-0">
+    <div class="ratings flex py-5 px-0">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -42,7 +42,7 @@ export default {
         { selected: rating.value === this.selectedRating },
         { disabled: this.isRatingSubmitted },
         { hover: this.isRatingSubmitted },
-        'emoji-button shadow-none text-4xl outline-none',
+        'emoji-button shadow-none text-4xl outline-none mr-8',
       ];
     },
     selectRating(rating) {
@@ -61,6 +61,7 @@ export default {
   &:active {
     filter: grayscale(0%);
     transform: scale(1.32);
+    transition: all 300ms;
   }
 
   &.disabled {

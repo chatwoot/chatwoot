@@ -5,17 +5,19 @@
     <div class="flex flex-1 overflow-auto">
       <div class="max-w-screen-sm w-full my-0 m-auto p-8">
         <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
-        <div class="text-black-800 text-sm leading-5 pt-5">
+        <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
           {{ $t('SURVEY.DESCRIPTION') }}
-        </div>
-        <div class="text-xs font-medium text-black-800 pt-5">
+        </p>
+        <label class="text-base font-medium text-black-800">
           {{ $t('SURVEY.RATING.LABEL') }}
-        </div>
+        </label>
         <rating />
+        <label class="text-base font-medium text-black-800">
+          {{ $t('SURVEY.FEEDBACK.LABEL') }}
+        </label>
         <text-area
           v-model="message"
           class="my-5"
-          :label="$t('SURVEY.FEEDBACK.LABEL')"
           :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
         />
         <custom-button class="font-medium float-right">
