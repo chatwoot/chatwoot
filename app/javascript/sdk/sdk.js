@@ -126,6 +126,19 @@ export const SDK_CSS = `.woot-widget-holder {
     top: 0;
     width: 100%;
  }
+
+ .woot-widget-holder.has-unread-view {
+    height: auto;
+    right: 0;
+    top: auto;
+    width: auto;
+    bottom: 0;
+  }
+ .woot-widget-holder.has-unread-view.woot-elements--left {
+    left: 0;
+    padding: 0 8px;
+  }
+  
   .woot-widget-bubble.woot--close {
     bottom: 60px;
     opacity: 0;
