@@ -1,5 +1,9 @@
 <template>
-  <div v-on-clickaway="onCloseDropdown" class="selector-wrap">
+  <div
+    v-on-clickaway="onCloseDropdown"
+    class="selector-wrap"
+    @keyup.esc="onCloseDropdown"
+  >
     <woot-button
       variant="hollow"
       color-scheme="secondary"
