@@ -256,8 +256,8 @@ export default {
       return screenName ? screenName.length : 0;
     },
     isMessageEmpty() {
-      if(!this.message) {
-        this.message = '';
+      if (!this.message) {
+        return true;
       }
       return !this.message.trim().replace(/\n/g, '').length;
     },
