@@ -18,9 +18,7 @@ class MessageApi extends ApiClient {
     let payload;
     if (file) {
       payload = new FormData();
-      if (file) {
-        payload.append('attachments[]', file, file.name);
-      }
+      payload.append('attachments[]', file, file.name);
       if (message) {
         payload.append('content', message);
       }
