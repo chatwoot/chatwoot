@@ -29,7 +29,7 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
   end
 
   def screen_name
-    return "@#{message.inbox.name}" if message.outgoing?
+    return "@#{reply_to_message.inbox.name}" if reply_to_message.outgoing?
 
     "@#{reply_to_message.sender&.additional_attributes.try(:[], 'screen_name') || ''}"
   end
