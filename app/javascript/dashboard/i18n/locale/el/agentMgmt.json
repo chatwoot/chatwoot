@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Κανένα",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Δεν βρέθηκαν Πράκτορες",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }
