@@ -21,7 +21,8 @@ class Account < ApplicationRecord
   include Featurable
 
   DEFAULT_QUERY_SETTING = {
-    flag_query_mode: :bit_operator
+    flag_query_mode: :bit_operator,
+    check_for_column: false
   }.freeze
 
   ACCOUNT_SETTINGS_FLAGS = {
