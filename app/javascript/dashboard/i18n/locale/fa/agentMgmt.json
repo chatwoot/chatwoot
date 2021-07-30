@@ -93,19 +93,19 @@
       "NO_RESULTS": "نتیجه‌ای یافت نشد."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "هیچکدام",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "انتخاب اپراتور",
+        "TEAM": "انتخاب تیم"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "اپراتوری یافت نشد",
-          "TEAM": "No teams found"
+          "TEAM": "اپراتوری یافت نشد"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "جستجوی اپراتور",
+          "TEAM": "جستجوی تیم"
         }
       }
     }
