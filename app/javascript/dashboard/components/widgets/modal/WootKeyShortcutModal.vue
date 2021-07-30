@@ -27,7 +27,7 @@
               </h6>
 
               <div class="shortcut-key__wrap">
-                <div class="keys">
+                <div class="open-conversation__key">
                   <span class="shortcut-key">
                     Shift
                   </span>
@@ -55,7 +55,7 @@
                   Shift
                 </span>
                 <span class="shortcut-key key">
-                  M
+                  E
                 </span>
               </div>
             </div>
@@ -281,6 +281,13 @@ export default {};
   font-size: var(--font-size-big);
 }
 
+.shortcut-key__wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-small);
+  margin-left: var(--space-small);
+}
+
 .shortcut__wrap {
   align-content: flex-start;
   display: flex;
@@ -289,11 +296,14 @@ export default {};
   margin-top: var(--space-two);
 }
 
-.shortcut-key__wrap {
+.left {
+  margin-right: var(--space-large);
+}
+
+.text-key {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-small);
-  margin-left: var(--space-small);
 }
 
 .shortcut-key {
@@ -320,17 +330,8 @@ export default {};
   margin-right: 0;
 }
 
-.keys {
+.open-conversation__key {
   display: flex;
   margin-right: var(--space-small);
-}
-
-.text-key {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.left {
-  margin-right: var(--space-large);
 }
 </style>
