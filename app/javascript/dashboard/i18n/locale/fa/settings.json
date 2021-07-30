@@ -14,7 +14,7 @@
       "UPDATE_IMAGE": "تغییر عکس",
       "PROFILE_SECTION": {
         "TITLE": "پروفایل",
-        "NOTE": "ایمیل عامل شناسایی شما برای ورود به سیستم است"
+        "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
       },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
@@ -26,11 +26,11 @@
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "اعلان های صوتی",
+        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "NONE": "هیچکدام",
+        "ASSIGNED": "مکالمات اختصاص داده شده",
+        "ALL_CONVERSATIONS": "همه مکالمات"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "رمز عبور فعلی",
+        "ERROR": "لطفاً رمز عبور فعلی را وارد کنید",
+        "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -133,19 +133,19 @@
     "CONTACTS": "مخاطبین",
     "SETTINGS": "تنظیمات",
     "HOME": "صفحه اصلی",
-    "AGENTS": "اپراتورها",
+    "AGENTS": "ایجنت ها",
     "INBOXES": "صندوق‌های ورودی",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
     "TEAMS": "تیم‌ها",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "ALL_CONTACTS": "تمام مخاطبین",
+    "TAGGED_WITH": "برچسب گذاری شده با",
+    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "CSAT": "رضایت مشتری"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب‌کاربری جدید",
