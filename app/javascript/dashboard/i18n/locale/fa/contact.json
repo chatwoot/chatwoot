@@ -181,57 +181,57 @@
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "یادداشت",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "رویدادها",
       "PILL_BUTTON_CONVO": "گفتگوها"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "ویژگی‌های سفارشی",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "اضافه کردن ویژگی سفارشی",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "ساخت ویژگی سفارشی",
+      "DESC": "اطلاعات سفارشی مخاطب را اضافه کنید."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "افزودن ویژگی",
       "CANCEL": "انصراف",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "نام ویژگی سفارشی",
+        "PLACEHOLDER": "به عنوان مثال: شناسه shopify",
+        "ERROR": "نام ویژگی سفارشی نامعتبر است"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "مقدار ویژگی",
+        "PLACEHOLDER": "مثال: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "ادغام مخاطبین",
+    "DESCRIPTION": "ادغام مخاطب زمانی مفید است که نوشته های یک مخاطب تکراری داشته باشید. ادغام مستلزم یک تماس اولیه و یک تماس ثانویه است. پس از ادغام ، تمام جزئیات در مخاطب اصلی یکسان می مانند. اگر مخاطب اصلی فیلدی ندارد ، پس از ادغام از مقدار مخاطب ثانویه استفاده می شود، در صورت بروز ناسازگاری فیلدهای موجود در مخاطب اصلی بدون تغییر باقی می مانند ، اما زمینه های ثانویه در ویژگی های سفارشی در مخاطب اصلی کپی می شوند.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "مخاطب اصلی"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "ادغام مخاطب",
+      "PLACEHOLDER": "انتخاب مخاطب"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "خلاصه",
+      "DELETE_WARNING": "مخاطب <strong>%{childContactName}</strong> پاک خواهد شد.",
+      "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> کپی شود به <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " ادغام مخاطبین",
       "CANCEL": "انصراف",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "برای ادغام مخاطب ثانویه را انتخاب کنید"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
+      "ERROR_MESSAGE": "مخاطب ادغام نشد، دوباره امتحان کنید!"
     }
   }
 }
