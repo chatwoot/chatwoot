@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
-      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí."
+      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identifier_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
