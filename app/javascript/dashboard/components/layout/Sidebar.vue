@@ -50,9 +50,15 @@
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
         @show-support-chat-window="toggleSupportChatWindow"
+        @key-shortcut-modal="toggleKeyShortcutModal"
         @close="toggleOptions"
       />
     </div>
+
+    <woot-key-shortcut-modal
+      v-if="showShortcutModal"
+      @close="closeKeyShortcutModal"
+    />
 
     <account-selector
       :show-account-modal="showAccountModal"
@@ -86,6 +92,8 @@ import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
+import wootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
+import { hasPressedCommandAndForwardslash } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -97,6 +105,7 @@ export default {
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
+    wootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin],
   data() {
@@ -105,6 +114,7 @@ export default {
       showAccountModal: false,
       showCreateAccountModal: false,
       showAddLabelModal: false,
+      showShortcutModal: false,
     };
   },
 
@@ -253,8 +263,24 @@ export default {
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.setChatwootUser();
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
+
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleKeyShortcutModal() {
+      this.showShortcutModal = !this.showShortcutModal;
+    },
+    closeKeyShortcutModal() {
+      this.showShortcutModal = false;
+    },
+    handleKeyEvents(e) {
+      if (hasPressedCommandAndForwardslash(e)) {
+        this.toggleKeyShortcutModal();
+      }
+    },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },

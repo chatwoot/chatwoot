@@ -9,3 +9,7 @@ export const isEscape = e => {
 export const hasPressedShift = e => {
   return e.shiftKey;
 };
+
+export const hasPressedCommandAndForwardslash = e => {
+  return e.metaKey && e.keyCode === 191;
+};
