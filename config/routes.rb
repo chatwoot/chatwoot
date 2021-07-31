@@ -87,7 +87,12 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
             end
           end
-          resources :csat_survey_responses, only: [:index]
+          resources :csat_survey_responses, only: [:index] do
+            collection do
+              get :metrics
+            end
+          end
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
@@ -148,6 +153,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create]
 
       namespace :widget do
+        resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
@@ -214,6 +220,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :csat_survey, only: [:show, :update]
       end
     end
   end

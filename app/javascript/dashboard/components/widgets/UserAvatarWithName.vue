@@ -1,36 +1,37 @@
 <template>
   <div class="row--user-block">
-    <Thumbnail
-      :src="sender.thumbnail"
-      size="20px"
-      :username="sender.name"
-      :status="sender.availability_status"
+    <thumbnail
+      :src="user.thumbnail"
+      :size="size"
+      :username="user.name"
+      :status="user.availability_status"
     />
-    <div>
-      <h6 class="text-block-title text-truncate">
-        {{ sender.name }}
-      </h6>
-    </div>
+    <h6 class="text-block-title text-truncate text-capitalize">
+      {{ user.name }}
+    </h6>
   </div>
 </template>
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
 export default {
   components: {
     Thumbnail,
   },
   props: {
-    sender: {
+    user: {
       type: Object,
       default: () => {},
+    },
+    size: {
+      type: String,
+      default: '20px',
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
-
 .row--user-block {
   align-items: center;
   display: flex;
