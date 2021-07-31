@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/reauthorizable_spec.rb'
+require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::FacebookPage do
   let(:channel) { create(:channel_facebook_page) }
