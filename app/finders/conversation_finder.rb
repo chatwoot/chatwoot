@@ -114,13 +114,13 @@ class ConversationFinder
   end
 
   def current_page
-    params[:page]
+    params[:page] || 1
   end
 
   def conversations
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
-    current_page ? @conversations.latest.page(current_page) : @conversations.latest
+    @conversations.latest.page(current_page)
   end
 end
