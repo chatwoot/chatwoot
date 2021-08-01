@@ -2,6 +2,33 @@
 /* global axios */
 import ApiClient from '../ApiClient';
 
+export const buildCreatePayload = ({
+  message,
+  isPrivate,
+  contentAttributes,
+  echoId,
+  file,
+}) => {
+  let payload;
+  if (file) {
+    payload = new FormData();
+    payload.append('attachments[]', file, file.name);
+    if (message) {
+      payload.append('content', message);
+    }
+    payload.append('private', isPrivate);
+    payload.append('echo_id', echoId);
+  } else {
+    payload = {
+      content: message,
+      private: isPrivate,
+      echo_id: echoId,
+      content_attributes: contentAttributes,
+    };
+  }
+  return payload;
+};
+
 class MessageApi extends ApiClient {
   constructor() {
     super('conversations', { accountScoped: true });
@@ -15,28 +42,16 @@ class MessageApi extends ApiClient {
     echo_id: echoId,
     file,
   }) {
-    let payload;
-    if (file) {
-      payload = new FormData();
-      payload.append('attachments[]', file, file.name);
-      if (message) {
-        payload.append('content', message);
-      }
-      payload.append('private', isPrivate);
-      payload.append('echo_id', echoId);
-    } else {
-      payload = {
-        content: message,
-        private: isPrivate,
-        echo_id: echoId,
-        content_attributes: contentAttributes,
-      };
-    }
-
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
-      data: payload,
+      data: buildCreatePayload({
+        message,
+        isPrivate,
+        contentAttributes,
+        echoId,
+        file,
+      }),
     });
   }
 
