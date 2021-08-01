@@ -1,0 +1,93 @@
+get:
+  tags:
+    - Conversation
+  operationId: conversationSearch
+  description: Search for conversations containing a messages with the query string
+  summary: Conversations Search
+  parameters:
+    - name: q
+      in: query
+      type: string
+    - name: assignee_type
+      in: query
+      type: string
+      enum: ['me', 'unassigned', 'all', 'assigned']
+    - name: status
+      in: query
+      type: string
+      enum: ['open', 'resolved', 'pending']
+    - name: page
+      in: query
+      type: integer
+    - name: inbox_id
+      in: query
+      type: integer
+    - name: labels
+      in: query
+      type: array
+      items:
+        type: string
+    - $ref: '#/parameters/account_id'
+
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+    description: Access denied
+
+
+post:
+  tags:
+    - Conversation
+  operationId: newConversation
+  summary: Create New Conversation
+  description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations"
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: data
+      in: body
+      required: true
+      schema:
+        type: object
+        properties:
+          source_id:
+            $ref: '#/parameters/source_id'
+          inbox_id:
+            type: string
+            description: "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
+          contact_id:
+            type: string
+            description: Contact Id for which conversation is created
+          additional_attributes:
+            type: object
+            description: Lets you specify attributes like browser information
+          status:
+            type: string
+            enum: ['open', 'resolved', 'pending']
+            description: Specify the conversation whether it's pending, open, closed
+
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        properties:
+          id:
+            type: number
+            description: ID of the conversation
+          account_id:
+            type: number
+            description: Account Id
+          inbox_id:
+            type: number
+            description: ID of the inbox
+    403:
+      description: Access denied

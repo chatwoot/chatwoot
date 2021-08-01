@@ -8,21 +8,6 @@ jest.mock('widget/helpers/axios');
 const commit = jest.fn();
 
 describe('#actions', () => {
-  describe('#addMessage', () => {
-    it('sends correct mutations', () => {
-      actions.addMessage({ commit }, { id: 1 });
-      expect(commit).toBeCalledWith('pushMessageToConversation', { id: 1 });
-    });
-
-    it('plays audio when agent sends a message', () => {
-      actions.addMessage({ commit }, { id: 1, message_type: 1 });
-      expect(commit).toBeCalledWith('pushMessageToConversation', {
-        id: 1,
-        message_type: 1,
-      });
-    });
-  });
-
   describe('#createConversation', () => {
     it('sends correct mutations', async () => {
       API.post.mockResolvedValue({
@@ -60,10 +45,40 @@ describe('#actions', () => {
     });
   });
 
-  describe('#updateMessage', () => {
-    it('sends correct mutations', () => {
-      actions.updateMessage({ commit }, { id: 1 });
-      expect(commit).toBeCalledWith('pushMessageToConversation', { id: 1 });
+  describe('#addOrUpdateMessage', () => {
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: {},
+        }
+      );
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 1,
+        content: 'Hey',
+        content_attributes: {},
+      });
+    });
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: { deleted: true },
+        }
+      );
+      expect(commit).toBeCalledWith('deleteMessage', 1);
+    });
+
+    it('plays audio when agent sends a message', () => {
+      actions.addOrUpdateMessage({ commit }, { id: 1, message_type: 1 });
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 1,
+        message_type: 1,
+      });
     });
   });
 
@@ -158,6 +173,40 @@ describe('#actions', () => {
     it('sends correct mutations', () => {
       actions.clearConversations({ commit });
       expect(commit).toBeCalledWith('clearConversations');
+    });
+  });
+
+  describe('#fetchOldConversations', () => {
+    it('sends correct actions', async () => {
+      API.get.mockResolvedValue({
+        data: [
+          {
+            id: 1,
+            text: 'hey',
+            content_attributes: {},
+          },
+          {
+            id: 2,
+            text: 'welcome',
+            content_attributes: { deleted: true },
+          },
+        ],
+      });
+      await actions.fetchOldConversations({ commit }, {});
+      expect(commit.mock.calls).toEqual([
+        ['setConversationListLoading', true],
+        [
+          'setMessagesInConversation',
+          [
+            {
+              id: 1,
+              text: 'hey',
+              content_attributes: {},
+            },
+          ],
+        ],
+        ['setConversationListLoading', false],
+      ]);
     });
   });
 });

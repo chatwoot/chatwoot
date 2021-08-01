@@ -13,6 +13,7 @@ Metrics/ClassLength:
     - 'app/models/conversation.rb'
     - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
+    - 'app/builders/messages/facebook/message_builder.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -29,7 +30,8 @@ Style/OptionalBooleanParameter:
     - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
   Exclude:
-    - 'config/initializers/redis.rb'
+    - 'config/initializers/01_redis.rb'
+    - 'config/initializers/rack_attack.rb'
     - 'lib/redis/alfred.rb'
     - 'lib/global_config.rb'
 Style/ClassVars:

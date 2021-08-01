@@ -18,13 +18,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageCreated = data => {
-    this.app.$store.dispatch('conversation/addMessage', data).then(() => {
-      window.bus.$emit('on-agent-message-recieved');
-    });
+    this.app.$store
+      .dispatch('conversation/addOrUpdateMessage', data)
+      .then(() => {
+        window.bus.$emit('on-agent-message-recieved');
+      });
   };
 
   onMessageUpdated = data => {
-    this.app.$store.dispatch('conversation/updateMessage', data);
+    this.app.$store.dispatch('conversation/addOrUpdateMessage', data);
   };
 
   onPresenceUpdate = data => {

@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Non siamo stati in grado di autenticare le credenziali di Twilio, riprova"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
-        "TITLE": "Canali",
-        "DESC": "Attualmente supportiamo come piattaforme i widget della chat dal vivo del sito, le pagine Facebook e Twitter. Abbiamo più piattaforme come Whatsapp, Email, Telegram e Line nei lavori, che saranno disponibili a breve."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -216,6 +224,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
       }
     },
     "DELETE": {
@@ -255,11 +267,13 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",

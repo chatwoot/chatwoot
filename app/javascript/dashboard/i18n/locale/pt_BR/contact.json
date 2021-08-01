@@ -131,6 +131,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contato",
+    "FIELDS": "Campos de contatos",
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "LIST": {
@@ -203,6 +204,34 @@
         "LABEL": "Valor do atributo",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Mesclar contatos",
+    "DESCRIPTION": "Mesclar contatos é útil quando se tem entradas duplicadas de um mesmo contato. Essa ação trata um contato como primário e outro como derivado/secundário/filho. Após mesclar, todos os detalhes do contato primário serão preservados. Se o contato primário não tiver um dos campo listados, será utilizado o valor do campo do contato derivado. Se ocorrem conflitos, os campos do contato primário serão mantidos, e a as diferenças serão copiadas para campos personalizados.",
+    "PRIMARY": {
+      "TITLE": "Contato principal"
+    },
+    "CHILD": {
+      "TITLE": "Contato para mesclar",
+      "PLACEHOLDER": "Selecione um contato"
+    },
+    "SUMMARY": {
+      "TITLE": "Sumário",
+      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong>será excluído.",
+      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "Mensagem de erro"
+    },
+    "FORM": {
+      "SUBMIT": " Mesclar contatos",
+      "CANCEL": "Cancelar",
+      "CHILD_CONTACT": {
+        "ERROR": "Selecione um contato filho para mesclar"
+      },
+      "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
     }
   }
 }

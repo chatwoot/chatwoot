@@ -18,6 +18,7 @@
     "IN_A_DAY": "通常在一天之内回复您"
   },
   "START_CONVERSATION": "开始会话",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
@@ -61,5 +62,10 @@
     "TITLE": "评价您的对话",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "请告诉我们更多..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "出现错误，请重试"
   }
 }

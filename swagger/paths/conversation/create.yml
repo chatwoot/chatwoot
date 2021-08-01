@@ -1,0 +1,41 @@
+get:
+  tags:
+    - Conversation
+  operationId: conversationList
+  description: List all the conversations with pagination
+  summary: Conversations List
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: assignee_type
+      in: query
+      type: string
+      enum: ['me', 'unassigned', 'all', 'assigned']
+      required: true
+    - name: status
+      in: query
+      type: string
+      enum: ['open', 'resolved', 'pending']
+      required: true
+    - name: page
+      in: query
+      type: integer
+      required: true
+    - name: inbox_id
+      in: query
+      type: integer
+    - name: labels
+      in: query
+      type: array
+      items:
+        type: string
+
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+    description: Access denied

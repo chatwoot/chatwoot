@@ -18,7 +18,7 @@
         :disabled="$v.email.$invalid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!uiFlags.isUpdating" class="ion-ios-arrow-forward" />
+        <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
         <spinner v-else />
       </button>
     </form>
@@ -47,11 +47,11 @@ export default {
   data() {
     return {
       email: '',
+      isUpdating: false,
     };
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'message/getUIFlags',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     hasSubmitted() {
@@ -68,15 +68,21 @@ export default {
     },
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if (this.$v.$invalid) {
         return;
       }
-
-      this.$store.dispatch('message/update', {
-        email: this.email,
-        messageId: this.messageId,
-      });
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('message/update', {
+          email: this.email,
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
     },
   },
 };

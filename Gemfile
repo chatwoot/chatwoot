@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.3'
+ruby '3.0.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -33,6 +33,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# Rack middleware for blocking & throttling abusive requests
+gem 'rack-attack'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -45,7 +47,6 @@ gem 'groupdate'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
-gem 'redis-rack-cache'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
@@ -53,6 +54,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
+gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'

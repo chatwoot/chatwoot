@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "Nem tudtuk hitelesíteni a Twilio fiókodat, kérjük próbáld később"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API csatorna",
         "DESC": "API-val integrálj és láss neki az ügyfeleid támogatásának.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "Kezdd el továbbítani az e-maileket a következő e-mail címekre."
       },
       "AUTH": {
-        "TITLE": "Csatornák",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Ügynökök",
@@ -216,6 +224,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva"
       }
     },
     "DELETE": {
@@ -255,11 +267,13 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
       "HMAC_VERIFICATION": "Felhasználói fiók validálás",
-      "HMAC_DESCRIPTION": "A felhasználói fiók ellenőrzése céljából az SDK lehetőséget ad egy 'identity_hash' kódra minden felhasználónak. Ezt HMAC-al tudod generálni 'sha256'-t használva, az itt látható kóddal."
+      "HMAC_DESCRIPTION": "A felhasználói fiók ellenőrzése céljából az SDK lehetőséget ad egy 'identifier_hash' kódra minden felhasználónak. Ezt HMAC-al tudod generálni 'sha256'-t használva, az itt látható kóddal."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Újraengedélyezés",

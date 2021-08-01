@@ -27,6 +27,8 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "下载",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -54,7 +56,8 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "ENTER_TO_SEND": "Enter to send",
+      "DRAG_DROP": "Drag and drop here to attach"
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
     "CHANGE_STATUS": "对话状态已更改",
@@ -66,6 +69,10 @@
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "删除",
       "ASSIGN": "Assign"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "复制",
+      "DELETE": "删除"
     }
   },
   "EMAIL_TRANSCRIPT": {
