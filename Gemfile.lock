@@ -250,6 +250,7 @@ GEM
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
     google-protobuf (3.17.3-universal-darwin)
+    google-protobuf (3.17.3-x86_64-linux)
     googleapis-common-protos (1.3.11)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (>= 1.0.6, < 2.0)
@@ -266,6 +267,9 @@ GEM
     groupdate (5.2.2)
       activesupport (>= 5)
     grpc (1.38.0-universal-darwin)
+      google-protobuf (~> 3.15)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.38.0-x86_64-linux)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
@@ -355,6 +359,8 @@ GEM
     netrc (0.11.0)
     nio4r (2.5.7)
     nokogiri (1.11.7-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.11.7-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.6)
     orm_adapter (0.5.0)
@@ -614,6 +620,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   active_record_query_trace
