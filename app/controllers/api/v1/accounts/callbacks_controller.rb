@@ -99,7 +99,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       end
       pic_url = response.base_uri.to_s
     rescue StandardError => e
-      Rails.logger.debug "Rescued: #{e.inspect}"
+      Rails.logger.debug { "Rescued: #{e.inspect}" }
       pic_url = nil
     end
     pic_url
