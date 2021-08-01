@@ -481,11 +481,6 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.16.0)
       sexp_processor (~> 4.15, >= 4.15.1)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -496,8 +491,6 @@ GEM
       tilt
     scout_apm (4.1.1)
       parser
-    scss_lint (0.59.0)
-      sass (~> 3.5, >= 3.5.5)
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -690,7 +683,6 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   scout_apm
-  scss_lint
   seed_dump
   sentry-rails
   sentry-ruby
@@ -721,4 +713,4 @@ RUBY VERSION
    ruby 3.0.2p107
 
 BUNDLED WITH
-   2.2.22
+   2.2.25
