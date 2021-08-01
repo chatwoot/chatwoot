@@ -146,7 +146,7 @@ group :development, :test do
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

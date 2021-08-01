@@ -684,7 +684,7 @@ DEPENDENCIES
   redis-namespace
   responders
   rest-client
-  rspec-rails
+  rspec-rails (~> 5.0.0)
   rubocop
   rubocop-performance
   rubocop-rails
