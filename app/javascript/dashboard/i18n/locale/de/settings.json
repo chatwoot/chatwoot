@@ -98,7 +98,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Wechseln",
+    "CHANGE_AVAILABILITY_STATUS": "Ändern",
     "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
@@ -118,7 +118,7 @@
       "UPLOADING": "Wird hochgeladen..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Einreichen"
+      "SUBMIT": "Abschicken"
     }
   },
   "CONFIRM_EMAIL": "Überprüft...",
@@ -142,12 +142,13 @@
     "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
     "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "ALL_CONTACTS": "Alle Kontakte",
+    "TAGGED_WITH": "Markiert mit",
+    "REPORTS_OVERVIEW": "Übersicht",
     "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Neuer Account",
     "SELECTOR_SUBTITLE": "Neuen Account erstellen",
     "API": {
@@ -160,7 +161,7 @@
         "LABEL": "Kontobezeichnung",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Einreichen"
+      "SUBMIT": "Abschicken"
     }
   }
 }
