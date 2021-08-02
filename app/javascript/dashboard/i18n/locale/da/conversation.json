@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
     "SEARCH": {
       "TITLE": "Søg efter beskeder",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Behandler data...",
       "PLACEHOLDER": "Skriv tekst for at søge i beskeder",
       "NO_MATCHING_RESULTS": "No results found."
@@ -41,7 +42,13 @@
       "DETAILS": "detaljer"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
