@@ -18,7 +18,7 @@
     "ADD": {
       "TITLE": "Vorgefertigte Antwort hinzufügen",
       "DESC": "Gespeicherte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell Antworten auf Konversationen gesendet werden können.",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Funktionscode",
@@ -39,7 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Vorgefertigte Antwort bearbeiten",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Funktionscode",
