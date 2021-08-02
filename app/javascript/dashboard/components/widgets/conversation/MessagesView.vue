@@ -234,7 +234,7 @@ export default {
 
   created() {
     bus.$on('scrollToMessage', () => {
-      setTimeout(() => this.scrollToBottom(), 0);
+      this.$nextTick(() => this.scrollToBottom());
       this.makeMessagesRead();
     });
 
@@ -256,7 +256,7 @@ export default {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
       this.conversationPanel.addEventListener('scroll', this.handleScroll);
-      this.scrollToBottom();
+      this.$nextTick(() => this.scrollToBottom());
       this.isLoadingPrevious = false;
     },
     removeScrollListener() {
