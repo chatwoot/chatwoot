@@ -182,11 +182,9 @@ export default {
         await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
         if (allConversation.length >= 2) {
           if (hasPressedCommandPlusShiftAndEKey(e)) {
-            setTimeout(() => {
-              if (allConversation.length >= 1) {
-                allConversation[1].click();
-              }
-            }, 160);
+            if (allConversation.length >= 1) {
+              allConversation[1].click();
+            }
           }
         }
       }
