@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
-    "LAST_INCOMING_TWEET": "마지막 수신 트윗에 회신하는 경우",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
