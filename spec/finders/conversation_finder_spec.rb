@@ -26,7 +26,7 @@ describe ::ConversationFinder do
 
       it 'filter conversations by status' do
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 2
+        expect(result[:conversations].length).to be 2
       end
     end
 
@@ -35,7 +35,7 @@ describe ::ConversationFinder do
 
       it 'filter conversations by assignee type all' do
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 4
+        expect(result[:conversations].length).to be 4
       end
     end
 
@@ -44,7 +44,7 @@ describe ::ConversationFinder do
 
       it 'filter conversations by assignee type unassigned' do
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 1
+        expect(result[:conversations].length).to be 1
       end
     end
 
@@ -53,7 +53,7 @@ describe ::ConversationFinder do
 
       it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 3
+        expect(result[:conversations].length).to be 3
       end
 
       it 'returns the correct meta' do
@@ -74,7 +74,7 @@ describe ::ConversationFinder do
       it 'filter conversations by team' do
         create(:conversation, account: account, inbox: inbox, team: team)
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 1
+        expect(result[:conversations].length).to be 1
       end
     end
 
@@ -86,7 +86,7 @@ describe ::ConversationFinder do
         conversation.update_labels('resolved')
 
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 1
+        expect(result[:conversations].length).to be 1
       end
     end
 
@@ -96,7 +96,7 @@ describe ::ConversationFinder do
       it 'returns paginated conversations' do
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1)
         result = conversation_finder.perform
-        expect(result[:conversations].count).to be 25
+        expect(result[:conversations].length).to be 25
       end
     end
   end
