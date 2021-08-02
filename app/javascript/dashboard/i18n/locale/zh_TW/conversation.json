@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "SEARCH": {
       "TITLE": "搜尋訊息",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "輸入任何文字以搜尋訊息",
       "NO_MATCHING_RESULTS": "查無結果。"
@@ -41,7 +42,13 @@
       "DETAILS": "詳情"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "使用 bot 開啟"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "無"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
