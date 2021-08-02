@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
     "SEARCH": {
       "TITLE": "Αναζήτηση μηνυμάτων",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Σύμπτυξη δεδομένων...",
       "PLACEHOLDER": "Εισάγετε κείμενο για αναζήτηση μηνυμάτων",
       "NO_MATCHING_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
@@ -41,7 +42,13 @@
       "DETAILS": "Λεπτομέρειες"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Άνοιγμα με bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Κανένα"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Προς",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
