@@ -1,7 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import CampaignsAPI from '../../api/campaigns';
-import InboxesAPI from '../../api/inboxes';
 
 export const state = {
   records: [],
