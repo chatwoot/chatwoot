@@ -148,7 +148,7 @@
     "CSAT": "رضایت مشتری"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
     "NEW_ACCOUNT": "حساب‌کاربری جدید",
     "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {
