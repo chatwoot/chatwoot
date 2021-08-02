@@ -29,7 +29,7 @@
 export default {
   props: {
     emailAttributes: {
-      type: Array,
+      type: Object,
       default: () => ({}),
     },
     isIncoming: {
