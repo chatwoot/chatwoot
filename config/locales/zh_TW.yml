@@ -47,7 +47,8 @@ zh_TW:
       status:
         resolved: "被%{user_name}標記的對話已解決。"
         open: "被%{user_name}恢復對話。"
-        bot: "對話已經被 %{user_name} 轉換至機器人模式"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "由於對話已經 %{duration} 天沒有新活動，已經被系統標記為完成"
       assignee:
         self_assigned: "%{user_name} 將對話指派給自己"
