@@ -80,6 +80,21 @@
           </span>
         </label>
 
+        <label v-if="isOngoingType" :class="{ error: $v.selectedInbox.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
+          <select v-model="selectedInbox" @change="onChangeInbox($event)">
+            <option value="0" disabled selected>
+              {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
+            </option>
+            <option v-for="item in inboxes" :key="item.name" :value="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+          <span v-if="$v.selectedInbox.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
+          </span>
+        </label>
+
         <label
           v-if="isOngoingType"
           :class="{ error: $v.selectedSender.$error }"
@@ -168,10 +183,6 @@ export default {
   mixins: [alertMixin, campaignMixin],
 
   props: {
-    senderList: {
-      type: Array,
-      default: () => [],
-    },
     audienceList: {
       type: Array,
       default: () => [],
@@ -183,12 +194,17 @@ export default {
       title: '',
       message: '',
       selectedSender: 0,
+      selectedInbox: 0,
       endPoint: '',
       timeOnPage: 10,
       show: true,
       enabled: true,
       scheduledAt: null,
       selectedAudience: [],
+      senderList: [],
+      inbox: {
+        channelType: 'Channel::WebWidget',
+      },
     };
   },
 
@@ -215,16 +231,17 @@ export default {
         return !!this.selectedAudience.length;
       },
     },
+    selectedInbox: {
+      required,
+    },
   },
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
+      inboxes: 'inboxes/getWebsiteInboxes',
     }),
     currentInboxId() {
       return this.$route.params.inboxId;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     buttonDisabled() {
       if (this.isOngoingType) {
@@ -234,6 +251,7 @@ export default {
           this.$v.selectedSender.$invalid ||
           this.$v.endPoint.$invalid ||
           this.$v.timeOnPage.$invalid ||
+          this.$v.selectedInbox.$invalid ||
           this.uiFlags.isCreating
         );
       }
@@ -261,13 +279,26 @@ export default {
     onChange(value) {
       this.scheduledAt = value;
     },
+    async onChangeInbox() {
+      try {
+        const response = await this.$store.dispatch('inboxMembers/get', {
+          inboxId: this.selectedInbox,
+        });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        this.senderList = inboxMembers;
+      } catch (error) {
+        //  Handle error
+      }
+    },
     getCampaignDetails() {
       let campaignDetails = null;
       if (this.isOngoingType) {
         campaignDetails = {
           title: this.title,
           message: this.message,
-          inbox_id: this.$route.params.inboxId,
+          inbox_id: this.selectedInbox,
           sender_id: this.selectedSender || null,
           enabled: this.enabled,
           trigger_rules: {
@@ -285,7 +316,7 @@ export default {
         campaignDetails = {
           title: this.title,
           message: this.message,
-          inbox_id: this.$route.params.inboxId,
+          inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           audience,
         };

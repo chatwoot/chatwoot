@@ -21,10 +21,10 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit }, { inboxId }) {
+  get: async function getCampaigns({ commit }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
-      const response = await InboxesAPI.getCampaigns(inboxId);
+      const response = await CampaignsAPI.get();
       commit(types.SET_CAMPAIGNS, response.data);
     } catch (error) {
       // Ignore error

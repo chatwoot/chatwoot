@@ -1,4 +1,4 @@
-import Index from './Index';
+import Ongoing from './Ongoing';
 import OneOff from './OneOff';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
@@ -21,7 +21,7 @@ export default {
           path: 'ongoing',
           name: 'settings_account_campaigns',
           roles: ['administrator'],
-          component: Index,
+          component: Ongoing,
         },
       ],
     },
