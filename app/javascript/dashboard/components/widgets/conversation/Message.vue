@@ -2,6 +2,11 @@
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
       <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+        <bubble-mail-head
+          v-if="isEmailContentType"
+          :email-attributes="contentAttributes.email"
+          :is-incoming="isIncoming"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -79,6 +84,7 @@ import copy from 'copy-text-to-clipboard';
 
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
+import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
@@ -98,6 +104,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    BubbleMailHead,
     ContextMenu,
     Spinner,
   },
@@ -137,7 +144,6 @@ export default {
           text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
       } = this.contentAttributes;
-
       let contentToBeParsed =
         replyHTMLContent ||
         replyTextContent ||
@@ -147,7 +153,7 @@ export default {
       if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
-          return parsedContent;
+          return parsedContent.replace(/\n/g, '<br />');
         }
       }
       return (

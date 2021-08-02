@@ -376,8 +376,8 @@ GEM
     raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
-    rack-cache (1.12.0)
-      rack (>= 0.4)
+    rack-attack (6.5.0)
+      rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-proxy (0.6.5)
@@ -419,11 +419,6 @@ GEM
     redis (4.2.1)
     redis-namespace (1.8.0)
       redis (>= 3.0.4)
-    redis-rack-cache (2.2.1)
-      rack-cache (>= 1.10, < 2)
-      redis-store (>= 1.6, < 2)
-    redis-store (1.9.0)
-      redis (>= 4, < 5)
     regexp_parser (1.7.1)
     representable (3.0.4)
       declarative (< 0.1.0)
@@ -666,12 +661,12 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
+  rack-attack
   rack-cors
   rack-timeout
   rails
   redis
   redis-namespace
-  redis-rack-cache
   responders
   rest-client
   rspec-rails (~> 4.0.0.beta2)
