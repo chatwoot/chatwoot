@@ -83,7 +83,7 @@
           "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
           "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
           "IN_A_DAY": "Innerhalb eines Tages",
-          "HELP_TEXT": "Diese Antwortzeit wird im Live-Chat-Widget angezeigt"
+          "HELP_TEXT": "Die Reaktionszeit wird im Live-Chat-Widget angezeigt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
@@ -128,12 +128,12 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS-Kanal über Twilio",
+        "DESC": "Unterstützen Sie Ihre Kunden per SMS mit Twilio-Integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "Whatsapp Kanal über Twilio",
+        "DESC": "Unterstützen Sie Ihre Kunden per Whatsapp mit Twilio-Integration."
       },
       "API_CHANNEL": {
         "TITLE": "API-Kanal",
@@ -173,7 +173,7 @@
         "FINISH_MESSAGE": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Wähle einen Kanal",
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kannst du einen `identifier_hash` für jeden Benutzer übergeben. Du kannst den Hash mithilfe des 'sha256' Verfahrens generieren, der notwendige Schlüssel wird hier angezeigt."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
