@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "SEARCH": {
       "TITLE": "Поиск сообщений",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Сохранение данных...",
       "PLACEHOLDER": "Введите любой текст для поиска сообщений",
       "NO_MATCHING_RESULTS": "Результаты не найдены."
@@ -41,7 +42,13 @@
       "DETAILS": "подробности"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Открыть с помощью бота"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Ничего"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Кому",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
