@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "Keine Ergebnisse gefunden."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Keine",
+      "TITLE": {
+        "AGENT": "Agent auswählen",
+        "TEAM": "Team auswählen"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Keine Agenten gefunden",
+          "TEAM": "Keine Teams gefunden"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Agenten suchen",
+          "TEAM": "Teams suchen"
+        }
+      }
     }
   }
 }
