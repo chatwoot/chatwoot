@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/assignment_handler_spec.rb'
-require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
+require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
+require Rails.root.join 'spec/models/concerns/round_robin_handler_shared.rb'
 
 RSpec.describe Conversation, type: :model do
   describe 'associations' do

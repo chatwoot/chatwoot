@@ -17,10 +17,15 @@ class Messages::Facebook::MessageBuilder
   end
 
   def perform
+    # This channel might require reauthorization, may be owner might have changed the fb password
+    return if @inbox.channel.reauthorization_required?
+
     ActiveRecord::Base.transaction do
       build_contact
       build_message
     end
+  rescue Koala::Facebook::AuthenticationError
+    Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
     Raven.capture_exception(e)
     true
@@ -136,6 +141,9 @@ class Messages::Facebook::MessageBuilder
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
       result = k.get_object(@sender_id) || {}
+    rescue Koala::Facebook::AuthenticationError
+      @inbox.channel.authorization_error!
+      raise
     rescue StandardError => e
       result = {}
       Raven.capture_exception(e)
