@@ -25,6 +25,11 @@
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
+        },
         "MESSAGE": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please enter the message of campaign",
