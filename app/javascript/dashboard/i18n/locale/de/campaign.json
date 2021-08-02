@@ -6,7 +6,7 @@
     "ADD": {
       "TITLE": "Kampagne erstellen",
       "DESC": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde.",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "CREATE_BUTTON_TEXT": "Erstellen",
       "FORM": {
         "TITLE": {
@@ -21,7 +21,7 @@
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
+          "LABEL": "Zielgruppe",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
@@ -94,7 +94,7 @@
       },
       "STATUS": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert",
+        "DISABLED": "Inaktiv",
         "COMPLETED": "Completed",
         "ACTIVE": "Active"
       },
