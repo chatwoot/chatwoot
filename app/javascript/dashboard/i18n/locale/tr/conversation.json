@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Sohbetlerde ara",
     "SEARCH": {
       "TITLE": "Mesajları ara",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
       "NO_MATCHING_RESULTS": "Sonuç bulunamadı."
@@ -41,7 +42,13 @@
       "DETAILS": "detaylar"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bot ile aç"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
