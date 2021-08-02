@@ -160,4 +160,31 @@ describe('#mutations', () => {
       expect(global.bus.$emit).not.toHaveBeenCalled();
     });
   });
+
+  describe('#RESOLVE_CONVERSATION', () => {
+    it('updates the conversation status correctly', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [],
+            status: 'open',
+          },
+        ],
+      };
+
+      mutations[types.RESOLVE_CONVERSATION](state, {
+        conversationId: '1',
+        status: 'resolved',
+      });
+
+      expect(state.allConversations).toEqual([
+        {
+          id: 1,
+          messages: [],
+          status: 'resolved',
+        },
+      ]);
+    });
+  });
 });
