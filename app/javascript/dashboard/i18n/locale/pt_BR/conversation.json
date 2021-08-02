@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
     "SEARCH": {
       "TITLE": "Procurar mensagens",
+      "RESULT_TITLE": "Resultados da pesquisa",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
       "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
@@ -41,7 +42,13 @@
       "DETAILS": "detalhes"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Abra com bot"
+      "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Para",
+    "BCC": "CCO",
+    "CC": "Cc",
+    "SUBJECT": "Assunto"
   }
 }
