@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "جار تجزئة البيانات...",
       "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
       "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
@@ -41,7 +42,13 @@
       "DETAILS": "التفاصيل"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
