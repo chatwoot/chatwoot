@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "24h vastausikkuna",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24h vastausikkuna",
-    "LAST_INCOMING_TWEET": "Olet vastaamassa viimeisenä tulevaan twiittiin",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Olet vastaamassa:",
     "REMOVE_SELECTION": "Poista valinnat",
     "DOWNLOAD": "Lataa",
