@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Initierad från",
     "INITIATED_AT": "Initierad den",
     "IP_ADDRESS": "IP-adress",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Nytt meddelande",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
       "TITLE": "Tidigare konversationer"
@@ -45,8 +45,8 @@
     "DESC": "Redigera kontaktuppgifter"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
+    "BUTTON_LABEL": "Ny kontakt",
+    "TITLE": "Skapa ny kontakt",
     "DESC": "Add basic information details about the contact."
   },
   "CONTACT_FORM": {
@@ -112,7 +112,7 @@
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Till"
       },
       "INBOX": {
         "LABEL": "Inbox",
