@@ -102,9 +102,9 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
-  hasPressedShiftAndMKey,
-  hasPressedShiftAndEKey,
-  hasPressedCommandPlusShiftAndEKey,
+  hasPressedAltAndEKey,
+  hasPressedCommandPlusAltAndEKey,
+  hasPressedAltAndMKey,
 } from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
@@ -175,13 +175,13 @@ export default {
       const allConversation = document.querySelectorAll(
         '.conversations-list .conversation'
       );
-      if (hasPressedShiftAndMKey(e)) {
+      if (hasPressedAltAndMKey(e)) {
         this.$refs.arrowDownButton.$el.click();
       }
-      if (hasPressedShiftAndEKey(e)) {
+      if (hasPressedAltAndEKey(e)) {
         await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
         if (allConversation.length >= 2) {
-          if (hasPressedCommandPlusShiftAndEKey(e)) {
+          if (hasPressedCommandPlusAltAndEKey(e)) {
             if (allConversation.length >= 1) {
               allConversation[1].click();
             }

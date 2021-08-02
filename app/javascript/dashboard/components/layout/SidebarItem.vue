@@ -60,10 +60,10 @@ import { mapGetters } from 'vuex';
 
 import router from '../../routes';
 import {
-  hasPressedShiftAndCKey,
-  hasPressedShiftAndVKey,
-  hasPressedShiftAndRKey,
-  hasPressedShiftAndSKey,
+  hasPressedAltAndCKey,
+  hasPressedAltAndVKey,
+  hasPressedAltAndRKey,
+  hasPressedAltAndSKey,
 } from 'shared/helpers/KeyboardHelpers';
 import adminMixin from '../../mixins/isAdmin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
@@ -125,16 +125,16 @@ export default {
       }
     },
     handleKeyEvents(e) {
-      if (hasPressedShiftAndCKey(e)) {
+      if (hasPressedAltAndCKey(e)) {
         router.push({ name: 'home' });
       }
-      if (hasPressedShiftAndVKey(e)) {
+      if (hasPressedAltAndVKey(e)) {
         router.push({ name: 'contacts_dashboard' });
       }
-      if (hasPressedShiftAndRKey(e)) {
+      if (hasPressedAltAndRKey(e)) {
         router.push({ name: 'settings_account_reports' });
       }
-      if (hasPressedShiftAndSKey(e)) {
+      if (hasPressedAltAndSKey(e)) {
         router.push({ name: 'settings_home' });
       }
     },

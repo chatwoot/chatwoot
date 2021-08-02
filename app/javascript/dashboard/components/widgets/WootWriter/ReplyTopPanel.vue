@@ -33,8 +33,8 @@
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 import {
-  hasPressedShiftAndPKey,
-  hasPressedShiftAndLKey,
+  hasPressedAltAndPKey,
+  hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
@@ -83,10 +83,10 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndPKey(e)) {
+      if (hasPressedAltAndPKey(e)) {
         this.handleNoteClick();
       }
-      if (hasPressedShiftAndLKey(e)) {
+      if (hasPressedAltAndLKey(e)) {
         this.handleReplyClick();
       }
     },

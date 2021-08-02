@@ -66,8 +66,8 @@ import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import {
-  hasPressedShiftAndJKey,
-  hasPressedShiftAndKKey,
+  hasPressedAltAndJKey,
+  hasPressedAltAndKKey,
 } from 'shared/helpers/KeyboardHelpers';
 
 export default {
@@ -195,7 +195,7 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndJKey(e)) {
+      if (hasPressedAltAndJKey(e)) {
         const allConversation = this.$refs.activeConversation.querySelectorAll(
           'div.conversations-list div.conversation'
         );
@@ -212,7 +212,7 @@ export default {
           allConversation[activeConversationIndex - 1].click();
         }
       }
-      if (hasPressedShiftAndKKey(e)) {
+      if (hasPressedAltAndKKey(e)) {
         const allConversation = this.$refs.activeConversation.querySelectorAll(
           'div.conversations-list div.conversation'
         );

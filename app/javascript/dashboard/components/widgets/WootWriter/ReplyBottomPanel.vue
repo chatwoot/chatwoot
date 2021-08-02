@@ -79,8 +79,8 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import {
-  hasPressedShiftAndWKey,
-  hasPressedShiftAndAKey,
+  hasPressedAltAndWKey,
+  hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
@@ -163,10 +163,10 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndWKey(e)) {
+      if (hasPressedAltAndWKey(e)) {
         this.toggleFormatMode();
       }
-      if (hasPressedShiftAndAKey(e)) {
+      if (hasPressedAltAndAKey(e)) {
         this.$refs.upload.$children[1].$el.click();
       }
     },

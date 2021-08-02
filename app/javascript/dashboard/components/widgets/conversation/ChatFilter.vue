@@ -13,7 +13,7 @@
 <script>
 import wootConstants from '../../../constants';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedShiftAndBKey } from 'shared/helpers/KeyboardHelpers';
+import { hasPressedAltAndBKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   mixins: [eventListenerMixins],
@@ -22,7 +22,7 @@ export default {
   }),
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndBKey(e)) {
+      if (hasPressedAltAndBKey(e)) {
         if (this.activeStatus === wootConstants.STATUS_TYPE.OPEN) {
           this.activeStatus = wootConstants.STATUS_TYPE.RESOLVED;
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.RESOLVED) {

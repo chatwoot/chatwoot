@@ -11,7 +11,7 @@
 <script>
 import wootConstants from '../../constants';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedShiftAndNKey } from 'shared/helpers/KeyboardHelpers';
+import { hasPressedAltAndNKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   mixins: [eventListenerMixins],
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndNKey(e)) {
+      if (hasPressedAltAndNKey(e)) {
         if (this.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
           this.onTabChange(0);
         } else {

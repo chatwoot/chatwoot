@@ -70,7 +70,7 @@ import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
-import { hasPressedShiftAndOKey } from 'shared/helpers/KeyboardHelpers';
+import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -120,7 +120,7 @@ export default {
 
   methods: {
     handleKeyEvents(e) {
-      if (hasPressedShiftAndOKey(e)) {
+      if (hasPressedAltAndOKey(e)) {
         this.$emit('contact-panel-toggle');
       }
     },
