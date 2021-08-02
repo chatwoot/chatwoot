@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
     "SEARCH": {
       "TITLE": "Mencari pesan",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Mengolah data...",
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
       "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan."
@@ -41,7 +42,13 @@
       "DETAILS": "detail"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Buka dengan bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Tidak ada"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Ke",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
