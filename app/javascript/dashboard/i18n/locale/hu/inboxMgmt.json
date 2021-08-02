@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
       "HMAC_VERIFICATION": "Felhasználói fiók validálás",
-      "HMAC_DESCRIPTION": "A felhasználói fiók ellenőrzése céljából az SDK lehetőséget ad egy 'identifier_hash' kódra minden felhasználónak. Ezt HMAC-al tudod generálni 'sha256'-t használva, az itt látható kóddal."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Újraengedélyezés",
