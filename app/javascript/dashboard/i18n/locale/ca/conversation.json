@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
     "SEARCH": {
       "TITLE": "Cerca missatges",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "S'estan restringint les dades...",
       "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
       "NO_MATCHING_RESULTS": "No results found."
@@ -41,7 +42,13 @@
       "DETAILS": "detalls"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
