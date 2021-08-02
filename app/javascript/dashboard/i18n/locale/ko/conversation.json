@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
       "TITLE": "메시지 검색",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "데이터 처리 중...",
       "PLACEHOLDER": "검색할 텍스트를 입력하세요",
       "NO_MATCHING_RESULTS": "검색 결과가 없습니다."
@@ -41,7 +42,13 @@
       "DETAILS": "자세히"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "없음"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
