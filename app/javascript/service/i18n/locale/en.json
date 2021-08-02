@@ -2,11 +2,12 @@
   "SURVEY": {
     "DESCRIPTION": "Dear customer 👋 , please take a few moments to complete the the feedback about the conversation.",
     "RATING": {
-      "LABEL": "Rate your conversation"
+      "LABEL": "Rate your conversation",
+      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
     },
     "FEEDBACK": {
       "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback(optional)",
+      "PLACEHOLDER": "Your feedback (optional)",
       "BUTTON_TEXT": "Submit feedback"
     }
   },

@@ -1,14 +1,16 @@
 <template>
-  <router />
+  <div id="app" class="woot-service-wrap">
+    <response />
+  </div>
 </template>
 
 <script>
-import Router from './views/Router';
+import Response from './views/Response.vue';
 
 export default {
   name: 'App',
   components: {
-    Router,
+    Response,
   },
 };
 </script>

@@ -47,19 +47,12 @@ export default {
     TextArea,
   },
   mixins: [configMixin],
-  props: {
-    showHomePage: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data() {
     return {
       message: '',
       isSubmitted: false,
     };
   },
-  computed: {},
 };
 </script>
 
