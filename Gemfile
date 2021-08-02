@@ -40,7 +40,7 @@ gem 'rack-attack'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
-gem 'mini_magick'
+gem 'image_processing'
 
 ##-- gems for database --#
 gem 'groupdate'
