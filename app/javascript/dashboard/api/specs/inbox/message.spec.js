@@ -1,4 +1,4 @@
-import messageAPI from '../../inbox/message';
+import messageAPI, { buildCreatePayload } from '../../inbox/message';
 import ApiClient from '../../ApiClient';
 import describeWithAPIMock from '../apiSpecHelper';
 
@@ -27,6 +27,36 @@ describe('#ConversationAPI', () => {
           },
         }
       );
+    });
+  });
+  describe('#buildCreatePayload', () => {
+    it('builds form payload if file is available', () => {
+      const formPayload = buildCreatePayload({
+        message: 'test content',
+        echoId: 12,
+        isPrivate: true,
+        file: new Blob(['test-content'], { type: 'application/pdf' }),
+      });
+      expect(formPayload).toBeInstanceOf(FormData);
+      expect(formPayload.get('content')).toEqual('test content');
+      expect(formPayload.get('echo_id')).toEqual('12');
+      expect(formPayload.get('private')).toEqual('true');
+    });
+
+    it('builds object payload if file is not available', () => {
+      expect(
+        buildCreatePayload({
+          message: 'test content',
+          isPrivate: false,
+          echoId: 12,
+          contentAttributes: { in_reply_to: 12 },
+        })
+      ).toEqual({
+        content: 'test content',
+        private: false,
+        echo_id: 12,
+        content_attributes: { in_reply_to: 12 },
+      });
     });
   });
 });
