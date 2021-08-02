@@ -1,5 +1,5 @@
 <template>
-  <div class="customer-satisfcation">
+  <div class="customer-satisfcation mb-2">
     <div class="ratings flex py-5 px-0">
       <button
         v-for="rating in ratings"
@@ -61,7 +61,7 @@ export default {
   &:active {
     filter: grayscale(0%);
     transform: scale(1.32);
-    transition: all 300ms;
+    transition: transform 300ms;
   }
 
   &.disabled {

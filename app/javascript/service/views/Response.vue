@@ -3,7 +3,7 @@
     class="w-full h-full flex flex-col flex-no-wrap overflow-hidden bg-white"
   >
     <div class="flex flex-1 overflow-auto">
-      <div class="max-w-screen-sm w-full my-0 m-auto p-8">
+      <div class="max-w-screen-sm w-full my-0 m-auto px-8 py-12">
         <img src="/brand-assets/logo.svg" alt="Chatwoot logo" class="logo" />
         <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
           {{ $t('SURVEY.DESCRIPTION') }}
