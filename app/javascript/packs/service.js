@@ -18,7 +18,7 @@ window.bus = new Vue();
 Vue.config.productionTip = false;
 
 window.onload = () => {
-  window.SERVICE_WIDGET = new Vue({
+  window.WOOT_SERVICE = new Vue({
     i18n: i18nConfig,
     render: h => h(App),
   }).$mount('#app');
