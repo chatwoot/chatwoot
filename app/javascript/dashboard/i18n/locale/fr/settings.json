@@ -148,6 +148,7 @@
     "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Nouveau compte",
     "SELECTOR_SUBTITLE": "Créer un nouveau compte",
     "API": {
