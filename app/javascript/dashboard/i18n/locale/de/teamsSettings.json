@@ -13,15 +13,15 @@
         "DESC": "Fügen Sie Ihrem neuen Team einen Titel und eine Beschreibung hinzu."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Agenten zu Team hinzufügen",
-        "TITLE": "Agenten zu Team hinzufügen - %{teamName}",
+        "BUTTON_TEXT": "Agenten zum Team hinzufügen",
+        "TITLE": "Agenten zum Team hinzufügen - %{teamName}",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten, erhalten Sie Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung."
       },
       "WIZARD": [
         {
           "title": "Erstellen",
           "route": "settings_team_new",
-          "body": "Erstellen Sie ein neues Team von Agenten."
+          "body": "Erstellen Sie ein neues Team aus Agenten."
         },
         {
           "title": "Agenten hinzufügen",
@@ -43,7 +43,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Agenten im Team aktualisieren",
-        "TITLE": "Agenten zu Team %{teamName} hinzufügen",
+        "TITLE": "Agenten zum Team %{teamName} hinzufügen",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. Alle hinzugefügten Agenten werden benachrichtigt, wenn diesem Team eine Unterhaltung zugewiesen wird."
       },
       "WIZARD": [
@@ -58,9 +58,9 @@
           "body": "Verwalten Sie Agenten in Ihrem Team."
         },
         {
-          "title": "Abschließen",
+          "title": "Fertig",
           "route": "settings_teams_edit_finish",
-          "body": "Sie sind bereit zu gehen!"
+          "body": "Geschafft!"
         }
       ]
     },
@@ -73,14 +73,14 @@
       "BUTTON_TEXT": "Agenten hinzufügen",
       "ADD_AGENTS": "Agenten zu Ihrem Team hinzufügen...",
       "SELECT": "auswählen",
-      "SELECT_ALL": "alle Agenten auswählen",
+      "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
     },
     "ADD": {
-      "TITLE": "Agenten zu Team %{teamName} hinzufügen",
+      "TITLE": "Agenten zum Team %{teamName} hinzufügen",
       "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung.",
       "SELECT": "auswählen",
-      "SELECT_ALL": "alle Agenten auswählen",
+      "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
       "BUTTON_TEXT": "Agenten hinzufügen",
       "AGENT_VALIDATION_ERROR": "Mindestens einen Agenten auswählen."
@@ -88,7 +88,7 @@
     "FINISH": {
       "TITLE": "Ihr Team ist bereit!",
       "MESSAGE": "Sie können jetzt als Team an Gesprächen zusammenarbeiten. Viel Spaß beim Unterstützen ",
-      "BUTTON_TEXT": "Abschließen"
+      "BUTTON_TEXT": "Fertig"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
@@ -101,10 +101,10 @@
         "PLACE_HOLDER": "Bitte geben Sie {teamName} zur Bestätigung ein",
         "MESSAGE": "Das Löschen des Teams wird die Teamzuordnung aus den Gesprächen entfernen, die diesem Team zugewiesen wurden.",
         "YES": "Löschen ",
-        "NO": "Stornieren"
+        "NO": "Abbrechen"
       }
     },
-    "SETTINGS": "die Einstellungen",
+    "SETTINGS": "Einstellungen",
     "FORM": {
       "UPDATE": "Team aktualisieren",
       "CREATE": "Team erstellen",
@@ -117,7 +117,7 @@
         "PLACEHOLDER": "Kurze Beschreibung zu diesem Team."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Erlaube die automatische Zuweisung für dieses Team."
+        "LABEL": "Automatische Zuweisung in diesem Team aktivieren."
       },
       "SUBMIT_CREATE": "Neues Team erstellen"
     }
