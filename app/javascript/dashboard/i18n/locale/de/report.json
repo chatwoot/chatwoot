@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Übersicht",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
@@ -53,37 +53,37 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Benutzerdefinierter Zeitraum"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "CSAT-Berichte",
+    "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Zugewiesener Agent",
         "RATING": "Bewertung",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Kommentar"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Antworten gesamt",
+        "TOOLTIP": "Anzahl aller gesammelten Antworten"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Zufriedenheitswert",
+        "TOOLTIP": "Anzahl der positiven Antworten / Anzahl aller Antworten * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Antwortrate",
+        "TOOLTIP": "Anzahl aller Antworten / Anzahl der gesendeten CSAT-Umfrage * 100"
       }
     }
   }
