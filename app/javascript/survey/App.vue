@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="woot-service-wrap">
+  <div id="app" class="woot-survey-wrap">
     <response />
   </div>
 </template>
@@ -16,5 +16,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~service/assets/scss/woot.scss';
+@import '~survey/assets/scss/woot.scss';
 </style>

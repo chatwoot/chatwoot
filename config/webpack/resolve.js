@@ -6,7 +6,7 @@ const resolve = {
     vue$: 'vue/dist/vue.common.js',
     dashboard: path.resolve('./app/javascript/dashboard'),
     widget: path.resolve('./app/javascript/widget'),
-    service: path.resolve('./app/javascript/service'),
+    survey: path.resolve('./app/javascript/survey'),
     assets: path.resolve('./app/javascript/dashboard/assets'),
     components: path.resolve('./app/javascript/dashboard/components'),
     './iconfont.eot': 'vue-easytable/libs/font/iconfont.eot',

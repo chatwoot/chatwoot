@@ -1,4 +1,4 @@
-class Service::ResponsesController < ActionController::Base
+class Survey::ResponsesController < ActionController::Base
   before_action :set_global_config
   def show; end
 

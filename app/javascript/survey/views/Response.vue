@@ -34,7 +34,7 @@
 
 <script>
 import Branding from 'shared/components/Branding.vue';
-import Rating from 'service/components/Rating.vue';
+import Rating from 'survey/components/Rating.vue';
 import CustomButton from 'shared/components/Button';
 import TextArea from 'shared/components/TextArea.vue';
 import configMixin from 'shared/mixins/configMixin';
