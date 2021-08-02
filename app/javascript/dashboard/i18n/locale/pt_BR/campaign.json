@@ -15,15 +15,15 @@
           "ERROR": "Título é obrigatório"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Horário agendado",
+          "PLACEHOLDER": "Por favor insira a hora",
+          "CONFIRM": "Confirmar",
+          "ERROR": "Horário agendado é necessário"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Público",
+          "PLACEHOLDER": "Selecionar marcadores dos clientes",
+          "ERROR": "Público é necessário"
         },
         "MESSAGE": {
           "LABEL": "Messagem",
@@ -83,7 +83,7 @@
         "STATUS": "SItuação",
         "SENDER": "Remetente",
         "URL": "URL:",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "Horário agendado",
         "TIME_ON_PAGE": "Horário(segundos)",
         "CREATED_AT": "Criado em"
       },
