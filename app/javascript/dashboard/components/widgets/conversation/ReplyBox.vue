@@ -107,9 +107,13 @@ export default {
   },
   mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
-    inReplyTo: {
-      type: [String, Number],
-      default: '',
+    selectedTweet: {
+      type: [Object, String],
+      default: () => ({}),
+    },
+    isATweet: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -169,11 +173,14 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      const isMessageEmpty = this.isMessageEmpty;
+      if (this.isATweet && !this.inReplyTo) {
+        return true;
+      }
 
       if (this.hasAttachments) return false;
+
       return (
-        isMessageEmpty ||
+        this.isMessageEmpty ||
         this.message.length === 0 ||
         this.message.length > this.maxLength
       );
@@ -198,7 +205,7 @@ export default {
       }
       if (this.isATwitterInbox) {
         if (this.conversationType === 'tweet') {
-          return MESSAGE_MAX_LENGTH.TWEET;
+          return MESSAGE_MAX_LENGTH.TWEET - this.replyToUserLength - 2;
         }
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
@@ -235,9 +242,22 @@ export default {
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
+    inReplyTo() {
+      const selectedTweet = this.selectedTweet || {};
+      return selectedTweet.id;
+    },
+    replyToUserLength() {
+      const selectedTweet = this.selectedTweet || {};
+      const {
+        sender: {
+          additional_attributes: { screen_name: screenName = '' } = {},
+        } = {},
+      } = selectedTweet;
+      return screenName ? screenName.length : 0;
+    },
     isMessageEmpty() {
-      if(!this.message) {
-        this.message = '';
+      if (!this.message) {
+        return true;
       }
       return !this.message.trim().replace(/\n/g, '').length;
     },

@@ -14,13 +14,13 @@
       @mouseleave="isHovered = false"
     />
     <i
-      v-if="isATweet && isIncoming"
+      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
       v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
       class="icon ion-reply cursor-pointer"
       @click="onTweetReply"
     />
     <a
-      v-if="isATweet && isIncoming"
+      v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"
       rel="noopener noreferrer nofollow"
@@ -71,10 +71,20 @@ export default {
       type: [String, Number],
       default: '',
     },
+    inboxId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   computed: {
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
     isIncoming() {
       return MESSAGE_TYPE.INCOMING === this.messageType;
+    },
+    isOutgoing() {
+      return MESSAGE_TYPE.OUTGOING === this.messageType;
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
@@ -82,8 +92,12 @@ export default {
       return additionalAttributes?.screen_name || '';
     },
     linkToTweet() {
+      if (!this.sourceId || !this.inbox.name) {
+        return '';
+      }
       const { screenName, sourceId } = this;
-      return `https://twitter.com/${screenName}/status/${sourceId}`;
+      return `https://twitter.com/${screenName ||
+        this.inbox.name}/status/${sourceId}`;
     },
   },
   methods: {
@@ -110,6 +124,13 @@ export default {
     .time {
       color: var(--s-400);
     }
+  }
+}
+
+.right {
+  .ion-reply,
+  .ion-android-open {
+    color: var(--white);
   }
 }
 
