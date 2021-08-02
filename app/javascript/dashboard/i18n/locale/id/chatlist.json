@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "Pending",
+        "VALUE": "pending"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
