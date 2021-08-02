@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
     "SEARCH": {
       "TITLE": "Üzenetekben keresés",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Adatelemzés...",
       "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
       "NO_MATCHING_RESULTS": "Nincs találat."
@@ -41,7 +42,13 @@
       "DETAILS": "részletek"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bottal megnyitni"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Nincs"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
