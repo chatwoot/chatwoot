@@ -101,6 +101,12 @@
       "SENDER": {
         "BOT": "Bot"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns"
     }
   }
 }
