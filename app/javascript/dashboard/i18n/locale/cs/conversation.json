@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
     "SEARCH": {
       "TITLE": "Hledat zprávy",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Načítám data...",
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Žádné výsledky."
@@ -27,11 +28,11 @@
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Bez odpovědi",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Hodnocení",
+    "FEEDBACK_TITLE": "Zpětná vazba",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -41,7 +42,13 @@
       "DETAILS": "Podrobnosti"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
@@ -98,7 +105,7 @@
     "READ_LATEST_UPDATES": "Přečtěte si nejnovější aktualizace",
     "ALL_CONVERSATION": {
       "TITLE": "Všechny vaše konverzace na jednom místě",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "Zobrazit všechny konverzace od zákazníků na jednom nástěnce. Můžete filtrovat konverzace podle příchozího kanálu, popisku a stavu."
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvěte své členy týmu",
@@ -118,10 +125,16 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Přiřazený agent",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Přiřadit mi",
     "TEAM_LABEL": "Přiřazený tým",
     "SELECT": {
       "PLACEHOLDER": "Nic"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
