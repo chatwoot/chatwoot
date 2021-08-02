@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "واکشی ادغام ها",
+    "NO_HOOK_CONFIGURED": "هیچ %{integrationId} ادغامی در این اکانت انجام نشده است.",
+    "HEADER": "برنامه های کاربردی",
     "STATUS": {
       "ENABLED": "فعال",
       "DISABLED": "غیرفعال"
     },
     "CONFIGURE": "تنظیمات",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "هوک جدیدی اضافه کنید",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "تاییدیه حذف",
+        "ACCOUNT": "قعط کردن"
       },
       "MESSAGE": {
         "INBOX": "مطمئن هستید که حذف شود?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "آیا مطمئناً قطع می کنید؟"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "بله، حذف شود",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "بله ، قطع ارتباط کنید"
       },
       "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "هوک با موفقیت حذف شد",
         "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "واکشی ادغام های هوک",
       "INBOX": "صندوق ورودی",
       "DELETE": {
         "BUTTON_TEXT": "حذف"
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "انتخاب صندوق ورودی",
+          "PLACEHOLDER": "انتخاب صندوق ورودی"
         },
         "SUBMIT": "ايجاد كردن",
         "CANCEL": "انصراف"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "هوک ادغام با موفقیت اضافه شد",
         "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "اتصال"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "قعط کردن"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow یک بستر درک زبان طبیعی است که طراحی و ادغام رابط کاربری مکالمه را در برنامه تلفن همراه ، برنامه وب ، دستگاه ، ربات ، سیستم پاسخ صوتی تعاملی و غیره آسان می کند. <br /> <br /> ادغام Dialogflow با %{installationName} به شما امکان می دهد ربات Dialogflow را با صندوق ورودی خود پیکربندی کنید که به ربات اجازه می دهد ابتدا درخواست ها را مدیریت کرده و در صورت نیاز به یک ایجنت تحویل دهد. از Dialogflow می توان برای تعیین امتیازات ، کاهش حجم کار ایجنت ها با ارائه سوالات متداول و غیره استفاده کرد. <br /> <br /> برای افزودن Dialogflow ، باید یک حساب سرویس در کنسول پروژه Google خود ایجاد کرده و اعتبارنامه ها را به اشتراک بگذارید. لطفاً برای اطلاعات بیشتر به اسناد Dialogflow مراجعه کنید."
     }
   }
 }
