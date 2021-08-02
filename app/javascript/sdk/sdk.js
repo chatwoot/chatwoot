@@ -130,7 +130,6 @@ export const SDK_CSS = `.woot-widget-holder {
  .woot-widget-holder.has-unread-view {
     height: auto;
     right: 0;
-    top: auto;
     width: auto;
     bottom: 0;
   }
