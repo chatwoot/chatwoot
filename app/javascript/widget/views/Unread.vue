@@ -122,7 +122,7 @@ export default {
 
 .unread-wrap {
   width: 100%;
-  height: 100%;
+  height: auto;
   background: transparent;
   display: flex;
   flex-direction: column;

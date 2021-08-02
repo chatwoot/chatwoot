@@ -132,6 +132,7 @@ export const SDK_CSS = `.woot-widget-holder {
     right: 0;
     width: auto;
     bottom: 0;
+    top: auto;
   }
  .woot-widget-holder.has-unread-view.woot-elements--left {
     left: 0;

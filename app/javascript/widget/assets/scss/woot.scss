@@ -20,9 +20,14 @@ body {
 
 .woot-widget-wrap {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .is-mobile {
+  display: block;
+
   .actions {
     .close-button {
       display: block !important;
