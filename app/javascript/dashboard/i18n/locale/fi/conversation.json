@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Etsi viestejä keskusteluissa",
     "SEARCH": {
       "TITLE": "Etsi viestejä",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Rouskutetaan dataa...",
       "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
       "NO_MATCHING_RESULTS": "No results found."
@@ -41,7 +42,13 @@
       "DETAILS": "tiedot"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
@@ -123,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
