@@ -42,7 +42,13 @@
       "DETAILS": "Einzelheiten"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Mit Bot öffnen"
+      "MARK_PENDING": "Als ausstehend markieren",
+      "SNOOZE": {
+        "TITLE": "Erinnern",
+        "NEXT_REPLY": "Bei Antwort",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Nächste Woche"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
@@ -79,8 +85,8 @@
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Konversations-Transkript senden",
     "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
-    "SUBMIT": "Einreichen",
-    "CANCEL": "Stornieren",
+    "SUBMIT": "Speichern",
+    "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
     "FORM": {
@@ -124,5 +130,11 @@
     "SELECT": {
       "PLACEHOLDER": "Keine"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "An",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Betreff"
   }
 }
