@@ -145,10 +145,10 @@ const actions = {
         status,
         snoozedUntil,
       });
-      commit(
-        types.default.RESOLVE_CONVERSATION,
-        response.data.payload.current_status
-      );
+      commit(types.default.RESOLVE_CONVERSATION, {
+        conversationId,
+        status: response.data.payload.current_status,
+      });
     } catch (error) {
       // Handle error
     }
