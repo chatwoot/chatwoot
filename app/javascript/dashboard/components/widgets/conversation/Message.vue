@@ -144,7 +144,6 @@ export default {
           text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
       } = this.contentAttributes;
-
       let contentToBeParsed =
         replyHTMLContent ||
         replyTextContent ||
@@ -154,7 +153,7 @@ export default {
       if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
-          return parsedContent;
+          return parsedContent.replace(/\n/g, '<br />');
         }
       }
       return (
