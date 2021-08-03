@@ -103,7 +103,7 @@
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
@@ -167,7 +167,7 @@
       "TITLE": "Notes"
     },
     "ADD": {
-      "BUTTON": "Add",
+      "BUTTON": "הוסף",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
