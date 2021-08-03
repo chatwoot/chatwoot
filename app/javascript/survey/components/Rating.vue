@@ -5,7 +5,7 @@
         v-for="rating in ratings"
         :key="rating.key"
         :class="buttonClass(rating)"
-        @click="selectRating(rating)"
+        @click="onClick(rating)"
       >
         {{ rating.emoji }}
       </button>
@@ -18,35 +18,28 @@ import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {
   props: {
-    messageContentAttributes: {
-      type: Object,
-      default: () => {},
+    selectedRating: {
+      type: Number,
+      default: null,
     },
   },
   data() {
     return {
-      email: '',
       ratings: CSAT_RATINGS,
-      selectedRating: null,
     };
-  },
-  computed: {
-    isRatingSubmitted() {
-      return this.messageContentAttributes?.csat_survey_response?.rating;
-    },
   },
 
   methods: {
     buttonClass(rating) {
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.isRatingSubmitted },
-        { hover: this.isRatingSubmitted },
+        { disabled: !!this.selectedRating },
+        { hover: !!this.selectedRating },
         'emoji-button shadow-none text-4xl outline-none mr-8',
       ];
     },
-    selectRating(rating) {
-      this.selectedRating = rating.value;
+    onClick(rating) {
+      this.$emit('selectRating', rating.value);
     },
   },
 };
