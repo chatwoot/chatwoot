@@ -1,5 +1,5 @@
-import Ongoing from './Ongoing';
-import OneOff from './OneOff';
+import Ongoing from './Ongoing.vue';
+import OneOff from './OneOff.vue';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
 

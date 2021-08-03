@@ -14,8 +14,10 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getCampaigns(_state) {
-    return _state.records;
+  getCampaigns: _state => campaignType => {
+    return _state.records.filter(
+      record => record.campaign_type === campaignType
+    );
   },
 };
 

@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "Campaigns",
     "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
@@ -108,10 +111,12 @@
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns"
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns"
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created"
     }
   }
 }
