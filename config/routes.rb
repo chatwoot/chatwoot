@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
     resource :widget, only: [:show]
+    namespace :survey do
+      resources :responses, only: [:show]
+    end
   end
 
   get '/api', to: 'api#index'
