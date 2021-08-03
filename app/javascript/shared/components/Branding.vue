@@ -16,21 +16,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+const {
+  LOGO_THUMBNAIL: logoThumbnail,
+  BRAND_NAME: brandName,
+  WIDGET_BRAND_URL: widgetBrandURL,
+} = window.globalConfig || {};
 
 export default {
   mixins: [globalConfigMixin],
   data() {
     return {
       referrerHost: '',
+      globalConfig: {
+        brandName,
+        logoThumbnail,
+        widgetBrandURL,
+      },
     };
   },
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
     brandRedirectURL() {
       const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
       if (this.referrerHost) {
@@ -47,7 +54,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 
