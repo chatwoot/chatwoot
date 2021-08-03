@@ -19,7 +19,7 @@
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "צור",
           "route": "settings_teams_new",
           "body": "Create a new team of agents."
         },
@@ -100,7 +100,7 @@
         "TITLE": "Are you sure want to delete - %{teamName}",
         "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
-        "YES": "Delete ",
+        "YES": "מחק ",
         "NO": "ביטול"
       }
     },
