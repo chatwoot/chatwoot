@@ -237,7 +237,7 @@
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, verwijderen ",
-        "NO": "No, Keep "
+        "NO": "Nee, Behouden "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox succesvol verwijderd",
