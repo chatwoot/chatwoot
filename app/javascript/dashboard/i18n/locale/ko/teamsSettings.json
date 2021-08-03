@@ -39,7 +39,7 @@
       "CREATE": {
         "TITLE": "팀 내용 수정",
         "DESC": "팀명 및 소개를 수정하세요.",
-        "BUTTON_TEXT": "Update team"
+        "BUTTON_TEXT": "팀 내용 업데이트"
       },
       "AGENTS": {
         "BUTTON_TEXT": "에이전트 업데이트",
