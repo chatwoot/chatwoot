@@ -16,12 +16,13 @@
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <woot-message-editor
             v-model.trim="message"
-            class="editor"
+            class="message-editor"
+            :is-format-mode="true"
             :class="{ editor_warning: $v.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
             @input="$v.message.$touch"
           />
-          <span v-if="$v.message.$error" class="warning-message">
+          <span v-if="$v.message.$error" class="editor-warning__message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
@@ -214,24 +215,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.editor-wrap {
-  margin-bottom: var(--space-normal);
-}
-
-.editor {
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-normal);
-  padding: 0 var(--space-slab);
-  margin-bottom: 0;
-}
-
-.editor_warning {
-  border: 1px solid var(--r-400);
-}
-
-.warning-message {
-  color: var(--r-400);
-  font-weight: var(--font-weight-normal);
-  padding: var(--space-smaller) 0 0 0;
+::v-deep .ProseMirror-woot-style {
+  height: 8rem;
 }
 </style>

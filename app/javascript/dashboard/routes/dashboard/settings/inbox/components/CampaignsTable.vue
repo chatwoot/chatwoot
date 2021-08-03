@@ -99,7 +99,7 @@ export default {
               return (
                 <div class="text-truncate">
                   <span
-                    domPropsInnerHTML={this.convertedMessage(row.message)}
+                    domPropsInnerHTML={this.formatMessage(row.message)}
                   ></span>
                 </div>
               );
@@ -230,11 +230,6 @@ export default {
           ),
         },
       ];
-    },
-  },
-  methods: {
-    convertedMessage(message) {
-      return this.formatMessage(message);
     },
   },
 };
