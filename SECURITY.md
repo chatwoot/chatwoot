@@ -12,7 +12,7 @@ If you have any questions about the process, feel free to reach out to hello@cha
 
 ## Out of scope
 
-Please do not peform testing against Chatwoot production services. Use a self hosted instance to perform tests.
+Please do not perform testing against Chatwoot production services. Use a self hosted instance to perform tests.
 
 We consider the following to be out of scope, though there may be exceptions.
 
