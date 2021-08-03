@@ -10,7 +10,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONGOING.HEADER',
-        icon: 'ion-arrow-graph-up-right',
+        icon: 'ion-radio-waves',
       },
       children: [
         {
@@ -30,7 +30,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONE_OFF.HEADER',
-        icon: 'ion-happy-outline',
+        icon: 'ion-arrow-swap',
       },
       children: [
         {
