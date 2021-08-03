@@ -70,10 +70,10 @@
     "CHANGE_STATUS": "对话状态已更改",
     "CHANGE_AGENT": "对话分配人已更改",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "选择代理",
       "REMOVE": "删除",
       "ASSIGN": "Assign"
     },
