@@ -62,5 +62,10 @@
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
+    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra"
   }
 }

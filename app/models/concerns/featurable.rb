@@ -2,7 +2,8 @@ module Featurable
   extend ActiveSupport::Concern
 
   QUERY_MODE = {
-    flag_query_mode: :bit_operator
+    flag_query_mode: :bit_operator,
+    check_for_column: false
   }.freeze
 
   FEATURE_LIST = YAML.safe_load(File.read(Rails.root.join('config/features.yml'))).freeze

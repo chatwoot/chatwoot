@@ -5,7 +5,7 @@ class Integrations::Dialogflow::ProcessorService
     message = event_data[:message]
     return if message.private?
     return unless processable_message?(message)
-    return unless message.conversation.bot?
+    return unless message.conversation.pending?
 
     response = get_dialogflow_response(message.conversation.contact_inbox.source_id, message_content(message))
     process_response(message, response)

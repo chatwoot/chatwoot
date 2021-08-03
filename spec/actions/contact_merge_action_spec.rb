@@ -23,7 +23,7 @@ describe ::ContactMergeAction do
       it 'does not delete contact' do
         mergee_contact = base_contact
         contact_merge
-        expect { mergee_contact.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+        expect(mergee_contact.reload).not_to eq nil
       end
     end
 

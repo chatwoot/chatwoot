@@ -143,6 +143,8 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox"
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

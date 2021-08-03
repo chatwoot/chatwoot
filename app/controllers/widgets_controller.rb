@@ -1,3 +1,4 @@
+# TODO : Delete this and associated spec once 'api/widget/config' end point is merged
 class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget

@@ -11,14 +11,19 @@
       />
     </div>
     <div class="list-scroll-container">
-      <div class="dropdown-list">
+      <div
+        ref="multiselectDropdown"
+        class="multiselect-dropdown--list"
+        @keyup.up="onArrowUp"
+        @keyup.down="onArrowDown"
+      >
         <woot-dropdown-menu>
           <woot-dropdown-item
             v-for="option in filteredOptions"
             :key="option.id"
           >
             <woot-button
-              class="dropdown-item"
+              class="multiselect-dropdown--item"
               variant="clear"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
@@ -102,16 +107,49 @@ export default {
       return this.filteredOptions.length === 0 && this.search !== '';
     },
   },
+
   mounted() {
     this.focusInput();
   },
+
   methods: {
     onclick(option) {
       this.$emit('click', option);
     },
-
     focusInput() {
       this.$refs.searchbar.focus();
+    },
+    onArrowUp() {
+      const allDropdownItems = this.$refs.multiselectDropdown.querySelectorAll(
+        '.dropdown .multiselect-dropdown--item'
+      );
+      const focusedElement = this.$refs.multiselectDropdown.querySelector(
+        '.dropdown .multiselect-dropdown--item:focus'
+      );
+      const activeElementIndex = [...allDropdownItems].indexOf(focusedElement);
+      const lastElementIndex = allDropdownItems.length - 1;
+
+      if (activeElementIndex >= 1) {
+        allDropdownItems[activeElementIndex - 1].focus();
+      } else {
+        allDropdownItems[lastElementIndex].focus();
+      }
+    },
+    onArrowDown() {
+      const allDropdownItems = this.$refs.multiselectDropdown.querySelectorAll(
+        '.dropdown .multiselect-dropdown--item'
+      );
+      const focusedElement = this.$refs.multiselectDropdown.querySelector(
+        '.dropdown .multiselect-dropdown--item:focus'
+      );
+      const activeElementIndex = [...allDropdownItems].indexOf(focusedElement);
+      const lastElementIndex = allDropdownItems.length - 1;
+
+      if (activeElementIndex === lastElementIndex) {
+        allDropdownItems[0].focus();
+      } else {
+        allDropdownItems[activeElementIndex + 1].focus();
+      }
     },
   },
 };
@@ -153,17 +191,23 @@ export default {
   overflow: auto;
 }
 
-.dropdown-list {
+.multiselect-dropdown--list {
   width: 100%;
   max-height: 12rem;
 }
 
-.dropdown-item {
+.multiselect-dropdown--item {
   justify-content: space-between;
   width: 100%;
 
   &.active {
+    background-color: var(--w-50);
+    color: var(--w-900);
     font-weight: var(--font-weight-bold);
+  }
+
+  &:focus {
+    background-color: var(--color-background);
   }
 }
 

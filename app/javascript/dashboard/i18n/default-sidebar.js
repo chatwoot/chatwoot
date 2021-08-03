@@ -82,8 +82,30 @@ export const getSidebarItems = accountId => ({
     },
   },
   reports: {
-    routes: ['settings_account_reports'],
-    menuItems: {},
+    routes: ['settings_account_reports', 'csat_reports'],
+    menuItems: {
+      back: {
+        icon: 'ion-ios-arrow-back',
+        label: 'HOME',
+        hasSubMenu: false,
+        toStateName: 'home',
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
+      },
+      reportOverview: {
+        icon: 'ion-arrow-graph-up-right',
+        label: 'REPORTS_OVERVIEW',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/reports/overview`),
+        toStateName: 'settings_account_reports',
+      },
+      csatReports: {
+        icon: 'ion-happy',
+        label: 'CSAT',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/reports/csat`),
+        toStateName: 'csat_reports',
+      },
+    },
   },
   notifications: {
     routes: ['notifications_index'],

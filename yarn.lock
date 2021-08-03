@@ -14966,10 +14966,10 @@ vue-docgen-loader@^1.5.0:
     loader-utils "^1.2.3"
     querystring "^0.2.0"
 
-vue-easytable@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/vue-easytable/-/vue-easytable-2.5.1.tgz#2d27a9926edbf79d766465f890f4c75a9848c630"
-  integrity sha512-HyqcwgV828eQ0DmmHTFedZznjPkS6T2AQHPGsUS59KsHBHs0ZDb7nNs5o+9fOsbYbWt/BkG9B96u2p5iG6Hy5g==
+vue-easytable@2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/vue-easytable/-/vue-easytable-2.5.5.tgz#0d0ac244beb853859c76191c117311b5cf9654b5"
+  integrity sha512-2dp2+OWYgCn8+g6p+7tNoCuU85OGHqk1hnQ7QnS4HUyPFVAN1n4mmG+6WkIuRKrc5wsFpsg7ZiFxHQnplos3jw==
   dependencies:
     lodash "^4.17.20"
     resize-observer-polyfill "^1.5.1"
