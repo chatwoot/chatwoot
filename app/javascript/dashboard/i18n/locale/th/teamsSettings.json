@@ -19,7 +19,7 @@
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "สร้าง",
           "route": "settings_teams_new",
           "body": "Create a new team of agents."
         },
