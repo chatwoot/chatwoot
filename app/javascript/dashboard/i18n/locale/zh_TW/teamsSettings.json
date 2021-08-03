@@ -15,7 +15,7 @@
       "AGENTS": {
         "BUTTON_TEXT": "將客服加入團隊",
         "TITLE": "將客服加入團隊 - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。"
       },
       "WIZARD": [
         {
