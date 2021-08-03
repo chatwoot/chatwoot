@@ -56,8 +56,6 @@ export default {
       labelList: 'labels/getLabels',
     }),
     campaigns() {
-      console.log('type', this.type);
-
       return this.$store.getters['campaigns/getCampaigns'](this.campaignType);
     },
     showEmptyResult() {

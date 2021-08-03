@@ -83,9 +83,6 @@
         <label v-if="isOngoingType" :class="{ error: $v.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox" @change="onChangeInbox($event)">
-            <option value="0" disabled selected>
-              {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
-            </option>
             <option v-for="item in inboxes" :key="item.name" :value="item.id">
               {{ item.name }}
             </option>
@@ -152,10 +149,7 @@
       </div>
 
       <div class="modal-footer">
-        <woot-button
-          :is-disabled="buttonDisabled"
-          :is-loading="uiFlags.isCreating"
-        >
+        <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
         </woot-button>
         <woot-button variant="clear" @click.prevent="onClose">
@@ -194,7 +188,7 @@ export default {
       title: '',
       message: '',
       selectedSender: 0,
-      selectedInbox: 0,
+      selectedInbox: null,
       endPoint: '',
       timeOnPage: 10,
       show: true,
@@ -208,32 +202,42 @@ export default {
     };
   },
 
-  validations: {
-    title: {
-      required,
-    },
-    message: {
-      required,
-    },
-    selectedSender: {
-      required,
-    },
-    endPoint: {
-      required,
-      minLength: minLength(7),
-      url,
-    },
-    timeOnPage: {
-      required,
-    },
-    selectedAudience: {
-      isEmpty() {
-        return !!this.selectedAudience.length;
+  validations() {
+    const commonValidations = {
+      title: {
+        required,
       },
-    },
-    selectedInbox: {
-      required,
-    },
+      message: {
+        required,
+      },
+    };
+    if (this.isOngoingType) {
+      return {
+        ...commonValidations,
+        selectedSender: {
+          required,
+        },
+        endPoint: {
+          required,
+          minLength: minLength(7),
+          url,
+        },
+        timeOnPage: {
+          required,
+        },
+        selectedInbox: {
+          required,
+        },
+      };
+    }
+    return {
+      ...commonValidations,
+      selectedAudience: {
+        isEmpty() {
+          return !!this.selectedAudience.length;
+        },
+      },
+    };
   },
   computed: {
     ...mapGetters({
@@ -242,25 +246,6 @@ export default {
     }),
     currentInboxId() {
       return this.$route.params.inboxId;
-    },
-    buttonDisabled() {
-      if (this.isOngoingType) {
-        return (
-          this.$v.message.$invalid ||
-          this.$v.title.$invalid ||
-          this.$v.selectedSender.$invalid ||
-          this.$v.endPoint.$invalid ||
-          this.$v.timeOnPage.$invalid ||
-          this.$v.selectedInbox.$invalid ||
-          this.uiFlags.isCreating
-        );
-      }
-      return (
-        this.$v.message.$invalid ||
-        this.$v.title.$invalid ||
-        this.$v.selectedAudience.$invalid ||
-        this.uiFlags.isCreating
-      );
     },
     sendersAndBotList() {
       return [
@@ -324,6 +309,10 @@ export default {
       return campaignDetails;
     },
     async addCampaign() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
