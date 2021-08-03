@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import Branding from 'widget/components/Branding.vue';
+import Branding from 'shared/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';

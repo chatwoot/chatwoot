@@ -25,7 +25,7 @@ Style/FrozenStringLiteralComment:
 Style/SymbolArray:
   Enabled: false
 Style/OptionalBooleanParameter:
-  Exclude: 
+  Exclude:
     - 'app/services/email_templates/db_resolver_service.rb'
     - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
@@ -57,6 +57,7 @@ Rails/ApplicationController:
     - 'app/controllers/widgets_controller.rb'
     - 'app/controllers/platform_controller.rb'
     - 'app/controllers/public_controller.rb'
+    - 'app/controllers/survey/responses_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
@@ -79,7 +80,7 @@ Style/GuardClause:
     - 'app/models/message.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Metrics/AbcSize:
-  Exclude: 
+  Exclude:
     - 'app/controllers/concerns/auth_helper.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
@@ -108,7 +109,7 @@ Rails/BulkChangeTable:
     - 'db/migrate/20191027054756_create_contact_inboxes.rb'
     - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
     - 'db/migrate/20210425093724_convert_integration_hook_settings_field.rb'
-Rails/UniqueValidationWithoutIndex: 
+Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
