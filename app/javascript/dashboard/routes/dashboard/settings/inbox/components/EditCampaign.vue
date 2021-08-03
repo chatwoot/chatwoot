@@ -12,7 +12,7 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
           @blur="$v.title.$touch"
         />
-        <label v-if="isOngoingType" class="editor-wrap">
+        <label class="editor-wrap">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <woot-message-editor
             v-model.trim="message"
@@ -23,20 +23,6 @@
             @input="$v.message.$touch"
           />
           <span v-if="$v.message.$error" class="editor-warning__message">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
-          </span>
-        </label>
-
-        <label v-else :class="{ error: $v.message.$error }">
-          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-          <textarea
-            v-model.trim="message"
-            rows="5"
-            type="text"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @input="$v.message.$touch"
-          />
-          <span v-if="$v.message.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
@@ -109,12 +95,11 @@ import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
-import campaignMixin from 'shared/mixins/campaignMixin';
 export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [alertMixin, campaignMixin],
+  mixins: [alertMixin],
   props: {
     selectedCampaign: {
       type: Object,
@@ -159,12 +144,6 @@ export default {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
     }),
-    currentInboxId() {
-      return this.$route.params.inboxId;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
-    },
     buttonDisabled() {
       return (
         this.$v.message.$invalid ||
