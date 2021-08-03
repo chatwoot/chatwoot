@@ -70,8 +70,8 @@
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_AGENT": "Conversation Assignee changed",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "SENT_BY": "Sent by:",
+    "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "SENT_BY": "נשלח על ידי:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "בחר סוכן",
       "REMOVE": "Remove",
@@ -88,7 +88,7 @@
     "SUBMIT": "שלח",
     "CANCEL": "ביטול",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
