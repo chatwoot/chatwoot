@@ -92,7 +92,7 @@ Please follow [deployment architecture guide](https://www.chatwoot.com/docs/depl
 
 ---
 #### Security
-Looking to report a vulnerability. Please refer our [SECURITY.md](./SECURITY.md)
+Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
 ---
 ### Contributors ✨

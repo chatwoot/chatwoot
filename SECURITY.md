@@ -1,5 +1,5 @@
 # Security Policy
-Chatwoot is looking forward to working with security researchers across the world to keep Chatwoot and our users safe. If you have found an issue in our systems/application, please reach out to us.
+Chatwoot is looking forward to working with security researchers across the world to keep Chatwoot and our users safe. If you have found an issue in our systems/applications, please reach out to us.
 
 ## Reporting a Vulnerability
 
@@ -12,7 +12,7 @@ If you have any questions about the process, feel free to reach out to hello@cha
 
 ## Out of scope
 
-Please do not peform testing against Chatwoot production services. Use our staging environment at staging.chatwoot.com.
+Please do not peform testing against Chatwoot production services. Use a self hosted instance to perform tests.
 
 We consider the following to be out of scope, though there may be exceptions.
 
