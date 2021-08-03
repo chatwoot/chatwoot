@@ -70,7 +70,7 @@
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
     "CHANGE_TEAM": "Tým konverzace se změnil",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
     "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
