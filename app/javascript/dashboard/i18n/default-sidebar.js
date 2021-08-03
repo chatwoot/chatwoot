@@ -123,14 +123,14 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/dashboard`),
       },
       ongoingCampaigns: {
-        icon: 'ion-radio-waves',
+        icon: 'ion-arrow-swap',
         label: 'ONGOING',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
         toStateName: 'settings_account_campaigns',
       },
       onOffCampaigns: {
-        icon: 'ion-arrow-swap',
+        icon: 'ion-radio-waves',
         label: 'ONE_OFF',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
