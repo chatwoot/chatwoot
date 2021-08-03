@@ -16,7 +16,7 @@
           @blur="$v.title.$touch"
         />
 
-        <label class="editor-wrap">
+        <label v-if="isOngoingType" class="editor-wrap">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <woot-message-editor
             v-model="message"
@@ -26,6 +26,20 @@
             @blur="$v.message.$touch"
           />
           <span v-if="$v.message.$error" class="editor-warning__message">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+          </span>
+        </label>
+
+        <label v-else :class="{ error: $v.message.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          <textarea
+            v-model="message"
+            rows="5"
+            type="text"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+            @blur="$v.message.$touch"
+          />
+          <span v-if="$v.message.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
