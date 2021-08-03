@@ -46,7 +46,7 @@
         "ERROR": "Invalid email address"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Tin nhắn",
         "PLACEHOLDER": "Please enter your message",
         "ERROR": "Message too short"
       }
