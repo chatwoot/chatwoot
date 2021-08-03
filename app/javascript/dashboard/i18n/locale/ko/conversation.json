@@ -70,7 +70,7 @@
     "CHANGE_STATUS": "대화 상태가 변경됨",
     "CHANGE_AGENT": "대화 담당자가 변경됨",
     "CHANGE_TEAM": "대화 담당자가 변경됨",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
