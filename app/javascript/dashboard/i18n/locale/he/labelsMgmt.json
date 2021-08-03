@@ -34,7 +34,7 @@
         "LABEL": "Show label on sidebar"
       },
       "EDIT": "ערוך",
-      "CREATE": "Create",
+      "CREATE": "צור",
       "DELETE": "מחק",
       "CANCEL": "ביטול"
     },
@@ -43,21 +43,21 @@
       "DESC": "Labels let you group the conversations together.",
       "API": {
         "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
     "EDIT": {
       "TITLE": "Edit label",
       "API": {
         "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       },
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
