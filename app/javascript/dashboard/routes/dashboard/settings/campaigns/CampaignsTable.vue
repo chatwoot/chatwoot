@@ -7,7 +7,7 @@
       :border-around="true"
     />
 
-    <empty-state v-if="showEmptyResult" :title="$t('CAMPAIGN.LIST.404')" />
+    <empty-state v-if="showEmptyResult" :title="emptyMessage" />
     <div v-if="isLoading" class="campaign--loader">
       <spinner />
       <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
@@ -57,6 +57,12 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    emptyMessage() {
+      if (this.isOngoingType) {
+        return this.$t('CAMPAIGN.ONGOING.404');
+      }
+      return this.$t('CAMPAIGN.ONE_OFF.404');
     },
     tableData() {
       if (this.isLoading) {
