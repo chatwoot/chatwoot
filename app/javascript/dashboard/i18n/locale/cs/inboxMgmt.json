@@ -279,7 +279,7 @@
       "TITLE": "Znovu autorizovat",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Došlo k chybě, zkuste to prosím znovu"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
