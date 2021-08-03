@@ -91,7 +91,10 @@ Follow this [link](https://www.chatwoot.com/docs/environment-variables) to under
 Please follow [deployment architecture guide](https://www.chatwoot.com/docs/deployment/architecture) to deploy with Docker or Caprover.
 
 ---
+#### Security
+Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
+---
 ### Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
