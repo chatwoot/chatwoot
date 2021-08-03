@@ -41,9 +41,9 @@
         "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
+            "LABEL": "ลิ้ง Webhook",
             "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
           },
           "SUBMIT": "Create webhook"
         },
