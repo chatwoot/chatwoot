@@ -26,7 +26,7 @@
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "DOWNLOAD": "डाउनलोड",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -38,7 +38,7 @@
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "OPEN": "More",
-      "CLOSE": "Close",
+      "CLOSE": "बन्दा गार्नुहोस्",
       "DETAILS": "details"
     },
     "RESOLVE_DROPDOWN": {
@@ -85,7 +85,7 @@
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
+    "SUBMIT": "बुझाउनुहोस्",
     "CANCEL": "Cancel",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
