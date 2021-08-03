@@ -12,7 +12,18 @@
         "TITLE": {
           "LABEL": "標題",
           "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "ERROR": "標題為必填"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
         },
         "MESSAGE": {
           "LABEL": "訊息",
@@ -42,6 +53,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "更新",
@@ -59,6 +83,7 @@
         "STATUS": "狀態",
         "SENDER": "發送者",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "時間（秒）",
         "CREATED_AT": "建立於"
       },
@@ -69,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "已啟用",
-        "DISABLED": "已停用"
+        "DISABLED": "已停用",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "機器人"

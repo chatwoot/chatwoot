@@ -17,10 +17,11 @@
 #
 # Indexes
 #
-#  index_contacts_on_account_id         (account_id)
-#  index_contacts_on_pubsub_token       (pubsub_token) UNIQUE
-#  uniq_email_per_account_contact       (email,account_id) UNIQUE
-#  uniq_identifier_per_account_contact  (identifier,account_id) UNIQUE
+#  index_contacts_on_account_id                   (account_id)
+#  index_contacts_on_phone_number_and_account_id  (phone_number,account_id)
+#  index_contacts_on_pubsub_token                 (pubsub_token) UNIQUE
+#  uniq_email_per_account_contact                 (email,account_id) UNIQUE
+#  uniq_identifier_per_account_contact            (identifier,account_id) UNIQUE
 #
 
 class Contact < ApplicationRecord
@@ -39,8 +40,10 @@ class Contact < ApplicationRecord
   belongs_to :account
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
+  has_many :csat_survey_responses, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event, :ip_lookup
@@ -53,6 +56,7 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
+      custom_attributes: custom_attributes,
       email: email,
       id: id,
       identifier: identifier,

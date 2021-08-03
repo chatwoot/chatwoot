@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Hangüzenetek",
         "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
-        "ENABLE_AUDIO": "Kapj hangüzenetet ha új beszélgetés vagy üzenet érkezik"
+        "NONE": "Nincs",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail értesítések",
@@ -77,6 +79,11 @@
         "LABEL": "Az e-mailcímed",
         "ERROR": "Kérjük helyes e-mailcímet adj meg",
         "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
         "LABEL": "Jelszó",
@@ -132,8 +139,13 @@
     "CANNED_RESPONSES": "Mentett válaszok",
     "INTEGRATIONS": "Integrációk",
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
+    "APPLICATIONS": "Applications",
     "LABELS": "Cimkék",
-    "TEAMS": "Csapatok"
+    "TEAMS": "Csapatok",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Új fiók",

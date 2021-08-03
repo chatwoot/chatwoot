@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nombre de la bandeja de entrada",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nombre del sitio web",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
         "CHOOSE_PAGE": "Elegir página",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Creando Canal de Soporte al Sitio Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nombre del sitio web",
-          "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del sitio web",
@@ -123,6 +127,14 @@
           "ERROR_MESSAGE": "No pudimos autenticar credenciales de Twilio, por favor inténtalo de nuevo"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "Canal API",
         "DESC": "Integre con API channel y comienze a dar soporte a sus clientes.",
@@ -161,8 +173,8 @@
         "FINISH_MESSAGE": "Empieze a reenviar su emails a la siguiente dirección de email."
       },
       "AUTH": {
-        "TITLE": "Canales",
-        "DESC": "Actualmente soportamos widgets de chat en vivo, páginas de Facebook y perfiles de Twitter como plataformas. Tenemos más plataformas como Whatsapp, Email, Telegram y Línea en las obras, que estarán en breve."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -208,6 +220,14 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
       }
     },
     "DELETE": {
@@ -215,6 +235,7 @@
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
         "MESSAGE": "¿Está seguro de eliminar ",
+        "PLACE_HOLDER": "Por favor, escriba {inboxName} para confirmar",
         "YES": "Sí, eliminar ",
         "NO": "No, mantenerlo "
       },
@@ -243,12 +264,16 @@
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
       "UPDATE": "Actualizar",
+      "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
-      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí."
+      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identifier_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",

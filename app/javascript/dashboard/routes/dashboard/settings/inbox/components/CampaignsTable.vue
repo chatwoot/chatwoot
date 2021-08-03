@@ -22,7 +22,10 @@ import Spinner from 'shared/components/Spinner.vue';
 import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
-import CampaignSender from './CampaignSender';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
+import campaignMixin from 'shared/mixins/campaignMixin';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
@@ -30,7 +33,9 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway],
+
+  mixins: [clickaway, timeMixin, campaignMixin, messageFormatterMixin],
+
   props: {
     campaigns: {
       type: Array,
@@ -44,15 +49,32 @@ export default {
       type: Boolean,
       default: false,
     },
-    onEditClick: {
-      type: Function,
-      default: () => {},
-    },
   },
 
-  data() {
-    return {
-      columns: [
+  computed: {
+    currentInboxId() {
+      return this.$route.params.inboxId;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    tableData() {
+      if (this.isLoading) {
+        return [];
+      }
+      return this.campaigns.map(item => {
+        return {
+          ...item,
+          url: item.trigger_rules.url,
+          timeOnPage: item.trigger_rules.time_on_page,
+          scheduledAt: item.scheduled_at
+            ? this.messageStamp(new Date(item.scheduled_at), 'LLL d, h:mm a')
+            : '---',
+        };
+      });
+    },
+    columns() {
+      const visibleToAllTable = [
         {
           field: 'title',
           key: 'title',
@@ -73,61 +95,122 @@ export default {
           align: 'left',
           width: 350,
           renderBodyCell: ({ row }) => {
-            return (
-              <div class="text-truncate">
-                <span title={row.message}>{row.message}</span>
-              </div>
-            );
+            if (row.message) {
+              return (
+                <div class="text-truncate">
+                  <span
+                    domPropsInnerHTML={this.formatMessage(row.message)}
+                  ></span>
+                </div>
+              );
+            }
+            return '';
           },
         },
+      ];
+      if (this.isOngoingType) {
+        return [
+          ...visibleToAllTable,
+          {
+            field: 'enabled',
+            key: 'enabled',
+            title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
+            align: 'left',
+            renderBodyCell: ({ row }) => {
+              const labelText = row.enabled
+                ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
+                : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+              const colorScheme = row.enabled ? 'success' : 'secondary';
+              return <Label title={labelText} colorScheme={colorScheme} />;
+            },
+          },
+          {
+            field: 'sender',
+            key: 'sender',
+            title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
+            align: 'left',
+            renderBodyCell: ({ row }) => {
+              if (row.sender) return <UserAvatarWithName user={row.sender} />;
+              return this.$t('CAMPAIGN.LIST.SENDER.BOT');
+            },
+          },
+          {
+            field: 'url',
+            key: 'url',
+            title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
+            align: 'left',
+            renderBodyCell: ({ row }) => (
+              <div class="text-truncate">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  href={row.url}
+                  title={row.url}
+                >
+                  {row.url}
+                </a>
+              </div>
+            ),
+          },
+          {
+            field: 'timeOnPage',
+            key: 'timeOnPage',
+            title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
+            align: 'left',
+          },
+
+          {
+            field: 'buttons',
+            key: 'buttons',
+            title: '',
+            align: 'left',
+            renderBodyCell: row => (
+              <div class="button-wrapper">
+                <WootButton
+                  variant="clear"
+                  icon="ion-edit"
+                  color-scheme="secondary"
+                  classNames="grey-btn"
+                  onClick={() => this.$emit('on-edit-click', row)}
+                >
+                  {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
+                </WootButton>
+                <WootButton
+                  variant="link"
+                  icon="ion-close-circled"
+                  color-scheme="secondary"
+                  onClick={() => this.$emit('on-delete-click', row)}
+                >
+                  {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
+                </WootButton>
+              </div>
+            ),
+          },
+        ];
+      }
+      return [
+        ...visibleToAllTable,
         {
-          field: 'enabled',
-          key: 'enabled',
+          field: 'campaign_status',
+          key: 'campaign_status',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
           align: 'left',
           renderBodyCell: ({ row }) => {
-            const labelText = row.enabled
-              ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-              : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
-            const colorScheme = row.enabled ? 'success' : 'secondary';
+            const labelText =
+              row.campaign_status === 'completed'
+                ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
+                : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+            const colorScheme =
+              row.campaign_status === 'completed' ? 'secondary' : 'success';
             return <Label title={labelText} colorScheme={colorScheme} />;
           },
         },
         {
-          field: 'sender',
-          key: 'sender',
-          title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
-          align: 'left',
-          renderBodyCell: ({ row }) => {
-            if (row.sender) return <CampaignSender sender={row.sender} />;
-            return this.$t('CAMPAIGN.LIST.SENDER.BOT');
-          },
-        },
-        {
-          field: 'url',
-          key: 'url',
-          title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
-          align: 'left',
-          renderBodyCell: ({ row }) => (
-            <div class="text-truncate">
-              <a
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                href={row.url}
-                title={row.url}
-              >
-                {row.url}
-              </a>
-            </div>
-          ),
-        },
-        {
-          field: 'timeOnPage',
-          key: 'timeOnPage',
-          title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
+          field: 'scheduledAt',
+          key: 'scheduledAt',
+          title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SCHEDULED_AT'),
           align: 'left',
         },
-
         {
           field: 'buttons',
           key: 'buttons',
@@ -136,32 +219,17 @@ export default {
           renderBodyCell: row => (
             <div class="button-wrapper">
               <WootButton
-                variant="clear"
-                icon="ion-edit"
+                variant="link"
+                icon="ion-close-circled"
                 color-scheme="secondary"
-                classNames="grey-btn"
-                onClick={() => this.onEditClick(row)}
+                onClick={() => this.$emit('on-delete-click', row)}
               >
-                {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
+                {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
               </WootButton>
             </div>
           ),
         },
-      ],
-    };
-  },
-  computed: {
-    tableData() {
-      if (this.isLoading) {
-        return [];
-      }
-      return this.campaigns.map(item => {
-        return {
-          ...item,
-          url: item.trigger_rules.url,
-          timeOnPage: item.trigger_rules.time_on_page,
-        };
-      });
+      ];
     },
   },
 };

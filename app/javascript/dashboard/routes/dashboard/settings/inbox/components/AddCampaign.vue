@@ -1,133 +1,183 @@
 <template>
-  <modal :show.sync="show" :on-close="onClose">
-    <div class="column content-box">
-      <woot-modal-header
-        :header-title="$t('CAMPAIGN.ADD.TITLE')"
-        :header-content="$t('CAMPAIGN.ADD.DESC')"
-      />
-      <form class="row" @submit.prevent="addCampaign">
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.title.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.TITLE.LABEL') }}
-            <input
-              v-model.trim="title"
-              type="text"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
-              @input="$v.title.$touch"
-            />
-          </label>
-        </div>
+  <div class="column content-box">
+    <woot-modal-header
+      :header-title="$t('CAMPAIGN.ADD.TITLE')"
+      :header-content="$t('CAMPAIGN.ADD.DESC')"
+    />
+    <form class="row" @submit.prevent="addCampaign">
+      <div class="medium-12 columns">
+        <woot-input
+          v-model="title"
+          :label="$t('CAMPAIGN.ADD.FORM.TITLE.LABEL')"
+          type="text"
+          :class="{ error: $v.title.$error }"
+          :error="$v.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
+          :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
+          @blur="$v.title.$touch"
+        />
 
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.message.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-            <textarea
-              v-model.trim="message"
-              rows="5"
-              type="text"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-              @input="$v.message.$touch"
-            />
-          </label>
-        </div>
+        <label v-if="isOngoingType" class="editor-wrap">
+          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          <woot-message-editor
+            v-model="message"
+            class="message-editor"
+            :class="{ editor_warning: $v.message.$error }"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+            @blur="$v.message.$touch"
+          />
+          <span v-if="$v.message.$error" class="editor-warning__message">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+          </span>
+        </label>
 
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.selectedSender.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
-            <select v-model="selectedSender">
-              <option
-                v-for="sender in sendersAndBotList"
-                :key="sender.name"
-                :value="sender.id"
-              >
-                {{ sender.name }}
-              </option>
-            </select>
-            <span v-if="$v.selectedSender.$error" class="message">
-              {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
-            </span>
-          </label>
-        </div>
+        <label v-else :class="{ error: $v.message.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          <textarea
+            v-model="message"
+            rows="5"
+            type="text"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+            @blur="$v.message.$touch"
+          />
+          <span v-if="$v.message.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+          </span>
+        </label>
 
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.endPoint.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.END_POINT.LABEL') }}
-            <input
-              v-model.trim="endPoint"
-              type="text"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
-              @input="$v.endPoint.$touch"
-            />
-            <span v-if="$v.endPoint.$error" class="message">
-              {{ $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') }}
-            </span>
-          </label>
-        </div>
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.timeOnPage.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL') }}
-            <input
-              v-model.trim="timeOnPage"
-              type="number"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
-              @input="$v.timeOnPage.$touch"
-            />
-            <span v-if="$v.timeOnPage.$error" class="message">
-              {{ $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.ERROR') }}
-            </span>
-          </label>
-        </div>
+        <label v-if="isOnOffType">
+          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          <woot-date-time-picker
+            :value="scheduledAt"
+            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
+            @change="onChange"
+          />
+        </label>
 
-        <div class="medium-12 columns">
-          <label>
-            <input
-              v-model="enabled"
-              type="checkbox"
-              value="enabled"
-              name="enabled"
-            />
-            {{ $t('CAMPAIGN.ADD.FORM.ENABLED') }}
-          </label>
-        </div>
+        <label
+          v-if="isOnOffType"
+          :class="{ error: $v.selectedAudience.$error }"
+        >
+          {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
+          <multiselect
+            v-model="selectedAudience"
+            :options="audienceList"
+            track-by="id"
+            label="title"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :hide-selected="true"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.AUDIENCE.PLACEHOLDER')"
+            selected-label
+            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+            :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+            @blur="$v.selectedAudience.$touch"
+            @select="$v.selectedAudience.$touch"
+          />
+          <span v-if="$v.selectedAudience.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
+          </span>
+        </label>
 
-        <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="buttonDisabled"
-              :loading="uiFlags.isCreating"
-              :button-text="$t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT')"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </modal>
+        <label
+          v-if="isOngoingType"
+          :class="{ error: $v.selectedSender.$error }"
+        >
+          {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
+          <select v-model="selectedSender">
+            <option
+              v-for="sender in sendersAndBotList"
+              :key="sender.name"
+              :value="sender.id"
+            >
+              {{ sender.name }}
+            </option>
+          </select>
+          <span v-if="$v.selectedSender.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
+          </span>
+        </label>
+
+        <woot-input
+          v-if="isOngoingType"
+          v-model="endPoint"
+          :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
+          type="text"
+          :class="{ error: $v.endPoint.$error }"
+          :error="
+            $v.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
+          "
+          :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
+          @blur="$v.endPoint.$touch"
+        />
+        <woot-input
+          v-if="isOngoingType"
+          v-model="timeOnPage"
+          :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
+          type="text"
+          :class="{ error: $v.timeOnPage.$error }"
+          :error="
+            $v.timeOnPage.$error
+              ? $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.ERROR')
+              : ''
+          "
+          :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
+          @blur="$v.timeOnPage.$touch"
+        />
+        <label v-if="isOngoingType">
+          <input
+            v-model="enabled"
+            type="checkbox"
+            value="enabled"
+            name="enabled"
+          />
+          {{ $t('CAMPAIGN.ADD.FORM.ENABLED') }}
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <woot-button
+          :is-disabled="buttonDisabled"
+          :is-loading="uiFlags.isCreating"
+        >
+          {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
+        </woot-button>
+        <woot-button variant="clear" @click.prevent="onClose">
+          {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
+        </woot-button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
-import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import campaignMixin from 'shared/mixins/campaignMixin';
+import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 
 export default {
   components: {
-    Modal,
+    WootDateTimePicker,
+    WootMessageEditor,
   },
-  mixins: [alertMixin],
+
+  mixins: [alertMixin, campaignMixin],
+
   props: {
     senderList: {
       type: Array,
       default: () => [],
     },
-    onClose: {
-      type: Function,
-      default: () => {},
+    audienceList: {
+      type: Array,
+      default: () => [],
     },
   },
+
   data() {
     return {
       title: '',
@@ -137,8 +187,11 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
+      scheduledAt: null,
+      selectedAudience: [],
     };
   },
+
   validations: {
     title: {
       required,
@@ -157,19 +210,37 @@ export default {
     timeOnPage: {
       required,
     },
+    selectedAudience: {
+      isEmpty() {
+        return !!this.selectedAudience.length;
+      },
+    },
   },
-
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
     }),
+    currentInboxId() {
+      return this.$route.params.inboxId;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
     buttonDisabled() {
+      if (this.isOngoingType) {
+        return (
+          this.$v.message.$invalid ||
+          this.$v.title.$invalid ||
+          this.$v.selectedSender.$invalid ||
+          this.$v.endPoint.$invalid ||
+          this.$v.timeOnPage.$invalid ||
+          this.uiFlags.isCreating
+        );
+      }
       return (
         this.$v.message.$invalid ||
         this.$v.title.$invalid ||
-        this.$v.selectedSender.$invalid ||
-        this.$v.endPoint.$invalid ||
-        this.$v.timeOnPage.$invalid ||
+        this.$v.selectedAudience.$invalid ||
         this.uiFlags.isCreating
       );
     },
@@ -183,11 +254,17 @@ export default {
       ];
     },
   },
-
   methods: {
-    async addCampaign() {
-      try {
-        await this.$store.dispatch('campaigns/create', {
+    onClose() {
+      this.$emit('on-close');
+    },
+    onChange(value) {
+      this.scheduledAt = value;
+    },
+    getCampaignDetails() {
+      let campaignDetails = null;
+      if (this.isOngoingType) {
+        campaignDetails = {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
@@ -197,18 +274,41 @@ export default {
             url: this.endPoint,
             time_on_page: this.timeOnPage,
           },
+        };
+      } else {
+        const audience = this.selectedAudience.map(item => {
+          return {
+            id: item.id,
+            type: 'Label',
+          };
         });
+        campaignDetails = {
+          title: this.title,
+          message: this.message,
+          inbox_id: this.$route.params.inboxId,
+          scheduled_at: this.scheduledAt,
+          audience,
+        };
+      }
+      return campaignDetails;
+    },
+    async addCampaign() {
+      try {
+        const campaignDetails = this.getCampaignDetails();
+        await this.$store.dispatch('campaigns/create', campaignDetails);
         this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.content-box .page-top-bar::v-deep {
-  padding: var(--space-large) var(--space-large) var(--space-zero);
+::v-deep .ProseMirror-woot-style {
+  height: 8rem;
 }
 </style>

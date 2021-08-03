@@ -3,13 +3,12 @@ class ApplicationController < ActionController::Base
   include Pundit
   include SwitchLocale
 
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   before_action :set_current_user, unless: :devise_controller?
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
-  # after_action :verify_authorized
   rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   private
@@ -17,7 +16,7 @@ class ApplicationController < ActionController::Base
   def handle_with_exception
     yield
   rescue ActiveRecord::RecordNotFound => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     render_not_found_error('Resource could not be found')
   rescue Pundit::NotAuthorizedError
     render_unauthorized('You are not authorized to do this action')

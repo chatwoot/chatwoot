@@ -67,6 +67,55 @@ platform/api/v1/users/{id}/login:
 
 # ---------------- end of platform path -----------#
 
+# ------------  Public API routes  ------------#
+
+# Contacts
+
+public/api/v1/inboxes/{inbox_identifier}/contacts:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+  post:
+    $ref: ./public/inboxes/contacts/create.yml
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+  get:
+    $ref: './public/inboxes/contacts/show.yml'
+  patch:
+    $ref: ./public/inboxes/contacts/update.yml
+
+
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+  post:
+    $ref: ./public/inboxes/conversations/create.yml
+  get:
+    $ref: ./public/inboxes/conversations/index.yml
+
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./public/inboxes/messages/create.yml
+  get:
+    $ref: ./public/inboxes/messages/index.yml
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+    - $ref: '#/parameters/message_id'
+  patch:
+    $ref: ./public/inboxes/messages/update.yml
+
+# ---------------- end of public api routes-----------#
+
+# ------------  Application API routes  ------------#
 # AgentBots
 
 /api/v1/accounts/{account_id}/agent_bots:
@@ -107,7 +156,11 @@ platform/api/v1/users/{id}/login:
 /api/v1/accounts/{account_id}/conversations:
   parameters:
     - $ref: '#/parameters/account_id'
-  $ref: ./conversation/index_or_create.yml
+  $ref: ./conversation/index.yml
+/api/v1/accounts/{account_id}/conversations/:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  $ref: ./conversation/create.yml
 /api/v1/accounts/{account_id}/conversations/{converstion_id}:
   parameters:
     - $ref: '#/parameters/account_id'
@@ -215,3 +268,31 @@ platform/api/v1/users/{id}/login:
     $ref: ./teams/update.yml
   delete:
     $ref: ./teams/delete.yml
+
+### Custom Filters
+
+# Teams
+/api/v1/accounts/{account_id}/custom_filters:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: filter_type
+      schema:
+        type: string
+        enum: ['conversation', 'contact', 'report']
+      required: false
+      description: The type of custom filter
+  get:
+    $ref: ./custom_filters/index.yml
+  post:
+    $ref: ./custom_filters/create.yml
+/api/v1/accounts/{account_id}/custom_filters/{custom_filter_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/custom_filter_id'
+  get:
+    $ref: './custom_filters/show.yml'
+  patch:
+    $ref: ./custom_filters/update.yml
+  delete:
+    $ref: ./custom_filters/delete.yml

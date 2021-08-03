@@ -38,15 +38,7 @@
         />
       </transition>
     </div>
-    <div v-if="showAttachmentError" class="banner">
-      <span>
-        {{
-          $t('FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE: fileUploadSizeLimit,
-          })
-        }}
-      </span>
-    </div>
+    <banner />
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap
         v-if="currentView === 'messageView'"
@@ -81,7 +73,7 @@
 </template>
 
 <script>
-import Branding from 'widget/components/Branding.vue';
+import Branding from 'shared/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
@@ -90,6 +82,7 @@ import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
+import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -105,6 +98,7 @@ export default {
     PreChatForm,
     Spinner,
     TeamAvailability,
+    Banner,
   },
   mixins: [configMixin],
   props: {
@@ -118,7 +112,10 @@ export default {
     },
   },
   data() {
-    return { isOnCollapsedView: false, showAttachmentError: false };
+    return {
+      isOnCollapsedView: false,
+      isOnNewConversation: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -135,7 +132,10 @@ export default {
         if (this.conversationSize) {
           return 'messageView';
         }
-        if (this.preChatFormEnabled && !currentUserEmail) {
+        if (
+          this.isOnNewConversation ||
+          (this.preChatFormEnabled && !currentUserEmail)
+        ) {
           return 'preChatFormView';
         }
         return 'messageView';
@@ -162,11 +162,9 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR, () => {
-      this.showAttachmentError = true;
-      setTimeout(() => {
-        this.showAttachmentError = false;
-      }, 3000);
+    bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
+      this.isOnCollapsedView = true;
+      this.isOnNewConversation = true;
     });
   },
   methods: {
@@ -238,14 +236,6 @@ export default {
 
   .input-wrap {
     padding: 0 $space-normal;
-  }
-  .banner {
-    background: $color-error;
-    color: $color-white;
-    font-size: $font-size-default;
-    font-weight: $font-weight-bold;
-    padding: $space-slab;
-    text-align: center;
   }
 }
 </style>

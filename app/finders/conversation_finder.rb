@@ -21,6 +21,27 @@ class ConversationFinder
   end
 
   def perform
+    set_up
+
+    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    assigned_count = all_count - unassigned_count
+
+    filter_by_assignee_type
+
+    {
+      conversations: conversations,
+      count: {
+        mine_count: mine_count,
+        assigned_count: assigned_count,
+        unassigned_count: unassigned_count,
+        all_count: all_count
+      }
+    }
+  end
+
+  private
+
+  def set_up
     set_inboxes
     set_team
     set_assignee_type
@@ -30,33 +51,14 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
-
-    mine_count, unassigned_count, all_count = set_count_for_all_conversations
-
-    filter_by_assignee_type
-
-    {
-      conversations: conversations,
-      count: {
-        mine_count: mine_count,
-        unassigned_count: unassigned_count,
-        all_count: all_count
-      }
-    }
   end
 
-  private
-
   def set_inboxes
-    if params[:inbox_id]
-      @inbox_ids = current_account.inboxes.where(id: params[:inbox_id])
-    else
-      if @current_user.administrator?
-        @inbox_ids = current_account.inboxes.pluck(:id)
-      elsif @current_user.agent?
-        @inbox_ids = @current_user.assigned_inboxes.pluck(:id)
-      end
-    end
+    @inbox_ids = if params[:inbox_id]
+                   current_account.inboxes.where(id: params[:inbox_id])
+                 else
+                   @current_user.assigned_inboxes.pluck(:id)
+                 end
   end
 
   def set_assignee_type
@@ -77,6 +79,8 @@ class ConversationFinder
       @conversations = @conversations.assigned_to(current_user)
     when 'unassigned'
       @conversations = @conversations.unassigned
+    when 'assigned'
+      @conversations = @conversations.assigned
     end
     @conversations
   end
@@ -110,13 +114,13 @@ class ConversationFinder
   end
 
   def current_page
-    params[:page]
+    params[:page] || 1
   end
 
   def conversations
     @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
-    current_page ? @conversations.latest.page(current_page) : @conversations.latest
+    @conversations.latest.page(current_page)
   end
 end

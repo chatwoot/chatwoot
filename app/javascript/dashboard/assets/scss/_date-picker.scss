@@ -1,0 +1,29 @@
+@import '~vue2-datepicker/scss/index';
+
+.mx-datepicker-popup {
+  z-index: 99999;
+}
+
+.date-picker {
+  .mx-datepicker {
+    width: 100%;
+  }
+
+  .mx-datepicker-range {
+    width: 320px;
+  }
+
+  .mx-input {
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-normal);
+    box-shadow: none;
+    display: flex;
+    height: 4.6rem;
+  }
+
+  .mx-input:disabled,
+  .mx-input[readonly] {
+    background-color: var(--white);
+    cursor: pointer;
+  }
+}

@@ -14,7 +14,7 @@
         {{ attribute }}
       </div>
       <div>
-        {{ customAttributes[attribute] }}
+        <span v-html="valueWithLink(customAttributes[attribute])"></span>
       </div>
     </div>
   </div>
@@ -22,11 +22,13 @@
 
 <script>
 import ContactDetailsItem from './ContactDetailsItem.vue';
+import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 
 export default {
   components: {
     ContactDetailsItem,
   },
+
   props: {
     customAttributes: {
       type: Object,
@@ -41,12 +43,18 @@ export default {
       });
     },
   },
+  methods: {
+    valueWithLink(attribute) {
+      const messageFormatter = new MessageFormatter(attribute);
+      return messageFormatter.formattedMessage;
+    },
+  },
 };
 </script>
 
 <style scoped>
 .custom-attributes--panel {
-  padding: 0 var(--space-slab) var(--space-slab);
+  margin-bottom: var(--space-normal);
 }
 
 .conv-details--item {

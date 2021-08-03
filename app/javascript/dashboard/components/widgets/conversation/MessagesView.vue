@@ -33,11 +33,11 @@
 
     <div v-if="isATweet" class="banner">
       <span v-if="!selectedTweetId">
-        {{ $t('CONVERSATION.LAST_INCOMING_TWEET') }}
+        {{ $t('CONVERSATION.SELECT_A_TWEET_TO_REPLY') }}
       </span>
       <span v-else>
         {{ $t('CONVERSATION.REPLYING_TO') }}
-        {{ selectedTweet }}
+        {{ selectedTweet.content || '' }}
       </span>
       <button
         v-if="selectedTweetId"
@@ -56,6 +56,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
+        class="message--read"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -72,6 +73,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
+        class="message--unread"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -87,9 +89,10 @@
           />
         </div>
       </div>
-      <ReplyBox
+      <reply-box
         :conversation-id="currentChat.id"
-        :in-reply-to="selectedTweetId"
+        :is-a-tweet="isATweet"
+        :selected-tweet="selectedTweet"
         @scrollToMessage="scrollToBottom"
       />
     </div>
@@ -106,6 +109,7 @@ import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 
 export default {
   components: {
@@ -204,10 +208,10 @@ export default {
     selectedTweet() {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;
-        const [selectedMessage = {}] = messages.filter(
+        const [selectedMessage] = messages.filter(
           message => message.id === this.selectedTweetId
         );
-        return selectedMessage.content || '';
+        return selectedMessage || {};
       }
       return '';
     },
@@ -230,7 +234,7 @@ export default {
 
   created() {
     bus.$on('scrollToMessage', () => {
-      setTimeout(() => this.scrollToBottom(), 0);
+      this.$nextTick(() => this.scrollToBottom());
       this.makeMessagesRead();
     });
 
@@ -252,14 +256,30 @@ export default {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
       this.conversationPanel.addEventListener('scroll', this.handleScroll);
-      this.scrollToBottom();
+      this.$nextTick(() => this.scrollToBottom());
       this.isLoadingPrevious = false;
     },
     removeScrollListener() {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
+      let relevantMessages = [];
+      if (this.getUnreadCount > 0) {
+        // capturing only the unread messages
+        relevantMessages = this.conversationPanel.querySelectorAll(
+          '.message--unread'
+        );
+      } else {
+        // capturing last message from the messages list
+        relevantMessages = Array.from(
+          this.conversationPanel.querySelectorAll('.message--read')
+        ).slice(-1);
+      }
+      this.conversationPanel.scrollTop = calculateScrollTop(
+        this.conversationPanel.scrollHeight,
+        this.$el.scrollHeight,
+        relevantMessages
+      );
     },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');

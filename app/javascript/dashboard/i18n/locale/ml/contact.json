@@ -18,19 +18,14 @@
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
     },
     "LABELS": {
-      "TITLE": "സംഭാഷണ ലേബലുകൾ",
-      "MODAL": {
-        "TITLE": "ലേബലുകൾ",
-        "ACTIVE_LABELS": "സംഭാഷണത്തിലേക്ക് ലേബലുകൾ ചേർത്തു",
-        "INACTIVE_LABELS": "അക്കൗണ്ടിൽ ലേബലുകൾ ലഭ്യമാണ്",
-        "REMOVE": "ലേബൽ നീക്കംചെയ്യുന്നതിന് എക്സ് ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
-        "ADD": "ലേബൽ ചേർക്കാൻ + ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "ലേബലുകൾ അപ്‌ഡേറ്റുചെയ്യുക",
-        "UPDATE_ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "അക്കൗണ്ടിൽ കൂടുതൽ ലേബലുകൾ നിർവചിച്ചിട്ടില്ല.",
-      "NO_AVAILABLE_LABELS": "ഈ സംഭാഷണത്തിലേക്ക് ലേബലുകളൊന്നും ചേർത്തിട്ടില്ല.",
+      "CONVERSATION": {
+        "TITLE": "സംഭാഷണ ലേബലുകൾ",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "കോൺ‌ടാക്റ്റുകൾ",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "തിരയുക",
     "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
     "LIST": {
       "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
       "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "പേര്",
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "സംഭാഷണങ്ങൾ"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "റദ്ദാക്കുക",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

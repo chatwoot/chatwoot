@@ -30,4 +30,12 @@ describe('#mutations', () => {
       expect(state.records[0].message).toEqual('Hey, What brings you today');
     });
   });
+
+  describe('#DELETE_LABEL', () => {
+    it('delete campaign record', () => {
+      const state = { records: [campaigns[0]] };
+      mutations[types.DELETE_CAMPAIGN](state, 1);
+      expect(state.records).toEqual([]);
+    });
+  });
 });

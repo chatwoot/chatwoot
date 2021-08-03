@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "NONE": "None",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
@@ -77,6 +79,11 @@
         "LABEL": "Il tuo indirizzo email",
         "ERROR": "Inserisci un indirizzo email valido",
         "PLACEHOLDER": "Inserisci il tuo indirizzo email, che verrà visualizzato nelle conversazioni"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
         "LABEL": "password",
@@ -132,8 +139,13 @@
     "CANNED_RESPONSES": "Risposte predefinite",
     "INTEGRATIONS": "Integrazioni",
     "ACCOUNT_SETTINGS": "Impostazioni Account",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

@@ -135,16 +135,20 @@ const actions = {
     commit(types.default.ASSIGN_TEAM, team);
   },
 
-  toggleStatus: async ({ commit }, { conversationId, status }) => {
+  toggleStatus: async (
+    { commit },
+    { conversationId, status, snoozedUntil = null }
+  ) => {
     try {
       const response = await ConversationApi.toggleStatus({
         conversationId,
         status,
+        snoozedUntil,
       });
-      commit(
-        types.default.RESOLVE_CONVERSATION,
-        response.data.payload.current_status
-      );
+      commit(types.default.RESOLVE_CONVERSATION, {
+        conversationId,
+        status: response.data.payload.current_status,
+      });
     } catch (error) {
       // Handle error
     }
@@ -176,6 +180,20 @@ const actions = {
 
   updateMessage({ commit }, message) {
     commit(types.default.ADD_MESSAGE, message);
+  },
+
+  deleteMessage: async function deleteLabels(
+    { commit },
+    { conversationId, messageId }
+  ) {
+    try {
+      const response = await MessageApi.delete(conversationId, messageId);
+      const { data } = response;
+      // The delete message is actually deleting the content.
+      commit(types.default.ADD_MESSAGE, data);
+    } catch (error) {
+      throw new Error(error);
+    }
   },
 
   addConversation({ commit, state, dispatch }, conversation) {

@@ -18,19 +18,14 @@
       "TITLE": "การสนทนาก่อนหน้า"
     },
     "LABELS": {
-      "TITLE": "ป้ายกำกับการสนทนา",
-      "MODAL": {
-        "TITLE": "ป้ายกำกับสำหรับ",
-        "ACTIVE_LABELS": "เพิ่มป้ายกำกับไปสนทนา",
-        "INACTIVE_LABELS": "ป้ายกำกับที่ใช้ได้ในบัญชีนี้",
-        "REMOVE": "คลิกที่ X เพื่อลบป้ายกำกับ",
-        "ADD": "คลิกที่ + เพื่อเพิ่มป้ายกำกับ",
-        "ADD_BUTTON": "เพิ่มหัวข้อ",
-        "UPDATE_BUTTON": "อัพเดทป้ายกำกับ",
-        "UPDATE_ERROR": "ไม่สามารถอัพเดทป้านกำกับได้กรุณาลองใหม่"
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "ไม่มีป้ายกำกับที่กำหนดให้บัญชีนี้",
-      "NO_AVAILABLE_LABELS": "ไม่มีป้ายกำกับที่เพิ่มให้การสนทนานี้",
+      "CONVERSATION": {
+        "TITLE": "ป้ายกำกับการสนทนา",
+        "ADD_BUTTON": "เพิ่มหัวข้อ"
+      },
       "LABEL_SELECT": {
         "TITLE": "เพิ่มหัวข้อ",
         "PLACEHOLDER": "ค้นหาหัวข้อ",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "ผู้ติดต่อ",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "ค้นหา",
     "SEARCH_INPUT_PLACEHOLDER": "ค้อนหาผู้ติดต่อ",
     "LIST": {
       "LOADING_MESSAGE": "กำลังโหลดรายชื่อผู้ติดต่อ",
       "404": "ไม่มีผู้ติดต่อที่ตรงกัน 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "ชื่อ",
         "PHONE_NUMBER": "หมายเลขโทรศัพท์",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "ดูรายละเอียด"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "เพิ่ม",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "โน้ต"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "ดูโน็ตทั้งหมด"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "โน้ต",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "การสนทนา"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "ยกเลิก",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

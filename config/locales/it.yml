@@ -66,6 +66,7 @@ it:
       greeting_message_body: "%{account_name}, in genere, risponde in poche ore."
       ways_to_reach_you_message_body: "Offri alla squadra un modo per raggiungerti."
       email_input_box_message_body: "Ricevi una notifica via email"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nuovi messaggi in questa conversazione"
       transcript_subject: "Conversation Transcript"
@@ -78,4 +79,7 @@ it:
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

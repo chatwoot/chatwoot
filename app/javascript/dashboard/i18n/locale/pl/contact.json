@@ -18,19 +18,14 @@
       "TITLE": "Poprzednie rozmowy"
     },
     "LABELS": {
-      "TITLE": "Etykiety konwersacji",
-      "MODAL": {
-        "TITLE": "Etykiety dla",
-        "ACTIVE_LABELS": "Etykiety dodane do rozmowy",
-        "INACTIVE_LABELS": "Etykiety dostępne na koncie",
-        "REMOVE": "Kliknij na ikonę X, aby usunąć etykietę",
-        "ADD": "Kliknij na ikonę +, aby dodać etykietę",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Zaktualizuj etykiety",
-        "UPDATE_ERROR": "Nie udało się zaktualizować etykiet, spróbuj ponownie."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Nie ma więcej etykiet zdefiniowanych na koncie.",
-      "NO_AVAILABLE_LABELS": "Do tej rozmowy nie dodano żadnych etykiet.",
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Szukaj",
     "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nazwisko",
         "PHONE_NUMBER": "Numer telefonu",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "Wyświetl szczegóły"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Dodaj",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notatki"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "Wyświetl wszystkie notatki"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Aktywności"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notatki",
+      "PILL_BUTTON_EVENTS": "zdarzenia",
+      "PILL_BUTTON_CONVO": "rozmowy"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Anuluj",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

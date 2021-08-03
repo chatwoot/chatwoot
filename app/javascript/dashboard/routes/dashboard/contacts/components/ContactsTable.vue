@@ -14,6 +14,10 @@
       v-if="showSearchEmptyState"
       :title="$t('CONTACTS_PAGE.LIST.404')"
     />
+    <empty-state
+      v-else-if="!isLoading && !contacts.length"
+      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
+    />
     <div v-if="isLoading" class="contacts--loader">
       <spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
@@ -94,7 +98,7 @@ export default {
           profiles: additional.social_profiles || {},
           city: additional.city || '---',
           country: additional.country || '---',
-          conversations_count: item.conversations_count || '---',
+          conversationsCount: item.conversations_count || '---',
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
             : '---',

@@ -18,19 +18,14 @@
       "TITLE": "Vorherige Gespräche"
     },
     "LABELS": {
-      "TITLE": "Konversationsetiketten",
-      "MODAL": {
-        "TITLE": "Labels für",
-        "ACTIVE_LABELS": "Labels zur Unterhaltung hinzugefügt",
-        "INACTIVE_LABELS": "Verfügbare Labels im Konto",
-        "REMOVE": "Klicken Sie auf das X-Symbol, um das Label zu entfernen",
-        "ADD": "Klicken Sie auf das + Symbol, um ein Label hinzuzufügen",
-        "ADD_BUTTON": "Label hinzufügen",
-        "UPDATE_BUTTON": "Labels aktualisieren",
-        "UPDATE_ERROR": "Etiketten konnten nicht aktualisiert werden. Versuchen Sie es erneut."
+      "CONTACT": {
+        "TITLE": "Kontakt-Labels",
+        "ERROR": "Labels konnten nicht aktualisiert werden"
       },
-      "NO_LABELS_TO_ADD": "Es sind keine weiteren Labels im Konto definiert.",
-      "NO_AVAILABLE_LABELS": "Zu dieser Unterhaltung wurden noch keine Labels hinzugefügt.",
+      "CONVERSATION": {
+        "TITLE": "Konversationsetiketten",
+        "ADD_BUTTON": "Label hinzufügen"
+      },
       "LABEL_SELECT": {
         "TITLE": "Label hinzufügen",
         "PLACEHOLDER": "Labels suchen",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakte",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Suchen",
     "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
       "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
+      "NO_CONTACTS": "Keine Kontakte verfügbar",
       "TABLE_HEADER": {
         "NAME": "Name",
         "PHONE_NUMBER": "Telefonnummer",
@@ -153,6 +150,16 @@
         "EMAIL_ADDRESS": "E-Mail-Addresse"
       },
       "VIEW_DETAILS": "Details anzeigen"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Hinzufügen",
+      "TITLE": "Shift + Enter um eine Aufgabe zu erstellen"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Fälligkeitsdatum",
+      "LABEL_TITLE": "Typ festlegen"
     }
   },
   "NOTES": {
@@ -168,25 +175,63 @@
       "BUTTON": "Alle Notizen anzeigen"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Aktivitäten"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_EVENTS": "Veranstaltungen",
+      "PILL_BUTTON_CONVO": "gespräche"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Benutzerdefinierte Attribute",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Eigenes Attribut hinzufügen",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Eigenes Attribut erstellen",
+      "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Attribut hinzufügen",
       "CANCEL": "Stornieren",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Benutzerdefinierter Attributname",
+        "PLACEHOLDER": "Eg: Shopify Id",
+        "ERROR": "Ungültiger eigener Attributname"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Attributwert",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Stornieren",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }
