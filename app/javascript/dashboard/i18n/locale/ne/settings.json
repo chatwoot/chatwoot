@@ -114,11 +114,11 @@
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "डाउनलोड",
       "UPLOADING": "अपलोड गर्दै..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "बुझाउनुहोस्"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -161,7 +161,7 @@
         "LABEL": "Account Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "बुझाउनुहोस्"
     }
   }
 }
