@@ -44,14 +44,16 @@
           </span>
         </label>
 
-        <label v-if="isOnOffType">
-          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
-          <woot-date-time-picker
-            :value="scheduledAt"
-            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
-            @change="onChange"
-          />
+        <label :class="{ error: $v.selectedInbox.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
+          <select v-model="selectedInbox" @change="onChangeInbox($event)">
+            <option v-for="item in inboxes" :key="item.name" :value="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+          <span v-if="$v.selectedInbox.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
+          </span>
         </label>
 
         <label
@@ -80,18 +82,6 @@
           </span>
         </label>
 
-        <label v-if="isOngoingType" :class="{ error: $v.selectedInbox.$error }">
-          {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
-          <select v-model="selectedInbox" @change="onChangeInbox($event)">
-            <option v-for="item in inboxes" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-          <span v-if="$v.selectedInbox.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
-          </span>
-        </label>
-
         <label
           v-if="isOngoingType"
           :class="{ error: $v.selectedSender.$error }"
@@ -109,6 +99,16 @@
           <span v-if="$v.selectedSender.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
           </span>
+        </label>
+
+        <label v-if="isOnOffType">
+          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          <woot-date-time-picker
+            :value="scheduledAt"
+            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
+            @change="onChange"
+          />
         </label>
 
         <woot-input
@@ -175,14 +175,6 @@ export default {
   },
 
   mixins: [alertMixin, campaignMixin],
-
-  props: {
-    audienceList: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
   data() {
     return {
       title: '',
@@ -196,9 +188,6 @@ export default {
       scheduledAt: null,
       selectedAudience: [],
       senderList: [],
-      inbox: {
-        channelType: 'Channel::WebWidget',
-      },
     };
   },
 
@@ -208,6 +197,9 @@ export default {
         required,
       },
       message: {
+        required,
+      },
+      selectedInbox: {
         required,
       },
     };
@@ -225,9 +217,6 @@ export default {
         timeOnPage: {
           required,
         },
-        selectedInbox: {
-          required,
-        },
       };
     }
     return {
@@ -242,11 +231,9 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      inboxes: 'inboxes/getWebsiteInboxes',
+      inboxes: 'inboxes/getTwilioInboxes',
+      audienceList: 'labels/getLabels',
     }),
-    currentInboxId() {
-      return this.$route.params.inboxId;
-    },
     sendersAndBotList() {
       return [
         {

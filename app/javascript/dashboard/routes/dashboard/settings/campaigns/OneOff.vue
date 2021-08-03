@@ -10,13 +10,12 @@
     </woot-button>
     <campaign />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :audience-list="labelList" @on-close="hideAddPopup" />
+      <add-campaign @on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Campaign from './Campaign.vue';
 import AddCampaign from './AddCampaign';
 
@@ -27,11 +26,6 @@ export default {
   },
   data() {
     return { showAddPopup: false };
-  },
-  computed: {
-    ...mapGetters({
-      labelList: 'labels/getLabels',
-    }),
   },
   mounted() {
     this.$store.dispatch('campaigns/get');

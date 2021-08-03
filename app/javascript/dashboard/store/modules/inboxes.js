@@ -70,6 +70,11 @@ export const getters = {
       item => item.channel_type === 'Channel::WebWidget'
     );
   },
+  getTwilioInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === 'Channel::TwilioSms'
+    );
+  },
 };
 
 export const actions = {
