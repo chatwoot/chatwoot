@@ -38,7 +38,7 @@ class MailPresenter < SimpleDelegator
   def attachments
     # ref : https://github.com/gorails-screencasts/action-mailbox-action-text/blob/master/app/mailboxes/posts_mailbox.rb
     mail.attachments.map do |attachment|
-      blob = ActiveStorage::Blob.create_after_upload!(
+      blob = ActiveStorage::Blob.create_and_upload!(
         io: StringIO.new(attachment.body.to_s),
         filename: attachment.filename,
         content_type: attachment.content_type
