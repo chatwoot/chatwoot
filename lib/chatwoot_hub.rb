@@ -39,7 +39,7 @@ class ChatwootHub
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
       Rails.logger.info "Exception: #{e.message}"
     rescue StandardError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
     end
     version
   end
@@ -61,6 +61,6 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 end
