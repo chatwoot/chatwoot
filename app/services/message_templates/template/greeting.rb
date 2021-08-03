@@ -6,7 +6,7 @@ class MessageTemplates::Template::Greeting
       conversation.messages.create!(greeting_message_params)
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     true
   end
 
