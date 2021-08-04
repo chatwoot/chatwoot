@@ -195,6 +195,7 @@ export default {
 
 .title {
   display: flex;
+  margin-bottom: var(--space-small);
 }
 
 .page-title {
@@ -213,7 +214,7 @@ export default {
 .shortcut__wrap {
   display: grid;
   grid-template-columns: repeat(2, 0.5fr);
-  gap: 0.4rem 4rem;
+  gap: 0.6rem 4rem;
   margin-top: var(--space-two);
 }
 
