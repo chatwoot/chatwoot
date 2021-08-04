@@ -95,17 +95,17 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Ничего",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Выберите агента",
+        "TEAM": "Выберите команду"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Операторы не найдены",
-          "TEAM": "No teams found"
+          "TEAM": "Команды не найдены"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Поиск агентов",
+          "TEAM": "Поиск команд"
         }
       }
     }
