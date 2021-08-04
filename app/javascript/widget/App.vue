@@ -152,6 +152,7 @@ export default {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
     setUnreadView() {

@@ -182,8 +182,11 @@ export const IFrameHelper = {
     updateIframeHeight: message => {
       setTimeout(() => {
         const iframe = IFrameHelper.getAppFrame();
+        const scrollableMessageHeight =
+          iframe.contentWindow.document.querySelector('.unread-messages')
+            .scrollHeight + 40;
         const updatedIframeHeight = message.isFixedHeight
-          ? `${iframe.contentWindow.document.body.scrollHeight}px`
+          ? `${scrollableMessageHeight}px`
           : '100%';
         iframe.setAttribute(
           'style',

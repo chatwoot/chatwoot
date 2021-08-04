@@ -12,6 +12,7 @@ export const SDK_CSS = `.woot-widget-holder {
   border: 0;
   height: 100% !important;
   width: 100% !important;
+  max-height: 100vh !important;
 }
 
 .woot-widget-holder.has-unread-view {
@@ -134,7 +135,9 @@ export const SDK_CSS = `.woot-widget-holder {
     width: auto;
     bottom: 0;
     top: auto;
+    max-height: 100vh;
   }
+
  .woot-widget-holder.has-unread-view.woot-elements--left {
     left: 0;
     padding: 0 8px;
