@@ -30,14 +30,14 @@
                   {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
                 </span>
                 <span class="shortcut-key key">
-                  {{ $t('KEYBOARD_SHORTCUTS.LETTER.J') }}
+                  J
                 </span>
               </div>
               <span class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </span>
               <span class="shortcut-key key">
-                {{ $t('KEYBOARD_SHORTCUTS.LETTER.K') }}
+                K
               </span>
             </div>
           </div>
@@ -54,7 +54,7 @@
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
               </span>
               <span class="shortcut-key key">
-                {{ $t('KEYBOARD_SHORTCUTS.LETTER.E') }}
+                E
               </span>
             </div>
           </div>
@@ -68,10 +68,10 @@
             </h6>
             <div class="shortcut-key__wrap">
               <span class="shortcut-key">
-                {{ shortcutKey.key }}
+                {{ shortcutKey.firstkey }}
               </span>
               <span class="shortcut-key key">
-                {{ shortcutKey.shortcutKey }}
+                {{ shortcutKey.secondKey }}
               </span>
             </div>
           </div>
@@ -85,92 +85,87 @@
 const SHORTCUT_KEYS = [
   {
     id: 1,
-    title: 'Navigate dropdown items',
-    key: 'Up',
-    shortcutKey: 'Down',
     label: 'NAVIGATE_DROPDOWN',
+    firstkey: 'Up',
+    secondKey: 'Down',
   },
   {
     id: 2,
-    title: 'Resolve Conversation',
-    key: 'Alt / ⌥',
-    shortcutKey: 'E',
-    label: 'RESOLVE_AND_NEXT',
+    label: 'RESOLVE_CONVERSATION',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'E',
   },
   {
     id: 3,
-    title: 'Go to Conversation Dashboard',
-    key: 'Alt / ⌥',
-    shortcutKey: 'C',
     label: 'GO_TO_CONVERSATION_DASHBOARD',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'C',
   },
   {
     id: 4,
-    title: 'Add Attachment',
-    key: 'Alt / ⌥',
-    shortcutKey: 'A',
     label: 'ADD_ATTACHMENT',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'A',
   },
   {
     id: 5,
-    title: 'Go to Contacts Dashboard',
-    key: 'Alt / ⌥',
-    shortcutKey: 'V',
     label: 'GO_TO_CONTACTS_DASHBOARD',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'V',
   },
   {
     id: 6,
-    title: 'Toggle Sidebar',
-    key: 'Alt / ⌥',
-    shortcutKey: 'O',
+    label: 'TOGGLE_SIDEBAR',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'O',
   },
   {
     id: 7,
-    title: 'Go to Reports sidebar',
-    key: 'Alt / ⌥',
-    shortcutKey: 'R',
+    label: 'GO_TO_REPORTS_SIDEBAR',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'R',
   },
   {
     id: 8,
-    title: 'Move to next tab in conversation list',
-    key: 'Alt / ⌥',
-    shortcutKey: 'N',
+    label: 'MOVE_TO_NEXT_TAB',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'N',
   },
   {
     id: 9,
-    title: 'Go to Settings',
-    key: 'Alt / ⌥',
-    shortcutKey: 'S',
+    label: 'GO_TO_SETTINGS',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'S',
   },
   {
     id: 10,
-    title: 'Switch Conversation status',
-    key: 'Alt / ⌥',
-    shortcutKey: 'B',
+    label: 'SWITCH_CONVERSATION_STATUS',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'B',
   },
   {
     id: 11,
-    title: 'Switch to Private Note',
-    key: 'Alt / ⌥',
-    shortcutKey: 'P',
+    label: 'SWITCH_TO_PRIVATE_NOTE',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'P',
   },
   {
     id: 12,
-    title: 'Toggle Rich Content editor',
-    key: 'Alt / ⌥',
-    shortcutKey: 'W',
+    label: 'TOGGLE_RICH_CONTENT_EDITOR',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'W',
   },
   {
     id: 13,
-    title: 'Switch to Reply',
-    key: 'Alt / ⌥',
-    shortcutKey: 'L',
+    label: 'SWITCH_TO_REPLY',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'L',
   },
   {
     id: 14,
-    title: 'Toggle snooze dropdown',
-    key: 'Alt / ⌥',
-    shortcutKey: 'M',
+    label: 'TOGGLE_SNOOZE_DROPDOWN',
+    firstkey: 'Alt / ⌥',
+    secondKey: 'M',
   },
 ];
 export default {
@@ -181,7 +176,7 @@ export default {
   },
   methods: {
     title(item) {
-      return this.$t(`KEYBOARD_SHORTCUTS.${item.label}`) || item.title;
+      return this.$t(`KEYBOARD_SHORTCUTS.TITLE.${item.label}`);
     },
   },
 };
