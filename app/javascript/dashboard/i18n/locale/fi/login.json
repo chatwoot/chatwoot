@@ -10,7 +10,7 @@
       "PLACEHOLDER": "Salasana"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Kirjautuminen Onnistui",
+      "SUCCESS_MESSAGE": "Kirjautuminen onnistui",
       "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
       "UNAUTH": "Käyttäjätunnus / salasana virheellinen. Yritä uudelleen"
     },

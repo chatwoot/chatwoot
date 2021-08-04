@@ -30,7 +30,7 @@ fi:
   reports:
     period: Raportointijakso %{since} – %{until}
     agent_csv:
-      agent_name: Asiakaspalvelijan nimi
+      agent_name: Edustajan nimi
       conversations_count: Keskustelumäärä
       avg_first_response_time: Keskiverto ensimmäinen vastausaika (Minuuteissa)
       avg_resolution_time: Keskiverto aika ratkaisuun (Minuuteissa)
@@ -79,7 +79,7 @@ fi:
       description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
     dialogflow:
       name: "Dialogflow"
-      description: "Rakenna chatbotteja käyttäen Dialogflow-alustaa ja yhdistä ne kansioosi nopeasti. Anna bottien käsitellä kyselyt ennen kuin ne siirretään asiakaspalvelijalle."
+      description: "Rakenna chatbotteja käyttäen Dialogflow-alustaa ja yhdistä ne kansioosi nopeasti. Anna bottien käsitellä kyselyt ennen kuin ne siirretään edustajalle."
     fullcontact:
       name: "Fullcontact"
       descriptioN: "FullContact-integraatio auttaa rikastuttamaan kävijöiden profiileja. Tunnista käyttäjät heti kun he jakavat sähköpostiosoitteensa ja tarjoa heille räätälöityä asiakaspalvelua. Yhdistä FullContact tiliisi jakamalla FulLContact API-avain."
