@@ -105,11 +105,12 @@ import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import campaignMixin from 'shared/mixins/campaignMixin';
 export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, campaignMixin],
   props: {
     selectedCampaign: {
       type: Object,
@@ -156,7 +157,12 @@ export default {
       uiFlags: 'campaigns/getUIFlags',
       inboxes: 'inboxes/getTwilioInboxes',
     }),
-
+    inboxes() {
+      if (this.isOngoingType) {
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
+      }
+      return this.$store.getters['inboxes/getTwilioInboxes'];
+    },
     pageTitle() {
       return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
         this.selectedCampaign.title
@@ -179,7 +185,8 @@ export default {
     onClose() {
       this.$emit('on-close');
     },
-    async onChangeInbox() {
+
+    async loadInboxMembers() {
       try {
         const response = await this.$store.dispatch('inboxMembers/get', {
           inboxId: this.selectedInbox,
@@ -191,6 +198,9 @@ export default {
       } catch (error) {
         //  Handle error
       }
+    },
+    onChangeInbox() {
+      this.loadInboxMembers();
     },
     setFormValues() {
       const {
@@ -208,8 +218,13 @@ export default {
       this.selectedInbox = inboxId;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
+      this.loadInboxMembers();
     },
     async editCampaign() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         await this.$store.dispatch('campaigns/update', {
           id: this.selectedCampaign.id,

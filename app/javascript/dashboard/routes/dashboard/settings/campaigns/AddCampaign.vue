@@ -231,9 +231,14 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      inboxes: 'inboxes/getTwilioInboxes',
       audienceList: 'labels/getLabels',
     }),
+    inboxes() {
+      if (this.isOngoingType) {
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
+      }
+      return this.$store.getters['inboxes/getTwilioInboxes'];
+    },
     sendersAndBotList() {
       return [
         {
