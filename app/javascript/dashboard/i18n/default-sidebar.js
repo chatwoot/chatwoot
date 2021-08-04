@@ -35,13 +35,6 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/contacts`),
         toStateName: 'contacts_dashboard',
       },
-      notifications: {
-        icon: 'ion-ios-bell',
-        label: 'NOTIFICATIONS',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/notifications`),
-        toStateName: 'notifications_dashboard',
-      },
       report: {
         icon: 'ion-arrow-graph-up-right',
         label: 'REPORTS',
