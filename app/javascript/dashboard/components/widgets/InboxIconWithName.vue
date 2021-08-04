@@ -1,7 +1,7 @@
 <template>
-  <div class="row--inbox-block">
-    <i class="inbox-icon" :class="icon" />
-    <div>{{ inbox.name }}</div>
+  <div class="inbox">
+    <i :class="icon" />
+    <span>{{ inbox.name }}</span>
   </div>
 </template>
 <script>
@@ -16,19 +16,19 @@ export default {
   computed: {
     icon() {
       if (this.inbox.channel_type === INBOX_TYPES.WEB) {
-        return 'ion-earth';
+        return 'icon ion-earth';
       }
-      return 'ion-android-textsms';
+      return 'icon ion-android-textsms';
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.row--inbox-block {
+.inbox {
   display: flex;
   align-items: center;
-  .inbox-icon {
+  .icon {
     margin-right: var(--space-micro);
     min-width: var(--space-normal);
     position: relative;
