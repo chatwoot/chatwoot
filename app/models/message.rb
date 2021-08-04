@@ -105,7 +105,7 @@ class Message < ApplicationRecord
 
   def merge_sender_attributes(data)
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
-    data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
+    data.merge!(sender: sender.push_event_data(inbox)) if sender.is_a?(AgentBot)
     data
   end
 
@@ -142,7 +142,7 @@ class Message < ApplicationRecord
   end
 
   def update_contact_activity
-    sender.update(last_activity_at: DateTime.now) if sender&.is_a?(Contact)
+    sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
   def dispatch_create_events

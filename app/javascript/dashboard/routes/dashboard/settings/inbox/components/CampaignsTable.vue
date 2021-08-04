@@ -22,6 +22,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import timeMixin from 'dashboard/mixins/time';
@@ -32,7 +33,9 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin, campaignMixin],
+
+  mixins: [clickaway, timeMixin, campaignMixin, messageFormatterMixin],
+
   props: {
     campaigns: {
       type: Array,
@@ -92,11 +95,16 @@ export default {
           align: 'left',
           width: 350,
           renderBodyCell: ({ row }) => {
-            return (
-              <div class="text-truncate">
-                <span title={row.message}>{row.message}</span>
-              </div>
-            );
+            if (row.message) {
+              return (
+                <div class="text-truncate">
+                  <span
+                    domPropsInnerHTML={this.formatMessage(row.message)}
+                  ></span>
+                </div>
+              );
+            }
+            return '';
           },
         },
       ];

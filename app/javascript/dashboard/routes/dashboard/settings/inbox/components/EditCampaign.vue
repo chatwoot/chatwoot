@@ -12,16 +12,17 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
           @blur="$v.title.$touch"
         />
-        <label :class="{ error: $v.message.$error }">
+        <label class="editor-wrap">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-          <textarea
+          <woot-message-editor
             v-model.trim="message"
-            rows="5"
-            type="text"
+            class="message-editor"
+            :is-format-mode="true"
+            :class="{ editor_warning: $v.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
             @input="$v.message.$touch"
           />
-          <span v-if="$v.message.$error" class="message">
+          <span v-if="$v.message.$error" class="editor-warning__message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
@@ -92,8 +93,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
+  components: {
+    WootMessageEditor,
+  },
   mixins: [alertMixin],
   props: {
     selectedCampaign: {
@@ -209,3 +214,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+::v-deep .ProseMirror-woot-style {
+  height: 8rem;
+}
+</style>

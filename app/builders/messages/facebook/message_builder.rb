@@ -27,7 +27,7 @@ class Messages::Facebook::MessageBuilder
   rescue Koala::Facebook::AuthenticationError
     Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     true
   end
 
@@ -146,7 +146,7 @@ class Messages::Facebook::MessageBuilder
       raise
     rescue StandardError => e
       result = {}
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
     end
     {
       name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
