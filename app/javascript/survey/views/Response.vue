@@ -15,20 +15,18 @@
         <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
           {{ surveyDescription }}
         </p>
-        <div class="flex items-center">
-          <i
-            v-if="isRatingSubmitted"
-            class="ion-checkmark-circled text-3xl text-green-500 mr-1"
-          />
-          <i
-            v-if="errorMessage"
-            class="ion-android-alert text-3xl text-red-600 mr-1"
-          />
-          <label class="text-base font-medium text-black-800 mt-4 mb-4">
-            {{ ratingLabel }}
-          </label>
-        </div>
-
+        <banner
+          v-if="enableBanner"
+          :show-success="isRatingSubmitted"
+          :show-error="errorMessage"
+          :message="message"
+        />
+        <label
+          v-if="!isRatingSubmitted"
+          class="text-base font-medium text-black-800 mt-4 mb-4"
+        >
+          {{ $t('SURVEY.RATING.LABEL') }}
+        </label>
         <rating
           :selected-rating="selectedRating"
           @selectRating="selectRating"
@@ -62,9 +60,10 @@
 </template>
 
 <script>
-import Branding from 'shared/components/Branding.vue';
+import Branding from 'shared/components/Branding';
 import Spinner from 'shared/components/Spinner';
-import Rating from 'survey/components/Rating.vue';
+import Rating from 'survey/components/Rating';
+import Banner from 'survey/components/Banner';
 import CustomButton from 'shared/components/Button';
 import TextArea from 'shared/components/TextArea.vue';
 import configMixin from 'shared/mixins/configMixin';
@@ -79,6 +78,7 @@ export default {
     CustomButton,
     TextArea,
     Spinner,
+    Banner,
   },
   mixins: [alertMixin, configMixin],
   props: {
@@ -114,13 +114,14 @@ export default {
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
     },
-    ratingLabel() {
+    enableBanner() {
+      return this.isRatingSubmitted || this.errorMessage;
+    },
+    message() {
       if (this.errorMessage) {
         return this.errorMessage;
       }
-      return this.isRatingSubmitted
-        ? this.$t('SURVEY.RATING.SUCCESS_MESSAGE')
-        : this.$t('SURVEY.RATING.LABEL');
+      return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
     },
     surveyDescription() {
       return this.isRatingSubmitted ? '' : this.$t('SURVEY.DESCRIPTION');
@@ -146,9 +147,10 @@ export default {
         const result = await getSurveyDetails({ uuid: this.conversationUUID });
         this.logo = result.data.inbox_avatar_url;
         this.surveyDetails = result?.data?.csat_survey_response;
-        this.selectedRating = this.surveyDetails.rating;
-        this.feedbackMessage = this.surveyDetails.feedback_message || '';
+        this.selectedRating = this.surveyDetails?.rating;
+        this.feedbackMessage = this.surveyDetails?.feedback_message || '';
       } catch (error) {
+        console.log('this.errorMessage', error);
         const errorMessage = error?.response?.data?.message;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
