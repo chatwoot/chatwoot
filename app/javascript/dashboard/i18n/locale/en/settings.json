@@ -160,5 +160,21 @@
       },
       "SUBMIT": "Submit"
     }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next"
+    },
+    "KEYS": {
+      "COMMAND_KEY": "⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    },
+    "LETTER": {
+      "J": "J",
+      "K": "K",
+      "E": "E"
+    }
   }
 }

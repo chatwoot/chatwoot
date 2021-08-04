@@ -92,7 +92,7 @@ import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
-import wootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
+import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import { hasPressedCommandAndForwardslash } from 'shared/helpers/KeyboardHelpers';
 
 export default {
@@ -105,7 +105,7 @@ export default {
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
-    wootKeyShortcutModal,
+    WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin],
   data() {
