@@ -46,6 +46,7 @@
           :message-type="data.message_type"
           :readable-time="readableTime"
           :source-id="data.source_id"
+          :inbox-id="data.inbox_id"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />

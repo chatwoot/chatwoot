@@ -53,9 +53,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
