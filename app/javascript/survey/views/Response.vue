@@ -12,13 +12,10 @@
     <div class="flex flex-1 overflow-auto">
       <div class="max-w-screen-sm w-full my-0 m-auto px-8 py-12">
         <img :src="logo" alt="Chatwoot logo" class="logo" @error="imgUrlAlt" />
-        <p
-          v-if="!isRatingSubmitted"
-          class="text-black-700 text-lg leading-relaxed mt-4 mb-4"
-        >
-          {{ $t('SURVEY.DESCRIPTION') }}
+        <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
+          {{ surveyDescription }}
         </p>
-        <label class="inline-block text-base font-medium text-black-800">
+        <label class="text-base font-medium text-black-800 mt-4 mb-4">
           {{ ratingLabel }}
         </label>
         <rating
@@ -62,7 +59,7 @@ import TextArea from 'shared/components/TextArea.vue';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';
-
+const BRAND_LOGO = '/brand-assets/logo.svg';
 export default {
   name: 'Home',
   components: {
@@ -111,6 +108,9 @@ export default {
         ? this.$t('SURVEY.RATING.SUCCESS_MESSAGE')
         : this.$t('SURVEY.RATING.LABEL');
     },
+    surveyDescription() {
+      return this.isRatingSubmitted ? '' : this.$t('SURVEY.DESCRIPTION');
+    },
   },
   async mounted() {
     this.getSurveyDetails();
@@ -124,7 +124,7 @@ export default {
       this.updateSurveyDetails();
     },
     imgUrlAlt() {
-      this.logo = '/brand-assets/logo.svg';
+      this.logo = BRAND_LOGO;
     },
     async getSurveyDetails() {
       this.isLoading = true;
@@ -136,8 +136,7 @@ export default {
         this.feedbackMessage = this.surveyDetails.feedback_message || '';
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.alertMessage =
-          errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
+        this.alertMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
         this.showAlert(this.alertMessage);
       } finally {
         this.isLoading = false;
@@ -156,17 +155,17 @@ export default {
             },
           },
         };
-        const result = await updateSurvey({
+        await updateSurvey({
           uuid: this.conversationUUID,
           data,
         });
-        this.surveyDetails = result?.data?.csat_survey_response;
-        this.selectedRating = this.surveyDetails.rating;
-        this.feedbackMessage = this.surveyDetails.feedback_message;
+        this.surveyDetails = {
+          rating: this.selectedRating,
+          feedback_message: this.feedbackMessage,
+        };
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.alertMessage =
-          errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
+        this.alertMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
         this.showAlert(this.alertMessage);
       } finally {
         this.isLoading = false;
