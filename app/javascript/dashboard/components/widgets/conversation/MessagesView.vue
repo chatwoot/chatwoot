@@ -33,11 +33,11 @@
 
     <div v-if="isATweet" class="banner">
       <span v-if="!selectedTweetId">
-        {{ $t('CONVERSATION.LAST_INCOMING_TWEET') }}
+        {{ $t('CONVERSATION.SELECT_A_TWEET_TO_REPLY') }}
       </span>
       <span v-else>
         {{ $t('CONVERSATION.REPLYING_TO') }}
-        {{ selectedTweet }}
+        {{ selectedTweet.content || '' }}
       </span>
       <button
         v-if="selectedTweetId"
@@ -89,9 +89,10 @@
           />
         </div>
       </div>
-      <ReplyBox
+      <reply-box
         :conversation-id="currentChat.id"
-        :in-reply-to="selectedTweetId"
+        :is-a-tweet="isATweet"
+        :selected-tweet="selectedTweet"
         @scrollToMessage="scrollToBottom"
       />
     </div>
@@ -207,10 +208,10 @@ export default {
     selectedTweet() {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;
-        const [selectedMessage = {}] = messages.filter(
+        const [selectedMessage] = messages.filter(
           message => message.id === this.selectedTweetId
         );
-        return selectedMessage.content || '';
+        return selectedMessage || {};
       }
       return '';
     },

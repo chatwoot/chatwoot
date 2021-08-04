@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @global_config['INSTALLATION_NAME'] %></title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <script>
+      window.globalConfig = <%= raw @global_config.to_json %>
+    </script>
+    <%= javascript_pack_tag 'survey' %>
+    <%= stylesheet_pack_tag 'survey' %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <%= yield %>
+  </body>
+</html>

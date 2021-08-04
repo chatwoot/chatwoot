@@ -25,7 +25,7 @@ Style/FrozenStringLiteralComment:
 Style/SymbolArray:
   Enabled: false
 Style/OptionalBooleanParameter:
-  Exclude: 
+  Exclude:
     - 'app/services/email_templates/db_resolver_service.rb'
     - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
@@ -40,6 +40,14 @@ Style/ClassVars:
 Lint/MissingSuper:
   Exclude:
     - 'app/drops/base_drop.rb'
+Lint/SymbolConversion:
+  Enabled: false
+Lint/EmptyBlock:
+  Exclude:
+    - 'app/views/api/v1/accounts/conversations/toggle_status.json.jbuilder'
+Lint/OrAssignmentToConstant:
+  Exclude:
+    - 'lib/redis/config.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -57,6 +65,11 @@ Rails/ApplicationController:
     - 'app/controllers/widgets_controller.rb'
     - 'app/controllers/platform_controller.rb'
     - 'app/controllers/public_controller.rb'
+    - 'app/controllers/survey/responses_controller.rb'
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+Rails/TimeZoneAssignment:
+  Enabled: false
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
@@ -65,6 +78,10 @@ RSpec/NestedGroups:
   Enabled: true
   Max: 4
 RSpec/MessageSpies:
+  Enabled: false
+RSpec/StubbedMock:
+  Enabled: false
+Naming/VariableNumber:
   Enabled: false
 Metrics/MethodLength:
   Exclude:
@@ -79,7 +96,7 @@ Style/GuardClause:
     - 'app/models/message.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Metrics/AbcSize:
-  Exclude: 
+  Exclude:
     - 'app/controllers/concerns/auth_helper.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
@@ -108,19 +125,24 @@ Rails/BulkChangeTable:
     - 'db/migrate/20191027054756_create_contact_inboxes.rb'
     - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
     - 'db/migrate/20210425093724_convert_integration_hook_settings_field.rb'
-Rails/UniqueValidationWithoutIndex: 
+Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
     - 'app/models/contact.rb'
+    - 'app/models/integrations/hook.rb'
 Rails/RenderInline:
   Exclude:
     - 'app/controllers/swagger_controller.rb'
+Performance/CollectionLiteralInLoop:
+  Exclude:
+    - 'db/migrate/20210315101919_enable_email_channel.rb'
 RSpec/NamedSubject:
   Enabled: false
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
   Max: 12
+
 AllCops:
   NewCops: enable
   Exclude:
@@ -135,4 +157,11 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20200225162150_init_schema.rb'
-    - 'config/initializers/azure_storage_service_patch.rb'
+    - 'db/migrate/20210611180222_create_active_storage_variant_records.active_storage.rb'
+    - 'db/migrate/20210611180221_add_service_name_to_active_storage_blobs.active_storage.rb'
+    - db/migrate/20200309213132_add_account_id_to_agent_bot_inboxes.rb
+    - db/migrate/20200331095710_add_identifier_to_contact.rb
+    - db/migrate/20200429082655_add_medium_to_twilio_sms.rb
+    - db/migrate/20200503151130_add_account_feature_flag.rb
+    - db/migrate/20200927135222_add_last_activity_at_to_conversation.rb
+    - db/migrate/20210306170117_add_last_activity_at_to_contacts.rb
