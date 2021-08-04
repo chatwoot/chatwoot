@@ -15,9 +15,20 @@
         <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
           {{ surveyDescription }}
         </p>
-        <label class="text-base font-medium text-black-800 mt-4 mb-4">
-          {{ ratingLabel }}
-        </label>
+        <div class="flex items-center">
+          <i
+            v-if="isRatingSubmitted"
+            class="ion-checkmark-circled text-3xl text-green-500 mr-1"
+          />
+          <i
+            v-if="errorMessage"
+            class="ion-android-alert text-3xl text-red-600 mr-1"
+          />
+          <label class="text-base font-medium text-black-800 mt-4 mb-4">
+            {{ ratingLabel }}
+          </label>
+        </div>
+
         <rating
           :selected-rating="selectedRating"
           @selectRating="selectRating"
@@ -81,7 +92,7 @@ export default {
     return {
       surveyDetails: null,
       isLoading: false,
-      alertMessage: '',
+      errorMessage: null,
       selectedRating: null,
       feedbackMessage: '',
       isUpdating: false,
@@ -104,6 +115,9 @@ export default {
       return !(this.selectedRating && this.feedback);
     },
     ratingLabel() {
+      if (this.errorMessage) {
+        return this.errorMessage;
+      }
       return this.isRatingSubmitted
         ? this.$t('SURVEY.RATING.SUCCESS_MESSAGE')
         : this.$t('SURVEY.RATING.LABEL');
@@ -136,8 +150,7 @@ export default {
         this.feedbackMessage = this.surveyDetails.feedback_message || '';
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.alertMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
-        this.showAlert(this.alertMessage);
+        this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
         this.isLoading = false;
       }
@@ -165,8 +178,7 @@ export default {
         };
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.alertMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
-        this.showAlert(this.alertMessage);
+        this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
         this.isLoading = false;
       }
