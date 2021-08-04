@@ -64,7 +64,7 @@
             class="title-key__wrap"
           >
             <h6 class="sub-block-title">
-              {{ shortcutKey.title }}
+              {{ title(shortcutKey) }}
             </h6>
             <div class="shortcut-key__wrap">
               <span class="shortcut-key">
@@ -88,30 +88,35 @@ const SHORTCUT_KEYS = [
     title: 'Navigate dropdown items',
     key: 'Up',
     shortcutKey: 'Down',
+    label: 'NAVIGATE_DROPDOWN',
   },
   {
     id: 2,
     title: 'Resolve Conversation',
     key: 'Alt / ⌥',
     shortcutKey: 'E',
+    label: 'RESOLVE_AND_NEXT',
   },
   {
     id: 3,
     title: 'Go to Conversation Dashboard',
     key: 'Alt / ⌥',
     shortcutKey: 'C',
+    label: 'GO_TO_CONVERSATION_DASHBOARD',
   },
   {
     id: 4,
     title: 'Add Attachment',
     key: 'Alt / ⌥',
     shortcutKey: 'A',
+    label: 'ADD_ATTACHMENT',
   },
   {
     id: 5,
     title: 'Go to Contacts Dashboard',
     key: 'Alt / ⌥',
     shortcutKey: 'V',
+    label: 'GO_TO_CONTACTS_DASHBOARD',
   },
   {
     id: 6,
@@ -173,6 +178,11 @@ export default {
     return {
       shortcutKeys: SHORTCUT_KEYS,
     };
+  },
+  methods: {
+    title(item) {
+      return this.$t(`KEYBOARD_SHORTCUTS.${item.label}`) || item.title;
+    },
   },
 };
 </script>
