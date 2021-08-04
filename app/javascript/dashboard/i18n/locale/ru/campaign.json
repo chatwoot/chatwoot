@@ -15,15 +15,15 @@
           "ERROR": "Необходимо указать название"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Запланированное время",
+          "PLACEHOLDER": "Пожалуйста, выберите время",
+          "CONFIRM": "Подтвердить",
+          "ERROR": "Требуется запланированное время"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Аудитория",
+          "PLACEHOLDER": "Выберите метки клиентов",
+          "ERROR": "Необходимо указать Аудиторию"
         },
         "MESSAGE": {
           "LABEL": "Сообщение",
@@ -83,7 +83,7 @@
         "STATUS": "Статус",
         "SENDER": "Отправитель",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "Запланированное время",
         "TIME_ON_PAGE": "Время (секунды)",
         "CREATED_AT": "Дата создания"
       },
@@ -95,8 +95,8 @@
       "STATUS": {
         "ENABLED": "Включено",
         "DISABLED": "Выключено",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Выполнено",
+        "ACTIVE": "Активно"
       },
       "SENDER": {
         "BOT": "Бот"
