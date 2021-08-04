@@ -1,5 +1,4 @@
-import Ongoing from './Ongoing.vue';
-import OneOff from './OneOff.vue';
+import Index from './Index';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
 
@@ -21,7 +20,7 @@ export default {
           path: 'ongoing',
           name: 'settings_account_campaigns',
           roles: ['administrator'],
-          component: Ongoing,
+          component: Index,
         },
       ],
     },
@@ -37,7 +36,7 @@ export default {
           path: 'one_off',
           name: 'one_off',
           roles: ['administrator'],
-          component: OneOff,
+          component: Index,
         },
       ],
     },
