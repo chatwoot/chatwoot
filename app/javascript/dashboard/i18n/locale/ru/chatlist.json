@@ -47,12 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+        "TEXT": "В ожидании",
+        "VALUE": "в ожидании"
       },
       {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+        "TEXT": "Отложено",
+        "VALUE": "отложено"
       }
     ],
     "ATTACHMENTS": {
