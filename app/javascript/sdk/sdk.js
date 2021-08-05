@@ -129,6 +129,11 @@ export const SDK_CSS = `.woot-widget-holder {
     width: 100%;
  }
 
+ .woot-widget-holder iframe {
+    min-height: 100% !important;
+  }
+
+
  .woot-widget-holder.has-unread-view {
     height: auto;
     right: 0;
@@ -136,11 +141,15 @@ export const SDK_CSS = `.woot-widget-holder {
     bottom: 0;
     top: auto;
     max-height: 100vh;
+    padding: 0 8px;
+  }
+ 
+  .woot-widget-holder.has-unread-view iframe {
+    min-height: unset !important;
   }
 
  .woot-widget-holder.has-unread-view.woot-elements--left {
     left: 0;
-    padding: 0 8px;
   }
   
   .woot-widget-bubble.woot--close {
@@ -148,7 +157,7 @@ export const SDK_CSS = `.woot-widget-holder {
     opacity: 0;
     visibility: hidden !important;
     z-index: -1 !important;
- }
+  }
 }
 
 @media only screen and (min-width: 667px) {
