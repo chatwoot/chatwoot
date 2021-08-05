@@ -77,6 +77,13 @@ class Notification::PushNotificationService
     subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 
+  def send_push_via_chatwoot_hub(subscription)
+    return unless subscription.fcm?
+
+    response = ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+  end
+
   def fcm_options
     {
       notification: {

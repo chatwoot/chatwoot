@@ -2,6 +2,7 @@ class ChatwootHub
   BASE_URL = ENV['CHATWOOT_HUB_URL'] || 'https://hub.2.chatwoot.com'
   PING_URL = "#{BASE_URL}/ping".freeze
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
+  PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
   EVENTS_URL = "#{BASE_URL}/events".freeze
 
   def self.installation_identifier
@@ -47,6 +48,15 @@ class ChatwootHub
   def self.register_instance(company_name, owner_name, owner_email)
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+    Rails.logger.info "Exception: #{e.message}"
+  rescue StandardError => e
+    Raven.capture_exception(e)
+  end
+
+  def self.send_browser_push(fcm_token_list, fcm_options)
+    info = { fcm_token_list: fcm_token_list, fcm_options: fcm_options }
+    RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e

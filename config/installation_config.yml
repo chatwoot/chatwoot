@@ -40,3 +40,5 @@
   value:
 - name: API_CHANNEL_THUMBNAIL
   value:
+- name: PUSH_RELAY_SERVER
+  value: true
