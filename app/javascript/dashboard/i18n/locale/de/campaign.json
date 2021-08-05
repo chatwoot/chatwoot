@@ -17,7 +17,7 @@
         "SCHEDULED_AT": {
           "LABEL": "Scheduled time",
           "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
+          "CONFIRM": "Bestätigen",
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
@@ -95,8 +95,8 @@
       "STATUS": {
         "ENABLED": "Aktiviert",
         "DISABLED": "Inaktiv",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Erledigt",
+        "ACTIVE": "Aktiv"
       },
       "SENDER": {
         "BOT": "Bot"
