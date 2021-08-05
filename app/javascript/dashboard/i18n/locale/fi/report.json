@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Yleiskatsaus",
     "LOADING_CHART": "Ladataan kaaviotietoja...",
     "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
     "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
@@ -41,24 +41,24 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Viimeiset 3 kuukautta"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Viimeiset 6 kuukautta"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Viimeinen vuosi"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Oma aikajakso"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Valitse",
+      "PLACEHOLDER": "Valitse aikajakso"
     }
   },
   "CSAT_REPORTS": {
