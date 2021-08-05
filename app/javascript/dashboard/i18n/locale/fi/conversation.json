@@ -27,11 +27,11 @@
     "REMOVE_SELECTION": "Poista valinnat",
     "DOWNLOAD": "Lataa",
     "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "SUCCESS_DELETE_MESSAGE": "Viesti poistettu onnistuneesti",
+    "FAIL_DELETE_MESSSAGE": "Viestin poistaminen epäonnistui.",
+    "NO_RESPONSE": "Ei vastausta",
+    "RATING_TITLE": "Arvostelut",
+    "FEEDBACK_TITLE": "Palaute",
     "HEADER": {
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",
@@ -41,7 +41,7 @@
       "DETAILS": "tiedot"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "OPEN_BOT": "Avaa botilla"
     },
     "FOOTER": {
       "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
@@ -53,17 +53,17 @@
       "SEND": "Lähetä",
       "CREATE": "Lisää muistiinpano",
       "TWEET": "Twiittaa",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "TIP_FORMAT_ICON": "Näytä rikas tekstieditori",
+      "TIP_EMOJI_ICON": "Näytä emojivalitsin",
+      "TIP_ATTACH_ICON": "Liitä tiedosto",
+      "ENTER_TO_SEND": "Paina Enter lähettääksesi",
+      "DRAG_DROP": "Pudota tiedosto tähän liittääksesi"
     },
     "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
     "CHANGE_STATUS": "Keskustelun tila muutettu",
     "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "CHANGE_TEAM": "Keskustelun tiimi vaihdettu",
+    "FILE_SIZE_LIMIT": "Tiedoston koko ylittää maksimin: {MAXIMUM_FILE_UPLOAD_SIZE} ",
     "SENT_BY": "Lähettäjä:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Valitse edustaja",
@@ -93,35 +93,35 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "TITLE": "Hei 👋, tervetuloa %{installationName}!",
     "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Kaikki keskustelut yhdessä paikassa",
+      "DESCRIPTION": "Kaikki asiakkaiden viestit yhdessä ohjauspaneelissa. Voit filtteröidä viestejä tunnisteen, kansion ja tiimin perusteella."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Kutsu tiimijäseniä",
+      "DESCRIPTION": "Koska olet valmis palvelemaan asiakkaita, kutsu muutama tiimijäsentä auttamaan sinua!",
+      "NEW_LINK": "Paina tästä kutsuaksesi tiimijäsen"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Yhdistä kansioita",
+      "DESCRIPTION": "Yhdistä monta eri viestikanavaa jolla asiakkaat voivat ottaa sinun yhteyden. Esimerkiksi widgetti omille verkkosivuille, Twitterissä tai Whatsapissa.",
+      "NEW_LINK": "Paina tästä luodaksesi kansio"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Järjestä keskusteluja tunnisteilla",
+      "DESCRIPTION": "Tunnisteet auttavat sinua järjestelemään eri keskusteluja.",
+      "NEW_LINK": "Paina tästä luodaksesi uusi tunniste"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Määrätty edustaja",
+    "SELF_ASSIGN": "Määrätty minulle",
+    "TEAM_LABEL": "Määrätty tiimi",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Ei mikään"
     }
   }
 }
