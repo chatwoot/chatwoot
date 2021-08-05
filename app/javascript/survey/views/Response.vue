@@ -31,26 +31,13 @@
           :selected-rating="selectedRating"
           @selectRating="selectRating"
         />
-        <label
-          v-if="!isFeedbackSubmitted"
-          class="text-base font-medium text-black-800"
-        >
-          {{ $t('SURVEY.FEEDBACK.LABEL') }}
-        </label>
-        <text-area
-          v-if="!isFeedbackSubmitted"
-          v-model="feedbackMessage"
-          class="my-5"
-          :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
+        <feedback
+          v-if="enableFeedbackForm"
+          :is-updating="isUpdating"
+          :is-button-disabled="isButtonDisabled"
+          :selected-rating="selectedRating"
+          @sendFeedback="sendFeedback"
         />
-        <custom-button
-          v-if="!isFeedbackSubmitted"
-          class="font-medium float-right"
-          @click="sendFeedback"
-        >
-          <spinner v-if="isUpdating && feedbackMessage" class="p-0" />
-          {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
-        </custom-button>
       </div>
     </div>
     <div class="footer-wrap flex-shrink-0 w-full flex flex-col relative">
@@ -63,9 +50,8 @@
 import Branding from 'shared/components/Branding';
 import Spinner from 'shared/components/Spinner';
 import Rating from 'survey/components/Rating';
+import Feedback from 'survey/components/Feedback';
 import Banner from 'survey/components/Banner';
-import CustomButton from 'shared/components/Button';
-import TextArea from 'shared/components/TextArea.vue';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -75,10 +61,9 @@ export default {
   components: {
     Branding,
     Rating,
-    CustomButton,
-    TextArea,
     Spinner,
     Banner,
+    Feedback,
   },
   mixins: [alertMixin, configMixin],
   props: {
@@ -100,10 +85,9 @@ export default {
     };
   },
   computed: {
-    conversationUUID() {
+    surveyId() {
       const pageURL = window.location.href;
-      const conversationId = pageURL.substr(pageURL.lastIndexOf('/') + 1);
-      return conversationId;
+      return pageURL.substr(pageURL.lastIndexOf('/') + 1);
     },
     isRatingSubmitted() {
       return this.surveyDetails && this.surveyDetails.rating;
@@ -116,6 +100,9 @@ export default {
     },
     enableBanner() {
       return this.isRatingSubmitted || this.errorMessage;
+    },
+    enableFeedbackForm() {
+      return !this.isFeedbackSubmitted && this.isRatingSubmitted;
     },
     message() {
       if (this.errorMessage) {
@@ -135,7 +122,8 @@ export default {
       this.selectedRating = rating;
       this.updateSurveyDetails();
     },
-    sendFeedback() {
+    sendFeedback(message) {
+      this.feedbackMessage = message;
       this.updateSurveyDetails();
     },
     imgUrlAlt() {
@@ -144,13 +132,12 @@ export default {
     async getSurveyDetails() {
       this.isLoading = true;
       try {
-        const result = await getSurveyDetails({ uuid: this.conversationUUID });
+        const result = await getSurveyDetails({ uuid: this.surveyId });
         this.logo = result.data.inbox_avatar_url;
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
       } catch (error) {
-        console.log('this.errorMessage', error);
         const errorMessage = error?.response?.data?.message;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
@@ -171,7 +158,7 @@ export default {
           },
         };
         await updateSurvey({
-          uuid: this.conversationUUID,
+          uuid: this.surveyId,
           data,
         });
         this.surveyDetails = {
@@ -182,7 +169,7 @@ export default {
         const errorMessage = error?.response?.data?.message;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
       } finally {
-        this.isLoading = false;
+        this.isUpdating = false;
       }
     },
   },
