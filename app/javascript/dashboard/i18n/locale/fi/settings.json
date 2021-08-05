@@ -19,18 +19,18 @@
       "PASSWORD_SECTION": {
         "TITLE": "Salasana",
         "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Vaihda salasana"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Tätä tunnusta voidaan käyttää, jos olet rakentamassa API-pohjaista integraatiota"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Ääni-ilmoitukset",
+        "NOTE": "Aktivoi ääni-ilmoitukset hallintapaneelissa. Soittaa äänimerkin uuden viestin tullessa.",
+        "NONE": "Ei missään",
+        "ASSIGNED": "Määrätyt keskustelut",
+        "ALL_CONVERSATIONS": "Kaikki keskustelut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Sähköposti-ilmoitukset",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Sähköposti, joka näytetään keskusteluissa"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Nykyinen salasana",
+        "ERROR": "Nykyinen salasana on pakollinen",
+        "PLACEHOLDER": "Syötä nykyinen salasana"
       },
       "PASSWORD": {
         "LABEL": "Salasana",
@@ -139,13 +139,13 @@
     "CANNED_RESPONSES": "Tallennetut vastaukset",
     "INTEGRATIONS": "Integraatiot",
     "ACCOUNT_SETTINGS": "Tilin asetukset",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Applikaatiot",
     "LABELS": "Tunnisteet",
-    "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "TEAMS": "Tiimit",
+    "ALL_CONTACTS": "Kaikki kontaktit",
+    "TAGGED_WITH": "Merkattu ",
+    "REPORTS_OVERVIEW": "Yleiskatsaus",
+    "CSAT": "ASTK"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Uusi tili",
