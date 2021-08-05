@@ -177,7 +177,7 @@ export default {
 
 .unread-messages {
   width: 100%;
-  margin-top: auto;
+  margin-top: 0;
   padding-bottom: $space-small;
   display: flex;
   flex-direction: column;
