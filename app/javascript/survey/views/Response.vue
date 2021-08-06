@@ -17,8 +17,8 @@
         </p>
         <banner
           v-if="enableBanner"
-          :show-success="isRatingSubmitted"
-          :show-error="errorMessage"
+          :show-success="shouldShowSuccessMesage"
+          :show-error="shouldShowErrorMesage"
           :message="message"
         />
         <label
@@ -103,6 +103,12 @@ export default {
     },
     enableFeedbackForm() {
       return !this.isFeedbackSubmitted && this.isRatingSubmitted;
+    },
+    shouldShowErrorMesage() {
+      return !!this.errorMessage;
+    },
+    shouldShowSuccessMesage() {
+      return !!this.isRatingSubmitted;
     },
     message() {
       if (this.errorMessage) {
