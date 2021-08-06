@@ -6,7 +6,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def perform_reply
-    twilio_message = client.messages.create(message_params)
+    twilio_message = client.messages.create(**message_params)
     message.update!(source_id: twilio_message.sid)
   end
 
