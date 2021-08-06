@@ -1,5 +1,4 @@
 class Twilio::SendOnTwilioService < Base::SendOnChannelService
-  include MessageFormatHelper
 
   private
 
@@ -14,7 +13,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def message_params
     params = {
-      body: get_transformed_message_content(message),
+      body: message.content,
       from: channel.phone_number,
       to: contact_inbox.source_id
     }
