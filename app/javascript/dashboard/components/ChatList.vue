@@ -195,16 +195,17 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
+      const allConversation = this.$refs.activeConversation.querySelectorAll(
+        'div.conversations-list div.conversation'
+      );
+      const activeConversation = this.$refs.activeConversation.querySelector(
+        'div.conversations-list div.conversation.active'
+      );
+      const activeConversationIndex = [...allConversation].indexOf(
+        activeConversation
+      );
+      const lastConversationIndex = allConversation.length - 1;
       if (hasPressedAltAndJKey(e)) {
-        const allConversation = this.$refs.activeConversation.querySelectorAll(
-          'div.conversations-list div.conversation'
-        );
-        const activeConversation = this.$refs.activeConversation.querySelector(
-          'div.conversations-list div.conversation.active'
-        );
-        const activeConversationIndex = [...allConversation].indexOf(
-          activeConversation
-        );
         if (activeConversationIndex <= 0) {
           allConversation[0].click();
         }
@@ -213,16 +214,6 @@ export default {
         }
       }
       if (hasPressedAltAndKKey(e)) {
-        const allConversation = this.$refs.activeConversation.querySelectorAll(
-          'div.conversations-list div.conversation'
-        );
-        const activeConversation = this.$refs.activeConversation.querySelector(
-          'div.conversations-list div.conversation.active'
-        );
-        const activeConversationIndex = [...allConversation].indexOf(
-          activeConversation
-        );
-        const lastConversationIndex = allConversation.length - 1;
         if (activeConversationIndex >= lastConversationIndex) {
           allConversation[lastConversationIndex].click();
         } else {
