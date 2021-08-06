@@ -110,7 +110,7 @@ class Message < ApplicationRecord
   end
 
   def reportable?
-    incoming? || outgoing?
+    incoming? || outgoing? || input_csat?
   end
 
   def webhook_data
@@ -128,6 +128,12 @@ class Message < ApplicationRecord
       conversation: conversation.webhook_data,
       account: account.webhook_data
     }
+  end
+
+  def content
+    return self[:content] unless self.input_csat? or self.inbox.web_widget?
+
+    "Please rate this conversation , #{ENV['FRONTEND_URL']}/survey/responses/#{self.conversation.uuid}"
   end
 
   private
