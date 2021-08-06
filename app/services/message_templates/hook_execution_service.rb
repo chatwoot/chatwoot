@@ -48,7 +48,6 @@ class MessageTemplates::HookExecutionService
 
   def csat_enabled_inbox?
     # for now csat only available in web widget channel
-    return unless inbox.web_widget?
     return unless inbox.csat_survey_enabled?
 
     true
