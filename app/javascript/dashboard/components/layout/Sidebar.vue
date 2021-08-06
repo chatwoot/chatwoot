@@ -58,6 +58,7 @@
     <woot-key-shortcut-modal
       v-if="showShortcutModal"
       @close="closeKeyShortcutModal"
+      @clickaway="closeKeyShortcutModal"
     />
 
     <account-selector
@@ -93,7 +94,7 @@ import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
-import { hasPressedCommandAndForwardslash } from 'shared/helpers/KeyboardHelpers';
+import { hasPressedCommandAndForwardSlash } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -271,13 +272,13 @@ export default {
   },
   methods: {
     toggleKeyShortcutModal() {
-      this.showShortcutModal = !this.showShortcutModal;
+      this.showShortcutModal = true;
     },
     closeKeyShortcutModal() {
       this.showShortcutModal = false;
     },
     handleKeyEvents(e) {
-      if (hasPressedCommandAndForwardslash(e)) {
+      if (hasPressedCommandAndForwardSlash(e)) {
         this.toggleKeyShortcutModal();
       }
     },

@@ -1,7 +1,10 @@
 <template>
   <transition name="slide-up">
     <div class="modal-mask">
-      <div class="page-top-bar modal-container">
+      <div
+        v-on-clickaway="() => $emit('clickaway')"
+        class="page-top-bar modal-container"
+      >
         <div class="title-wrap">
           <div class="title">
             <h2 class="page-title">
@@ -82,93 +85,11 @@
 </template>
 
 <script>
-const SHORTCUT_KEYS = [
-  {
-    id: 1,
-    label: 'NAVIGATE_DROPDOWN',
-    firstkey: 'Up',
-    secondKey: 'Down',
-  },
-  {
-    id: 2,
-    label: 'RESOLVE_CONVERSATION',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'E',
-  },
-  {
-    id: 3,
-    label: 'GO_TO_CONVERSATION_DASHBOARD',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'C',
-  },
-  {
-    id: 4,
-    label: 'ADD_ATTACHMENT',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'A',
-  },
-  {
-    id: 5,
-    label: 'GO_TO_CONTACTS_DASHBOARD',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'V',
-  },
-  {
-    id: 6,
-    label: 'TOGGLE_SIDEBAR',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'O',
-  },
-  {
-    id: 7,
-    label: 'GO_TO_REPORTS_SIDEBAR',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'R',
-  },
-  {
-    id: 8,
-    label: 'MOVE_TO_NEXT_TAB',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'N',
-  },
-  {
-    id: 9,
-    label: 'GO_TO_SETTINGS',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'S',
-  },
-  {
-    id: 10,
-    label: 'SWITCH_CONVERSATION_STATUS',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'B',
-  },
-  {
-    id: 11,
-    label: 'SWITCH_TO_PRIVATE_NOTE',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'P',
-  },
-  {
-    id: 12,
-    label: 'TOGGLE_RICH_CONTENT_EDITOR',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'W',
-  },
-  {
-    id: 13,
-    label: 'SWITCH_TO_REPLY',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'L',
-  },
-  {
-    id: 14,
-    label: 'TOGGLE_SNOOZE_DROPDOWN',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'M',
-  },
-];
+import { mixin as clickaway } from 'vue-clickaway';
+import { SHORTCUT_KEYS } from './constants';
+
 export default {
+  mixins: [clickaway],
   data() {
     return {
       shortcutKeys: SHORTCUT_KEYS,
