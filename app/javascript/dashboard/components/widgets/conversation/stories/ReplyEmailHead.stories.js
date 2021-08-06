@@ -5,9 +5,14 @@ export default {
   title: 'Components/ReplyBox/EmailHead',
   component: AddReminder,
   argTypes: {
-    options: {
+    ccEmails: {
       control: {
-        type: 'object',
+        type: 'string',
+      },
+    },
+    bccEmails: {
+      control: {
+        type: 'string',
       },
     },
   },
@@ -21,21 +26,3 @@ const Template = (args, { argTypes }) => ({
 });
 
 export const Add = Template.bind({});
-Add.args = {
-  onAdd: action('Added'),
-  onClick: action('Label'),
-  options: [
-    {
-      id: '12345',
-      name: 'calls',
-    },
-    {
-      id: '12346',
-      name: 'meeting',
-    },
-    {
-      id: '12347',
-      name: 'review',
-    },
-  ],
-};
