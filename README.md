@@ -90,7 +90,7 @@ Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md)
 
 ## Community? Questions? Support ?
 
-If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) channel.
+If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
 
 
 ## Contributors ✨
