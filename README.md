@@ -29,9 +29,8 @@ ___
 Chatwoot is an open-source omnichannel customer support software. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
 Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
----
 
-### Features
+## Features
 
 Chatwoot gives an integrated view of conversations happening in different communication channels.
 
@@ -57,28 +56,22 @@ Other features include:
 - **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
 - **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
 
----
+## Documentation
 
-### Documentation
+Detailed documentation is available at [chatwoot.com/help-center](https://www.chatwoot.com/help-center).
 
-Detailed documentation is available at [www.chatwoot.com/help-center](https://www.chatwoot.com/help-center).
-
-### Translation process
+## Translation process
 
 The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
 
----
-
-### Branching model
+## Branching model
 
 We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
 If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`.
 
----
+## Deployment
 
-### Deployment
-
-#### Heroku one-click deploy
+### Heroku one-click deploy
 
 Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:
 
@@ -86,16 +79,21 @@ Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button
 
 Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables.
 
-#### Other deployment options
+### Other deployment options
 
 Please follow [deployment architecture guide](https://www.chatwoot.com/docs/deployment/architecture) to deploy with Docker or Caprover.
 
----
-#### Security
+## Security
+
 Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
----
-### Contributors ✨
+
+## Community? Questions? Support ?
+
+If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
+
+
+## Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
 
