@@ -33,11 +33,12 @@ RSpec.describe MailPresenter do
       data = decorated_mail.serialized_data
       expect(data.keys).to eq([
                                 :text_content, :html_content, :number_of_attachments, :subject, :date, :to,
-                                :from, :in_reply_to, :cc, :bcc, :message_id
+                                :from, :in_reply_to, :cc, :bcc, :message_id, :multipart
                               ])
       expect(data[:subject]).to eq(decorated_mail.subject)
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
+      expect(data[:multipart]).to eq(true)
     end
   end
 end
