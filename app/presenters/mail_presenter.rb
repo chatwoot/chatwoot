@@ -61,18 +61,19 @@ class MailPresenter < SimpleDelegator
 
   def serialized_data
     {
-      text_content: text_content,
-      html_content: html_content,
-      number_of_attachments: number_of_attachments,
-      subject: subject,
-      date: date,
-      to: to,
-      from: from,
-      in_reply_to: in_reply_to,
-      cc: cc,
       bcc: bcc,
+      cc: cc,
+      content_type: content_type,
+      date: date,
+      from: from,
+      html_content: html_content,
+      in_reply_to: in_reply_to,
       message_id: message_id,
       multipart: multipart?,
+      number_of_attachments: number_of_attachments,
+      subject: subject,
+      text_content: text_content,
+      to: to,
     }
   end
 
