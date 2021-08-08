@@ -2,6 +2,7 @@ module MailboxHelper
   private
 
   def create_message
+    byebug
     @message = @conversation.messages.create(
       account_id: @conversation.account_id,
       sender: @conversation.contact,

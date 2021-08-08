@@ -143,6 +143,9 @@ export default {
 
       const {
         email: {
+          // Assuming all previous emails to be multipart, otherwise
+          // previous message would render unnecessary line breaks.
+          multipart = true,
           html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
           text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
@@ -156,7 +159,9 @@ export default {
       if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
-          return parsedContent.replace(/\n/g, '<br />');
+          return multipart
+            ? parsedContent
+            : parsedContent.replace(/\n/g, '<br />');
         }
       }
       return (

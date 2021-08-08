@@ -71,7 +71,8 @@ class MailPresenter < SimpleDelegator
       in_reply_to: in_reply_to,
       cc: cc,
       bcc: bcc,
-      message_id: message_id
+      message_id: message_id,
+      multipart: multipart?,
     }
   end
 
