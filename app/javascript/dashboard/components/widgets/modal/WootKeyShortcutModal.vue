@@ -24,41 +24,41 @@
 
         <div class="shortcut__wrap">
           <div class="title-key__wrap">
-            <h6 class="sub-block-title">
+            <span class="sub-block-title">
               {{ $t('KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION') }}
-            </h6>
+            </span>
             <div class="shortcut-key__wrap">
               <div class="open-conversation__key">
-                <p class="shortcut-key">
+                <span class="shortcut-key">
                   {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-                </p>
-                <p class="shortcut-key key">
+                </span>
+                <span class="shortcut-key key">
                   J
-                </p>
+                </span>
               </div>
-              <p class="shortcut-key">
+              <span class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </p>
-              <p class="shortcut-key key">
+              </span>
+              <span class="shortcut-key key">
                 K
-              </p>
+              </span>
             </div>
           </div>
 
           <div class="title-key__wrap">
-            <h6 class="sub-block-title">
+            <span class="sub-block-title">
               {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
-            </h6>
+            </span>
             <div class="shortcut-key__wrap">
-              <p class="shortcut-key">
+              <span class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.COMMAND_KEY') }}
-              </p>
-              <p class="shortcut-key">
+              </span>
+              <span class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </p>
-              <p class="shortcut-key key">
+              </span>
+              <span class="shortcut-key key">
                 E
-              </p>
+              </span>
             </div>
           </div>
           <div
@@ -66,16 +66,16 @@
             :key="shortcutKey.id"
             class="title-key__wrap"
           >
-            <h6 class="sub-block-title">
+            <span class="sub-block-title">
               {{ title(shortcutKey) }}
-            </h6>
+            </span>
             <div class="shortcut-key__wrap">
-              <p class="shortcut-key">
+              <span class="shortcut-key">
                 {{ shortcutKey.firstkey }}
-              </p>
-              <p class="shortcut-key key">
+              </span>
+              <span class="shortcut-key key">
                 {{ shortcutKey.secondKey }}
-              </p>
+              </span>
             </div>
           </div>
         </div>
@@ -139,8 +139,8 @@ export default {
 .shortcut__wrap {
   display: grid;
   grid-template-columns: repeat(2, 0.5fr);
-  gap: 0.6rem 4rem;
-  margin-top: var(--space-two);
+  gap: var(--space-smaller) var(--space-large);
+  margin-top: var(--space-small);
 }
 
 .title-key__wrap {
@@ -150,11 +150,16 @@ export default {
   min-width: 40rem;
 }
 
+.sub-block-title {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
 .shortcut-key {
   background: var(--color-background);
   padding: var(--space-small) var(--space-one);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-mini);
   align-items: center;
   border-radius: var(--border-radius-normal);
   margin-right: var(--space-small);
