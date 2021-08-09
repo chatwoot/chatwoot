@@ -53,11 +53,6 @@ export default {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
         key => key === this.currentUserAvailabilityStatus
       );
-      console.log(
-        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
-          availabilityIndex
-        ]
-      );
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
         availabilityIndex
       ];
