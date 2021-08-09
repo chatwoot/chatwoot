@@ -42,7 +42,7 @@ class ContactBuilder
 
     contact = account.contacts.find_by(identifier: contact_attributes[:identifier]) if contact_attributes[:identifier].present?
 
-    contact ||= account.contacts.find_by(email: contact_attributes[:email]) if contact_attributes[:email].present?
+    contact ||= account.contacts.find_by(email: contact_attributes[:email].downcase) if contact_attributes[:email].present?
 
     contact ||= account.contacts.find_by(phone_number: contact_attributes[:phone_number]) if contact_attributes[:phone_number].present?
 
@@ -57,6 +57,7 @@ class ContactBuilder
       contact_inbox
     rescue StandardError => e
       Rails.logger.info e
+      raise e
     end
   end
 end
