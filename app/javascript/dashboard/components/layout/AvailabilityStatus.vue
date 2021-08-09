@@ -58,7 +58,6 @@ export default {
       ];
     },
     currentUserAvailabilityStatus() {
-      console.log(this.currentUser.availability_status);
       return this.currentUser.availability_status;
     },
     availabilityStatuses() {
