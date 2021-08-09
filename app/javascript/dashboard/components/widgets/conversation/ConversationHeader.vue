@@ -68,7 +68,9 @@ import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
+import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -76,7 +78,7 @@ export default {
     Thumbnail,
     AvailabilityStatusBadge,
   },
-  mixins: [agentMixin],
+  mixins: [agentMixin, eventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -117,6 +119,11 @@ export default {
   },
 
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndOKey(e)) {
+        this.$emit('contact-panel-toggle');
+      }
+    },
     assignAgent(agent) {
       this.$store
         .dispatch('assignAgent', {
