@@ -9,7 +9,11 @@
         icon="ion-pricetags"
         emoji="🏷️"
       />
-      <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
+      <div
+        v-on-clickaway="closeDropdownLabel"
+        class="label-wrap"
+        @keyup.esc="closeDropdownLabel"
+      >
         <add-label @add="toggleLabels" />
         <woot-label
           v-for="label in activeLabels"
