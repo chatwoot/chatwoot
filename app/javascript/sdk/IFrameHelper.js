@@ -141,7 +141,10 @@ export const IFrameHelper = {
       }
     },
     onLocationChange: ({ referrerURL, referrerHost }) => {
-      IFrameHelper.sendMessage('change-url', { referrerURL, referrerHost });
+      IFrameHelper.sendMessage('change-url', {
+        referrerURL,
+        referrerHost,
+      });
     },
 
     setUnreadMode: message => {
@@ -179,7 +182,23 @@ export const IFrameHelper = {
 
     closeChat: () => {
       onBubbleClick({ toggleValue: false });
-    }
+    },
+    
+    updateIframeHeight: message => {
+      setTimeout(() => {
+        const iframe = IFrameHelper.getAppFrame();
+        const scrollableMessageHeight =
+          iframe.contentWindow.document.querySelector('.unread-messages')
+            .scrollHeight + 40;
+        const updatedIframeHeight = message.isFixedHeight
+          ? `${scrollableMessageHeight}px`
+          : '100%';
+        iframe.setAttribute(
+          'style',
+          `height: ${updatedIframeHeight} !important`
+        );
+      }, 100);
+    },
   },
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
