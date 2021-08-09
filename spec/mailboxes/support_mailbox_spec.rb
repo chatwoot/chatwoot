@@ -10,6 +10,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) { %w[text_content html_content number_of_attachments subject date to from in_reply_to cc bcc message_id] }
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
+    let(:welcome_email) { create_inbound_email_from_fixture('welcome.eml') }
 
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
@@ -59,10 +60,14 @@ RSpec.describe SupportMailbox, type: :mailbox do
         described_subject
         expect(conversation.messages.last.sender.id).to eq(contact.id)
       end
+    end
 
-      it 'does not create new contact if email is given with different case' do
-        contact_inbox.contact.email = contact.email.capitalize
-        contact_inbox.save!
+    describe 'handle inbox contacts with mail as upper case' do
+      let(:contact) { create(:contact, account: account, email: welcome_email.mail.from.first) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+
+      it 'does not create new contact if from email is uppercase' do
+        expect(contact_inbox.contact.email) == (welcome_email.mail.from.first)
         described_subject
         expect(conversation.messages.last.sender.id).to eq(contact.id)
       end

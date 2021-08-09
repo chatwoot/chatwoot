@@ -121,4 +121,9 @@ class MailPresenter < SimpleDelegator
       Regexp.new("from:\s*$", Regexp::IGNORECASE)
     ]
   end
+
+  def from
+    # changing to downcase to avoid case mismatch while finding contact
+    @mail.from.map(&:downcase)
+  end
 end

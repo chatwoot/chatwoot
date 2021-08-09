@@ -39,5 +39,9 @@ RSpec.describe MailPresenter do
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
     end
+
+    it 'give email from in downcased format' do
+      expect(decorated_mail.from.first) == (decorated_mail.from.first.downcase)
+    end
   end
 end
