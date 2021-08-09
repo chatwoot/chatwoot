@@ -19,7 +19,7 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { AddReminder },
+  components: { ReplyEmailHead },
   template:
     '<add-reminder v-bind="$props" @add="onAdd" @click="onClick"></add-reminder>',
 });
