@@ -22,7 +22,6 @@
           :key="labelSection.toState"
           :menu-item="labelSection"
         />
-
         <sidebar-item
           v-if="showShowContactSideMenu"
           :key="contactLabelSection.key"
