@@ -32,12 +32,25 @@ RSpec.describe MailPresenter do
     it 'give the serialized data of the email to be stored in the message' do
       data = decorated_mail.serialized_data
       expect(data.keys).to eq([
-                                :text_content, :html_content, :number_of_attachments, :subject, :date, :to,
-                                :from, :in_reply_to, :cc, :bcc, :message_id
+                                :bcc,
+                                :cc,
+                                :content_type,
+                                :date,
+                                :from,
+                                :html_content,
+                                :in_reply_to,
+                                :message_id,
+                                :multipart,
+                                :number_of_attachments,
+                                :subject,
+                                :text_content,
+                                :to
                               ])
-      expect(data[:subject]).to eq(decorated_mail.subject)
+      expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
+      expect(data[:multipart]).to eq(true)
+      expect(data[:subject]).to eq(decorated_mail.subject)
     end
   end
 end
