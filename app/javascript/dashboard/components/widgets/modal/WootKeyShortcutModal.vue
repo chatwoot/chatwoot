@@ -1,10 +1,7 @@
 <template>
   <transition name="slide-up">
     <div class="modal-mask">
-      <div
-        v-on-clickaway="() => $emit('clickaway')"
-        class="page-top-bar modal-container"
-      >
+      <div v-on-clickaway="() => $emit('clickaway')" class="modal-container">
         <div class="header-wrap">
           <div class="title-shortcut-key__wrap">
             <h2 class="page-title">
@@ -105,12 +102,9 @@ export default {
 
 <style lang="scss" scoped>
 .modal-container {
-  width: fit-content;
-}
-
-.page-top-bar {
   padding: var(--space-medium) var(--space-large) var(--space-large)
     var(--space-large);
+  width: fit-content;
 }
 
 .header-wrap {
