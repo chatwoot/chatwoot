@@ -29,8 +29,11 @@
                 <span class="shortcut-key">
                   {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
                 </span>
-                <span class="shortcut-key key">
+                <span class="shortcut-key">
                   J
+                </span>
+                <span class="forward-slash sub-block-title">
+                  {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
                 </span>
               </div>
               <span class="shortcut-key">
@@ -147,6 +150,12 @@ export default {
 .sub-block-title {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
+}
+
+.forward-slash {
+  display: flex;
+  align-items: center;
+  font-weight: var(--font-weight-bold);
 }
 
 .shortcut-key {
