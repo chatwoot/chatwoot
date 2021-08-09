@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions';
 import AddReminder from '../ReplyEmailHead';
 
 export default {
