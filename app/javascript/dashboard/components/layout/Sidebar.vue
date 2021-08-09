@@ -95,6 +95,7 @@ import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import { hasPressedCommandAndForwardSlash } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 export default {
   components: {
@@ -108,7 +109,7 @@ export default {
     AddLabelModal,
     WootKeyShortcutModal,
   },
-  mixins: [adminMixin, alertMixin],
+  mixins: [adminMixin, alertMixin, eventListenerMixins],
   data() {
     return {
       showOptionsMenu: false,
@@ -264,12 +265,8 @@ export default {
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.setChatwootUser();
-    document.addEventListener('keydown', this.handleKeyEvents);
   },
 
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
-  },
   methods: {
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;

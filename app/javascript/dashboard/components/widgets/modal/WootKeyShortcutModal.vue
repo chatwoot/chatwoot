@@ -5,18 +5,18 @@
         v-on-clickaway="() => $emit('clickaway')"
         class="page-top-bar modal-container"
       >
-        <div class="title-wrap">
-          <div class="title">
+        <div class="header-wrap">
+          <div class="title-shortcut-key__wrap">
             <h2 class="page-title">
               {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
             </h2>
             <div class="shortcut-key__wrap">
-              <span class="shortcut-key">
+              <p class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.COMMAND_KEY') }}
-              </span>
-              <span class="shortcut-key key">
+              </p>
+              <p class="shortcut-key key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
-              </span>
+              </p>
             </div>
           </div>
           <i class="ion-android-close modal--close" @click="$emit('close')"></i>
@@ -29,19 +29,19 @@
             </h6>
             <div class="shortcut-key__wrap">
               <div class="open-conversation__key">
-                <span class="shortcut-key">
+                <p class="shortcut-key">
                   {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-                </span>
-                <span class="shortcut-key key">
+                </p>
+                <p class="shortcut-key key">
                   J
-                </span>
+                </p>
               </div>
-              <span class="shortcut-key">
+              <p class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </span>
-              <span class="shortcut-key key">
+              </p>
+              <p class="shortcut-key key">
                 K
-              </span>
+              </p>
             </div>
           </div>
 
@@ -50,15 +50,15 @@
               {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
             </h6>
             <div class="shortcut-key__wrap">
-              <span class="shortcut-key">
+              <p class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.COMMAND_KEY') }}
-              </span>
-              <span class="shortcut-key">
+              </p>
+              <p class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </span>
-              <span class="shortcut-key key">
+              </p>
+              <p class="shortcut-key key">
                 E
-              </span>
+              </p>
             </div>
           </div>
           <div
@@ -70,12 +70,12 @@
               {{ title(shortcutKey) }}
             </h6>
             <div class="shortcut-key__wrap">
-              <span class="shortcut-key">
+              <p class="shortcut-key">
                 {{ shortcutKey.firstkey }}
-              </span>
-              <span class="shortcut-key key">
+              </p>
+              <p class="shortcut-key key">
                 {{ shortcutKey.secondKey }}
-              </span>
+              </p>
             </div>
           </div>
         </div>
@@ -113,19 +113,18 @@ export default {
     var(--space-large);
 }
 
-.title-wrap {
+.header-wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.title {
+.title-shortcut-key__wrap {
   display: flex;
   margin-bottom: var(--space-small);
 }
 
 .page-title {
-  display: flex;
   font-size: var(--font-size-big);
   font-weight: var(--font-weight-bold);
 }
@@ -155,7 +154,7 @@ export default {
   background: var(--color-background);
   padding: var(--space-small) var(--space-one);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-mini);
+  font-size: var(--font-size-small);
   align-items: center;
   border-radius: var(--border-radius-normal);
   margin-right: var(--space-small);
