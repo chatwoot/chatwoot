@@ -2,7 +2,7 @@ import ReplyEmailHead from '../ReplyEmailHead';
 
 export default {
   title: 'Components/ReplyBox/EmailHead',
-  component: AddReminder,
+  component: ReplyEmailHead,
   argTypes: {
     ccEmails: {
       control: {
