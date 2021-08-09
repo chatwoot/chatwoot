@@ -172,19 +172,28 @@ export default {
   },
   methods: {
     async handleKeyEvents(e) {
-      const allConversation = document.querySelectorAll(
+      const allConversations = document.querySelectorAll(
         '.conversations-list .conversation'
       );
-      if (hasPressedAltAndMKey(e)) {
-        this.$refs.arrowDownButton.$el.click();
-      }
       if (hasPressedAltAndEKey(e)) {
-        await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-        if (allConversation.length >= 2) {
-          if (hasPressedCommandPlusAltAndEKey(e)) {
-            if (allConversation.length >= 1) {
-              allConversation[1].click();
-            }
+        const activeConversation = document.querySelector(
+          'div.conversations-list div.conversation.active'
+        );
+        const activeConversationIndex = [...allConversations].indexOf(
+          activeConversation
+        );
+        const lastConversationIndex = allConversations.length - 1;
+        try {
+          await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+        } catch (error) {
+          // error
+        }
+        if (hasPressedCommandPlusAltAndEKey(e)) {
+          if (activeConversationIndex < lastConversationIndex) {
+            allConversations[activeConversationIndex + 1].click();
+          } else if (allConversations.length > 1) {
+            allConversations[0].click();
+            document.querySelector('.conversations-list').scrollTop = 0;
           }
         }
       }

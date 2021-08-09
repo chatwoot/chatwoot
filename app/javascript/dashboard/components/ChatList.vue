@@ -195,29 +195,29 @@ export default {
   },
   methods: {
     handleKeyEvents(e) {
-      const allConversation = this.$refs.activeConversation.querySelectorAll(
+      const allConversations = this.$refs.activeConversation.querySelectorAll(
         'div.conversations-list div.conversation'
       );
       const activeConversation = this.$refs.activeConversation.querySelector(
         'div.conversations-list div.conversation.active'
       );
-      const activeConversationIndex = [...allConversation].indexOf(
+      const activeConversationIndex = [...allConversations].indexOf(
         activeConversation
       );
-      const lastConversationIndex = allConversation.length - 1;
+      const lastConversationIndex = allConversations.length - 1;
       if (hasPressedAltAndJKey(e)) {
-        if (activeConversationIndex <= 0) {
-          allConversation[0].click();
+        if (activeConversationIndex === -1) {
+          allConversations[0].click();
         }
         if (activeConversationIndex >= 1) {
-          allConversation[activeConversationIndex - 1].click();
+          allConversations[activeConversationIndex - 1].click();
         }
       }
       if (hasPressedAltAndKKey(e)) {
-        if (activeConversationIndex >= lastConversationIndex) {
-          allConversation[lastConversationIndex].click();
-        } else {
-          allConversation[activeConversationIndex + 1].click();
+        if (activeConversationIndex === -1) {
+          allConversations[lastConversationIndex].click();
+        } else if (activeConversationIndex < lastConversationIndex) {
+          allConversations[activeConversationIndex + 1].click();
         }
       }
     },
