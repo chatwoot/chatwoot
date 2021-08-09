@@ -50,8 +50,9 @@ describe('notificationBell', () => {
       localVue,
       i18n: i18nConfig,
     });
-    const statusViewTitle = notificationBell.find('.unread-badge');
-    expect(statusViewTitle.text()).toBe('19');
+
+    const statusViewTitle = notificationBell.find('primary-nav-item-stub');
+    expect(statusViewTitle.vm.count).toBe('19');
   });
 
   it('it should return unread count 99+ ', async () => {
@@ -61,7 +62,7 @@ describe('notificationBell', () => {
       localVue,
       i18n: i18nConfig,
     });
-    const statusViewTitle = notificationBell.find('.unread-badge');
-    expect(statusViewTitle.text()).toBe('99+');
+    const statusViewTitle = notificationBell.find('primary-nav-item-stub');
+    expect(statusViewTitle.vm.count).toBe('99+');
   });
 });
