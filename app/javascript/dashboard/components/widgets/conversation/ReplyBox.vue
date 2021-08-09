@@ -74,6 +74,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -105,7 +106,13 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    eventListenerMixins,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -289,12 +296,6 @@ export default {
       }
     },
   },
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
-  },
   methods: {
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -351,6 +352,9 @@ export default {
 
       if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
+        return;
+      }
+      if (this.$refs.messageInput === undefined) {
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
