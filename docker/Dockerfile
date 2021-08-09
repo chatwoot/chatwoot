@@ -91,3 +91,5 @@ RUN mkdir -p /app/log
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.0.0/cache/*.gem \
   && find /gems/ruby/3.0.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
+
+EXPOSE 3000
