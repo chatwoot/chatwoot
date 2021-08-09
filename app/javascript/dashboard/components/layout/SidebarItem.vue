@@ -119,7 +119,6 @@ export default {
 .sub-menu-title {
   display: flex;
   justify-content: space-between;
-
   padding: 0 var(--space-small);
   margin-bottom: var(--space-smaller);
 
