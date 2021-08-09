@@ -266,7 +266,9 @@ export default {
         } = response;
         this.senderList = inboxMembers;
       } catch (error) {
-        //  Handle error
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
     getCampaignDetails() {
