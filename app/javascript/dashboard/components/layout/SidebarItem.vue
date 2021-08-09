@@ -121,7 +121,6 @@ export default {
   justify-content: space-between;
   padding: 0 var(--space-small);
   margin-bottom: var(--space-smaller);
-
   color: var(--s-600);
   font-weight: var(--font-weight-bold);
   line-height: var(--space-two);
