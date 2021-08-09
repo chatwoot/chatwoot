@@ -73,7 +73,7 @@ class MailPresenter < SimpleDelegator
       number_of_attachments: number_of_attachments,
       subject: subject,
       text_content: text_content,
-      to: to,
+      to: to
     }
   end
 

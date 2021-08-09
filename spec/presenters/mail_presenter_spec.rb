@@ -44,9 +44,9 @@ RSpec.describe MailPresenter do
                                 :number_of_attachments,
                                 :subject,
                                 :text_content,
-                                :to,
+                                :to
                               ])
-      expect(data[:content_type]).to include("multipart/alternative")
+      expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
       expect(data[:multipart]).to eq(true)
