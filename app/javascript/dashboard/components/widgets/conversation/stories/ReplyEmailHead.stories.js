@@ -1,4 +1,4 @@
-import AddReminder from '../ReplyEmailHead';
+import ReplyEmailHead from '../ReplyEmailHead';
 
 export default {
   title: 'Components/ReplyBox/EmailHead',
