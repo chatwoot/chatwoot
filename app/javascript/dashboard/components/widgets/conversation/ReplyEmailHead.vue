@@ -2,7 +2,7 @@
   <div>
     <div class="input-group-wrap">
       <div class="input-group small" :class="{ error: $v.ccEmails.$error }">
-        <label class=" input-group-label">
+        <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
         <div class="input-group-field">
@@ -29,7 +29,7 @@
     </div>
     <div v-if="showBcc" class="input-group-wrap">
       <div class="input-group small" :class="{ error: $v.bccEmails.$error }">
-        <label class=" input-group-label">
+        <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
         <div class="input-group-field">
