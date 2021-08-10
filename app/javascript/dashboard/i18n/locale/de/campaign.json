@@ -15,15 +15,15 @@
           "ERROR": "Titel ist erforderlich"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
+          "LABEL": "Geplanter Zeitpunkt",
+          "PLACEHOLDER": "Bitte wählen Sie die Zeit",
           "CONFIRM": "Bestätigen",
-          "ERROR": "Scheduled time is required"
+          "ERROR": "Geplante Zeit ist erforderlich"
         },
         "AUDIENCE": {
           "LABEL": "Zielgruppe",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "PLACEHOLDER": "Kunden-Labels auswählen",
+          "ERROR": "Zielgruppe ist erforderlich"
         },
         "MESSAGE": {
           "LABEL": "Nachricht",
@@ -83,7 +83,7 @@
         "STATUS": "Status",
         "SENDER": "Absender",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "Geplanter Zeitpunkt",
         "TIME_ON_PAGE": "Zeit (Sekunden)",
         "CREATED_AT": "Erstellt am"
       },
