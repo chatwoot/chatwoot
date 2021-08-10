@@ -10,7 +10,8 @@ RSpec.describe SupportMailbox, type: :mailbox do
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) { %w[text_content html_content number_of_attachments subject date to from in_reply_to cc bcc message_id] }
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
-    let(:welcome_email) { create_inbound_email_from_fixture('welcome.eml') }
+    let(:customer_email) { create_inbound_email_from_fixture('mail_with_uppercase_from.eml') }
+    let(:described_customer_email) { described_class.receive customer_email }
 
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
@@ -51,25 +52,38 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
 
     describe 'handle inbox contacts' do
-      let(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
-      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+      before do
+        @contact = create(:contact, account: account, email: support_mail.mail.from.first)
+        @contact_inbox = create(:contact_inbox, inbox: channel_email.inbox, contact: @contact)
+      end
+
+      after do
+        @contact_inbox.destroy
+        @contact.destroy
+      end
 
       it 'does not create new contact if that contact exists in the inbox' do
         # making sure we have a contact already present
-        expect(contact_inbox.contact.email).to eq(support_mail.mail.from.first)
+        expect(@contact_inbox.contact.email).to eq(support_mail.mail.from.first)
         described_subject
-        expect(conversation.messages.last.sender.id).to eq(contact.id)
+        expect(conversation.messages.last.sender.id).to eq(@contact.id)
       end
     end
 
-    describe 'handle inbox contacts with mail as upper case' do
-      let(:contact) { create(:contact, account: account, email: welcome_email.mail.from.first) }
-      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+    describe 'handle inbox contacts with from mail uppercase' do
+      before do
+        @customer_contact = create(:contact, account: account, email: customer_email.mail.from.first)
+        @customer_contact_inbox = create(:contact_inbox, inbox: channel_email.inbox, contact: @customer_contact)
+      end
+
+      after do
+        @customer_contact_inbox.destroy
+        @customer_contact.destroy
+      end
 
       it 'does not create new contact if from email is uppercase' do
-        expect(contact_inbox.contact.email) == (welcome_email.mail.from.first)
-        described_subject
-        expect(conversation.messages.last.sender.id).to eq(contact.id)
+        described_customer_email
+        expect(conversation.messages.last.sender.id).to eq(@customer_contact.id)
       end
     end
   end

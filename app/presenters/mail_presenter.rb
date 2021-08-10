@@ -75,6 +75,11 @@ class MailPresenter < SimpleDelegator
     }
   end
 
+  def from
+    # changing to downcase to avoid case mismatch while finding contact
+    @mail.from.map(&:downcase)
+  end
+
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
@@ -120,10 +125,5 @@ class MailPresenter < SimpleDelegator
       Regexp.new("-+original\s+message-+\s*$", Regexp::IGNORECASE),
       Regexp.new("from:\s*$", Regexp::IGNORECASE)
     ]
-  end
-
-  def from
-    # changing to downcase to avoid case mismatch while finding contact
-    @mail.from.map(&:downcase)
   end
 end

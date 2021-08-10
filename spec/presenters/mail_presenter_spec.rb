@@ -41,7 +41,7 @@ RSpec.describe MailPresenter do
     end
 
     it 'give email from in downcased format' do
-      expect(decorated_mail.from.first) == (decorated_mail.from.first.downcase)
+      expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to eq true
     end
   end
 end
