@@ -174,7 +174,7 @@
       },
       "AUTH": {
         "TITLE": "Wähle einen Kanal",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, Whatsapp, E-Mail etc., als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanals verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
