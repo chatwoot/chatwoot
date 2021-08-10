@@ -9,7 +9,9 @@ RSpec.describe ReplyMailbox, type: :mailbox do
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
     let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
-    let(:serialized_attributes) { %w[text_content html_content number_of_attachments subject date to from in_reply_to cc bcc message_id] }
+    let(:serialized_attributes) do
+      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments subject text_content to]
+    end
 
     before do
       # this UUID is hardcoded in the reply.eml, that's why we are updating this
