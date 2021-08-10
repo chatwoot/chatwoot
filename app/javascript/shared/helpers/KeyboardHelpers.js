@@ -10,6 +10,10 @@ export const hasPressedShift = e => {
   return e.shiftKey;
 };
 
+export const hasPressedCommandAndForwardSlash = e => {
+  return e.metaKey && e.keyCode === 191;
+};
+
 export const hasPressedAltAndCKey = e => {
   return e.altKey && e.keyCode === 67;
 };
