@@ -64,7 +64,20 @@
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
       "ENTER_TO_SEND": "Entrer pour envoyer",
-      "DRAG_DROP": "Glissez et déposez ici pour lier"
+      "DRAG_DROP": "Glissez et déposez ici pour lier",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
