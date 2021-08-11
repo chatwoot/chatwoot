@@ -204,4 +204,8 @@
   .multiselect--disabled .multiselect__select {
     background: transparent;
   }
+
+  .multiselect__tags-wrap {
+    flex-shrink: 0;
+  }
 }

@@ -2,7 +2,7 @@
 import ApiClient from './ApiClient';
 
 export const buildContactParams = (page, sortAttr, label, search) => {
-  let params = `page=${page}&sort=${sortAttr}`;
+  let params = `include_contact_inboxes=false&page=${page}&sort=${sortAttr}`;
   if (search) {
     params = `${params}&q=${search}`;
   }

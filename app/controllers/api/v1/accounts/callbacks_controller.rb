@@ -69,39 +69,15 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     return [] if data.empty?
 
     data.inject([]) do |result, page_detail|
-      page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id']) ? true : false
+      page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id'])
       result << page_detail
     end
   end
 
   def set_avatar(facebook_inbox, page_id)
-    uri = get_avatar_url(page_id)
-
-    return unless uri
-
-    avatar_resource = LocalResource.new(uri)
-    facebook_inbox.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
-  rescue *ExceptionList::URI_EXCEPTIONS => e
-    Rails.logger.info "invalid url #{file_url} : #{e.message}"
-  end
-
-  def get_avatar_url(page_id)
-    begin
-      url = 'http://graph.facebook.com/' << page_id << '/picture?type=large'
-      uri = URI.parse(url)
-      tries = 3
-      begin
-        response = uri.open(redirect: false)
-      rescue OpenURI::HTTPRedirect => e
-        uri = e.uri # assigned from the "Location" response header
-        retry if (tries -= 1).positive?
-        raise
-      end
-      pic_url = response.base_uri.to_s
-    rescue StandardError => e
-      Rails.logger.debug "Rescued: #{e.inspect}"
-      pic_url = nil
-    end
-    pic_url
+    avatar_file = Down.download(
+      "http://graph.facebook.com/#{page_id}/picture?type=large"
+    )
+    facebook_inbox.avatar.attach(io: avatar_file, filename: avatar_file.original_filename, content_type: avatar_file.content_type)
   end
 end

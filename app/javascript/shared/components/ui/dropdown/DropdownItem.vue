@@ -42,6 +42,10 @@ export default {
       &:hover {
         background: var(--color-background);
       }
+
+      &:focus {
+        background: var(--color-background);
+      }
     }
   }
 }

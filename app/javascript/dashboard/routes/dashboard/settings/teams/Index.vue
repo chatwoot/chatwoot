@@ -64,6 +64,7 @@
       </div>
     </div>
     <woot-confirm-delete-modal
+      v-if="showDeletePopup"
       :show.sync="showDeletePopup"
       :title="confirmDeleteTitle"
       :message="$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')"

@@ -16,7 +16,21 @@
           @blur="$v.title.$touch"
         />
 
-        <label :class="{ error: $v.message.$error }">
+        <label v-if="isOngoingType" class="editor-wrap">
+          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+          <woot-message-editor
+            v-model="message"
+            class="message-editor"
+            :class="{ editor_warning: $v.message.$error }"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+            @blur="$v.message.$touch"
+          />
+          <span v-if="$v.message.$error" class="editor-warning__message">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+          </span>
+        </label>
+
+        <label v-else :class="{ error: $v.message.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <textarea
             v-model="message"
@@ -141,12 +155,18 @@
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 
 export default {
-  components: { WootDateTimePicker },
+  components: {
+    WootDateTimePicker,
+    WootMessageEditor,
+  },
+
   mixins: [alertMixin, campaignMixin],
+
   props: {
     senderList: {
       type: Array,
@@ -287,3 +307,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+::v-deep .ProseMirror-woot-style {
+  height: 8rem;
+}
+</style>
