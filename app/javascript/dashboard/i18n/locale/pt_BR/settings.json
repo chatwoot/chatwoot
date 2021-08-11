@@ -131,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
     "REPORTS": "Relatórios",
-    "CONTACTS": "Contato",
     "SETTINGS": "Configurações",
+    "CONTACTS": "Contato",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "INBOXES": "Caixas de Entrada",
@@ -146,7 +146,10 @@
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
     "REPORTS_OVERVIEW": "Visão geral",
-    "CSAT": "CSAT"
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campanhas",
+    "ONGOING": "Em andamento",
+    "ONE_OFF": "One off"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
