@@ -64,7 +64,9 @@ const getters = {
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
-    return _state.allConversations.find(value => value.id === conversationId);
+    return _state.allConversations.find(
+      value => value.id === Number(conversationId)
+    );
   },
 };
 

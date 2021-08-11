@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
+  include DateRangeHelper
 
   before_action :conversation, except: [:index, :meta, :search, :create]
   before_action :contact_inbox, only: [:create]
@@ -49,9 +50,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     if params[:status]
-      status = params[:status] == 'bot' ? 'pending' : params[:status]
-      @conversation.status = status
-      @status = @conversation.save
+      set_conversation_status
+      @status = @conversation.save!
     else
       @status = @conversation.toggle_status
     end
@@ -73,6 +73,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def set_conversation_status
+    status = params[:status] == 'bot' ? 'pending' : params[:status]
+    @conversation.status = status
+    @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+  end
 
   def trigger_typing_event(event)
     user = current_user.presence || @resource
@@ -115,7 +121,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: additional_attributes
+      additional_attributes: additional_attributes,
+      snoozed_until: params[:snoozed_until]
     }.merge(status)
   end
 

@@ -31,7 +31,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_item_attributes!(record, valid_keys)
-    item_keys = record.items.collect(&:keys).flatten.map(&:to_sym).compact
+    item_keys = record.items.collect(&:keys).flatten.filter_map(&:to_sym)
     invalid_keys = item_keys - valid_keys
     record.errors.add(:content_attributes, "contains invalid keys for items : #{invalid_keys}") if invalid_keys.present?
   end

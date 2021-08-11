@@ -24,7 +24,6 @@ export const actions = {
       refreshActionCableConnector(pubsubToken);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
-      console.log(error);
       // Ignore error
     } finally {
       commit('setConversationUIFlag', { isCreating: false });

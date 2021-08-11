@@ -14,7 +14,7 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   def update
     @message.update!(message_update_params)
   rescue StandardError => e
-    render json: { error: @contact.errors, message: e.message }.to_json, status: 500
+    render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
   end
 
   private

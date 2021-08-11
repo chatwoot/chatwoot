@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "மறு அங்கீகாரம்",

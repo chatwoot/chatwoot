@@ -15,9 +15,7 @@ class AddSenderToMessages < ActiveRecord::Migration[6.0]
         # rubocop:disable Rails/SkipsModelValidations
         message.update_columns(sender_id: message.user.id, sender_type: 'User') if message.user.present?
         message.update_columns(sender_id: message.contact.id, sender_type: 'Contact') if message.contact.present?
-        if message.sender.nil?
-          message.update_columns(sender_id: message.conversation.contact.id, sender_type: 'Contact') if message.incoming?
-        end
+        message.update_columns(sender_id: message.conversation.contact.id, sender_type: 'Contact') if message.sender.nil? && message.incoming?
         # rubocop:enable Rails/SkipsModelValidations
       end
     end

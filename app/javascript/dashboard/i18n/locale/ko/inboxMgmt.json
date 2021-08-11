@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
       "HMAC_VERIFICATION": "사용자 신원 검증",
-      "HMAC_DESCRIPTION": "사용자 신원 검증을 위해 SDK에서 각 사용자별 `identity_hash`를 전달할 수 있습니다. 옆에 보이는 키를 'sha256'으로 해싱하여 HMAC를 생성할 수 있습니다."
+      "HMAC_DESCRIPTION": "사용자 신원 검증을 위해 SDK에서 각 사용자별 `identifier_hash`를 전달할 수 있습니다. 옆에 보이는 키를 'sha256'으로 해싱하여 HMAC를 생성할 수 있습니다."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",

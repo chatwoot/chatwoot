@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kannst du einen `identity_hash` für jeden Benutzer übergeben. Du kannst den Hash mithilfe des 'sha256' Verfahrens generieren, der notwendige Schlüssel wird hier angezeigt."
+      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kannst du einen `identifier_hash` für jeden Benutzer übergeben. Du kannst den Hash mithilfe des 'sha256' Verfahrens generieren, der notwendige Schlüssel wird hier angezeigt."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",

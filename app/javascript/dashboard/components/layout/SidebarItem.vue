@@ -59,10 +59,17 @@
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
+import {
+  hasPressedAltAndCKey,
+  hasPressedAltAndVKey,
+  hasPressedAltAndRKey,
+  hasPressedAltAndSKey,
+} from 'shared/helpers/KeyboardHelpers';
 import adminMixin from '../../mixins/isAdmin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 export default {
-  mixins: [adminMixin],
+  mixins: [adminMixin, eventListenerMixins],
   props: {
     menuItem: {
       type: Object,
@@ -115,6 +122,20 @@ export default {
         if (item.modalName === 'AddLabel') {
           this.$emit('add-label');
         }
+      }
+    },
+    handleKeyEvents(e) {
+      if (hasPressedAltAndCKey(e)) {
+        router.push({ name: 'home' });
+      }
+      if (hasPressedAltAndVKey(e)) {
+        router.push({ name: 'contacts_dashboard' });
+      }
+      if (hasPressedAltAndRKey(e)) {
+        router.push({ name: 'settings_account_reports' });
+      }
+      if (hasPressedAltAndSKey(e)) {
+        router.push({ name: 'settings_home' });
       }
     },
     showItem(item) {

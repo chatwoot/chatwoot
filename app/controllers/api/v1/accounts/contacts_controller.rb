@@ -11,6 +11,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
   before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
+  before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
     @contacts_count = resolved_contacts.count
@@ -87,11 +88,15 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts_with_conversation_count(contacts)
-    filtrate(contacts).left_outer_joins(:conversations)
-                      .select('contacts.*, COUNT(conversations.id) as conversations_count')
-                      .group('contacts.id')
-                      .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
-                      .page(@current_page).per(RESULTS_PER_PAGE)
+    contacts_with_conversation_count = filtrate(contacts).left_outer_joins(:conversations)
+                                                         .select('contacts.*, COUNT(conversations.id) as conversations_count')
+                                                         .group('contacts.id')
+                                                         .includes([{ avatar_attachment: [:blob] }])
+                                                         .page(@current_page).per(RESULTS_PER_PAGE)
+
+    return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
+
+    contacts_with_conversation_count
   end
 
   def build_contact_inbox
@@ -115,6 +120,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def contact_update_params
     # we want the merged custom attributes not the original one
     contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
+  end
+
+  def set_include_contact_inboxes
+    @include_contact_inboxes = if params[:include_contact_inboxes].present?
+                                 params[:include_contact_inboxes] == 'true'
+                               else
+                                 true
+                               end
   end
 
   def fetch_contact

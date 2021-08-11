@@ -3,7 +3,7 @@ class Contacts::ContactableInboxesService
 
   def get
     account = contact.account
-    account.inboxes.map { |inbox| get_contactable_inbox(inbox) }.compact
+    account.inboxes.filter_map { |inbox| get_contactable_inbox(inbox) }
   end
 
   private

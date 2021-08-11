@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
     resource :widget, only: [:show]
+    namespace :survey do
+      resources :responses, only: [:show]
+    end
   end
 
   get '/api', to: 'api#index'
@@ -92,6 +95,7 @@ Rails.application.routes.draw do
               get :metrics
             end
           end
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
@@ -219,6 +223,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :csat_survey, only: [:show, :update]
       end
     end
   end

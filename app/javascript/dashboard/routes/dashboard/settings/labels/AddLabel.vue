@@ -12,6 +12,7 @@
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
+        data-testid="label-title"
         @input="$v.title.$touch"
       />
 
@@ -21,6 +22,7 @@
         class="medium-12 columns"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
+        data-testid="label-description"
         @input="$v.description.$touch"
       />
 
@@ -41,6 +43,7 @@
           <woot-button
             :is-disabled="$v.title.$invalid || uiFlags.isCreating"
             :is-loading="uiFlags.isCreating"
+            data-testid="label-submit"
           >
             {{ $t('LABEL_MGMT.FORM.CREATE') }}
           </woot-button>

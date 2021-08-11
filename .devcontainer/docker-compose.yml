@@ -10,8 +10,8 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        # Update 'VARIANT' to pick a Ruby version: 2, 2.7, 2.6, 2.5
-        VARIANT: 2.7
+        # Update 'VARIANT' to pick a Ruby version: https://github.com/microsoft/vscode-dev-containers/tree/main/containers/ruby
+        VARIANT: 3
         # [Choice] Install Node.js
         INSTALL_NODE: "true"
         NODE_VERSION: "lts/*"

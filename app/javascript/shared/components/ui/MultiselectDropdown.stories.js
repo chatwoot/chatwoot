@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import Dropdown from './MutiselectDropdown';
+import Dropdown from './MultiselectDropdown';
 
 export default {
   title: 'Components/Dropdown/Multiselect Dropdown',

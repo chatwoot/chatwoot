@@ -49,6 +49,10 @@
       {
         "TEXT": "Pending",
         "VALUE": "pending"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
