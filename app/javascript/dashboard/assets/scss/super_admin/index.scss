@@ -27,10 +27,10 @@
     line-height: 1.5;
     margin-right: var(--space-one);
   }
+}
 
-  label {
-    font-size: var(--font-size-small) !important;
-    line-height: 1.5;
-    margin-bottom: var(--space-normal);
-  }
+.update-subscription--label {
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  margin-bottom: var(--space-normal);
 }
