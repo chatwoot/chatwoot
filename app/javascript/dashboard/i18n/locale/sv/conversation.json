@@ -64,7 +64,20 @@
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
       "ENTER_TO_SEND": "Enter för att skicka",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
