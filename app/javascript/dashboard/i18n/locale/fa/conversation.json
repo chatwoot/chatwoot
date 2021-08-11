@@ -70,12 +70,12 @@
         "CC": {
           "LABEL": "CC",
           "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
-          "ERROR": "Please enter valid email addresses"
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
         },
         "BCC": {
           "LABEL": "BCC",
           "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
-          "ERROR": "Please enter valid email addresses"
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
         }
       }
     },
