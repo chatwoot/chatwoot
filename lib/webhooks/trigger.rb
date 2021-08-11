@@ -6,7 +6,7 @@ class Webhooks::Trigger
       headers: { content_type: :json, accept: :json },
       timeout: 5
     )
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: invalid webhook url #{url} : #{e.message}"
   rescue StandardError => e
     Sentry.capture_exception(e)
