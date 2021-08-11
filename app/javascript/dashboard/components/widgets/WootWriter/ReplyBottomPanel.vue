@@ -78,11 +78,17 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import {
+  hasPressedAltAndWKey,
+  hasPressedAltAndAKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
   components: { FileUpload },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -156,6 +162,14 @@ export default {
     },
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndWKey(e)) {
+        this.toggleFormatMode();
+      }
+      if (hasPressedAltAndAKey(e)) {
+        this.$refs.upload.$children[1].$el.click();
+      }
+    },
     toggleFormatMode() {
       this.setFormatMode(!this.isFormatMode);
     },

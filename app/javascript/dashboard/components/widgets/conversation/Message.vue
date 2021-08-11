@@ -85,17 +85,19 @@ import copy from 'copy-text-to-clipboard';
 
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
+
 import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import BubbleActions from './bubble/Actions';
+
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 
 import { isEmptyObject } from 'dashboard/helper/commons';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
-import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 
@@ -141,6 +143,7 @@ export default {
 
       const {
         email: {
+          content_type: contentType = '',
           html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
           text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
@@ -154,7 +157,12 @@ export default {
       if (contentToBeParsed && this.isIncoming) {
         const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
-          return parsedContent.replace(/\n/g, '<br />');
+          // This is a temporary fix for line-breaks in text/plain emails
+          // Now, It is not rendered properly in the email preview.
+          // FIXME: Remove this once we have a better solution for rendering text/plain emails
+          return contentType.includes('text/plain')
+            ? parsedContent.replace(/\n/g, '<br />')
+            : parsedContent;
         }
       }
       return (
