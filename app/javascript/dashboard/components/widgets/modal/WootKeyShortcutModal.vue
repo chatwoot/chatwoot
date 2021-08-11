@@ -9,7 +9,7 @@
             </h2>
             <div class="shortcut-key__wrap">
               <p class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.COMMAND_KEY') }}
+                {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
               </p>
               <p class="shortcut-key key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
@@ -51,7 +51,7 @@
             </span>
             <div class="shortcut-key__wrap">
               <span class="shortcut-key">
-                {{ $t('KEYBOARD_SHORTCUTS.KEYS.COMMAND_KEY') }}
+                {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
               </span>
               <span class="shortcut-key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}

@@ -94,7 +94,10 @@ import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
-import { hasPressedCommandAndForwardSlash } from 'shared/helpers/KeyboardHelpers';
+import {
+  hasPressedCommandAndForwardSlash,
+  isEscape,
+} from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 export default {
@@ -277,6 +280,9 @@ export default {
     handleKeyEvents(e) {
       if (hasPressedCommandAndForwardSlash(e)) {
         this.toggleKeyShortcutModal();
+      }
+      if (isEscape(e)) {
+        this.closeKeyShortcutModal();
       }
     },
     toggleSupportChatWindow() {

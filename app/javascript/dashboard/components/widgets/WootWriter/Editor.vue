@@ -38,6 +38,11 @@ import CannedResponse from '../conversation/CannedResponse';
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
 import '@chatwoot/prosemirror-schema/src/woot-editor.css';
+import {
+  hasPressedAltAndPKey,
+  hasPressedAltAndLKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -53,6 +58,7 @@ const createState = (content, placeholder, plugins = []) => {
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse },
+  mixins: [eventListenerMixins],
   props: {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
@@ -177,8 +183,20 @@ export default {
         },
       },
     });
+    this.focusEditorInputField();
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndPKey(e)) {
+        this.focusEditorInputField();
+      }
+      if (hasPressedAltAndLKey(e)) {
+        this.focusEditorInputField();
+      }
+    },
+    focusEditorInputField() {
+      this.$refs.editor.querySelector('div.ProseMirror-woot-style').focus();
+    },
     insertMentionNode(mentionItem) {
       if (!this.view) {
         return null;

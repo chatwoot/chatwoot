@@ -354,9 +354,6 @@ export default {
       if (this.showRichContentEditor) {
         return;
       }
-      if (this.$refs.messageInput === undefined) {
-        return;
-      }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {

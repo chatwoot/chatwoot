@@ -198,6 +198,7 @@ export default {
             allConversations[0].click();
             document.querySelector('.conversations-list').scrollTop = 0;
           }
+          e.preventDefault();
         }
       }
     },
