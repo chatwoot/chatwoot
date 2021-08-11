@@ -64,7 +64,20 @@
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
       "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
