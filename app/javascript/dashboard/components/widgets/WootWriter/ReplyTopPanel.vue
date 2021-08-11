@@ -32,11 +32,17 @@
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import {
+  hasPressedAltAndPKey,
+  hasPressedAltAndLKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
   components: {
     EmojiOrIcon,
   },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -76,6 +82,14 @@ export default {
     },
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndPKey(e)) {
+        this.handleNoteClick();
+      }
+      if (hasPressedAltAndLKey(e)) {
+        this.handleReplyClick();
+      }
+    },
     handleReplyClick() {
       this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
     },
