@@ -36,7 +36,7 @@ class ChatwootHub
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
       response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
       version = JSON.parse(response)['version']
-    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
       Rails.logger.info "Exception: #{e.message}"
     rescue StandardError => e
       Sentry.capture_exception(e)
@@ -47,7 +47,7 @@ class ChatwootHub
   def self.register_instance(company_name, owner_name, owner_email)
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
     Raven.capture_exception(e)
@@ -58,7 +58,7 @@ class ChatwootHub
 
     info = { event_name: event_name, event_data: event_data }
     RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
     Sentry.capture_exception(e)
