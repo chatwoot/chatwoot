@@ -66,15 +66,15 @@
       "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "افزودن bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
           "ERROR": "Please enter valid email addresses"
         }
       }
