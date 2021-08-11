@@ -64,7 +64,20 @@
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
       "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
-      "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید"
+      "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
