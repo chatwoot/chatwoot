@@ -1,51 +1,23 @@
 <template>
-  <div class="status">
-    <div class="status-view">
-      <availability-status-badge :status="currentUserAvailabilityStatus" />
-      <div class="status-view--title">
-        {{ availabilityDisplayLabel }}
-      </div>
-    </div>
-
-    <div class="status-change">
-      <transition name="menu-slide">
-        <div
-          v-if="isStatusMenuOpened"
-          v-on-clickaway="closeStatusMenu"
-          class="dropdown-pane dropdowm--top"
-        >
-          <woot-dropdown-menu>
-            <woot-dropdown-item
-              v-for="status in availabilityStatuses"
-              :key="status.value"
-              class="status-items"
-            >
-              <woot-button
-                variant="clear"
-                size="small"
-                color-scheme="secondary"
-                class-names="status-change--dropdown-button"
-                :is-disabled="status.disabled"
-                @click="changeAvailabilityStatus(status.value)"
-              >
-                <availability-status-badge :status="status.value" />
-                {{ status.label }}
-              </woot-button>
-            </woot-dropdown-item>
-          </woot-dropdown-menu>
-        </div>
-      </transition>
-
+  <woot-dropdown-menu>
+    <woot-dropdown-item
+      v-for="status in availabilityStatuses"
+      :key="status.value"
+      class="status-items"
+    >
       <woot-button
         variant="clear"
+        size="small"
         color-scheme="secondary"
-        class-names="status-change--change-button link"
-        @click="openStatusMenu"
+        class-names="status-change--dropdown-button"
+        :is-disabled="status.disabled"
+        @click="changeAvailabilityStatus(status.value)"
       >
-        {{ $t('SIDEBAR_ITEMS.CHANGE_AVAILABILITY_STATUS') }}
+        <availability-status-badge :status="status.value" />
+        {{ status.label }}
       </woot-button>
-    </div>
-  </div>
+    </woot-dropdown-item>
+  </woot-dropdown-menu>
 </template>
 
 <script>

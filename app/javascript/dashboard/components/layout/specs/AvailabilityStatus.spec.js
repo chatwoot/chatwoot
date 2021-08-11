@@ -17,7 +17,7 @@ const i18nConfig = new VueI18n({
 });
 
 describe('AvailabilityStatus', () => {
-  const currentUser = { availability_status: 'online' };
+  const currentUser = { availability_status: 'offline' };
   let store = null;
   let actions = null;
   let modules = null;
@@ -50,34 +50,12 @@ describe('AvailabilityStatus', () => {
     });
   });
 
-  it('shows current user status', () => {
-    const statusViewTitle = availabilityStatus.find('.status-view--title');
-
-    expect(statusViewTitle.text()).toBe('Online');
-  });
-
-  it('opens the menu when user clicks "change"', async () => {
-    expect(availabilityStatus.find('.dropdown-pane').exists()).toBe(false);
-
-    await availabilityStatus
-      .find('.status-change--change-button')
-      .trigger('click');
-
-    expect(availabilityStatus.find('.dropdown-pane').exists()).toBe(true);
-  });
-
   it('dispatches an action when user changes status', async () => {
-    await availabilityStatus
-      .find('.status-change--change-button')
-      .trigger('click');
-
-    await availabilityStatus
-      .find('.status-change li:last-child button')
-      .trigger('click');
+    await availabilityStatus.find('button:first-child').trigger('click');
 
     expect(actions.updateAvailability).toBeCalledWith(
       expect.any(Object),
-      { availability: 'offline' },
+      { availability: 'online' },
       undefined
     );
   });

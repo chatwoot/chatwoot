@@ -219,9 +219,9 @@ $badge-background: $primary-color;
 $badge-color: $white;
 $badge-color-alt: $black;
 $badge-palette: $foundation-palette;
-$badge-padding: 0.3em;
+$badge-padding: var(--space-smaller);
 $badge-minwidth: 2.1em;
-$badge-font-size: 0.6rem;
+$badge-font-size: var(--font-size-nano);
 
 // 10. Breadcrumbs
 // ---------------
@@ -400,7 +400,7 @@ $mediaobject-image-width-stacked: 100%;
 
 $menu-margin: 0;
 $menu-margin-nested: $space-medium;
-$menu-item-padding: $space-one;
+$menu-item-padding: $space-slab;
 $menu-item-color-active: $white;
 $menu-item-background-active: $color-background;
 $menu-icon-spacing: 0.25rem;

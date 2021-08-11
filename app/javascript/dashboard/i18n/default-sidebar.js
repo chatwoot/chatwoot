@@ -1,5 +1,7 @@
 import { frontendURL } from '../helper/URLHelper';
 
+// TODO - find hasSubMenu usage - July/2021
+
 export const getSidebarItems = accountId => ({
   common: {
     routes: [
@@ -32,13 +34,6 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/contacts`),
         toStateName: 'contacts_dashboard',
-      },
-      notifications: {
-        icon: 'ion-ios-bell',
-        label: 'NOTIFICATIONS',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/notifications`),
-        toStateName: 'notifications_dashboard',
       },
       report: {
         icon: 'ion-arrow-graph-up-right',
@@ -105,6 +100,10 @@ export const getSidebarItems = accountId => ({
       },
     },
   },
+  notifications: {
+    routes: ['notifications_index'],
+    menuItems: {},
+  },
   settings: {
     routes: [
       'agent_list',
@@ -134,13 +133,6 @@ export const getSidebarItems = accountId => ({
       'settings_teams_edit_finish',
     ],
     menuItems: {
-      back: {
-        icon: 'ion-ios-arrow-back',
-        label: 'HOME',
-        hasSubMenu: false,
-        toStateName: 'home',
-        toState: frontendURL(`accounts/${accountId}/dashboard`),
-      },
       agents: {
         icon: 'ion-person-stalker',
         label: 'AGENTS',

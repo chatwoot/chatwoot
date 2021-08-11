@@ -1,10 +1,5 @@
 <template>
-  <router-link
-    :to="menuItem.toState"
-    tag="li"
-    active-class="active"
-    :class="computedClass"
-  >
+  <li :class="computedClass" class="sidebar-item">
     <a
       class="sub-menu-title"
       :class="getMenuItemClass"
@@ -12,63 +7,57 @@
       aria-haspopup="true"
       :title="menuItem.toolTip"
     >
-      <div class="wrap">
-        <i :class="menuItem.icon" />
-        {{ $t(`SIDEBAR.${menuItem.label}`) }}
-      </div>
-      <span
-        v-if="showItem(menuItem)"
-        class="child-icon ion-android-add-circle"
-        @click.prevent="newLinkClick(menuItem)"
-      />
+      {{ $t(`SIDEBAR.${menuItem.label}`) }}
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
-      <router-link
+      <secondary-nav-item
         v-for="child in menuItem.children"
         :key="child.id"
-        active-class="active flex-container"
-        tag="li"
         :to="child.toState"
+        :label="child.label"
+        :label-color="child.color"
+        :should-truncate="child.truncateLabel"
+        :icon="computedInboxClass(child)"
+      />
+      <router-link
+        v-if="menuItem.newLink"
+        v-slot="{ href, isActive, navigate }"
+        :to="menuItem.toState"
+        custom
       >
-        <a href="#" :class="computedChildClass(child)">
-          <div class="wrap">
-            <i
-              v-if="computedInboxClass(child)"
-              class="inbox-icon"
-              :class="computedInboxClass(child)"
-            />
-            <span
-              v-if="child.color"
-              class="label-color--display"
-              :style="{ backgroundColor: child.color }"
-            />
-            <div
-              :title="computedChildTitle(child)"
-              :class="computedChildClass(child)"
-            >
-              {{ child.label }}
-            </div>
-          </div>
-        </a>
+        <li>
+          <a
+            :href="href"
+            class="button small clear menu-item--new secondary"
+            :class="{ 'is-active': isActive }"
+            @click="e => newLinkClick(e, navigate)"
+          >
+            <i class="icon ion-plus-round" />
+            <span class="button__content">
+              {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
+            </span>
+          </a>
+        </li>
       </router-link>
     </ul>
-  </router-link>
+  </li>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
+
+import SecondaryNavItem from 'dashboard/modules/sidebar/components/SecondaryNavItem';
+
 export default {
+  components: { SecondaryNavItem },
   mixins: [adminMixin],
   props: {
     menuItem: {
       type: Object,
-      default() {
-        return {};
-      },
+      default: () => ({}),
     },
   },
   computed: {
@@ -108,11 +97,11 @@ export default {
       if (!child.truncateLabel) return false;
       return child.label;
     },
-    newLinkClick(item) {
-      if (item.newLinkRouteName) {
-        router.push({ name: item.newLinkRouteName, params: { page: 'new' } });
-      } else if (item.showModalForNewItem) {
-        if (item.modalName === 'AddLabel') {
+    newLinkClick(e, navigate) {
+      if (this.menuItem.newLinkRouteName) {
+        navigate(e);
+      } else if (this.menuItem.showModalForNewItem) {
+        if (this.menuItem.modalName === 'AddLabel') {
           this.$emit('add-label');
         }
       }
@@ -124,11 +113,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-
+.sidebar-item {
+  margin: var(--space-small) 0;
+}
 .sub-menu-title {
   display: flex;
   justify-content: space-between;
+  padding: 0 var(--space-small);
+  margin-bottom: var(--space-smaller);
+  color: var(--s-600);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--space-two);
+  text-transform: uppercase;
+}
+
+.sub-menu-link {
+  color: var(--s-600);
 }
 
 .wrap {
@@ -137,11 +137,11 @@ export default {
 }
 
 .label-color--display {
-  border-radius: $space-smaller;
-  height: $space-normal;
-  margin-right: $space-small;
-  min-width: $space-normal;
-  width: $space-normal;
+  border-radius: var(--space-smaller);
+  height: var(--space-normal);
+  margin-right: var(--space-small);
+  min-width: var(--space-normal);
+  width: var(--space-normal);
 }
 
 .inbox-icon {
@@ -150,5 +150,13 @@ export default {
   &.ion-ios-email {
     font-size: var(--font-size-medium);
   }
+}
+
+.sidebar-item .button.menu-item--new {
+  display: inline-flex;
+  height: var(--space-medium);
+  margin: var(--space-smaller) 0;
+  padding: var(--space-smaller);
+  color: var(--s-500);
 }
 </style>
