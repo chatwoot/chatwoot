@@ -131,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gespräche",
     "REPORTS": "Berichte",
-    "CONTACTS": "Kontakte",
     "SETTINGS": "Einstellungen",
+    "CONTACTS": "Kontakte",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "INBOXES": "Posteingänge",
@@ -146,7 +146,10 @@
     "ALL_CONTACTS": "Alle Kontakte",
     "TAGGED_WITH": "Markiert mit",
     "REPORTS_OVERVIEW": "Übersicht",
-    "CSAT": "CSAT"
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampagnen",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
