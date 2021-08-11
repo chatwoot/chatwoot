@@ -28,8 +28,8 @@
     margin-right: var(--space-one);
   }
 
-  label[for=subscribe_to_updates] {
-    font-size: var(--font-size-small);
+  label {
+    font-size: var(--font-size-small) !important;
     line-height: 1.5;
     margin-bottom: var(--space-normal);
   }
