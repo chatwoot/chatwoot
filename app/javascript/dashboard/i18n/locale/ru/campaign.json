@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "Кампании",
     "SIDEBAR_TXT": "Активные сообщения позволяют клиенту отправлять исходящие сообщения своим контактам, что повлечет за собой более активное общение. Нажмите на <b>Добавить кампанию</b> для создания новой кампании. Вы также можете редактировать или удалять существующую кампанию, нажав на кнопку Изменить или Удалить.",
-    "HEADER_BTN_TXT": "Создать Кампанию",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "Создать кампанию",
       "DESC": "Активные сообщения позволяют клиенту отправлять исходящие сообщения своим контактам, что повлечет за собой более активное общение.",
@@ -24,6 +27,11 @@
           "LABEL": "Аудитория",
           "PLACEHOLDER": "Выберите метки клиентов",
           "ERROR": "Необходимо указать Аудиторию"
+        },
+        "INBOX": {
+          "LABEL": "Выбрать \"Входящий\" канал",
+          "PLACEHOLDER": "Выбрать \"Входящий\" канал",
+          "ERROR": "Inbox is required"
         },
         "MESSAGE": {
           "LABEL": "Сообщение",
@@ -80,6 +88,7 @@
       "TABLE_HEADER": {
         "TITLE": "Название",
         "MESSAGE": "Сообщение",
+        "INBOX": "Электронная почта",
         "STATUS": "Статус",
         "SENDER": "Отправитель",
         "URL": "URL",
@@ -101,6 +110,16 @@
       "SENDER": {
         "BOT": "Бот"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }
