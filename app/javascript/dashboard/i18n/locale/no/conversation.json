@@ -64,7 +64,20 @@
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
       "ENTER_TO_SEND": "Trykk enter for å sende",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
     "CHANGE_STATUS": "Samtalestatus er endret",
