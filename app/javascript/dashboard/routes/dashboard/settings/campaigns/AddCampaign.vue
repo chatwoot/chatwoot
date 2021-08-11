@@ -44,14 +44,16 @@
           </span>
         </label>
 
-        <label v-if="isOnOffType">
-          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
-          <woot-date-time-picker
-            :value="scheduledAt"
-            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
-            @change="onChange"
-          />
+        <label :class="{ error: $v.selectedInbox.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
+          <select v-model="selectedInbox" @change="onChangeInbox($event)">
+            <option v-for="item in inboxes" :key="item.name" :value="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+          <span v-if="$v.selectedInbox.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
+          </span>
         </label>
 
         <label
@@ -99,6 +101,16 @@
           </span>
         </label>
 
+        <label v-if="isOnOffType">
+          {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          <woot-date-time-picker
+            :value="scheduledAt"
+            :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
+            @change="onChange"
+          />
+        </label>
+
         <woot-input
           v-if="isOngoingType"
           v-model="endPoint"
@@ -137,10 +149,7 @@
       </div>
 
       <div class="modal-footer">
-        <woot-button
-          :is-disabled="buttonDisabled"
-          :is-loading="uiFlags.isCreating"
-        >
+        <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
         </woot-button>
         <woot-button variant="clear" @click.prevent="onClose">
@@ -166,83 +175,69 @@ export default {
   },
 
   mixins: [alertMixin, campaignMixin],
-
-  props: {
-    senderList: {
-      type: Array,
-      default: () => [],
-    },
-    audienceList: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
   data() {
     return {
       title: '',
       message: '',
       selectedSender: 0,
+      selectedInbox: null,
       endPoint: '',
       timeOnPage: 10,
       show: true,
       enabled: true,
       scheduledAt: null,
       selectedAudience: [],
+      senderList: [],
     };
   },
 
-  validations: {
-    title: {
-      required,
-    },
-    message: {
-      required,
-    },
-    selectedSender: {
-      required,
-    },
-    endPoint: {
-      required,
-      minLength: minLength(7),
-      url,
-    },
-    timeOnPage: {
-      required,
-    },
-    selectedAudience: {
-      isEmpty() {
-        return !!this.selectedAudience.length;
+  validations() {
+    const commonValidations = {
+      title: {
+        required,
       },
-    },
+      message: {
+        required,
+      },
+      selectedInbox: {
+        required,
+      },
+    };
+    if (this.isOngoingType) {
+      return {
+        ...commonValidations,
+        selectedSender: {
+          required,
+        },
+        endPoint: {
+          required,
+          minLength: minLength(7),
+          url,
+        },
+        timeOnPage: {
+          required,
+        },
+      };
+    }
+    return {
+      ...commonValidations,
+      selectedAudience: {
+        isEmpty() {
+          return !!this.selectedAudience.length;
+        },
+      },
+    };
   },
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
+      audienceList: 'labels/getLabels',
     }),
-    currentInboxId() {
-      return this.$route.params.inboxId;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
-    },
-    buttonDisabled() {
+    inboxes() {
       if (this.isOngoingType) {
-        return (
-          this.$v.message.$invalid ||
-          this.$v.title.$invalid ||
-          this.$v.selectedSender.$invalid ||
-          this.$v.endPoint.$invalid ||
-          this.$v.timeOnPage.$invalid ||
-          this.uiFlags.isCreating
-        );
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return (
-        this.$v.message.$invalid ||
-        this.$v.title.$invalid ||
-        this.$v.selectedAudience.$invalid ||
-        this.uiFlags.isCreating
-      );
+      return this.$store.getters['inboxes/getTwilioInboxes'];
     },
     sendersAndBotList() {
       return [
@@ -261,13 +256,28 @@ export default {
     onChange(value) {
       this.scheduledAt = value;
     },
+    async onChangeInbox() {
+      try {
+        const response = await this.$store.dispatch('inboxMembers/get', {
+          inboxId: this.selectedInbox,
+        });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        this.senderList = inboxMembers;
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
+    },
     getCampaignDetails() {
       let campaignDetails = null;
       if (this.isOngoingType) {
         campaignDetails = {
           title: this.title,
           message: this.message,
-          inbox_id: this.$route.params.inboxId,
+          inbox_id: this.selectedInbox,
           sender_id: this.selectedSender || null,
           enabled: this.enabled,
           trigger_rules: {
@@ -285,7 +295,7 @@ export default {
         campaignDetails = {
           title: this.title,
           message: this.message,
-          inbox_id: this.$route.params.inboxId,
+          inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           audience,
         };
@@ -293,6 +303,10 @@ export default {
       return campaignDetails;
     },
     async addCampaign() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
