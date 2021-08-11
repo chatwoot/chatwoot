@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "Kampagnen",
     "SIDEBAR_TXT": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde. Klicke auf <b>Kampagne hinzufügen</b> um eine neue Kampagne zu erstellen. Sie können auch eine bestehende Kampagne bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
-    "HEADER_BTN_TXT": "Kampagne erstellen",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "Kampagne erstellen",
       "DESC": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde.",
@@ -24,6 +27,11 @@
           "LABEL": "Zielgruppe",
           "PLACEHOLDER": "Kunden-Labels auswählen",
           "ERROR": "Zielgruppe ist erforderlich"
+        },
+        "INBOX": {
+          "LABEL": "Eingang auswählen",
+          "PLACEHOLDER": "Eingang auswählen",
+          "ERROR": "Inbox is required"
         },
         "MESSAGE": {
           "LABEL": "Nachricht",
@@ -80,6 +88,7 @@
       "TABLE_HEADER": {
         "TITLE": "Titel",
         "MESSAGE": "Nachricht",
+        "INBOX": "Posteingang",
         "STATUS": "Status",
         "SENDER": "Absender",
         "URL": "URL",
@@ -101,6 +110,16 @@
       "SENDER": {
         "BOT": "Bot"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }
