@@ -26,6 +26,19 @@
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
+
+        <label :class="{ error: $v.selectedInbox.$error }">
+          {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
+          <select v-model="selectedInbox" @change="onChangeInbox($event)">
+            <option v-for="item in inboxes" :key="item.name" :value="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+          <span v-if="$v.selectedInbox.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
+          </span>
+        </label>
+
         <label :class="{ error: $v.selectedSender.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
@@ -76,10 +89,7 @@
         </label>
       </div>
       <div class="modal-footer">
-        <woot-button
-          :is-disabled="buttonDisabled"
-          :is-loading="uiFlags.isCreating"
-        >
+        <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
         <woot-button variant="clear" @click.prevent="onClose">
@@ -95,19 +105,16 @@ import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
+import campaignMixin from 'shared/mixins/campaignMixin';
 export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, campaignMixin],
   props: {
     selectedCampaign: {
       type: Object,
       default: () => {},
-    },
-    senderList: {
-      type: Array,
-      default: () => [],
     },
   },
   data() {
@@ -115,10 +122,12 @@ export default {
       title: '',
       message: '',
       selectedSender: '',
+      selectedInbox: null,
       endPoint: '',
       timeOnPage: 10,
       show: true,
       enabled: true,
+      senderList: [],
     };
   },
   validations: {
@@ -139,20 +148,20 @@ export default {
     timeOnPage: {
       required,
     },
+    selectedInbox: {
+      required,
+    },
   },
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
+      inboxes: 'inboxes/getTwilioInboxes',
     }),
-    buttonDisabled() {
-      return (
-        this.$v.message.$invalid ||
-        this.$v.title.$invalid ||
-        this.$v.selectedSender.$invalid ||
-        this.$v.endPoint.$invalid ||
-        this.$v.timeOnPage.$invalid ||
-        this.uiFlags.isCreating
-      );
+    inboxes() {
+      if (this.isOngoingType) {
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
+      }
+      return this.$store.getters['inboxes/getTwilioInboxes'];
     },
     pageTitle() {
       return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
@@ -176,11 +185,31 @@ export default {
     onClose() {
       this.$emit('on-close');
     },
+
+    async loadInboxMembers() {
+      try {
+        const response = await this.$store.dispatch('inboxMembers/get', {
+          inboxId: this.selectedInbox,
+        });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        this.senderList = inboxMembers;
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
+    },
+    onChangeInbox() {
+      this.loadInboxMembers();
+    },
     setFormValues() {
       const {
         title,
         message,
         enabled,
+        inbox: { id: inboxId },
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
         sender,
       } = this.selectedCampaign;
@@ -188,10 +217,16 @@ export default {
       this.message = message;
       this.endPoint = endPoint;
       this.timeOnPage = timeOnPage;
+      this.selectedInbox = inboxId;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
+      this.loadInboxMembers();
     },
     async editCampaign() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         await this.$store.dispatch('campaigns/update', {
           id: this.selectedCampaign.id,

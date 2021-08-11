@@ -1,7 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import CampaignsAPI from '../../api/campaigns';
-import InboxesAPI from '../../api/inboxes';
 
 export const state = {
   records: [],
@@ -15,16 +14,18 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getCampaigns(_state) {
-    return _state.records;
+  getCampaigns: _state => campaignType => {
+    return _state.records.filter(
+      record => record.campaign_type === campaignType
+    );
   },
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit }, { inboxId }) {
+  get: async function getCampaigns({ commit }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
-      const response = await InboxesAPI.getCampaigns(inboxId);
+      const response = await CampaignsAPI.get();
       commit(types.SET_CAMPAIGNS, response.data);
     } catch (error) {
       // Ignore error

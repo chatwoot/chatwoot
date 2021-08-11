@@ -286,9 +286,6 @@
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
-    <div v-if="selectedTabKey === 'campaign'">
-      <campaign :selected-agents="selectedAgents" />
-    </div>
   </div>
 </template>
 
@@ -303,7 +300,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
-import Campaign from './components/Campaign';
 
 export default {
   components: {
@@ -312,7 +308,6 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
-    Campaign,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -369,10 +364,6 @@ export default {
         return [
           ...visibleToAllChannelTabs,
           {
-            key: 'campaign',
-            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
-          },
-          {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
@@ -387,21 +378,7 @@ export default {
         ];
       }
 
-      if (this.isATwilioSMSChannel) {
-        return [
-          ...visibleToAllChannelTabs,
-          {
-            key: 'campaign',
-            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
-          },
-          {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          },
-        ];
-      }
-
-      if (this.isATwilioWhatsappChannel) {
+      if (this.isATwilioChannel) {
         return [
           ...visibleToAllChannelTabs,
           {
