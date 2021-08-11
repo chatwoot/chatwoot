@@ -66,16 +66,16 @@
       "ENTER_TO_SEND": "Zum senden ENTER drücken",
       "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "BCC hinzufügen",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
         }
       }
     },
