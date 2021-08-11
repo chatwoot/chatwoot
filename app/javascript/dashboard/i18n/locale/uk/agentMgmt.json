@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Агентів не знайдено."
+      "NO_RESULTS": "No results found."
     }
   }
 }

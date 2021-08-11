@@ -26,7 +26,12 @@
         {{ currentContact.name }}
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
-        <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
+        <i v-if="isMessagePrivate" class="ion-locked last-message-icon" />
+        <i v-else-if="messageByAgent" class="ion-ios-undo last-message-icon" />
+        <i
+          v-else-if="isMessageAnActivity"
+          class="ion-information-circled last-message-icon"
+        />
         <span v-if="lastMessageInChat.content">
           {{ parsedLastMessage }}
         </span>
@@ -144,6 +149,18 @@ export default {
       return messageType === MESSAGE_TYPE.OUTGOING;
     },
 
+    isMessageAnActivity() {
+      const lastMessage = this.lastMessageInChat;
+      const { message_type: messageType } = lastMessage;
+      return messageType === MESSAGE_TYPE.ACTIVITY;
+    },
+
+    isMessagePrivate() {
+      const lastMessage = this.lastMessageInChat;
+      const { private: isPrivate } = lastMessage;
+      return isPrivate;
+    },
+
     parsedLastMessage() {
       const { content_attributes: contentAttributes } = this.lastMessageInChat;
       const { email: { subject } = {} } = contentAttributes || {};
@@ -229,5 +246,10 @@ export default {
   .ion-earth {
     font-size: var(--font-size-mini);
   }
+}
+
+.last-message-icon {
+  color: var(--s-600);
+  font-size: var(--font-size-mini);
 }
 </style>

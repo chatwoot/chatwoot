@@ -66,6 +66,7 @@ da:
       greeting_message_body: "%{account_name} svarer typisk på et par timer."
       ways_to_reach_you_message_body: "Giv teamet en måde at kontakte dig på."
       email_input_box_message_body: "Få besked via e-mail"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nye beskeder i denne samtale"
       transcript_subject: "Samtaleudskrift"

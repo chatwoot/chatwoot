@@ -14,6 +14,17 @@
           "PLACEHOLDER": "กรุณาใส่หัวข้อแคมเปญ",
           "ERROR": "โปรดระบุหัวข้อด้วย"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "ข้อความ",
           "PLACEHOLDER": "โปรดระบุข้อความของแคมเปญด้วย",
@@ -72,6 +83,7 @@
         "STATUS": "สถานะ",
         "SENDER": "ผู้ส่ง",
         "URL": "ลิ้ง",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "เวลา (วินาที)",
         "CREATED_AT": "สร้างเมื่อ"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "เปิด",
-        "DISABLED": "ปิด"
+        "DISABLED": "ปิด",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "บอท"

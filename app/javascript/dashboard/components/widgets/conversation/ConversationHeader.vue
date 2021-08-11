@@ -32,33 +32,6 @@
       class="header-actions-wrap"
       :class="{ 'has-open-sidebar': isContactPanelOpen }"
     >
-      <div class="multiselect-box multiselect-wrap--small">
-        <i class="icon ion-headphone" />
-        <multiselect
-          v-model="currentChat.meta.assignee"
-          :loading="uiFlags.isFetching"
-          :allow-empty="true"
-          deselect-label=""
-          :options="agentList"
-          :placeholder="$t('CONVERSATION.ASSIGNMENT.SELECT_AGENT')"
-          select-label=""
-          label="name"
-          selected-label
-          track-by="id"
-          @select="assignAgent"
-          @remove="removeAgent"
-        >
-          <template slot="option" slot-scope="props">
-            <div class="option__desc">
-              <availability-status-badge
-                :status="props.option.availability_status"
-              />
-              <span class="option__title">{{ props.option.name }}</span>
-            </div>
-          </template>
-          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
-        </multiselect>
-      </div>
       <more-actions :conversation-id="currentChat.id" />
     </div>
   </div>
@@ -67,15 +40,16 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
-import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
+import agentMixin from '../../../mixins/agentMixin.js';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
     MoreActions,
     Thumbnail,
-    AvailabilityStatusBadge,
   },
-
+  mixins: [agentMixin, eventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -90,12 +64,12 @@ export default {
   data() {
     return {
       currentChatAssignee: null,
+      inboxId: null,
     };
   },
 
   computed: {
     ...mapGetters({
-      getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
@@ -109,36 +83,18 @@ export default {
         this.chat.meta.sender.id
       );
     },
-
-    agentList() {
-      const { inbox_id: inboxId } = this.chat;
-      const agents = this.getAgents(inboxId) || [];
-      return [
-        {
-          confirmed: true,
-          name: 'None',
-          id: 0,
-          role: 'agent',
-          account_id: 0,
-          email: 'None',
-        },
-        ...agents,
-      ];
-    },
+  },
+  mounted() {
+    const { inbox_id: inboxId } = this.chat;
+    this.inboxId = inboxId;
   },
 
   methods: {
-    assignAgent(agent) {
-      this.$store
-        .dispatch('assignAgent', {
-          conversationId: this.currentChat.id,
-          agentId: agent.id,
-        })
-        .then(() => {
-          bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
-        });
+    handleKeyEvents(e) {
+      if (hasPressedAltAndOKey(e)) {
+        this.$emit('contact-panel-toggle');
+      }
     },
-    removeAgent() {},
   },
 };
 </script>

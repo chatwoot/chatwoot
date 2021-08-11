@@ -2,6 +2,10 @@ class ContactMergeAction
   pattr_initialize [:account!, :base_contact!, :mergee_contact!]
 
   def perform
+    # This case happens when an agent updates a contact email in dashboard,
+    # while the contact also update his email via email collect box
+    return @base_contact if base_contact.id == mergee_contact.id
+
     ActiveRecord::Base.transaction do
       validate_contacts
       merge_conversations

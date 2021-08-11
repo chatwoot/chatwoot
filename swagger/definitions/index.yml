@@ -28,6 +28,8 @@ contact_inboxes:
   $ref: ./resource/contact_inboxes.yml
 contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
+custom_filter:
+  $ref: ./resource/custom_filter.yml
 account:
   $ref: ./resource/account.yml
 platform_account:
@@ -73,6 +75,10 @@ conversation_message_create:
 # Team request Payload
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+# Custom Filter request Payload
+custom_filter_create_update_payload:
+  $ref: ./request/custom_filter/create_update_payload.yml
 
 integrations_hook_create_payload:
   $ref: ./request/integrations/hook_create_payload.yml

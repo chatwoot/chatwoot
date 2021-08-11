@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "เราไม่สามารถยืนยันใบรับลองของ Twilio ได้กรุณาลองใหม่อีกครั้ง"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "ช่อง API",
         "DESC": "สร้างช่องด้วย API เเละเริ่มช่วยเหลือลูกค้าของคุณ",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์"
       },
       "AUTH": {
-        "TITLE": "ช่อง",
-        "DESC": "ขณะนี้เราสนับสนุนวิดเจ็ตแชทสดของเว็บไซต์เพจ Facebook และโปรไฟล์ Twitter เป็นแพลตฟอร์ม เรามีแพลตฟอร์มอื่น ๆ เช่น Whatsapp, Email, Telegram และ Line ในผลงานซึ่งจะออกเร็ว ๆ นี้"
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "พนักงาน",
@@ -216,6 +224,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "เปิด",
         "DISABLED": "ปิด"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
       }
     },
     "DELETE": {
@@ -255,11 +267,13 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",

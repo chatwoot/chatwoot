@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "我們無法驗證 Twilio 憑證，請重試"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "API 頻道",
         "DESC": "與 API 頻道互動，開始服務客戶。",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "開始將您的電子信箱轉發到以下電子信箱地址。"
       },
       "AUTH": {
-        "TITLE": "頻道",
-        "DESC": "目前我們支持網站線上聊天小元件、Facebook 頁面和 Twitter 配置文件作為平台。 我們在工作中擁有更多平台，如 Whatsapp、Email、Telegram 和 Line，這些平台將很快支援。"
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服",
@@ -216,6 +224,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
       }
     },
     "DELETE": {
@@ -255,11 +267,13 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "啟用自動分配",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
       "HMAC_VERIFICATION": "使用者身份驗證",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授權",

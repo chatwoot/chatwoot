@@ -24,27 +24,21 @@
             </woot-button>
           </template>
         </contact-details-item>
-        <multiselect
-          v-model="assignedAgent"
+        <multiselect-dropdown
           :options="agentsList"
-          label="name"
-          track-by="id"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
-          :allow-empty="true"
-        >
-          <template slot="option" slot-scope="props">
-            <div class="option__desc">
-              <availability-status-badge
-                :status="props.option.availability_status"
-              />
-              <span class="option__title">{{ props.option.name }}</span>
-            </div>
-          </template>
-          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
-        </multiselect>
+          :selected-item="assignedAgent"
+          :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+          :multiselector-placeholder="
+            $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
+          "
+          :no-search-result="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+          "
+          :input-placeholder="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+          "
+          @click="onClickAssignAgent"
+        />
       </div>
       <div class="multiselect-wrap--small">
         <contact-details-item
@@ -52,19 +46,21 @@
           icon="ion-ios-people"
           emoji="🎢"
         />
-        <multiselect
-          v-model="assignedTeam"
+        <multiselect-dropdown
           :options="teamsList"
-          label="name"
-          track-by="id"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
-          :allow-empty="true"
-        >
-          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
-        </multiselect>
+          :selected-item="assignedTeam"
+          :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
+          :multiselector-placeholder="
+            $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
+          "
+          :no-search-result="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
+          "
+          :input-placeholder="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
+          "
+          @click="onClickAssignTeam"
+        />
       </div>
     </div>
     <conversation-labels :conversation-id="conversationId" />
@@ -131,13 +127,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import agentMixin from '../../../mixins/agentMixin';
 
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
-import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 
 import flag from 'country-code-emoji';
 
@@ -148,9 +145,9 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
-    AvailabilityStatusBadge,
+    MultiselectDropdown,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -170,7 +167,6 @@ export default {
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
       currentUser: 'getCurrentUser',
-      getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
@@ -234,9 +230,6 @@ export default {
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
-    },
-    agentsList() {
-      return [{ id: 0, name: 'None' }, ...this.getAgents(this.inboxId)];
     },
     teamsList() {
       return [{ id: 0, name: 'None' }, ...this.teams];
@@ -333,6 +326,21 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
+    onClickAssignAgent(selectedItem) {
+      if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
+        this.assignedAgent = null;
+      } else {
+        this.assignedAgent = selectedItem;
+      }
+    },
+
+    onClickAssignTeam(selectedItemTeam) {
+      if (this.assignedTeam && this.assignedTeam.id === selectedItemTeam.id) {
+        this.assignedTeam = null;
+      } else {
+        this.assignedTeam = selectedItemTeam;
+      }
+    },
   },
 };
 </script>
@@ -359,7 +367,7 @@ export default {
     margin-bottom: var(--space-normal);
     border-bottom: 1px solid var(--color-border-light);
   }
-  .multiselect-wrap--small {
+  .conversation--actions .multiselect-wrap--small {
     .multiselect {
       padding-left: var(--space-medium);
       box-sizing: border-box;

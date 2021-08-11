@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
           "ERROR": "Ο τίτλος είναι απαραίτητος"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "Μήνυμα",
           "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
@@ -72,6 +83,7 @@
         "STATUS": "Κατάσταση",
         "SENDER": "Αποστολέας",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Χρόνος (δευτερόλεπτα)",
         "CREATED_AT": "Δημιουργήθηκε στις"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "Ενεργό",
-        "DISABLED": "Ανενεργό"
+        "DISABLED": "Ανενεργό",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Bot"

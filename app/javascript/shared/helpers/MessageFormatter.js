@@ -47,7 +47,7 @@ class MessageFormatter {
       const markedDownOutput = marked(withHash);
       return markedDownOutput;
     }
-    return marked(this.message);
+    return marked(this.message, { breaks: true, gfm: true });
   }
 
   get formattedMessage() {

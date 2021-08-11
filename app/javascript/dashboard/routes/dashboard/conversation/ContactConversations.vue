@@ -16,7 +16,7 @@
           v-for="conversation in previousConversations"
           :key="conversation.id"
           :chat="conversation"
-          :hide-inbox-name="true"
+          :hide-inbox-name="false"
           :hide-thumbnail="true"
           class="compact"
         />

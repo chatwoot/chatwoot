@@ -29,6 +29,17 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['contact_inboxes'].first['inbox']['name']).to eq(contact_inbox.inbox.name)
       end
 
+      it 'returns all contacts without contact inboxes' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['contact_inboxes'].blank?).to eq(true)
+      end
+
       it 'returns includes conversations count and last seen at' do
         create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
         get "/api/v1/accounts/#{account.id}/contacts",

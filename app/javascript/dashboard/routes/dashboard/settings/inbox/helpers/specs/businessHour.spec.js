@@ -79,7 +79,7 @@ describe('#timeZoneOptions', () => {
   it('returns transforms correctly', () => {
     expect(timeZoneOptions()[0]).toStrictEqual({
       value: 'Etc/GMT+12',
-      label: 'International Date Line West',
+      label: 'International Date Line West (GMT−12:00)',
     });
   });
 });

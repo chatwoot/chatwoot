@@ -66,6 +66,7 @@ ca:
       greeting_message_body: "%{account_name} normalment respon a les poques hores."
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"

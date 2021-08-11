@@ -66,6 +66,7 @@
       greeting_message_body: "%{account_name} svarer vanligvis innen et par timer."
       ways_to_reach_you_message_body: "Gi oss en måte å ta kontakt med deg på."
       email_input_box_message_body: "Få beskjed via e-post"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Nye meldinger i denne samtalen"
       transcript_subject: "Kopi av samtale"

@@ -6,7 +6,7 @@ class MessageTemplates::Template::OutOfOffice
       conversation.messages.create!(out_of_office_message_params)
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     true
   end
 

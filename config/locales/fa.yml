@@ -66,6 +66,7 @@ fa:
       greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
       ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
       email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"

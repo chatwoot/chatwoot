@@ -23,6 +23,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+.agent-message-wrap {
+  position: sticky;
+  bottom: $space-smaller;
+}
 
 .typing-bubble {
   max-width: $space-normal * 2.4;

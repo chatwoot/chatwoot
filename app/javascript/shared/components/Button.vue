@@ -1,5 +1,10 @@
 <template>
-  <button :class="buttonClassName" :style="buttonStyles" @click="onClick">
+  <button
+    :class="buttonClassName"
+    :style="buttonStyles"
+    :disabled="disabled"
+    @click="onClick"
+  >
     <slot></slot>
   </button>
 </template>
@@ -22,10 +27,18 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     buttonClassName() {
       let className = 'text-white py-3 px-4 rounded shadow-sm';
+      if (this.type === 'clear') {
+        className = 'flex mx-auto mt-4 text-xs w-auto text-black-600';
+      }
+
       if (this.type === 'blue' && !Object.keys(this.buttonStyles).length) {
         className = `${className} bg-woot-500 hover:bg-woot-700`;
       }

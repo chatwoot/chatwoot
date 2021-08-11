@@ -127,6 +127,14 @@
           "ERROR_MESSAGE": "تعذر تكوين المصادقة بواسطة بيانات الاعتماد الخاصة بحسابك على Twilio، يرجى المحاولة مرة أخرى"
         }
       },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+      },
       "API_CHANNEL": {
         "TITLE": "قناة API",
         "DESC": "اربط مع قناة API وابدأ في دعم عملائك.",
@@ -165,8 +173,8 @@
         "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
       },
       "AUTH": {
-        "TITLE": "القنوات",
-        "DESC": "ندعم حالياً تثبيت برنامج الدردشة المباشرة على موقعك وربط صفحات الفيس بوك وحسابات تويتر. جار العمل على دعم المزيد من المنصات الأخرى مثل واتساب، و البريد الإلكتروني، و تلغرام و لاين، والتي ستكون متاحة قريباً."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "موظف الدعم",
@@ -216,6 +224,10 @@
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
       }
     },
     "DELETE": {
@@ -255,11 +267,13 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
       "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
-      "HMAC_DESCRIPTION": "للتحقق من هوية المستخدمين، يسمح لك SDK بتمرير 'identity_hash' لكل مستخدم. يمكنك إنشاء HMAC باستخدام 'sha256' مع المفتاح المعروض هنا."
+      "HMAC_DESCRIPTION": "للتحقق من هوية المستخدمين، يسمح لك SDK بتمرير 'identifier_hash' لكل مستخدم. يمكنك إنشاء HMAC باستخدام 'sha256' مع المفتاح المعروض هنا."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",

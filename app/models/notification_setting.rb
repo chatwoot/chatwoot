@@ -23,7 +23,8 @@ class NotificationSetting < ApplicationRecord
   belongs_to :user
 
   DEFAULT_QUERY_SETTING = {
-    flag_query_mode: :bit_operator
+    flag_query_mode: :bit_operator,
+    check_for_column: false
   }.freeze
 
   EMAIL_NOTIFICATION_FLAGS = ::Notification::NOTIFICATION_TYPES.transform_keys { |key| "email_#{key}".to_sym }.invert.freeze

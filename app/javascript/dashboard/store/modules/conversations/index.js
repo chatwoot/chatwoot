@@ -69,9 +69,10 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
-  [types.default.RESOLVE_CONVERSATION](_state, status) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.status = status;
+  [types.default.RESOLVE_CONVERSATION](_state, { conversationId, status }) {
+    const conversation =
+      getters.getConversationById(_state)(conversationId) || {};
+    Vue.set(conversation, 'status', status);
   },
 
   [types.default.MUTE_CONVERSATION](_state) {

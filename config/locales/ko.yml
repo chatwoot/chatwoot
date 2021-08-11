@@ -66,6 +66,7 @@ ko:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "저희가 연락드릴 방법을 알려주세요."
       email_input_box_message_body: "이메일로 연락받기"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"

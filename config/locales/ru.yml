@@ -66,6 +66,7 @@ ru:
       greeting_message_body: "%{account_name} как правило отвечает в течении несколько часов."
       ways_to_reach_you_message_body: "Оставьте ваш email для связи"
       email_input_box_message_body: "Получать уведомления по email"
+      csat_input_message_body: "Пожалуйста, оцените разговор"
     reply:
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"

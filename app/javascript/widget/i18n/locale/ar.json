@@ -18,6 +18,7 @@
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
   },
   "START_CONVERSATION": "ابدأ المحادثة",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق",
@@ -56,5 +57,15 @@
     "INVALID": {
       "FIELD": "Invalid field"
     }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
+    "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   }
 }

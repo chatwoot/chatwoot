@@ -20,6 +20,7 @@
         preChatFormEnabled: <%= @web_widget.pre_chat_form_enabled %>,
         preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>,
         workingHoursEnabled: <%= @web_widget.inbox.working_hours_enabled %>,
+        csatSurveyEnabled: <%= @web_widget.inbox.csat_survey_enabled %>,
         workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
         outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
         utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].formatted_offset %>'

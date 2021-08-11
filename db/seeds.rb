@@ -72,6 +72,8 @@ unless Rails.env.production?
   WootMessageSeeder.create_sample_form_message conversation
   # articles
   WootMessageSeeder.create_sample_articles_message conversation
+  # csat
+  WootMessageSeeder.create_sample_csat_collect_message conversation
 
   CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
 end

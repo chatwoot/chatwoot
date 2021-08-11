@@ -66,8 +66,11 @@ export const getters = {
     return $state.uiFlags;
   },
   getWebsiteInboxes($state) {
+    return $state.records.filter(item => item.channel_type === INBOX_TYPES.WEB);
+  },
+  getTwilioInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type === 'Channel::WebWidget'
+      item => item.channel_type === INBOX_TYPES.TWILIO
     );
   },
 };

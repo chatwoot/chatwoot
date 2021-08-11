@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nenhum agente encontrado."
+      "NO_RESULTS": "No results found."
     }
   }
 }

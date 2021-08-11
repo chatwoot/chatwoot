@@ -66,6 +66,7 @@ id:
       greeting_message_body: "%{account_name} biasanya membalas dalam beberapa jam."
       ways_to_reach_you_message_body: "Beri tim cara untuk menghubungi Anda."
       email_input_box_message_body: "Dapatkan pemberitahuan melalui email"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Pesan baru pada percakapan ini"
       transcript_subject: "Transkrip Percakapan"

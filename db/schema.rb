@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_095823) do
+ActiveRecord::Schema.define(version: 2021_07_23_095657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -79,7 +79,14 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "agent_bot_inboxes", force: :cascade do |t|
@@ -126,8 +133,15 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.jsonb "trigger_rules", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "campaign_type", default: 0, null: false
+    t.integer "campaign_status", default: 0, null: false
+    t.jsonb "audience", default: []
+    t.datetime "scheduled_at"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
+    t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
+    t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
+    t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
   end
 
   create_table "canned_responses", id: :serial, force: :cascade do |t|
@@ -239,6 +253,7 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
+    t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
@@ -260,11 +275,56 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
     t.bigint "campaign_id"
+    t.datetime "snoozed_until"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
+    t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
+    t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+  end
+
+  create_table "csat_survey_responses", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.integer "rating", null: false
+    t.text "feedback_message"
+    t.bigint "contact_id", null: false
+    t.bigint "assigned_agent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
+    t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
+    t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
+    t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
+    t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+  end
+
+  create_table "custom_attribute_definitions", force: :cascade do |t|
+    t.string "attribute_display_name"
+    t.string "attribute_key"
+    t.integer "attribute_display_type", default: 0
+    t.integer "default_value"
+    t.integer "attribute_model", default: 0
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+  end
+
+  create_table "custom_filters", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "filter_type", default: 0, null: false
+    t.jsonb "query", default: "{}", null: false
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_custom_filters_on_account_id"
+    t.index ["user_id"], name: "index_custom_filters_on_user_id"
   end
 
   create_table "data_imports", force: :cascade do |t|
@@ -436,6 +496,18 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_notes_on_account_id"
+    t.index ["contact_id"], name: "index_notes_on_contact_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "notification_settings", force: :cascade do |t|
@@ -620,6 +692,7 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
@@ -628,7 +701,15 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
   add_foreign_key "conversations", "campaigns"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
+  add_foreign_key "csat_survey_responses", "accounts"
+  add_foreign_key "csat_survey_responses", "contacts"
+  add_foreign_key "csat_survey_responses", "conversations"
+  add_foreign_key "csat_survey_responses", "messages"
+  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id"
   add_foreign_key "data_imports", "accounts"
+  add_foreign_key "notes", "accounts"
+  add_foreign_key "notes", "contacts"
+  add_foreign_key "notes", "users"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
   add_foreign_key "teams", "accounts"

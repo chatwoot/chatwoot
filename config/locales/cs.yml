@@ -66,6 +66,7 @@ cs:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Dejte týmu způsob, jak se k vám dostat."
       email_input_box_message_body: "Dostat upozornění e-mailem"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "New messages on this conversation"
       transcript_subject: "Přepis konverzace"

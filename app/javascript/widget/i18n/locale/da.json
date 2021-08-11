@@ -18,6 +18,7 @@
     "IN_A_DAY": "Svarer typisk på en dag"
   },
   "START_CONVERSATION": "Start Samtale",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
     "CLOSE_MESSAGES_BUTTON": "Luk",
@@ -56,5 +57,15 @@
     "INVALID": {
       "FIELD": "Invalid field"
     }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
+    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen"
   }
 }

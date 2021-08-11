@@ -1,7 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
 
-  skip_before_action :verify_authenticity_token, only: [:create]
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]

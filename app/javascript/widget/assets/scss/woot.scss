@@ -19,10 +19,15 @@ body {
 }
 
 .woot-widget-wrap {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  justify-content: flex-end;
 }
 
 .is-mobile {
+  display: block;
+
   .actions {
     .close-button {
       display: block !important;

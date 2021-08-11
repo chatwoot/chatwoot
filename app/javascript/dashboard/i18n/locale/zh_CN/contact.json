@@ -12,52 +12,52 @@
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
     "IP_ADDRESS": "IP 地址",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "新消息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "联系人标签",
+        "ERROR": "无法更新标签"
       },
       "CONVERSATION": {
         "TITLE": "对话标记",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "添加标签"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "添加标签",
+        "PLACEHOLDER": "搜索标签",
+        "NO_RESULT": "未找到标签"
       }
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "MUTE_CONTACT": "开始会话",
+    "UNMUTE_CONTACT": "取消静音",
+    "MUTED_SUCCESS": "此对话被静音6小时",
+    "UNMUTED_SUCCESS": "此对话已取消静音",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "编辑"
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "编辑联系人",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "TITLE": "编辑联系人",
+    "DESC": "编辑联系人详情"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "新建联系人",
+    "TITLE": "创建新联系人",
+    "DESC": "添加联系人的基本信息。"
   },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "提交",
       "CANCEL": "取消",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "联系人头像"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
+        "PLACEHOLDER": "输入联系人的名字",
         "LABEL": "名字"
       },
       "BIO": {
@@ -65,14 +65,14 @@
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "输入联系人的电子邮件地址",
         "LABEL": "电子邮件地址"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
+        "PLACEHOLDER": "输入联系人的电话号码",
         "LABEL": "电话号码",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "电话号码应为E.164格式，例如：+14155555 [+] [国家代码][地区代码][本地电话号码]",
+        "ERROR": "电话号码应为空或E.164格式"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -119,7 +119,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "消息",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -131,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "姓名：",
         "PHONE_NUMBER": "电话号码",
@@ -202,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "取消",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

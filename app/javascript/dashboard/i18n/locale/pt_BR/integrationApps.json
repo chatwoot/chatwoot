@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Buscando integrações",
+    "NO_HOOK_CONFIGURED": "Não há integrações %{integrationId} configuradas nesta conta.",
+    "HEADER": "Aplicações",
     "STATUS": {
       "ENABLED": "Ativado",
       "DISABLED": "Desativado"
     },
     "CONFIGURE": "Configurar",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Adicionar um novo hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Confirmar exclusão",
+        "ACCOUNT": "Desconectado"
       },
       "MESSAGE": {
         "INBOX": "Você tem certeza que deseja excluir?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "Tem certeza que deseja desconectar?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Sim, excluir",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Sim, Desconectar"
       },
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Webhook excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "Buscando integrações",
       "INBOX": "Caixa de Entrada",
       "DELETE": {
         "BUTTON_TEXT": "Excluir"
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Selecionar caixa de entrada",
+          "PLACEHOLDER": "Selecionar caixa de entrada"
         },
         "SUBMIT": "Criar",
         "CANCEL": "Cancelar"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Integração adicionada com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Conectar"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Desconectado"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow é uma plataforma natural de entendimento em linguagem que torna fácil projetar e integrar uma interface de usuário conversacional em seu aplicativo móvel, aplicativo web, dispositivo, bot, sistema de resposta de voz interativo, etc. <br /> <br /> A integração do fluxo de diálogo com o %{installationName} permite que você configure um bot de Dialogflow com suas caixas de entrada, o que permite que o bot lide inicialmente as consultas e entregue-as a um agente quando necessário. O fluxo de diálogo pode ser usado para qualificar as chumbas, reduzir a carga de trabalho dos agentes, fornecendo perguntas frequentes, etc. <br /> <br /> Para adicionar um fluxo de diálogo, você precisa criar uma Conta de Serviço no seu console do projeto Google e compartilhar as credenciais. Por favor, consulte a documentação do fluxo de diálogo para obter mais informações."
     }
   }
 }

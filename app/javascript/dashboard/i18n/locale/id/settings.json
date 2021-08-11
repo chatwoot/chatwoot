@@ -28,7 +28,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Pemberitahuan Audio",
         "NOTE": "Aktifkan notifikasi audio di dasbor untuk pesan dan percakapan baru.",
-        "ENABLE_AUDIO": "Putar pemberitahuan audio ketika percakapan baru dibuat atau pesan baru masuk"
+        "NONE": "Tidak ada",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
@@ -139,7 +141,11 @@
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
     "APPLICATIONS": "Applications",
     "LABELS": "Label",
-    "TEAMS": "Tim"
+    "TEAMS": "Tim",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Akun Baru",

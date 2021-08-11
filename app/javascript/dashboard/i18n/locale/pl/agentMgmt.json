@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nie znaleziono żadnych agentów."
+      "NO_RESULTS": "Brak wyników."
     }
   }
 }

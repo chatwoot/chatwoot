@@ -66,6 +66,7 @@ ja:
       greeting_message_body: "%{account_name} は通常数時間で返信します。"
       ways_to_reach_you_message_body: "チームがあなたに連絡する方法を設定してください"
       email_input_box_message_body: "Eメールで通知を受ける"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "この会話に新着メッセージがあります"
       transcript_subject: "会話の記録"

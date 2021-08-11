@@ -214,6 +214,22 @@ describe('#actions', () => {
     });
   });
 
+  describe('#toggleStatus', () => {
+    it('sends correct mutations if toggle status is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { payload: { conversation_id: 1, current_status: 'resolved' } },
+      });
+      await actions.toggleStatus(
+        { commit },
+        { conversationId: 1, status: 'resolved' }
+      );
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        ['RESOLVE_CONVERSATION', { conversationId: 1, status: 'resolved' }],
+      ]);
+    });
+  });
+
   describe('#assignTeam', () => {
     it('sends correct mutations if assignment is successful', async () => {
       axios.post.mockResolvedValue({
@@ -236,5 +252,24 @@ describe('#actions', () => {
         ['ASSIGN_TEAM', { id: 1, name: 'Team' }],
       ]);
     });
+  });
+});
+
+describe('#deleteMessage', () => {
+  it('sends correct actions if API is success', async () => {
+    const [conversationId, messageId] = [1, 1];
+    axios.delete.mockResolvedValue({ data: { id: 1, content: 'deleted' } });
+    await actions.deleteMessage({ commit }, { conversationId, messageId });
+    expect(commit.mock.calls).toEqual([
+      [types.default.ADD_MESSAGE, { id: 1, content: 'deleted' }],
+    ]);
+  });
+  it('sends no actions if API is error', async () => {
+    const [conversationId, messageId] = [1, 1];
+    axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+    await expect(
+      actions.deleteMessage({ commit }, { conversationId, messageId })
+    ).rejects.toThrow(Error);
+    expect(commit.mock.calls).toEqual([]);
   });
 });

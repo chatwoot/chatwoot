@@ -77,7 +77,7 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
-    this.$store.dispatch('conversationAttributes/get');
+    this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
     this.registerCampaignEvents();
@@ -95,6 +95,12 @@ export default {
       IFrameHelper.sendMessage({
         event: 'setBubbleLabel',
         label: this.$t('BUBBLE.LABEL'),
+      });
+    },
+    setIframeHeight(isFixedHeight) {
+      IFrameHelper.sendMessage({
+        event: 'updateIframeHeight',
+        isFixedHeight,
       });
     },
     setLocale(locale) {
@@ -146,6 +152,7 @@ export default {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
     setUnreadView() {
@@ -155,11 +162,13 @@ export default {
           event: 'setUnreadMode',
           unreadMessageCount,
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
+        this.setIframeHeight();
       }
     },
     createWidgetEvents(message) {
