@@ -131,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "گفتگوها",
     "REPORTS": "گزارشات",
-    "CONTACTS": "مخاطبین",
     "SETTINGS": "تنظیمات",
+    "CONTACTS": "مخاطبین",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
     "INBOXES": "صندوق‌های ورودی",
@@ -146,7 +146,10 @@
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
-    "CSAT": "رضایت مشتری"
+    "CSAT": "رضایت مشتری",
+    "CAMPAIGNS": "کمپین ها",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
@@ -167,21 +170,21 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
+      "OPEN_CONVERSATION": "باز کردن مکالمه",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
+      "ADD_ATTACHMENT": "افزودن پیوست",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch Conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "GO_TO_SETTINGS": "برو به تنظیمات",
+      "SWITCH_CONVERSATION_STATUS": "تغییر وضعیت مکالمه",
+      "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
+      "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },
     "KEYS": {
