@@ -13,8 +13,6 @@ RSpec.describe SupportMailbox, type: :mailbox do
          text_content to]
     end
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
-    let(:customer_email) { create_inbound_email_from_fixture('mail_with_uppercase_from.eml') }
-    let(:described_customer_email) { described_class.receive customer_email }
 
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
@@ -55,38 +53,14 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
 
     describe 'handle inbox contacts' do
-      before do
-        @contact = create(:contact, account: account, email: support_mail.mail.from.first)
-        @contact_inbox = create(:contact_inbox, inbox: channel_email.inbox, contact: @contact)
-      end
-
-      after do
-        @contact_inbox.destroy
-        @contact.destroy
-      end
+      let(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
 
       it 'does not create new contact if that contact exists in the inbox' do
         # making sure we have a contact already present
-        expect(@contact_inbox.contact.email).to eq(support_mail.mail.from.first)
+        expect(contact_inbox.contact.email).to eq(support_mail.mail.from.first)
         described_subject
-        expect(conversation.messages.last.sender.id).to eq(@contact.id)
-      end
-    end
-
-    describe 'handle inbox contacts with from mail uppercase' do
-      before do
-        @customer_contact = create(:contact, account: account, email: customer_email.mail.from.first)
-        @customer_contact_inbox = create(:contact_inbox, inbox: channel_email.inbox, contact: @customer_contact)
-      end
-
-      after do
-        @customer_contact_inbox.destroy
-        @customer_contact.destroy
-      end
-
-      it 'does not create new contact if from email is uppercase' do
-        described_customer_email
-        expect(conversation.messages.last.sender.id).to eq(@customer_contact.id)
+        expect(conversation.messages.last.sender.id).to eq(contact.id)
       end
     end
   end
