@@ -47,12 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+        "TEXT": "กำลังร้องขอ",
+        "VALUE": "กำลังร้องขอ"
       },
       {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+        "TEXT": "หลับ",
+        "VALUE": "หลับ"
       }
     ],
     "ATTACHMENTS": {
