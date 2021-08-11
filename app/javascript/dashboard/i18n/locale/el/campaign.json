@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "Καμπάνιες",
     "SIDEBAR_TXT": "Τα προληπτικά μηνύματα επιτρέπουν την αποστολή εξερχόμενων μηνυμάτων στις επαφές, που θα ενεργοποιούν περισσότερες συνομιλίες. Κάντε κλικ στο <b>Προσθήκη Καμπάνιας</b> για να δημιουργήσετε μια νέα καμπάνια. Μπορείτε επίσης να επεξεργαστείτε ή να διαγράψετε μια ήδη υπάρχουσα καμπάνια κάνοντας κλικ στο κουμπί Επεξεργασία ή Διαγραφή.",
-    "HEADER_BTN_TXT": "Δημιουργία Καμπάνιας",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "Δημιουργία Καμπάνιας",
       "DESC": "Τα προληπτικά μηνύματα επιτρέπουν την αποστολή εξερχόμενων μηνυμάτων στις επαφές, που θα ενεργοποιούν περισσότερες συνομιλίες.",
@@ -24,6 +27,11 @@
           "LABEL": "Audience",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
+        },
+        "INBOX": {
+          "LABEL": "Επιλογή Εισερχομένων",
+          "PLACEHOLDER": "Επιλογή Εισερχομένων",
+          "ERROR": "Inbox is required"
         },
         "MESSAGE": {
           "LABEL": "Μήνυμα",
@@ -80,6 +88,7 @@
       "TABLE_HEADER": {
         "TITLE": "Τίτλος",
         "MESSAGE": "Μήνυμα",
+        "INBOX": "Εισερχόμενα",
         "STATUS": "Κατάσταση",
         "SENDER": "Αποστολέας",
         "URL": "URL",
@@ -101,6 +110,16 @@
       "SENDER": {
         "BOT": "Bot"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }
