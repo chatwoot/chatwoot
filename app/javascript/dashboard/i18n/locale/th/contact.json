@@ -19,8 +19,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "ป้ายกำกับผู้ติดต่อ",
+        "ERROR": "ไม่สามารถอัพเดทป้ายกำกับได้"
       },
       "CONVERSATION": {
         "TITLE": "ป้ายกำกับการสนทนา",
@@ -131,7 +131,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "ผู้ติดต่อ",
-    "FIELDS": "Contact fields",
+    "FIELDS": "ฟิลส์ผู้ติดต่อ",
     "SEARCH_BUTTON": "ค้นหา",
     "SEARCH_INPUT_PLACEHOLDER": "ค้อนหาผู้ติดต่อ",
     "LIST": {
