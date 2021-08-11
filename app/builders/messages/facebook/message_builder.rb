@@ -24,6 +24,7 @@ class Messages::Facebook::MessageBuilder
       build_contact
       build_message
     end
+    ensure_contact_avatar
   rescue Koala::Facebook::AuthenticationError
     Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
@@ -41,7 +42,6 @@ class Messages::Facebook::MessageBuilder
     return if contact.present?
 
     @contact = Contact.create!(contact_params.except(:remote_avatar_url))
-    ContactAvatarJob.perform_later(@contact, contact_params[:remote_avatar_url]) if contact_params[:remote_avatar_url]
     @contact_inbox = ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
   end
 
@@ -61,10 +61,21 @@ class Messages::Facebook::MessageBuilder
   end
 
   def attach_file(attachment, file_url)
-    file_resource = LocalResource.new(file_url)
-    attachment.file.attach(io: file_resource.file, filename: file_resource.filename, content_type: file_resource.encoding)
-  rescue *ExceptionList::URI_EXCEPTIONS => e
-    Rails.logger.info "invalid url #{file_url} : #{e.message}"
+    attachment_file = Down.download(
+      file_url
+    )
+    attachment.file.attach(
+      io: attachment_file,
+      filename: attachment_file.original_filename,
+      content_type: attachment_file.content_type
+    )
+  end
+
+  def ensure_contact_avatar
+    return if contact_params[:remote_avatar_url].blank?
+    return if @contact.avatar.attached?
+
+    ContactAvatarJob.perform_later(@contact, contact_params[:remote_avatar_url])
   end
 
   def conversation

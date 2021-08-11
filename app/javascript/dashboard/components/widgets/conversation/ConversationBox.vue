@@ -49,7 +49,7 @@ export default {
     },
     isContactPanelOpen: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   computed: {
