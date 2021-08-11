@@ -43,10 +43,10 @@ class WorkingHour < ApplicationRecord
   def open_at?(time)
     return false if closed_all_day?
 
-    btw_hours = time.hour > open_hour && time.hour < close_hour
-    aft_open_close = time.hour == open_hour ? time.min  >= open_minutes : false
-    bef_close_min = time.hour == close_hour ? time.min  <= close_minutes : false
-    btw_hours || aft_open_close || bef_close_min
+     time.hour >= open_hour &&
+      time.min  >= open_minutes &&
+      time.hour <= close_hour &&
+      time.min  <= close_minutes
   end
 
   def open_now?
