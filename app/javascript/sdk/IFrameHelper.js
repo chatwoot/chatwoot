@@ -185,9 +185,19 @@ export const IFrameHelper = {
         const unreadMessageWrap = iframe.contentWindow.document.querySelector(
           '.unread-messages'
         );
+        const unreadCloseWrap = iframe.contentWindow.document.querySelector(
+          '.close-unread-wrap'
+        );
+        const readViewWrap = iframe.contentWindow.document.querySelector(
+          '.open-read-view-wrap'
+        );
 
         if (!unreadMessageWrap) return;
-        const scrollableMessageHeight = unreadMessageWrap.scrollHeight + 80;
+
+        let scrollableMessageHeight = unreadMessageWrap.scrollHeight;
+        if (unreadCloseWrap)
+          scrollableMessageHeight += unreadCloseWrap.scrollHeight;
+        if (readViewWrap) scrollableMessageHeight += readViewWrap.scrollHeight;
 
         const updatedIframeHeight = message.isFixedHeight
           ? `${scrollableMessageHeight}px`
