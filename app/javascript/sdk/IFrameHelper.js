@@ -98,24 +98,6 @@ export const IFrameHelper = {
     });
   },
 
-  getExtraSpaceToscroll: () => {
-    // This function calculates the extra space needed for the view to
-    // accomodate the height of close button + height of
-    // read messages button. So that scrollbar won't appear
-    const iframe = IFrameHelper.getAppFrame();
-    const unreadCloseWrap = iframe.contentWindow.document.querySelector(
-      '.close-unread-wrap'
-    );
-    const readViewWrap = iframe.contentWindow.document.querySelector(
-      '.open-read-view-wrap'
-    );
-
-    let extraHeight = 0;
-    if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
-    if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
-
-    return extraHeight;
-  },
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -206,8 +188,9 @@ export const IFrameHelper = {
         );
 
         if (!unreadMessageWrap) return;
+        const { extraHeight = 0 } = message;
         let scrollableMessageHeight =
-          unreadMessageWrap.scrollHeight + IFrameHelper.getExtraSpaceToscroll();
+          unreadMessageWrap.scrollHeight + extraHeight;
         const updatedIframeHeight = message.isFixedHeight
           ? `${scrollableMessageHeight}px`
           : '100%';
