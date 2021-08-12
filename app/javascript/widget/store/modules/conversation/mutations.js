@@ -5,6 +5,9 @@ import { findUndeliveredMessage } from './helpers';
 export const mutations = {
   clearConversations($state) {
     Vue.set($state, 'conversations', {});
+    // Clear state for conversations key
+    // Clear messages in state for conversation by id
+    // Reset meta in state for conversation by id
   },
   pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
@@ -15,6 +18,9 @@ export const mutations = {
 
     if (!isMessageIncoming || isTemporaryMessage) {
       Vue.set(messagesInbox, id, message);
+
+      // Set id with message in conversations byIds
+      // Append id to message allIds
       return;
     }
 
@@ -22,9 +28,16 @@ export const mutations = {
       messagesInbox,
       message
     );
+
     if (!messageInConversation) {
+      // Set id with message in conversations byIds
+      // Append id to message allIds
       Vue.set(messagesInbox, id, message);
     } else {
+      // delete by id in message -> conversations byIds
+      // delete by id in message -> conversations allIds
+      // Set id with message in conversations byIds
+      // Append id to message allIds
       Vue.delete(messagesInbox, messageInConversation.id);
       Vue.set(messagesInbox, id, message);
     }
@@ -37,12 +50,17 @@ export const mutations = {
     const messageInConversation = messagesInbox[tempId];
 
     if (messageInConversation) {
+      // delete by id in message -> conversations byIds
+      // delete by id in message -> conversations allIds
+      // Set id with message in conversations byIds
+      // Append id to message allI
       Vue.delete(messagesInbox, tempId);
       Vue.set(messagesInbox, id, { ...message });
     }
   },
 
   setConversationUIFlag($state, uiFlags) {
+    // Update uiFlags by Id
     $state.uiFlags = {
       ...$state.uiFlags,
       ...uiFlags,
@@ -50,6 +68,7 @@ export const mutations = {
   },
 
   setConversationListLoading($state, status) {
+    // Update uiFlags by Id
     $state.uiFlags.isFetchingList = status;
   },
 

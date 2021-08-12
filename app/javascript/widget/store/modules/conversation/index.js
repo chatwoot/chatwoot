@@ -3,15 +3,21 @@ import { actions } from './actions';
 import { mutations } from './mutations';
 
 const state = {
-  conversations: {},
+  conversations: {
+    byId: {},
+    allIds: [],
+  },
+  messages: {
+    byId: {},
+    allIds: [],
+  },
   meta: {
-    userLastSeenAt: undefined,
+    byId: {
+      // 1: { allMessagesLoaded: false, isAgentTyping: false, isCreating: false },
+    },
   },
   uiFlags: {
-    allMessagesLoaded: false,
     isFetchingList: false,
-    isAgentTyping: false,
-    isCreating: false,
   },
 };
 
