@@ -50,10 +50,14 @@ export default {
       return messageFormatter.formattedMessage;
     },
     parseAttributeToString(attribute) {
-      if (typeof attribute === 'string') return attribute;
-      if (typeof attribute === 'number') return `${attribute}`;
-      if (typeof attribute === 'object') return JSON.stringify(attribute);
-      return `${attribute}`;
+      switch (typeof attribute) {
+         case 'string':
+           return attribute;
+         case 'object':
+           return JSON.stringify(attribute);
+         default:
+           return `${attribute}`;
+       }
     },
   },
 };
