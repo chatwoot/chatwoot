@@ -45,8 +45,15 @@ export default {
   },
   methods: {
     valueWithLink(attribute) {
-      const messageFormatter = new MessageFormatter(attribute);
+      const parsedAttribute = this.parseAttributeToString(attribute);
+      const messageFormatter = new MessageFormatter(parsedAttribute);
       return messageFormatter.formattedMessage;
+    },
+    parseAttributeToString(attribute) {
+      if (typeof attribute === 'string') return attribute;
+      if (typeof attribute === 'number') return `${attribute}`;
+      if (typeof attribute === 'object') return JSON.stringify(attribute);
+      return `${attribute}`;
     },
   },
 };
