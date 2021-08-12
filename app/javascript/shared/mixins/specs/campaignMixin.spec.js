@@ -1,49 +1,38 @@
 import { shallowMount } from '@vue/test-utils';
 import campaignMixin from '../campaignMixin';
-import inboxMixin from '../inboxMixin';
 
 describe('campaignMixin', () => {
+  beforeEach(() => {
+    global.window = Object.create(window);
+  });
   it('returns the correct campaign type', () => {
+    const url = 'http://localhost:3000/app/accounts/1/campaigns/one_off';
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+    });
+    window.location.href = url;
     const Component = {
       render() {},
-      mixins: [campaignMixin, inboxMixin],
-      data() {
-        return {
-          inbox: {
-            channel_type: 'Channel::TwilioSms',
-            phone_number: '+91944444444',
-          },
-        };
-      },
+      mixins: [campaignMixin],
     };
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.campaignType).toBe('one_off');
   });
-  it('isOnOffType returns true if campaign type is ongoing', () => {
+  it('isOnOffType returns true if campaign type is one_off', () => {
+    const url = 'http://localhost:3000/app/accounts/1/campaigns/one_off';
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: url,
+      },
+    });
     const Component = {
       render() {},
-      mixins: [campaignMixin, inboxMixin],
-      data() {
-        return { inbox: { channel_type: 'Channel::WebWidget' } };
-      },
-    };
-    const wrapper = shallowMount(Component);
-    expect(wrapper.vm.isOngoingType).toBe(true);
-  });
-  it('isOngoingType returns true if campaign type is one_off', () => {
-    const Component = {
-      render() {},
-      mixins: [campaignMixin, inboxMixin],
-      data() {
-        return {
-          inbox: {
-            channel_type: 'Channel::TwilioSms',
-            phone_number: '+91944444444',
-          },
-        };
-      },
+      mixins: [campaignMixin],
     };
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.isOnOffType).toBe(true);
   });
+
 });

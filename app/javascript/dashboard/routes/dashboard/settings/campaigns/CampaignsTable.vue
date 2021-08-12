@@ -1,13 +1,13 @@
 <template>
   <section class="campaigns-table-wrap">
+    <empty-state v-if="showEmptyResult" :title="emptyMessage" />
     <ve-table
+      v-else
       :columns="columns"
       scroll-width="155rem"
       :table-data="tableData"
       :border-around="true"
     />
-
-    <empty-state v-if="showEmptyResult" :title="$t('CAMPAIGN.LIST.404')" />
     <div v-if="isLoading" class="campaign--loader">
       <spinner />
       <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
@@ -24,6 +24,7 @@ import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
+import InboxIconWithName from 'dashboard/components/widgets/InboxIconWithName';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import timeMixin from 'dashboard/mixins/time';
 
@@ -57,6 +58,23 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    inboxes() {
+      if (this.isOngoingType) {
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
+      }
+      return this.$store.getters['inboxes/getTwilioInboxes'];
+    },
+    emptyMessage() {
+      if (this.isOngoingType) {
+        return this.inboxes.length
+          ? this.$t('CAMPAIGN.ONGOING.404')
+          : this.$t('CAMPAIGN.ONGOING.INBOXES_NOT_FOUND');
+      }
+
+      return this.inboxes.length
+        ? this.$t('CAMPAIGN.ONE_OFF.404')
+        : this.$t('CAMPAIGN.ONE_OFF.INBOXES_NOT_FOUND');
     },
     tableData() {
       if (this.isLoading) {
@@ -105,6 +123,15 @@ export default {
               );
             }
             return '';
+          },
+        },
+        {
+          field: 'inbox',
+          key: 'inbox',
+          title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.INBOX'),
+          align: 'left',
+          renderBodyCell: ({ row }) => {
+            return <InboxIconWithName inbox={row.inbox} />;
           },
         },
       ];

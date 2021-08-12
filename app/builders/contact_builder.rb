@@ -38,15 +38,28 @@ class ContactBuilder
   end
 
   def find_contact
-    contact = nil
-
-    contact = account.contacts.find_by(identifier: contact_attributes[:identifier]) if contact_attributes[:identifier].present?
-
-    contact ||= account.contacts.find_by(email: contact_attributes[:email]) if contact_attributes[:email].present?
-
-    contact ||= account.contacts.find_by(phone_number: contact_attributes[:phone_number]) if contact_attributes[:phone_number].present?
-
+    contact = find_contact_by_identifier(contact_attributes[:identifier])
+    contact ||= find_contact_by_email(contact_attributes[:email])
+    contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
     contact
+  end
+
+  def find_contact_by_identifier(identifier)
+    return if identifier.blank?
+
+    account.contacts.find_by(identifier: identifier)
+  end
+
+  def find_contact_by_email(email)
+    return if email.blank?
+
+    account.contacts.find_by(email: email.downcase)
+  end
+
+  def find_contact_by_phone_number(phone_number)
+    return if phone_number.blank?
+
+    account.contacts.find_by(phone_number: phone_number)
   end
 
   def build_contact_inbox
@@ -57,6 +70,7 @@ class ContactBuilder
       contact_inbox
     rescue StandardError => e
       Rails.logger.info e
+      raise e
     end
   end
 end
