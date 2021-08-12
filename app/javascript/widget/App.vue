@@ -280,7 +280,8 @@ export default {
 
       if (!unreadMessageWrap) return 0;
 
-      let extraHeight = unreadMessageWrap.scrollHeight;
+      // 24px to compensate the paddings
+      let extraHeight = 24 + unreadMessageWrap.scrollHeight;
       if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
       if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
 
