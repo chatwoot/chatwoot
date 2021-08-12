@@ -1,31 +1,16 @@
 <template>
   <div class="column content-box">
-    <div class="row button-wrapper">
-      <woot-button icon="ion-android-add-circle" @click="openAddPopup">
-        {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
-      </woot-button>
-    </div>
     <campaigns-table
-      :campaigns="records"
+      :campaigns="campaigns"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
       :campaign-type="type"
       @on-edit-click="openEditPopup"
       @on-delete-click="openDeletePopup"
     />
-
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign
-        :sender-list="selectedAgents"
-        :audience-list="labelList"
-        :campaign-type="type"
-        @on-close="hideAddPopup"
-      />
-    </woot-modal>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
         :selected-campaign="selectedCampaign"
-        :sender-list="selectedAgents"
         @on-close="hideEditPopup"
       />
     </woot-modal>
@@ -43,21 +28,16 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import AddCampaign from './AddCampaign';
+import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignsTable from './CampaignsTable';
 import EditCampaign from './EditCampaign';
 export default {
   components: {
-    AddCampaign,
     CampaignsTable,
     EditCampaign,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, campaignMixin],
   props: {
-    selectedAgents: {
-      type: Array,
-      default: () => [],
-    },
     type: {
       type: String,
       default: '',
@@ -65,8 +45,6 @@ export default {
   },
   data() {
     return {
-      campaigns: [],
-      showAddPopup: false,
       showEditPopup: false,
       selectedCampaign: {},
       showDeleteConfirmationPopup: false,
@@ -74,28 +52,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'campaigns/getCampaigns',
       uiFlags: 'campaigns/getUIFlags',
       labelList: 'labels/getLabels',
     }),
+    campaigns() {
+      return this.$store.getters['campaigns/getCampaigns'](this.campaignType);
+    },
     showEmptyResult() {
       const hasEmptyResults =
-        !this.uiFlags.isFetching && this.records.length === 0;
+        !this.uiFlags.isFetching && this.campaigns.length === 0;
       return hasEmptyResults;
     },
   },
-  mounted() {
-    this.$store.dispatch('campaigns/get', {
-      inboxId: this.$route.params.inboxId,
-    });
-  },
   methods: {
-    openAddPopup() {
-      this.showAddPopup = true;
-    },
-    hideAddPopup() {
-      this.showAddPopup = false;
-    },
     openEditPopup(response) {
       const { row: campaign } = response;
       this.selectedCampaign = campaign;

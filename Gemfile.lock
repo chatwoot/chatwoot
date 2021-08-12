@@ -177,6 +177,8 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    down (5.2.3)
+      addressable (~> 2.8)
     dry-inflector (0.2.1)
     ecma-re-validator (0.3.0)
       regexp_parser (~> 2.0)
@@ -361,6 +363,8 @@ GEM
       connection_pool (~> 2.2)
     netrc (0.11.0)
     nio4r (2.5.7)
+    nokogiri (1.11.7-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.11.7-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-linux)
@@ -624,6 +628,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  arm64-darwin-20
   x86_64-darwin-21
   x86_64-linux
 
@@ -651,6 +656,7 @@ DEPENDENCIES
   devise-secure_password (~> 2.0)
   devise_token_auth
   dotenv-rails
+  down (~> 5.0)
   facebook-messenger
   factory_bot_rails
   faker

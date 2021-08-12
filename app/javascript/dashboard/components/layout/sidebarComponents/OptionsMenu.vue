@@ -27,6 +27,16 @@
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            size="small"
+            class=" change-accounts--button"
+            @click="$emit('key-shortcut-modal')"
+          >
+            {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
           <router-link
             :to="`/app/accounts/${accountId}/profile/settings`"
             class="button clear small change-accounts--button"
