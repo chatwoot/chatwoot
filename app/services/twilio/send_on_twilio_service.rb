@@ -1,5 +1,4 @@
 class Twilio::SendOnTwilioService < Base::SendOnChannelService
-
   private
 
   def channel_class

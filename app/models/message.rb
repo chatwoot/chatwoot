@@ -131,9 +131,9 @@ class Message < ApplicationRecord
   end
 
   def content
-    return self[:content] unless self.input_csat? or self.inbox.web_widget?
+    return self[:content] unless input_csat? || inbox.web_widget?
 
-    "Please rate this conversation , #{ENV['FRONTEND_URL']}/survey/responses/#{self.conversation.uuid}"
+    "Please rate this conversation , #{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}"
   end
 
   private

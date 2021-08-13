@@ -28,6 +28,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
+
     @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('created_at >= ?', message_queued_time)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?

@@ -170,7 +170,7 @@
           </p>
         </label>
 
-        <label v-if="shouldShowCSATOption" class="medium-9 columns">
+        <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -416,15 +416,7 @@ export default {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
-    },
-    shouldShowCSATOption() {
-      return (
-        this.isAFacebookInbox ||
-        this.isAWebWidgetInbox ||
-        this.isATwilioChannel ||
-        this.isAnEmailChannel
-      );
-    },
+    }
   },
   watch: {
     $route(to) {
