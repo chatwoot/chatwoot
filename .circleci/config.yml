@@ -100,11 +100,11 @@ jobs:
           name: Run backend tests
           command: |
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) --profile=10
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o ~/tmp/codeclimate.backend.json coverage/backend/.resultset.json
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/tmp/codeclimate.backend-$CIRCLE_NODE_INDEX.json" coverage/backend/.resultset.json
       - persist_to_workspace:
           root: ~/tmp
           paths:
-            - codeclimate.backend.json
+            - codeclimate.*.json
 
       - run:
           name: Run frontend tests
