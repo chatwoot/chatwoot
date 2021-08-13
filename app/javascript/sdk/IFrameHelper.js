@@ -179,7 +179,15 @@ export const IFrameHelper = {
     updateIframeHeight: message => {
       const iframe = window.$chatwoot.frame;
       console.log('$', window.$chatwoot.frame);
+      let worstFrame;
+      try {
+        worstFrame = IFrameHelper.getAppFrame();
+      } catch (error) {
+        console.log('moonji', error);
+      }
+
       setTimeout(() => {
+        console.log('worstFrame', worstFrame);
         console.log('$', window.$chatwoot.frame);
         const { extraHeight = 0 } = message;
         if (!extraHeight) return;
