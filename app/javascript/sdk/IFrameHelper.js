@@ -106,14 +106,6 @@ export const IFrameHelper = {
 
   setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
     const iframe = window.$chatwoot.frame;
-    let worstFrame;
-    try {
-      worstFrame = IFrameHelper.getAppFrame();
-    } catch (error) {
-      console.log('moonji', error);
-    }
-
-    console.log('worstFrame', worstFrame);
     const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
     iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
