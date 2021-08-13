@@ -100,7 +100,7 @@ jobs:
           name: Run backend tests
           command: |
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) --profile=10
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/tmp/codeclimate.backend-$CIRCLE_NODE_INDEX.json" coverage/backend/.resultset.json
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/tmp/codeclimate.$CIRCLE_NODE_INDEX.json"
       - persist_to_workspace:
           root: ~/tmp
           paths:
@@ -125,8 +125,40 @@ jobs:
       - store_artifacts:
           path: log
 
+  upload-coverage:
+    working_directory: ~/build
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:3.0.2-node-browsers
+    environment:
+      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p ~/tmp
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
+            chmod +x ~/tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: ~/tmp
+          paths:
+            - cc-test-reporter
       - run:
           name: Upload coverage results to Code Climate
           command: |
             ~/tmp/cc-test-reporter sum-coverage ~/tmp/codeclimate.*.json -p 2 -o ~/tmp/codeclimate.total.json
             ~/tmp/cc-test-reporter upload-coverage -i ~/tmp/codeclimate.total.json
+
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - upload-coverage:
+          requires:
+             - build
+             
