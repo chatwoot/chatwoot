@@ -2,7 +2,13 @@ type: object
 properties:
   name:
     type: string
+    description: name of the contact
   email:
     type: string
+    description: email of the contact
   phone_number:
     type: string
+    description: phone number of the contact
+  identifier: 
+    type: string
+    description: A unique identifier for the contact in external system
