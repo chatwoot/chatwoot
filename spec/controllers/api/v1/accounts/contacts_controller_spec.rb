@@ -188,6 +188,19 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
       end
+
+      it 'matches the contact respecting the identifier character casing' do
+        contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
+        contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'TestIdentifier' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact_special.identifier)
+        expect(response.body).not_to include(contact_normal.identifier)
+      end
     end
   end
 
@@ -284,7 +297,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
-      it 'creates the contact identifier when inbox id is passed' do
+      it 'creates the contact inbox when inbox id is passed' do
         expect do
           post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
                                                           params: valid_params.merge({ inbox_id: inbox.id })
