@@ -172,7 +172,7 @@ export const IFrameHelper = {
 
     updateIframeHeight: message => {
       // setTimeout(() => {
-      // const iframe = IFrameHelper.getAppFrame();
+      const iframe = IFrameHelper.getAppFrame();
 
       const { extraHeight = 0 } = message;
       if (!extraHeight) return;
@@ -181,7 +181,7 @@ export const IFrameHelper = {
         ? `${extraHeight}px`
         : '100%';
       console.log(updatedIframeHeight);
-      // iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
       // }, 100);
     },
 
