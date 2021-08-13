@@ -104,6 +104,20 @@ export const IFrameHelper = {
     });
   },
 
+  setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
+    const iframe = window.$chatwoot.frame;
+    let worstFrame;
+    try {
+      worstFrame = IFrameHelper.getAppFrame();
+    } catch (error) {
+      console.log('moonji', error);
+    }
+
+    console.log('worstFrame', worstFrame);
+    const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
+    iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+  },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -177,24 +191,10 @@ export const IFrameHelper = {
     },
 
     updateIframeHeight: message => {
-      const iframe = window.$chatwoot.frame;
-      let worstFrame;
-      try {
-        worstFrame = IFrameHelper.getAppFrame();
-      } catch (error) {
-        console.log('moonji', error);
-      }
-
-      // setTimeout(() => {
-      const { extraHeight = 0 } = message;
+      const { extraHeight = 0, isFixedHeight } = message;
       if (!extraHeight) return;
 
-      const updatedIframeHeight = message.isFixedHeight
-        ? `${extraHeight}px`
-        : '100%';
-      console.log('worstFrame', worstFrame);
-      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
-      // }, 100);
+      IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
 
     resetUnreadMode: () => {
