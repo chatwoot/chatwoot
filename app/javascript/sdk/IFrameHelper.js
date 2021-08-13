@@ -51,6 +51,7 @@ export const IFrameHelper = {
     }
     addClass(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
+    window.WOOT_IFRAME = iframe;
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
     IFrameHelper.initWindowSizeListener();
@@ -171,18 +172,21 @@ export const IFrameHelper = {
     },
 
     updateIframeHeight: message => {
-      // setTimeout(() => {
-      const iframe = IFrameHelper.getAppFrame();
+      setTimeout(() => {
+        const iframe = window.WOOT_IFRAME;
 
-      const { extraHeight = 0 } = message;
-      if (!extraHeight) return;
+        const { extraHeight = 0 } = message;
+        if (!extraHeight) return;
 
-      const updatedIframeHeight = message.isFixedHeight
-        ? `${extraHeight}px`
-        : '100%';
-      console.log(updatedIframeHeight);
-      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
-      // }, 100);
+        const updatedIframeHeight = message.isFixedHeight
+          ? `${extraHeight}px`
+          : '100%';
+        console.log(updatedIframeHeight);
+        iframe.setAttribute(
+          'style',
+          `height: ${updatedIframeHeight} !important`
+        );
+      }, 100);
     },
 
     resetUnreadMode: () => {
