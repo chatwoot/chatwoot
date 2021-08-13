@@ -170,6 +170,21 @@ export const IFrameHelper = {
       }
     },
 
+    updateIframeHeight: message => {
+      // setTimeout(() => {
+      const iframe = IFrameHelper.getAppFrame();
+
+      const { extraHeight = 0 } = message;
+      if (!extraHeight) return;
+
+      const updatedIframeHeight = message.isFixedHeight
+        ? `${extraHeight}px`
+        : '100%';
+      console.log(updatedIframeHeight);
+      // iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+      // }, 100);
+    },
+
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       IFrameHelper.events.removeUnreadClass();
@@ -178,23 +193,6 @@ export const IFrameHelper = {
     removeUnreadClass: () => {
       const holderEl = document.querySelector('.woot-widget-holder');
       removeClass(holderEl, 'has-unread-view');
-    },
-
-    updateIframeHeight: message => {
-      setTimeout(() => {
-        const iframe = IFrameHelper.getAppFrame();
-
-        const { extraHeight = 0 } = message;
-        if (!extraHeight) return;
-
-        const updatedIframeHeight = message.isFixedHeight
-          ? `${extraHeight}px`
-          : '100%';
-        iframe.setAttribute(
-          'style',
-          `height: ${updatedIframeHeight} !important`
-        );
-      }, 100);
     },
   },
   pushEvent: eventName => {
