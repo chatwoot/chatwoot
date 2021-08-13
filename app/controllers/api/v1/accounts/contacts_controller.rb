@@ -22,7 +22,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search',
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q]}%"
     )
     @contacts_count = contacts.count
@@ -108,7 +108,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
