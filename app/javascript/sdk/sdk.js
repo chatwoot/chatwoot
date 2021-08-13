@@ -73,6 +73,7 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot-widget-bubble img {
+  all: revert;
   height: 24px;
   margin: 20px;
   width: 24px;
