@@ -55,7 +55,7 @@ describe ::ContactIdentifyAction do
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
-    
+
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')
