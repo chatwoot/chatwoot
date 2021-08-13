@@ -50,7 +50,8 @@ class WorkingHour < ApplicationRecord
   end
 
   def open_now?
-    open_at?(Time.zone.now)
+    inbox_time = Time.zone.now.in_time_zone(inbox.timezone)
+    open_at?(inbox_time)
   end
 
   def closed_now?

@@ -25,47 +25,52 @@ export default {
       default: 'top',
     },
   },
-
   mounted() {
     this.focusItem();
   },
   methods: {
+    dropdownMenuButtons() {
+      return this.$refs.dropdownMenu.querySelectorAll(
+        'ul.dropdown li.dropdown-menu__item .button'
+      );
+    },
+    activeElementIndex() {
+      const menuButtons = this.dropdownMenuButtons();
+      const focusedButton = this.$refs.dropdownMenu.querySelector(
+        'ul.dropdown li.dropdown-menu__item .button:focus'
+      );
+      const activeIndex = [...menuButtons].indexOf(focusedButton);
+      return activeIndex;
+    },
     focusItem() {
-      this.$refs.dropdownMenu
-        .querySelector('ul.dropdown li.dropdown-menu__item .button')
-        .focus();
+      const firstButton = this.$refs.dropdownMenu.querySelector(
+        'ul.dropdown li.dropdown-menu__item .button'
+      );
+
+      if (firstButton) firstButton.focus();
     },
     handleKeyEvents(e) {
-      if (hasPressedArrowUpKey(e)) {
-        const items = this.$refs.dropdownMenu.querySelectorAll(
-          'ul.dropdown li.dropdown-menu__item .button'
-        );
-        const focusItems = this.$refs.dropdownMenu.querySelector(
-          'ul.dropdown li.dropdown-menu__item .button:focus'
-        );
-        const activeElementIndex = [...items].indexOf(focusItems);
-        const lastElementIndex = items.length - 1;
+      const menuButtons = this.dropdownMenuButtons();
+      const lastElementIndex = menuButtons.length - 1;
 
-        if (activeElementIndex >= 1) {
-          items[activeElementIndex - 1].focus();
+      if (menuButtons.length === 0) return;
+
+      if (hasPressedArrowUpKey(e)) {
+        const activeIndex = this.activeElementIndex();
+
+        if (activeIndex >= 1) {
+          menuButtons[activeIndex - 1].focus();
         } else {
-          items[lastElementIndex].focus();
+          menuButtons[lastElementIndex].focus();
         }
       }
       if (hasPressedArrowDownKey(e)) {
-        const items = this.$refs.dropdownMenu.querySelectorAll(
-          'li.dropdown-menu__item .button'
-        );
-        const focusItems = this.$refs.dropdownMenu.querySelector(
-          'li.dropdown-menu__item .button:focus'
-        );
-        const activeElementIndex = [...items].indexOf(focusItems);
-        const lastElementIndex = items.length - 1;
+        const activeIndex = this.activeElementIndex();
 
-        if (activeElementIndex === lastElementIndex) {
-          items[0].focus();
+        if (activeIndex === lastElementIndex) {
+          menuButtons[0].focus();
         } else {
-          items[activeElementIndex + 1].focus();
+          menuButtons[activeIndex + 1].focus();
         }
       }
     },

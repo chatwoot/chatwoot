@@ -29,7 +29,6 @@ RUN apk update \
   && mkdir -p /var/app \
   && gem install bundler
 
-RUN mkdir -p /app
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
@@ -45,10 +44,19 @@ RUN yarn install
 
 COPY . /app
 
+# creating a log directory so that image wont fail when RAILS_LOG_TO_STDOUT is false
+# https://github.com/chatwoot/chatwoot/issues/701
+RUN mkdir -p /app/log
+
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile; \
+  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  && rm -rf spec node_modules tmp/cache; \
   fi
+
+# Remove unnecessary files
+RUN rm -rf /gems/ruby/3.0.0/cache/*.gem \
+  && find /gems/ruby/3.0.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
 
 # final build stage
 FROM ruby:3.0.2-alpine
@@ -74,20 +82,13 @@ RUN apk add --update --no-cache \
     imagemagick \
   && gem install bundler
 
-RUN if [ "$RAILS_ENV" = "production" ]; then \
-  rm -rf spec node_modules app/assets vendor/assets tmp/cache; \
-  else apk add nodejs yarn; \
+RUN if [ "$RAILS_ENV" != "production" ]; then \
+  apk add nodejs yarn; \
   fi
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
 
-# Remove unnecessary files
-RUN rm -rf /gems/ruby/3.0.0/cache/*.gem \
-  && find /gems/ruby/3.0.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
-
-# creating a log directory so that image wont fail when  RAILS_LOG_TO_STDOUT is false
-# https://github.com/chatwoot/chatwoot/issues/701
-RUN mkdir -p /app/log
-
 WORKDIR /app
+
+EXPOSE 3000
