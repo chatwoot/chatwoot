@@ -57,7 +57,12 @@ export const IFrameHelper = {
     IFrameHelper.initWindowSizeListener();
     IFrameHelper.preventDefaultScroll();
   },
-  getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
+  getAppFrame: () => {
+    window.$chatwoot.frame = document.getElementById(
+      'chatwoot_live_chat_widget'
+    );
+    return window.$chatwoot.frame;
+  },
   getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
     const element = IFrameHelper.getAppFrame();
@@ -172,9 +177,10 @@ export const IFrameHelper = {
     },
 
     updateIframeHeight: message => {
+      const iframe = window.$chatwoot.frame;
+      console.log('$', window.$chatwoot.frame);
       setTimeout(() => {
-        const iframe = window.WOOT_IFRAME;
-
+        console.log('$', window.$chatwoot.frame);
         const { extraHeight = 0 } = message;
         if (!extraHeight) return;
 
