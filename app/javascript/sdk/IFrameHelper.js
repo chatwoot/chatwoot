@@ -178,7 +178,6 @@ export const IFrameHelper = {
 
     updateIframeHeight: message => {
       const iframe = window.$chatwoot.frame;
-      console.log('$', window.$chatwoot.frame);
       let worstFrame;
       try {
         worstFrame = IFrameHelper.getAppFrame();
@@ -186,21 +185,16 @@ export const IFrameHelper = {
         console.log('moonji', error);
       }
 
-      setTimeout(() => {
-        console.log('worstFrame', worstFrame);
-        console.log('$', window.$chatwoot.frame);
-        const { extraHeight = 0 } = message;
-        if (!extraHeight) return;
+      // setTimeout(() => {
+      const { extraHeight = 0 } = message;
+      if (!extraHeight) return;
 
-        const updatedIframeHeight = message.isFixedHeight
-          ? `${extraHeight}px`
-          : '100%';
-        console.log(updatedIframeHeight);
-        iframe.setAttribute(
-          'style',
-          `height: ${updatedIframeHeight} !important`
-        );
-      }, 100);
+      const updatedIframeHeight = message.isFixedHeight
+        ? `${extraHeight}px`
+        : '100%';
+      console.log('worstFrame', worstFrame);
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+      // }, 100);
     },
 
     resetUnreadMode: () => {
