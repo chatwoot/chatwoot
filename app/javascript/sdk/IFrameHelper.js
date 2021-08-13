@@ -107,7 +107,9 @@ export const IFrameHelper = {
   setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
     const iframe = window.$chatwoot.frame;
     const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
-    iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+
+    if (iframe)
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
   events: {
