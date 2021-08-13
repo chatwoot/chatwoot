@@ -29,6 +29,7 @@ export const actions = {
         name: userObject.name,
         avatar_url: userObject.avatar_url,
         identifier_hash: userObject.identifier_hash,
+        phone_number: userObject.phone_number,
       };
       const {
         data: { pubsub_token: pubsubToken },
