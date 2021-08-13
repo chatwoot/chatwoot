@@ -5,11 +5,13 @@ import { findUndeliveredMessage } from './helpers';
 export const mutations = {
   clearConversations($state) {
     Vue.set($state, 'conversations', {});
+    // introduce conversationId as param
     // Clear state for conversations key
     // Clear messages in state for conversation by id
     // Reset meta in state for conversation by id
   },
   pushMessageToConversation($state, message) {
+    // introduce conversationId as param
     const { id, status, message_type: type } = message;
 
     const messagesInbox = $state.conversations;
@@ -44,6 +46,7 @@ export const mutations = {
   },
 
   updateAttachmentMessageStatus($state, { message, tempId }) {
+    // introduce conversationId as param
     const { id } = message;
     const messagesInbox = $state.conversations;
 
@@ -55,11 +58,14 @@ export const mutations = {
       // Set id with message in conversations byIds
       // Append id to message allI
       Vue.delete(messagesInbox, tempId);
-      Vue.set(messagesInbox, id, { ...message });
+      Vue.set(messagesInbox, id, {
+        ...message,
+      });
     }
   },
 
   setConversationUIFlag($state, uiFlags) {
+    // introduce conversationId as param
     // Update uiFlags by Id
     $state.uiFlags = {
       ...$state.uiFlags,
@@ -68,6 +74,7 @@ export const mutations = {
   },
 
   setConversationListLoading($state, status) {
+    // introduce conversationId as param
     // Update uiFlags by Id
     $state.uiFlags.isFetchingList = status;
   },

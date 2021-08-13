@@ -2,7 +2,7 @@ import { getters } from './getters';
 import { actions } from './actions';
 import { mutations } from './mutations';
 
-const state = {
+/* const state = {
   conversations: {
     byId: {},
     allIds: [],
@@ -18,6 +18,20 @@ const state = {
   },
   uiFlags: {
     isFetchingList: false,
+  },
+  activeConversationId: undefined
+}; */
+
+const state = {
+  conversations: {},
+  meta: {
+    userLastSeenAt: undefined,
+  },
+  uiFlags: {
+    allMessagesLoaded: false,
+    isFetchingList: false,
+    isAgentTyping: false,
+    isCreating: false,
   },
 };
 
