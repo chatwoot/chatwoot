@@ -56,7 +56,12 @@ export const IFrameHelper = {
     IFrameHelper.initWindowSizeListener();
     IFrameHelper.preventDefaultScroll();
   },
-  getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
+  getAppFrame: () => {
+    window.$chatwoot.frame = document.getElementById(
+      'chatwoot_live_chat_widget'
+    );
+    return window.$chatwoot.frame;
+  },
   getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
     const element = IFrameHelper.getAppFrame();
@@ -96,6 +101,14 @@ export const IFrameHelper = {
         event.preventDefault();
       }
     });
+  },
+
+  setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
+    const iframe = window.$chatwoot.frame;
+    const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
+
+    if (iframe)
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
   events: {
@@ -170,6 +183,13 @@ export const IFrameHelper = {
       }
     },
 
+    updateIframeHeight: message => {
+      const { extraHeight = 0, isFixedHeight } = message;
+      if (!extraHeight) return;
+
+      IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
+    },
+
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       IFrameHelper.events.removeUnreadClass();
@@ -178,23 +198,6 @@ export const IFrameHelper = {
     removeUnreadClass: () => {
       const holderEl = document.querySelector('.woot-widget-holder');
       removeClass(holderEl, 'has-unread-view');
-    },
-
-    updateIframeHeight: message => {
-      setTimeout(() => {
-        const iframe = IFrameHelper.getAppFrame();
-
-        const { extraHeight = 0 } = message;
-        if (!extraHeight) return;
-
-        const updatedIframeHeight = message.isFixedHeight
-          ? `${extraHeight}px`
-          : '100%';
-        iframe.setAttribute(
-          'style',
-          `height: ${updatedIframeHeight} !important`
-        );
-      }, 100);
     },
   },
   pushEvent: eventName => {
