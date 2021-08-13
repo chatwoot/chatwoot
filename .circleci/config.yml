@@ -20,6 +20,7 @@ defaults: &defaults
 jobs:
   build:
     <<: *defaults
+    parallelism: 4
     steps:
       - checkout
 
