@@ -1,4 +1,5 @@
 class ContactMergeAction
+  include Events::Types
   pattr_initialize [:account!, :base_contact!, :mergee_contact!]
 
   def perform
@@ -44,9 +45,14 @@ class ContactMergeAction
     mergable_attribute_keys = %w[identifier name email phone_number custom_attributes]
     base_contact_attributes = base_contact.attributes.slice(*mergable_attribute_keys).compact_blank
     mergee_contact_attributes = mergee_contact.attributes.slice(*mergable_attribute_keys).compact_blank
+
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
+    # retaining old pubsub token to notify the contacts that are listening
+    mergee_pubsub_token = mergee_contact.pubsub_token
+
     @mergee_contact.destroy!
+    Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact, tokens: [mergee_pubsub_token])
     @base_contact.update!(merged_attributes)
   end
 end
