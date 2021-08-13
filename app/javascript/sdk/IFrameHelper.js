@@ -51,7 +51,6 @@ export const IFrameHelper = {
     }
     addClass(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
-    window.WOOT_IFRAME = iframe;
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
     IFrameHelper.initWindowSizeListener();
