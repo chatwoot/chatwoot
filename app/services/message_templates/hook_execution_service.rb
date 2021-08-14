@@ -56,6 +56,10 @@ class MessageTemplates::HookExecutionService
   def should_send_csat_survey?
     return unless conversation.resolved?
     return unless csat_enabled_inbox?
+   
+    # should sent since the link will be public
+    return if conversation.is_a_tweet?
+
     # only send CSAT once in a conversation
     return if conversation.messages.where(content_type: :input_csat).present?
 
