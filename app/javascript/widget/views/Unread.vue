@@ -23,7 +23,7 @@
       />
     </div>
 
-    <div>
+    <div class="open-read-view-wrap">
       <button
         v-if="unreadMessageCount"
         class="button clear-button"
