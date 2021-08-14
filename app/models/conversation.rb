@@ -142,8 +142,8 @@ class Conversation < ApplicationRecord
     true
   end
 
-  def is_a_tweet?
-    inbox.inbox_type =='Twitter' && additional_attributes['type'] == 'tweet'
+  def tweet?
+    inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
   private
