@@ -132,7 +132,7 @@ class Message < ApplicationRecord
 
   def content
     # move this to a presenter
-    return self[:content] if !input_csat? || !inbox.web_widget?
+    return self[:content] if !input_csat? || inbox.web_widget?
 
     "Please rate this conversation , #{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}"
   end
