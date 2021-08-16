@@ -25,9 +25,6 @@ export default {
       default: 'top',
     },
   },
-  mounted() {
-    this.focusItem();
-  },
   methods: {
     dropdownMenuButtons() {
       return this.$refs.dropdownMenu.querySelectorAll(
@@ -41,13 +38,6 @@ export default {
       );
       const activeIndex = [...menuButtons].indexOf(focusedButton);
       return activeIndex;
-    },
-    focusItem() {
-      const firstButton = this.$refs.dropdownMenu.querySelector(
-        'ul.dropdown li.dropdown-menu__item .button'
-      );
-
-      if (firstButton) firstButton.focus();
     },
     handleKeyEvents(e) {
       const menuButtons = this.dropdownMenuButtons();
