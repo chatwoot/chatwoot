@@ -83,7 +83,7 @@ class Notification::PushNotificationService
     return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
     return unless subscription.fcm?
 
-    response = ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
+    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
   end
 
   def remove_subscription_if_error(subscription, response)
