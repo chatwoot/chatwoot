@@ -25,6 +25,7 @@ describe Notification::PushNotificationService do
 
     it 'sends a fcm notification for firebase subscription' do
       ENV['FCM_SERVER_KEY'] = 'test'
+      ENV['ENABLE_PUSH_RELAY_SERVER'] = 'false'
       create(:notification_subscription, user: notification.user, subscription_type: 'fcm')
 
       described_class.new(notification: notification).perform

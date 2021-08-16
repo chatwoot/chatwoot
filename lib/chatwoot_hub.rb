@@ -57,7 +57,7 @@ class ChatwootHub
   def self.send_browser_push(fcm_token_list, fcm_options)
     info = { fcm_token_list: fcm_token_list, fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
     Raven.capture_exception(e)
