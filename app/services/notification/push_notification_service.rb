@@ -79,6 +79,7 @@ class Notification::PushNotificationService
   end
 
   def send_push_via_chatwoot_hub(subscription)
+    return if ENV['FCM_SERVER_KEY']
     return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
     return unless subscription.fcm?
 
