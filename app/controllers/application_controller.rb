@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   def handle_with_exception
     yield
   rescue ActiveRecord::RecordNotFound => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     render_not_found_error('Resource could not be found')
   rescue Pundit::NotAuthorizedError
     render_unauthorized('You are not authorized to do this action')

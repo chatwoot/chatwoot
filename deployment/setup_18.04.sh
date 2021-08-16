@@ -43,8 +43,8 @@ RAILS_ENV=production
 sudo -i -u chatwoot << EOF
 rvm --version
 rvm autolibs disable
-rvm install "ruby-2.7.3"
-rvm use 2.7.3 --default
+rvm install "ruby-3.0.2"
+rvm use 3.0.2 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
@@ -63,6 +63,7 @@ sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
 sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
 sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
+echo -en "\nINSTALLATION_ENV=LINUX_SCRIPT" >> ".env"
 
 RAILS_ENV=production bundle exec rake db:create
 RAILS_ENV=production bundle exec rake db:reset

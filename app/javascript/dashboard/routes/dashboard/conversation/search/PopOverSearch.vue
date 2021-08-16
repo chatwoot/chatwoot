@@ -17,7 +17,7 @@
         <div>
           <div class="result-view">
             <div class="result">
-              Search Results
+              {{ $t('CONVERSATION.SEARCH.RESULT_TITLE') }}
               <span v-if="resultsCount" class="message-counter">
                 ({{ resultsCount }})
               </span>

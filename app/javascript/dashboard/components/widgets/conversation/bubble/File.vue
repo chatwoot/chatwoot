@@ -36,7 +36,7 @@ export default {
   methods: {
     openLink() {
       const win = window.open(this.url, '_blank', 'noopener');
-      win.focus();
+      if (win) win.focus();
     },
   },
 };

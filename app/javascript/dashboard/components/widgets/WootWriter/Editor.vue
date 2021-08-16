@@ -57,6 +57,7 @@ export default {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
+    isFormatMode: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -139,8 +140,17 @@ export default {
     value(newValue = '') {
       if (newValue !== this.lastValue) {
         const { tr } = this.state;
-        tr.insertText(newValue, 0, tr.doc.content.size);
-        this.state = this.view.state.apply(tr);
+        if (this.isFormatMode) {
+          this.state = createState(
+            newValue,
+            this.placeholder,
+            this.plugins,
+            this.isFormatMode
+          );
+        } else {
+          tr.insertText(newValue, 0, tr.doc.content.size);
+          this.state = this.view.state.apply(tr);
+        }
         this.view.updateState(this.state);
       }
     },
@@ -270,5 +280,26 @@ export default {
     color: var(--s-900);
     padding: 0 var(--space-smaller);
   }
+}
+
+.editor-wrap {
+  margin-bottom: var(--space-normal);
+}
+
+.message-editor {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-normal);
+  padding: 0 var(--space-slab);
+  margin-bottom: 0;
+}
+
+.editor_warning {
+  border: 1px solid var(--r-400);
+}
+
+.editor-warning__message {
+  color: var(--r-400);
+  font-weight: var(--font-weight-normal);
+  padding: var(--space-smaller) 0 0 0;
 }
 </style>

@@ -107,6 +107,7 @@
     />
 
     <woot-confirm-delete-modal
+      v-if="showDeletePopup"
       :show.sync="showDeletePopup"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"

@@ -1,5 +1,5 @@
 <template>
-  <div class="customer-satisfcation">
+  <div class="customer-satisfcation" :style="{ borderColor: widgetColor }">
     <h6 class="title">
       {{ title }}
     </h6>

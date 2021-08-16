@@ -9,7 +9,7 @@ class HookJob < ApplicationJob
       process_dialogflow_integration(hook, event_name, event_data)
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 
   private

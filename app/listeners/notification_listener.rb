@@ -1,7 +1,7 @@
 class NotificationListener < BaseListener
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
-    return if conversation.bot?
+    return if conversation.pending?
 
     conversation.inbox.members.each do |agent|
       NotificationBuilder.new(
@@ -17,7 +17,7 @@ class NotificationListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
     return unless conversation.notifiable_assignee_change?
-    return if conversation.bot?
+    return if conversation.pending?
 
     NotificationBuilder.new(
       notification_type: 'conversation_assignment',

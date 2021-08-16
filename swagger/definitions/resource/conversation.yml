@@ -13,7 +13,7 @@ properties:
     description: ID of the inbox
   status:
     type: string
-    enum: ['open', 'resolved', 'bot']
+    enum: ['open', 'resolved', 'pending']
     description: The status of the conversation
   timestamp:
     type: string

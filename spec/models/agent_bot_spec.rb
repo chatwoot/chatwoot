@@ -1,5 +1,5 @@
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/access_tokenable_spec.rb'
+require Rails.root.join 'spec/models/concerns/access_tokenable_shared.rb'
 
 RSpec.describe AgentBot, type: :model do
   describe 'associations' do

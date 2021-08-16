@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/out_of_offisable_spec.rb'
+require Rails.root.join 'spec/models/concerns/out_of_offisable_shared.rb'
 
 RSpec.describe Inbox do
   describe 'validations' do
