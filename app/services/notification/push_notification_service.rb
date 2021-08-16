@@ -84,7 +84,6 @@ class Notification::PushNotificationService
     return unless subscription.fcm?
 
     response = ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
-    remove_subscription_if_error(subscription, response)
   end
 
   def remove_subscription_if_error(subscription, response)
