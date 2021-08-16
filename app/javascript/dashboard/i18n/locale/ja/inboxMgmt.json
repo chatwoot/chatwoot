@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "受信トレイの設定を更新する",
       "AUTO_ASSIGNMENT_SUB_TEXT": "この受信トレイに追加された担当者への新しい会話の自動割り当てを有効または無効にします。",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "再認証",

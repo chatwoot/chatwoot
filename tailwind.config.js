@@ -4,6 +4,7 @@ module.exports = {
   purge: [
     './app/javascript/widget/**/*.vue',
     './app/javascript/shared/**/*.vue',
+    './app/javascript/survey/**/*.vue',
   ],
   future: {
     removeDeprecatedGapUtilities: true,

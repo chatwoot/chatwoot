@@ -9,6 +9,30 @@ RSpec.describe Message, type: :model do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe '#reopen_conversation' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
+
+    it 'reopens resolved conversation when the message is from a contact' do
+      conversation.resolved!
+      message.save!
+      expect(message.conversation.open?).to eq true
+    end
+
+    it 'reopens snoozed conversation when the message is from a contact' do
+      conversation.snoozed!
+      message.save!
+      expect(message.conversation.open?).to eq true
+    end
+
+    it 'will not reopen if the conversation is muted' do
+      conversation.resolved!
+      conversation.mute!
+      message.save!
+      expect(message.conversation.open?).to eq false
+    end
+  end
+
   context 'when message is created' do
     let(:message) { build(:message, account: create(:account)) }
 

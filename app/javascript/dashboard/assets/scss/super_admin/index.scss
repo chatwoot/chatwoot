@@ -8,6 +8,22 @@
     font-weight: var(--font-weight-light);
     margin-top: var(--space-large);
   }
+
+  .update-subscription--checkbox {
+    display: flex;
+
+    input {
+      line-height: 1.5;
+      margin-right: var(--space-one);
+      margin-top: var(--space-smaller);
+    }
+
+    label {
+      font-size: var(--font-size-small);
+      line-height: 1.5;
+      margin-bottom: var(--space-normal);
+    }
+  }
 }
 
 .alert-box {
@@ -20,17 +36,4 @@
   text-align: center;
 }
 
-.update-subscription--checkbox {
-  display: flex;
 
-  input {
-    line-height: 1.5;
-    margin-right: var(--space-one);
-  }
-
-  div {
-    font-size: var(--font-size-small);
-    line-height: 1.5;
-    margin-bottom: var(--space-normal);
-  }
-}

@@ -1281,7 +1281,8 @@
           {
             "name": "q",
             "in": "query",
-            "type": "string"
+            "type": "string",
+            "description": "Search using contact `name`, `identifier`, `email` or `phone number`"
           },
           {
             "$ref": "#/parameters/contact_sort_param"
@@ -1417,7 +1418,7 @@
             "enum": [
               "open",
               "resolved",
-              "bot"
+              "pending"
             ]
           },
           {
@@ -1508,9 +1509,9 @@
                   "enum": [
                     "open",
                     "resolved",
-                    "bot"
+                    "pending"
                   ],
-                  "description": "Specify the conversation whether it's bot, open, closed"
+                  "description": "Specify the conversation whether it's pending, open, closed"
                 }
               }
             }
@@ -1574,7 +1575,7 @@
             "enum": [
               "open",
               "resolved",
-              "bot"
+              "pending"
             ],
             "required": true
           },
@@ -1688,7 +1689,7 @@
                   "enum": [
                     "open",
                     "resolved",
-                    "bot"
+                    "pending"
                   ],
                   "required": true,
                   "description": "The status of the conversation"
@@ -2850,7 +2851,7 @@
           "enum": [
             "open",
             "resolved",
-            "bot"
+            "pending"
           ],
           "description": "The status of the conversation"
         },
@@ -3376,13 +3377,20 @@
           "required": true
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "name of the contact"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "email of the contact"
         },
         "phone_number": {
-          "type": "string"
+          "type": "string",
+          "description": "phone number of the contact"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "A unique identifier for the contact in external system"
         }
       }
     },
@@ -3390,13 +3398,20 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "name of the contact"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "email of the contact"
         },
         "phone_number": {
-          "type": "string"
+          "type": "string",
+          "description": "phone number of the contact"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "A unique identifier for the contact in external system"
         }
       }
     },

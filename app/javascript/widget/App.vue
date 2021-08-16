@@ -59,6 +59,16 @@ export default {
     activeCampaign() {
       this.setCampaignView();
     },
+    showUnreadView(newVal) {
+      if (newVal) {
+        this.setIframeHeight(this.isMobile);
+      }
+    },
+    showCampaignView(newVal) {
+      if (newVal) {
+        this.setIframeHeight(this.isMobile);
+      }
+    },
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
@@ -95,6 +105,16 @@ export default {
       IFrameHelper.sendMessage({
         event: 'setBubbleLabel',
         label: this.$t('BUBBLE.LABEL'),
+      });
+    },
+    setIframeHeight(isFixedHeight) {
+      this.$nextTick(() => {
+        const extraHeight = this.getExtraSpaceToscroll();
+        IFrameHelper.sendMessage({
+          event: 'updateIframeHeight',
+          isFixedHeight,
+          extraHeight,
+        });
       });
     },
     setLocale(locale) {
@@ -146,6 +166,7 @@ export default {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
     setUnreadView() {
@@ -155,11 +176,13 @@ export default {
           event: 'setUnreadMode',
           unreadMessageCount,
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
+        this.setIframeHeight();
       }
     },
     createWidgetEvents(message) {
@@ -246,6 +269,23 @@ export default {
           channelConfig: window.chatwootWebChannel,
         },
       });
+    },
+    getExtraSpaceToscroll: () => {
+      // This function calculates the extra space needed for the view to
+      // accomodate the height of close button + height of
+      // read messages button. So that scrollbar won't appear
+      const unreadMessageWrap = document.querySelector('.unread-messages');
+      const unreadCloseWrap = document.querySelector('.close-unread-wrap');
+      const readViewWrap = document.querySelector('.open-read-view-wrap');
+
+      if (!unreadMessageWrap) return 0;
+
+      // 24px to compensate the paddings
+      let extraHeight = 24 + unreadMessageWrap.scrollHeight;
+      if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
+      if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
+
+      return extraHeight;
     },
   },
 };

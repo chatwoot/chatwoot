@@ -7,10 +7,10 @@ jest.mock('widget/helpers/axios');
 describe('#actions', () => {
   describe('#get attributes', () => {
     it('sends mutation if api is success', async () => {
-      API.get.mockResolvedValue({ data: { id: 1, status: 'bot' } });
+      API.get.mockResolvedValue({ data: { id: 1, status: 'pending' } });
       await actions.getAttributes({ commit });
       expect(commit.mock.calls).toEqual([
-        ['SET_CONVERSATION_ATTRIBUTES', { id: 1, status: 'bot' }],
+        ['SET_CONVERSATION_ATTRIBUTES', { id: 1, status: 'pending' }],
         ['conversation/setMetaUserLastSeenAt', undefined, { root: true }],
       ]);
     });
@@ -23,10 +23,10 @@ describe('#actions', () => {
 
   describe('#update attributes', () => {
     it('sends correct mutations', () => {
-      actions.update({ commit }, { id: 1, status: 'bot' });
+      actions.update({ commit }, { id: 1, status: 'pending' });
       expect(commit).toBeCalledWith('UPDATE_CONVERSATION_ATTRIBUTES', {
         id: 1,
-        status: 'bot',
+        status: 'pending',
       });
     });
   });

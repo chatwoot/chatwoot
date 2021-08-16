@@ -1,56 +1,56 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER": "Kampanja",
+    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new kampanja. You can also edit or delete an existing kampanja by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": "Luo kampanja",
     "ADD": {
-      "TITLE": "Create a campaign",
+      "TITLE": "Luo kampanja",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
       "CANCEL_BUTTON_TEXT": "Peruuta",
       "CREATE_BUTTON_TEXT": "Luo",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Otsikko",
+          "PLACEHOLDER": "Syötä kampanjan otsikko",
+          "ERROR": "Otsikko on pakollinen"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Kampanjan alkamisaika",
+          "PLACEHOLDER": "Syötä kampanja alkamisaika",
+          "CONFIRM": "Varmista",
+          "ERROR": "Alkamisaika on pakollinen"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Kohdeyleisö",
+          "PLACEHOLDER": "Valitse tunnisteet",
+          "ERROR": "Kohdeyleisö on pakollinen"
         },
         "MESSAGE": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "LABEL": "Viesti",
+          "PLACEHOLDER": "Syötä kampanjan viesti",
+          "ERROR": "Viesti on pakollinen"
         },
         "SENT_BY": {
           "LABEL": "Lähettäjä",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "PLACEHOLDER": "Syötä kampanjan lähettäjä",
+          "ERROR": "Lähettäjä on pakollinen"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "Syötä kampanjan URL",
           "ERROR": "Anna kelvollinen URL-osoite"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "Aika sivulla (sekunttia)",
+          "PLACEHOLDER": "Syötä aika",
+          "ERROR": "Aika sivulla on pakollinen"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "Aktivoi kampanja",
+        "SUBMIT": "Lisää kampanja"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Kampanja luotu onnistuneesti",
+        "ERROR_MESSAGE": "Hö! Kampanjaa luodessa tapahtui virhe"
       }
     },
     "DELETE": {
@@ -62,41 +62,41 @@
         "NO": "Ei, säilytä "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Kampanja poistettu onnistuneesti",
+        "ERROR_MESSAGE": "Hö! Kampanjaa poistaessa tapahtui virhe. Kokeile myöhemmin uudelleen"
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Muokkaa kampanjaa",
       "UPDATE_BUTTON_TEXT": "Päivitä",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        "SUCCESS_MESSAGE": "Kampanjaa muokattu onnistuneesti",
+        "ERROR_MESSAGE": "Hö! Kampanjaa muokatessa tapahtui virhe"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "Ladataan kampanjoita...",
+      "404": "Tälle kansiolle ei ole luotu kampanjoita.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
+        "TITLE": "Otsikko",
+        "MESSAGE": "Viesti",
         "STATUS": "Tila",
-        "SENDER": "Sender",
+        "SENDER": "Lähettäjä",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "Aloitusaika",
+        "TIME_ON_PAGE": "Aika sivulla (sekunttia)",
+        "CREATED_AT": "Luotu"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Luo uusi",
         "EDIT": "Muokkaa",
         "DELETE": "Poista"
       },
       "STATUS": {
         "ENABLED": "Käytössä",
         "DISABLED": "Pois käytöstä",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Suoritettu",
+        "ACTIVE": "Käynnissä"
       },
       "SENDER": {
         "BOT": "Botti"

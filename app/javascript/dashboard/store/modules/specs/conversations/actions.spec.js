@@ -214,6 +214,22 @@ describe('#actions', () => {
     });
   });
 
+  describe('#toggleStatus', () => {
+    it('sends correct mutations if toggle status is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { payload: { conversation_id: 1, current_status: 'resolved' } },
+      });
+      await actions.toggleStatus(
+        { commit },
+        { conversationId: 1, status: 'resolved' }
+      );
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        ['RESOLVE_CONVERSATION', { conversationId: 1, status: 'resolved' }],
+      ]);
+    });
+  });
+
   describe('#assignTeam', () => {
     it('sends correct mutations if assignment is successful', async () => {
       axios.post.mockResolvedValue({
