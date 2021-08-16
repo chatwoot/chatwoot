@@ -1,5 +1,5 @@
 # pre-build stage
-ARG VARIANT=2.7
+ARG VARIANT=3
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.

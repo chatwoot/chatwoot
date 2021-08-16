@@ -203,12 +203,26 @@ RSpec.describe 'Conversations API', type: :request do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, status: 'pending' },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:status]).to eq('pending')
+        end
+
+        # TODO: remove this spec when we remove the condition check in controller
+        # Added for backwards compatibility for bot status
+        it 'creates a conversation as pending if status is specified as bot' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
                params: { source_id: contact_inbox.source_id, status: 'bot' },
                as: :json
 
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
-          expect(response_data[:status]).to eq('bot')
+          expect(response_data[:status]).to eq('pending')
         end
 
         it 'creates a new conversation with message when message is passed' do
@@ -269,8 +283,8 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('resolved')
       end
 
-      it 'toggles the conversation status to open from bot' do
-        conversation.update!(status: 'bot')
+      it 'toggles the conversation status to open from pending' do
+        conversation.update!(status: 'pending')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
@@ -285,11 +299,38 @@ RSpec.describe 'Conversations API', type: :request do
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: 'pending' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('pending')
+      end
+
+      it 'toggles the conversation status to snoozed when parameter is passed' do
+        expect(conversation.status).to eq('open')
+        snoozed_until = (DateTime.now.utc + 2.days).to_i
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'snoozed', snoozed_until: snoozed_until },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('snoozed')
+        expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
+      end
+
+      # TODO: remove this spec when we remove the condition check in controller
+      # Added for backwards compatibility for bot status
+      it 'toggles the conversation status to pending status when parameter bot is passed' do
+        expect(conversation.status).to eq('open')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
              params: { status: 'bot' },
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.status).to eq('bot')
+        expect(conversation.reload.status).to eq('pending')
       end
     end
   end

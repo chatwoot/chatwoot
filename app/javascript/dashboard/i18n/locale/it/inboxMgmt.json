@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",

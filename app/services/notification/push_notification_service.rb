@@ -9,6 +9,7 @@ class Notification::PushNotificationService
     notification_subscriptions.each do |subscription|
       send_browser_push(subscription)
       send_fcm_push(subscription)
+      send_push_via_chatwoot_hub(subscription)
     end
   end
 
@@ -74,6 +75,18 @@ class Notification::PushNotificationService
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
     response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    remove_subscription_if_error(subscription, response)
+  end
+
+  def send_push_via_chatwoot_hub(subscription)
+    return if ENV['FCM_SERVER_KEY']
+    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
+    return unless subscription.fcm?
+
+    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
+  end
+
+  def remove_subscription_if_error(subscription, response)
     subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 

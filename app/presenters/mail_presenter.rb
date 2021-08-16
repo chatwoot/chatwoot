@@ -38,7 +38,7 @@ class MailPresenter < SimpleDelegator
   def attachments
     # ref : https://github.com/gorails-screencasts/action-mailbox-action-text/blob/master/app/mailboxes/posts_mailbox.rb
     mail.attachments.map do |attachment|
-      blob = ActiveStorage::Blob.create_after_upload!(
+      blob = ActiveStorage::Blob.create_and_upload!(
         io: StringIO.new(attachment.body.to_s),
         filename: attachment.filename,
         content_type: attachment.content_type
@@ -61,18 +61,25 @@ class MailPresenter < SimpleDelegator
 
   def serialized_data
     {
-      text_content: text_content,
+      bcc: bcc,
+      cc: cc,
+      content_type: content_type,
+      date: date,
+      from: from,
       html_content: html_content,
+      in_reply_to: in_reply_to,
+      message_id: message_id,
+      multipart: multipart?,
       number_of_attachments: number_of_attachments,
       subject: subject,
-      date: date,
-      to: to,
-      from: from,
-      in_reply_to: in_reply_to,
-      cc: cc,
-      bcc: bcc,
-      message_id: message_id
+      text_content: text_content,
+      to: to
     }
+  end
+
+  def from
+    # changing to downcase to avoid case mismatch while finding contact
+    @mail.from.map(&:downcase)
   end
 
   private

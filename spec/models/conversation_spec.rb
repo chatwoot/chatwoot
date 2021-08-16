@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/assignment_handler_spec.rb'
-require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
+require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
+require Rails.root.join 'spec/models/concerns/round_robin_handler_shared.rb'
 
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
@@ -181,13 +181,37 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe '#toggle_status' do
-    subject(:toggle_status) { conversation.toggle_status }
-
-    let(:conversation) { create(:conversation, status: :open) }
-
-    it 'toggles conversation status' do
-      expect(toggle_status).to eq(true)
+    it 'toggles conversation status to resolved when open' do
+      conversation = create(:conversation, status: 'open')
+      expect(conversation.toggle_status).to eq(true)
       expect(conversation.reload.status).to eq('resolved')
+    end
+
+    it 'toggles conversation status to open when resolved' do
+      conversation = create(:conversation, status: 'resolved')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'toggles conversation status to open when pending' do
+      conversation = create(:conversation, status: 'pending')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'toggles conversation status to open when snoozed' do
+      conversation = create(:conversation, status: 'snoozed')
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.status).to eq('open')
+    end
+  end
+
+  describe '#ensure_snooze_until_reset' do
+    it 'resets the snoozed_until when status is toggled' do
+      conversation = create(:conversation, status: 'snoozed', snoozed_until: 2.days.from_now)
+      expect(conversation.snoozed_until).not_to eq nil
+      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.reload.snoozed_until).to eq(nil)
     end
   end
 
@@ -345,8 +369,8 @@ RSpec.describe Conversation, type: :model do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
 
-    it 'returns conversation status as bot' do
-      expect(conversation.status).to eq('bot')
+    it 'returns conversation status as pending' do
+      expect(conversation.status).to eq('pending')
     end
   end
 
@@ -354,8 +378,8 @@ RSpec.describe Conversation, type: :model do
     let(:hook) { create(:integrations_hook, :dialogflow) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
-    it 'returns conversation status as bot' do
-      expect(conversation.status).to eq('bot')
+    it 'returns conversation status as pending' do
+      expect(conversation.status).to eq('pending')
     end
   end
 

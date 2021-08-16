@@ -1,0 +1,7 @@
+json.attribute_display_name resource.attribute_display_name
+json.attribute_display_type resource.attribute_display_type
+json.attribute_key resource.attribute_key
+json.attribute_model resource.attribute_model
+json.default_value resource.default_value
+json.created_at resource.created_at
+json.updated_at resource.updated_at

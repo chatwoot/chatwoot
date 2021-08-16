@@ -126,5 +126,9 @@ export default {
       margin-top: $space-normal;
     }
   }
+
+  p:not(:last-child) {
+    margin-bottom: $space-normal;
+  }
 }
 </style>
