@@ -97,6 +97,15 @@ export const IFrameHelper = {
       }
     });
   },
+
+  setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
+    const iframe = IFrameHelper.getAppFrame();
+    const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
+
+    if (iframe)
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+  },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -169,6 +178,13 @@ export const IFrameHelper = {
       }
     },
 
+    updateIframeHeight: message => {
+      const { extraHeight = 0, isFixedHeight } = message;
+      if (!extraHeight) return;
+
+      IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
+    },
+
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       IFrameHelper.events.removeUnreadClass();
@@ -177,22 +193,6 @@ export const IFrameHelper = {
     removeUnreadClass: () => {
       const holderEl = document.querySelector('.woot-widget-holder');
       removeClass(holderEl, 'has-unread-view');
-    },
-
-    updateIframeHeight: message => {
-      setTimeout(() => {
-        const iframe = IFrameHelper.getAppFrame();
-        const scrollableMessageHeight =
-          iframe.contentWindow.document.querySelector('.unread-messages')
-            .scrollHeight + 40;
-        const updatedIframeHeight = message.isFixedHeight
-          ? `${scrollableMessageHeight}px`
-          : '100%';
-        iframe.setAttribute(
-          'style',
-          `height: ${updatedIframeHeight} !important`
-        );
-      }, 100);
     },
   },
   pushEvent: eventName => {

@@ -52,5 +52,9 @@ RSpec.describe MailPresenter do
       expect(data[:multipart]).to eq(true)
       expect(data[:subject]).to eq(decorated_mail.subject)
     end
+
+    it 'give email from in downcased format' do
+      expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to eq true
+    end
   end
 end
