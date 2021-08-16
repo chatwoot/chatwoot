@@ -78,7 +78,7 @@
         :is-a-tweet="isATweet"
       />
     </ul>
-    <div class="conversation-footer">
+    <div v-if="!draggableReplayBox" class="conversation-footer">
       <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
         <div class="typing-indicator">
           {{ typingUserNames }}
@@ -89,6 +89,14 @@
           />
         </div>
       </div>
+      <woot-button
+        variant="clear"
+        size="large"
+        icon="ion-arrow-expand"
+        color-scheme="secondary"
+        class-names="expand-icon"
+        @click="onClickDragReplayBox"
+      />
       <reply-box
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
@@ -96,6 +104,40 @@
         @scrollToMessage="scrollToBottom"
       />
     </div>
+    <vue-draggable-resizable
+      v-else
+      class-name="draggable-Replay-box"
+      :w="500"
+      h="auto"
+      :z="1999"
+      :resizable="false"
+      :drag-handle="'.drag-handle'"
+    >
+      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
+        <div class="typing-indicator">
+          {{ typingUserNames }}
+          <img
+            class="gif"
+            src="~dashboard/assets/images/typing.gif"
+            alt="Someone is typing"
+          />
+        </div>
+      </div>
+      <woot-button
+        variant="clear"
+        size="large"
+        icon="ion-android-close"
+        color-scheme="secondary"
+        class-names="expand-icon"
+        @click="onClickDragReplayBox"
+      />
+      <reply-box
+        :conversation-id="currentChat.id"
+        :is-a-tweet="isATweet"
+        :selected-tweet="selectedTweet"
+        @scrollToMessage="scrollToBottom"
+      />
+    </vue-draggable-resizable>
   </div>
 </template>
 
@@ -110,13 +152,20 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
+import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
+import Vue from 'vue';
+import VueDraggableResizable from 'vue-draggable-resizable';
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
+Vue.component('vue-draggable-resizable', VueDraggableResizable);
 
 export default {
   components: {
     Message,
     ReplyBox,
   },
-  mixins: [conversationMixin, inboxMixin],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -130,6 +179,7 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      draggableReplayBox: false,
     };
   },
 
@@ -252,6 +302,14 @@ export default {
   },
 
   methods: {
+    onClickDragReplayBox() {
+      this.draggableReplayBox = !this.draggableReplayBox;
+    },
+    handleKeyEvents(e) {
+      if (isEscape(e)) {
+        this.draggableReplayBox = false;
+      }
+    },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
@@ -360,5 +418,24 @@ export default {
   height: auto;
   flex-grow: 1;
   min-width: 0;
+}
+
+.expand-icon {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: -4px;
+  padding: var(--space-small);
+}
+
+.draggable-Replay-box {
+  position: fixed;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  top: 36%;
+  left: 42%;
+
+  &::v-deep .reply-box__top {
+    height: 16rem;
+  }
 }
 </style>
