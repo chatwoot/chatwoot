@@ -2,6 +2,7 @@
   <div class="reply-box" :class="replyBoxClass">
     <reply-top-panel
       :mode="replyType"
+      class="drag-handle"
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
@@ -52,6 +53,7 @@
       />
     </div>
     <reply-bottom-panel
+      class="drag-handle"
       :mode="replyType"
       :send-button-text="replyButtonLabel"
       :on-file-upload="onFileUpload"
