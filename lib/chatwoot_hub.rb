@@ -52,7 +52,7 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 
   def self.send_browser_push(fcm_token_list, fcm_options)
@@ -61,7 +61,7 @@ class ChatwootHub
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.info "Exception: #{e.message}"
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 
   def self.emit_event(event_name, event_data)
