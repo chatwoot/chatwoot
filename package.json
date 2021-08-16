@@ -12,7 +12,8 @@
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:dev-overmind": "overmind start -f ./Procfile.dev",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "ruby:prettier":"bundle exec rubocop -a"
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
