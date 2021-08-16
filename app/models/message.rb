@@ -134,7 +134,7 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
-    "Please rate this conversation , #{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}"
+    I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
   end
 
   private
