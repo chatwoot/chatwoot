@@ -45,8 +45,19 @@ export default {
   },
   methods: {
     valueWithLink(attribute) {
-      const messageFormatter = new MessageFormatter(attribute);
+      const parsedAttribute = this.parseAttributeToString(attribute);
+      const messageFormatter = new MessageFormatter(parsedAttribute);
       return messageFormatter.formattedMessage;
+    },
+    parseAttributeToString(attribute) {
+      switch (typeof attribute) {
+         case 'string':
+           return attribute;
+         case 'object':
+           return JSON.stringify(attribute);
+         default:
+           return `${attribute}`;
+       }
     },
   },
 };
