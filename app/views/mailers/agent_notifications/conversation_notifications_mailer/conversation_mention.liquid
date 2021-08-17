@@ -1,8 +1,7 @@
-<p>Hi {{user.available_name}}</p>
+<p>Hi {{user.available_name}} </p>
 
+<p> {{message.sender_display_name}} mentioned you in a conversation.</p>
 
-<p>Time to save the world. You have been mentioned in a conversation</p>
+<p><a href="{{ action_url }}">View Message</a></p>
 
-<p>
-Click <a href="{{ action_url }}">here</a> to get cracking.
-</p>
+<p> {{message.text_content}} </p>

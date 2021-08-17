@@ -3,7 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   # the models that exposed in email templates through liquid
-  DROPPABLES = %w[Account Channel Conversation Inbox User].freeze
+  DROPPABLES = %w[Account Channel Conversation Inbox User Message].freeze
 
   # ModelDrop class should exist in app/drops
   def to_drop
