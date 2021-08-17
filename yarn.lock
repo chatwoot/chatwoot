@@ -1095,7 +1095,8 @@
     is-plain-object "^3.0.1"
     is-url "^1.2.4"
     nanoid "^2.1.11"
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022":
+
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#db6a6d9a65a0fe2086d2a404786e1b0d337ce1f1":
   version "1.0.0"
   resolved "https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022"
   dependencies:
