@@ -78,40 +78,10 @@
         :is-a-tweet="isATweet"
       />
     </ul>
-    <div v-if="!draggableReplayBox" class="conversation-footer">
-      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
-        <div class="typing-indicator">
-          {{ typingUserNames }}
-          <img
-            class="gif"
-            src="~dashboard/assets/images/typing.gif"
-            alt="Someone is typing"
-          />
-        </div>
-      </div>
-      <woot-button
-        variant="clear"
-        size="large"
-        icon="ion-arrow-expand"
-        color-scheme="secondary"
-        class-names="expand-icon"
-        @click="onClickDragReplayBox"
-      />
-      <reply-box
-        :conversation-id="currentChat.id"
-        :is-a-tweet="isATweet"
-        :selected-tweet="selectedTweet"
-        @scrollToMessage="scrollToBottom"
-      />
-    </div>
-    <vue-draggable-resizable
-      v-else
-      class-name="draggable-Replay-box"
-      :w="500"
-      h="auto"
-      :z="1999"
-      :resizable="false"
-      :drag-handle="'.drag-handle'"
+    <div
+      v-on-clickaway="onClickClosePopoutReplyBox"
+      class="conversation-footer"
+      :class="{ popoutreplybox: isPopoutReplyBox }"
     >
       <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
         <div class="typing-indicator">
@@ -123,21 +93,15 @@
           />
         </div>
       </div>
-      <woot-button
-        variant="clear"
-        size="large"
-        icon="ion-android-close"
-        color-scheme="secondary"
-        class-names="expand-icon"
-        @click="onClickDragReplayBox"
-      />
       <reply-box
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
+        :popout-reply-box="isPopoutReplyBox"
+        @click="onClickPopoutReplyBox"
         @scrollToMessage="scrollToBottom"
       />
-    </vue-draggable-resizable>
+    </div>
   </div>
 </template>
 
@@ -154,18 +118,14 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-
-import Vue from 'vue';
-import VueDraggableResizable from 'vue-draggable-resizable';
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
-Vue.component('vue-draggable-resizable', VueDraggableResizable);
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Message,
     ReplyBox,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -179,7 +139,7 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
-      draggableReplayBox: false,
+      isPopoutReplyBox: false,
     };
   },
 
@@ -302,12 +262,15 @@ export default {
   },
 
   methods: {
-    onClickDragReplayBox() {
-      this.draggableReplayBox = !this.draggableReplayBox;
+    onClickPopoutReplyBox() {
+      this.isPopoutReplyBox = !this.isPopoutReplyBox;
+    },
+    onClickClosePopoutReplyBox() {
+      this.isPopoutReplyBox = false;
     },
     handleKeyEvents(e) {
       if (isEscape(e)) {
-        this.draggableReplayBox = false;
+        this.onClickClosePopoutReplyBox();
       }
     },
     addScrollListener() {
@@ -420,22 +383,26 @@ export default {
   min-width: 0;
 }
 
-.expand-icon {
-  position: absolute;
-  z-index: 10;
-  right: 0;
-  top: -4px;
-  padding: var(--space-small);
-}
-
-.draggable-Replay-box {
+.popoutreplybox {
+  box-shadow: var(--shadow-medium);
+  z-index: var(--zindex-larger);
   position: fixed;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 88rem;
   top: 36%;
-  left: 42%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 
-  &::v-deep .reply-box__top {
-    height: 16rem;
+  &::v-deep {
+    .ProseMirror-woot-style {
+      max-height: 24rem;
+    }
+    .reply-box .reply-box__top {
+      min-height: 30rem;
+    }
+    .reply-box__top .input {
+      min-height: 28rem;
+    }
   }
 }
 </style>
