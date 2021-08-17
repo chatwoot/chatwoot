@@ -52,7 +52,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
 
     it 'renders the senders name' do
-      expect(mail.body.encoded).to match("#{another_agent.display_name} mentioned you in a conversation.")
+      expect(mail.body.encoded).to match("You've been mentioned in a conversation. <b>#{another_agent.display_name}</b> wrote:")
     end
   end
 
