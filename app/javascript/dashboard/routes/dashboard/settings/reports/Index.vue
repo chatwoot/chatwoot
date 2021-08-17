@@ -8,30 +8,8 @@
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-    <div class="range-selector">
-      <div class="small-3 pull-right">
-        <multiselect
-          v-model="currentDateRangeSelection"
-          track-by="name"
-          label="name"
-          :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-          selected-label
-          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-          deselect-label=""
-          :options="dateRange"
-          :searchable="false"
-          :allow-empty="false"
-          @select="changeDateSelection"
-        />
-      </div>
-      <woot-date-range-picker
-        v-if="isDateRangeSelected"
-        :value="customDateRange"
-        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        @change="onChange"
-      />
-    </div>
+
+    <report-date-range-selector @date-range-change="onDateRangeChange" />
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
@@ -61,12 +39,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import startOfDay from 'date-fns/startOfDay';
-import subDays from 'date-fns/subDays';
-import getUnixTime from 'date-fns/getUnixTime';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ReportDateRangeSelector from './components/DateRangeSelector';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -77,46 +52,18 @@ const REPORTS_KEYS = {
   RESOLUTION_COUNT: 'resolutions_count',
 };
 
-const CUSTOM_DATE_RANGE_ID = 5;
-
 export default {
   components: {
-    WootDateRangePicker,
+    ReportDateRangeSelector,
   },
   data() {
-    return {
-      currentSelection: 0,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
-      customDateRange: [new Date(), new Date()],
-    };
+    return { from: 0, to: 0, currentSelection: 0 };
   },
   computed: {
     ...mapGetters({
       accountSummary: 'getAccountSummary',
       accountReport: 'getAccountReports',
     }),
-    to() {
-      if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
-      }
-      return this.fromCustomDate(new Date());
-    },
-    from() {
-      if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[0]);
-      }
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
-      };
-      const diff = dateRange[this.currentDateRangeSelection.id];
-      const fromDate = subDays(new Date(), diff);
-      return this.fromCustomDate(fromDate);
-    },
     collection() {
       if (this.accountReport.isFetching) {
         return {};
@@ -152,32 +99,11 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
-    isDateRangeSelected() {
-      return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
-    },
-  },
-  mounted() {
-    this.fetchAllData();
   },
   methods: {
     fetchAllData() {
       const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-      });
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
-      });
-    },
-    changeDateSelection(selectedRange) {
-      this.currentDateRangeSelection = selectedRange;
-      this.fetchAllData();
-    },
-    changeSelection(index) {
-      this.currentSelection = index;
+      this.$store.dispatch('fetchAccountSummary', { from, to });
       this.fetchChartData();
     },
     fetchChartData() {
@@ -190,23 +116,17 @@ export default {
     },
     downloadAgentReports() {
       const { from, to } = this;
-      this.$store.dispatch('downloadAgentReports', {
-        from,
-        to,
-      });
+      this.$store.dispatch('downloadAgentReports', { from, to });
     },
-    fromCustomDate(date) {
-      return getUnixTime(startOfDay(date));
+    changeSelection(index) {
+      this.currentSelection = index;
+      this.fetchChartData();
     },
-    onChange(value) {
-      this.customDateRange = value;
+    onDateRangeChange({ from, to }) {
+      this.from = from;
+      this.to = to;
       this.fetchAllData();
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-.range-selector {
-  display: flex;
-}
-</style>

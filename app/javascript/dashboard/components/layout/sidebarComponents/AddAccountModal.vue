@@ -9,6 +9,14 @@
         :header-title="$t('CREATE_ACCOUNT.NEW_ACCOUNT')"
         :header-content="$t('CREATE_ACCOUNT.SELECTOR_SUBTITLE')"
       />
+      <div v-if="!hasAccounts" class="alert-wrap">
+        <div class="callout alert">
+          <div class="icon-wrap">
+            <i class="ion-alert-circled"></i>
+          </div>
+          {{ $t('CREATE_ACCOUNT.NO_ACCOUNT_WARNING') }}
+        </div>
+      </div>
 
       <form class="row" @submit.prevent="addAccount">
         <div class="medium-12 columns">
@@ -53,6 +61,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasAccounts: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -90,3 +102,19 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.alert-wrap {
+  margin: var(--space-zero) var(--space-large);
+  margin-top: var(--space-medium);
+  .callout {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.icon-wrap {
+  font-size: var(--font-size-big);
+  margin-left: var(--space-smaller);
+  margin-right: var(--space-slab);
+}
+</style>

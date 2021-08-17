@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join 'spec/models/concerns/access_tokenable_spec.rb'
+require Rails.root.join 'spec/models/concerns/access_tokenable_shared.rb'
 
 RSpec.describe User do
   let!(:user) { create(:user) }
@@ -70,6 +70,14 @@ RSpec.describe User do
       sso_auth_token = user.generate_sso_auth_token
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to eq false
+    end
+  end
+
+  describe 'access token' do
+    it 'creates a single access token upon user creation' do
+      new_user = create(:user)
+      token_count = AccessToken.where(owner: new_user).count
+      expect(token_count).to eq(1)
     end
   end
 end

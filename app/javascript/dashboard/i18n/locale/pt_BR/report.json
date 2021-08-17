@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Relatórios",
+    "HEADER": "Visão geral",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
@@ -50,7 +50,41 @@
       {
         "id": 4,
         "name": "Ano passado"
+      },
+      {
+        "id": 5,
+        "name": "Intervalo de datas personalizado"
       }
-    ]
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Selecionar intervalo de datas"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Relatórios CSAT",
+    "NO_RECORDS": "Não há respostas de pesquisa em CSAT disponíveis.",
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contato",
+        "AGENT_NAME": "Agente atribuído",
+        "RATING": "Classificação",
+        "FEEDBACK_TEXT": "Comentário do feedback"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas coletadas"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Pontuação de satisfação",
+        "TOOLTIP": "Número total de respostas positivas / Número total de respostas * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Taxa de resposta",
+        "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT de pesquisa enviadas * 100"
+      }
+    }
   }
 }

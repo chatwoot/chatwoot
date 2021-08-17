@@ -62,5 +62,10 @@
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨",
+    "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
   }
 }

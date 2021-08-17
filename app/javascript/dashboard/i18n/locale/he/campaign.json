@@ -14,6 +14,17 @@
           "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
           "ERROR": "כותרת שדה חובה"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "הודעה",
           "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
@@ -72,6 +83,7 @@
         "STATUS": "מצב",
         "SENDER": "שולח",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "זמן(שניות)",
         "CREATED_AT": "נוצר בזמן"
       },
@@ -82,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
+        "DISABLED": "כבוי",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "בוט"

@@ -9,10 +9,12 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
-    find_or_create_contact
-    create_conversation
-    create_message
-    add_attachments_to_message
+    ActiveRecord::Base.transaction do
+      find_or_create_contact
+      create_conversation
+      create_message
+      add_attachments_to_message
+    end
   end
 
   private

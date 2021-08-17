@@ -61,14 +61,14 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
-        params = { account_name: 'test', email: email, user_full_name: user_full_name }
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         ENV['ENABLE_ACCOUNT_SIGNUP'] = 'api_only'
 
         post api_v1_accounts_url,
              params: params,
              as: :json
 
-        expect(response).not_to have_http_status(:not_found)
+        expect(response).to have_http_status(:success)
         ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
       end
     end

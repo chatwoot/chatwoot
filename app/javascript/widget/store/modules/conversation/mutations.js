@@ -8,6 +8,7 @@ export const mutations = {
   },
   pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
+
     const messagesInbox = $state.conversations;
     const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
     const isTemporaryMessage = status === 'in_progress';
@@ -69,6 +70,11 @@ export const mutations = {
         ...content_attributes,
       },
     };
+  },
+
+  deleteMessage($state, id) {
+    const messagesInbox = $state.conversations;
+    Vue.delete(messagesInbox, id);
   },
 
   toggleAgentTypingStatus($state, { status }) {

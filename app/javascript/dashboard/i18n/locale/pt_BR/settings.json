@@ -143,7 +143,9 @@
     "LABELS": "Marcadores",
     "TEAMS": "Times",
     "ALL_CONTACTS": "Todos os Contatos",
-    "TAGGED_WITH": "Marcado com"
+    "TAGGED_WITH": "Marcado com",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "CSAT": "CSAT"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nova conta",

@@ -2,6 +2,11 @@
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
       <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+        <bubble-mail-head
+          v-if="isEmailContentType"
+          :email-attributes="contentAttributes.email"
+          :is-incoming="isIncoming"
+        />
         <bubble-text
           v-if="data.content"
           :message="message"
@@ -41,6 +46,7 @@
           :message-type="data.message_type"
           :readable-time="readableTime"
           :source-id="data.source_id"
+          :inbox-id="data.inbox_id"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -79,19 +85,21 @@ import copy from 'copy-text-to-clipboard';
 
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
+
+import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import BubbleActions from './bubble/Actions';
+
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 
 import { isEmptyObject } from 'dashboard/helper/commons';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
-import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
-import { stripStyleCharacters } from './helpers/EmailContentParser';
 
 export default {
   components: {
@@ -99,6 +107,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    BubbleMailHead,
     ContextMenu,
     Spinner,
   },
@@ -134,15 +143,26 @@ export default {
 
       const {
         email: {
+          content_type: contentType = '',
           html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
+          text_content: { full: fullTextContent, reply: replyTextContent } = {},
         } = {},
       } = this.contentAttributes;
-
-      if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
-        let contentToBeParsed = replyHTMLContent || fullHTMLContent || '';
-        const parsedContent = stripStyleCharacters(contentToBeParsed);
+      let contentToBeParsed =
+        replyHTMLContent ||
+        replyTextContent ||
+        fullHTMLContent ||
+        fullTextContent ||
+        '';
+      if (contentToBeParsed && this.isIncoming) {
+        const parsedContent = this.stripStyleCharacters(contentToBeParsed);
         if (parsedContent) {
-          return parsedContent;
+          // This is a temporary fix for line-breaks in text/plain emails
+          // Now, It is not rendered properly in the email preview.
+          // FIXME: Remove this once we have a better solution for rendering text/plain emails
+          return contentType.includes('text/plain')
+            ? parsedContent.replace(/\n/g, '<br />')
+            : parsedContent;
         }
       }
       return (
@@ -197,6 +217,9 @@ export default {
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
     },
+    isMessageDeleted() {
+      return this.contentAttributes.deleted;
+    },
     hasImageAttachment() {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
@@ -208,10 +231,10 @@ export default {
     hasText() {
       return !!this.data.content;
     },
-    isMessageDeleted() {
-      return this.contentAttributes.deleted;
-    },
     sentByMessage() {
+      if (this.isMessageDeleted) {
+        return false;
+      }
       const { sender } = this;
       return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {

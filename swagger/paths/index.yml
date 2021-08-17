@@ -156,7 +156,11 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{account_id}/conversations:
   parameters:
     - $ref: '#/parameters/account_id'
-  $ref: ./conversation/index_or_create.yml
+  $ref: ./conversation/index.yml
+/api/v1/accounts/{account_id}/conversations/:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  $ref: ./conversation/create.yml
 /api/v1/accounts/{account_id}/conversations/{converstion_id}:
   parameters:
     - $ref: '#/parameters/account_id'

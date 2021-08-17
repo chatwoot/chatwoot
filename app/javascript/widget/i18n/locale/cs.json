@@ -62,5 +62,10 @@
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
+    "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu"
   }
 }
