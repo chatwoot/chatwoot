@@ -1,7 +1,18 @@
+<head>
+  <style type="text/css">
+    .message_text_quote {
+      box-sizing:border-box;
+      padding:8px 16px;
+      margin:0 0 20px;
+      font-size:14px;
+      border-left:5px solid #eeeeee
+    }
+  </style>
+</head>
 <p>Hi {{user.available_name}}, </p>
 
 <p> You have been mentioned in a conversation. <b>{{message.sender_display_name}}</b> wrote:</p>
-<blockquote style="box-sizing:border-box;padding:8px 16px;margin:0 0 20px;font-size:14px;border-left:5px solid #eeeeee">
+<blockquote class='message_text_quote'>
   {{message.text_content}}
 </blockquote>
 
