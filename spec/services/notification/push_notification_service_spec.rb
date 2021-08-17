@@ -20,17 +20,20 @@ describe Notification::PushNotificationService do
       described_class.new(notification: notification).perform
       expect(Webpush).to have_received(:payload_send)
       expect(FCM).not_to have_received(:new)
-      ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
+      ENV['VAPID_PUBLIC_KEY'] = nil
     end
 
     it 'sends a fcm notification for firebase subscription' do
       ENV['FCM_SERVER_KEY'] = 'test'
+      ENV['ENABLE_PUSH_RELAY_SERVER'] = 'false'
       create(:notification_subscription, user: notification.user, subscription_type: 'fcm')
 
       described_class.new(notification: notification).perform
       expect(FCM).to have_received(:new)
       expect(Webpush).not_to have_received(:payload_send)
-      ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
+
+      ENV['FCM_SERVER_KEY'] = nil
+      ENV['ENABLE_PUSH_RELAY_SERVER'] = nil
     end
   end
 end
