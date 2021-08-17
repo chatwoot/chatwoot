@@ -3,11 +3,11 @@ require Rails.root.join('lib/redis/config')
 schedule_file = 'config/schedule.yml'
 
 Sidekiq.configure_client do |config|
-  config.redis = Redis::Config.sidekiq
+  config.redis = Redis::Config.app
 end
 
 Sidekiq.configure_server do |config|
-  config.redis = Redis::Config.sidekiq
+  config.redis = Redis::Config.app
 end
 
 # https://github.com/ondrejbartas/sidekiq-cron

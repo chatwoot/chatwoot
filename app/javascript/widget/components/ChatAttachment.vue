@@ -29,6 +29,11 @@ export default {
   data() {
     return { isUploading: false };
   },
+  computed: {
+    fileUploadSizeLimit() {
+      return MAXIMUM_FILE_UPLOAD_SIZE;
+    },
+  },
   methods: {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
@@ -47,7 +52,11 @@ export default {
             thumbUrl,
           });
         } else {
-          window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
+          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+            message: this.$t('FILE_SIZE_LIMIT', {
+              MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
+            }),
+          });
         }
       } catch (error) {
         // Error

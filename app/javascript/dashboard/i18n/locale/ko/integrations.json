@@ -17,6 +17,24 @@
           "액션"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "수정",
+        "TITLE": "Edit webhook",
+        "CANCEL": "취소",
+        "DESC": "웹훅 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "웹훅 URL",
+            "PLACEHOLDER": "예시: https://example/api/webhook",
+            "ERROR": "올바른 URL을 입력하십시오."
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        }
+      },
       "ADD": {
         "CANCEL": "취소",
         "TITLE": "새 웹훅 추가",
@@ -46,6 +64,12 @@
           "YES": "예, 삭제합니다. ",
           "NO": "아니요, 유지합니다."
         }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

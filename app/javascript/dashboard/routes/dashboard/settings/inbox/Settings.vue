@@ -170,6 +170,21 @@
           </p>
         </label>
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
+          <select v-model="csatSurveyEnabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -271,9 +286,6 @@
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
-    <div v-if="selectedTabKey === 'campaign'">
-      <campaign :selected-agents="selectedAgents" />
-    </div>
   </div>
 </template>
 
@@ -288,7 +300,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
-import Campaign from './components/Campaign';
 
 export default {
   components: {
@@ -297,7 +308,6 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
-    Campaign,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -310,6 +320,7 @@ export default {
       autoAssignment: false,
       emailCollectEnabled: false,
       isAgentListUpdating: false,
+      csatSurveyEnabled: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       channelWelcomeTitle: '',
@@ -352,10 +363,6 @@ export default {
       if (this.isAWebWidgetInbox) {
         return [
           ...visibleToAllChannelTabs,
-          {
-            key: 'campaign',
-            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
-          },
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
@@ -443,6 +450,7 @@ export default {
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
+      this.$store.dispatch('labels/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
@@ -451,6 +459,7 @@ export default {
         this.greetingMessage = this.inbox.greeting_message;
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
+        this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -492,6 +501,7 @@ export default {
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
           enable_email_collect: this.emailCollectEnabled,
+          csat_survey_enabled: this.csatSurveyEnabled,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {

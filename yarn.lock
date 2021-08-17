@@ -5428,6 +5428,11 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
+date-format-parse@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/date-format-parse/-/date-format-parse-0.2.6.tgz#7ed42817efb6ec39532169eada9670ae3c627aa7"
+  integrity sha512-sdxnYAWmLopeb+6Hmw+vo3or4OCJOnh4+YoJ9p+Id3o2EnNP0INpTqx7wr8UregfMpgaSZAH473R/ytiaB3gVg==
+
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
@@ -10879,9 +10884,9 @@ path-key@^3.0.0, path-key@^3.1.0:
   integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
 
 path-parse@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
-  integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 path-to-regexp@0.1.7:
   version "0.1.7"
@@ -14070,9 +14075,9 @@ tapable@^1.0.0, tapable@^1.1.3:
   integrity sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA==
 
 tar@^6.0.2:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.0.tgz#d1724e9bcc04b977b18d5c573b333a2207229a83"
-  integrity sha512-DUCttfhsnLCjwoDoFcI+B2iJgYa93vBnDUATYEeRx6sntCTdN01VnqsIuTlALXla/LWooNg0yEGeB+Y8WdFxGA==
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.3.tgz#e44b97ee7d6cc7a4c574e8b01174614538291825"
+  integrity sha512-3rUqwucgVZXTeyJyL2jqtUau8/8r54SioM1xj3AmTX3HnWQdj2AydfJ2qYYayPyIIznSplcvU9mhBb7dR2XF3w==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
@@ -14962,10 +14967,10 @@ vue-docgen-loader@^1.5.0:
     loader-utils "^1.2.3"
     querystring "^0.2.0"
 
-vue-easytable@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/vue-easytable/-/vue-easytable-2.5.1.tgz#2d27a9926edbf79d766465f890f4c75a9848c630"
-  integrity sha512-HyqcwgV828eQ0DmmHTFedZznjPkS6T2AQHPGsUS59KsHBHs0ZDb7nNs5o+9fOsbYbWt/BkG9B96u2p5iG6Hy5g==
+vue-easytable@2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/vue-easytable/-/vue-easytable-2.5.5.tgz#0d0ac244beb853859c76191c117311b5cf9654b5"
+  integrity sha512-2dp2+OWYgCn8+g6p+7tNoCuU85OGHqk1hnQ7QnS4HUyPFVAN1n4mmG+6WkIuRKrc5wsFpsg7ZiFxHQnplos3jw==
   dependencies:
     lodash "^4.17.20"
     resize-observer-polyfill "^1.5.1"
@@ -15071,6 +15076,13 @@ vue-upload-component@2.8.22:
   version "2.8.22"
   resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.22.tgz#7a1573149a4afa5ca6e8c7e0bc70533925fe26b7"
   integrity sha512-AJpETqiZrgqs8bwJQpWTFrRg3i6s7cUodRRZVnb1f94Jvpd0YYfzGY4zluBqPmssNSkUaYu7EteXaK8aW17Osw==
+
+vue2-datepicker@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-3.9.1.tgz#00d11cf30942e850f8b1a397af3c15c7465f248e"
+  integrity sha512-LuvcgGR+sDYKcih0z+cyvYufGyBwUtIiwzJPwxE63C8gOsAWiE09KuGtZ3OxdQXJEQM2MGQ9t9t1t7382FiFOg==
+  dependencies:
+    date-format-parse "^0.2.6"
 
 vue@2.6.12, vue@^2.6.12:
   version "2.6.12"

@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "برای تایید لطفا {teamName} را تایپ کنید",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "حذف ",
         "NO": "انصراف"

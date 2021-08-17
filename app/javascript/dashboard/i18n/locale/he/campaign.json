@@ -1,0 +1,106 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "קמפיין",
+    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": "צור קמפיין",
+    "ADD": {
+      "TITLE": "צור קמפיין",
+      "DESC": "הודעות יזומות מאפשרות ללקוח לשלוח הודעות לאנשי הקשר שלהם דבר אשר יגרום לשיחות נוספות.",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "CREATE_BUTTON_TEXT": "צור",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "כותרת",
+          "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
+          "ERROR": "כותרת שדה חובה"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
+        "MESSAGE": {
+          "LABEL": "הודעה",
+          "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
+          "ERROR": "הודעה שדה חובה"
+        },
+        "SENT_BY": {
+          "LABEL": "נשלח על ידי",
+          "PLACEHOLDER": "אנא בחר תוכן לקמפיין",
+          "ERROR": "שולח שדה חובה"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "אנא הכנס כתובת URL",
+          "ERROR": "אנא הכנס כתובת URL חוקית"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "זמן על הדף (שניות)",
+          "PLACEHOLDER": "אנא הכנס זמן",
+          "ERROR": "זמן על הדף שדה חובה"
+        },
+        "ENABLED": "הפעל קמפיין",
+        "SUBMIT": "הוסף קמפיין"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "קמפיין נוצר בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק?",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך קמפיין",
+      "UPDATE_BUTTON_TEXT": "עדכן",
+      "API": {
+        "SUCCESS_MESSAGE": "קמפיין עודכן בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "טוען קמפיינים...",
+      "404": "אין קמפיינים שנוצרו עבור תיבה זו.",
+      "TABLE_HEADER": {
+        "TITLE": "כותרת",
+        "MESSAGE": "הודעה",
+        "STATUS": "מצב",
+        "SENDER": "שולח",
+        "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
+        "TIME_ON_PAGE": "זמן(שניות)",
+        "CREATED_AT": "נוצר בזמן"
+      },
+      "BUTTONS": {
+        "ADD": "הוסף",
+        "EDIT": "ערוך",
+        "DELETE": "מחק"
+      },
+      "STATUS": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
+      },
+      "SENDER": {
+        "BOT": "בוט"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <div class="column content-box">
     <!-- List Canned Response -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <p v-if="!inboxesList.length" class="no-items-error-message">
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
@@ -107,6 +107,7 @@
     />
 
     <woot-confirm-delete-modal
+      v-if="showDeletePopup"
       :show.sync="showDeletePopup"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"

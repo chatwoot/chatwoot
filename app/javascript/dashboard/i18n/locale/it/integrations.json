@@ -17,6 +17,24 @@
           "azioni"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Modifica",
+        "TITLE": "Edit webhook",
+        "CANCEL": "annulla",
+        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL del webhook",
+            "PLACEHOLDER": "Esempio: https://example/api/webhook",
+            "ERROR": "Inserisci un URL valido"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        }
+      },
       "ADD": {
         "CANCEL": "annulla",
         "TITLE": "Aggiungi nuovo webhook",
@@ -46,6 +64,12 @@
           "YES": "Sì, elimina ",
           "NO": "No, Conserva"
         }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

@@ -9,7 +9,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
       update_agents_list
       head :ok
     rescue StandardError => e
-      Rails.logger.debug "Rescued: #{e.inspect}"
+      Rails.logger.debug { "Rescued: #{e.inspect}" }
       render_could_not_create_error('Could not add agents to inbox')
     end
   end

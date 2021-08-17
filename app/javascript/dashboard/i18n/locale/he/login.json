@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "התחבר ל Woot",
+    "EMAIL": {
+      "LABEL": "אימייל",
+      "PLACEHOLDER": "מייל לדוגמא: someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "סיסמה",
+      "PLACEHOLDER": "סיסמה"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "נכנסת בהצלחה",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
+      "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
+    },
+    "FORGOT_PASSWORD": "שכחת את הסיסמה?",
+    "CREATE_NEW_ACCOUNT": "צור חשבון",
+    "SUBMIT": "התחבר"
+  }
+}

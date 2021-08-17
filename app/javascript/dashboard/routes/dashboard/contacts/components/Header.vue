@@ -3,7 +3,7 @@
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
         <h1 class="page-title">
-          {{ $t('CONTACTS_PAGE.HEADER') }}
+          {{ headerTitle ? `#${headerTitle}` : $t('CONTACTS_PAGE.HEADER') }}
         </h1>
       </div>
       <div class="right-aligned-wrap">
@@ -30,6 +30,7 @@
           color-scheme="success"
           icon="ion-android-add-circle"
           @click="onToggleCreate"
+          data-testid="create-new-contact"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
@@ -42,6 +43,10 @@
 export default {
   components: {},
   props: {
+    headerTitle: {
+      type: String,
+      default: '',
+    },
     searchQuery: {
       type: String,
       default: '',

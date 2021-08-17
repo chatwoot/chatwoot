@@ -8,12 +8,12 @@
   .channel {
     @include flex;
     @include padding($space-normal $zero);
-    @include margin($zero);
     @include background-white;
     @include border-light;
-    flex-direction: column;
+
     cursor: pointer;
-    border-right-color: $color-white;
+    flex-direction: column;
+    margin: -1px;
     transition: all 0.200s ease-in;
 
     &:last-child {
@@ -32,14 +32,13 @@
 
     img {
       @include margin($space-normal auto);
-      flex: 1;
       width: 50%;
     }
 
-    .channel__title{
-      font-size: $font-size-large;
-      text-align: center;
+    .channel__title {
       color: $color-body;
+      font-size: var(--font-size-default);
+      text-align: center;
       text-transform: capitalize;
     }
 

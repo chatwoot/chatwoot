@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Nome do marcador",
         "PLACEHOLDER": "Nome do marcador",
-        "ERROR": "Nome do Marcador é obrigatório"
+        "REQUIRED_ERROR": "O nome do marcador é obrigatório",
+        "MINIMUM_LENGTH_ERROR": "Tamanho mínimo 2 é necessário",
+        "VALID_ERROR": "Somente Letras, Números, Hífen e Sublinhado são permitidos"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",

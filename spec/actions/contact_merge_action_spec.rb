@@ -8,15 +8,25 @@ describe ::ContactMergeAction do
   let!(:mergee_contact) { create(:contact, account: account) }
 
   before do
-    2.times.each { create(:conversation, contact: base_contact) }
-    2.times.each { create(:conversation, contact: mergee_contact) }
-    2.times.each { create(:message, sender: mergee_contact) }
+    2.times.each do
+      create(:conversation, contact: base_contact)
+      create(:conversation, contact: mergee_contact)
+      create(:message, sender: mergee_contact)
+    end
   end
 
   describe '#perform' do
     it 'deletes mergee_contact' do
       contact_merge
       expect { mergee_contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context 'when base contact and merge contact are same' do
+      it 'does not delete contact' do
+        mergee_contact = base_contact
+        contact_merge
+        expect(mergee_contact.reload).not_to eq nil
+      end
     end
 
     context 'when mergee contact has conversations' do

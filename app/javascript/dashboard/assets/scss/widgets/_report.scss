@@ -1,7 +1,6 @@
 .report-card {
   @include padding($space-normal $space-small $space-normal $space-two);
   @include margin($zero);
-  @include background-light;
   cursor: pointer;
   @include custom-border-top(3px, transparent);
 

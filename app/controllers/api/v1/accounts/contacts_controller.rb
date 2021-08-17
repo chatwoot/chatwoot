@@ -7,26 +7,26 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :last_activity_at, type: :datetime
 
   RESULTS_PER_PAGE = 15
-  protect_from_forgery with: :null_session
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
   before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
+  before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
     @contacts_count = resolved_contacts.count
-    @contacts = fetch_contact_last_seen_at(resolved_contacts)
+    @contacts = fetch_contacts_with_conversation_count(resolved_contacts)
   end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search',
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q]}%"
     )
     @contacts_count = contacts.count
-    @contacts = fetch_contact_last_seen_at(contacts)
+    @contacts = fetch_contacts_with_conversation_count(contacts)
   end
 
   def import
@@ -72,22 +72,31 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
+  # TODO: Move this to a finder class
   def resolved_contacts
-    @resolved_contacts ||= Current.account.contacts
-                                  .where.not(email: [nil, ''])
-                                  .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+    return @resolved_contacts if @resolved_contacts
+
+    @resolved_contacts = Current.account.contacts
+                                .where.not(email: [nil, ''])
+                                .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+    @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+    @resolved_contacts
   end
 
   def set_current_page
     @current_page = params[:page] || 1
   end
 
-  def fetch_contact_last_seen_at(contacts)
-    filtrate(contacts).left_outer_joins(:conversations)
-                      .select('contacts.*, COUNT(conversations.id) as conversations_count')
-                      .group('contacts.id')
-                      .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
-                      .page(@current_page).per(RESULTS_PER_PAGE)
+  def fetch_contacts_with_conversation_count(contacts)
+    contacts_with_conversation_count = filtrate(contacts).left_outer_joins(:conversations)
+                                                         .select('contacts.*, COUNT(conversations.id) as conversations_count')
+                                                         .group('contacts.id')
+                                                         .includes([{ avatar_attachment: [:blob] }])
+                                                         .page(@current_page).per(RESULTS_PER_PAGE)
+
+    return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
+
+    contacts_with_conversation_count
   end
 
   def build_contact_inbox
@@ -99,7 +108,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
@@ -111,6 +120,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def contact_update_params
     # we want the merged custom attributes not the original one
     contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
+  end
+
+  def set_include_contact_inboxes
+    @include_contact_inboxes = if params[:include_contact_inboxes].present?
+                                 params[:include_contact_inboxes] == 'true'
+                               else
+                                 true
+                               end
   end
 
   def fetch_contact

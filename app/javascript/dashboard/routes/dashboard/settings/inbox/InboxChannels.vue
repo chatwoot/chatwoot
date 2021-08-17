@@ -1,7 +1,7 @@
 <template>
   <div class="row content-box full-height">
     <woot-wizard
-      class="small-3 columns"
+      class="hide-for-small-only medium-3 columns"
       :global-config="globalConfig"
       :items="items"
     />

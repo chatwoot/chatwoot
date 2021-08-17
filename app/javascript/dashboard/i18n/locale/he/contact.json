@@ -1,0 +1,237 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Not Available",
+    "EMAIL_ADDRESS": "כתובת מייל",
+    "PHONE_NUMBER": "Phone number",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COMPANY": "Company",
+    "LOCATION": "Location",
+    "CONVERSATION_TITLE": "Conversation Details",
+    "BROWSER": "דפדפן",
+    "OS": "מערכת הפעלה",
+    "INITIATED_FROM": "Initiated from",
+    "INITIATED_AT": "Initiated at",
+    "IP_ADDRESS": "IP Address",
+    "NEW_MESSAGE": "New message",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
+      "TITLE": "Previous Conversations"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
+      },
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
+    },
+    "MUTE_CONTACT": "Mute Conversation",
+    "UNMUTE_CONTACT": "Unmute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "SEND_TRANSCRIPT": "Send Transcript",
+    "EDIT_LABEL": "ערוך"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Contact",
+    "TITLE": "Edit contact",
+    "DESC": "Edit contact details"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "שלח",
+      "CANCEL": "ביטול",
+      "AVATAR": {
+        "LABEL": "Contact Avatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Enter the full name of the contact",
+        "LABEL": "שם מלא"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Enter the bio of the contact",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Enter the email address of the contact",
+        "LABEL": "כתובת מייל"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Enter the phone number of the contact",
+        "LABEL": "Phone Number",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Enter the location of the contact",
+        "LABEL": "Location"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Enter the company name",
+        "LABEL": "Company Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Enter the Facebook username",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Enter the Twitter username",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Enter the LinkedIn username",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Enter the Github username",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "ERROR_MESSAGE": "There was an error, please try again"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "ביטול",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "FIELDS": "Contact fields",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "PHONE_NUMBER": "Phone Number",
+        "CONVERSATIONS": "שיחות",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Company",
+        "EMAIL_ADDRESS": "כתובת מייל"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "הוסף",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "שיחות"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "ביטול",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "ביטול",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+    }
+  }
+}

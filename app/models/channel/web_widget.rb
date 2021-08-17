@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  feature_flags         :integer          default(3), not null
+#  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
@@ -38,7 +39,9 @@ class Channel::WebWidget < ApplicationRecord
 
   has_flags 1 => :attachments,
             2 => :emoji_picker,
-            :column => 'feature_flags'
+            :column => 'feature_flags',
+            :check_for_column => false
+
   enum reply_time: { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
 
   def name

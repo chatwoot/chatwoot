@@ -52,11 +52,6 @@
         </a>
       </router-link>
     </ul>
-    <add-label-modal
-      v-if="showAddLabel"
-      :show.sync="showAddLabel"
-      :on-close="hideAddLabelPopup"
-    />
   </router-link>
 </template>
 
@@ -64,19 +59,17 @@
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
+import {
+  hasPressedAltAndCKey,
+  hasPressedAltAndVKey,
+  hasPressedAltAndRKey,
+  hasPressedAltAndSKey,
+} from 'shared/helpers/KeyboardHelpers';
 import adminMixin from '../../mixins/isAdmin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
-import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 export default {
-  components: {
-    AddLabelModal,
-  },
-  mixins: [adminMixin],
-  data() {
-    return {
-      showAddLabel: false,
-    };
-  },
+  mixins: [adminMixin, eventListenerMixins],
   props: {
     menuItem: {
       type: Object,
@@ -127,18 +120,26 @@ export default {
         router.push({ name: item.newLinkRouteName, params: { page: 'new' } });
       } else if (item.showModalForNewItem) {
         if (item.modalName === 'AddLabel') {
-          this.showAddLabelPopup();
+          this.$emit('add-label');
         }
+      }
+    },
+    handleKeyEvents(e) {
+      if (hasPressedAltAndCKey(e)) {
+        router.push({ name: 'home' });
+      }
+      if (hasPressedAltAndVKey(e)) {
+        router.push({ name: 'contacts_dashboard' });
+      }
+      if (hasPressedAltAndRKey(e)) {
+        router.push({ name: 'settings_account_reports' });
+      }
+      if (hasPressedAltAndSKey(e)) {
+        router.push({ name: 'settings_home' });
       }
     },
     showItem(item) {
       return this.isAdmin && item.newLink !== undefined;
-    },
-    showAddLabelPopup() {
-      this.showAddLabel = true;
-    },
-    hideAddLabelPopup() {
-      this.showAddLabel = false;
     },
   },
 };

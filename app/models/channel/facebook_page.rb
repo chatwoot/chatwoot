@@ -47,14 +47,14 @@ class Channel::FacebookPage < ApplicationRecord
       ]
     )
   rescue => e
-    Rails.logger.debug "Rescued: #{e.inspect}"
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
   rescue => e
-    Rails.logger.debug "Rescued: #{e.inspect}"
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 end

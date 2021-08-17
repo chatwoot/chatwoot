@@ -18,19 +18,14 @@
       "TITLE": "المحادثات السابقة"
     },
     "LABELS": {
-      "TITLE": "وسوم المحادثة",
-      "MODAL": {
-        "TITLE": "الوسوم الخاصة بـ",
-        "ACTIVE_LABELS": "تم إضافة الوسوم للمحادثة",
-        "INACTIVE_LABELS": "الوسوم المتاحة في الحساب",
-        "REMOVE": "انقر على أيقونة X لإزالة الوسم",
-        "ADD": "اضغط على أيقونة + لإضافة وسوم",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "تحديث الوسوم",
-        "UPDATE_ERROR": "تعذر تحديث الوسوم، الرجاء المحاولة مرة أخرى."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "لا يوجد وسوم في الحساب.",
-      "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة.",
+      "CONVERSATION": {
+        "TITLE": "وسوم المحادثة",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -136,11 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "جهات الاتصال",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "بحث",
     "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
       "404": "لا توجد جهات اتصال تطابق بحثك 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "الاسم",
         "PHONE_NUMBER": "رقم الهاتف",
@@ -155,6 +152,16 @@
       "VIEW_DETAILS": "عرض التفاصيل"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +173,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "المحادثات"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -187,6 +204,34 @@
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "إلغاء",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

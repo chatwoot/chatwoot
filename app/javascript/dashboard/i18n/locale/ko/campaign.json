@@ -14,8 +14,19 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "메시지",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -42,6 +53,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "업데이트",
@@ -55,10 +79,11 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
+        "MESSAGE": "메시지",
         "STATUS": "상태",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
@@ -69,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "사용함",
-        "DISABLED": "사용 안 함"
+        "DISABLED": "사용 안 함",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "봇"

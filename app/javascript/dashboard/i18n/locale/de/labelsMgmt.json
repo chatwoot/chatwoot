@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Labelname",
         "PLACEHOLDER": "Labelname",
-        "ERROR": "Labelname ist erforderlich"
+        "REQUIRED_ERROR": "Labelname ist erforderlich",
+        "MINIMUM_LENGTH_ERROR": "Mindestlänge 2 wird benötigt",
+        "VALID_ERROR": "Nur Buchstaben, Zahlen, Binde- und Unterstriche sind erlaubt"
       },
       "DESCRIPTION": {
         "LABEL": "Beschreibung",

@@ -54,10 +54,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [{ submitted_values: [:name, :title, :value] }])
+    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
   end
 
   def permitted_params
+    # timestamp parameter is used in create conversation method
     params.permit(:id, :before, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
   end
 

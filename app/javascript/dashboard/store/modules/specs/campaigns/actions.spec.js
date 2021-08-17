@@ -68,4 +68,26 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#delete', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({ data: campaignList[0] });
+      await actions.delete({ commit }, campaignList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: true }],
+        [types.default.DELETE_CAMPAIGN, campaignList[0].id],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.delete({ commit }, campaignList[0].id)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: true }],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
 });

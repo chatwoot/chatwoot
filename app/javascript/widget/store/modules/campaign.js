@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getCampaigns } from 'widget/api/campaign';
+import { getCampaigns, triggerCampaign } from 'widget/api/campaign';
 import campaignTimer from 'widget/helpers/campaignTimer';
 import {
   formatCampaigns,
@@ -11,6 +11,7 @@ const state = {
     isError: false,
     hasFetched: false,
   },
+  activeCampaign: {},
 };
 
 const resetCampaignTimers = (campaigns, currentURL) => {
@@ -26,6 +27,7 @@ const resetCampaignTimers = (campaigns, currentURL) => {
 export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
+  getActiveCampaign: $state => $state.activeCampaign,
 };
 
 export const actions = {
@@ -41,7 +43,7 @@ export const actions = {
       commit('setHasFetched', true);
     }
   },
-  startCampaigns: async (
+  initCampaigns: async (
     { getters: { getCampaigns: campaigns }, dispatch },
     { currentURL, websiteToken }
   ) => {
@@ -51,11 +53,30 @@ export const actions = {
       resetCampaignTimers(campaigns, currentURL);
     }
   },
+  startCampaign: async (
+    { getters: { getCampaigns: campaigns }, commit },
+    { campaignId }
+  ) => {
+    const campaign = campaigns.find(item => item.id === campaignId);
+    commit('setActiveCampaign', campaign);
+  },
+
+  executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
+    try {
+      await triggerCampaign({ campaignId, websiteToken });
+      commit('setActiveCampaign', {});
+    } catch (error) {
+      commit('setError', true);
+    }
+  },
 };
 
 export const mutations = {
   setCampaigns($state, data) {
     Vue.set($state, 'records', data);
+  },
+  setActiveCampaign($state, data) {
+    Vue.set($state, 'activeCampaign', data);
   },
   setError($state, value) {
     Vue.set($state.uiFlags, 'isError', value);

@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Όνομα Κιβωτίου",
+        "PLACEHOLDER": "Συμπληρώστε την ονομασία του κιβωτίου σας (π. χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Όνομα Ιστοσελίδας",
+        "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
+      },
       "FB": {
         "HELP": "ΥΓ: Με την είσοδο, θα έχουμε πρόσβαση μόνο στα μηνύματα της σελίδας σας. Τα ιδιωτικά μηνύματά σας ποτέ δεν προσπελαστούν από το Chatwoot.",
         "CHOOSE_PAGE": "Διάλεξε Σελίδα",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Δημιουργία κανάλιού υποστήριξης ιστοσελίδας",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar Καναλιού"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Ονομασία Ιστοσελίδας",
-          "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Ιστοσελίδας",
@@ -88,7 +92,7 @@
         "SUBMIT_BUTTON": "Δημιουργία Κιβωτίου"
       },
       "TWILIO": {
-        "TITLE": "SMS κανάλι από το Twilio",
+        "TITLE": "Κανάλι Twilio SMS/Whatsapp",
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
@@ -122,6 +126,14 @@
         "API": {
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
       },
       "API_CHANNEL": {
         "TITLE": "Κανάλι API",
@@ -161,8 +173,8 @@
         "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
       },
       "AUTH": {
-        "TITLE": "Κανάλια",
-        "DESC": "Επί του παρόντος υποστηρίζονται widgets για Ιστοσελίδες, και σελίδες Facebook, Προφίλ Twitter ως πλατφόρμες. Έχουμε ακόμη περισσότερες πλατφόρμες όπως Whatsapp, Email, Telegram and Line υπό ανάπτυξη, οι οποίες θα είναι διαθέσιμες σύντομα."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Πράκτορες",
@@ -208,6 +220,14 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Ενεργό",
+        "DISABLED": "Ανενεργό"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Ενεργό",
+        "DISABLED": "Ανενεργό"
       }
     },
     "DELETE": {
@@ -215,6 +235,7 @@
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
+        "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {inboxName} για επιβεβαίωση",
         "YES": "Ναι, Διέγραψε το ",
         "NO": "Όχι, Κράτησε τον/την"
       },
@@ -243,12 +264,16 @@
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
       "UPDATE": "Ενημέρωση",
+      "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
       "AUTO_ASSIGNMENT": "Επιτρέπεται η αυτόματη αντιστοίχιση",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Ρυθμίσεις Κιβωτίου",
       "INBOX_UPDATE_SUB_TEXT": "Ενημερώστε τις ρυθμίσεις του κιβωτίου σας",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ενεργοποιήστε ή απενεργοποιήστε την αυτόματη αντιστοίχιση των νέων συζητήσεων στους πράκτορες αυτού του κιβωτίου.",
       "HMAC_VERIFICATION": "Επικύρωση Ταυτότητας Χρήστη",
-      "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identity_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ."
+      "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identifier_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Εκ νέου εξουσιοδότηση",

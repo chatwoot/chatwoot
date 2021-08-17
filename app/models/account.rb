@@ -21,7 +21,8 @@ class Account < ApplicationRecord
   include Featurable
 
   DEFAULT_QUERY_SETTING = {
-    flag_query_mode: :bit_operator
+    flag_query_mode: :bit_operator,
+    check_for_column: false
   }.freeze
 
   ACCOUNT_SETTINGS_FLAGS = {
@@ -34,9 +35,11 @@ class Account < ApplicationRecord
   has_many :account_users, dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy
   has_many :agent_bots, dependent: :destroy
+  has_many :csat_survey_responses, dependent: :destroy
   has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
+  has_many :notes, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :messages, dependent: :destroy
@@ -58,6 +61,9 @@ class Account < ApplicationRecord
   has_many :kbase_categories, dependent: :destroy, class_name: '::Kbase::Category'
   has_many :kbase_articles, dependent: :destroy, class_name: '::Kbase::Article'
   has_many :teams, dependent: :destroy
+  has_many :custom_filters, dependent: :destroy
+  has_many :custom_attribute_definitions, dependent: :destroy
+
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h

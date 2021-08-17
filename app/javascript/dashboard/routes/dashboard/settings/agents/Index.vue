@@ -11,7 +11,7 @@
 
     <!-- List Agents -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"

@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Kullanıcı bulunamadı."
+      "NO_RESULTS": "Sonuç bulunamadı."
     }
   }
 }

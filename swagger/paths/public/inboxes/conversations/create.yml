@@ -1,0 +1,14 @@
+tags:
+  - Conversations API
+operationId: create-a-conversation
+summary: Create a conversation
+description: Create a conversation
+security:
+  - nil
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/public_conversation'
+  401:
+    description: Unauthorized

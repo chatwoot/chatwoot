@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "Pesan",
           "PLACEHOLDER": "Please enter the message of campaign",
@@ -42,6 +53,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus?",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "Perbarui",
@@ -59,17 +83,20 @@
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Tambah",
         "EDIT": "Edit",
         "DELETE": "Hapus"
       },
       "STATUS": {
         "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
+        "DISABLED": "Nonaktif",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Bot"

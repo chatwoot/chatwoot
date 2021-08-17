@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "%{teamName}팀을 삭제하시겠습니까?",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",
         "NO": "취소"

@@ -14,6 +14,17 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
         "MESSAGE": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please enter the message of campaign",
@@ -42,6 +53,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "CONFIRM": {
+        "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "ஆம், நீக்கு ",
+        "NO": "இல்லை, வைத்திரு "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "புதுப்பிப்பு",
@@ -59,6 +83,7 @@
         "STATUS": "நிலை",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
@@ -69,7 +94,9 @@
       },
       "STATUS": {
         "ENABLED": "இயக்கப்பட்டது",
-        "DISABLED": "முடக்கப்பட்டது"
+        "DISABLED": "முடக்கப்பட்டது",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Bot"

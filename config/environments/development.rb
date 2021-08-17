@@ -85,4 +85,7 @@ Rails.application.configure do
       resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
     end
   end
+
+  # ref : https://medium.com/@emikaijuin/connecting-to-action-cable-without-rails-d39a8aaa52d5
+  config.action_cable.disable_request_forgery_protection = true
 end

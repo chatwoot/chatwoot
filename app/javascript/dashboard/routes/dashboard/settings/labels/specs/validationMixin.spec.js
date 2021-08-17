@@ -26,11 +26,10 @@ describe('validationMixin', () => {
       i18n: i18nConfig,
       localVue,
       data() {
-        return {
-          title: 'sales',
-        };
+        return { title: 'sales' };
       },
     });
+    wrapper.vm.$v.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe('');
   });
   it('it should return label required error message if empty name is passed', async () => {
@@ -38,11 +37,10 @@ describe('validationMixin', () => {
       i18n: i18nConfig,
       localVue,
       data() {
-        return {
-          title: '',
-        };
+        return { title: '' };
       },
     });
+    wrapper.vm.$v.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label name is required');
   });
   it('it should return label minimum length error message if one charceter label name is passed', async () => {
@@ -50,11 +48,10 @@ describe('validationMixin', () => {
       i18n: i18nConfig,
       localVue,
       data() {
-        return {
-          title: 's',
-        };
+        return { title: 's' };
       },
     });
+    wrapper.vm.$v.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
       'Minimum length 2 is required'
     );
@@ -64,11 +61,10 @@ describe('validationMixin', () => {
       i18n: i18nConfig,
       localVue,
       data() {
-        return {
-          title: 'sales enquiry',
-        };
+        return { title: 'sales enquiry' };
       },
     });
+    wrapper.vm.$v.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
       'Only Alphabets, Numbers, Hyphen and Underscore are allowed'
     );

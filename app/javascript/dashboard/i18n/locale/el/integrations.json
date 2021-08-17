@@ -17,6 +17,24 @@
           "ΕΝΕΡΓΕΙΕΣ"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Επεξεργασία",
+        "TITLE": "Επεξεργασία webhook",
+        "CANCEL": "Άκυρο",
+        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Σύνδεσμος Webhook",
+            "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
+            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+          },
+          "SUBMIT": "Επεξεργασία webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Το URL Webhook ενημερώθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        }
+      },
       "ADD": {
         "CANCEL": "Άκυρο",
         "TITLE": "Προσθήκη Νέου webhook",
@@ -46,6 +64,12 @@
           "YES": "Ναι, Διέγραψε ",
           "NO": "Όχι, Κράτησε τον/την"
         }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

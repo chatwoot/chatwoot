@@ -17,6 +17,24 @@
           "Actions"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Modifier",
+        "TITLE": "Modifier le webhook",
+        "CANCEL": "Annuler",
+        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL du Webhook",
+            "PLACEHOLDER": "Exemple : https://exemple/api/webhook",
+            "ERROR": "Veuillez entrer une URL valide"
+          },
+          "SUBMIT": "Modifier le webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "URL du webhook mise à jour avec succès",
+          "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+        }
+      },
       "ADD": {
         "CANCEL": "Annuler",
         "TITLE": "Ajouter un nouveau webhook",
@@ -46,6 +64,12 @@
           "YES": "Oui, supprimer ",
           "NO": "Non, conservez-le"
         }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Utilisation de l'intégration Slack",
+        "BODY": "<br/><p>Chatwoot va maintenant synchroniser toutes les conversations entrantes dans le canal <b><i>customer-conversations</i></b> à l'intérieur de Workspace Sack.</p><p>Répondre à un fil de conversation dans le canal Slack <b><i>customer-conversations</i></b> créera une réponse au client via chatwoot.</p><p>Commencez les réponses avec <b><i>note :</i></b> pour créer des notes privées au lieu de réponses.</p><p>Si le répondant sur Slack a un profil d'agent dans le chat avec la même adresse email, les réponses seront associées en conséquence.</p><p>Lorsque le répondant n'a pas de profil d'agent associé, les réponses seront faites avec le profil du bot.</p>"
       }
     },
     "DELETE": {
