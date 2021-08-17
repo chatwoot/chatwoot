@@ -3,8 +3,8 @@
     "HEADER": "Kampagnen",
     "SIDEBAR_TXT": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde. Klicke auf <b>Kampagne hinzufügen</b> um eine neue Kampagne zu erstellen. Sie können auch eine bestehende Kampagne bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "Eine einmalige Kampagne erstellen",
+      "ONGOING": "Eine laufende Kampagne erstellen"
     },
     "ADD": {
       "TITLE": "Kampagne erstellen",
