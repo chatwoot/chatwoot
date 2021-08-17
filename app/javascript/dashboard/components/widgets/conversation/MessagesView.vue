@@ -385,7 +385,7 @@ export default {
 
 .popoutreplybox {
   box-shadow: var(--shadow-medium);
-  z-index: var(--zindex-larger);
+  z-index: var(--z-index-higher);
   position: fixed;
   width: 88rem;
   top: 36%;

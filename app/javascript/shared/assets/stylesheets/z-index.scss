@@ -1,11 +1,11 @@
 :root {
   // z-index
-  --zindex-zero: 0;
-  --zindex-smaller: 10;
-  --zindex-small: 100;
-  --zindex-medium: 500;
-  --zindex-large: 1000;
-  --zindex-larger: 1500;
-  --zindex-big: 5000;
-  --zindex-bigger: 1000;
+  --z-index-minus: -1;
+  --z-index-zero: 0;
+  --z-index-low: 10;
+  --z-index-normal: 100;
+  --z-index-high: 1000;
+  --z-index-higher: 2000;
+  --z-index-much-higher: 5000;
+  --zindex-highest: 10000;
 }
