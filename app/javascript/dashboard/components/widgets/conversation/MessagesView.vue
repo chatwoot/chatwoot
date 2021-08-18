@@ -79,7 +79,7 @@
       />
     </ul>
     <div
-      v-on-clickaway="onClickClosePopoutReplyBox"
+      v-on-clickaway="closePopoutReplyBox"
       class="conversation-footer"
       :class="{ popoutreplybox: isPopoutReplyBox }"
     >
@@ -98,7 +98,7 @@
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
         :popout-reply-box="isPopoutReplyBox"
-        @click="onClickPopoutReplyBox"
+        @click="showPopoutReplyBox"
         @scrollToMessage="scrollToBottom"
       />
     </div>
@@ -262,15 +262,15 @@ export default {
   },
 
   methods: {
-    onClickPopoutReplyBox() {
+    showPopoutReplyBox() {
       this.isPopoutReplyBox = !this.isPopoutReplyBox;
     },
-    onClickClosePopoutReplyBox() {
+    closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
     handleKeyEvents(e) {
       if (isEscape(e)) {
-        this.onClickClosePopoutReplyBox();
+        this.closePopoutReplyBox();
       }
     },
     addScrollListener() {

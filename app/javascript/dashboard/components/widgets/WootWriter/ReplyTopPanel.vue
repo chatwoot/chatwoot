@@ -39,7 +39,7 @@
       v-else
       variant="clear"
       size="large"
-      icon="ion-arrow-expand"
+      icon="ion-arrow-resize"
       color-scheme="secondary"
       class-names="popout-button"
       @click="$emit('click')"
