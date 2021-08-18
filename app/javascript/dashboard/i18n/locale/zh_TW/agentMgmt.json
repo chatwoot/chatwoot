@@ -96,16 +96,16 @@
       "PLACEHOLDER": "無",
       "TITLE": {
         "AGENT": "選擇客服",
-        "TEAM": "Select team"
+        "TEAM": "選擇團隊"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "查無客服",
-          "TEAM": "No teams found"
+          "TEAM": "查無團隊"
         },
         "PLACEHOLDER": {
           "AGENT": "搜尋客服",
-          "TEAM": "Search teams"
+          "TEAM": "搜尋團隊"
         }
       }
     }
