@@ -34,7 +34,7 @@ export default {
   cursor: pointer;
   user-select: none;
   padding: var(--space-smaller) 0;
-  background: var(--color-background);
+  background: var(--color-background-light);
   border-radius: var(--border-radius-normal);
   border: 1px solid var(--color-border);
   margin-bottom: var(--space-small);

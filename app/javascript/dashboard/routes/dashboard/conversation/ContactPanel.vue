@@ -171,7 +171,7 @@
         $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.PREVIOUS_CONVERSATION')
       "
       :show-item="isPreviousConversation"
-      @click="onClickShowContactConversation"
+      @click="onClickShowPreviousConversation"
     >
       <contact-conversations
         v-show="isPreviousConversation"
@@ -194,6 +194,7 @@ import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import CollapseItemHeader from './CollapseItemHeader.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import flag from 'country-code-emoji';
 
@@ -207,7 +208,7 @@ export default {
     MultiselectDropdown,
     CollapseItemHeader,
   },
-  mixins: [alertMixin, agentMixin],
+  mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -221,16 +222,6 @@ export default {
       type: Function,
       default: () => {},
     },
-  },
-  data() {
-    return {
-      isContactInformation: true,
-      isConversationActions: true,
-      isConversationLabels: true,
-      isConversationDetails: true,
-      isContactAttributes: true,
-      isPreviousConversation: true,
-    };
   },
   computed: {
     ...mapGetters({
@@ -347,6 +338,48 @@ export default {
       }
       return false;
     },
+    isContactInformation() {
+      if (this.currentChat.id) {
+        const { is_contact_info_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
+    isConversationActions() {
+      if (this.currentChat.id) {
+        const { is_conv_actions_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
+    isConversationLabels() {
+      if (this.currentChat.id) {
+        const { is_conv_labels_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
+    isConversationDetails() {
+      if (this.currentChat.id) {
+        const { is_conv_details_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
+    isContactAttributes() {
+      if (this.currentChat.id) {
+        const { is_contact_attributes_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
+    isPreviousConversation() {
+      if (this.currentChat.id) {
+        const { is_previous_conv_open: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -363,22 +396,34 @@ export default {
   },
   methods: {
     onClickShowContactInformation() {
-      this.isContactInformation = !this.isContactInformation;
+      this.updateUISettings({
+        is_contact_info_open: !this.isContactInformation,
+      });
     },
     onClickShowConversationActions() {
-      this.isConversationActions = !this.isConversationActions;
+      this.updateUISettings({
+        is_conv_actions_open: !this.isConversationActions,
+      });
     },
     onClickShowConversationLabels() {
-      this.isConversationLabels = !this.isConversationLabels;
+      this.updateUISettings({
+        is_conv_labels_open: !this.isConversationLabels,
+      });
     },
     onClickShowConversationDetails() {
-      this.isConversationDetails = !this.isConversationDetails;
+      this.updateUISettings({
+        is_conv_details_open: !this.isConversationDetails,
+      });
     },
     onClickShowContactAttributes() {
-      this.isContactAttributes = !this.isContactAttributes;
+      this.updateUISettings({
+        is_contact_attributes_open: !this.isContactAttributes,
+      });
     },
-    onClickShowContactConversation() {
-      this.isPreviousConversation = !this.isPreviousConversation;
+    onClickShowPreviousConversation() {
+      this.updateUISettings({
+        is_previous_conv_open: !this.isPreviousConversation,
+      });
     },
     onPanelToggle() {
       this.onToggle();
