@@ -41,6 +41,10 @@ class SupportMailbox < ApplicationMailbox
     @processed_mail = MailPresenter.new(mail, @account)
   end
 
+  def original_sender
+    processed_mail['X-Original-Sender'].try(:value) || processed_mail.from.first
+  end
+
   def create_conversation
     @conversation = ::Conversation.create!({
                                              account_id: @account.id,
@@ -58,7 +62,7 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: processed_mail.from.first)
+    @contact = @inbox.contacts.find_by(email: original_sender)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else
@@ -72,7 +76,7 @@ class SupportMailbox < ApplicationMailbox
       inbox: @inbox,
       contact_attributes: {
         name: identify_contact_name,
-        email: processed_mail.from.first,
+        email: original_sender,
         additional_attributes: {
           source_id: "email:#{processed_mail.message_id}"
         }
