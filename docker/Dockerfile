@@ -59,7 +59,7 @@ RUN rm -rf /gems/ruby/3.0.0/cache/*.gem \
   && find /gems/ruby/3.0.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete
 
 # final build stage
-FROM ruby:3.0.2-alpine
+FROM ruby:3.0.2-alpine3.13
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
