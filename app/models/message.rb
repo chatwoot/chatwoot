@@ -29,6 +29,7 @@
 #
 
 class Message < ApplicationRecord
+  include MessageFilterHelpers
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   validates :account_id, presence: true
@@ -106,22 +107,6 @@ class Message < ApplicationRecord
     data
   end
 
-  def reportable?
-    incoming? || outgoing?
-  end
-
-  def webhook_sendable?
-    incoming? || outgoing?
-  end
-
-  def conversation_transcriptable?
-    incoming? || outgoing?
-  end
-
-  def email_reply_summarizable?
-    incoming? || outgoing? || input_csat?
-  end 
-
   def webhook_data
     {
       id: id,
@@ -198,7 +183,6 @@ class Message < ApplicationRecord
 
     true
   end
-
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
