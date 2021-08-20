@@ -81,9 +81,6 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy
 
-  after_create :reopen_conversation,
-               :notify_via_mail
-
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
@@ -141,6 +138,8 @@ class Message < ApplicationRecord
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
+    reopen_conversation
+    notify_via_mail
     set_conversation_activity
     dispatch_create_events
     send_reply
