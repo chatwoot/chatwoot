@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.0.2-alpine3.133.133.13 AS pre-builder
+FROM ruby:3.0.2-alpine3.13 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
