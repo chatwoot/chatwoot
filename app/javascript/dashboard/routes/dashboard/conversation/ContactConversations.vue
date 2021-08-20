@@ -1,6 +1,7 @@
 <template>
   <div class="contact-conversation--panel">
     <contact-details-item
+      v-if="isTitleNeeded"
       :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
       icon="ion-chatboxes"
       emoji="💬"
@@ -39,6 +40,10 @@ export default {
     Spinner,
   },
   props: {
+    isTitleNeeded: {
+      type: Boolean,
+      default: true,
+    },
     contactId: {
       type: [String, Number],
       required: true,
