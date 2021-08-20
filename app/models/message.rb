@@ -107,8 +107,20 @@ class Message < ApplicationRecord
   end
 
   def reportable?
-    incoming? || outgoing? || input_csat?
+    incoming? || outgoing?
   end
+
+  def webhook_sendable?
+    incoming? || outgoing?
+  end
+
+  def conversation_transcriptable?
+    incoming? || outgoing?
+  end
+
+  def email_reply_summarizable?
+    incoming? || outgoing? || input_csat?
+  end 
 
   def webhook_data
     {
@@ -181,11 +193,12 @@ class Message < ApplicationRecord
   end
 
   def email_notifiable_message?
-    return false unless outgoing?
+    return false unless outgoing? || input_csat?
     return false if private?
 
     true
   end
+
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
