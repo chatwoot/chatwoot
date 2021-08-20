@@ -17,10 +17,11 @@ defaults: &defaults
   environment:
       - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
       - RAILS_LOG_TO_STDOUT: false
+  parallelism: 4
+
 jobs:
   build:
     <<: *defaults
-    parallelism: 4
     steps:
       - checkout
 
@@ -99,10 +100,20 @@ jobs:
       - run:
           name: Run backend tests
           command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) --profile=10
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/tmp/codeclimate.$CIRCLE_NODE_INDEX.json"
+            mkdir -p ~/tmp/test-results/rspec
+            mkdir -p ~/tmp/test-artifacts
+            mkdir -p coverage
+            ~/tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec --profile 10 \
+                              --out test-results/rspec/rspec.xml \
+                              -- ${TESTFILES}
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
       - persist_to_workspace:
-          root: ~/tmp
+          root: coverage
           paths:
             - codeclimate.*.json
 
@@ -112,16 +123,15 @@ jobs:
             yarn test:coverage
             ~/tmp/cc-test-reporter format-coverage -t lcov -o ~/tmp/codeclimate.frontend.json buildreports/lcov.info
       - persist_to_workspace:
-          root: ~/tmp
+          root: coverage
           paths:
-            - codeclimate.frontend.json
+            - codeclimate.*.json
 
       # collect reports
       - store_test_results:
           path: ~/tmp/test-results
       - store_artifacts:
-          path: ~/tmp/test-results
-          destination: test-results
+          path: ~/tmp/test-artifacts
       - store_artifacts:
           path: log
 
@@ -148,9 +158,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ~/tmp/cc-test-reporter sum-coverage ~/tmp/codeclimate.*.json -p 2 -o ~/tmp/codeclimate.total.json
-            ~/tmp/cc-test-reporter upload-coverage -i ~/tmp/codeclimate.total.json
-
+            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json |  ~/tmp/cc-test-reporter upload-coverage --debug --input -
 
 workflows:
   version: 2
@@ -161,4 +169,4 @@ workflows:
       - upload-coverage:
           requires:
              - build
-             
+
