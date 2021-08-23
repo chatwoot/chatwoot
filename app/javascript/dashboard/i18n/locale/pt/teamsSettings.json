@@ -55,71 +55,71 @@
         {
           "title": "Edit Agents",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Editar os Agentes da sua equipa."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
+          "title": "Finalizar",
+          "route": "terminar_configuracao_equipas",
           "body": "Está tudo pronto para começar!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Não foi possível guardar os detalhes da equipa. Tente novamente."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "AGENTE",
       "EMAIL": "E-mail:",
       "BUTTON_TEXT": "Adicionar agentes",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Acrescentando Agentes à sua equipa...",
+      "SELECT": "escolher",
+      "SELECT_ALL": "escolher todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes escolhidos."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Adicionar agentes à equipa - %{teamName}",
+      "DESC": "Acrescente agentes à sua recém-criada equipa. É importante para que os Agentes consigam colaborar em conversas e para que sejam notificados sobre novos eventos.",
+      "SELECT": "escolher",
+      "SELECT_ALL": "escolher todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes escolhidos.",
       "BUTTON_TEXT": "Adicionar agentes",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Escolher pelo menos um Agente."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "A sua equipa está pronta!",
+      "MESSAGE": "Agora, já podem trabalhar em equipa nas novas conversas. Feliz apoio ",
+      "BUTTON_TEXT": "Finalizar"
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Equipa apagada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível apagar a equipa. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Tem a certeza que quer apagar a equipa - %{teamName}",
+        "PLACE_HOLDER": "Por favor, digite {teamName} para confirmar",
+        "MESSAGE": "Ao apagar a equipa irá remover a atribuição de novas conversas a essa equipa.",
         "YES": "excluir ",
         "NO": "cancelar"
       }
     },
     "SETTINGS": "Confirgurações",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Atualizar a equipa",
+      "CREATE": "Criar uma equipa",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Nome da equipa",
+        "PLACEHOLDER": "Exemplo: Comercial, Assistência, Administrativo"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Descrição da equipa",
+        "PLACEHOLDER": "Breve descrição sobre a equipa."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Permitir a atribuição automática para esta equipa."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Criar uma equipa"
     }
   }
 }
