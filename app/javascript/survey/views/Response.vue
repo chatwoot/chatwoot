@@ -16,7 +16,7 @@
           {{ surveyDescription }}
         </p>
         <banner
-          v-if="enableBanner"
+          v-if="shouldShowBanner"
           :show-success="shouldShowSuccessMesage"
           :show-error="shouldShowErrorMesage"
           :message="message"
@@ -98,7 +98,7 @@ export default {
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
     },
-    enableBanner() {
+    shouldShowBanner() {
       return this.isRatingSubmitted || this.errorMessage;
     },
     enableFeedbackForm() {
