@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Ao ligar um site ou uma página do Facebook ao Chatwoot, ela passa a ser chamada de <b>caixa de entrada</b>. Pode ter caixas de entrada ilimitadas na sua conta de Chatwoot. </p><p> Clique em <b>Adicionar caixa de entrada</b> para ligar um site ou uma página do Facebook. </p><p> No Painel, pode ver todas as conversas de todas as suas caixas de entrada num único lugar e responder a elas utilizando o separado `Conversas`. </p><p> Também pode ver conversas específicas de uma determinada caixa de entrada clicando no nome dessa caixa no lado esquerdo do painel lateral. </p>",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
@@ -29,8 +29,8 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "LABEL": "Nome da Caixa de Entrada",
+        "PLACEHOLDER": "Digite o nome da caixa de entrada (ex: Informatico. pt)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome do site",
@@ -38,23 +38,23 @@
       },
       "FB": {
         "HELP": "PS: ao fazer login, só teremos acesso às mensagens da sua página. Suas mensagens privadas nunca poderão ser acessadas pelo Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "Escolher página",
+        "CHOOSE_PLACEHOLDER": "Escolher uma página da lista",
+        "INBOX_NAME": "Nome Caixa de Entrada",
+        "ADD_NAME": "Escolha um nome para a sua caixa de entrada",
+        "PICK_NAME": "Escolha um nome a sua caixa de entrada",
+        "PICK_A_VALUE": "Escolha um valor"
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "Houve um de ligação com o Twitter, por favor, tente novamente"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do site",
         "DESC": "Crie um canal para seu site e comece a oferecer suporte a seus clientes através do nosso widget do site.",
         "LOADING_MESSAGE": "Criando canal de suporte ao site",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar do canal"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do site",
@@ -69,21 +69,21 @@
           "PLACEHOLDER": "Nós simplificamos nos conectar com a gente. Pergunte a nós qualquer coisa ou compartilhe seus comentários."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
+          "LABEL": "Mensagem de Boas-vindas do canal",
           "PLACEHOLDER": "Acme Inc normalmente responde em algumas horas."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Ativar mensagem de Boas-vindas do canal",
+          "HELP_TEXT": "Enviar uma mensagem de boas-vindas ao utilizador quando ele iniciar uma conversa.",
           "ENABLED": "Ativado",
           "DISABLED": "Desabilitado"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Definir tempo de resposta",
+          "IN_A_FEW_MINUTES": "Em poucos minutos",
+          "IN_A_FEW_HOURS": "Em poucas horas",
+          "IN_A_DAY": "Dentro de um dia",
+          "HELP_TEXT": "Este tempo de resposta será mostrado no widget de chat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Cor do widget",
@@ -119,8 +119,8 @@
           "ERROR": "Por favor, insira um valor válido. O número de telefone deve começar com o sinal `+`."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "Link de retorno de ligação",
+          "SUBTITLE": "Tem de configurar aqui, o link de retorno de mensagem no Twilio, através de um URL."
         },
         "SUBMIT_BUTTON": "Criar canal Twilio",
         "API": {
@@ -128,16 +128,16 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "Canal SMS através do Twilio",
+        "DESC": "Comece a dar apoio aos seus clientes por SMS com a integração Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "Canal do Whatsapp através do Twilio",
+        "DESC": "Comece a dar apoio aos seus clientes através do Whatsapp com a integração do Twilio."
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "Canal de API",
+        "DESC": "Integrar com o canal API para dar apoio aos seus clientes.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
@@ -145,16 +145,16 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Configurar a URL onde quer receber mensagens de retorno.",
           "PLACEHOLDER": "URL do Webhook"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Criar canal API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Não foi possível guardar o canal API"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "Canal de e-mail",
         "DESC": "Integrate you email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
