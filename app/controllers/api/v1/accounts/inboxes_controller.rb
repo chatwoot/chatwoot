@@ -58,6 +58,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def verify_installation
+    message = if @inbox.contact_inboxes.count.zero?
+                I18n.t('inbox.verify_installation.error_message')
+              else
+                I18n.t('inbox.verify_installation.success_message')
+              end
+    render json: { message: message }, status: :ok
+  end
+
   private
 
   def fetch_inbox

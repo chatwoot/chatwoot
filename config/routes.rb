@@ -101,6 +101,7 @@ Rails.application.routes.draw do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
+            get :verify_installation, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id

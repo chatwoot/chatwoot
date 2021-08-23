@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def verify_installation?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end
