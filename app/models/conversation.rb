@@ -142,6 +142,10 @@ class Conversation < ApplicationRecord
     true
   end
 
+  def tweet?
+    inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
+  end
+
   private
 
   def ensure_snooze_until_reset
