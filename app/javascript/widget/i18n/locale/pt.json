@@ -2,25 +2,25 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "A carregar..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "submeter"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Estamos online",
+    "OFFLINE": "Estamos ausentes"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Normalmente respondemos em poucos minutos",
+    "IN_A_FEW_HOURS": "Normalmente respondemos em poucas horas",
+    "IN_A_DAY": "Normalmente respondemos num dia"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Iniciar Conversa",
+  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
     "CLOSE_MESSAGES_BUTTON": "FECHAR",
     "COMPANY_FROM": "from",
     "BOT": "Bot"
@@ -37,7 +37,7 @@
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
+        "PLACEHOLDER": "Por favor, digite o seu nome completo",
         "ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
@@ -59,9 +59,9 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "Avalie a sua conversa",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "Conte-nos mais..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",
