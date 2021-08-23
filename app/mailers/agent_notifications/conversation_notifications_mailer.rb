@@ -24,6 +24,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
 
     @agent = agent
     @conversation = message.conversation
+    @message = message
     subject = "#{@agent.available_name}, You have been mentioned in conversation [ID - #{@conversation.display_id}]"
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
@@ -47,7 +48,8 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
     super.merge({
                   user: @agent,
                   conversation: @conversation,
-                  inbox: @conversation.inbox
+                  inbox: @conversation.inbox,
+                  message: @message
                 })
   end
 end
