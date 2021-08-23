@@ -50,7 +50,7 @@
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Ligar"
     },
     "DISCONNECT": {
       "BUTTON_TEXT": "Disconnect"
