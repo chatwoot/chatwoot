@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Disconnect"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow é uma plataforma que facilita o planeamento e integração através de interface de conversação de utilizador numa aplicação móvel, web, bot, sistema de resposta de voz interativo, etc. <br /> <br /> A integração do fluxo de diálogo com o %{installationName} permite-lhe configurar um bot de Dialogflow nas suas caixas de entrada, para que ele trate inicialmente das consultas dos seus contactos e só depois as entregue aos seus agentes se for necessário. O fluxo de diálogo pode ser utilizado para qualificar os pedidos de contacto, reduzir a carga de trabalho dos agentes, oferecer respostas frequentes, etc. <br /> <br /> Para adicionar uma conta do Dialogflow à sua conta Chatwoot só precisa de ter o serviço ativo no Google e partilhar as suas credenciais. Por favor, consulte a documentação do Dialogflow para obter mais informações."
     }
   }
 }
