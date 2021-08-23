@@ -390,13 +390,11 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-        });
-      }
+      const conversationId = this.currentChat.id;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+      });
     },
     onFileUpload(file) {
       if (!file) {
