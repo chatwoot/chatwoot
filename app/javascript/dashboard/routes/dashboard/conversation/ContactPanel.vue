@@ -3,27 +3,27 @@
     <span class="close-button" @click="onPanelToggle">
       <i class="ion-chevron-right" />
     </span>
-    <collapse-item-header
+    <contact-item
       :header-title="
         $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONTACT_DETAILS')
       "
       icon="ion-android-contact"
-      :show-item="isContactInformation"
+      :enabled="getContactItemValue('is_contact_info_open')"
       class="contact-info"
-      @click="onClickShowContactInformation"
+      @click="value => onContactItemClick('is_contact_info_open', value)"
     >
-      <div v-if="isContactInformation">
+      <div v-if="getContactItemValue('is_contact_info_open')">
         <contact-info :contact="contact" :channel-type="channelType" />
       </div>
-    </collapse-item-header>
+    </contact-item>
     <div class="conversation--actions">
       <div class="multiselect-wrap--small">
-        <collapse-item-header
+        <contact-item
           :header-title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
           icon="ion-headphone"
           emoji="🧑‍🚀"
-          :show-item="isAgentDropdown"
-          @click="onClickShowAgentDropdown"
+          :enabled="getContactItemValue('is_agent_dropdown_open')"
+          @click="value => onContactItemClick('is_agent_dropdown_open', value)"
         >
           <template v-slot:button>
             <woot-button
@@ -37,9 +37,9 @@
               {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
             </woot-button>
           </template>
-        </collapse-item-header>
+        </contact-item>
         <multiselect-dropdown
-          v-if="isAgentDropdown"
+          v-if="getContactItemValue('is_agent_dropdown_open')"
           :options="agentsList"
           :selected-item="assignedAgent"
           :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
@@ -56,15 +56,15 @@
         />
       </div>
       <div class="multiselect-wrap--small">
-        <collapse-item-header
+        <contact-item
           :header-title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
           icon="ion-ios-people"
           emoji="🎢"
-          :show-item="isTeamsDropdown"
-          @click="onClickShowTeamsDropdown"
+          :enabled="getContactItemValue('is_teams_dropdown_open')"
+          @click="value => onContactItemClick('is_teams_dropdown_open', value)"
         />
         <multiselect-dropdown
-          v-if="isTeamsDropdown"
+          v-if="getContactItemValue('is_teams_dropdown_open')"
           :options="teamsList"
           :selected-item="assignedTeam"
           :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
@@ -82,31 +82,34 @@
       </div>
     </div>
 
-    <collapse-item-header
+    <contact-item
       :header-title="
         $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_LABELS')
       "
-      :show-item="isConversationLabels"
+      :enabled="getContactItemValue('is_conv_labels_open')"
       icon="ion-pricetags"
-      @click="onClickShowConversationLabels"
+      @click="value => onContactItemClick('is_conv_labels_open', value)"
     >
       <conversation-labels
-        v-if="isConversationLabels"
-        :is-title-needed="false"
+        v-if="getContactItemValue('is_conv_labels_open')"
+        :show-title="false"
         :conversation-id="conversationId"
       />
-    </collapse-item-header>
+    </contact-item>
 
-    <collapse-item-header
+    <contact-item
       v-if="browser.browser_name"
       :header-title="
         $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_INFO')
       "
       icon="ion-information-circled"
-      :show-item="isConversationDetails"
-      @click="onClickShowConversationDetails"
+      :enabled="getContactItemValue('is_conv_details_open')"
+      @click="value => onContactItemClick('is_conv_details_open', value)"
     >
-      <div v-if="isConversationDetails" class="conversation--details">
+      <div
+        v-if="getContactItemValue('is_conv_details_open')"
+        class="conversation--details"
+      >
         <contact-details-item
           v-if="location"
           :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
@@ -154,38 +157,38 @@
           emoji="🕰"
         />
       </div>
-    </collapse-item-header>
-    <collapse-item-header
+    </contact-item>
+    <contact-item
       v-if="hasContactAttributes"
       :header-title="
-        $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_ATTRIBUTES')
+        $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONTACT_ATTRIBUTES')
       "
       icon="ion-code"
-      :show-item="isContactAttributes"
-      @click="onClickShowContactAttributes"
+      :enabled="getContactItemValue('is_contact_attributes_open')"
+      @click="value => onContactItemClick('is_contact_attributes_open', value)"
     >
       <contact-custom-attributes
-        v-if="isContactAttributes"
-        :is-title-needed="false"
+        v-if="getContactItemValue('is_contact_attributes_open')"
+        :show-title="false"
         :custom-attributes="contact.custom_attributes"
       />
-    </collapse-item-header>
-    <collapse-item-header
+    </contact-item>
+    <contact-item
       v-if="contact.id"
       :header-title="
         $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.PREVIOUS_CONVERSATION')
       "
       icon="ion-chatboxes"
-      :show-item="isPreviousConversation"
-      @click="onClickShowPreviousConversation"
+      :enabled="getContactItemValue('is_previous_conv_open')"
+      @click="value => onContactItemClick('is_previous_conv_open', value)"
     >
       <contact-conversations
-        v-show="isPreviousConversation"
-        :is-title-needed="false"
+        v-show="getContactItemValue('is_previous_conv_open')"
+        :show-title="false"
         :contact-id="contact.id"
         :conversation-id="conversationId"
       />
-    </collapse-item-header>
+    </contact-item>
   </div>
 </template>
 
@@ -200,7 +203,7 @@ import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
-import CollapseItemHeader from './CollapseItemHeader.vue';
+import ContactItem from './ContactItem.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import flag from 'country-code-emoji';
@@ -213,7 +216,7 @@ export default {
     ContactInfo,
     ConversationLabels,
     MultiselectDropdown,
-    CollapseItemHeader,
+    ContactItem,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -345,55 +348,6 @@ export default {
       }
       return false;
     },
-    isContactInformation() {
-      if (this.currentChat.id) {
-        const { is_contact_info_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isAgentDropdown() {
-      if (this.currentChat.id) {
-        const { is_agent_dropdown_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isTeamsDropdown() {
-      if (this.currentChat.id) {
-        const { is_teams_dropdown_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isConversationLabels() {
-      if (this.currentChat.id) {
-        const { is_conv_labels_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isConversationDetails() {
-      if (this.currentChat.id) {
-        const { is_conv_details_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isContactAttributes() {
-      if (this.currentChat.id) {
-        const { is_contact_attributes_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
-    isPreviousConversation() {
-      if (this.currentChat.id) {
-        const { is_previous_conv_open: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -409,40 +363,15 @@ export default {
     this.getContactDetails();
   },
   methods: {
-    onClickShowContactInformation() {
-      this.updateUISettings({
-        is_contact_info_open: !this.isContactInformation,
-      });
+    onContactItemClick(key) {
+      this.updateUISettings({ [key]: !this.getContactItemValue(key) });
     },
-    onClickShowAgentDropdown() {
-      this.updateUISettings({
-        is_agent_dropdown_open: !this.isAgentDropdown,
-      });
-    },
-    onClickShowTeamsDropdown() {
-      this.updateUISettings({
-        is_teams_dropdown_open: !this.isTeamsDropdown,
-      });
-    },
-    onClickShowConversationLabels() {
-      this.updateUISettings({
-        is_conv_labels_open: !this.isConversationLabels,
-      });
-    },
-    onClickShowConversationDetails() {
-      this.updateUISettings({
-        is_conv_details_open: !this.isConversationDetails,
-      });
-    },
-    onClickShowContactAttributes() {
-      this.updateUISettings({
-        is_contact_attributes_open: !this.isContactAttributes,
-      });
-    },
-    onClickShowPreviousConversation() {
-      this.updateUISettings({
-        is_previous_conv_open: !this.isPreviousConversation,
-      });
+    getContactItemValue(key) {
+      if (this.currentChat.id) {
+        const { [key]: isOpen } = this.uiSettings;
+        return isOpen;
+      }
+      return false;
     },
     onPanelToggle() {
       this.onToggle();

@@ -1,7 +1,7 @@
 <template>
   <div class="custom-attributes--panel">
     <contact-details-item
-      v-if="isTitleNeeded"
+      v-if="showTitle"
       :title="$t('CUSTOM_ATTRIBUTES.TITLE')"
       icon="ion-code"
       emoji="📕"
@@ -31,7 +31,7 @@ export default {
   },
 
   props: {
-    isTitleNeeded: {
+    showTitle: {
       type: Boolean,
       default: true,
     },

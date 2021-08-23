@@ -12,7 +12,7 @@
       <div class="button-icon--wrap">
         <slot name="button"></slot>
         <div class="chevron-icon__wrap" @click="$emit('click')">
-          <i v-if="showItem" class="ion-chevron-down chevron-icon"></i>
+          <i v-if="enabled" class="ion-chevron-down chevron-icon"></i>
           <i v-else class="ion-chevron-right chevron-icon"></i>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default {
       type: String,
       default: '',
     },
-    showItem: {
+    enabled: {
       type: Boolean,
       default: true,
     },

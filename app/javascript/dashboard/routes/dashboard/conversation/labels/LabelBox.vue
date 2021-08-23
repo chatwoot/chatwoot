@@ -5,7 +5,7 @@
       class="contact-conversation--list"
     >
       <contact-details-item
-        v-if="isTitleNeeded"
+        v-if="showTitle"
         :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.TITLE')"
         icon="ion-pricetags"
         emoji="🏷️"
@@ -64,7 +64,7 @@ export default {
 
   mixins: [clickaway],
   props: {
-    isTitleNeeded: {
+    showTitle: {
       type: Boolean,
       default: true,
     },
