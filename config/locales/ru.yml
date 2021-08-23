@@ -72,7 +72,7 @@ ru:
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Пожалуйста, оцените этот разговор, %{link}"
   integration_apps:
     slack:
       name: "Slack"
