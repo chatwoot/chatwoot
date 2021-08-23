@@ -63,27 +63,27 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Relatórios CSAT",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "NO_RECORDS": "Sem dados CSAT disponíveis para reposta.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "Contato",
+        "AGENT_NAME": "Agente atribuído",
         "RATING": "Avaliar",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Comentário de feedback"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas recolhidas"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Pontuação de satisfação",
+        "TOOLTIP": "Número total de respostas positivas / Número total de respostas * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Taxa de resposta",
+        "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT enviadas * 100"
       }
     }
   }
