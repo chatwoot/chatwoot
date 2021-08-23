@@ -6,32 +6,33 @@
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Procurar mensagens em conversas",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Procurar mensagens",
+      "RESULT_TITLE": "Resultados da pesquisa",
+      "LOADING_MESSAGE": "Preparando os dados...",
+      "PLACEHOLDER": "Digite qualquer texto para procurar mensagens",
+      "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Mensagens por ler",
+    "UNREAD_MESSAGE": "Mensagens por ler",
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Não pode responder porque",
+    "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
+    "REPLYING_TO": "Está a responder a:",
+    "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "BAIXAR",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Carregando anexos...",
+    "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
+    "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Tente novamente",
+    "NO_RESPONSE": "Sem resposta",
+    "RATING_TITLE": "Avaliar",
+    "FEEDBACK_TITLE": "Opiniões",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -41,7 +42,13 @@
       "DETAILS": "Detalhes"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE": {
+        "TITLE": "Suspender até",
+        "NEXT_REPLY": "Próxima resposta",
+        "TOMORROW": "Amanhã",
+        "NEXT_WEEK": "Próxima semana"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
