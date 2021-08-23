@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
       "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
-      "HMAC_DESCRIPTION": "Untuk memvalidasi identitas pengguna secara inorder, SDK memungkinkan Anda meneruskan `identifier_hash` untuk setiap pengguna. Anda dapat membuat HMAC menggunakan 'sha256' dengan key yang ditampilkan di sini."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Otorisasi ulang",
