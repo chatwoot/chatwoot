@@ -155,7 +155,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de e-mail",
-        "DESC": "Integrate you email inbox.",
+        "DESC": "Integrar a caixa de entrada.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
@@ -163,23 +163,23 @@
         },
         "EMAIL": {
           "LABEL": "e-mail",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Email para onde os seus clientes lhe enviam os tickets de suporte",
           "PLACEHOLDER": "e-mail"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Criar canal de email",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Não foi possível guardar o canal de email"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Comece a encaminhar as suas mensagens de email para o seguinte endereço."
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Escolher um canal",
+        "DESC": "O Chatwoot pode ter vários canais como widget, páginas do Facebook, perfis do Twitter, Whatsapp, E-mail, etc. Se quiser criar um canal personalizado pode utilizar uma API. Escolha um canal entre as opções a seguir para prosseguir."
       },
       "AGENTS": {
         "TITLE": "agentes",
         "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "VALIDATION_ERROR": "Adicionar pelo menos um agente à sua nova caixa de entrada",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
