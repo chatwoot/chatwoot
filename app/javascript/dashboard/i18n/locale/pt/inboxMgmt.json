@@ -299,21 +299,21 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "Definir a sua disponibilidade",
+      "SUBTITLE": "Definir a sua disponibilidade no widget",
+      "WEEKLY_TITLE": "Definir as horas semanais",
+      "TIMEZONE_LABEL": "Selecionar o fuso horário",
+      "UPDATE": "Atualizar as configurações do horário comercial",
+      "TOGGLE_AVAILABILITY": "Definir a disponibilidade para essa caixa de entrada",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para os visitantes",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "De momento estamos indisponíveis. Deixe por favor uma mensagem. Será respondida o mais rápido possível.",
+      "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Os visitantes serão avisados dos horários disponíveis através de uma mensagem no formulário de pré-chat.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Permitir a disponibilidade para este dia",
+        "UNAVAILABLE": "Indisponível",
+        "HOURS": "horas",
+        "VALIDATION_ERROR": "A hora de abertura deve ser anterior a hora de encerramento.",
+        "CHOOSE": "Escolher"
       }
     }
   }
