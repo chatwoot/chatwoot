@@ -114,9 +114,10 @@ describe ::MessageTemplates::HookExecutionService do
       expect(csat_survey).not_to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its not a website widget' do
-      api_channel = create(:channel_api)
-      conversation = create(:conversation, inbox: create(:inbox, channel: api_channel))
+    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
+      twitter_channel = create(:channel_twitter_profile)
+      twitter_inbox = create(:inbox, channel: twitter_channel)
+      conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
       conversation.inbox.update(csat_survey_enabled: true)
 
       conversation.resolved!
