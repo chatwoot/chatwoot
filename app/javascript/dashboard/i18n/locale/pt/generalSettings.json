@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
-    "BACK": "Back",
+    "BACK": "Voltar",
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Email recebido do domínio",
+        "PLACEHOLDER": "O domínio onde irá receber os emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
