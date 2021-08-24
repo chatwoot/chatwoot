@@ -102,85 +102,85 @@
       }
     },
     "SUCCESS_MESSAGE": "Contato guardado com sucesso",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "CONTACT_ALREADY_EXIST": "Esse e-mail está a ser utilizado por outro contato.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Iniciar conversa",
     "TITLE": "Nova conversa",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Começar uma conversa enviando uma mensagem.",
+    "NO_INBOX": "Não foi possível encontrar uma caixa de entrada para começar uma conversa com este contato.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Recebidas",
+        "ERROR": "Escolher uma caixa de entrada"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Escreva aqui a sua mensagem",
+        "ERROR": "A mensagem não pode estar vazia"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Enviar mensagem",
       "CANCEL": "cancelar",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Mensagem enviada!",
+      "ERROR_MESSAGE": "Não foi possível enviar! Tente novamente"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Contatos",
+    "FIELDS": "Campos do contato",
+    "SEARCH_BUTTON": "Procurar",
+    "SEARCH_INPUT_PLACEHOLDER": "Procurar por contatos",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "LOADING_MESSAGE": "A carregar contatos...",
+      "404": "Nenhum contato corresponde à sua pesquisa 🔍",
+      "NO_CONTACTS": "Não há contatos disponíveis",
       "TABLE_HEADER": {
         "NAME": "Nome:",
         "PHONE_NUMBER": "Número de telefone",
         "CONVERSATIONS": "Conversas",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "Última atividade",
+        "COUNTRY": "País",
+        "CITY": "Cidade",
+        "SOCIAL_PROFILES": "Perfis Redes Sociais",
         "COMPANY": "Empresa",
         "EMAIL_ADDRESS": "Endereço de e-mail"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Mostrar detalhes"
     }
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Adicionar",
+      "TITLE": "Shift + Enter para criar uma tarefa"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data limite",
+      "LABEL_TITLE": "Configurar tipo"
     }
   },
   "NOTES": {
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Observações"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Adicionar",
+      "PLACEHOLDER": "Adicionar observação",
+      "TITLE": "Shift + Enter para criar uma observação"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "BUTTON": "Ver todas as observaçoes"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Atividades"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_NOTES": "Observações",
       "PILL_BUTTON_EVENTS": "Eventos",
       "PILL_BUTTON_CONVO": "conversas"
     }
