@@ -72,7 +72,7 @@ el:
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
       transcript_subject: "Μεταγραφή Συνομιλίας"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Παρακαλώ αξιολογήστε αυτήν την συνομιλία, %{link}"
   integration_apps:
     slack:
       name: "Slack"
