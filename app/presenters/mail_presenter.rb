@@ -82,6 +82,10 @@ class MailPresenter < SimpleDelegator
     @mail.from.map(&:downcase)
   end
 
+  def original_sender
+    @mail['X-Original-Sender'].try(:value) || from.first
+  end
+
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
