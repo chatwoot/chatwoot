@@ -72,7 +72,7 @@ pt:
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Por favor, avalie esta conversa, %{link}"
   integration_apps:
     slack:
       name: "Slack"
