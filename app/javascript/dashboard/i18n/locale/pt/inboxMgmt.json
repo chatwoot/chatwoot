@@ -180,7 +180,7 @@
         "TITLE": "agentes",
         "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar.",
         "VALIDATION_ERROR": "Adicionar pelo menos um agente à sua nova caixa de entrada",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "PICK_AGENTS": "Escolha os agentes da caixa de entrada"
       },
       "DETAILS": {
         "TITLE": "Detalhes da Caixa de Entrada",
@@ -206,7 +206,7 @@
       "TITLE": "Sua caixa de entrada está pronta!",
       "MESSAGE": "Agora, você pode se envolver com seus clientes através do seu novo Canal. Feliz apoio ",
       "BUTTON_TEXT": "Me leve lá",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Mais configurações",
       "WEBSITE_SUCCESS": "Você terminou de criar um canal de site. Copie o código mostrado abaixo e cole-o em seu site. Na próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente em sua caixa de entrada."
     },
     "REAUTH": "Reautorizar",
@@ -235,7 +235,7 @@
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Por favor, digite {inboxName} para confirmar",
         "YES": "Sim, excluir ",
         "NO": "Não, Manter "
       },
@@ -246,17 +246,17 @@
     },
     "TABS": {
       "SETTINGS": "Confirgurações",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "COLLABORATORS": "Colaboradores",
+      "CONFIGURATION": "Configuração",
       "CAMPAIGN": "Campanhas",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "Formulário pré-chat",
+      "BUSINESS_HOURS": "Horário comercial"
     },
     "SETTINGS": "Confirgurações",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Características",
+      "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",
+      "DISPLAY_EMOJI_PICKER": "Mostrar seletor de emojis no widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script do Messenger",
@@ -264,38 +264,38 @@
       "INBOX_AGENTS": "agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
       "UPDATE": "Atualização",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de receção de email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de receção de emails para as novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CSAT": "Ativar CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar avaliação CSAT (satisfação do cliente) depois de resolver uma conversa",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "Validação da identidade do utilizador",
+      "HMAC_DESCRIPTION": "Para validar a identidade dos utilizadores, através do SDK, basta utilizar um `identifier_hash` para cada um deles. Pode gerar um HMAC com base numa 'sha256' e a chave que aparece a seguir."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",
+      "MESSAGE_SUCCESS": "Ligação bem sucedida",
       "MESSAGE_ERROR": "Ocorreu um erro, por favor tente novamente"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "O formulário de Pré-Chat permite-lhe capturar informações do utilizador antes de iniciar uma conversa.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Ativar formulário de Pré-chat",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Sim",
+          "DISABLED": "Não"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Mensagem de Pré-Chat",
+        "PLACEHOLDER": "Esta mensagem estará visível aos utilizadores juntamente com o formulário"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Os visitantes devem digitar o seu nome e o seu email antes de iniciarem uma conversa"
       }
     },
     "BUSINESS_HOURS": {
