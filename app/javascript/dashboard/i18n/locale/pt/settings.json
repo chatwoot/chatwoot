@@ -71,8 +71,8 @@
         "LABEL": "Disponibilidade",
         "STATUSES_LIST": [
           "Disponível",
-          "Busy",
-          "Offline"
+          "Ocupado",
+          "Ausente"
         ]
       },
       "EMAIL": {
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido em conversas"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Password atual",
+        "ERROR": "Por favor, digite a password atual",
+        "PLACEHOLDER": "Por favor, digite a password atual"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -99,20 +99,20 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "Trocar de conta",
+    "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "LOGOUT": "Desconectar"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "dias de teste restantes.",
+    "TRAIL_BUTTON": "Comprar agora"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Copiar",
+      "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
@@ -122,10 +122,10 @@
       "SUBMIT": "submeter"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "A verificar...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Adicionar caixa de entrada"
     }
   },
   "SIDEBAR": {
@@ -133,31 +133,31 @@
     "REPORTS": "relatórios",
     "SETTINGS": "Confirgurações",
     "CONTACTS": "Contatos",
-    "HOME": "Home",
+    "HOME": "Principal",
     "AGENTS": "agentes",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificaçoes",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
+    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
-    "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
+    "TEAMS": "Equipas",
+    "ALL_CONTACTS": "Todos os contatos",
+    "TAGGED_WITH": "Etiquetada com",
     "REPORTS_OVERVIEW": "Visão geral",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONGOING": "Em curso",
+    "ONE_OFF": "Pontual"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
+    "NEW_ACCOUNT": "Nova conta",
+    "SELECTOR_SUBTITLE": "Criar uma nova conta",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Conta criada com sucesso",
+      "EXIST_MESSAGE": "Esta conta já existe",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
     "FORM": {
@@ -170,22 +170,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch Conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Abrir conversa",
+      "RESOLVE_AND_NEXT": "Resolver e passar para a próxima",
+      "NAVIGATE_DROPDOWN": "Navegar pelos itens a seguir",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
+      "ADD_ATTACHMENT": "Adicionar anexo",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
+      "TOGGLE_SIDEBAR": "Ativar/Desativar barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Ir para barra lateral de Relatórios",
+      "MOVE_TO_NEXT_TAB": "Mover para próximo separador da lista de conversas",
+      "GO_TO_SETTINGS": "Ir para as configurações",
+      "SWITCH_CONVERSATION_STATUS": "Alterar o estado da conversa",
+      "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
+      "SWITCH_TO_REPLY": "Mudar para resposta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar suspensos"
     },
     "KEYS": {
       "COMMAND_KEY": "⌘",
