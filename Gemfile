@@ -93,11 +93,14 @@ gem 'google-cloud-dialogflow'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+
+##-- apm and error monitoring ---#
 gem 'ddtrace'
 gem 'scout_apm'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sentry-sidekiq'
+gem 'newrelic_rpm'
 
 ##-- background job processing --##
 gem 'sidekiq'
