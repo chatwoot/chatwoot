@@ -384,14 +384,13 @@ export default {
 }
 
 .modal-mask {
-  box-shadow: var(--shadow-medium);
-
   &::v-deep {
     .ProseMirror-woot-style {
       max-height: 40rem;
     }
 
     .reply-box {
+      border: 2px solid var(--color-border);
       width: 104rem;
     }
 
