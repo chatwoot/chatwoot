@@ -180,6 +180,7 @@ Rails.application.routes.draw do
             get :summary
             get :agents
             get :inboxes
+            get :labels
           end
         end
       end
