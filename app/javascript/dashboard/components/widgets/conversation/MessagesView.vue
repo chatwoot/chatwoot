@@ -79,9 +79,8 @@
       />
     </ul>
     <div
-      v-on-clickaway="closePopoutReplyBox"
       class="conversation-footer"
-      :class="{ popoutreplybox: isPopoutReplyBox }"
+      :class="{ 'modal-mask': isPopoutReplyBox }"
     >
       <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
         <div class="typing-indicator">
@@ -94,6 +93,7 @@
         </div>
       </div>
       <reply-box
+        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
@@ -383,25 +383,31 @@ export default {
   min-width: 0;
 }
 
-.popoutreplybox {
+.modal-mask {
   box-shadow: var(--shadow-medium);
-  z-index: var(--z-index-higher);
-  position: fixed;
-  width: 88rem;
-  top: 36%;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
 
   &::v-deep {
     .ProseMirror-woot-style {
-      max-height: 24rem;
+      max-height: 40rem;
     }
+
+    .reply-box {
+      width: 104rem;
+    }
+
     .reply-box .reply-box__top {
-      min-height: 30rem;
+      position: relative;
+      min-height: 44rem;
     }
+
     .reply-box__top .input {
-      min-height: 28rem;
+      min-height: 44rem;
+    }
+
+    .emoji-dialog {
+      position: fixed;
+      left: unset;
+      position: absolute;
     }
   }
 }
