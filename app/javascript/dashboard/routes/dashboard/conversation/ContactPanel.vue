@@ -231,17 +231,16 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     teamsList() {
-      return [
-        ...(this.assignedTeam
-          ? [
-              {
-                id: 0,
-                name: 'None',
-              },
-            ]
-          : []),
-        ...this.teams,
-      ];
+      if (this.assignedTeam) {
+        return [
+          {
+            id: 0,
+            name: 'None',
+          },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
     },
     assignedAgent: {
       get() {
