@@ -32,9 +32,16 @@ class V2::ReportBuilder
   private
 
   def scope
-    return account if params[:type].match?('account')
-    return inbox if params[:type].match?('inbox')
-    return user if params[:type].match?('agent')
+    case params[:type]
+    when :account
+      return account
+    when :inbox
+      return inbox
+    when :agent
+      return user
+    when :label
+      return label
+    end
   end
 
   def inbox
@@ -45,10 +52,12 @@ class V2::ReportBuilder
     @user ||= account.users.where(id: params[:id]).first
   end
 
+  def label
+    @label ||= account.labels.where(id: params[:id]).first
+  end
+
   def conversations_count
-    scope.conversations
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
+    scope.conversations.group_by_day(:created_at, range: range, default_value: 0).count
   end
 
   # unscoped removes all scopes added to a model previously
