@@ -259,11 +259,11 @@
     display: flex;
     font-size: var(--font-size-small);
     justify-content: center;
-    margin: var(--space-small) var(--space-normal);
-    padding: var(--space-small) var(--space-normal);
+    margin: var(--space-smaller) 0;
+    padding: var(--space-smaller) var(--space-micro) var(--space-smaller) var(--space-one);
 
     .is-text {
-      display: inline-block;
+      display: flex;
       text-align: start;
 
       @include breakpoint(xxxlarge up) {
