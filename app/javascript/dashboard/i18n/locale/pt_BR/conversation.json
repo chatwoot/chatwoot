@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Por favor, selecione um tweet para responder.",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
@@ -44,10 +44,10 @@
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Suspender até",
+        "NEXT_REPLY": "Próxima resposta",
+        "TOMORROW": "Amanhã",
+        "NEXT_WEEK": "Próxima semana"
       }
     },
     "FOOTER": {
@@ -66,7 +66,7 @@
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Adicionar bcc",
+        "ADD_BCC": "Adicionar cco",
         "CC": {
           "LABEL": "CC",
           "PLACEHOLDER": "E-mails separados por vírgulas",
