@@ -5,6 +5,7 @@
 #  id                     :bigint           not null, primary key
 #  attribute_display_name :string
 #  attribute_display_type :integer          default("text")
+#  attribute_description  :text
 #  attribute_key          :string
 #  attribute_model        :integer          default("conversation_attribute")
 #  default_value          :integer
