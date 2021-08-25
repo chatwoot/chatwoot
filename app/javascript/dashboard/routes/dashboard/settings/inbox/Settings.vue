@@ -170,7 +170,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+        <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -416,7 +416,7 @@ export default {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
-    },
+    }
   },
   watch: {
     $route(to) {
