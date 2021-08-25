@@ -80,6 +80,7 @@ RUN apk add --update --no-cache \
     tzdata \
     postgresql-client \
     imagemagick \
+    git \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
