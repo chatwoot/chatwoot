@@ -269,7 +269,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   delete:
     $ref: ./teams/delete.yml
 
-### Custom Filters
+### Custom Filters goes here
 
 # Teams
 /api/v1/accounts/{account_id}/custom_filters:
@@ -296,3 +296,33 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./custom_filters/update.yml
   delete:
     $ref: ./custom_filters/delete.yml
+
+### Reports
+
+# List
+/api/v1/accounts/{id}/reports:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: metric
+      schema:
+        type: string
+        enum: [conversations_count, incoming_messages_count, outgoing_messages_count, avg_first_response_time, avg_resolution_time, resolutions_count]
+      required: true
+      description: The type of metric
+  get:
+    $ref: './reports/index.yml'
+
+# Summary
+/api/v1/accounts/{id}/reports/summary:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: metric
+      schema:
+        type: string
+        enum: [conversations_count, incoming_messages_count, outgoing_messages_count, avg_first_response_time, avg_resolution_time, resolutions_count]
+      required: true
+      description: The type of metric
+  get:
+    $ref: './reports/summary.yml'

@@ -1,0 +1,17 @@
+tags:
+  - Report
+operationId: list-all-conversation-statistics
+summary: List all reports
+description: List all reports available in the current type, metric and date range
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of date based conversation statistics'
+      items:
+        $ref: '#/definitions/report'
+  404:
+    description: reports not found
+  403:
+    description: Access denied

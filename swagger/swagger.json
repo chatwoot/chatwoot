@@ -2757,6 +2757,106 @@
           }
         }
       }
+    },
+    "/api/v1/accounts/{id}/reports": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "metric",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "conversations_count",
+              "incoming_messages_count",
+              "outgoing_messages_count",
+              "avg_first_response_time",
+              "avg_resolution_time",
+              "resolutions_count"
+            ]
+          },
+          "required": true,
+          "description": "The type of metric"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "list-all-conversation-statistics",
+        "summary": "List all reports",
+        "description": "List all reports available in the current type, metric and date range",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of date based conversation statistics",
+              "items": {
+                "$ref": "#/definitions/report"
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/reports/summary": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "metric",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "conversations_count",
+              "incoming_messages_count",
+              "outgoing_messages_count",
+              "avg_first_response_time",
+              "avg_resolution_time",
+              "resolutions_count"
+            ]
+          },
+          "required": true,
+          "description": "The type of metric"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "list-all-conversation-statistics-summary",
+        "summary": "List all reports summary",
+        "description": "List all reports summary available in the current type, metric and date range",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of date based conversation statistics",
+              "items": {
+                "$ref": "#/definitions/report"
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3844,6 +3944,25 @@
           }
         }
       ]
+    },
+    "report": {
+      "type": "array",
+      "description": "array of conversation count based on date",
+      "items": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "timestamp": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "parameters": {
