@@ -17,6 +17,7 @@ import { default as _signup } from './signup.json';
 import { default as _teamsSettings } from './teamsSettings.json';
 import { default as _integrationApps } from './integrationApps.json';
 import { default as _csatMgmtMgmt } from './csatMgmt.json';
+import { default as _attributesMgmt } from './attributesMgmt.json';
 
 export default {
   ..._agentMgmt,
@@ -38,4 +39,5 @@ export default {
   ..._teamsSettings,
   ..._integrationApps,
   ..._csatMgmtMgmt,
+  ..._attributesMgmt,
 };
