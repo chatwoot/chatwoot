@@ -15,6 +15,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @campaigns = @inbox.campaigns
   end
 
+  def inbox_avatar
+    if @inbox.avatar.attached?
+        @inbox.avatar.attachment.destroy!
+    end
+    head :ok
+  end
+
   def create
     ActiveRecord::Base.transaction do
       channel = create_channel

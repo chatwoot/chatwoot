@@ -13,6 +13,11 @@ class Inboxes extends ApiClient {
   getCampaigns(inboxId) {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
+
+  deleteInboxAvatar(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/inbox_avatar`);
+  }
+
 }
 
 export default new Inboxes();

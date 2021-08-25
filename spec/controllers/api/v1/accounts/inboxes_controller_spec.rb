@@ -113,6 +113,34 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/inbox_avatar' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/inbox_avatar"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+   
+    context 'when it is an authenticated user' do
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+        inbox.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'delete inbox avatar' do
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/inbox_avatar",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account) }
 

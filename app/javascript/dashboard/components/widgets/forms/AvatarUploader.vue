@@ -1,16 +1,29 @@
 <template>
-  <label>
-    <span v-if="label">{{ label }}</span>
+  <div>
+    <label>
+      <span v-if="label">{{ label }}</span>
+    </label>
     <woot-thumbnail v-if="src" size="80px" :src="src" />
-    <input
-      id="file"
-      ref="file"
-      type="file"
-      accept="image/*"
-      @change="handleImageUpload"
-    />
-    <slot></slot>
-  </label>
+    <div v-if="src && deleteAvatar" class="margin-horizontal-2 delete-avatar">
+      <woot-button
+        color-scheme="alert"
+        variant="hollow"
+        size="tiny"
+        @click="onAvatarDelete"
+        >Delete Avatar</woot-button
+      >
+    </div>
+    <label>
+      <input
+        id="file"
+        ref="file"
+        type="file"
+        accept="image/*"
+        @change="handleImageUpload"
+      />
+      <slot></slot>
+    </label>
+  </div>
 </template>
 
 <script>
@@ -24,6 +37,10 @@ export default {
       type: String,
       default: '',
     },
+    deleteAvatar: {
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {},
   methods: {
@@ -35,6 +52,16 @@ export default {
         url: URL.createObjectURL(file),
       });
     },
+    onAvatarDelete() {
+      this.$refs.file.value = null;
+      this.$emit('onAvatarDelete');
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.delete-avatar {
+  margin-top: 5px;
+}
+</style>
