@@ -1,0 +1,6 @@
+in: path
+name: report_type
+schema:
+  type: string
+required: true
+description: Type of report [account/agent/inbox/label]
