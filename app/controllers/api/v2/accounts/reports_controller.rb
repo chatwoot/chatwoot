@@ -1,13 +1,13 @@
 class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
-  def account
+  def index
     builder = V2::ReportBuilder.new(Current.account, account_report_params)
     data = builder.build
     render json: data
   end
 
-  def account_summary
+  def summary
     render json: account_summary_metrics
   end
 
@@ -31,7 +31,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def account_summary_params
     {
-      type: :account,
+      type: params[:type],
       since: params[:since],
       until: params[:until]
     }
@@ -40,7 +40,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def account_report_params
     {
       metric: params[:metric],
-      type: :account,
+      type: params[:type],
       since: params[:since],
       until: params[:until]
     }
