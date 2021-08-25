@@ -16,9 +16,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def inbox_avatar
-    if @inbox.avatar.attached?
-        @inbox.avatar.attachment.destroy!
-    end
+    @inbox.avatar.attachment.destroy! if @inbox.avatar.attached?
     head :ok
   end
 

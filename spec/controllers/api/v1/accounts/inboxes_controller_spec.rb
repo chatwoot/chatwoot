@@ -123,7 +123,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
-   
+
     context 'when it is an authenticated user' do
       before do
         create(:inbox_member, user: agent, inbox: inbox)
@@ -132,8 +132,8 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'delete inbox avatar' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/inbox_avatar",
-            headers: admin.create_new_auth_token,
-            as: :json
+               headers: admin.create_new_auth_token,
+               as: :json
 
         expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
