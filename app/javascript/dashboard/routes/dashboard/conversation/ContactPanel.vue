@@ -191,8 +191,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -216,10 +217,8 @@ export default {
       return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
+      const { platform_name: platformName, platform_version: platformVersion } =
+        this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     channelType() {
@@ -232,7 +231,16 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     teamsList() {
-      return [{ id: 0, name: 'None' }, ...this.teams];
+      if (this.assignedTeam) {
+        return [
+          {
+            id: 0,
+            name: 'None',
+          },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
     },
     assignedAgent: {
       get() {

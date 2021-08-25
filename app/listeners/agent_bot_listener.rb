@@ -26,7 +26,7 @@ class AgentBotListener < BaseListener
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-    return unless message.reportable? && inbox.agent_bot_inbox.present?
+    return unless message.webhook_sendable? && inbox.agent_bot_inbox.present?
     return unless inbox.agent_bot_inbox.active?
 
     agent_bot = inbox.agent_bot_inbox.agent_bot
@@ -38,7 +38,7 @@ class AgentBotListener < BaseListener
   def message_updated(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-    return unless message.reportable? && inbox.agent_bot_inbox.present?
+    return unless message.webhook_sendable? && inbox.agent_bot_inbox.present?
     return unless inbox.agent_bot_inbox.active?
 
     agent_bot = inbox.agent_bot_inbox.agent_bot
