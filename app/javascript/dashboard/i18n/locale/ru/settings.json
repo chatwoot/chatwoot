@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "Перейти к боковой панели отчетов",
       "MOVE_TO_NEXT_TAB": "Переместить на следующую вкладку в списке диалогов",
       "GO_TO_SETTINGS": "Перейти к настройкам",
-      "SWITCH_CONVERSATION_STATUS": "Переключить статус разговора",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
       "TOGGLE_RICH_CONTENT_EDITOR": "Переключить редактор содержимого",
       "SWITCH_TO_REPLY": "Переключиться на ответ",
       "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
