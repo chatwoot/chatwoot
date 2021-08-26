@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir para barra lateral de Relatórios",
       "MOVE_TO_NEXT_TAB": "Mover para próximo separador da lista de conversas",
       "GO_TO_SETTINGS": "Ir para as configurações",
-      "SWITCH_CONVERSATION_STATUS": "Alterar o estado da conversa",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
       "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar suspensos"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
