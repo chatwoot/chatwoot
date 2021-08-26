@@ -35,6 +35,8 @@ gem 'commonmarker'
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
+# a utility tool for streaming, flexible and safe downloading of remote files
+gem 'down', '~> 5.0'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -91,7 +93,10 @@ gem 'google-cloud-dialogflow'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+
+##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails'
 gem 'sentry-ruby'

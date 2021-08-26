@@ -47,6 +47,13 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/reports`),
         toStateName: 'settings_account_reports',
       },
+      campaigns: {
+        icon: 'ion-speakerphone',
+        label: 'CAMPAIGNS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/campaigns`),
+        toStateName: 'settings_account_campaigns',
+      },
       settings: {
         icon: 'ion-settings',
         label: 'SETTINGS',
@@ -105,12 +112,39 @@ export const getSidebarItems = accountId => ({
       },
     },
   },
+  campaigns: {
+    routes: ['settings_account_campaigns', 'one_off'],
+    menuItems: {
+      back: {
+        icon: 'ion-ios-arrow-back',
+        label: 'HOME',
+        hasSubMenu: false,
+        toStateName: 'home',
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
+      },
+      ongoingCampaigns: {
+        icon: 'ion-arrow-swap',
+        label: 'ONGOING',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
+        toStateName: 'settings_account_campaigns',
+      },
+      onOffCampaigns: {
+        icon: 'ion-radio-waves',
+        label: 'ONE_OFF',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
+        toStateName: 'one_off',
+      },
+    },
+  },
   settings: {
     routes: [
       'agent_list',
       'canned_list',
       'labels_list',
       'settings_inbox',
+      'attributes_list',
       'settings_inbox_new',
       'settings_inbox_list',
       'settings_inbox_show',
@@ -168,6 +202,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
         toStateName: 'labels_list',
+      },
+      attributes: {
+        icon: 'ion-code',
+        label: 'ATTRIBUTES',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/attributes/list`),
+        toStateName: 'attributes_list',
       },
       cannedResponses: {
         icon: 'ion-chatbox-working',

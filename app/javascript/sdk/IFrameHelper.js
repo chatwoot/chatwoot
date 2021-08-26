@@ -97,6 +97,15 @@ export const IFrameHelper = {
       }
     });
   },
+
+  setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
+    const iframe = IFrameHelper.getAppFrame();
+    const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
+
+    if (iframe)
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+  },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -168,6 +177,13 @@ export const IFrameHelper = {
         const holderEl = document.querySelector('.woot-widget-holder');
         addClass(holderEl, 'has-unread-view');
       }
+    },
+
+    updateIframeHeight: message => {
+      const { extraHeight = 0, isFixedHeight } = message;
+      if (!extraHeight) return;
+
+      IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
 
     resetUnreadMode: () => {

@@ -1,10 +1,11 @@
 export const SDK_CSS = `.woot-widget-holder {
   box-shadow: 0 5px 40px rgba(0, 0, 0, .16) !important;
   opacity: 1;
+  will-change: transform, opacity;
+  transform: translateY(0);
   overflow: hidden !important;
   position: fixed !important;
-  transition-duration: 0.5s, 0.5s;
-  transition-property: opacity, bottom;
+  transition: opacity 0.2s linear, transform 0.25s linear;
   z-index: 2147483000 !important;
 }
 
@@ -76,6 +77,7 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot-widget-bubble img {
+  all: revert;
   height: 24px;
   margin: 20px;
   width: 24px;
@@ -113,7 +115,8 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot--hide {
-  bottom: -20000px !important;
+  bottom: -100vh;
+  transform: translateY(40px);
   top: unset !important;
   opacity: 0;
   visibility: hidden !important;

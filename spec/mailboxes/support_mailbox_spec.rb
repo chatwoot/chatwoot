@@ -8,7 +8,10 @@ RSpec.describe SupportMailbox, type: :mailbox do
     let!(:channel_email) { create(:channel_email, account: account) }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
     let(:described_subject) { described_class.receive support_mail }
-    let(:serialized_attributes) { %w[text_content html_content number_of_attachments subject date to from in_reply_to cc bcc message_id] }
+    let(:serialized_attributes) do
+      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments subject
+         text_content to]
+    end
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
 
     before do
@@ -58,6 +61,22 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(contact_inbox.contact.email).to eq(support_mail.mail.from.first)
         described_subject
         expect(conversation.messages.last.sender.id).to eq(contact.id)
+      end
+    end
+
+    describe 'group email sender' do
+      let(:group_sender_support_mail) { create_inbound_email_from_fixture('group_sender_support.eml') }
+      let(:described_subject) { described_class.receive group_sender_support_mail }
+
+      before do
+        # this email is hardcoded eml fixture file that's why we are updating this
+        channel_email.email = 'support@chatwoot.com'
+        channel_email.save
+      end
+
+      it 'create new contact with original sender' do
+        described_subject
+        expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
       end
     end
   end

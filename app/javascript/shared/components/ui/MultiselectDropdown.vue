@@ -7,7 +7,6 @@
     <woot-button
       variant="hollow"
       color-scheme="secondary"
-      :v-model="selectedItem"
       class="selector-button"
       @click="toggleDropdown"
     >
@@ -133,6 +132,8 @@ export default {
   .selector-button {
     width: 100%;
     border: 1px solid var(--color-border);
+    padding-left: var(--space-one);
+    padding-right: var(--space-one);
 
     &:hover {
       border: 1px solid var(--color-border);

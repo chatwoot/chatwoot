@@ -87,6 +87,8 @@ en:
     reply:
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
+    survey:
+      response: "Please rate this conversation, %{link}"
 
   integration_apps:
     slack:
