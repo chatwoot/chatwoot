@@ -85,6 +85,7 @@ RUN apk add --update --no-cache \
 RUN if [ "$RAILS_ENV" != "production" ]; then \
   apk add nodejs yarn; \
   fi
+RUN apk add git
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app

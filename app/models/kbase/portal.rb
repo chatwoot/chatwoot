@@ -3,7 +3,6 @@
 # Table name: kbase_portals
 #
 #  id            :bigint           not null, primary key
-#  account_id    :integer          not null
 #  color         :string
 #  custom_domain :string
 #  header_text   :text
@@ -13,6 +12,7 @@
 #  slug          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  account_id    :integer          not null
 #
 # Indexes
 #
