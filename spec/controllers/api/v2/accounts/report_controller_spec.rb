@@ -142,7 +142,7 @@ RSpec.describe 'Reports API', type: :request do
         until: Time.zone.today.to_time.to_i.to_s
       }
 
-      it 'returns unauthorized for agents' do
+      it 'returns unauthorized for inboxes' do
         get "/api/v2/accounts/#{account.id}/reports/inboxes",
             params: params,
             headers: agent.create_new_auth_token
@@ -160,7 +160,7 @@ RSpec.describe 'Reports API', type: :request do
     end
   end
 
-   describe 'GET /api/v2/accounts/:account_id/reports/agents' do
+  describe 'GET /api/v2/accounts/:account_id/reports/labels' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v2/accounts/#{account.id}/reports/labels.csv"
@@ -175,7 +175,7 @@ RSpec.describe 'Reports API', type: :request do
         until: Time.zone.today.to_time.to_i.to_s
       }
 
-      it 'returns unauthorized for agents' do
+      it 'returns unauthorized for labels' do
         get "/api/v2/accounts/#{account.id}/reports/labels.csv",
             params: params,
             headers: agent.create_new_auth_token

@@ -4,10 +4,9 @@ describe ::V2::ReportBuilder do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
-  let!(:new_inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
-  let!(:label_1) { create(:label, title: "Label_1", account: account) }
-  let!(:label_2) { create(:label, title: "Label_2", account: account) }
+  let!(:label_1) { create(:label, title: 'Label_1', account: account) }
+  let!(:label_2) { create(:label, title: 'Label_2', account: account) }
 
   # Running jobs inline to calculate the exact metrics
   around do |test|

@@ -34,13 +34,13 @@ class V2::ReportBuilder
   def scope
     case params[:type]
     when :account
-      return account
+      account
     when :inbox
-      return inbox
+      inbox
     when :agent
-      return user
+      user
     when :label
-      return label
+      label
     end
   end
 
@@ -57,7 +57,9 @@ class V2::ReportBuilder
   end
 
   def conversations_count
-    scope.conversations.group_by_day(:created_at, range: range, default_value: 0).count
+    scope.conversations
+         .group_by_day(:created_at, range: range, default_value: 0)
+         .count
   end
 
   # unscoped removes all scopes added to a model previously
