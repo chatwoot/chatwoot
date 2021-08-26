@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
       "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
       "GO_TO_SETTINGS": "Zu den Einstellungen",
-      "SWITCH_CONVERSATION_STATUS": "Konversationsstatus ändern",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
       "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
