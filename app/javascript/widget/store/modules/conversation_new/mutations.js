@@ -48,6 +48,21 @@ export const mutations = {
     };
   },
 
+  addMessagesEntry($state, { conversationId, messages = [] }) {
+    if (!conversationId) return;
+
+    const allMessages = $state.messages;
+    const newMessages = messages.reduce(
+      (obj, message) => ({
+        ...obj,
+        [message.id]: message,
+      }),
+      {}
+    );
+    const updatedMessages = { ...allMessages, ...newMessages };
+    Vue.set($state.messages, 'byId', updatedMessages);
+  },
+
   addMessageIds($state, { conversationId, messages }) {
     const conversationById = $state.conversations.byId[conversationId];
     if (!conversationById) return;

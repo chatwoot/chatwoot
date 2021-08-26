@@ -24,6 +24,7 @@ const state = {
   uiFlags: {
     allConversationsLoaded: false,
     isFetching: false,
+    isCreating: true,
   },
 };
 
