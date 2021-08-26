@@ -177,7 +177,7 @@ export const actions = {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(error);
     }
   },
 };

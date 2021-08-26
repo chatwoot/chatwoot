@@ -4,13 +4,15 @@
       <span v-if="label">{{ label }}</span>
     </label>
     <woot-thumbnail v-if="src" size="80px" :src="src" />
-    <div v-if="src && deleteAvatar" class="margin-horizontal-2 delete-avatar">
+    <div v-if="src && deleteAvatar" class="avatar-delete-btn">
       <woot-button
         color-scheme="alert"
         variant="hollow"
         size="tiny"
         @click="onAvatarDelete"
-        >Delete Avatar</woot-button
+        >{{
+          this.$t('INBOX_MGMT.DELETE.AVATAR_DELETE_BUTTON_TEXT')
+        }}</woot-button
       >
     </div>
     <label>
@@ -61,7 +63,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.delete-avatar {
-  margin-top: 5px;
+.avatar-delete-btn {
+  margin-top: var(--space-smaller);
+  margin-bottom: var(--space-smaller);
 }
 </style>

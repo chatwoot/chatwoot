@@ -538,7 +538,11 @@ export default {
         this.avatarUrl = '';
         this.showAlert(this.$t('INBOX_MGMT.DELETE.API.AVATAR_SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE'));
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE')
+        );
       }
     },
   },
