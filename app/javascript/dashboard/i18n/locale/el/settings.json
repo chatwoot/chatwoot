@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "Πλευρική μπάρα αναφορών",
       "MOVE_TO_NEXT_TAB": "Μετακίνηση στην επόμενη καρτέλα στη λίστα συνομιλιών",
       "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
-      "SWITCH_CONVERSATION_STATUS": "Εναλλαγή κατάστασης συνομιλίας",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
       "TOGGLE_RICH_CONTENT_EDITOR": "Εναλλαγή επεξεργαστή εμπλουτισμένου περιεχομένου",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / °C.",
       "FORWARD_SLASH_KEY": "/"
     }
