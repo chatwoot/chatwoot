@@ -5,11 +5,7 @@
   >
     <spinner size="" />
   </div>
-  <div
-    v-else
-    class="home"
-    @keydown.esc="closeChat"
-  >
+  <div v-else class="home" @keydown.esc="closeChat">
     <div
       class="header-wrap bg-white"
       :class="{ expanded: !isHeaderCollapsed, collapsed: isHeaderCollapsed }"
@@ -172,7 +168,7 @@ export default {
       this.isOnCollapsedView = !this.isOnCollapsedView;
     },
     closeChat() {
-      IFrameHelper.sendMessage({ event: 'closeChat'});
+      IFrameHelper.sendMessage({ event: 'closeChat' });
     },
   },
 };
@@ -235,7 +231,7 @@ export default {
   }
 
   .input-wrap {
-    padding: 0 $space-normal;
+    padding: 0 $space-two;
   }
 }
 </style>

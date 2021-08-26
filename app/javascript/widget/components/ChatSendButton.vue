@@ -45,11 +45,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
 
 .send-button {
-  @include button-size;
-
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -60,7 +57,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $font-size-bigger;
+    font-size: $font-size-big;
     font-weight: $font-weight-medium;
   }
 }

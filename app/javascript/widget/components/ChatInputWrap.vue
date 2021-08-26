@@ -1,13 +1,20 @@
 <template>
-  <div class="chat-message--input">
+  <div
+    class="chat-message--input"
+    :class="{ 'is-focused': isFocused }"
+    @keydown.esc="hideEmojiPicker"
+  >
     <resizable-text-area
+      id="chat-input"
+      ref="chatInput"
       v-model="userInput"
+      :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input"
-      ref="chatInput"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
-      :aria-label="$t('CHAT_PLACEHOLDER')"
+      @focus="onFocus"
+      @blur="onBlur"
     />
     <div class="button-wrap">
       <chat-attachment-button
@@ -17,8 +24,8 @@
       <button
         v-if="hasEmojiPickerEnabled"
         class="emoji-toggle"
-        @click="toggleEmojiPicker()"
         aria-label="Emoji picker"
+        @click="toggleEmojiPicker()"
       >
         <i
           class="icon ion-happy-outline"
@@ -73,6 +80,7 @@ export default {
     return {
       userInput: '',
       showEmojiPicker: false,
+      isFocused: false,
     };
   },
 
@@ -88,20 +96,32 @@ export default {
     },
     isOpen() {
       return this.$store.state.events.isOpen;
-    }
+    },
   },
-
+  watch: {
+    isOpen(isOpen) {
+      if (isOpen) {
+        this.focusInput();
+      }
+    },
+  },
   destroyed() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
-    if(this.isOpen) {
+    if (this.isOpen) {
       this.focusInput();
     }
   },
 
   methods: {
+    onBlur() {
+      this.isFocused = false;
+    },
+    onFocus() {
+      this.isFocused = true;
+    },
     handleButtonClick() {
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
@@ -138,16 +158,8 @@ export default {
     },
     focusInput() {
       this.$refs.chatInput.focus();
-    }
+    },
   },
-
-  watch: {
-    isOpen(isOpen) {
-      if(isOpen) {
-        this.focusInput();
-      }
-    }
-  }
 };
 </script>
 
@@ -158,23 +170,24 @@ export default {
 .chat-message--input {
   align-items: center;
   display: flex;
-  padding: 0 $space-slab;
+  padding: 0 $space-small 0 $space-slab;
+  border-radius: 7px;
+
+  &.is-focused {
+    box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
+  }
 }
 
 .emoji-toggle {
   @include button-size;
 
-  font-size: $font-size-big;
+  font-size: $font-size-large;
   color: $color-gray;
   cursor: pointer;
 }
 
 .emoji-dialog {
   right: $space-one;
-}
-
-.file-uploads {
-  margin-right: $space-small;
 }
 
 .button-wrap {

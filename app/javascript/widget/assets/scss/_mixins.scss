@@ -76,6 +76,6 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
 }
 
 @mixin button-size {
-  min-height: 44px;
-  min-width: 44px;
+  min-height: $space-large;
+  min-width: $space-large;
 }
