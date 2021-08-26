@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
       "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
       "GO_TO_SETTINGS": "برو به تنظیمات",
-      "SWITCH_CONVERSATION_STATUS": "تغییر وضعیت مکالمه",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "TOGGLE_RICH_CONTENT_EDITOR": "تغییر وضعیت ویرایشگر محتوا",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
