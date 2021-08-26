@@ -386,17 +386,7 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel) {
-        return [
-          ...visibleToAllChannelTabs,
-          {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          },
-        ];
-      }
-
-      if (this.isAPIInbox) {
+      if (this.isATwilioChannel || this.isAPIInbox) {
         return [
           ...visibleToAllChannelTabs,
           {
