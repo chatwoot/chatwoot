@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
       "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
-      "SWITCH_CONVERSATION_STATUS": "تغيير حالة المحادثة",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
