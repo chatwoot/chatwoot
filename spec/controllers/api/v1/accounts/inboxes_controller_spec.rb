@@ -113,12 +113,12 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/inbox_avatar' do
+  describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/avatar' do
     let(:inbox) { create(:inbox, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/inbox_avatar"
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -131,7 +131,7 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'delete inbox avatar' do
-        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/inbox_avatar",
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
                headers: admin.create_new_auth_token,
                as: :json
 

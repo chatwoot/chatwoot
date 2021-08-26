@@ -54,7 +54,7 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def inbox_avatar?
+  def avatar?
     @account_user.administrator?
   end
 end
