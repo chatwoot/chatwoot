@@ -182,14 +182,14 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir para a barra lateral de Relatórios",
       "MOVE_TO_NEXT_TAB": "Mover para a próxima aba da lista de conversas",
       "GO_TO_SETTINGS": "Ir para Configurações",
-      "SWITCH_CONVERSATION_STATUS": "Trocar status da conversa",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
       "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo rico",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
     },
     "KEYS": {
-      "COMMAND_KEY": "⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
