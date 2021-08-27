@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "ไม่พบผลการค้นหา"
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "ไม่มี",
+      "TITLE": {
+        "AGENT": "เลือกพนักงาน",
+        "TEAM": "เลือกทีม"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "ไม่พบพนักงาน",
+          "TEAM": "ไม่พบทีม"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "ค้นหาพนักงาน",
+          "TEAM": "ค้นหาทีม"
+        }
+      }
     }
   }
 }
