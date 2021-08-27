@@ -2,7 +2,7 @@ class MessageDrop < BaseDrop
   include MessageFormatHelper
 
   def sender_display_name
-    @obj.sender.try(:display_name)
+    @obj.sender.try(:available_name)
   end
 
   def text_content

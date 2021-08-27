@@ -362,6 +362,7 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     netrc (0.11.0)
+    newrelic_rpm (7.2.0)
     nio4r (2.5.8)
     nokogiri (1.11.7-arm64-darwin)
       racc (~> 1.4)
@@ -629,6 +630,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
 
@@ -682,6 +684,7 @@ DEPENDENCIES
   listen
   maxminddb
   mock_redis
+  newrelic_rpm
   pg
   procore-sift
   pry-rails
