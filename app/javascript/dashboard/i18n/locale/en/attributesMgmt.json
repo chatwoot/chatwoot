@@ -1,6 +1,37 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute"
+    "HEADER_BTN_TXT": "Add Attribute",
+    "ADD": {
+      "TITLE": "Add attribute",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "KEY": {
+          "LABEL": "Key",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    }
   }
 }
