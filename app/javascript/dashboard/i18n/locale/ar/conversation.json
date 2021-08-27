@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "جار تجزئة البيانات...",
       "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
       "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "LAST_INCOMING_TWEET": "أنت ترد على آخر تغريدة واردة",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
@@ -41,7 +42,13 @@
       "DETAILS": "التفاصيل"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "غداً",
+        "NEXT_WEEK": "الأسبوع المقبل"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
@@ -57,13 +64,26 @@
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
       "ENTER_TO_SEND": "زر الإدخل للإرسال",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "إضافة bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
     "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
@@ -118,10 +138,16 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "الوكيل المكلف",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "إسناد لي",
     "TEAM_LABEL": "العضو المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "إلى",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "الموضوع"
   }
 }

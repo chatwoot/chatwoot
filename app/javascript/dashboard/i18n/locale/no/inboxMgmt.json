@@ -273,7 +273,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Oppdater innboksinnstillinger",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling av nye samtaler til agenter som er lagt til i denne innboksen.",
       "HMAC_VERIFICATION": "Brukeridentitetsvalidering",
-      "HMAC_DESCRIPTION": "For å bekrefte brukerens identitet vil SDK-en la deg legge inn en `identifier_hash` for hver bruker. Du kan generere HMAC ved å benytte 'sha256' med nøkkelen vist her."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautoriser",

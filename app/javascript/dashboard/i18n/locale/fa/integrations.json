@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "اضافه کردن یک وب هوک جدید",
       "LOADING": "درحال دریافت اطلاعات وب هوک",
       "SEARCH_404": "هیچ گزینه‌ای با این شرایط پیدا نشد",
-      "SIDEBAR_TXT": "<p><b>وب هوک‌ها</b> </p> <p>وب هوک‌ها اجرا کننده‌ی درخواست‌های HTTP هستند که برای هر حسابی قابل تنظیم شدن هستند. به عنوان مثال می‌توان وقتی گفتگوی جدیدی ایجاد شد یک وب سرویس صدا زده شود. برای هر حساب می‌توان چند وب هوک ایجاد کرد. <br /><br /> برای ساختن یک <b>وب هوک</b>, روی دکمه <b>اضافه کردن وب هوک جدید</b> کلیک کنید. همچنین با زدن دکمه «حذف» می‌توانید وب هوک ساخته شده را حذف کنید.</p>",
+      "SIDEBAR_TXT": "<p><b>وب هوک‌ها</b> </p> \n<p>وب هوک‌ها اجرا کننده‌ی درخواست‌های HTTP هستند که برای هر حسابی قابل تنظیم شدن هستند. به عنوان مثال می‌توان وقتی گفتگوی جدیدی ایجاد شد یک وب سرویس صدا زده شود. برای هر حساب می‌توان چند وب هوک ایجاد کرد. <br /><br /> برای ساختن یک <b>وب هوک</b>, روی دکمه <b>اضافه کردن وب هوک جدید</b> کلیک کنید. همچنین با زدن دکمه «حذف» می‌توانید وب هوک ساخته شده را حذف کنید.</p>",
       "LIST": {
         "404": "هیچ وب هوکی برای این حساب ساخته نشده است",
         "TITLE": "مدیریت وب هوک‌ها",
@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "ویرایش",
-        "TITLE": "Edit webhook",
+        "TITLE": "ویرایش وب هوک",
         "CANCEL": "انصراف",
         "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "به عنوان مثال: https://example/api/webhook",
             "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "ویرایش وب هوک"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "وب هوک بروزرسانی شد",
           "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
         }
       },
@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "استفاده از اسلک",
+        "BODY": "<br/> <p> ما اکنون تمام مکالمات ورودی را در کانال <b><i> گفتگوهای مشتری </i> </b> داخل محل کار شما همگام سازی می کنیم. </p> <p> پاسخ به یک رشته مکالمه در کانال مکالمه <b><i> مشتری- مکالمات </ i> </b> از طریق برنامه پاسخی به مشتری ایجاد می کند. </ p> <p> پاسخ ها را با <b> <i> شروع کنید توجه: </i> </b> برای ایجاد یادداشت های خصوصی به جای پاسخ ها. </p> <p> اگر پاسخ دهنده در slack نمایه نماینده ای در برنامه تحت همان ایمیل داشته باشد ، پاسخ ها به همین ترتیب مرتبط می شوند. </ p> <p> وقتی ارسال کننده نمایه نماینده مرتبطی ندارد ، پاسخها از نمایه ربات انجام می شود. </p>"
       }
     },
     "DELETE": {

@@ -6,32 +6,33 @@
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Procurar mensagens em conversas",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Procurar mensagens",
+      "RESULT_TITLE": "Resultados da pesquisa",
+      "LOADING_MESSAGE": "Preparando os dados...",
+      "PLACEHOLDER": "Digite qualquer texto para procurar mensagens",
+      "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Mensagens por ler",
+    "UNREAD_MESSAGE": "Mensagens por ler",
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Não pode responder porque",
+    "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
+    "REPLYING_TO": "Está a responder a:",
+    "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "BAIXAR",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Carregando anexos...",
+    "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
+    "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Tente novamente",
+    "NO_RESPONSE": "Sem resposta",
+    "RATING_TITLE": "Avaliar",
+    "FEEDBACK_TITLE": "Opiniões",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -41,7 +42,13 @@
       "DETAILS": "Detalhes"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Marcar como pendente",
+      "SNOOZE": {
+        "TITLE": "Suspender até",
+        "NEXT_REPLY": "Próxima resposta",
+        "TOMORROW": "Amanhã",
+        "NEXT_WEEK": "Próxima semana"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
@@ -53,75 +60,94 @@
       "SEND": "Mandar",
       "CREATE": "Adicionar Nota",
       "TWEET": "Tuitar",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
+      "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
+      "TIP_ATTACH_ICON": "Anexar ficheiros",
+      "ENTER_TO_SEND": "Enter para enviar",
+      "DRAG_DROP": "Arrastar e soltar aqui para anexar",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Adicionar bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separados por vírgulas",
+          "ERROR": "Por favor, digite endereços de e-mail válidos"
+        },
+        "BCC": {
+          "LABEL": "Bcc",
+          "PLACEHOLDER": "Emails separados por vírgulas",
+          "ERROR": "Por favor, digite endereços de e-mail válidos"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",
     "CHANGE_AGENT": "Responsável da conversa alterado",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Equipa de conversação alterada",
+    "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Escolher Agente",
       "REMOVE": "Excluir",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Atribuir"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "Copiar",
       "DELETE": "excluir"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Enviar transcrição da conversa",
+    "DESC": "Enviar uma cópia da transcrição da conversa para o endereço de email especificado",
     "SUBMIT": "submeter",
     "CANCEL": "cancelar",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Envie a transcrição ao cliente",
+      "SEND_TO_AGENT": "Enviar a transcrição para o agente atribuído",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar a transcrição para outro endereço de email",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Digite um endereço de email",
         "ERROR": "Por favor, insira um endereço de e-mail válido"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
+    "DESCRIPTION": "Obrigado por se inscrever. Queremos que aproveite ao máximo o sistema %{installationName}. Aqui estão algumas coisas que pode fazer no %{installationName} para tornar a sua experiência ainda mais agradável.",
+    "READ_LATEST_UPDATES": "Ler as últimas atualizações",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Todas as suas conversas num único lugar",
+      "DESCRIPTION": "Ver todas as conversas dos seus clientes num único painel. Pode filtrar as conversas pelo canal de entrada, etiquetas e estado."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Convidar os membros da sua equipa",
+      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando o seu endereço de e-mail na lista de agentes.",
+      "NEW_LINK": "Clique aqui para convidar um membro para a equipa"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Ligar caixas de entrada",
+      "DESCRIPTION": "Ligue vários canais através dos quais os seus clientes podem conversar consigo. Pode ser um site, um chat ao vivo, um página do Facebook do Twitter ou até mesmo o seu número do WhatsApp.",
+      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organizar conversas com etiquetas",
+      "DESCRIPTION": "As Etiquetas permitem-lhe facilmente categorizar as suas conversas. Crie etiquetas como #suporte, #faturacao etc., para que depois as possa utilizar mais tarde numa conversa.",
+      "NEW_LINK": "Clique aqui para criar etiquetas"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agente atribuído",
+    "SELF_ASSIGN": "Atribuir a mim",
+    "TEAM_LABEL": "Equipe atribuída",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nenhuma"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Para",
+    "BCC": "BCC",
+    "CC": "Cc",
+    "SUBJECT": "Assunto"
   }
 }
