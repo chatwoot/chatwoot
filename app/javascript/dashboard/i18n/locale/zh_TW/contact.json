@@ -19,7 +19,7 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
+        "TITLE": "聯絡人標籤",
         "ERROR": "Couldn't update labels"
       },
       "CONVERSATION": {
@@ -214,7 +214,7 @@
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "PLACEHOLDER": "選擇一個聯絡人"
     },
     "SUMMARY": {
       "TITLE": "Summary",
@@ -225,7 +225,7 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " 合併聯絡人",
       "CANCEL": "取消",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
