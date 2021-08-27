@@ -140,3 +140,12 @@ extended_message:
     - $ref: '#/definitions/generic_id'
     - $ref: '#/definitions/message'
     - $ref: ./resource/extension/message/with_source_sender.yml
+
+
+## report list
+report:
+  type: array
+  description: 'array of conversation count based on date'
+  items:
+    allOf:
+      - $ref: './resource/report.yml'
