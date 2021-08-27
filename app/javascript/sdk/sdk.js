@@ -115,7 +115,7 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot--hide {
-  bottom: -100vh;
+  bottom: -100vh !important;
   transform: translateY(40px);
   top: unset !important;
   opacity: 0;
