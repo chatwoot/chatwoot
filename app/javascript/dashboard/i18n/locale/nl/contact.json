@@ -11,8 +11,8 @@
     "OS": "Besturingssysteem",
     "INITIATED_FROM": "Geïnitieerd vanuit",
     "INITIATED_AT": "Geïnitieerd op",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "IP-adres",
+    "NEW_MESSAGE": "Nieuw bericht",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Er zijn geen eerdere gesprekken gekoppeld aan dit contact.",
       "TITLE": "Vorige gesprekken"
@@ -20,21 +20,21 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "Kan labels niet bijwerken"
       },
       "CONVERSATION": {
         "TITLE": "Labels voor gesprekken",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Labels toevoegen"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Labels toevoegen",
+        "PLACEHOLDER": "Zoek op labels",
+        "NO_RESULT": "Geen labels gevonden"
       }
     },
     "MUTE_CONTACT": "Gesprek dempen",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTE_CONTACT": "Gesprek dempen opheffen",
+    "MUTED_SUCCESS": "Dit gesprek is gedempt voor 6 uur",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Transcript verzenden",
     "EDIT_LABEL": "Bewerken"
