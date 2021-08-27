@@ -286,6 +286,7 @@
           >
             <woot-code :script="inbox.inbox_identifier"></woot-code>
           </settings-section>
+      </div>
       <div v-else-if="isAnEmailChannel">
         <div class="settings--content">
           <settings-section
