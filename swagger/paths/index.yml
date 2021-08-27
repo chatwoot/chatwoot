@@ -303,13 +303,23 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{id}/reports:
   parameters:
     - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/report_metric'
+    - $ref: '#/parameters/report_type'
     - in: query
-      name: metric
+      name: id
       schema:
         type: string
-        enum: [conversations_count, incoming_messages_count, outgoing_messages_count, avg_first_response_time, avg_resolution_time, resolutions_count]
-      required: true
-      description: The type of metric
+      description: The Id of specific object in case of agent/inbox/label
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start.
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop.
   get:
     $ref: './reports/index.yml'
 
@@ -317,12 +327,21 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{id}/reports/summary:
   parameters:
     - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/report_type'
     - in: query
-      name: metric
+      name: id
       schema:
         type: string
-        enum: [conversations_count, incoming_messages_count, outgoing_messages_count, avg_first_response_time, avg_resolution_time, resolutions_count]
-      required: true
-      description: The type of metric
+      description: The Id of specific object in case of agent/inbox/label
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start.
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop.
   get:
     $ref: './reports/summary.yml'

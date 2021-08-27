@@ -1,6 +1,7 @@
-in: path
+in: query
 name: report_type
 schema:
   type: string
+  enum: [account,agent,inbox,label]
 required: true
-description: Type of report [account/agent/inbox/label]
+description: Type of report 

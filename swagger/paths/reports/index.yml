@@ -1,8 +1,8 @@
 tags:
-  - Report
+  - Reports
 operationId: list-all-conversation-statistics
-summary: List all reports
-description: List all reports available in the current type, metric and date range
+summary: Get Account reports
+description: Get Account reports for a specific type, metric and date range
 responses:
   200:
     description: Success
