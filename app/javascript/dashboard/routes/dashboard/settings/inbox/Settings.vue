@@ -286,6 +286,15 @@
           >
             <woot-code :script="inbox.inbox_identifier"></woot-code>
           </settings-section>
+      <div v-else-if="isAnEmailChannel">
+        <div class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.forward_to_email"></woot-code>
+          </settings-section>
+        </div>
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -386,7 +395,7 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel || this.isAPIInbox) {
+      if (this.isATwilioChannel || this.isAPIInbox || this.isAnEmailChannel) {
         return [
           ...visibleToAllChannelTabs,
           {
