@@ -390,7 +390,7 @@ export default {
     }
 
     .reply-box {
-      border: 2px solid var(--color-border);
+      border: 1px solid var(--color-border);
       width: 104rem;
     }
 
