@@ -63,6 +63,7 @@ x-tagGroups:
       - Profile
       - Teams
       - Custom Filter
+      - Reports
   - name: Public
     tags:
       - Contacts API

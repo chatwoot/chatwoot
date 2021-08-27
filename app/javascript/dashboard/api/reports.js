@@ -7,14 +7,14 @@ class ReportsAPI extends ApiClient {
   }
 
   getAccountReports(metric, since, until) {
-    return axios.get(`${this.url}/account`, {
-      params: { metric, since, until },
+    return axios.get(`${this.url}`, {
+      params: { metric, since, until, type: 'account' },
     });
   }
 
   getAccountSummary(since, until) {
-    return axios.get(`${this.url}/account_summary`, {
-      params: { since, until },
+    return axios.get(`${this.url}/summary`, {
+      params: { since, until, type: 'account' },
     });
   }
 
