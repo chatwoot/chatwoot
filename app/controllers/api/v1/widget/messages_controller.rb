@@ -8,8 +8,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def create
     @message = conversation.messages.new(message_params)
-    @message.save
     build_attachment
+    @message.save!
   end
 
   def update
@@ -31,11 +31,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     params[:message][:attachments].each do |uploaded_attachment|
       attachment = @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type)
+        file_type: helpers.file_type(uploaded_attachment&.content_type),
+        file: uploaded_attachment
       )
-      attachment.file.attach(uploaded_attachment)
     end
-    @message.save!
   end
 
   def set_conversation

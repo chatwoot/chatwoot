@@ -2,6 +2,7 @@
   <label>
     <span v-if="label">{{ label }}</span>
     <woot-thumbnail v-if="src" size="80px" :src="src" />
+    <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
     <input
       id="file"
       ref="file"

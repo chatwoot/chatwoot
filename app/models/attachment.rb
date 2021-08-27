@@ -20,6 +20,7 @@ class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
   has_one_attached :file
+  validate :acceptable_file
 
   enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
@@ -75,5 +76,16 @@ class Attachment < ApplicationRecord
       file_type: file_type,
       account_id: account_id
     }
+  end
+
+  def acceptable_file
+    return unless file.attached?
+    
+    errors.add(:file, "is too big") if file.byte_size > 40.megabytes
+
+    acceptable_types = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'application/pdf', 'audio/mpeg', 'video/mp4', 'audio/ogg', 'text/csv'].freeze
+    unless acceptable_types.include?(file.content_type)
+      errors.add(:file, 'filetype not supported')
+    end
   end
 end
