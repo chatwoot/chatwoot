@@ -408,6 +408,12 @@ export default {
       left: unset;
       position: absolute;
     }
+
+    .emoji-dialog::before {
+      transform: rotate(0deg);
+      left: 5px;
+      bottom: var(--space-minus-slab);
+    }
   }
 }
 </style>
