@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "SEARCH": {
       "TITLE": "搜尋訊息",
+      "RESULT_TITLE": "搜尋結果",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "輸入任何文字以搜尋訊息",
       "NO_MATCHING_RESULTS": "查無結果。"
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24 小時消息視窗限制",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
@@ -41,7 +42,13 @@
       "DETAILS": "詳情"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "使用 bot 開啟"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "下個回覆",
+        "TOMORROW": "明天",
+        "NEXT_WEEK": "下週"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
       "ENTER_TO_SEND": "按下 Enter 傳送",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "密件副本",
+        "CC": {
+          "LABEL": "副本",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "請輸入有效的電子信箱"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "請輸入有效的電子信箱"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
@@ -95,7 +115,7 @@
   "ONBOARDING": {
     "TITLE": "Hey 👋， 歡迎來到 %{installationName}！",
     "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "READ_LATEST_UPDATES": "查看我們最後的更新",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
@@ -106,7 +126,7 @@
       "NEW_LINK": "按此邀請一個新成員"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
+      "TITLE": "連結收件匣",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
       "NEW_LINK": "按此建立一個收件匣"
     },
@@ -118,10 +138,16 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "指派客服",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "指定給我",
     "TEAM_LABEL": "指派團隊",
     "SELECT": {
       "PLACEHOLDER": "無"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "密件副本",
+    "CC": "副本",
+    "SUBJECT": "主旨"
   }
 }
