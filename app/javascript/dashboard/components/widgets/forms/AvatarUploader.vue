@@ -6,7 +6,7 @@
       id="file"
       ref="file"
       type="file"
-      accept="image/*"
+      accept="image/png, image/jpeg, image/gif"
       @change="handleImageUpload"
     />
     <slot></slot>
