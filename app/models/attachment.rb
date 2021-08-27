@@ -80,12 +80,11 @@ class Attachment < ApplicationRecord
 
   def acceptable_file
     return unless file.attached?
-    
-    errors.add(:file, "is too big") if file.byte_size > 40.megabytes
 
-    acceptable_types = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'application/pdf', 'audio/mpeg', 'video/mp4', 'audio/ogg', 'text/csv'].freeze
-    unless acceptable_types.include?(file.content_type)
-      errors.add(:file, 'filetype not supported')
-    end
+    errors.add(:file, 'is too big') if file.byte_size > 40.megabytes
+
+    acceptable_types = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'application/pdf', 'audio/mpeg', 'video/mp4', 'audio/ogg',
+                        'text/csv'].freeze
+    errors.add(:file, 'filetype not supported') unless acceptable_types.include?(file.content_type)
   end
 end

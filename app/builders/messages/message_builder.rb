@@ -23,14 +23,14 @@ class Messages::MessageBuilder
   private
 
   def process_attachments
-    if @attachments.present?
-      @attachments.each do |uploaded_attachment|
-        attachment = @message.attachments.build(
-          account_id: @message.account_id,
-          file_type: file_type(uploaded_attachment&.content_type),
-          file: uploaded_attachment
-        )
-      end
+    return if @attachments.blank?
+
+    @attachments.each do |uploaded_attachment|
+      @message.attachments.build(
+        account_id: @message.account_id,
+        file_type: file_type(uploaded_attachment&.content_type),
+        file: uploaded_attachment
+      )
     end
   end
 
