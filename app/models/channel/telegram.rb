@@ -46,12 +46,28 @@ class Channel::Telegram < ApplicationRecord
     response.parsed_response['result']['message_id'] if response.success?
   end
 
+  def get_telegram_profile_image(user_id)
+    # get profile image from telegram
+    response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
+    return nil unless response.success?
+    photos = response.parsed_response['result']['photos']
+    return unless photos.present?
+    get_telegram_file_path(photos.first.last['file_id'])
+  end
+
+  def get_telegram_file_path(file_id)
+    response = HTTParty.get("#{telegram_api_url}/getFile", query: { file_id: file_id })
+    return nil unless response.success?
+
+    "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
+  end
+
   private
 
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
     unless response.success?
-      self.errors.add(:bot_token, 'invalid token')
+      errors.add(:bot_token, 'invalid token')
       return
     end
 
@@ -63,6 +79,6 @@ class Channel::Telegram < ApplicationRecord
                              body: {
                                url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"
                              })
-    self.errors.add(:bot_token, 'error setting up the webook') unless response.success?
+    errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 end

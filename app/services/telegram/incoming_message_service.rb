@@ -1,8 +1,10 @@
 class Telegram::IncomingMessageService
+  include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
 
   def perform
     set_contact
+    update_contact_avatar
     set_conversation
     @message = @conversation.messages.create(
       content: params[:message][:text],
@@ -12,6 +14,7 @@ class Telegram::IncomingMessageService
       sender: @contact,
       source_id: "#{params[:message][:message_id]}"
     )
+    attach_files
     @message.save!
   end
 
@@ -27,9 +30,16 @@ class Telegram::IncomingMessageService
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
-
+    
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+  end
+
+  def update_contact_avatar
+    return if @contact.avatar.attached?
+
+    avatar_url = inbox.channel.get_telegram_profile_image(params[:message][:from][:id])
+    ::ContactAvatarJob.perform_later(@contact, avatar_url) if avatar_url
   end
 
   def conversation_params
@@ -67,5 +77,23 @@ class Telegram::IncomingMessageService
     {
       chat_id: params[:message][:chat][:id],
     }
+  end
+
+  def attach_files
+    return if params[:message][:document].blank?
+
+    attachment_file = Down.download(
+      inbox.channel.get_telegram_file_path(params[:message][:document][:file_id])
+    )
+
+    attachment = @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_type(params[:message][:document][:mime_type]),
+      file: { 
+        io: attachment_file,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type 
+      }
+    )
   end
 end
