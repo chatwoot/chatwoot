@@ -36,6 +36,16 @@ class Channel::Telegram < ApplicationRecord
     "https://api.telegram.org/bot#{bot_token}"
   end
 
+  def send_messsage_on_telegram(message, chat_id)
+    response = HTTParty.post("#{telegram_api_url}/sendMessage",
+                             body: {
+                               chat_id: chat_id,
+                               text: message
+                             })
+
+    response.parsed_response['result']['message_id'] if response.success?
+  end
+
   private
 
   def ensure_valid_bot_token
