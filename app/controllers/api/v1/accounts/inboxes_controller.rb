@@ -19,7 +19,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        name: permitted_params[:name],
+        name: inbox_name(channel),
         greeting_message: permitted_params[:greeting_message],
         greeting_enabled: permitted_params[:greeting_enabled],
         channel: channel
@@ -69,6 +69,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
+  def inbox_name channel
+    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
+    permitted_params[:name]
+  end
+
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
@@ -77,6 +82,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Current.account.api_channels.create!(permitted_params[:channel].except(:type))
     when 'email'
       Current.account.email_channels.create!(permitted_params[:channel].except(:type))
+    when 'telegram'
+      Current.account.telegram_channels.create!(permitted_params[:channel].except(:type))
     end
   end
 
@@ -89,7 +96,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, :enable_email_collect, :csat_survey_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time, :bot_token])
   end
 
   def inbox_update_params

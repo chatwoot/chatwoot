@@ -51,6 +51,7 @@ class Account < ApplicationRecord
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :email_channels, dependent: :destroy, class_name: '::Channel::Email'
   has_many :api_channels, dependent: :destroy, class_name: '::Channel::Api'
+  has_many :telegram_channels, dependent: :destroy, class_name: '::Channel::Telegram'
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_many :labels, dependent: :destroy
