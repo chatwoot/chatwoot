@@ -4,4 +4,3 @@ class Webhooks::TelegramController < ActionController::API
     head :ok
   end
 end
-

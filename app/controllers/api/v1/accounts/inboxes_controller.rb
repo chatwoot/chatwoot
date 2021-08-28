@@ -69,8 +69,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def inbox_name channel
+  def inbox_name(channel)
     return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
+
     permitted_params[:name]
   end
 

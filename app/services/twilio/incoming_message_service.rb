@@ -91,7 +91,7 @@ class Twilio::IncomingMessageService
   end
 
   def attach_files
-    return if  params[:message][:document].blank?
+    return if params[:message][:document].blank?
 
     attachment_file = Down.download(
       params[:MediaUrl0]

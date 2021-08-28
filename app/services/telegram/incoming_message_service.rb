@@ -12,7 +12,7 @@ class Telegram::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: "#{params[:message][:message_id]}"
+      source_id: (params[:message][:message_id]).to_s
     )
     attach_files
     @message.save!
@@ -30,7 +30,7 @@ class Telegram::IncomingMessageService
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
-    
+
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
   end
@@ -61,7 +61,7 @@ class Telegram::IncomingMessageService
 
   def contact_attributes
     {
-      name: "#{params[:message][:from][:first_name]} #{params[:message][:from][:last_name]}" ,
+      name: "#{params[:message][:from][:first_name]} #{params[:message][:from][:last_name]}",
       additional_attributes: additional_attributes
     }
   end
@@ -69,13 +69,13 @@ class Telegram::IncomingMessageService
   def additional_attributes
     {
       username: params[:message][:from][:username],
-      language_code: params[:message][:from][:language_code],
+      language_code: params[:message][:from][:language_code]
     }
   end
 
   def conversation_additional_attributes
     {
-      chat_id: params[:message][:chat][:id],
+      chat_id: params[:message][:chat][:id]
     }
   end
 
@@ -89,10 +89,10 @@ class Telegram::IncomingMessageService
     attachment = @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_type(params[:message][:document][:mime_type]),
-      file: { 
+      file: {
         io: attachment_file,
         filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type 
+        content_type: attachment_file.content_type
       }
     )
   end

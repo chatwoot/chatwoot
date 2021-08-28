@@ -50,8 +50,10 @@ class Channel::Telegram < ApplicationRecord
     # get profile image from telegram
     response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
     return nil unless response.success?
+
     photos = response.parsed_response['result']['photos']
-    return unless photos.present?
+    return if photos.blank?
+
     get_telegram_file_path(photos.first.last['file_id'])
   end
 
@@ -67,6 +69,7 @@ class Channel::Telegram < ApplicationRecord
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
     unless response.success?
+      byebug
       errors.add(:bot_token, 'invalid token')
       return
     end
@@ -75,6 +78,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def setup_telegram_webhook
+    response = HTTParty.post("#{telegram_api_url}/deleteWebhook")
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
                                url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"
