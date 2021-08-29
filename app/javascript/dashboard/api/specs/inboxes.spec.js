@@ -27,5 +27,11 @@ describe('#InboxesAPI', () => {
         '/api/v1/inboxes/2/campaigns'
       );
     });
+    it('#verifyWidgetInstallation', () => {
+      inboxesAPI.verifyWidgetInstallation(2);
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/verify_installation'
+      );
+    });
   });
 });
