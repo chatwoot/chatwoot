@@ -11,17 +11,17 @@
               v-model.trim="displayName"
               type="text"
               :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-              @input="$v.displayName.$touch"
+              @blur="$v.displayName.$touch"
             />
           </label>
         </div>
         <div class="medium-12 columns">
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
-            <woot-input
+            <textarea
               v-model="description"
-              type="text"
               rows="5"
+              type="text"
               :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
               @blur="$v.description.$touch"
             />
@@ -102,6 +102,16 @@ export default {
       models: [
         {
           id: 0,
+          option: 'Conversation',
+        },
+        {
+          id: 1,
+          option: 'Contact',
+        },
+      ],
+      types: [
+        {
+          id: 0,
           option: 'Text',
         },
         {
@@ -121,16 +131,6 @@ export default {
           option: 'Link',
         },
       ],
-      types: [
-        {
-          id: 0,
-          option: 'Conversation',
-        },
-        {
-          id: 1,
-          option: 'Contact',
-        },
-      ],
       show: true,
     };
   },
@@ -139,7 +139,10 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     convertToSlug() {
-      return this.displayName.replace(/[^\w ]+/g, '').replace(/ +/g, '_');
+      return this.displayName
+        .toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '_');
     },
     hasValue() {
       return this.displayName.length >= 1;
