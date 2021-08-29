@@ -361,4 +361,40 @@ RSpec.describe 'Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/verify_installation' do
+    let(:inbox) { create(:inbox, account: account) }
+    let!(:contact) { create(:contact, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/verify_installation"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns widget installation failure messge if web widget not installed' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/verify_installation",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Widget not installed')
+      end
+
+      it 'returns widget installation success messge if web widget installed' do
+        create(:contact_inbox, contact: contact, inbox: inbox)
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/verify_installation",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Widget installed successfully')
+      end
+    end
+  end
 end
