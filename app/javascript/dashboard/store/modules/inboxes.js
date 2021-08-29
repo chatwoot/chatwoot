@@ -173,6 +173,16 @@ export const actions = {
       throw new Error(error.message);
     }
   },
+  // eslint-disable-next-line no-empty-pattern
+  verifyWidgetInstallation: async ({}, inboxId) => {
+    try {
+      const response = await InboxesAPI.verifyWidgetInstallation(inboxId);
+      const { message } = response.data;
+      return message;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {

@@ -127,11 +127,11 @@
           "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
-			"SMS": {
+      "SMS": {
         "TITLE": "SMS Channel via Twilio",
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
-			"WHATSAPP": {
+      "WHATSAPP": {
         "TITLE": "Whatsapp Channel via Twilio",
         "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
       },
@@ -206,8 +206,12 @@
       "TITLE": "Your Inbox is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
       "BUTTON_TEXT": "Take me there",
+      "VERIFY_WIDGET_INSTALLATION": "Verify inbox installed or not",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
+      "ERRORS": {
+        "VERIFY_WIDGET_INSTALLATION_ERROR": "Could not able to get the inbox verification details"
+      }
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",

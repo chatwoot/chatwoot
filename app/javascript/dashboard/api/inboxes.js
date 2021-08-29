@@ -13,6 +13,10 @@ class Inboxes extends ApiClient {
   getCampaigns(inboxId) {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
+
+  verifyWidgetInstallation(inboxId) {
+    return axios.get(`${this.url}/${inboxId}/verify_installation`);
+  }
 }
 
 export default new Inboxes();
