@@ -87,4 +87,52 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe '#web_widget?' do
+    let(:inbox) do
+      FactoryBot.build(:inbox, channel: channel_val)
+    end
+
+    context 'when the channel type is Channel::WebWidget' do
+      let(:channel_val) { Channel::WebWidget.new }
+
+      it do
+        expect(inbox.web_widget?).to eq(true)
+        expect(inbox.inbox_type).to eq('Website')
+      end
+    end
+
+    context 'when the channel is not Channel::WebWidget' do
+      let(:channel_val) { Channel::Api.new }
+
+      it do
+        expect(inbox.web_widget?).to eq(false)
+        expect(inbox.inbox_type).to eq('API')
+      end
+    end
+  end
+
+  describe '#api?' do
+    let(:inbox) do
+      FactoryBot.build(:inbox, channel: channel_val)
+    end
+
+    context 'when the channel type is Channel::Api' do
+      let(:channel_val) { Channel::Api.new }
+
+      it do
+        expect(inbox.api?).to eq(true)
+        expect(inbox.inbox_type).to eq('API')
+      end
+    end
+
+    context 'when the channel is not Channel::Api' do
+      let(:channel_val) { Channel::FacebookPage.new }
+
+      it do
+        expect(inbox.api?).to eq(false)
+        expect(inbox.inbox_type).to eq('Facebook')
+      end
+    end
+  end
 end
