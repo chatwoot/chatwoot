@@ -16,7 +16,7 @@
           </label>
         </div>
         <div class="medium-12 columns">
-          <label>
+          <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <woot-input
               v-model="description"
@@ -28,37 +28,39 @@
           </label>
         </div>
         <div class="medium-12 columns">
-          <label>
+          <label :class="{ error: $v.attributeModel.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
-            <select>
-              <option
-                v-for="model in models"
-                :key="model.id"
-                :value="model.option"
-              >
+            <select v-model="attributeModel">
+              <option v-for="model in models" :key="model.id" :value="model.id">
                 {{ model.option }}
               </option>
             </select>
+            <span v-if="$v.attributeModel.$error" class="message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
+            </span>
           </label>
         </div>
         <div class="medium-12 columns">
-          <label>
+          <label :class="{ error: $v.attributeType.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
-            <select>
-              <option v-for="type in types" :key="type.id" :value="type.option">
+            <select v-model="attributeType">
+              <option v-for="type in types" :key="type.id" :value="type.id">
                 {{ type.option }}
               </option>
             </select>
+            <span v-if="$v.attributeType.$error" class="message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
+            </span>
           </label>
         </div>
-        <div class="medium-12 columns">
+        <div v-if="hasValue" class="medium-12 columns">
           <label>
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
             <i class="ion-help" />
           </label>
-          <span class="key-value">
+          <p class="key-value text-truncate">
             {{ convertToSlug }}
-          </span>
+          </p>
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
@@ -95,6 +97,8 @@ export default {
     return {
       displayName: '',
       description: '',
+      attributeModel: 0,
+      attributeType: 0,
       models: [
         {
           id: 0,
@@ -135,7 +139,10 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     convertToSlug() {
-      return this.displayName.replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+      return this.displayName.replace(/[^\w ]+/g, '').replace(/ +/g, '_');
+    },
+    hasValue() {
+      return this.displayName.length >= 1;
     },
   },
   validations: {
@@ -146,6 +153,12 @@ export default {
     description: {
       required,
     },
+    attributeModel: {
+      required,
+    },
+    attributeType: {
+      required,
+    },
   },
 
   methods: {
@@ -154,11 +167,11 @@ export default {
     },
     async addAttributes() {
       try {
-        await this.$store.dispatch('attributes/createAttribute', {
+        await this.$store.dispatch('attributes/create', {
           attribute_display_name: this.displayName,
           attribute_description: this.description,
-          attribute_model: this.models.id,
-          attribute_display_type: this.types.id,
+          attribute_model: this.attributeModel,
+          attribute_display_type: this.attributeType,
           attribute_key: this.convertToSlug,
         });
         this.showAlert(this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE'));
@@ -172,6 +185,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .key-value {
-  height: 2rem;
+  padding: 0 var(--space-small) var(--space-small) 0;
+  font-family: monospace;
 }
 </style>

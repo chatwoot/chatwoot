@@ -1,6 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
-import AttributeAPI from '../../api/custom_attribute_definitions';
+import AttributeAPI from '../../api/attributes';
 
 export const state = {
   records: [],

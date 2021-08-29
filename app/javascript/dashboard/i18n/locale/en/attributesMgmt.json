@@ -17,11 +17,13 @@
         },
         "MODEL": {
           "LABEL": "Model",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
         },
         "TYPE": {
           "LABEL": "Type",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Type is required"
         },
         "KEY": {
           "LABEL": "Key",
