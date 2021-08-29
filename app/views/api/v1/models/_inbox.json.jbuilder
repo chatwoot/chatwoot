@@ -10,6 +10,7 @@ json.out_of_office_message resource.out_of_office_message
 json.csat_survey_enabled resource.csat_survey_enabled
 json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
+json.webhook_url resource.webhook_url
 json.avatar_url resource.try(:avatar_url)
 json.page_id resource.channel.try(:page_id)
 json.widget_color resource.channel.try(:widget_color)

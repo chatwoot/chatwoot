@@ -77,6 +77,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Current.account.api_channels.create!(permitted_params[:channel].except(:type))
     when 'email'
       Current.account.email_channels.create!(permitted_params[:channel].except(:type))
+    when 'line'
+      Current.account.line_channels.create!(permitted_params[:channel].except(:type))
     end
   end
 
@@ -89,7 +91,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, :enable_email_collect, :csat_survey_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time, :line_channel_id, :line_channel_secret, :line_channel_token])
   end
 
   def inbox_update_params
