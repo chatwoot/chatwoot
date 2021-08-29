@@ -274,8 +274,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
       "HMAC_DESCRIPTION": "برای اعتبار سنجی کاربران با استفاده از این کلید `identifier_hash` یک هش HMAC sha256 تولید کنید.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
+      "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
       "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید."
     },
