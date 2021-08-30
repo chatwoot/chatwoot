@@ -2156,7 +2156,7 @@
           },
           {
             "in": "formData",
-            "name": "attachments",
+            "name": "attachments[]",
             "type": "array",
             "description": "The files to be uploaded.",
             "items": {

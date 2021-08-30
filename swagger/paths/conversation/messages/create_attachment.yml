@@ -27,7 +27,7 @@ post:
       type: boolean
       description: Flag to identify if it is a private note
     - in: formData
-      name: attachments
+      name: attachments[]
       type: array
       description: The files to be uploaded.
       items:
