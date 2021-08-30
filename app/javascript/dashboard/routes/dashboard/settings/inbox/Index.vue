@@ -33,6 +33,9 @@
               <!-- Short Code  -->
               <td>
                 <span class="agent-name">{{ item.name }}</span>
+                <span v-if="item.channel_type === 'Channel::Messenger'">
+                  Messenger
+                </span>
                 <span v-if="item.channel_type === 'Channel::FacebookPage'">
                   Facebook
                 </span>

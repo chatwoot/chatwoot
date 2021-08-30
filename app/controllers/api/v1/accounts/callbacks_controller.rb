@@ -22,6 +22,10 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
   end
 
+  def messenger
+    @page_details = mark_already_existing_messengers(fb_object.get_connections('me', 'accounts'))
+  end
+
   # get params[:inbox_id], current_account. params[:omniauth_token]
   def reauthorize_page
     if @inbox&.facebook?
@@ -70,6 +74,15 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
     data.inject([]) do |result, page_detail|
       page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id'])
+      result << page_detail
+    end
+  end
+
+  def mark_already_existing_messenger(data)
+    return [] if data.empty?
+
+    data.inject([]) do |result, page_detail|
+      page_detail[:exists] = Current.account.messengers.exists?(page_id: page_detail['id'])
       result << page_detail
     end
   end
