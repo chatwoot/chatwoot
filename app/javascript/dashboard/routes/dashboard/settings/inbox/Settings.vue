@@ -279,6 +279,24 @@
           </settings-section>
         </div>
       </div>
+      <div v-else-if="isAPIInbox" class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.inbox_identifier"></woot-code>
+          </settings-section>
+      </div>
+      <div v-else-if="isAnEmailChannel">
+        <div class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.forward_to_email"></woot-code>
+          </settings-section>
+        </div>
+      </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
@@ -378,7 +396,7 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel) {
+      if (this.isATwilioChannel || this.isAPIInbox || this.isAnEmailChannel) {
         return [
           ...visibleToAllChannelTabs,
           {

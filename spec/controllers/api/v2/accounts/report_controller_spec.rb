@@ -16,7 +16,7 @@ RSpec.describe 'Reports API', type: :request do
   describe 'GET /api/v2/accounts/:account_id/reports/account' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v2/accounts/#{account.id}/reports/account"
+        get "/api/v2/accounts/#{account.id}/reports"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -31,7 +31,7 @@ RSpec.describe 'Reports API', type: :request do
       }
 
       it 'returns unauthorized for agents' do
-        get "/api/v2/accounts/#{account.id}/reports/account",
+        get "/api/v2/accounts/#{account.id}/reports",
             params: params,
             headers: agent.create_new_auth_token,
             as: :json
@@ -40,7 +40,7 @@ RSpec.describe 'Reports API', type: :request do
       end
 
       it 'return timeseries metrics' do
-        get "/api/v2/accounts/#{account.id}/reports/account",
+        get "/api/v2/accounts/#{account.id}/reports",
             params: params,
             headers: admin.create_new_auth_token,
             as: :json
@@ -55,10 +55,10 @@ RSpec.describe 'Reports API', type: :request do
     end
   end
 
-  describe 'GET /api/v2/accounts/:account_id/reports/account_summary' do
+  describe 'GET /api/v2/accounts/:account_id/reports/summary' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v2/accounts/#{account.id}/reports/account_summary"
+        get "/api/v2/accounts/#{account.id}/reports/summary"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -72,7 +72,7 @@ RSpec.describe 'Reports API', type: :request do
       }
 
       it 'returns unauthorized for agents' do
-        get "/api/v2/accounts/#{account.id}/reports/account_summary",
+        get "/api/v2/accounts/#{account.id}/reports/summary",
             params: params,
             headers: agent.create_new_auth_token,
             as: :json
@@ -81,7 +81,7 @@ RSpec.describe 'Reports API', type: :request do
       end
 
       it 'returns summary metrics' do
-        get "/api/v2/accounts/#{account.id}/reports/account_summary",
+        get "/api/v2/accounts/#{account.id}/reports/summary",
             params: params,
             headers: admin.create_new_auth_token,
             as: :json
@@ -142,7 +142,7 @@ RSpec.describe 'Reports API', type: :request do
         until: Time.zone.today.to_time.to_i.to_s
       }
 
-      it 'returns unauthorized for agents' do
+      it 'returns unauthorized for inboxes' do
         get "/api/v2/accounts/#{account.id}/reports/inboxes",
             params: params,
             headers: agent.create_new_auth_token
@@ -152,6 +152,39 @@ RSpec.describe 'Reports API', type: :request do
 
       it 'returns summary' do
         get "/api/v2/accounts/#{account.id}/reports/inboxes",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/labels' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/labels.csv"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      params = {
+        since: 30.days.ago.to_i.to_s,
+        until: Time.zone.today.to_time.to_i.to_s
+      }
+
+      it 'returns unauthorized for labels' do
+        get "/api/v2/accounts/#{account.id}/reports/labels.csv",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns summary' do
+        get "/api/v2/accounts/#{account.id}/reports/labels.csv",
             params: params,
             headers: admin.create_new_auth_token
 
