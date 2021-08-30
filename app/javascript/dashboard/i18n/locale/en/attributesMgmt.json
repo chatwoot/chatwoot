@@ -26,8 +26,7 @@
           "ERROR": "Type is required"
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Key"
         }
       },
       "API": {
