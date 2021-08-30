@@ -9,16 +9,16 @@
       {{ $t('ATTRIBUTES_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-attributes :on-close="hideAddPopup" />
+      <add-attribute :on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>
 
 <script>
-import AddAttributes from './AddAttributes';
+import AddAttribute from './AddAttribute';
 export default {
   components: {
-    AddAttributes,
+    AddAttribute,
   },
   data() {
     return {

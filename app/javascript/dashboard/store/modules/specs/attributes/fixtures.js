@@ -5,7 +5,6 @@ export default [
     attribute_description: 'The conversation language',
     attribute_key: 'language',
     attribute_model: 0,
-    attribute_type: 0,
   },
   {
     attribute_display_name: 'Language one',
@@ -13,6 +12,5 @@ export default [
     attribute_description: 'The conversation language one',
     attribute_key: 'language_one',
     attribute_model: 3,
-    attribute_type: 1,
   },
 ];

@@ -11,7 +11,6 @@ describe('#getters', () => {
         attribute_description: 'The conversation language one',
         attribute_key: 'language_one',
         attribute_model: 3,
-        attribute_type: 1,
       },
     ]);
   });

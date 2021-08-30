@@ -13,17 +13,17 @@ describe('#actions', () => {
       axios.get.mockResolvedValue({ data: attributesList });
       await actions.get({ commit }, { inboxId: 23 });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isFetching: true }],
-        [types.default.SET_CUSTOM_ATTRIBUTES, attributesList],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isFetching: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE, attributesList],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.get({ commit }, { inboxId: 23 });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isFetching: true }],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isFetching: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false }],
       ]);
     });
   });
@@ -32,17 +32,17 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({ data: attributesList[0] });
       await actions.create({ commit }, attributesList[0]);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_CUSTOM_ATTRIBUTES, attributesList[0]],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isCreating: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: true }],
+        [types.default.ADD_CUSTOM_ATTRIBUTE, attributesList[0]],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.create({ commit })).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isCreating: true }],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isCreating: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: false }],
       ]);
     });
   });
@@ -52,9 +52,9 @@ describe('#actions', () => {
       axios.patch.mockResolvedValue({ data: attributesList[0] });
       await actions.update({ commit }, attributesList[0]);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isUpdating: true }],
-        [types.default.EDIT_CUSTOM_ATTRIBUTES, attributesList[0]],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isUpdating: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: true }],
+        [types.default.EDIT_CUSTOM_ATTRIBUTE, attributesList[0]],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -63,8 +63,8 @@ describe('#actions', () => {
         actions.update({ commit }, attributesList[0])
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isUpdating: true }],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isUpdating: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });
@@ -74,9 +74,9 @@ describe('#actions', () => {
       axios.delete.mockResolvedValue({ data: attributesList[0] });
       await actions.delete({ commit }, attributesList[0].id);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isDeleting: true }],
-        [types.default.DELETE_CUSTOM_ATTRIBUTES, attributesList[0].id],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isDeleting: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: true }],
+        [types.default.DELETE_CUSTOM_ATTRIBUTE, attributesList[0].id],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -85,8 +85,8 @@ describe('#actions', () => {
         actions.delete({ commit }, attributesList[0].id)
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isDeleting: true }],
-        [types.default.SET_CUSTOM_ATTRIBUTES_UI_FLAG, { isDeleting: false }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false }],
       ]);
     });
   });

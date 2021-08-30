@@ -53,13 +53,13 @@
             </span>
           </label>
         </div>
-        <div v-if="hasValue" class="medium-12 columns">
+        <div v-if="displayName" class="medium-12 columns">
           <label>
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
             <i class="ion-help" />
           </label>
           <p class="key-value text-truncate">
-            {{ convertToSlug }}
+            {{ attributeKey }}
           </p>
         </div>
         <div class="modal-footer">
@@ -85,14 +85,17 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
     },
   },
+
   data() {
     return {
       displayName: '',
@@ -130,24 +133,27 @@ export default {
           id: 4,
           option: 'Link',
         },
+        {
+          id: 5,
+          option: 'Date',
+        },
       ],
       show: true,
     };
   },
+
   computed: {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
-    convertToSlug() {
+    attributeKey() {
       return this.displayName
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '_');
     },
-    hasValue() {
-      return this.displayName.length >= 1;
-    },
   },
+
   validations: {
     displayName: {
       required,
@@ -165,9 +171,6 @@ export default {
   },
 
   methods: {
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
-    },
     async addAttributes() {
       try {
         await this.$store.dispatch('attributes/create', {
@@ -175,12 +178,16 @@ export default {
           attribute_description: this.description,
           attribute_model: this.attributeModel,
           attribute_display_type: this.attributeType,
-          attribute_key: this.convertToSlug,
+          attribute_key: this.attributeKey,
         });
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.ADD.API.ERROR_MESSAGE'));
+        const errorMessage = error?.response?.data?.message;
+        this.alertMessage =
+          errorMessage || this.$t('ATTRIBUTES_MGMT.ADD.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
   },
