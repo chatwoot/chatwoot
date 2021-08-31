@@ -96,7 +96,7 @@ class Notification::PushNotificationService
         title: notification.notification_type.titleize,
         body: notification.push_message_title
       },
-      data: { notification: notification.push_event_data.to_json },
+      data: { notification: notification.fcm_push_data.to_json },
       collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
   end
