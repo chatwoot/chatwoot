@@ -33,6 +33,29 @@
         "SUCCESS_MESSAGE": "Attribute added successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
+    },
+    "TABS": {
+      "HEADER": "Custom Attributes",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading attributes...",
+      "TABLE_HEADER": {
+        "NAME": "Display Name",
+        "DESCRIPTION": "Description",
+        "MODEL": "Model",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
+      "BUTTONS": {
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "Please create an attribute"
+      }
     }
   }
 }

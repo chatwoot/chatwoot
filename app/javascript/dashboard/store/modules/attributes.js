@@ -14,9 +14,9 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getAttributes: _state => attributeType => {
+  getAttributes: _state => attributeModel => {
     return _state.records.filter(
-      record => record.attribute_display_type === attributeType
+      record => record.attribute_model === attributeModel
     );
   },
 };

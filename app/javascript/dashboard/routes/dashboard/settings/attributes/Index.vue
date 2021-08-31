@@ -1,5 +1,5 @@
 <template>
-  <div class="column content-box">
+  <div class="column">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
@@ -8,6 +8,7 @@
     >
       {{ $t('ATTRIBUTES_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
+    <custom-attribute />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <add-attribute :on-close="hideAddPopup" />
     </woot-modal>
@@ -16,14 +17,19 @@
 
 <script>
 import AddAttribute from './AddAttribute';
+import CustomAttribute from './CustomAttribute';
 export default {
   components: {
     AddAttribute,
+    CustomAttribute,
   },
   data() {
     return {
       showAddPopup: false,
     };
+  },
+  mounted() {
+    this.$store.dispatch('attributes/get');
   },
   methods: {
     openAddPopup() {
