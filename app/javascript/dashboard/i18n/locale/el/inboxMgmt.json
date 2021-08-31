@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Το κιβώτιο διαγράφηκε επιτυχώς",
-        "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα."
+        "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
