@@ -77,18 +77,18 @@ class Attachment < ApplicationRecord
       account_id: account_id
     }
   end
-  
+
   def should_validate_file?
     return unless file.attached?
     # we are only limiting attachment types in case of website widget
     return unless file.message.inbox.channel_type == 'Channel::WebWidget'
-    
+
     true
   end
 
   def acceptable_file
     should_validate_file?
-    
+
     errors.add(:file, 'is too big') if file.byte_size > 40.megabytes
 
     acceptable_types = ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'application/pdf', 'audio/mpeg', 'video/mp4', 'audio/ogg',
