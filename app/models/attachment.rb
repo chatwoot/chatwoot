@@ -81,7 +81,7 @@ class Attachment < ApplicationRecord
   def should_validate_file?
     return unless file.attached?
     # we are only limiting attachment types in case of website widget
-    return unless file.message.inbox.channel_type == 'Channel::WebWidget'
+    return unless message.inbox.channel_type == 'Channel::WebWidget'
 
     true
   end
