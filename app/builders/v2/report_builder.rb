@@ -32,9 +32,16 @@ class V2::ReportBuilder
   private
 
   def scope
-    return account if params[:type].match?('account')
-    return inbox if params[:type].match?('inbox')
-    return user if params[:type].match?('agent')
+    case params[:type]
+    when :account
+      account
+    when :inbox
+      inbox
+    when :agent
+      user
+    when :label
+      label
+    end
   end
 
   def inbox
@@ -43,6 +50,10 @@ class V2::ReportBuilder
 
   def user
     @user ||= account.users.where(id: params[:id]).first
+  end
+
+  def label
+    @label ||= account.labels.where(id: params[:id]).first
   end
 
   def conversations_count
