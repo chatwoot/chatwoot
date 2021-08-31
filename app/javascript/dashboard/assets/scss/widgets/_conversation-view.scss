@@ -228,6 +228,16 @@
     }
   }
 
+  &.unread--toast {
+    +.left {
+      margin-top: $space-one;
+    }
+
+    +.right {
+      margin-top: $space-one;
+    }
+  }
+
   &.center {
     justify-content: center;
   }
