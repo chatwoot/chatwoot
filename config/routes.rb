@@ -102,6 +102,7 @@ Rails.application.routes.draw do
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            delete :avatar, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
           resources :labels, only: [:index, :show, :create, :update, :destroy]
@@ -175,12 +176,12 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [] do
+        resources :reports, only: [:index] do
           collection do
-            get :account
-            get :account_summary
+            get :summary
             get :agents
             get :inboxes
+            get :labels
           end
         end
       end
