@@ -1,4 +1,5 @@
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
+import { generateEventParams } from './events';
 
 const createConversation = params => {
   const referrerURL = window.referrerURL || '';
@@ -76,6 +77,7 @@ const triggerCampaign = ({ websiteToken, campaignId }) => ({
     name: 'campaign.triggered',
     event_info: {
       campaign_id: campaignId,
+      ...generateEventParams(),
     },
   },
   params: {
