@@ -269,7 +269,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   delete:
     $ref: ./teams/delete.yml
 
-### Custom Filters
+### Custom Filters goes here
 
 # Teams
 /api/v1/accounts/{account_id}/custom_filters:
@@ -296,3 +296,52 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./custom_filters/update.yml
   delete:
     $ref: ./custom_filters/delete.yml
+
+### Reports
+
+# List
+/api/v1/accounts/{id}/reports:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/report_metric'
+    - $ref: '#/parameters/report_type'
+    - in: query
+      name: id
+      schema:
+        type: string
+      description: The Id of specific object in case of agent/inbox/label
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start.
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop.
+  get:
+    $ref: './reports/index.yml'
+
+# Summary
+/api/v1/accounts/{id}/reports/summary:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/report_type'
+    - in: query
+      name: id
+      schema:
+        type: string
+      description: The Id of specific object in case of agent/inbox/label
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start.
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop.
+  get:
+    $ref: './reports/summary.yml'

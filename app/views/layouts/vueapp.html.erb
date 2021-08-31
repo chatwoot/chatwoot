@@ -66,6 +66,8 @@
         var BASE_URL="";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+"/packs/js/sdk.js";
+        g.defer = true;
+        g.async = true;
         s.parentNode.insertBefore(g,s);
         s.async=!0;
         g.onload=function(){
