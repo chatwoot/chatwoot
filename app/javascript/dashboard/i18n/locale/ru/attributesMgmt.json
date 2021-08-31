@@ -1,6 +1,38 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Свойства",
-    "HEADER_BTN_TXT": "Добавить параметр"
+    "HEADER_BTN_TXT": "Добавить параметр",
+    "ADD": {
+      "TITLE": "Добавить параметр",
+      "SUBMIT": "Создать",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Пожалуйста выберите тип",
+          "ERROR": "Type is required"
+        },
+        "KEY": {
+          "LABEL": "Key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      }
+    }
   }
 }
