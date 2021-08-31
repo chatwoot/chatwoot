@@ -117,6 +117,14 @@
   }
 
   &.unread--toast {
+    +.right {
+      margin-bottom: 0;
+    }
+
+    +.left {
+      margin-bottom: 0;
+    }
+
     span {
       @include elegant-card;
       @include round-corner;
@@ -140,15 +148,6 @@
     }
   }
 
-  &.unread--toast {
-    +.right {
-      margin-bottom: 0;
-    }
-
-    +.left {
-      margin-bottom: 0;
-    }
-  }
 
   &.left {
 
