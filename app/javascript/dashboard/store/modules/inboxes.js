@@ -173,7 +173,7 @@ export const actions = {
       throw new Error(error.message);
     }
   },
-  deleteInboxAvatar: async ({ }, inboxId) => {
+  deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
     } catch (error) {

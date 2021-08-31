@@ -17,7 +17,6 @@ class Inboxes extends ApiClient {
   deleteInboxAvatar(inboxId) {
     return axios.delete(`${this.url}/${inboxId}/avatar`);
   }
-
 }
 
 export default new Inboxes();
