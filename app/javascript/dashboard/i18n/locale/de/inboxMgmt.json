@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal."
+        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
