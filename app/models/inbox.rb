@@ -74,6 +74,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::WebWidget'
   end
 
+  def api?
+    channel_type == 'Channel::Api'
+  end
+
   def inbox_type
     channel.name
   end
