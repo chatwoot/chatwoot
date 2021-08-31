@@ -31,6 +31,12 @@ platform_user_id:
 custom_filter_id:
   $ref: ./custom_filter_id.yml
 
+report_type:
+  $ref: ./report_type.yml
+
+report_metric:
+  $ref: ./report_metric.yml
+
 public_inbox_identifier:
   $ref: ./public/inbox_identifier.yml
 
