@@ -128,4 +128,19 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#deleteInboxAvatar', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue();
+      await expect(
+        actions.deleteInboxAvatar({}, inboxList[0].id)
+      ).resolves.toBe();
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteInboxAvatar({}, inboxList[0].id)
+      ).rejects.toThrow(Error);
+    });
+  });
 });
