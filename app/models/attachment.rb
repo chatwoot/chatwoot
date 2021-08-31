@@ -80,6 +80,8 @@ class Attachment < ApplicationRecord
 
   def acceptable_file
     return unless file.attached?
+    # we are only limiting attachment types in case of website widget
+    return unless file.message.inbox.channel_type == 'Channel::WebWidget'
 
     errors.add(:file, 'is too big') if file.byte_size > 40.megabytes
 
