@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除吗？ ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "收件匣刪除成功",
-        "ERROR_MESSAGE": "無法刪除收件匣。請稍後再試。"
+        "ERROR_MESSAGE": "無法刪除收件匣。請稍後再試。",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
