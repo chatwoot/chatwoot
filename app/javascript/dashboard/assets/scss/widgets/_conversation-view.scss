@@ -140,6 +140,16 @@
     }
   }
 
+  &.unread--toast {
+    +.right {
+      margin-bottom: 0;
+    }
+
+    +.left {
+      margin-bottom: 0;
+    }
+  }
+
   &.left {
 
     .bubble {
@@ -183,6 +193,19 @@
       }
     }
 
+    +.unread--toast {
+      +.right {
+        margin-top: $space-one;
+
+        .bubble {
+          border-top-right-radius: $space-one;
+        }
+      }
+
+      +.left {
+        margin-top: 0;
+      }
+    }
   }
 
   &.right {
@@ -226,16 +249,21 @@
         border-top-left-radius: $space-one;
       }
     }
-  }
 
-  &.unread--toast {
-    +.left {
-      margin-top: $space-one;
+    +.unread--toast {
+      +.left {
+        margin-top: $space-one;
+
+        .bubble {
+          border-top-left-radius: $space-one;
+        }
+      }
+
+      +.right {
+        margin-top: 0;
+      }
     }
 
-    +.right {
-      margin-top: $space-one;
-    }
   }
 
   &.center {
