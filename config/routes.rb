@@ -175,12 +175,12 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [] do
+        resources :reports, only: [:index] do
           collection do
-            get :account
-            get :account_summary
+            get :summary
             get :agents
             get :inboxes
+            get :labels
           end
         end
       end
