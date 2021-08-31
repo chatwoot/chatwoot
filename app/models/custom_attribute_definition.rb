@@ -29,7 +29,7 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_model, presence: true
 
   enum attribute_model: { conversation_attribute: 0, contact_attribute: 1 }
-  enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4 }
+  enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5 }
 
   belongs_to :account
 end
