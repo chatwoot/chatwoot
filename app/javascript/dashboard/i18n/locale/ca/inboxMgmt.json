@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Suprimeix",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur? ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "S'ha suprimit la safata d'entrada correctament",
-        "ERROR_MESSAGE": "No s'ha pogut eliminar la safata d'entrada. Torneu-ho a provar més endavant."
+        "ERROR_MESSAGE": "No s'ha pogut eliminar la safata d'entrada. Torneu-ho a provar més endavant.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
