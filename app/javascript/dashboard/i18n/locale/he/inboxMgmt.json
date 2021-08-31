@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
         "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
