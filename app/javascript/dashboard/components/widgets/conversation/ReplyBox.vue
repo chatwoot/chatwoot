@@ -208,7 +208,8 @@ export default {
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isAnEmailChannel
       );
     },
     replyButtonLabel() {
@@ -325,9 +326,6 @@ export default {
       if (this.showRichContentEditor) {
         return;
       }
-      if (this.$refs.messageInput === undefined) {
-        return;
-      }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
@@ -361,13 +359,11 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-        });
-      }
+      const conversationId = this.currentChat.id;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+      });
     },
     onFileUpload(file) {
       if (!file) {

@@ -12,7 +12,8 @@
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:dev-overmind": "overmind start -f ./Procfile.dev",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "ruby:prettier":"bundle exec rubocop -a"
   },
   "dependencies": {
     "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022",

@@ -22,7 +22,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .text-content {
   overflow: auto;
 
@@ -31,6 +31,26 @@ export default {
     ol {
       margin-left: var(--space-normal);
     }
+  }
+  table {
+    all: revert;
+
+    td {
+      all: revert;
+    }
+
+    tr {
+      all: revert;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: var(--font-size-normal);
   }
 }
 </style>
