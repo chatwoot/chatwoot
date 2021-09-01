@@ -2109,7 +2109,7 @@
         ],
         "operationId": "conversationNewMessageAttachment",
         "summary": "Create New Message Attachment",
-        "description": "Create an attachment Message",
+        "description": "Create an attachment message. Refer to this discussion if you have any further doubts. https://github.com/chatwoot/chatwoot/discussions/1809#discussioncomment-1211845",
         "consumes": [
           "multipart/form-data"
         ],
@@ -2156,7 +2156,7 @@
           },
           {
             "in": "formData",
-            "name": "attachments",
+            "name": "attachments[]",
             "type": "array",
             "description": "The files to be uploaded.",
             "items": {
