@@ -31,12 +31,13 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   end
 
   def fetch_custom_attribute_definition
-    @custom_attribute_definition = @custom_attribute_definitions.find(permitted_params[:id])
+    @custom_attribute_definition = Current.account.custom_attribute_definitions.find(permitted_params[:id])
   end
 
   def permitted_payload
     params.require(:custom_attribute_definition).permit(
       :attribute_display_name,
+      :attribute_description,
       :attribute_display_type,
       :attribute_key,
       :attribute_model,
@@ -45,6 +46,6 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   end
 
   def permitted_params
-    params.permit(:id, :filter_type)
+    params.permit(:id, :filter_type, :attribute_model)
   end
 end

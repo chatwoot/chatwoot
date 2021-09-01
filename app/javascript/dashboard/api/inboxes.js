@@ -17,6 +17,10 @@ class Inboxes extends ApiClient {
   verifyWidgetInstallation(inboxId) {
     return axios.get(`${this.url}/${inboxId}/verify_installation`);
   }
+  
+  deleteInboxAvatar(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/avatar`);
+  }
 }
 
 export default new Inboxes();

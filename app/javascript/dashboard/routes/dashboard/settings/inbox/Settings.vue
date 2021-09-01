@@ -22,7 +22,9 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
+          deleteAvatar
           @change="handleImageUpload"
+          @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
           v-model.trim="selectedInboxName"
@@ -170,7 +172,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+        <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -279,6 +281,24 @@
           </settings-section>
         </div>
       </div>
+      <div v-else-if="isAPIInbox" class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.inbox_identifier"></woot-code>
+          </settings-section>
+      </div>
+      <div v-else-if="isAnEmailChannel">
+        <div class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.forward_to_email"></woot-code>
+          </settings-section>
+        </div>
+      </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
@@ -378,7 +398,7 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel) {
+      if (this.isATwilioChannel || this.isAPIInbox || this.isAnEmailChannel) {
         return [
           ...visibleToAllChannelTabs,
           {
@@ -416,7 +436,7 @@ export default {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
-    },
+    }
   },
   watch: {
     $route(to) {
@@ -525,6 +545,23 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
+    },
+    async handleAvatarDelete() {
+      try {
+        await this.$store.dispatch(
+          'inboxes/deleteInboxAvatar',
+          this.currentInboxId
+        );
+        this.avatarFile = null;
+        this.avatarUrl = '';
+        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.AVATAR_SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE')
+        );
+      }
     },
   },
   validations: {

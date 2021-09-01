@@ -57,4 +57,8 @@ class InboxPolicy < ApplicationPolicy
   def set_agent_bot?
     @account_user.administrator?
   end
+
+  def avatar?
+    @account_user.administrator?
+  end
 end
