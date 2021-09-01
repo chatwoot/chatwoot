@@ -1,0 +1,38 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Attributes",
+    "HEADER_BTN_TXT": "Add Attribute",
+    "ADD": {
+      "TITLE": "Add attribute",
+      "SUBMIT": "创建",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "请选择一个类型",
+          "ERROR": "Type is required"
+        },
+        "KEY": {
+          "LABEL": "Key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+      }
+    }
+  }
+}
