@@ -504,8 +504,8 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
-        this.greetingEnabled = this.inbox.greeting_enabled;
-        this.greetingMessage = this.inbox.greeting_message;
+        this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
