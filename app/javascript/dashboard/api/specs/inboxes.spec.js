@@ -27,5 +27,12 @@ describe('#InboxesAPI', () => {
         '/api/v1/inboxes/2/campaigns'
       );
     });
+
+    it('#deleteInboxAvatar', () => {
+      inboxesAPI.deleteInboxAvatar(2);
+      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/avatar'
+      );
+    });
   });
 });
