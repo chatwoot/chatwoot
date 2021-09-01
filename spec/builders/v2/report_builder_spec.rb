@@ -150,6 +150,12 @@ describe ::V2::ReportBuilder do
     end
 
     context 'when report type is label' do
+      before do
+        label_2.conversations.each do |conversation|
+          FactoryBot.create(:event, conversation: conversation, account: account, name: 'first_response')
+        end
+      end
+
       it 'return conversations count' do
         params = {
           metric: 'conversations_count',
@@ -215,8 +221,6 @@ describe ::V2::ReportBuilder do
       end
 
       it 'returns average first response time' do
-        FactoryBot.create(:event, conversation: label_2.conversations.last, account: account, name: 'first_response')
-
         params = {
           metric: 'avg_first_response_time',
           type: :label,
