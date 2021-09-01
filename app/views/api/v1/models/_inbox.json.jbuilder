@@ -29,3 +29,4 @@ if resource.web_widget?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
 end
+json.inbox_identifier resource.channel.try(:identifier) if resource.api?

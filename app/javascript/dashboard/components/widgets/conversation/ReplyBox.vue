@@ -5,6 +5,8 @@
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -122,6 +124,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -222,7 +228,8 @@ export default {
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isAnEmailChannel
       );
     },
     replyButtonLabel() {
