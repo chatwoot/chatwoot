@@ -1,5 +1,5 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body height-auto small-9 columns">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
@@ -100,18 +100,32 @@
         </p>
       </label>
       <div v-if="greetingEnabled" class="medium-12 columns">
-        <label>
+        <label v-if="textAreaChannels">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           }}
-          <input
+          <textarea
             v-model.trim="greetingMessage"
+            rows="4"
             type="text"
             :placeholder="
               $t(
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
               )
             "
+          />
+        </label>
+        <label v-else class="greetings--richtext">
+          <woot-message-editor
+            v-model.trim="greetingMessage"
+            :is-format-mode="true"
+            class="input"
+            :placeholder="
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
+              )
+            "
+            :min-height="4"
           />
         </label>
       </div>
@@ -133,10 +147,12 @@
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 
 export default {
   components: {
     PageHeader,
+    WootMessageEditor,
   },
   data() {
     return {
@@ -153,6 +169,16 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    textAreaChannels() {
+      if (
+        this.isATwilioSMSChannel ||
+        this.isATwilioWhatsappChannel ||
+        this.isisATwitterInbox ||
+        this.isFacebookChannel
+      )
+        return true;
+      return false;
+    },
   },
   methods: {
     async createChannel() {
@@ -182,3 +208,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.greetings--richtext {
+  padding: 0 var(--space-normal);
+  border-radius: var(--border-radius-normal);
+  border: 1px solid #e0e6ed;
+  margin: 0 0 1.6rem;
+}
+</style>

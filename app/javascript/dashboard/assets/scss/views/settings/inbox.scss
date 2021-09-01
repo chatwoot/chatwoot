@@ -133,6 +133,9 @@
   @include border-light;
   @include full-height();
 }
+.wizard-body.height-auto {
+  height: auto;
+}
 
 .inoboxes-list {
 

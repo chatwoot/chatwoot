@@ -100,21 +100,38 @@
             }}
           </p>
         </label>
-
-        <woot-input
-          v-if="greetingEnabled"
-          v-model.trim="greetingMessage"
-          class="medium-9 columns"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-            )
-          "
-        />
-
+        <section v-if="greetingEnabled">
+          <textarea
+            v-if="textAreaChannels"
+            v-model.trim="greetingMessage"
+            rows="4"
+            type="text"
+            class="medium-9 columns greetings--textarea"
+            :label="
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
+              )
+            "
+            :placeholder="
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+              )
+            "
+          />
+          <label v-else class="greetings--richtext">
+            <woot-message-editor
+              v-model.trim="greetingMessage"
+              :is-format-mode="true"
+              class="input"
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
+                )
+              "
+              :min-height="4"
+            />
+          </label>
+        </section>
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -300,6 +317,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 
 export default {
   components: {
@@ -308,6 +326,7 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
+    WootMessageEditor,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -416,7 +435,17 @@ export default {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
-    }
+    },
+    textAreaChannels() {
+      if (
+        this.isATwilioSMSChannel ||
+        this.isATwilioWhatsappChannel ||
+        this.isisATwitterInbox ||
+        this.isFacebookChannel
+      )
+        return true;
+      return false;
+    },
   },
   watch: {
     $route(to) {
@@ -547,6 +576,15 @@ export default {
   .settings--content {
     div:last-child {
       border-bottom: 0;
+    }
+    .greetings--textarea {
+      padding: 0.8rem;
+    }
+    .greetings--richtext {
+      padding: 0 var(--space-normal);
+      border-radius: var(--border-radius-normal);
+      border: 1px solid #e0e6ed;
+      margin: 0 0 1.6rem;
     }
   }
 
