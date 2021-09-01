@@ -26,6 +26,24 @@
         </span>
       </div>
     </div>
+    <woot-button
+      v-if="popoutReplyBox"
+      variant="clear"
+      size="large"
+      icon="ion-android-close"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
+    <woot-button
+      v-else
+      variant="clear"
+      size="large"
+      icon="ion-arrow-resize"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
   </div>
 </template>
 
@@ -59,6 +77,10 @@ export default {
     charactersRemaining: {
       type: Number,
       default: () => 0,
+    },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -166,5 +188,12 @@ export default {
   .message-length {
     color: var(--s-600);
   }
+}
+
+.popout-button {
+  display: flex;
+  justify-content: flex-end;
+  height: auto;
+  padding-right: var(--space-normal);
 }
 </style>
