@@ -5,6 +5,8 @@
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -119,6 +121,10 @@ export default {
       default: () => ({}),
     },
     isATweet: {
+      type: Boolean,
+      default: false,
+    },
+    popoutReplyBox: {
       type: Boolean,
       default: false,
     },
