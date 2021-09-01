@@ -391,7 +391,8 @@ export default {
 
     .reply-box {
       border: 1px solid var(--color-border);
-      width: 104rem;
+      max-width: 120rem;
+      width: 70%;
     }
 
     .reply-box .reply-box__top {
