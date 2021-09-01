@@ -30,7 +30,7 @@
           "PLACEHOLDER": "Please enter a content",
           "ERROR": "Content is required"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "बुझाउनुहोस्"
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned Response added successfully",
@@ -51,7 +51,7 @@
           "PLACEHOLDER": "Please enter a content",
           "ERROR": "Content is required"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "बुझाउनुहोस्"
       },
       "BUTTON_TEXT": "Edit",
       "API": {
