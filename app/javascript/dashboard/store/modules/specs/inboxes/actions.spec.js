@@ -146,7 +146,7 @@ describe('#actions', () => {
       );
     });
   });
-  
+
   describe('#deleteInboxAvatar', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue();

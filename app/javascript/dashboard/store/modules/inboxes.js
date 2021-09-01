@@ -173,16 +173,17 @@ export const actions = {
       throw new Error(error.message);
     }
   },
-  
-  verifyWidgetInstallation: async ({}, inboxId) => {
+
+  verifyWidgetInstallation: async (_, inboxId) => {
     try {
       const response = await InboxesAPI.verifyWidgetInstallation(inboxId);
       const { message } = response.data;
       return message;
     } catch (error) {
       throw new Error(error);
+    }
   },
-    
+
   deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
