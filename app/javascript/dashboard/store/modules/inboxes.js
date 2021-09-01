@@ -173,6 +173,13 @@ export const actions = {
       throw new Error(error.message);
     }
   },
+  deleteInboxAvatar: async (_, inboxId) => {
+    try {
+      await InboxesAPI.deleteInboxAvatar(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {
