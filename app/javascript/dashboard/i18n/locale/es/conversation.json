@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "SEARCH": {
       "TITLE": "Buscar mensajes",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Cruzando datos...",
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
       "NO_MATCHING_RESULTS": "No se encontraron resultados."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "LAST_INCOMING_TWEET": "Esta respondiendo al último tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -41,7 +42,13 @@
       "DETAILS": "detalles"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Abrir con bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
       "ENTER_TO_SEND": "Ingresar para enviar",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Para",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
