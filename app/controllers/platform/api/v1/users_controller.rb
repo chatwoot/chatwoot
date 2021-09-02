@@ -24,7 +24,7 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def destroy
-    # TODO: obfusicate user
+    DeleteObjectJob.perform_later(@resource)
     head :ok
   end
 
