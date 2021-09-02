@@ -7,8 +7,8 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
 
   def create
     @message = @conversation.messages.new(message_params)
-    @message.save
     build_attachment
+    @message.save!
   end
 
   def update
@@ -23,13 +23,12 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
     return if params[:attachments].blank?
 
     params[:attachments].each do |uploaded_attachment|
-      attachment = @message.attachments.new(
+      @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type)
+        file_type: helpers.file_type(uploaded_attachment&.content_type),
+        file: uploaded_attachment
       )
-      attachment.file.attach(uploaded_attachment)
     end
-    @message.save!
   end
 
   def message_finder_params

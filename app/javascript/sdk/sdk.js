@@ -25,7 +25,9 @@ export const SDK_CSS = `.woot-widget-holder {
 .woot-widget-bubble {
   background: #1f93ff;
   border-radius: 100px !important;
+  border-width: 0px;
   bottom: 20px;
+  padding: 0px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
   cursor: pointer;
   height: 64px !important;
@@ -40,6 +42,7 @@ export const SDK_CSS = `.woot-widget-holder {
   display: flex;
   height: 48px !important;
   width: auto !important;
+  align-items: center;
 }
 
 .woot-widget-bubble.woot-widget--expanded div {
