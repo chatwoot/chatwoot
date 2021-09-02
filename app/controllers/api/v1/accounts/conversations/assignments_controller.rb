@@ -14,7 +14,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       if @assignee.nil?
         render json: nil
       elsif
-        render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @assignee }
+        render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: @assignee }
       end
     elsif params.key?(:team_id)
       @assignee = Current.account.teams.find_by(id: params[:team_id])
