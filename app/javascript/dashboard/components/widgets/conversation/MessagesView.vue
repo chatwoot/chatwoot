@@ -78,7 +78,10 @@
         :is-a-tweet="isATweet"
       />
     </ul>
-    <div class="conversation-footer">
+    <div
+      class="conversation-footer"
+      :class="{ 'modal-mask': isPopoutReplyBox }"
+    >
       <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
         <div class="typing-indicator">
           {{ typingUserNames }}
@@ -90,9 +93,12 @@
         </div>
       </div>
       <reply-box
+        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
+        :popout-reply-box="isPopoutReplyBox"
+        @click="showPopoutReplyBox"
         @scrollToMessage="scrollToBottom"
       />
     </div>
@@ -110,13 +116,16 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
+import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Message,
     ReplyBox,
   },
-  mixins: [conversationMixin, inboxMixin],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -130,6 +139,7 @@ export default {
       heightBeforeLoad: null,
       conversationPanel: null,
       selectedTweetId: null,
+      isPopoutReplyBox: false,
     };
   },
 
@@ -252,6 +262,17 @@ export default {
   },
 
   methods: {
+    showPopoutReplyBox() {
+      this.isPopoutReplyBox = !this.isPopoutReplyBox;
+    },
+    closePopoutReplyBox() {
+      this.isPopoutReplyBox = false;
+    },
+    handleKeyEvents(e) {
+      if (isEscape(e)) {
+        this.closePopoutReplyBox();
+      }
+    },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
@@ -360,5 +381,40 @@ export default {
   height: auto;
   flex-grow: 1;
   min-width: 0;
+}
+
+.modal-mask {
+  &::v-deep {
+    .ProseMirror-woot-style {
+      max-height: 40rem;
+    }
+
+    .reply-box {
+      border: 1px solid var(--color-border);
+      max-width: 120rem;
+      width: 70%;
+    }
+
+    .reply-box .reply-box__top {
+      position: relative;
+      min-height: 44rem;
+    }
+
+    .reply-box__top .input {
+      min-height: 44rem;
+    }
+
+    .emoji-dialog {
+      position: fixed;
+      left: unset;
+      position: absolute;
+    }
+
+    .emoji-dialog::before {
+      transform: rotate(0deg);
+      left: 5px;
+      bottom: var(--space-minus-slab);
+    }
+  }
 }
 </style>

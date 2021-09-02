@@ -215,7 +215,7 @@ describe ::V2::ReportBuilder do
       end
 
       it 'returns average first response time' do
-        FactoryBot.create(:event, conversation: label_2.conversations.last, account: account, name: 'first_response')
+        label_2.events.update(value: 1.5)
 
         params = {
           metric: 'avg_first_response_time',
