@@ -299,12 +299,12 @@
         </div>
       </div>
       <div v-else-if="isAPIInbox" class="settings--content">
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
-            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
-          >
-            <woot-code :script="inbox.inbox_identifier"></woot-code>
-          </settings-section>
+        <settings-section
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+        >
+          <woot-code :script="inbox.inbox_identifier"></woot-code>
+        </settings-section>
       </div>
       <div v-else-if="isAnEmailChannel">
         <div class="settings--content">
@@ -462,7 +462,6 @@ export default {
         this.isATwilioSMSChannel ||
         this.isATwilioWhatsappChannel ||
         this.isATwitterInbox ||
-        this.isFacebookChannel ||
         this.isAFacebookInbox
       )
         return true;
