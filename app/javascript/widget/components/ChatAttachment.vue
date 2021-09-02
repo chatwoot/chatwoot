@@ -83,7 +83,7 @@ export default {
   justify-content: center;
 
   i {
-    font-size: $font-size-big;
+    font-size: $font-size-large;
     color: $color-gray;
   }
 }
