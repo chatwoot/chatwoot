@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="sidebar-item--collapsible">
     <div class="contact_info">
-      <div class="title_wrap" @click="$emit('click')">
+      <div class="title-wrap" @click="$emit('click')">
         <div class="title-icon__wrap">
           <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
-          <span class="item-name text-block-title">
+          <h5 class="item-name sub-block-title">
             {{ headerTitle }}
-          </span>
+          </h5>
         </div>
       </div>
       <div class="button-icon--wrap">
         <slot name="button"></slot>
         <div class="chevron-icon__wrap" @click="$emit('click')">
-          <i v-if="enabled" class="ion-chevron-down chevron-icon"></i>
-          <i v-else class="ion-chevron-right chevron-icon"></i>
+          <i v-if="enabled" class="ion-minus chevron-icon"></i>
+          <i v-else class="ion-plus chevron-icon"></i>
         </div>
       </div>
     </div>
@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sidebar-item--collapsible {
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 0 var(--space-normal);
+}
 .contact_info {
   display: flex;
   justify-content: space-between;
@@ -58,12 +62,13 @@ export default {
   cursor: pointer;
   user-select: none;
   padding: var(--space-micro) 0;
-  margin-bottom: var(--space-small);
+  margin: var(--space-small) 0;
 }
 
-.title_wrap {
+.title-wrap {
   display: flex;
   justify-content: space-between;
+  margin-bottom: var(--space-micro);
 }
 
 .title-icon__wrap {
@@ -73,12 +78,11 @@ export default {
 
 .icon-or-emoji {
   display: inline-block;
-  width: var(--space-medium);
+  width: var(--space-two);
 }
 
 .item-name {
-  font-weight: var(--font-weight-bold);
-  color: var(--color---color-heading);
+  margin-bottom: 0;
   padding: 0 var(--space-small) 0 0;
 }
 

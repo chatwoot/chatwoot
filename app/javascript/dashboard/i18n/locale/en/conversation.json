@@ -145,6 +145,7 @@
     },
     "COLLAPSE_HEADER_TITLE": {
       "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTION": "Conversation Actions",
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
