@@ -10,6 +10,7 @@ json.id resource.id
 json.name resource.name
 json.provider resource.provider
 json.pubsub_token resource.pubsub_token
+json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
 json.role resource.active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid

@@ -64,7 +64,7 @@ x-tagGroups:
       - Teams
       - Custom Filter
       - Reports
-  - name: Public
+  - name: Client
     tags:
       - Contacts API
       - Conversations API
