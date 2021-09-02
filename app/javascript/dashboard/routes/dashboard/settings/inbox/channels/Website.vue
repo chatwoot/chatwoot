@@ -171,10 +171,12 @@ export default {
     }),
     textAreaChannels() {
       if (
+        this.isATwilioChannel ||
         this.isATwilioSMSChannel ||
         this.isATwilioWhatsappChannel ||
-        this.isisATwitterInbox ||
-        this.isFacebookChannel
+        this.isATwitterInbox ||
+        this.isFacebookChannel ||
+        this.isAFacebookInbox
       )
         return true;
       return false;
