@@ -320,7 +320,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        avatar_url,
       } = this.currentUser;
       const selfAssign = {
         account_id,
@@ -330,7 +330,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        thumbnail: avatar_url,
       };
       this.assignedAgent = selfAssign;
     },
