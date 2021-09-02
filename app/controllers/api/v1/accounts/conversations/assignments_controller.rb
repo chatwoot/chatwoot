@@ -13,13 +13,15 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       @conversation.update_assignee(@assignee)
       if @assignee.nil?
         render json: nil
-      elsif
+      else
         render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: @assignee }
       end
     elsif params.key?(:team_id)
       @assignee = Current.account.teams.find_by(id: params[:team_id])
       @conversation.update!(team: @assignee)
       render json: @assignee
+    else
+      render json: nil
     end
   end
 end
