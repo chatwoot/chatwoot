@@ -62,7 +62,7 @@ export default {
   cursor: pointer;
   user-select: none;
   padding: var(--space-micro) 0;
-  margin: var(--space-small) 0;
+  margin: var(--space-slab) 0;
 }
 
 .title-wrap {
