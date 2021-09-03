@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "Nenhum resultado encontrado."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nenhuma",
+      "TITLE": {
+        "AGENT": "Selecionar agente",
+        "TEAM": "Selecionar time"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nenhum agente encontrado",
+          "TEAM": "Nenhum time encontrado"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Pesquisar agentes",
+          "TEAM": "Pesquisar times"
+        }
+      }
     }
   }
 }

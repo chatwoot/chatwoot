@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "Pendente",
+        "VALUE": "pendente"
+      },
+      {
+        "TEXT": "Adiado",
+        "VALUE": "adiado"
       }
     ],
     "ATTACHMENTS": {
@@ -77,10 +81,10 @@
         "CONTENT": "compartilhou uma url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available"
+    "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Ver mensagem no Twitter",
+    "REPLY_TO_TWEET": "Responder à mensagem",
+    "NO_MESSAGES": "Nenhuma mensagem",
+    "NO_CONTENT": "Sem conteúdo disponível"
   }
 }

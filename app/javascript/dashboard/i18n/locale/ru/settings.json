@@ -102,6 +102,7 @@
     "CHANGE_ACCOUNTS": "Сменить Аккаунт",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
+    "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
     "LOGOUT": "Выйти"
   },
   "APP_GLOBAL": {
@@ -130,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Диалоги",
     "REPORTS": "Отчёты",
-    "CONTACTS": "Контакты",
     "SETTINGS": "Настройки",
+    "CONTACTS": "Контакты",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "INBOXES": "Источники",
@@ -141,13 +142,18 @@
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
     "APPLICATIONS": "Приложения",
     "LABELS": "Категории",
+    "ATTRIBUTES": "Свойства",
     "TEAMS": "Команды",
     "ALL_CONTACTS": "Все контакты",
     "TAGGED_WITH": "С метками",
     "REPORTS_OVERVIEW": "Обзор",
-    "CSAT": "CSAT"
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Кампании",
+    "ONGOING": "В настоящее время",
+    "ONE_OFF": "Один выключен"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
     "NEW_ACCOUNT": "Новый аккаунт",
     "SELECTOR_SUBTITLE": "Создать новый аккаунт",
     "API": {
@@ -161,6 +167,31 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Отправить"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Открыть беседу",
+      "RESOLVE_AND_NEXT": "Решить и перейти к следующему",
+      "NAVIGATE_DROPDOWN": "Навигация в выпадающем списке",
+      "RESOLVE_CONVERSATION": "Решить разговор",
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
+      "ADD_ATTACHMENT": "Добавить вложение",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
+      "TOGGLE_SIDEBAR": "Переключить боковую панель",
+      "GO_TO_REPORTS_SIDEBAR": "Перейти к боковой панели отчетов",
+      "MOVE_TO_NEXT_TAB": "Переместить на следующую вкладку в списке диалогов",
+      "GO_TO_SETTINGS": "Перейти к настройкам",
+      "SWITCH_CONVERSATION_STATUS": "Переключиться на статус следующего диалога",
+      "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Переключить редактор содержимого",
+      "SWITCH_TO_REPLY": "Переключиться на ответ",
+      "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
