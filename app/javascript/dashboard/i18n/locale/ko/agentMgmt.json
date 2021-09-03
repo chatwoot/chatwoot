@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "검색 결과가 없습니다."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "없음",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "에이전트를 찾을 수 없음",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }

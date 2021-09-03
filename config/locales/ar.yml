@@ -47,7 +47,8 @@ ar:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
@@ -70,6 +71,8 @@ ar:
     reply:
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

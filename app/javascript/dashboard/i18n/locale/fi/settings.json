@@ -19,18 +19,18 @@
       "PASSWORD_SECTION": {
         "TITLE": "Salasana",
         "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta.",
-        "BTN_TEXT": "Vaihda salasana"
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Tätä tunnusta voidaan käyttää, jos olet rakentamassa API-pohjaista integraatiota"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Ääni-ilmoitukset",
-        "NOTE": "Aktivoi ääni-ilmoitukset hallintapaneelissa. Soittaa äänimerkin uuden viestin tullessa.",
-        "NONE": "Ei missään",
-        "ASSIGNED": "Määrätyt keskustelut",
-        "ALL_CONVERSATIONS": "Kaikki keskustelut"
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "NONE": "None",
+        "ASSIGNED": "Assigned Conversations",
+        "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Sähköposti-ilmoitukset",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Sähköposti, joka näytetään keskusteluissa"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Nykyinen salasana",
-        "ERROR": "Nykyinen salasana on pakollinen",
-        "PLACEHOLDER": "Syötä nykyinen salasana"
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
         "LABEL": "Salasana",
@@ -102,6 +102,7 @@
     "CHANGE_ACCOUNTS": "Vaihda tili",
     "SELECTOR_SUBTITLE": "Valitse tili tästä luettelosta",
     "PROFILE_SETTINGS": "Profiilin asetukset",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "LOGOUT": "Kirjaudu ulos"
   },
   "APP_GLOBAL": {
@@ -130,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Keskustelut",
     "REPORTS": "Raportit",
-    "CONTACTS": "Yhteystiedot",
     "SETTINGS": "Asetukset",
+    "CONTACTS": "Yhteystiedot",
     "HOME": "Koti",
     "AGENTS": "Edustajat",
     "INBOXES": "Kansiot",
@@ -139,15 +140,20 @@
     "CANNED_RESPONSES": "Tallennetut vastaukset",
     "INTEGRATIONS": "Integraatiot",
     "ACCOUNT_SETTINGS": "Tilin asetukset",
-    "APPLICATIONS": "Applikaatiot",
+    "APPLICATIONS": "Applications",
     "LABELS": "Tunnisteet",
-    "TEAMS": "Tiimit",
-    "ALL_CONTACTS": "Kaikki kontaktit",
-    "TAGGED_WITH": "Merkattu ",
-    "REPORTS_OVERVIEW": "Yleiskatsaus",
-    "CSAT": "ASTK"
+    "ATTRIBUTES": "Attributes",
+    "TEAMS": "Teams",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "REPORTS_OVERVIEW": "Overview",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Uusi tili",
     "SELECTOR_SUBTITLE": "Luo uusi tili",
     "API": {
@@ -161,6 +167,31 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Lähetä"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

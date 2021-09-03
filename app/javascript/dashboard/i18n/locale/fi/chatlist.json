@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Botti",
-        "VALUE": "botti"
+        "TEXT": "Pending",
+        "VALUE": "pending"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
@@ -81,6 +85,6 @@
     "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
     "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
     "NO_MESSAGES": "Ei Viestejä",
-    "NO_CONTENT": "Sisältöä ei saatavilla"
+    "NO_CONTENT": "No content available"
   }
 }

@@ -19,17 +19,17 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Etykiety kontaktu",
+        "ERROR": "Nie można zaktualizować etykiet"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "Etykiety rozmowy",
+        "ADD_BUTTON": "Dodaj etykiety"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Dodaj etykiety",
+        "PLACEHOLDER": "Wyszukaj etykiety",
+        "NO_RESULT": "Nie znaleziono etykiet"
       }
     },
     "MUTE_CONTACT": "Wycisz rozmowę",
@@ -131,13 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Pola kontaktu",
     "SEARCH_BUTTON": "Szukaj",
     "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Brak dostępnych kontaktów",
       "TABLE_HEADER": {
         "NAME": "Nazwisko",
         "PHONE_NUMBER": "Numer telefonu",
@@ -155,11 +155,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Dodaj",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter, aby utworzyć zadanie"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data zakończenia",
+      "LABEL_TITLE": "Ustaw typ"
     }
   },
   "NOTES": {
@@ -187,27 +187,27 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Niestandardowe atrybuty",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Dodaj niestandardowy atrybut",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Dodaj niestandardowy atrybut",
+      "DESC": "Dodaj niestandardową informację do tego kontaktu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Dodaj atrybut",
       "CANCEL": "Anuluj",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Nazwa atrybutu niestandardowego",
+        "PLACEHOLDER": "Np.: shopify id",
+        "ERROR": "Nieprawidłowa nazwa niestandardowego atrybutu"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Wartość atrybutu",
+        "PLACEHOLDER": "Np.: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Połącz kontakty",
     "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
     "PRIMARY": {
       "TITLE": "Primary contact"
@@ -225,7 +225,7 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Połącz kontakty",
       "CANCEL": "Anuluj",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"

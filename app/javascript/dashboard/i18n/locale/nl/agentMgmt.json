@@ -55,7 +55,7 @@
         "TITLE": "Verwijderen bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "No, Keep "
+        "NO": "Nee, Behouden "
       }
     },
     "EDIT": {
@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Geen resultaten gevonden."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Geen",
+      "TITLE": {
+        "AGENT": "Selecteer agent",
+        "TEAM": "Selecteer team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Geen medewerkers gevonden",
+          "TEAM": "Geen teams gevonden"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Zoek agenten",
+          "TEAM": "Teams zoeken"
+        }
+      }
     }
   }
 }

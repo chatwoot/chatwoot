@@ -47,7 +47,8 @@ tr:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
         open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: " %{duration} günlük hareketsizlik nedeniyle görüşme, sistem tarafından çözümlendi olarak işaretlendi"
       assignee:
         self_assigned: "%{user_name} bu görüşmeyi kendisi atadı"
@@ -70,6 +71,8 @@ tr:
     reply:
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

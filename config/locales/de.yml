@@ -28,18 +28,18 @@ de:
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
   reports:
-    period: Berichtszeitraum %{since} bis %{until}
+    period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
       agent_name: Agentenname
-      conversations_count: Anzahl Unterhaltungen
+      conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
   notifications:
     notification_title:
-      conversation_creation: "[Neue Unterhaltung] - #%{display_id} wurde in %{inbox_name} erstellt"
+      conversation_creation: "[Neues Gespräch] - #%{display_id} wurde in %{inbox_name} erstellt"
       conversation_assignment: "[Ihnen zugewiesen] - #%{display_id} wurde Ihnen zugewiesen"
       assigned_conversation_new_message: "[Neue Nachricht] - #%{display_id} %{content}"
-      conversation_mention: "Sie wurden in der Unterhaltung [ID - %{display_id}] von %{name} erwähnt"
+      conversation_mention: "Sie wurden in dem Gespräch [ID - %{display_id}] von %{name} erwähnt"
   conversations:
     messages:
       deleted: Diese Nachricht wurde gelöscht
@@ -47,10 +47,11 @@ de:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
-        bot: "Unterhaltung wurde von %{user_name} an Bot übertragen"
-        auto_resolved: "Unterhaltung wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
+        pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
+        snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
+        auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
       assignee:
-        self_assigned: "%{user_name} hat sich diese Unterhaltung selbst zugewiesen"
+        self_assigned: "%{user_name} hat sich dieses Gespräch selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
         removed: "Gespräch nicht zugewiesen von %{user_name}"
       team:
@@ -60,8 +61,8 @@ de:
       labels:
         added: "%{user_name} hat %{labels} hinzugefügt"
         removed: "%{user_name} hat %{labels} entfernt"
-      muted: "%{user_name} hat die Unterhaltung stumm geschaltet"
-      unmuted: "%{user_name} hat die Unterhaltung laut gestellt"
+      muted: "%{user_name} hat das Gespräch stumm geschaltet"
+      unmuted: "%{user_name} hat das Gespräch laut gestellt"
     templates:
       greeting_message_body: "%{account_name} antwortet in der Regel in wenigen Stunden."
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
@@ -69,7 +70,9 @@ de:
       csat_input_message_body: "Bitte bewerte die Unterhaltung"
     reply:
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
-      transcript_subject: "Konversations-Protokoll"
+      transcript_subject: "Gesprächsprotokoll"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

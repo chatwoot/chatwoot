@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "แคมเปญ",
     "SIDEBAR_TXT": "ข้อความที่ช่วยให้ลูกค้าสามารถส่งข้อควาไปยังผู้ติดต่อซึ่งจะทำให้เกิดการสนทนามากขึ้น คลิกที่ <b> เพิ่มแคมเปญ </b> เพื่อสร้างแคมเปญใหม่ คุณยังสามารถแก้ไขหรือลบแคมเปญที่มีอยู่ได้โดยคลิกที่ปุ่มแก้ไขหรือลบ",
-    "HEADER_BTN_TXT": "สร้างแคมเปญใหม่",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "สร้างแคมเปญใหม่",
       "DESC": "ข้อความที่จะทำให้ลูกค้าส่งไปยังผู้ติดต่อที่จะได้รับข้อความมากขึ้น",
@@ -24,6 +27,11 @@
           "LABEL": "Audience",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
+        },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
         },
         "MESSAGE": {
           "LABEL": "ข้อความ",
@@ -80,6 +88,7 @@
       "TABLE_HEADER": {
         "TITLE": "หัวข้อ",
         "MESSAGE": "ข้อความ",
+        "INBOX": "กล่องข้อความ",
         "STATUS": "สถานะ",
         "SENDER": "ผู้ส่ง",
         "URL": "ลิ้ง",
@@ -101,6 +110,16 @@
       "SENDER": {
         "BOT": "บอท"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }

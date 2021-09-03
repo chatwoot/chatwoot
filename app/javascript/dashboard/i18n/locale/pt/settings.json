@@ -3,7 +3,7 @@
     "LINK": "Configurações do perfil",
     "TITLE": "Configurações do perfil",
     "BTN_TEXT": "Atualizar o perfil",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "O seu perfil foi atualizado com sucesso",
     "PASSWORD_UPDATE_SUCCESS": "Sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso, faça o login novamente pois suas credenciais foram alteradas",
     "FORM": {
@@ -19,60 +19,60 @@
       "PASSWORD_SECTION": {
         "TITLE": "Palavra-passe",
         "NOTE": "Atualizar sua senha irá redefinir seus logins em vários dispositivos.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Alterar password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Este token pode ser usado se você estiver construindo uma integração baseada em API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Notificações de som",
+        "NOTE": "Ativar notificações de som no painel quando surgirem novas mensagens e conversas.",
+        "NONE": "Nenhuma",
+        "ASSIGNED": "Conversas atribuídas",
+        "ALL_CONVERSATIONS": "Todas as conversas"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
         "NOTE": "Atualize suas preferências de notificação por e-mail aqui",
         "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa é atribuída a mim",
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa é criada",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "Enviar notificações por email quando for mencionado numa conversa",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar mensagem de email quando criada uma mensagem ou atribuída uma conversa"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "As suas preferências de notificação foram atualizadas com sucesso",
+        "UPDATE_ERROR": "Ocorreu um erro ao atualizar as suas preferências, por favor, tente de novo"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Notificações Push",
+        "NOTE": "Atualize aqui as suas preferências de notificação Push",
+        "CONVERSATION_ASSIGNMENT": "Enviar uma notificação Push quando uma conversa me for atribuída",
+        "CONVERSATION_CREATION": "Enviar uma notificação Push quando uma conversa é criada",
+        "CONVERSATION_MENTION": "Enviar uma notificação Push quando for mencionado numa conversa",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar uma notificação Push quando uma mensagem é criada numa conversa atribuída",
+        "HAS_ENABLED_PUSH": "Ativou notificações Push neste navegador.",
+        "REQUEST_PUSH": "Ativar notificações Push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do perfil"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "O seu nome completo",
+        "ERROR": "Por favor, digite um nome completo válido",
+        "PLACEHOLDER": "Por favor, digite o seu nome completo"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Mostrar nome",
+        "ERROR": "Por favor, digite uma alcunha válida",
+        "PLACEHOLDER": "Por favor, escolha uma alcunha que será mostrada nas conversas"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Disponibilidade",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "Disponível",
+          "Ocupado",
+          "Ausente"
         ]
       },
       "EMAIL": {
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido em conversas"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Password atual",
+        "ERROR": "Por favor, digite a password atual",
+        "PLACEHOLDER": "Por favor, digite a password atual"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -99,60 +99,66 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "Trocar de conta",
+    "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
+    "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "LOGOUT": "Desconectar"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "dias de teste restantes.",
+    "TRAIL_BUTTON": "Comprar agora"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Copiar",
+      "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "A carregar..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "submeter"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "A verificar...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Adicionar caixa de entrada"
     }
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
     "REPORTS": "relatórios",
-    "CONTACTS": "Contacts",
     "SETTINGS": "Confirgurações",
-    "HOME": "Home",
+    "CONTACTS": "Contatos",
+    "HOME": "Principal",
     "AGENTS": "agentes",
     "INBOXES": "Caixas de Entrada",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Notificaçoes",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
+    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
-    "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "ATTRIBUTES": "Attributes",
+    "TEAMS": "Equipas",
+    "ALL_CONTACTS": "Todos os contatos",
+    "TAGGED_WITH": "Etiquetada com",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campanhas",
+    "ONGOING": "Em curso",
+    "ONE_OFF": "Pontual"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
+    "NEW_ACCOUNT": "Nova conta",
+    "SELECTOR_SUBTITLE": "Criar uma nova conta",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Conta criada com sucesso",
+      "EXIST_MESSAGE": "Esta conta já existe",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
     "FORM": {
@@ -161,6 +167,31 @@
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "submeter"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Abrir conversa",
+      "RESOLVE_AND_NEXT": "Resolver e passar para a próxima",
+      "NAVIGATE_DROPDOWN": "Navegar pelos itens a seguir",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
+      "ADD_ATTACHMENT": "Adicionar anexo",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
+      "TOGGLE_SIDEBAR": "Ativar/Desativar barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Ir para barra lateral de Relatórios",
+      "MOVE_TO_NEXT_TAB": "Mover para próximo separador da lista de conversas",
+      "GO_TO_SETTINGS": "Ir para as configurações",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
+      "SWITCH_TO_REPLY": "Mudar para resposta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar suspensos"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

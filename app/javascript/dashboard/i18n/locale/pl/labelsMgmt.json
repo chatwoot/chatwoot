@@ -34,7 +34,7 @@
         "LABEL": "Show label on sidebar"
       },
       "EDIT": "Edytuj",
-      "CREATE": "Create",
+      "CREATE": "Stwórz",
       "DELETE": "Usuń",
       "CANCEL": "Anuluj"
     },
@@ -43,21 +43,21 @@
       "DESC": "Labels let you group the conversations together.",
       "API": {
         "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "EDIT": {
       "TITLE": "Edit label",
       "API": {
         "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
