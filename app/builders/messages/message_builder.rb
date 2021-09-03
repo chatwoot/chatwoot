@@ -15,20 +15,24 @@ class Messages::MessageBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
-    if @attachments.present?
-      @attachments.each do |uploaded_attachment|
-        attachment = @message.attachments.new(
-          account_id: @message.account_id,
-          file_type: file_type(uploaded_attachment&.content_type)
-        )
-        attachment.file.attach(uploaded_attachment)
-      end
-    end
-    @message.save
+    process_attachments
+    @message.save!
     @message
   end
 
   private
+
+  def process_attachments
+    return if @attachments.blank?
+
+    @attachments.each do |uploaded_attachment|
+      @message.attachments.build(
+        account_id: @message.account_id,
+        file_type: file_type(uploaded_attachment&.content_type),
+        file: uploaded_attachment
+      )
+    end
+  end
 
   def message_type
     if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
