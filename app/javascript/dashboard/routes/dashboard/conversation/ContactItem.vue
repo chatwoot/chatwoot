@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-item--collapsible">
-    <div class="contact_info">
-      <div class="title-wrap" @click="$emit('click')">
+    <div class="contact_info" @click="$emit('click')">
+      <div class="title-wrap">
         <div class="title-icon__wrap">
           <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
           <h5 class="item-name sub-block-title">

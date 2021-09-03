@@ -83,6 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 .no-label-message {
+  margin-bottom: var(--space-normal);
   color: var(--b-500);
 }
 
