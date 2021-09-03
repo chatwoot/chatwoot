@@ -47,12 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+        "TEXT": "Bekliyor",
+        "VALUE": "bekliyor"
       },
       {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+        "TEXT": "Susturuldu",
+        "VALUE": "susturuldu"
       }
     ],
     "ATTACHMENTS": {
@@ -85,6 +85,6 @@
     "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
     "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "İçerik yok"
   }
 }
