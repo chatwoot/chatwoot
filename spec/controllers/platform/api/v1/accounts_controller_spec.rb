@@ -104,4 +104,38 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /platform/api/v1/accounts/{account_id}' do
+    context 'when it is an unauthenticated platform app' do
+      it 'returns unauthorized' do
+        delete "/platform/api/v1/accounts/#{account.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an invalid platform app token' do
+      it 'returns unauthorized' do
+        delete "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: 'invalid' }, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated platform app' do
+      let(:platform_app) { create(:platform_app) }
+
+      it 'returns unauthorized when its not a permissible object' do
+        delete "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'destroys the object' do
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account)
+        expect(DeleteObjectJob).to receive(:perform_later).with(account).once
+        delete "/platform/api/v1/accounts/#{account.id}",
+               headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

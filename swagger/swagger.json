@@ -3085,6 +3085,10 @@
         "confirmed": {
           "type": "boolean"
         },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Available for users who are created through platform APIs and has custom attributes associated."
+        },
         "accounts": {
           "type": "array",
           "items": {
@@ -3489,6 +3493,10 @@
         "password": {
           "type": "string",
           "description": "Password must contain uppercase, lowercase letters, number and a special character"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Custom attributes you want to associate with the user"
         }
       }
     },
@@ -4173,7 +4181,7 @@
       ]
     },
     {
-      "name": "Public",
+      "name": "Client",
       "tags": [
         "Contacts API",
         "Conversations API",
