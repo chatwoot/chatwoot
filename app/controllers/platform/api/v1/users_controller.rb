@@ -19,21 +19,33 @@ class Platform::Api::V1::UsersController < PlatformController
   def show; end
 
   def update
-    @resource.update!(user_params)
+    @resource.assign_attributes(user_update_params)
+    @resource.save!
   end
 
   def destroy
-    # TODO: obfusicate user
+    DeleteObjectJob.perform_later(@resource)
     head :ok
   end
 
   private
+
+  def user_custom_attributes
+    return @resource.custom_attributes.merge(user_params[:custom_attributes]) if user_params[:custom_attributes]
+
+    @resource.custom_attributes
+  end
+
+  def user_update_params
+    # we want the merged custom attributes not the original one
+    user_params.except(:custom_attributes).merge({ custom_attributes: user_custom_attributes })
+  end
 
   def set_resource
     @resource = User.find(params[:id])
   end
 
   def user_params
-    params.permit(:name, :email, :password)
+    params.permit(:name, :email, :password, custom_attributes: {})
   end
 end

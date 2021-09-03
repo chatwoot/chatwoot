@@ -9,8 +9,8 @@ export const body = document.getElementsByTagName('body')[0];
 export const widgetHolder = document.createElement('div');
 
 export const bubbleHolder = document.createElement('div');
-export const chatBubble = document.createElement('div');
-export const closeBubble = document.createElement('div');
+export const chatBubble = document.createElement('button');
+export const closeBubble = document.createElement('button');
 export const notificationBubble = document.createElement('span');
 
 export const getBubbleView = type =>
@@ -64,6 +64,10 @@ export const onBubbleClick = (props = {}) => {
     toggleClass(closeBubble, 'woot--hide');
     toggleClass(widgetHolder, 'woot--hide');
     IFrameHelper.events.onBubbleToggle(newIsOpen);
+
+    if (!newIsOpen) {
+      chatBubble.focus();
+    }
   }
 };
 

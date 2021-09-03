@@ -116,7 +116,8 @@ export default {
     },
     downloadAgentReports() {
       const { from, to } = this;
-      this.$store.dispatch('downloadAgentReports', { from, to });
+      const fileName = `agent-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}.csv`;
+      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
     },
     changeSelection(index) {
       this.currentSelection = index;
