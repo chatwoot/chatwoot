@@ -2,9 +2,10 @@ get:
   tags:
     - Contact
   operationId: contactSearch
-  description: Search the contacts using a search key, currently supports email search (Page size = 15)
+  description: Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
   summary: Search Contacts
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: q
       in: query
       type: string
