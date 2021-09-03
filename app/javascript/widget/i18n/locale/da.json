@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "Svarer typisk på en dag"
   },
   "START_CONVERSATION": "Start Samtale",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
     "CLOSE_MESSAGES_BUTTON": "Luk",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "fra",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -31,40 +31,40 @@
   "POWERED_BY": "Drevet af Chatwoot",
   "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
   "CHAT_PLACEHOLDER": "Skriv din besked",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "TODAY": "I dag",
+  "YESTERDAY": "I går",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Fulde Navn",
         "PLACEHOLDER": "Indtast venligst dit fulde navn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Det fulde navn er påkrævet"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail Adresse",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Indtast venligst din e-mail adresse",
+        "ERROR": "Ugyldig e-mailadresse"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Besked",
+        "PLACEHOLDER": "Indtast venligst din besked",
+        "ERROR": "Beskeden er for kort"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Ugyldigt felt"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Bedøm din samtale",
+    "SUBMITTED_TITLE": "Tak for din bedømmelse",
+    "PLACEHOLDER": "Fortæl os mere..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Anmod om en samtaleudskrift",
     "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
     "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen"
   }
