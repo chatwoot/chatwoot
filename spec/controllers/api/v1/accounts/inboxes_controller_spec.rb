@@ -64,7 +64,7 @@ RSpec.describe 'Inboxes API', type: :request do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
             headers: agent.create_new_auth_token,
             as: :json
-       
+
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -76,14 +76,13 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
-  
 
       it 'returns the inbox if assigned inbox is assigned as agent' do
         create(:inbox_member, user: agent, inbox: inbox)
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
             headers: agent.create_new_auth_token,
             as: :json
-       
+
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
