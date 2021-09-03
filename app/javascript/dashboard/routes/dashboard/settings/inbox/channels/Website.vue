@@ -154,7 +154,7 @@ export default {
   components: {
     PageHeader,
     WootMessageEditor,
-    ResizableTextArea
+    ResizableTextArea,
   },
   data() {
     return {
@@ -217,7 +217,7 @@ export default {
 .greetings--richtext {
   padding: 0 var(--space-normal);
   border-radius: var(--border-radius-normal);
-  border: var(--color-border);
+  border: 1px solid var(--color-border);
   margin: 0 0 var(--space-normal);
 }
 </style>
