@@ -71,7 +71,7 @@
     }
 
     &.over {
-
+      
       &::after {
         background: $color-woot;
       }
@@ -132,13 +132,13 @@
   @include padding($space-medium);
   @include border-light;
   @include full-height();
-}
-.wizard-body.height-auto {
-  height: auto;
+
+  &.height-auto {
+    height: auto;
+  }
 }
 
 .inoboxes-list {
-
   .inbox-item {
     @include margin($space-normal);
     @include flex;
