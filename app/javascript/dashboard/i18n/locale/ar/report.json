@@ -49,41 +49,41 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "العام الماضي"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "تحديد نطاق المدة"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "تطبيق",
+      "PLACEHOLDER": "اختر نطاق المدة"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "تقارير CSAT",
+    "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "جهات الاتصال",
+        "AGENT_NAME": "الوكيل المكلف",
+        "RATING": "التقييم",
+        "FEEDBACK_TEXT": "تعليق الملاحظات"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "إجمالي الردود",
+        "TOOLTIP": "العدد الإجمالي للردود التي تم جمعها"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "درجة الرضا",
+        "TOOLTIP": "العدد الإجمالي للردود الإيجابية/ العدد الإجمالي للردود * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "معدل الاستجابة",
+        "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
       }
     }
   }
