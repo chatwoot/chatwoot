@@ -30,7 +30,7 @@ fa:
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
-      agent_name: اسم اپراتور
+      agent_name: اسم ایجنت
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -45,9 +45,10 @@ fa:
       deleted: این پیام حذف شد
     activity:
       status:
-        resolved: "مکالمه توسط اپراتور %{user_name} حل شده، اعلام شده بود"
-        open: "گفتگو توسط اپراتور %{user_name} مجددا باز شده بود"
-        bot: "گفتگو توسط %{user_name} به ربات منتقل شد"
+        resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
+        open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
+        pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
+        snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
       assignee:
         self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
@@ -55,8 +56,8 @@ fa:
         removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
       team:
         assigned: "%{user_name} گفتگو را به %{team_name} اختصاص داد"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است"
+        removed: "اختصاص داده نشده از %{team_name} توسط %{user_name}"
       labels:
         added: "%{user_name}، %{labels} را اضافه کرد"
         removed: "%{user_name}، %{labels} را حذف کرد"
@@ -66,10 +67,12 @@ fa:
       greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
       ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
       email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
     reply:
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
+    survey:
+      response: "لطفاً به مکالمه امتیاز دهید %{link}"
   integration_apps:
     slack:
       name: "Slack"
@@ -79,7 +82,7 @@ fa:
       description: "رویدادهای Webhook اطلاعات واقعی در مورد آنچه در حساب شما اتفاق می افتد را به شما ارائه می دهند. برای برقراری ارتباط رویدادها با برنامه های مورد علاقه خود مانند Slack یا Github می توانید از وب بوک ها استفاده کنید. برای تنظیم webhooks خود روی تنظیمات کلیک کنید."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "با استفاده از Dialogflow ربات های چت بسازید و آنها را به سرعت به صندوق ورودی خود متصل کنید. شما به ربات ها اجازه میدهید قبل از اتصال به اپراتور ، ربات با مشتری صحبت کند."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "تماس کامل"
+      description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."

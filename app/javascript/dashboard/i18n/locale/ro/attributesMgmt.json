@@ -1,0 +1,38 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Attributes",
+    "HEADER_BTN_TXT": "Add Attribute",
+    "ADD": {
+      "TITLE": "Add attribute",
+      "SUBMIT": "Creeaza",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "Descriere",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Type is required"
+        },
+        "KEY": {
+          "LABEL": "Key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    }
+  }
+}

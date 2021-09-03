@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
     "SEARCH": {
       "TITLE": "Αναζήτηση μηνυμάτων",
+      "RESULT_TITLE": "Αποτελέσματα Αναζήτησης",
       "LOADING_MESSAGE": "Σύμπτυξη δεδομένων...",
       "PLACEHOLDER": "Εισάγετε κείμενο για αναζήτηση μηνυμάτων",
       "NO_MATCHING_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
@@ -22,16 +23,16 @@
     "24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
     "TWILIO_WHATSAPP_CAN_REPLY": "Μπορείτε να απαντήσετε μόνο σε αυτή τη συνομιλία χρησιμοποιώντας ένα πρότυπο μήνυμα επειδή",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
-    "LAST_INCOMING_TWEET": "Απαντάτε στο τελευταίο εισερχόμενο tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Παρακαλώ επιλέξτε ένα tweet για να απαντήσετε.",
     "REPLYING_TO": "Απαντάτε στο:",
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
+    "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
     "NO_RESPONSE": "Καμία ανταπόκριση",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Αξιολόγηση",
+    "FEEDBACK_TITLE": "Ανατροφοδότηση",
     "HEADER": {
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",
@@ -41,7 +42,13 @@
       "DETAILS": "Λεπτομέρειες"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Άνοιγμα με bot"
+      "MARK_PENDING": "Σήμανση ως εκκρεμής",
+      "SNOOZE": {
+        "TITLE": "Αναβολή έως",
+        "NEXT_REPLY": "Επόμενη απάντηση",
+        "TOMORROW": "Αύριο",
+        "NEXT_WEEK": "Επόμενη εβδομάδα"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
       "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
       "ENTER_TO_SEND": "Εισαγωγή για αποστολή",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Προσθήκη bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
+          "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
+          "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Κανένα"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Προς",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Θέμα"
   }
 }

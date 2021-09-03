@@ -43,7 +43,7 @@
           "END_POINT": {
             "LABEL": "Webhook URL",
             "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "ERROR": "אנא הכנס כתובת URL חוקית"
           },
           "SUBMIT": "Create webhook"
         },
