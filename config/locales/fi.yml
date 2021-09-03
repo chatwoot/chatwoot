@@ -30,24 +30,25 @@ fi:
   reports:
     period: Raportointijakso %{since} – %{until}
     agent_csv:
-      agent_name: Edustajan nimi
-      conversations_count: Keskustelumäärä
-      avg_first_response_time: Keskiverto ensimmäinen vastausaika (Minuuteissa)
-      avg_resolution_time: Keskiverto aika ratkaisuun (Minuuteissa)
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
-      conversation_creation: "[Uusi keskustelu] - #%{display_id} on luotu kansiossa %{inbox_name}"
-      conversation_assignment: "[Keskustelu määrätty sinulle] - #%{display_id} on määrätty sinulle"
-      assigned_conversation_new_message: "[Uusi viesti] - #%{display_id} %{content}"
-      conversation_mention: "%{name} mainitsi sinut keskutelussa [ID - %{display_id}]"
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: Tämä viesti on poistettu
+      deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
         open: "%{user_name} uudelleenavasi keskustelun"
-        bot: "Keskustelu on siirretty botille käyttäjän %{user_name} toimesta"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Keskustelu merkittiin ratkaistuksi automaattisesti, sillä on kulunut %{duration} päivää viimeisestä viestistä"
       assignee:
         self_assigned: "%{user_name} ilmottautui keskusteluun"
@@ -55,8 +56,8 @@ fi:
         removed: "%{user_name} poistui keskustelusta"
       team:
         assigned: "Delegoitu edustajalle %{team_name} edustajan %{user_name} toimesta"
-        assigned_with_assignee: "Määrrätty edustaja %{assignee_name} tiimin %{team_name} käyttäjän %{user_name} toimesta"
-        removed: "Poistettu tiimistä %{team_name} käyttäjän %{user_name} toimesta"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} lisäsi tunnisteet %{labels}"
         removed: "%{user_name} poisti tunnisteet %{labels}"
@@ -66,10 +67,12 @@ fi:
       greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
-      csat_input_message_body: "Arvostele tämä keskustelu"
+      csat_input_message_body: "Please rate the conversation"
     reply:
       email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"
@@ -79,7 +82,7 @@ fi:
       description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
     dialogflow:
       name: "Dialogflow"
-      description: "Rakenna chatbotteja käyttäen Dialogflow-alustaa ja yhdistä ne kansioosi nopeasti. Anna bottien käsitellä kyselyt ennen kuin ne siirretään edustajalle."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
     fullcontact:
       name: "Fullcontact"
-      descriptioN: "FullContact-integraatio auttaa rikastuttamaan kävijöiden profiileja. Tunnista käyttäjät heti kun he jakavat sähköpostiosoitteensa ja tarjoa heille räätälöityä asiakaspalvelua. Yhdistä FullContact tiliisi jakamalla FulLContact API-avain."
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

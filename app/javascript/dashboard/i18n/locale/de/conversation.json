@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "LAST_INCOMING_TWEET": "Du antwortest auf den letzten eingehenden Tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf den Sie antworten möchten.",
     "REPLYING_TO": "Du antwortest auf:",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
@@ -42,7 +42,13 @@
       "DETAILS": "Einzelheiten"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Mit Bot öffnen"
+      "MARK_PENDING": "Als ausstehend markieren",
+      "SNOOZE": {
+        "TITLE": "Erinnern",
+        "NEXT_REPLY": "Bei Antwort",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Nächste Woche"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
@@ -58,7 +64,20 @@
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
       "ENTER_TO_SEND": "Zum senden ENTER drücken",
-      "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen"
+      "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "BCC hinzufügen",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
@@ -79,8 +98,8 @@
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Konversations-Transkript senden",
     "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
-    "SUBMIT": "Einreichen",
-    "CANCEL": "Stornieren",
+    "SUBMIT": "Speichern",
+    "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
     "FORM": {
@@ -124,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Keine"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "An",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Betreff"
   }
 }

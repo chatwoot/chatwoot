@@ -47,7 +47,8 @@ hu:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
-        bot: "A beszélgetés áthelyezve bothoz %{user_name} által"
+        pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
       assignee:
         self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
@@ -66,10 +67,12 @@ hu:
       greeting_message_body: "%{account_name} általában néhány órán belül válaszol."
       ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
       email_input_box_message_body: "E-mail értesítés kérése"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Kérlek értékeld a beszélgetést"
     reply:
       email_subject: "Új üzenet a beszélgetésben"
       transcript_subject: "Beszélgetés kivonat"
+    survey:
+      response: "Kérlek értékeld a beszélgetést, %{link}"
   integration_apps:
     slack:
       name: "Slack"

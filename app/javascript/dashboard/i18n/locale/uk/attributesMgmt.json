@@ -1,0 +1,38 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Attributes",
+    "HEADER_BTN_TXT": "Add Attribute",
+    "ADD": {
+      "TITLE": "Add attribute",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Будь ласка, оберіть тип",
+          "ERROR": "Type is required"
+        },
+        "KEY": {
+          "LABEL": "Key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      }
+    }
+  }
+}

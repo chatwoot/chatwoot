@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "บอท",
-        "VALUE": "บอท"
+        "TEXT": "กำลังร้องขอ",
+        "VALUE": "กำลังร้องขอ"
+      },
+      {
+        "TEXT": "หลับ",
+        "VALUE": "หลับ"
       }
     ],
     "ATTACHMENTS": {

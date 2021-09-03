@@ -68,7 +68,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Hodnocení",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
