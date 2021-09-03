@@ -624,7 +624,7 @@ export default {
       padding: 0 var(--space-normal);
       border-radius: var(--border-radius-normal);
       border: 1px solid var(--color-border);
-      margin: 0 0 1.6rem;
+      margin: 0 0 var(--space-normal);
     }
   }
 
