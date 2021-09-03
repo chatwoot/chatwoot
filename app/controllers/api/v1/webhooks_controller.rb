@@ -14,6 +14,26 @@ class Api::V1::WebhooksController < ApplicationController
     head :ok
   end
 
+  def instagram_verify
+    if valid_instagram_token?(params['hub.verify_token'])
+      Rails.logger.info("Instagram webhook verified")
+      render json: params['hub.challenge']
+    else
+      render json: { error: 'Error; wrong verify token', status: 403 }
+    end
+  end
+
+  def instagram_events
+    Rails.logger.info("Instagram webhook received events")
+    if params['object'].downcase == "instagram"
+      instagram_consumer.consume
+      render json: :ok
+    else
+      Rails.logger.info("Message is not received from the instagram webhook event: #{params['object']}")
+      head :unprocessable_entity
+    end
+  end
+
   private
 
   def twitter_client
@@ -24,5 +44,13 @@ class Api::V1::WebhooksController < ApplicationController
 
   def twitter_consumer
     @twitter_consumer ||= ::Webhooks::Twitter.new(params)
+  end
+
+  def instagram_consumer
+    @messenger_account ||= ::Webhooks::Instagram.new(params[:entry.freeze])
+  end
+
+  def valid_instagram_token?(token)
+    token == ENV['IG_VERIFY_TOKEN']
   end
 end
