@@ -103,7 +103,7 @@
           </p>
         </label>
         <section v-if="greetingEnabled">
-          <textarea
+          <resizable-text-area
             v-if="textAreaChannels"
             v-model.trim="greetingMessage"
             rows="4"
@@ -338,6 +338,7 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   components: {
@@ -347,6 +348,7 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     WootMessageEditor,
+    ResizableTextArea
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -616,12 +618,12 @@ export default {
       border-bottom: 0;
     }
     .greetings--textarea {
-      padding: 0.8rem;
+      padding: $space-small;
     }
     .greetings--richtext {
       padding: 0 var(--space-normal);
       border-radius: var(--border-radius-normal);
-      border: 1px solid #e0e6ed;
+      border: var(--color-border);
       margin: 0 0 1.6rem;
     }
   }

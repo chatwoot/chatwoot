@@ -104,7 +104,7 @@
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           }}
-          <textarea
+          <resizable-text-area
             v-model.trim="greetingMessage"
             rows="4"
             type="text"
@@ -148,11 +148,13 @@ import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   components: {
     PageHeader,
     WootMessageEditor,
+    ResizableTextArea
   },
   data() {
     return {
@@ -215,7 +217,7 @@ export default {
 .greetings--richtext {
   padding: 0 var(--space-normal);
   border-radius: var(--border-radius-normal);
-  border: 1px solid #e0e6ed;
-  margin: 0 0 1.6rem;
+  border: var(--color-border);
+  margin: 0 0 var(--space-normal);
 }
 </style>
