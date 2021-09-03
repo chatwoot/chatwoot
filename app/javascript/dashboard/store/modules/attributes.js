@@ -14,7 +14,10 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getAttributes: _state => attributeModel => {
+  getAttributes: _state => {
+    return _state.records;
+  },
+  getAttributeModel: _state => attributeModel => {
     return _state.records.filter(
       record => record.attribute_model === attributeModel
     );
@@ -22,7 +25,7 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getAttributes({ commit }) {
+  get: async function getAttributeModel({ commit }) {
     commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true });
     try {
       const response = await AttributeAPI.get();

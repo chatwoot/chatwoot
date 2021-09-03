@@ -4,7 +4,11 @@ import attributesList from './fixtures';
 describe('#getters', () => {
   it('getAttributes', () => {
     const state = { records: attributesList };
-    expect(getters.getAttributes(state)(1)).toEqual([
+    expect(getters.getAttributes(state)).toEqual(attributesList);
+  });
+  it('getAttributeModel', () => {
+    const state = { records: attributesList };
+    expect(getters.getAttributeModel(state)(1)).toEqual([
       {
         attribute_display_name: 'Language one',
         attribute_display_type: 2,

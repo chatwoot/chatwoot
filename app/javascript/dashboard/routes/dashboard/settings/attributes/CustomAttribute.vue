@@ -1,45 +1,90 @@
 <template>
-  <section class="attribute-table-wrap">
-    <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
-      <woot-tabs-item
-        v-for="tab in tabs"
-        :key="tab.key"
-        :name="tab.name"
-        :show-badge="false"
-      />
-    </woot-tabs>
+  <div class="row table-wrap">
+    <div class="column">
+      <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
+        <woot-tabs-item
+          v-for="tab in tabs"
+          :key="tab.key"
+          :name="tab.name"
+          :show-badge="false"
+        />
+      </woot-tabs>
 
-    <empty-state v-if="showEmptyResult" :title="emptyMessage" />
-    <ve-table
-      v-else
-      :columns="columns"
-      scroll-width="136rem"
-      max-height="calc(100vh - 132px)"
-      :table-data="tableData"
-    />
-    <div v-if="isLoading" class="attribute_loader">
-      <spinner />
-      <span>{{ $t('ATTRIBUTES_MGMT.LIST.LOADING_MESSAGE') }}</span>
+      <div class="columns with-right-space ">
+        <p
+          v-if="!uiFlags.isFetching && !attributes.length"
+          class="no-items-error-message"
+        >
+          {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
+        </p>
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('ATTRIBUTES_MGMT.LOADING')"
+        />
+        <table
+          v-if="!uiFlags.isFetching && attributes.length"
+          class="woot-table"
+        >
+          <thead>
+            <th
+              v-for="tableHeader in $t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER')"
+              :key="tableHeader"
+              class="item"
+            >
+              {{ tableHeader }}
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="attribute in attributes" :key="attribute.model">
+              <td class="item text-truncate">
+                {{ attribute.attribute_display_name }}
+              </td>
+              <td class="item text-truncate">
+                {{ attribute.attribute_description }}
+              </td>
+              <td class="item text-truncatee">
+                {{ attribute.attribute_display_type }}
+              </td>
+              <td class="item key text-truncate">
+                {{ attribute.attribute_key }}
+              </td>
+              <td class="button-wrapper">
+                <woot-button
+                  variant="link"
+                  color-scheme="secondary"
+                  class-names="grey-btn"
+                  icon="ion-edit"
+                >
+                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT') }}
+                </woot-button>
+                <woot-button
+                  variant="link"
+                  color-scheme="secondary"
+                  icon="ion-close-circled"
+                  class-names="grey-btn"
+                >
+                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE') }}
+                </woot-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </section>
+    <div class="small-4 columns">
+      <span v-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { VeTable } from 'vue-easytable';
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import Spinner from 'shared/components/Spinner.vue';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
 
 export default {
-  components: {
-    VeTable,
-    EmptyState,
-    Spinner,
-  },
   data() {
     return {
       selectedTabIndex: 0,
+      selectedAttribute: {},
     };
   },
   computed: {
@@ -50,134 +95,29 @@ export default {
       const attributeModel = this.selectedTabIndex
         ? 'contact_attribute'
         : 'conversation_attribute';
-      return this.$store.getters['attributes/getAttributes'](attributeModel);
+
+      return this.$store.getters['attributes/getAttributeModel'](
+        attributeModel
+      );
     },
     tabs() {
       const tabs = [
         {
-          key: 'conversation_attribute',
+          key: 0,
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
         },
         {
-          key: 'contact_attribute',
+          key: 1,
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
         },
       ];
-
       return tabs;
-    },
-    showEmptyResult() {
-      const hasEmptyResults =
-        !this.uiFlags.isFetching && this.attributes.length === 0;
-      return hasEmptyResults;
-    },
-    emptyMessage() {
-      return this.attributes.length
-        ? this.$t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404')
-        : this.$t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.NOT_FOUND');
     },
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
-    isLoading() {
-      return this.uiFlags.isFetching;
-    },
-    tableData() {
-      if (this.isLoading) {
-        return [];
-      }
-      return this.attributes.map(item => ({
-        name: item.attribute_display_name,
-        description: item.attribute_description,
-        model: item.attribute_model,
-        type: item.attribute_display_type,
-        key: item.attribute_key,
-      }));
-    },
-    columns() {
-      const attributeTable = [
-        {
-          field: 'name',
-          key: 'name',
-          title: this.$t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.NAME'),
-          fixed: 'left',
-          align: 'left',
-          width: 200,
-          renderBodyCell: ({ row }) => (
-            <div class="row--title-block">
-              <h6 class="text-block-title text-truncate">{row.name}</h6>
-            </div>
-          ),
-        },
-
-        {
-          field: 'description',
-          key: 'description',
-          title: this.$t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
-          align: 'left',
-          width: 250,
-          renderBodyCell: ({ row }) => (
-            <div class="row--title-block">
-              <h6 class="text-block-title text-truncate">{row.description}</h6>
-            </div>
-          ),
-        },
-        {
-          field: 'key',
-          key: 'key',
-          title: this.$t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.KEY'),
-          align: 'left',
-          width: 200,
-          renderBodyCell: ({ row }) => (
-            <div class="row--title-block">
-              <h6 class="text-block-title text-truncate">{row.key}</h6>
-            </div>
-          ),
-        },
-        {
-          field: 'type',
-          key: 'type',
-          title: this.$t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.TYPE'),
-          align: 'left',
-          width: 150,
-          renderBodyCell: ({ row }) => (
-            <div class="row--title-block">
-              <h6 class="text-block-title text-truncate">{row.type}</h6>
-            </div>
-          ),
-        },
-        {
-          field: 'buttons',
-          key: 'buttons',
-          title: '',
-          align: 'left',
-          width: 150,
-          renderBodyCell: row => (
-            <div>
-              <WootButton
-                variant="clear"
-                icon="ion-edit"
-                color-scheme="secondary"
-                classNames="edit-btn"
-                onClick={() => this.$emit('edit', row)}
-              >
-                {this.$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')}
-              </WootButton>
-              <WootButton
-                variant="link"
-                icon="ion-close-circled"
-                color-scheme="secondary"
-                onClick={() => this.$emit('delete', row)}
-              >
-                {this.$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')}
-              </WootButton>
-            </div>
-          ),
-        },
-      ];
-      return [...attributeTable];
-    },
   },
+
   methods: {
     onClickTabChange(index) {
       this.selectedTabIndex = index;
@@ -187,41 +127,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.attribute-table-wrap {
-  padding: var(--space-two) var(--space-normal);
+.table-wrap {
+  padding-left: var(--space-small);
+}
+
+.woot-table {
+  table-layout: fixed;
+  width: 95%;
+  margin-top: var(--space-small);
+}
+
+.no-items-error-message {
+  margin-top: var(--space-larger);
 }
 
 .tabs {
-  padding: 0;
-  margin-bottom: -1px;
+  padding-left: 0;
+  margin-right: 2.4rem;
+  user-select: none;
 }
 
-.edit-btn {
-  margin-right: var(--space-normal);
+.item {
+  padding-left: 0;
 }
 
-.attribute_loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-medium);
-  margin-top: var(--space-two);
+.key {
+  font-family: monospace;
 }
 
 ::v-deep {
-  .ve-table-header-th {
-    font-weight: var(--font-weight-bold) !important;
-    padding: var(--space-one) var(--space-normal) !important;
-  }
-
-  .ve-table-body-td {
-    padding: var(--space-small) var(--space-normal) !important;
-  }
-
-  .row--title-block {
-    align-items: center;
-    display: flex;
-    text-align: left;
+  .tabs-title a {
+    font-weight: var(--font-weight-medium);
+    padding-top: 0;
   }
 }
 </style>

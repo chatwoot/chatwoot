@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributes",
     "HEADER_BTN_TXT": "Add Attribute",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. <br /><br />It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>",
     "ADD": {
       "TITLE": "Add attribute",
       "SUBMIT": "Create",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "PLACEHOLDER": "Enter attribute display name",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Enter attribute description",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -40,21 +44,14 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading attributes...",
-      "TABLE_HEADER": {
-        "NAME": "Display Name",
-        "DESCRIPTION": "Description",
-        "MODEL": "Model",
-        "TYPE": "Type",
-        "KEY": "Key"
-      },
+      "TABLE_HEADER": ["Name", "Description", "Type", "Key"],
       "BUTTONS": {
         "EDIT": "Edit",
         "DELETE": "Delete"
       },
       "EMPTY_RESULT": {
         "404": "There are no attributes created",
-        "NOT_FOUND": "Please create an attribute"
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }
