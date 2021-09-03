@@ -12,24 +12,24 @@
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
     "IP_ADDRESS": "عنوان IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "رسالة جديدة",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
       "TITLE": "المحادثات السابقة"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "تصنفيات جهات الاتصال",
+        "ERROR": "تعذر تحديث التصنيفات"
       },
       "CONVERSATION": {
         "TITLE": "وسوم المحادثة",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "اضافة تصنيف جديد"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "اضافة تصنيف جديد",
+        "PLACEHOLDER": "ابحث عن تصنيفات",
+        "NO_RESULT": "لم يتم العثور على تصنيفات"
       }
     },
     "MUTE_CONTACT": "كتم المحادثة",
@@ -71,8 +71,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
         "LABEL": "رقم الهاتف",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "يجب ان يحتوى رقم الهاتف على كود دولتك تسبقها علامة +\nمثال: +20101243567",
+        "ERROR": "يجب ان تكون خانة رقم الهاتف إما فارغة او مكتملة مع رمز الدولة"
       },
       "LOCATION": {
         "PLACEHOLDER": "أدخل موقع جهة الاتصال",
@@ -106,38 +106,38 @@
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "محادثة جديدة",
     "TITLE": "محادثة جديدة",
-    "DESC": "Start a new conversation by sending a new message.",
+    "DESC": "بدء محادثة جديدة بإرسال رسالة جديدة.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "إلى"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "صندوق الوارد",
+        "ERROR": "حدد صندوق الوارد"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "اكتب رسالتك هنا",
+        "ERROR": "لا يمكن أن تكون الرسالة فارغة"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "إرسال الرسالة",
       "CANCEL": "إلغاء",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "تم إرسال الرسالة!",
+      "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "جهات الاتصال",
-    "FIELDS": "Contact fields",
+    "FIELDS": "تصنفيات جهات الاتصال",
     "SEARCH_BUTTON": "بحث",
     "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
       "404": "لا توجد جهات اتصال تطابق بحثك 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "لا توجد جهات اتصال متوفرة",
       "TABLE_HEADER": {
         "NAME": "الاسم",
         "PHONE_NUMBER": "رقم الهاتف",
@@ -154,50 +154,50 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "إضافة",
+      "TITLE": "Shift + Enter لإنشاء مهمة"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "تاريخ التسليم",
+      "LABEL_TITLE": "تعيين النوع"
     }
   },
   "NOTES": {
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "ملاحظات"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "إضافة",
+      "PLACEHOLDER": "إضافة ملاحظة",
+      "TITLE": "Shift + Enter لإنشاء مهمة"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "BUTTON": "عرض جميع الملاحظات"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "الأنشطة"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "ملاحظات",
+      "PILL_BUTTON_EVENTS": "الأحداث",
       "PILL_BUTTON_CONVO": "المحادثات"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "سمات مخصصة",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "إضافة سمة خاصة",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "إنشاء سمة خاصة",
+      "DESC": "أضف معلومات خاصة إلى جهة الاتصال هذه."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "أضف سمة",
       "CANCEL": "إلغاء",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
+        "LABEL": "اسم السمة الخاصة",
+        "PLACEHOLDER": "مثال: shopify id",
         "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {

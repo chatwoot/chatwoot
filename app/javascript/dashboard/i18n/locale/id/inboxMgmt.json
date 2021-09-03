@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",
         "MESSAGE": "Apakah Anda yakin untuk menghapus ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Kotak Masuk berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat menghapus kotak masuk. Silakan coba lagi nanti."
+        "ERROR_MESSAGE": "Tidak dapat menghapus kotak masuk. Silakan coba lagi nanti.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
       "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
-      "HMAC_DESCRIPTION": "Untuk memvalidasi identitas pengguna secara inorder, SDK memungkinkan Anda meneruskan `identifier_hash` untuk setiap pengguna. Anda dapat membuat HMAC menggunakan 'sha256' dengan key yang ditampilkan di sini."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Mulailah meneruskan email Anda ke alamat email berikut."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Otorisasi ulang",

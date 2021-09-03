@@ -73,7 +73,13 @@ export const actions = {
       .then(response => {
         let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
         var encodedUri = encodeURI(csvContent);
-        window.open(encodedUri);
+        var downloadLink = document.createElement('a');
+        downloadLink.href = encodedUri;
+        downloadLink.download = reportObj.fileName;
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
       })
       .catch(error => {
         console.error(error);

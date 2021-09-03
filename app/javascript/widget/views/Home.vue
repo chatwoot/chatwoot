@@ -5,7 +5,7 @@
   >
     <spinner size="" />
   </div>
-  <div v-else class="home">
+  <div v-else class="home" @keydown.esc="closeChat">
     <div
       class="header-wrap bg-white"
       :class="{ expanded: !isHeaderCollapsed, collapsed: isHeaderCollapsed }"
@@ -74,6 +74,7 @@ import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
+import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
@@ -166,6 +167,9 @@ export default {
     startConversation() {
       this.isOnCollapsedView = !this.isOnCollapsedView;
     },
+    closeChat() {
+      IFrameHelper.sendMessage({ event: 'closeChat' });
+    },
   },
 };
 </script>
@@ -227,7 +231,7 @@ export default {
   }
 
   .input-wrap {
-    padding: 0 $space-normal;
+    padding: 0 $space-two;
   }
 }
 </style>
