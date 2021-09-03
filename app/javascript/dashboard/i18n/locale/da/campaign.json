@@ -34,7 +34,7 @@
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "Besked",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -87,7 +87,7 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
+        "MESSAGE": "Besked",
         "INBOX": "Inbox",
         "STATUS": "Status",
         "SENDER": "Sender",
