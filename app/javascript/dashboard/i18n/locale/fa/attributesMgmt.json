@@ -1,0 +1,38 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "ویژگی ها",
+    "HEADER_BTN_TXT": "افزودن ویژگی",
+    "ADD": {
+      "TITLE": "افزودن ویژگی",
+      "SUBMIT": "ايجاد كردن",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter attribute display name"
+        },
+        "DESC": {
+          "LABEL": "توضیحات",
+          "PLACEHOLDER": "Enter attribute description"
+        },
+        "MODEL": {
+          "LABEL": "Model",
+          "PLACEHOLDER": "Please select a model",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
+          "ERROR": "Type is required"
+        },
+        "KEY": {
+          "LABEL": "Key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    }
+  }
+}

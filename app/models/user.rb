@@ -9,6 +9,7 @@
 #  confirmed_at           :datetime
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
+#  custom_attributes      :jsonb
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
@@ -112,6 +113,7 @@ class User < ApplicationRecord
     self[:display_name].presence || name
   end
 
+  # Used internally for Chatwoot in Chatwoot
   def hmac_identifier
     hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
     return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?

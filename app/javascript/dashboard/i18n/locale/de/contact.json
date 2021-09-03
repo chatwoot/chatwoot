@@ -51,8 +51,8 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Einreichen",
-      "CANCEL": "Stornieren",
+      "SUBMIT": "Speichern",
+      "CANCEL": "Abbrechen",
       "AVATAR": {
         "LABEL": "Kontaktbild"
       },
@@ -124,14 +124,14 @@
         "ERROR": "Nachricht darf nicht leer sein"
       },
       "SUBMIT": "Nachricht senden",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakte",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Kontakt-Felder",
     "SEARCH_BUTTON": "Suchen",
     "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
     "LIST": {
@@ -197,41 +197,41 @@
       "CANCEL": "Stornieren",
       "NAME": {
         "LABEL": "Benutzerdefinierter Attributname",
-        "PLACEHOLDER": "Eg: Shopify Id",
+        "PLACEHOLDER": "Bsp.: Shopify Id",
         "ERROR": "Ungültiger eigener Attributname"
       },
       "VALUE": {
         "LABEL": "Attributwert",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Bsp.: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "Kontakte zusammenführen",
+    "DESCRIPTION": "Das Zusammenführen von Kontakten ist hilfreich, wenn Sie doppelte Einträge desselben Kontakts haben. Dabei kann ein primärer Kontakt und ein sekundärer Kontakt gewählt werden. Nach dem Zusammenführen bleiben alle Details im primären Kontakt unverändert. Wenn der primäre Kontakt kein Feld hat, wird der Wert des sekondären Kontakts verwendet. Falls ein Konflikt auftritt, bleiben die Felder im primären Kontakt unberührt, aber benutzerdefinierte Attribute vom sekundären Kontakt werden zum primären Kontakt kopiert.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Hauptkontakt"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "Kontakt zum Zusammenführen",
+      "PLACEHOLDER": "Wählen Sie einen Kontakt"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Zusammenfassung",
+      "DELETE_WARNING": "Der Kontakt <strong>%{childContactName}</strong>wird gelöscht.",
+      "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{childContactName}</strong> wird zu <strong>%{primaryContactName}</strong> kopiert."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Kontakte zusammenführen",
       "CANCEL": "Stornieren",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Wählen Sie einen Kontakt zum Zusammenführen"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "Kontakt erfolgreich zusammengeführt",
+      "ERROR_MESSAGE": "Kontakte konnten nicht zusammengeführt werden, bitte erneut versuchen!"
     }
   }
 }

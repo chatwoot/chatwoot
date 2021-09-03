@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "ایجاد تیم جدید",
     "HEADER": "تیم‌ها",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b> تیمها </b> </p> <p> تیمها به شما امکان می دهند ایجنت ها خود را بر اساس مسئولیت های آنها در گروه ها سازماندهی کنید. <br /> یک کاربر می تواند بخشی از چندین تیم باشد. هنگامی که به طور مشترک کار می کنید ، می توانید مکالمات را به یک تیم اختصاص دهید. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
+      "404": "هیچ تیمی در این حساب ایجاد نشده است.",
       "EDIT_TEAM": "ویرایش تیم"
     },
     "CREATE_FLOW": {
@@ -13,23 +13,23 @@
         "DESC": "عنوان و توضیحاتی به تیم جدید خود اضافه کنید."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "افزودن ایجنت به تیم",
+        "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+        "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. این به شما امکان می دهد به عنوان یک تیم در گفتگوها همکاری کنید ، در رویدادهای جدید در همان مکالمه مطلع شوید."
       },
       "WIZARD": [
         {
           "title": "ايجاد كردن",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "یک تیم جدید از ایجنت ها ایجاد نمایید."
         },
         {
           "title": "معرفی اپراتور",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "ایجنت ها را به تیم اضافه کنید."
         },
         {
-          "title": "Finish",
+          "title": "پایان",
           "route": "settings_teams_finish",
           "body": "دیگه می‌تونی بترکونی"
         }
@@ -42,64 +42,64 @@
         "BUTTON_TEXT": "به‌روزرسانی تیم"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "ایجنت ها را در تیم به روز کنید",
+        "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+        "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. وقتی مکالمه ای به این تیم اختصاص داده شود ، به همه ایجنت ها اضافه شده اطلاع داده می شود."
       },
       "WIZARD": [
         {
           "title": "جزئیات تیم",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "نام ، توضیحات و سایر جزئیات را تغییر دهید."
         },
         {
-          "title": "Edit Agents",
+          "title": "تغییر ایجنت ها",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "ایجنت ها تیم خود را ویرایش کنید."
         },
         {
-          "title": "Finish",
+          "title": "پایان",
           "route": "settings_teams_edit_finish",
           "body": "دیگه می‌تونی بترکونی"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "جزئیات تیم ذخیره نشد. دوباره امتحان کنید."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "ایجنت",
       "EMAIL": "ایمیل",
       "BUTTON_TEXT": "اضافه کردن اپراتور",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "افزودن ایجنت ها به تیم شما...",
+      "SELECT": "انتخاب کنید",
+      "SELECT_ALL": "انتخاب تمام ایجنت ها",
+      "SELECTED_COUNT": "%{selected} تا از %{total} ایجنت انتخاب شد."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+      "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. این به شما امکان می دهد به عنوان یک تیم در گفتگوها همکاری کنید ، در رویدادهای جدید در همان مکالمه مطلع شوید.",
+      "SELECT": "انتخاب کنید",
+      "SELECT_ALL": "انتخاب تمام ایجنت ها",
+      "SELECTED_COUNT": "%{selected} تا از %{total} ایجنت انتخاب شد.",
       "BUTTON_TEXT": "اضافه کردن اپراتور",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "حداقل یک ایجنت را انتخاب کنید."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "تیم شما آماده است!",
+      "MESSAGE": "اکنون می توانید به عنوان یک تیم در گفتگوها همکاری کنید ",
+      "BUTTON_TEXT": "پایان"
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "تیم با موفقیت حذف شد.",
+        "ERROR_MESSAGE": "تیم حذف نشد. دوباره امتحان کنید."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
+        "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - %{teamName}",
         "PLACE_HOLDER": "برای تایید لطفا {teamName} را تایپ کنید",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "MESSAGE": "با حذف تیم ، وظایف تیم از مکالمات اختصاص داده شده به این تیم حذف می شود.",
         "YES": "حذف ",
         "NO": "انصراف"
       }
@@ -110,14 +110,14 @@
       "CREATE": "ایجاد تیم",
       "NAME": {
         "LABEL": "نام تیم",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "PLACEHOLDER": "مثال: فروش ، پشتیبانی مشتری"
       },
       "DESCRIPTION": {
         "LABEL": "توضیحات تیم",
-        "PLACEHOLDER": "Short description about this team."
+        "PLACEHOLDER": "توضیح مختصری در مورد این تیم."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "مجاز به تعیین خودکار برای این تیم."
       },
       "SUBMIT_CREATE": "ایجاد تیم"
     }

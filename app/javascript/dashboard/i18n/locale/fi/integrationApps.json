@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Haetaan integraatioita",
-    "NO_HOOK_CONFIGURED": "Integraatiota IDllä %{integrationId} ei löytynyt tai ei ole konfiguroitu.",
-    "HEADER": "Applikaatiot",
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
     "STATUS": {
       "ENABLED": "Käytössä",
       "DISABLED": "Pois käytöstä"
     },
     "CONFIGURE": "Määrittele",
-    "ADD_BUTTON": "Lisää uusi webhook",
+    "ADD_BUTTON": "Add a new hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Varmista poisto",
-        "ACCOUNT": "Katkaise"
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
       },
       "MESSAGE": {
         "INBOX": "Oletko varma että haluat poistaa?",
-        "ACCOUNT": "Oletko varma että haluat katkaista?"
+        "ACCOUNT": "Are you sure to disconnect?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Kyllä, poista",
-        "ACCOUNT": "Kyllä, katkaise"
+        "ACCOUNT": "Yes, Disconnect"
       },
       "CANCEL_BUTTON_TEXT": "Peruuta",
       "API": {
-        "SUCCESS_MESSAGE": "Webhook poistettu onnistuneesti",
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
         "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
     "LIST": {
-      "FETCHING": "Haetaan integraatiowebhookkeja",
-      "INBOX": "Kansio",
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Inbox",
       "DELETE": {
         "BUTTON_TEXT": "Poista"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Valitse kansio",
-          "PLACEHOLDER": "Valitse kansio"
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Luo",
         "CANCEL": "Peruuta"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integraatio webhook lisätty",
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
         "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
@@ -53,7 +53,7 @@
       "BUTTON_TEXT": "Yhdistä"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Katkaise"
+      "BUTTON_TEXT": "Disconnect"
     },
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."

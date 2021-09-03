@@ -18,7 +18,7 @@
     "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
   },
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
     "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
@@ -59,12 +59,12 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Αξιολογήστε τη συνομιλία σας",
+    "SUBMITTED_TITLE": "Ευχαριστούμε για την υποβολή της αξιολόγησης",
+    "PLACEHOLDER": "Πείτε μας περισσότερα..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Αίτηση μεταγραφής συνομιλίας",
     "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς",
     "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   }
