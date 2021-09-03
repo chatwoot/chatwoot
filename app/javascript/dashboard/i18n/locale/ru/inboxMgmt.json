@@ -232,7 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Удалить",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Удалить аватар",
       "CONFIRM": {
         "TITLE": "Подтвердите удаление",
         "MESSAGE": "Вы точно хотите удалить ",
@@ -243,8 +243,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Канал удален",
         "ERROR_MESSAGE": "Не удалось удалить канал. Пожалуйста, повторите попытку позже.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Аватар папки \"Входящие\" успешно удален",
+        "AVATAR_ERROR_MESSAGE": "Не удалось удалить аватар связанный с каналом. Пожалуйста, повторите попытку позже."
       }
     },
     "TABS": {
