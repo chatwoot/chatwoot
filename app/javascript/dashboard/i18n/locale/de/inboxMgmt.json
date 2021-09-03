@@ -83,7 +83,7 @@
           "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
           "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
           "IN_A_DAY": "Innerhalb eines Tages",
-          "HELP_TEXT": "Diese Antwortzeit wird im Live-Chat-Widget angezeigt"
+          "HELP_TEXT": "Die Reaktionszeit wird im Live-Chat-Widget angezeigt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
@@ -128,12 +128,12 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS-Kanal über Twilio",
+        "DESC": "Unterstützen Sie Ihre Kunden per SMS mit Twilio-Integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "Whatsapp Kanal über Twilio",
+        "DESC": "Unterstützen Sie Ihre Kunden per Whatsapp mit Twilio-Integration."
       },
       "API_CHANNEL": {
         "TITLE": "API-Kanal",
@@ -173,8 +173,8 @@
         "FINISH_MESSAGE": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Wähle einen Kanal",
+        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, Whatsapp, E-Mail etc., als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanals verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal."
+        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kannst du einen `identifier_hash` für jeden Benutzer übergeben. Du kannst den Hash mithilfe des 'sha256' Verfahrens generieren, der notwendige Schlüssel wird hier angezeigt."
+      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",

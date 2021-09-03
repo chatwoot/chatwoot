@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "機器人",
-        "VALUE": "機器人"
+        "TEXT": "待處理",
+        "VALUE": "待處理"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {

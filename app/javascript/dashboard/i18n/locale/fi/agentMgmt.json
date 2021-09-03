@@ -3,7 +3,7 @@
     "HEADER": "Edustajat",
     "HEADER_BTN_TXT": "Lisää edustaja",
     "LOADING": "Haetaan Edustajalistaa",
-    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>",
+    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> An <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Ylläpitäjä",
       "AGENT": "Edustajat"
@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
         },
         "AGENT_TYPE": {
-          "LABEL": "Edustajan tyyppi",
-          "PLACEHOLDER": "Valitse tyyppi",
-          "ERROR": "Edustajan tyyppi on pakollinen"
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
         },
         "EMAIL": {
           "LABEL": "Sähköpostiosoite",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
         },
         "AGENT_TYPE": {
-          "LABEL": "Edustajan tyyppi",
-          "PLACEHOLDER": "Valitse edustajan tyyppi",
-          "ERROR": "Edustajan tyyppi on pakollinen"
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
         },
         "EMAIL": {
           "LABEL": "Sähköpostiosoite",
@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Ei hakutuloksia."
+      "NO_RESULTS": "No results found."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "None",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Edustajia ei löytynyt",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }

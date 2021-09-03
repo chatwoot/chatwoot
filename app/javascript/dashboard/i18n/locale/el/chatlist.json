@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "Εκκρεμεί",
+        "VALUE": "εκκρεμεί"
+      },
+      {
+        "TEXT": "Αναβολή",
+        "VALUE": "αναβολή"
       }
     ],
     "ATTACHMENTS": {

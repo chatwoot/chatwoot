@@ -19,17 +19,17 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Yhteystietotunnisteet",
-        "ERROR": "Tunnisteita ei voitu päivittää"
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
       "CONVERSATION": {
         "TITLE": "Keskustelutunnisteet",
-        "ADD_BUTTON": "Lisää tunnisteita"
+        "ADD_BUTTON": "Add Labels"
       },
       "LABEL_SELECT": {
-        "TITLE": "Lisää tunnisteita",
-        "PLACEHOLDER": "Hae tunnisteita",
-        "NO_RESULT": "Tunnisteita ei löytynyt"
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
       }
     },
     "MUTE_CONTACT": "Mykistä Keskustelu",
@@ -71,8 +71,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",
         "LABEL": "Puhelinnumero",
-        "HELP": "Puhelinnumeron tulee olla E.164 formaattia, esim: +1415555555 [+][maakoodi][aluekoodi][puhelinnumero]",
-        "ERROR": "Puhelinnumeron tulee olla tyhjä tai E.164 formaattia"
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Anna yhteystiedon sijainti",
@@ -109,129 +109,129 @@
     "BUTTON_LABEL": "Aloita keskustelu",
     "TITLE": "Uusi keskustelu",
     "DESC": "Aloita uusi keskustelu lähettämällä uusi viesti.",
-    "NO_INBOX": "Kansiota jolla tälle kontaktille olisi voinut luoda keskustelun ei löytynyt.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "Kohde"
+        "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Kansio",
-        "ERROR": "Valitse kansio"
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Viesti",
-        "PLACEHOLDER": "Kirjoita viestisi tähän",
-        "ERROR": "Viesti ei voi olla tyhjä"
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
       },
-      "SUBMIT": "Lähetä viesti",
+      "SUBMIT": "Send message",
       "CANCEL": "Peruuta",
-      "SUCCESS_MESSAGE": "Viesti lähetetty!",
-      "ERROR_MESSAGE": "Hö! Virhe, yritä uudelleen"
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Yhteystiedot",
-    "FIELDS": "Yhteystietokentät",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Etsi",
     "SEARCH_INPUT_PLACEHOLDER": "Etsi yhteystietoja",
     "LIST": {
       "LOADING_MESSAGE": "Ladataan yhteystietoja...",
       "404": "Ei hakua vastaavia yhteystietoja 🔍",
-      "NO_CONTACTS": "Yhtään kontaktia ei löytynyt.",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nimi",
         "PHONE_NUMBER": "Puhelinnumero",
         "CONVERSATIONS": "Keskustelut",
-        "LAST_ACTIVITY": "Viimeksi aktiivinen",
-        "COUNTRY": "Maa",
-        "CITY": "Kaupunki",
-        "SOCIAL_PROFILES": "Sosiaalisen median tilit",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Yritys",
         "EMAIL_ADDRESS": "Sähköpostiosoite"
       },
-      "VIEW_DETAILS": "Katso lisätietoja"
+      "VIEW_DETAILS": "View details"
     }
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Lisää",
-      "TITLE": "Shift + Enter luodaksesi tehtävän"
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
-      "DUE_DATE": "Eräpäivä",
-      "LABEL_TITLE": "Aseta tyyppi"
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
     }
   },
   "NOTES": {
     "HEADER": {
-      "TITLE": "Muistiinpanot"
+      "TITLE": "Notes"
     },
     "ADD": {
-      "BUTTON": "Lisää",
-      "PLACEHOLDER": "Lisää muistiinpano",
-      "TITLE": "Shift + Enter luodaksesi muistiinpano"
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
     },
     "FOOTER": {
-      "BUTTON": "Näe kaikki muistiinpanot"
+      "BUTTON": "View all notes"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Aktiviteetit"
+      "TITLE": "Activities"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "muistiinpanot",
-      "PILL_BUTTON_EVENTS": "tapahtumat",
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
       "PILL_BUTTON_CONVO": "keskustelut"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Mukautetut attribuutit",
-    "BUTTON": "Lisää kustomoitu attribuutti",
+    "BUTTON": "Add custom attribute",
     "ADD": {
-      "TITLE": "Lisää kustomoitu attribuutti",
-      "DESC": "Lisää lisätietoja tähän kontaktiin."
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
     },
     "FORM": {
-      "CREATE": "Lisää atribuutti",
+      "CREATE": "Add attribute",
       "CANCEL": "Peruuta",
       "NAME": {
-        "LABEL": "Attribuutin nimi",
-        "PLACEHOLDER": "Esim: shopify id",
-        "ERROR": "Virheellinen nimi"
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {
-        "LABEL": "Attribuutin arvo",
-        "PLACEHOLDER": "Esim: 11901 "
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Yhdistä kontakteja",
-    "DESCRIPTION": "Yhdistää kaksi kontakia. Ensimmäinen kontaktin tiedot pysyvät koskemattomina, mutta toisen attribuutit kopioidaan ensimmäiseen kustomoituina attribuutteina.",
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
     "PRIMARY": {
-      "TITLE": "Ensimmäinen kontakti"
+      "TITLE": "Primary contact"
     },
     "CHILD": {
-      "TITLE": "Yhdistettävä kontakti",
-      "PLACEHOLDER": "Valitse kontakti"
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Choose a contact"
     },
     "SUMMARY": {
-      "TITLE": "Yhteenveto",
-      "DELETE_WARNING": "Kontakti <strong>%{childContactName}</strong> poistetaan.",
-      "ATTRIBUTE_WARNING": "Kontaktin <strong>%{childContactName}</strong> tiedot kopioidaan kontaktiin <strong>%{primaryContactName}</strong>."
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Yhdistä",
+      "SUBMIT": " Merge contacts",
       "CANCEL": "Peruuta",
       "CHILD_CONTACT": {
-        "ERROR": "Valitse yhdistettävä tili"
+        "ERROR": "Select a child contact to merge"
       },
-      "SUCCESS_MESSAGE": "Kontaktien yhdistäminen onnistui",
-      "ERROR_MESSAGE": "Virhe, yritä uudelleen!"
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
   }
 }

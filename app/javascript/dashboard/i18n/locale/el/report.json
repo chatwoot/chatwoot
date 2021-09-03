@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Επισκόπηση",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
@@ -53,37 +53,37 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Εφαρμογή",
+      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Αναφορές CSAT",
+    "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Επαφές",
+        "AGENT_NAME": "Αντιστοιχισμένος πράκτορας",
+        "RATING": "Αξιολόγηση",
+        "FEEDBACK_TEXT": "Σχόλιο ανατροφοδότησης"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Συνολικές απαντήσεις",
+        "TOOLTIP": "Συνολικός αριθμός απαντήσεων"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Βαθμός ικανοποίησης",
+        "TOOLTIP": "Συνολικός αριθμός θετικών αποκρίσεων / Συνολικός αριθμός ανταποκρίσεων * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Ποσοστό ανταπόκρισης",
+        "TOOLTIP": "Συνολικός αριθμός απαντήσεων / Συνολικός αριθμός μηνυμάτων έρευνας CSAT * 100"
       }
     }
   }

@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
     "SEARCH": {
       "TITLE": "Sök meddelanden",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Tuggar data...",
       "PLACEHOLDER": "Skriv valfri text för att söka efter meddelanden",
       "NO_MATCHING_RESULTS": "No results found."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
-    "LAST_INCOMING_TWEET": "Du svarar på den senast inkomna tweeten",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Du svarar:",
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
@@ -41,7 +42,13 @@
       "DETAILS": "detaljer"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
       "ENTER_TO_SEND": "Enter för att skicka",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Till",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
