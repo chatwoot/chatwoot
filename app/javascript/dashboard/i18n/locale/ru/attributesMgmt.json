@@ -8,29 +8,29 @@
       "CANCEL_BUTTON_TEXT": "Отменить",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "LABEL": "Отображать имя",
+          "PLACEHOLDER": "Введите имя отображаемого атрибута"
         },
         "DESC": {
           "LABEL": "Описание",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Введите описание атрибута"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "Модель",
+          "PLACEHOLDER": "Пожалуйста, выберите модель",
+          "ERROR": "Необходимо указать модель"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "Тип",
           "PLACEHOLDER": "Пожалуйста выберите тип",
-          "ERROR": "Type is required"
+          "ERROR": "Необходимо указать тип"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Ключ"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "SUCCESS_MESSAGE": "Атрибут успешно добавлен",
         "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
       }
     }
