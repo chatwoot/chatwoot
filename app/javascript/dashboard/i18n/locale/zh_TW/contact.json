@@ -154,7 +154,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "建立",
+      "BUTTON": "新增",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -167,8 +167,8 @@
       "TITLE": "筆記"
     },
     "ADD": {
-      "BUTTON": "建立",
-      "PLACEHOLDER": "建立筆記",
+      "BUTTON": "新增",
+      "PLACEHOLDER": "新增筆記",
       "TITLE": "Shift + Enter to create a note"
     },
     "FOOTER": {
