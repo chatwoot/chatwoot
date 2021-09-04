@@ -1,19 +1,19 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER": "الحملات",
+    "SIDEBAR_TXT": "الرسائل الاستباقية تسمح للعميل بإرسال رسائل صادرة إلى جهات اتصاله التي من شأنها أن تشغل المزيد من المحادثات. انقر فوق <b>أضف الحملة</b> لإنشاء حملة جديدة. يمكنك أيضا تعديل أو حذف حملة موجودة عن طريق النقر على زر التحرير أو الحذف.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "إنشاء حملة واحدة مغلقة",
+      "ONGOING": "إنشاء حملة مستمرة"
     },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "إنشاء حملة",
+      "DESC": "الرسائل الاستباقية تسمح للعميل بإرسال رسائل صادرة إلى جهات اتصاله التي من شأنها أن تشغل المزيد من المحادثات.",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "CREATE_BUTTON_TEXT": "إنشاء",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
+          "LABEL": "العنوان",
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
@@ -86,7 +86,7 @@
       "LOADING_MESSAGE": "Loading campaigns...",
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
+        "TITLE": "العنوان",
         "MESSAGE": "رسالة",
         "INBOX": "صندوق الوارد",
         "STATUS": "الحالة",
