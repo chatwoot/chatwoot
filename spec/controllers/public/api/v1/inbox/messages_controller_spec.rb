@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request do
   let!(:api_channel) { create(:channel_api) }
-  let!(:contact) { create(:contact) }
+  let!(:contact) { create(:contact, phone_number: '+324234324', email: 'dfsadf@sfsda.com') }
   let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: api_channel.inbox) }
   let!(:conversation)  { create(:conversation, contact: contact, contact_inbox: contact_inbox) }
 

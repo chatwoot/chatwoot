@@ -5,6 +5,7 @@ post:
   summary: Create an inbox
   description: You can create more than one website inbox in each account
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: data
       in: body
       required: true
