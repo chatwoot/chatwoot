@@ -73,7 +73,7 @@
           "ERROR": "請輸入有效的電子信箱"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "密件副本",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "請輸入有效的電子信箱"
         }
