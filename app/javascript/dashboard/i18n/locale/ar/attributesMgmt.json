@@ -1,36 +1,36 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
+    "HEADER": "السمات",
+    "HEADER_BTN_TXT": "إضافة سمة",
     "ADD": {
       "TITLE": "أضف سمة",
       "SUBMIT": "إنشاء",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "LABEL": "اسم العرض",
+          "PLACEHOLDER": "أدخل اسم عرض السمة"
         },
         "DESC": {
           "LABEL": "الوصف",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "أدخل وصف السمة"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "نموذج",
+          "PLACEHOLDER": "الرجاء اختيار نموذج",
+          "ERROR": "النموذج مطلوب"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "النوع",
           "PLACEHOLDER": "الرجاء تحديد نوع",
-          "ERROR": "Type is required"
+          "ERROR": "النوع مطلوب"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "المفتاح"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "SUCCESS_MESSAGE": "تمت إضافة السمة بنجاح",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     }
