@@ -6,7 +6,7 @@
       "CONFIGURE": "配置",
       "HEADER": "Webhook 設定",
       "HEADER_BTN_TXT": "建立新的 webhook",
-      "LOADING": "正在獲取已建立的 webhooks",
+      "LOADING": "正在取得已建立的 webhooks",
       "SEARCH_404": "没有任何項目符合此查詢",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回呼，可以為每個帳戶定義的。 他們是由諸如在 Chatwoot 中建立消息等事件所觸發的。您可以為此帳戶建立多個 webhook。 <br /><br /> 建立一個 <b>webhook</b>, 點擊 <b>建立新的 webhook</b> 按鈕。 您也可以通過點擊刪除按鈕刪除任何現有的 webhook。</p>",
       "LIST": {
@@ -48,7 +48,7 @@
           "SUBMIT": "建立 webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook 建立成功",
+          "SUCCESS_MESSAGE": "Webhook 新增成功",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },

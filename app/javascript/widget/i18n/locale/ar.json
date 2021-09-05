@@ -59,9 +59,9 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "قيم محادثتك",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "أخبرنا المزيد..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",

@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -54,7 +54,7 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Bildirimler",
-    "MARK_ALL_DONE": "Mark All Done",
+    "MARK_ALL_DONE": "Hepsini tamamlandı işaretle",
     "LIST": {
       "LOADING_MESSAGE": "Bildirimler yükleniyor...",
       "404": "Bildirim yok",
@@ -69,7 +69,7 @@
       "conversation_creation": "Yeni görüşme",
       "conversation_assignment": "Atanan görüşme",
       "assigned_conversation_new_message": "Yeni Mesaj",
-      "conversation_mention": "Mention"
+      "conversation_mention": "Bahset"
     }
   }
 }

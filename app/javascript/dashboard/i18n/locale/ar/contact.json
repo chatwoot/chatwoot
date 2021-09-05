@@ -109,7 +109,7 @@
     "BUTTON_LABEL": "محادثة جديدة",
     "TITLE": "محادثة جديدة",
     "DESC": "بدء محادثة جديدة بإرسال رسالة جديدة.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "NO_INBOX": "تعذر العثور على صندوق الوارد لبدء محادثة جديدة مع جهة الاتصال هذه.",
     "FORM": {
       "TO": {
         "LABEL": "إلى"
@@ -198,40 +198,40 @@
       "NAME": {
         "LABEL": "اسم السمة الخاصة",
         "PLACEHOLDER": "مثال: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "ERROR": "اسم السمة المخصصة غير صالح"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "قيمة السمة",
         "PLACEHOLDER": "Eg: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "دمج جهة الاتصال",
+    "DESCRIPTION": "دمج جهة الاتصال مفيد عندما يكون لديك مدخلات مكررة لنفس جهة الاتصال. عملية الدمج تأخذ جهة اتصال رئيسية وتدمجها بجهة الاتصال المكررة. بعد الدمج، ستبقى جميع التفاصيل في جهة الاتصال الرئيسية كما هي. إذا لم يكن لدى جهة الاتصال الرئيسية حقل ، فسيتم استخدام القيمة من جهة الاتصال المكررة بعد الدمج. إذا حدث تضارب بالبيانات، ستبقى الحقول في جهة الاتصال الأساسية غير متأثرة، ولكن الحقول من جهة الاتصال الثانوية سيتم نسخها إلى السمات المخصصة في جهة الاتصال الرئيسية.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "جهة الاتصال الرئيسية"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "دمج جهة الإتصال",
+      "PLACEHOLDER": "اختر جهة اتصال"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "ملخص",
+      "DELETE_WARNING": "الاتصال بـ <strong>%{childContactName}</strong>سيتم حذفه.",
+      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{childContactName}</strong> إلى <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "رسالة_خطأ"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " دمج جهة الاتصال",
       "CANCEL": "إلغاء",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "حدد جهة اتصال فرعية للدمج"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "تم دمج جهة الاتصال بنجاح",
+      "ERROR_MESSAGE": "تعذر دمج جهات الاتصال ، حاول مرة أخرى!"
     }
   }
 }

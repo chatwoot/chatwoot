@@ -145,7 +145,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "TO": "ya",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
