@@ -66,6 +66,10 @@ export const actions = {
       });
     }
   },
+  delete: async ({ commit }, contactId) => {
+    commit(types.default.CLEAR_CONTACT_CONVERSATIONS, contactId, { root: true, });
+    commit(types.default.DELETE_CONTACT_CONVERSATION, contactId);
+  },
 };
 
 export const mutations = {
@@ -81,6 +85,9 @@ export const mutations = {
   [types.default.ADD_CONTACT_CONVERSATION]: ($state, { id, data }) => {
     const conversations = $state.records[id] || [];
     Vue.set($state.records, id, [...conversations, data]);
+  },
+  [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
+    Vue.delete($state.records, id);
   },
 };
 

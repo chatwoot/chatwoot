@@ -48,30 +48,56 @@
           />
         </div>
       </div>
-      <woot-button
-        v-if="!showNewMessage"
-        class="edit-contact"
-        variant="link"
-        size="small"
-        @click="toggleEditModal"
-      >
-        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-      </woot-button>
-      <div v-else class="contact-actions">
-        <woot-button
-          class="new-message"
-          size="small expanded"
-          @click="toggleConversationModal"
-        >
-          {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
-        </woot-button>
-        <woot-button
-          variant="smooth"
-          size="small expanded"
-          @click="toggleEditModal"
-        >
-          {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-        </woot-button>
+      <div v-if="!showNewMessage">
+        <div>
+          <woot-button
+            class="edit-contact"
+            variant="link"
+            size="small"
+            @click="toggleEditModal"
+          >
+            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+        <div v-if="isAdmin">
+          <woot-button
+            class="delete-contact"
+            variant="link"
+            size="small"
+            color-scheme="alert"
+            @click="toggleDeleteModal"
+          >
+            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+      </div>
+      <div v-else>
+        <div class="contact-actions">
+          <woot-button
+            class="new-message"
+            size="small expanded"
+            @click="toggleConversationModal"
+          >
+            {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
+          </woot-button>
+          <woot-button
+            variant="smooth"
+            size="small expanded"
+            @click="toggleEditModal"
+          >
+            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+        <div v-if="isAdmin" class="contact-actions">
+          <woot-button
+            variant="hollow"
+            size="small expanded"
+            color-scheme="alert"
+            @click="toggleDeleteModal"
+          >
+            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
       </div>
       <edit-contact
         v-if="showEditModal"
@@ -80,11 +106,24 @@
         @cancel="toggleEditModal"
       />
       <new-conversation
+        v-if="contact.id"
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
       />
     </div>
+    <woot-confirm-delete-modal
+      v-if="showDeleteModal"
+      :show.sync="showDeleteModal"
+      :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
+      :message="confirmDeleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="contact.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
+    />
   </div>
 </template>
 <script>
@@ -93,6 +132,8 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
+import alertMixin from 'shared/mixins/alertMixin';
+import adminMixin from '../../../../mixins/isAdmin';
 
 export default {
   components: {
@@ -102,6 +143,7 @@ export default {
     SocialIcons,
     NewConversation,
   },
+  mixins: [alertMixin, adminMixin],
   props: {
     contact: {
       type: Object,
@@ -115,11 +157,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    onPanelClose: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
       showEditModal: false,
       showConversationModal: false,
+      showDeleteModal: false,
     };
   },
   computed: {
@@ -134,6 +181,23 @@ export default {
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
+    // Delete Modal
+    deleteConfirmText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.YES')} ${this.contact.name}`;
+    },
+    deleteRejectText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.NO')} ${this.contact.name}`;
+    },
+    confirmDeleteMessage() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
+        this.contact.name
+      } ?`;
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.PLACE_HOLDER', {
+        contactName: this.contact.name,
+      })}`;
+    },
   },
   methods: {
     toggleEditModal() {
@@ -141,6 +205,33 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
+    },
+    toggleDeleteModal() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    confirmDeletion() {
+      this.deleteContact(this.contact);
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.showDeleteModal = false;
+      this.showConversationModal = false;
+      this.showEditModal = false;
+    },
+    async deleteContact({ id }) {
+      try {
+        await this.$store.dispatch('contacts/delete', id);
+        await this.$store.dispatch('contactConversations/delete', id);
+        this.$emit('onPanelClose');
+        bus.$emit('fetch_conversation_stats');
+        this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')
+        );
+      }
     },
   },
 };
@@ -180,6 +271,9 @@ export default {
   margin-top: var(--space-small);
 }
 .button.edit-contact {
+  margin-left: var(--space-medium);
+}
+.button.delete-contact {
   margin-left: var(--space-medium);
 }
 

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import types from '../../mutation-types';
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 export const mutations = {
   [types.SET_CONTACT_UI_FLAG]($state, data) {
@@ -44,6 +45,12 @@ export const mutations = {
 
   [types.EDIT_CONTACT]: ($state, data) => {
     Vue.set($state.records, data.id, data);
+  },
+
+  [types.DELETE_CONTACT]: ($state, id) => {
+    const index = $state.sortOrder.findIndex(item => item === id);
+    Vue.delete($state.sortOrder, index);
+    Vue.delete($state.records, id);
   },
 
   [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {

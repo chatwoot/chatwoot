@@ -10,7 +10,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
   before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
@@ -68,6 +68,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       message: e.record.errors.full_messages.join(', '),
       contact: Current.account.contacts.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
+  end
+
+  def destroy
+    @contact.destroy!
+    head :ok
   end
 
   private

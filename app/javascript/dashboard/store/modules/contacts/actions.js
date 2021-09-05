@@ -83,6 +83,18 @@ export const actions = {
     }
   },
 
+  delete: async ({ commit, dispatch }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isDeleting: true });
+    try {
+      await ContactAPI.delete(id);
+      commit(types.DELETE_CONTACT, id);
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+      throw new Error(error);
+    }
+  },
+
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
     try {

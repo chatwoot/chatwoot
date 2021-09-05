@@ -75,7 +75,7 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :contacts, only: [:index, :show, :update, :create] do
+          resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
               get :search
