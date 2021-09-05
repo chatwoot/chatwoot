@@ -9,7 +9,7 @@
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "نتائج البحث",
       "LOADING_MESSAGE": "جار تجزئة البيانات...",
       "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
       "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
@@ -21,18 +21,18 @@
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "الرجاء تحديد تغريدة للرد عليها.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
+    "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "التقييم",
+    "FEEDBACK_TITLE": "الملاحظات",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
@@ -42,10 +42,10 @@
       "DETAILS": "التفاصيل"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "تحديد كمعلق",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
+        "TITLE": "تأجيل حتى",
+        "NEXT_REPLY": "الرد القادم",
         "TOMORROW": "غداً",
         "NEXT_WEEK": "الأسبوع المقبل"
       }
