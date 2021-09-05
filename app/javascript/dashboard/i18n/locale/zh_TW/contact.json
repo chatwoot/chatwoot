@@ -154,7 +154,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "建立",
+      "BUTTON": "新增",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -167,8 +167,8 @@
       "TITLE": "筆記"
     },
     "ADD": {
-      "BUTTON": "建立",
-      "PLACEHOLDER": "建立筆記",
+      "BUTTON": "新增",
+      "PLACEHOLDER": "新增筆記",
       "TITLE": "Shift + Enter to create a note"
     },
     "FOOTER": {
@@ -207,7 +207,7 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "合併聯絡人",
     "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
     "PRIMARY": {
       "TITLE": "Primary contact"
