@@ -143,8 +143,9 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     },
-    "COLLAPSE_HEADER_TITLE": {
+    "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",

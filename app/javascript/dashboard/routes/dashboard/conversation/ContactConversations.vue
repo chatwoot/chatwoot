@@ -82,11 +82,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact-conversation__wrap {
-  margin-left: var(--space-medium);
-}
-
 .no-label-message {
+  margin-bottom: var(--space-normal);
   color: var(--b-500);
 }
 
