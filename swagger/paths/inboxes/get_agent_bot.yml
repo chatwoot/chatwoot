@@ -5,6 +5,7 @@ get:
   summary: Show Inbox Agent Bot
   description: See if an agent bot is associated to the Inbox
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
       type: number
