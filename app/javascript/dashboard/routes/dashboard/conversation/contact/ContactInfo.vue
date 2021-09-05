@@ -151,7 +151,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 .contact--profile {
   align-items: flex-start;
-  margin-bottom: var(--space-normal);
+  padding: var(--space-normal);
 
   .user-thumbnail-box {
     margin-right: $space-normal;
