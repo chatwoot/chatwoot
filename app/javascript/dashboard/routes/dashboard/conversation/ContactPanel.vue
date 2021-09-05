@@ -4,23 +4,16 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
-
     <div class="conversation--actions">
-      <contact-item
-        :header-title="
-          $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_ACTION')
-        "
-        :enabled="getContactItemValue('is_conversation_actions_open')"
-        @click="
-          value => onContactItemClick('is_conversation_actions_open', value)
-        "
+      <accordion-item
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
+        :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
+        @click="value => onContactItemClick('is_conv_actions_open', value)"
       >
-        <div v-if="getContactItemValue('is_conversation_actions_open')">
+        <div>
           <div class="multiselect-wrap--small">
             <contact-details-item
               :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
-              icon="ion-headphone"
-              emoji="🧑‍🚀"
             >
               <template v-slot:button>
                 <woot-button
@@ -28,7 +21,6 @@
                   icon="ion-arrow-right-c"
                   variant="link"
                   size="small"
-                  class-names="button-content"
                   @click="onSelfAssign"
                 >
                   {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
@@ -54,8 +46,6 @@
           <div class="multiselect-wrap--small">
             <contact-details-item
               :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
-              icon="ion-ios-people"
-              emoji="🎢"
             />
             <multiselect-dropdown
               :options="teamsList"
@@ -74,33 +64,23 @@
             />
           </div>
           <contact-details-item
-            :title="
-              $t(
-                'CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_LABELS'
-              )
-            "
-            icon="ion-pricetags"
+            :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
           />
           <conversation-labels
             :show-title="false"
             :conversation-id="conversationId"
           />
         </div>
-      </contact-item>
+      </accordion-item>
     </div>
 
-    <contact-item
+    <accordion-item
       v-if="browser.browser_name"
-      :header-title="
-        $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONVERSATION_INFO')
-      "
-      :enabled="getContactItemValue('is_conv_details_open')"
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
+      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
       @click="value => onContactItemClick('is_conv_details_open', value)"
     >
-      <div
-        v-if="getContactItemValue('is_conv_details_open')"
-        class="conversation--details"
-      >
+      <div class="conversation--details">
         <contact-details-item
           v-if="location"
           :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
@@ -148,36 +128,30 @@
           emoji="🕰"
         />
       </div>
-    </contact-item>
-    <contact-item
+    </accordion-item>
+    <accordion-item
       v-if="hasContactAttributes"
-      :header-title="
-        $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.CONTACT_ATTRIBUTES')
-      "
-      :enabled="getContactItemValue('is_contact_attributes_open')"
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
+      :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
       @click="value => onContactItemClick('is_contact_attributes_open', value)"
     >
       <contact-custom-attributes
-        v-if="getContactItemValue('is_contact_attributes_open')"
         :show-title="false"
         :custom-attributes="contact.custom_attributes"
       />
-    </contact-item>
-    <contact-item
+    </accordion-item>
+    <accordion-item
       v-if="contact.id"
-      :header-title="
-        $t('CONVERSATION_SIDEBAR.COLLAPSE_HEADER_TITLE.PREVIOUS_CONVERSATION')
-      "
-      :enabled="getContactItemValue('is_previous_conv_open')"
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')"
+      :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
       @click="value => onContactItemClick('is_previous_conv_open', value)"
     >
       <contact-conversations
-        v-show="getContactItemValue('is_previous_conv_open')"
         :show-title="false"
         :contact-id="contact.id"
         :conversation-id="conversationId"
       />
-    </contact-item>
+    </accordion-item>
   </div>
 </template>
 
@@ -186,13 +160,13 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import agentMixin from '../../../mixins/agentMixin';
 
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
+import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
-import ContactCustomAttributes from './ContactCustomAttributes';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
-import ContactItem from './ContactItem.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import flag from 'country-code-emoji';
@@ -205,7 +179,7 @@ export default {
     ContactInfo,
     ConversationLabels,
     MultiselectDropdown,
-    ContactItem,
+    AccordionItem,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -362,9 +336,9 @@ export default {
   },
   methods: {
     onContactItemClick(key) {
-      this.updateUISettings({ [key]: !this.getContactItemValue(key) });
+      this.updateUISettings({ [key]: !this.isContactSidebarItemOpen(key) });
     },
-    getContactItemValue(key) {
+    isContactSidebarItemOpen(key) {
       if (this.currentChat.id) {
         const { [key]: isOpen } = this.uiSettings;
         return isOpen;
@@ -456,10 +430,6 @@ export default {
       }
     }
   }
-
-  .multiselect-wrap--small .selector-wrap {
-    padding-left: var(--space-medium);
-  }
 }
 
 .close-button {
@@ -495,21 +465,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.button-content {
-  margin-right: var(--space-normal);
-}
-
-.option__desc {
-  display: flex;
-  align-items: center;
-
-  &::v-deep .status-badge {
-    margin-right: var(--space-small);
-    min-width: 0;
-    flex-shrink: 0;
-  }
 }
 
 .contact-info {

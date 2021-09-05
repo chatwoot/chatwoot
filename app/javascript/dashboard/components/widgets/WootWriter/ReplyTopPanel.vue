@@ -105,7 +105,7 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  background: var(--b-100);
+  background: var(--b-50);
 }
 
 .button-group {

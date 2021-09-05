@@ -165,17 +165,16 @@ export default {
   width: 100%;
 
   .label-wrap {
-    margin-left: var(--space-medium);
-    position: relative;
     line-height: var(--space-medium);
+    position: relative;
 
     .dropdown-wrap {
       display: flex;
-      position: absolute;
+      left: -1px;
       margin-right: var(--space-medium);
+      position: absolute;
       top: var(--space-medium);
       width: 100%;
-      left: -1px;
 
       .dropdown-pane {
         width: 100%;
