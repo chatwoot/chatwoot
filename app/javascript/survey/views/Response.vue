@@ -7,13 +7,23 @@
   </div>
   <div
     v-else
-    class="w-full h-full flex flex-col flex-no-wrap overflow-hidden bg-white"
+    class="w-full h-full flex overflow-auto bg-slate-50 items-center justify-center"
   >
-    <div class="flex flex-1 overflow-auto">
-      <div class="max-w-screen-sm w-full my-0 m-auto px-8 py-12">
-        <img :src="logo" alt="Chatwoot logo" class="logo" @error="imgUrlAlt" />
-        <p class="text-black-700 text-lg leading-relaxed mt-4 mb-4">
-          {{ surveyDescription }}
+    <div
+      class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
+    >
+      <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
+        <img
+          :src="logo"
+          alt="Chatwoot logo"
+          class="logo mb-6"
+          @error="setDefaultUrl"
+        />
+        <p
+          v-if="!isRatingSubmitted"
+          class="text-black-700 text-lg leading-relaxed mb-8"
+        >
+          {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
         <banner
           v-if="shouldShowBanner"
@@ -23,7 +33,7 @@
         />
         <label
           v-if="!isRatingSubmitted"
-          class="text-base font-medium text-black-800 mt-4 mb-4"
+          class="text-base font-medium text-black-800 mb-4"
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
@@ -39,9 +49,9 @@
           @sendFeedback="sendFeedback"
         />
       </div>
-    </div>
-    <div class="footer-wrap flex-shrink-0 w-full flex flex-col relative">
-      <branding></branding>
+      <div class="mb-3">
+        <branding></branding>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +92,7 @@ export default {
       feedbackMessage: '',
       isUpdating: false,
       logo: '',
+      inboxName: '',
     };
   },
   computed: {
@@ -116,9 +127,6 @@ export default {
       }
       return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
     },
-    surveyDescription() {
-      return this.isRatingSubmitted ? '' : this.$t('SURVEY.DESCRIPTION');
-    },
   },
   async mounted() {
     this.getSurveyDetails();
@@ -132,7 +140,7 @@ export default {
       this.feedbackMessage = message;
       this.updateSurveyDetails();
     },
-    imgUrlAlt() {
+    setDefaultUrl() {
       this.logo = BRAND_LOGO;
     },
     async getSurveyDetails() {
@@ -140,6 +148,7 @@ export default {
       try {
         const result = await getSurveyDetails({ uuid: this.surveyId });
         this.logo = result.data.inbox_avatar_url;
+        this.inboxName = result.data.inbox_name;
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
@@ -184,7 +193,8 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+
 .logo {
-  max-height: $space-large;
+  max-height: $space-larger;
 }
 </style>
