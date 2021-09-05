@@ -13,12 +13,7 @@
       class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
     >
       <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
-        <img
-          :src="logo"
-          alt="Chatwoot logo"
-          class="logo mb-6"
-          @error="setDefaultUrl"
-        />
+        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
         <p
           v-if="!isRatingSubmitted"
           class="text-black-700 text-lg leading-relaxed mb-8"
@@ -65,9 +60,9 @@ import Banner from 'survey/components/Banner';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 import alertMixin from 'shared/mixins/alertMixin';
-const BRAND_LOGO = '/brand-assets/logo.svg';
+
 export default {
-  name: 'Home',
+  name: 'Response',
   components: {
     Branding,
     Rating,
@@ -139,9 +134,6 @@ export default {
     sendFeedback(message) {
       this.feedbackMessage = message;
       this.updateSurveyDetails();
-    },
-    setDefaultUrl() {
-      this.logo = BRAND_LOGO;
     },
     async getSurveyDetails() {
       this.isLoading = true;
