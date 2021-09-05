@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "Čekající",
+        "VALUE": "čekající"
+      },
+      {
+        "TEXT": "Odložené",
+        "VALUE": "odložené"
       }
     ],
     "ATTACHMENTS": {
@@ -81,6 +85,6 @@
     "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru",
     "REPLY_TO_TWEET": "Odpovědět na tento tweet",
     "NO_MESSAGES": "Žádné zprávy",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "Žádný obsah k dispozici"
   }
 }

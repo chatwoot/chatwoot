@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Luo uusi tiimi",
-    "HEADER": "Tiimi",
-    "SIDEBAR_TXT": "<p><b>Tiimit</b></p> <p>Tiimit antavat tavan jakaa edustajat eri osa-alueisiin. <br /> Yksi edustaja voi olla monessa ryhmässä. Keskustelun voi määrätä ryhmälle. </p>",
+    "NEW_TEAM": "Create new team",
+    "HEADER": "Teams",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
-      "404": "Tällä tilillä ei ole tiimejä.",
-      "EDIT_TEAM": "Muokkaa tiimi'"
+      "404": "There are no teams created on this account.",
+      "EDIT_TEAM": "Edit team"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Luo uusi tiimi",
-        "DESC": "Lisää otsikko ja kuvaus tiimille."
+        "TITLE": "Create a new team",
+        "DESC": "Add a title and description to your new team."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Lisää edustajia tiimiin",
-        "TITLE": "Lisää edustajia tiimille - %{tiimiName}",
-        "DESC": "Lisää edustajia juuri luotuun tiimiin. Kaikki edustajat saavat ilmoitukset mikäli tiimi määrätään keskusteluun."
+        "BUTTON_TEXT": "Add agents to team",
+        "TITLE": "Add agents to team - %{teamName}",
+        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
       "WIZARD": [
         {
           "title": "Luo",
-          "route": "settings_tiimis_new",
-          "body": "Luo uusi tiimi."
+          "route": "settings_teams_new",
+          "body": "Create a new team of agents."
         },
         {
           "title": "Lisää edustaja",
-          "route": "settings_tiimis_add_agents",
-          "body": "Lisää edustajia tiimiin."
+          "route": "settings_teams_add_agents",
+          "body": "Add agents to the team."
         },
         {
-          "title": "Valmista",
-          "route": "settings_tiimis_finish",
+          "title": "Finish",
+          "route": "settings_teams_finish",
           "body": "Kaikki valmiina!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your tiimi details",
-        "DESC": "Edit title and description to your tiimi.",
-        "BUTTON_TEXT": "Update tiimi"
+        "TITLE": "Edit your team details",
+        "DESC": "Edit title and description to your team.",
+        "BUTTON_TEXT": "Update team"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Päivitä edustajat",
-        "TITLE": "Lisää agentteja tiimiin - %{tiimiName}",
-        "DESC": "Lisää edustajia juuri luotuun tiimiin. Kaikki edustajat saavat ilmoitukset mikäli tiimi määrätään keskusteluun."
+        "BUTTON_TEXT": "Update agents in team",
+        "TITLE": "Add agents to team - %{teamName}",
+        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
         {
-          "title": "Tiimin tiedot",
-          "route": "settings_tiimis_edit",
-          "body": "Muuta nimeä, kuvausta ja muuta."
+          "title": "Team details",
+          "route": "settings_teams_edit",
+          "body": "Change name, description and other details."
         },
         {
-          "title": "Muuta edustajia",
-          "route": "settings_tiimis_edit_members",
-          "body": "Muuta tiimin edustajia."
+          "title": "Edit Agents",
+          "route": "settings_teams_edit_members",
+          "body": "Edit agents in your team."
         },
         {
-          "title": "Valmista",
-          "route": "settings_tiimis_edit_finish",
+          "title": "Finish",
+          "route": "settings_teams_edit_finish",
           "body": "Kaikki valmiina!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Tiimin tallentaminen epäonnistui. Yritä uudelleen."
+      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
     },
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "Sähköposti",
       "BUTTON_TEXT": "Lisää edustaja",
-      "ADD_AGENTS": "Lisätään edustajia tiimiin...",
-      "SELECT": "valitse",
-      "SELECT_ALL": "valitse kaikki edustajat",
-      "SELECTED_COUNT": "%{selected}/%{total} edustajaa valittu."
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
-      "TITLE": "Lisää edustaja tiimiin - %{tiimiName}",
-      "DESC": "Lisää edustajia juuri luotuun tiimiin. Kaikki edustajat saavat ilmoitukset mikäli tiimi määrätään keskusteluun.",
-      "SELECT": "valitse",
-      "SELECT_ALL": "valitse kaikki edustajat",
-      "SELECTED_COUNT": "%{selected}/%{total} edustajaa valittu.",
+      "TITLE": "Add agents to team - %{teamName}",
+      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "Lisää edustaja",
-      "AGENT_VALIDATION_ERROR": "Valitse vähintään yksi edustaja."
+      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
     },
     "FINISH": {
-      "TITLE": "Tiimi on valmis!",
-      "MESSAGE": "Voitte nyt työskennellä yhdessä keskusteluissa. ",
-      "BUTTON_TEXT": "Valmis"
+      "TITLE": "Your team is ready!",
+      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",
       "API": {
-        "SUCCESS_MESSAGE": "Tiimi poistettu onnistuneesti.",
-        "ERROR_MESSAGE": "Hö! Virhe tiimiä poistaessa."
+        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Haluatko varmasti poistaa - %{tiimiName}",
-        "PLACE_HOLDER": "Kirjoita {tiimiName} varmistaaksesi",
-        "MESSAGE": "Tiimin poistaminen poistaa tiimin määrätyistä keskusteluista",
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "Poista ",
         "NO": "Peruuta"
       }
     },
     "SETTINGS": "Asetukset",
     "FORM": {
-      "UPDATE": "Päivitä tiimi",
-      "CREATE": "Luo tiimi",
+      "UPDATE": "Update team",
+      "CREATE": "Create team",
       "NAME": {
-        "LABEL": "Tiimin nimi",
-        "PLACEHOLDER": "Esim: Myynti, Tuki"
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
       },
       "DESCRIPTION": {
-        "LABEL": "Tiimin kuvaus",
-        "PLACEHOLDER": "Lyhyt kuvaus tiimist'."
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Salli automaattinen määräys tiimiin."
+        "LABEL": "Allow auto assign for this team."
       },
-      "SUBMIT_CREATE": "Luo tiimi"
+      "SUBMIT_CREATE": "Create team"
     }
   }
 }

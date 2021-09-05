@@ -47,7 +47,8 @@ ca:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
         open: "La conversa es va reobrir per %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
       assignee:
         self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
@@ -70,6 +71,8 @@ ca:
     reply:
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

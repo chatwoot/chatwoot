@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Cancellare",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox eliminato con successo",
-        "ERROR_MESSAGE": "Impossibile eliminare la posta in arrivo. Riprova più tardi."
+        "ERROR_MESSAGE": "Impossibile eliminare la posta in arrivo. Riprova più tardi.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",

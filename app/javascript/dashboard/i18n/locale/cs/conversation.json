@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
     "SEARCH": {
       "TITLE": "Hledat zprávy",
+      "RESULT_TITLE": "Výsledky hledání",
       "LOADING_MESSAGE": "Načítám data...",
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Žádné výsledky."
@@ -22,16 +23,16 @@
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
-    "LAST_INCOMING_TWEET": "Odpovídáte na poslední příchozí tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Bez odpovědi",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Hodnocení",
+    "FEEDBACK_TITLE": "Zpětná vazba",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -41,7 +42,13 @@
       "DETAILS": "Podrobnosti"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Odložit do",
+        "NEXT_REPLY": "Další odpověď",
+        "TOMORROW": "Zítra",
+        "NEXT_WEEK": "Příští týden"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
@@ -57,13 +64,26 @@
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
       "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Přidat bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-maily oddělené čárkami",
+          "ERROR": "Zadejte prosím platnou e-mailovou adresu"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-maily oddělené čárkami",
+          "ERROR": "Zadejte prosím platnou e-mailovou adresu"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
     "CHANGE_TEAM": "Tým konverzace se změnil",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
     "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
@@ -98,11 +118,11 @@
     "READ_LATEST_UPDATES": "Přečtěte si nejnovější aktualizace",
     "ALL_CONVERSATION": {
       "TITLE": "Všechny vaše konverzace na jednom místě",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "Zobrazit všechny konverzace od zákazníků na jednom nástěnce. Můžete filtrovat konverzace podle příchozího kanálu, popisku a stavu."
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvěte své členy týmu",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Vzhledem k tomu, že se připravujete na rozhovory se zákazníkem, vdechněte své týmové spolupracovníky, kteří vám pomohou. Můžete pozvat své přátele přidáním jejich e-mailové adresy do seznamu agentů.",
       "NEW_LINK": "Klikněte zde pro pozvání člena týmu"
     },
     "INBOXES": {
@@ -118,10 +138,16 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Přiřazený agent",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Přiřadit mi",
     "TEAM_LABEL": "Přiřazený tým",
     "SELECT": {
       "PLACEHOLDER": "Nic"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Komu",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Předmět"
   }
 }

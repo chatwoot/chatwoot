@@ -19,8 +19,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "ป้ายกำกับผู้ติดต่อ",
+        "ERROR": "ไม่สามารถอัพเดทป้ายกำกับได้"
       },
       "CONVERSATION": {
         "TITLE": "ป้ายกำกับการสนทนา",
@@ -131,13 +131,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "ผู้ติดต่อ",
-    "FIELDS": "Contact fields",
+    "FIELDS": "ฟิลส์ผู้ติดต่อ",
     "SEARCH_BUTTON": "ค้นหา",
     "SEARCH_INPUT_PLACEHOLDER": "ค้อนหาผู้ติดต่อ",
     "LIST": {
       "LOADING_MESSAGE": "กำลังโหลดรายชื่อผู้ติดต่อ",
       "404": "ไม่มีผู้ติดต่อที่ตรงกัน 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "ไม่มีผู้ติดต่อที่ใช้งานได้",
       "TABLE_HEADER": {
         "NAME": "ชื่อ",
         "PHONE_NUMBER": "หมายเลขโทรศัพท์",
@@ -155,11 +155,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "เพิ่ม",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter เพื่อสร้างงานใหม่"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "วันครบกำหนด",
+      "LABEL_TITLE": "ตั้งค่าลักษณะ"
     }
   },
   "NOTES": {
@@ -177,61 +177,61 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "กิจกรรม"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "โน้ต",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "อีเว้นท์",
       "PILL_BUTTON_CONVO": "การสนทนา"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "แอตทริบิวต์ที่กำหนดเอง",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "สร้างแอตทริบิวต์เเบบกำหนดเอง",
+      "DESC": "เพิ่มข้อมูลแอตทริบิวต์ในผู้ติดต่อนี้"
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "เพิ่มแอตทริบิวต์",
       "CANCEL": "ยกเลิก",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "สร้าบชื่อแอตทริบิวต์เเบบกำหนดเอง",
+        "PLACEHOLDER": "ตัวอย่าง: ไอดีผู้ใช้",
+        "ERROR": "แอตทริบิวต์เเบบกำหนดเองไม่ถูกต้อง"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "ค่าของแอตทริบิวต์",
+        "PLACEHOLDER": "ตัวอย่าง: 11901 "
       }
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "TITLE": "รวมผู้ติดต่อเข้าด้วยกัน",
+    "DESCRIPTION": "รวมผู้ติดต่อจะมีประโยชน์เมื่อคุณมีรายการที่ซ้ำกันของผู้ติดต่อเดียวกัน การดำเนินการผสานใช้ผู้ติดต่อหลักและผู้ติดต่อย่อย หลังจากรวมแล้ว รายละเอียดทั้งหมดในผู้ติดต่อหลักจะยังเหมือนเดิม หากผู้ติดต่อหลักไม่มีฟิลด์ ค่าจากผู้ติดต่อย่อยจะถูกใช้หลังจากการรวม หากเกิดข้อขัดแย้ง ฟิลด์ในผู้ติดต่อหลักจะไม่ได้รับผลกระทบ แต่ฟิลด์จากผู้ติดต่อหลักจะถูกคัดลอกไปยังแอตทริบิวต์ที่กำหนดเองในผู้ติดต่อหลัก",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "ผู้ติดต่อหลัก"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "TITLE": "ผู้ติดต่อที่จะรวมเข้าด้วยกัน",
+      "PLACEHOLDER": "เลือกผู้ติดต่อ"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "สรุปผล",
+      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{childContactName}</strong>จะถูกลบออก",
+      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{childContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{primaryContactName}</strong>"
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " รวมผู้ติดต่อเข้าด้วยกัน",
       "CANCEL": "ยกเลิก",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "เลือกผู้ติดต่อที่จะรวมเข้าด้วยกัน"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "รวมผู้ติดต่อเข้าด้วยกันเรียบร้อยเเล้ว",
+      "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ ลองใหม่อีกครั้งด้วยนะ!"
     }
   }
 }

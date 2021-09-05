@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "لم يتم العثور على النتائج."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "لا شيء",
+      "TITLE": {
+        "AGENT": "اختر وكيل",
+        "TEAM": "اختيار فريق"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "لم يتم العثور على موظفين",
+          "TEAM": "لم يتم العثور على موظفين"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "البحث عن وكلاء",
+          "TEAM": "البحث عن فريق"
+        }
+      }
     }
   }
 }

@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
     "SEARCH": {
       "TITLE": "Szukaj wiadomości",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Trwa przetwarzanie danych...",
       "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
       "NO_MATCHING_RESULTS": "Brak wyników."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
     "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
-    "LAST_INCOMING_TWEET": "Odpowiadasz na ostatniego przychodzącego tweeta",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
@@ -41,7 +42,13 @@
       "DETAILS": "szczegóły"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Oznacz jako oczekujące",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
       "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Brak"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Do",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

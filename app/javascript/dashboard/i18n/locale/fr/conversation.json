@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
     "SEARCH": {
       "TITLE": "Rechercher des messages",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Traitement des données ...",
       "PLACEHOLDER": "Saisissez n'importe quel texte pour rechercher des messages",
       "NO_MATCHING_RESULTS": "Aucun résultat trouvé."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "LAST_INCOMING_TWEET": "Vous répondez au dernier tweet entrant",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
@@ -41,7 +42,13 @@
       "DETAILS": "détails"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Ouvrir avec le robot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
       "ENTER_TO_SEND": "Entrer pour envoyer",
-      "DRAG_DROP": "Glissez et déposez ici pour lier"
+      "DRAG_DROP": "Glissez et déposez ici pour lier",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Aucun"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "À",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }
