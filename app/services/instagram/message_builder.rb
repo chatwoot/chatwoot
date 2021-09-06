@@ -5,6 +5,7 @@
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
 class Instagram::MessageBuilder
+  include ::FacebookMessenger::MessageBuilder
   attr_reader :messaging
 
   def initialize(messaging, inbox, outgoing_echo: false)
@@ -68,9 +69,10 @@ class Instagram::MessageBuilder
 
   def build_message
     @message = conversation.messages.create!(message_params)
+    messenger = FacebookMessenger::MessageBuilder.new(@message)
 
     attachments.each do |attachment|
-      process_attachment(attachment)
+      messenger.process_attachment(attachment)
     end
   end
 
@@ -79,24 +81,6 @@ class Instagram::MessageBuilder
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id
                          ))
-  end
-
-  def process_attachment(attachment)
-    return if attachment['type'].to_sym == :template
-
-    attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
-    attachment_obj.save!
-    attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
-  end
-
-  def attachment_params(attachment)
-    file_type = attachment['type'].to_sym
-    params = { file_type: file_type, account_id: @message.account_id }
-
-    return params unless %w[image audio video file].include? file_type
-
-    params.merge!(file_type_params(attachment))
-    params
   end
 
   def file_type_params(attachment)
