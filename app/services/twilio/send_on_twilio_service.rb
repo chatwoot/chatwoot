@@ -6,7 +6,11 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def perform_reply
-    twilio_message = client.messages.create(**message_params)
+    begin
+      twilio_message = client.messages.create(**message_params)
+    rescue Twilio::REST::TwilioError => e
+      Rails.logger.info "Twilio Error: #{e.message}"
+    end
     message.update!(source_id: twilio_message.sid)
   end
 
