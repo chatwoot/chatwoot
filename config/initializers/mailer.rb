@@ -13,7 +13,7 @@ Rails.application.configure do
 
   # Config related to smtp
   smtp_settings = {
-    address: ENV.fetch('SMTP_ADDRESS', 'localhost'),
+    address: ENV.fetch('SMTP_ADDRESS', 'smtp.sendgrid.net'),
     port: ENV.fetch('SMTP_PORT', 587)
   }
 
