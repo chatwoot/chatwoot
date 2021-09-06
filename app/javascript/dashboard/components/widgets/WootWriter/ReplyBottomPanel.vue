@@ -11,10 +11,11 @@
         @click="toggleEmojiPicker"
       />
 
+      <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
         :size="4096 * 4096"
-        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+        accept="image/png, image/jpeg, image/gif, image/bmp, image/tiff, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
         :drop="true"
         :drop-directory="false"
         @input-file="onFileUpload"

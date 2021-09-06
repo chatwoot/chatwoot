@@ -13,7 +13,7 @@ RSpec.describe 'Profile API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, custom_attributes: { test: 'test' }, role: :agent) }
 
       it 'returns current user information' do
         get '/api/v1/profile',
@@ -25,6 +25,7 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['email']).to eq(agent.email)
         expect(json_response['access_token']).to eq(agent.access_token.token)
+        expect(json_response['custom_attributes']['test']).to eq('test')
       end
     end
   end

@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "Criar nova equipa",
+    "HEADER": "Equipas",
+    "SIDEBAR_TXT": "<p><b>Equipas</b></p> <p>As equipas permitem-lhe organizar os seus agentes em grupos com base nas suas responsabilidades. <br /> Um utilizador pode fazer parte de várias equipas. Pode atribuir conversas a uma equipa quando estiver a trabalhar online. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Não há equipas configuradas para esta conta.",
+      "EDIT_TEAM": "Editar equipa"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Criar uma nova equipa",
+        "DESC": "Adicione um título e uma descrição a sua nova equipa."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Adicionar agentes à equipa",
+        "TITLE": "Adicionar agentes à equipa - %{teamName}",
+        "DESC": "Adicione Agentes à sua nova equipa. Isso é importante para que os Agentes consigam colaborar em conversas e para que sejam notificados sobre novos eventos."
       },
       "WIZARD": [
         {
           "title": "Criar",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "configuracoes_nova_equipa",
+          "body": "Crie uma nova equipa de agentes."
         },
         {
           "title": "Adicionar Agentes",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "route": "configuracoes_equipas_agentes",
+          "body": "Adicionar agentes à equipa."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_finish",
+          "title": "Terminar",
+          "route": "configuracoes_terminar_equipa",
           "body": "Está tudo pronto para começar!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Editar os detalhes da sua equipa",
+        "DESC": "Editar o título e a descrição da sua equipa.",
+        "BUTTON_TEXT": "Atualizar a equipa"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Atualizar agentes da equipa",
+        "TITLE": "Adicionar agentes à equipa - %{teamName}",
+        "DESC": "Adicionar agentes à sua nova equipa. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a esta equipa."
       },
       "WIZARD": [
         {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "title": "Detalhes da equipa",
+          "route": "configuracoes_editar_equipa",
+          "body": "Alterar nome, descrição e outros detalhes."
         },
         {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "title": "Editar agentes",
+          "route": "configuracoes_equipa-editar_menbros",
+          "body": "Editar os Agentes da sua equipa."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
+          "title": "Finalizar",
+          "route": "terminar_configuracao_equipas",
           "body": "Está tudo pronto para começar!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Não foi possível guardar os detalhes da equipa. Tente novamente."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "AGENTE",
       "EMAIL": "E-mail:",
       "BUTTON_TEXT": "Adicionar agentes",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Acrescentando Agentes à sua equipa...",
+      "SELECT": "escolher",
+      "SELECT_ALL": "escolher todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes escolhidos."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Adicionar agentes à equipa - %{teamName}",
+      "DESC": "Acrescente agentes à sua recém-criada equipa. É importante para que os Agentes consigam colaborar em conversas e para que sejam notificados sobre novos eventos.",
+      "SELECT": "escolher",
+      "SELECT_ALL": "escolher todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes escolhidos.",
       "BUTTON_TEXT": "Adicionar agentes",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Escolher pelo menos um Agente."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "A sua equipa está pronta!",
+      "MESSAGE": "Agora, já podem trabalhar em equipa nas novas conversas. Feliz apoio ",
+      "BUTTON_TEXT": "Finalizar"
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Equipa apagada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível apagar a equipa. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Tem a certeza que quer apagar a equipa - %{teamName}",
+        "PLACE_HOLDER": "Por favor, digite {teamName} para confirmar",
+        "MESSAGE": "Ao apagar a equipa irá remover a atribuição de novas conversas a essa equipa.",
         "YES": "excluir ",
         "NO": "cancelar"
       }
     },
     "SETTINGS": "Confirgurações",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Atualizar a equipa",
+      "CREATE": "Criar uma equipa",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Nome da equipa",
+        "PLACEHOLDER": "Exemplo: Comercial, Assistência, Administrativo"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Descrição da equipa",
+        "PLACEHOLDER": "Breve descrição sobre a equipa."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Permitir a atribuição automática para esta equipa."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Criar uma equipa"
     }
   }
 }

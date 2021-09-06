@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Бот",
-        "VALUE": "бот"
+        "TEXT": "В ожидании",
+        "VALUE": "в ожидании"
+      },
+      {
+        "TEXT": "Отложено",
+        "VALUE": "отложено"
       }
     ],
     "ATTACHMENTS": {

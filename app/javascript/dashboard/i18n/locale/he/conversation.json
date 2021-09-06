@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
       "TITLE": "Search messages",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "No results found."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24 hour message window restriction",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "הורד",
@@ -41,7 +42,13 @@
       "DETAILS": "details"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
@@ -57,14 +64,27 @@
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_AGENT": "Conversation Assignee changed",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "SENT_BY": "Sent by:",
+    "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "SENT_BY": "נשלח על ידי:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "בחר סוכן",
       "REMOVE": "Remove",
@@ -81,7 +101,7 @@
     "SUBMIT": "שלח",
     "CANCEL": "ביטול",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

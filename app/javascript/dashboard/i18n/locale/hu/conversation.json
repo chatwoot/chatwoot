@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
     "SEARCH": {
       "TITLE": "Üzenetekben keresés",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Adatelemzés...",
       "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
       "NO_MATCHING_RESULTS": "Nincs találat."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
-    "LAST_INCOMING_TWEET": "Az utolsó beérkező tweetre válaszolsz",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
@@ -41,7 +42,13 @@
       "DETAILS": "részletek"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bottal megnyitni"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
@@ -57,7 +64,20 @@
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
       "ENTER_TO_SEND": "Enter-rel elküld",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "Nincs"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

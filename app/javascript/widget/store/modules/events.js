@@ -1,5 +1,9 @@
 import events from 'widget/api/events';
 
+const state = {
+  isOpen: false,
+}
+
 const actions = {
   create: async (_, { name }) => {
     try {
@@ -10,10 +14,16 @@ const actions = {
   },
 };
 
+const mutations = {
+  toggleOpen($state) {
+    $state.isOpen = !$state.isOpen;
+  }
+};
+
 export default {
   namespaced: true,
-  state: {},
+  state,
   getters: {},
   actions,
-  mutations: {},
+  mutations,
 };
