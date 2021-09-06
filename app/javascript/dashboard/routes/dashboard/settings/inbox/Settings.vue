@@ -102,38 +102,19 @@
             }}
           </p>
         </label>
-        <section v-if="greetingEnabled">
-          <resizable-text-area
-            v-if="textAreaChannels"
-            v-model.trim="greetingMessage"
-            rows="4"
-            type="text"
-            class="medium-9 columns greetings--textarea"
-            :label="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
-              )
-            "
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-              )
-            "
-          />
-          <label v-else class="greetings--richtext">
-            <woot-message-editor
-              v-model.trim="greetingMessage"
-              :is-format-mode="true"
-              class="input"
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
-                )
-              "
-              :min-height="4"
-            />
-          </label>
-        </section>
+        <greetings-editor
+          v-if="greetingEnabled"
+          v-model.trim="greetingMessage"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+            )
+          "
+          :richtext="!textAreaChannels"
+        />
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -337,8 +318,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import GreetingsEditor from 'shared/components/GreetingsEditor';
 
 export default {
   components: {
@@ -347,8 +327,7 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
-    WootMessageEditor,
-    ResizableTextArea
+    GreetingsEditor,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -379,6 +358,7 @@ export default {
         },
       ],
       selectedTabIndex: 0,
+      test: 'testval',
     };
   },
   computed: {
@@ -616,15 +596,6 @@ export default {
   .settings--content {
     div:last-child {
       border-bottom: 0;
-    }
-    .greetings--textarea {
-      padding: $space-small;
-    }
-    .greetings--richtext {
-      padding: 0 var(--space-normal);
-      border-radius: var(--border-radius-normal);
-      border: 1px solid var(--color-border);
-      margin: 0 0 var(--space-normal);
     }
   }
 

@@ -99,37 +99,20 @@
           }}
         </p>
       </label>
-      <div v-if="greetingEnabled" class="medium-12 columns">
-        <label v-if="textAreaChannels">
-          {{
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-          }}
-          <resizable-text-area
-            v-model.trim="greetingMessage"
-            rows="4"
-            type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-              )
-            "
-          />
-        </label>
-        <label v-else class="greetings--richtext">
-          <woot-message-editor
-            v-model.trim="greetingMessage"
-            :is-format-mode="true"
-            class="input"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
-              )
-            "
-            :min-height="4"
-          />
-        </label>
-      </div>
-
+      <greetings-editor
+        v-if="greetingEnabled"
+        v-model.trim="greetingMessage"
+        class="medium-12 columns"
+        :label="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+        "
+        :placeholder="
+          $t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+          )
+        "
+        :richtext="!textAreaChannels"
+      />
       <div class="modal-footer">
         <div class="medium-12 columns">
           <woot-submit-button
@@ -147,14 +130,12 @@
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import GreetingsEditor from 'shared/components/GreetingsEditor';
 
 export default {
   components: {
     PageHeader,
-    WootMessageEditor,
-    ResizableTextArea,
+    GreetingsEditor,
   },
   data() {
     return {
@@ -212,12 +193,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.greetings--richtext {
-  padding: 0 var(--space-normal);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  margin: 0 0 var(--space-normal);
-}
-</style>
