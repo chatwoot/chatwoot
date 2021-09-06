@@ -145,10 +145,10 @@
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Контактные данные",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_ACTIONS": "Действия в беседе",
       "CONVERSATION_LABELS": "Категории Диалога",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Информация о беседе",
+      "CONTACT_ATTRIBUTES": "Атрибуты контакта",
       "PREVIOUS_CONVERSATION": "Предыдущие диалоги"
     }
   },
