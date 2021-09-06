@@ -9,7 +9,7 @@
       </div>
       <div class="button-icon--wrap">
         <slot name="button" />
-        <div class="chevron-icon__wrap" @click="$emit('click')">
+        <div class="chevron-icon__wrap">
           <i v-if="isOpen" class="ion-minus chevron-icon"></i>
           <i v-else class="ion-plus chevron-icon"></i>
         </div>
