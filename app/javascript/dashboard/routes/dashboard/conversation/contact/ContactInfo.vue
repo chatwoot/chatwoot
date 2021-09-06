@@ -207,7 +207,7 @@ export default {
 .contact--profile {
   position: relative;
   align-items: flex-start;
-  margin-bottom: var(--space-normal);
+  padding: var(--space-normal);
 
   .user-thumbnail-box {
     margin-right: var(--space-normal);

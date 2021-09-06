@@ -1109,9 +1109,12 @@
           "Contact"
         ],
         "operationId": "contactList",
-        "description": "Listing all the contacts with pagination (Page size = 15)",
+        "description": "Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "List Contacts",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "$ref": "#/parameters/contact_sort_param"
           },
@@ -1139,9 +1142,12 @@
           "Contact"
         ],
         "operationId": "contactCreate",
-        "description": "Create New Contact",
+        "description": "Create a new Contact",
         "summary": "Create Contact",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "data",
             "in": "body",
@@ -1174,7 +1180,11 @@
         ],
         "operationId": "contactDetails",
         "summary": "Show Contact",
+        "description": "Get a contact belonging to the account using ID",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1204,7 +1214,11 @@
         ],
         "operationId": "contactUpdate",
         "summary": "Update Contact",
+        "description": "Update a contact belonging to the account using ID",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1243,8 +1257,12 @@
           "Contact"
         ],
         "operationId": "contactConversations",
-        "summary": "Conversations",
+        "summary": "Contact Conversations",
+        "description": "Get conversations associated to that contact",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1275,9 +1293,12 @@
           "Contact"
         ],
         "operationId": "contactSearch",
-        "description": "Search the contacts using a search key, currently supports email search (Page size = 15)",
+        "description": "Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "Search Contacts",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "q",
             "in": "query",
@@ -1321,6 +1342,16 @@
         "description": "Create a contact inbox record for an inbox",
         "summary": "Create contact inbox",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          },
           {
             "name": "data",
             "in": "body",
@@ -1367,6 +1398,18 @@
         "operationId": "contactableInboxesGet",
         "description": "Get List of contactable Inboxes",
         "summary": "Get Contactable Inboxes",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1847,6 +1890,11 @@
         "operationId": "listAllInboxes",
         "summary": "List all inboxes",
         "description": "List all inboxes available in the current account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1867,6 +1915,42 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/inboxes/{id}/": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "GetInboxe",
+        "summary": "Get an inbox",
+        "description": "Get an inbox available in the current account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/inboxes/": {
       "post": {
         "tags": [
@@ -1876,6 +1960,9 @@
         "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "data",
             "in": "body",
@@ -1951,6 +2038,9 @@
         "summary": "Update Inbox",
         "description": "Add avatar and disable auto assignment for an inbox",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -2034,6 +2124,9 @@
         "description": "See if an agent bot is associated to the Inbox",
         "parameters": [
           {
+            "$ref": "#/parameters/account_id"
+          },
+          {
             "name": "id",
             "in": "path",
             "type": "number",
@@ -2066,6 +2159,9 @@
         "summary": "Add or remove agent bot",
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -3522,6 +3618,10 @@
         "identifier": {
           "type": "string",
           "description": "A unique identifier for the contact in external system"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}"
         }
       }
     },
@@ -3543,6 +3643,10 @@
         "identifier": {
           "type": "string",
           "description": "A unique identifier for the contact in external system"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}"
         }
       }
     },
