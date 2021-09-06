@@ -144,7 +144,10 @@
     padding-left: 0;
 
     .conversation--details {
+      border-radius: var(--border-radius-small);
       margin-left: 0;
+      padding-left: var(--space-two);
+      padding-right: var(--space-small);
     }
   }
 }
