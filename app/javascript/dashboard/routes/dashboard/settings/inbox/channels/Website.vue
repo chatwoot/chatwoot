@@ -155,10 +155,7 @@ export default {
     textAreaChannels() {
       if (
         this.isATwilioChannel ||
-        this.isATwilioSMSChannel ||
-        this.isATwilioWhatsappChannel ||
         this.isATwitterInbox ||
-        this.isFacebookChannel ||
         this.isAFacebookInbox
       )
         return true;
