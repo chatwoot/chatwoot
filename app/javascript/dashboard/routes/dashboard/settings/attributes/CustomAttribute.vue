@@ -155,8 +155,8 @@ export default {
 
 .item-description {
   padding-left: 0;
-  max-width: 16vw;
-  min-width: 10vw;
+  max-width: 16rem;
+  min-width: 10rem;
 }
 
 .key {
