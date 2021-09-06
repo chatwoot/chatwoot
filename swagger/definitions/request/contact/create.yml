@@ -15,3 +15,6 @@ properties:
   identifier: 
     type: string
     description: A unique identifier for the contact in external system
+  custom_attributes:
+    type: object
+    description: An object where you can store custom attributes for contact. example {"type":"customer", "age":30}

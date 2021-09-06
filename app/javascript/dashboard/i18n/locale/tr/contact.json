@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
     "IP_ADDRESS": "IP Adresi",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Yeni Mesaj",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
       "TITLE": "Önceki Sohbetler"
@@ -24,12 +24,12 @@
       },
       "CONVERSATION": {
         "TITLE": "Konuşma Etiketleri",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Etiketler ekleyin"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Etiketler ekleyin",
+        "PLACEHOLDER": "Etiketleri ara",
+        "NO_RESULT": "Etiket bulunamadı"
       }
     },
     "MUTE_CONTACT": "Konuşmayı Sessize Al",
@@ -112,32 +112,32 @@
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "ya"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Gelen kutusu",
+        "ERROR": "Gelen kutusu seç"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Mesaj",
         "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "ERROR": "Mesaj boş olamaz"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Mesaj yollandı!",
+      "ERROR_MESSAGE": "Yollanamıyor! lütfen tekrar deneyin"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kişiler",
-    "FIELDS": "Contact fields",
+    "FIELDS": "İletişim alanları",
     "SEARCH_BUTTON": "Arama",
     "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Uygun bir kontak bulunamadı",
       "TABLE_HEADER": {
         "NAME": "İsim",
         "PHONE_NUMBER": "Telefon numarası",
@@ -145,7 +145,7 @@
         "LAST_ACTIVITY": "Son aktivite",
         "COUNTRY": "Ülke",
         "CITY": "Şehir",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Sosyal profiller",
         "COMPANY": "Şirket",
         "EMAIL_ADDRESS": "E-posta adresi"
       },
@@ -154,34 +154,34 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Ekle",
+      "TITLE": "Yeni görev oluşturmak için shift + enter ' a basınız"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Geçerlilik tarihi",
+      "LABEL_TITLE": "Tip belirle"
     }
   },
   "NOTES": {
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Notlar"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Ekle",
+      "PLACEHOLDER": "Not ekle",
+      "TITLE": "Yeni not oluşturmak için shift + enter ' a basınız"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "BUTTON": "Tüm notları görüntüle"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Aktiviteler"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "notlar",
+      "PILL_BUTTON_EVENTS": "etkinlikler",
       "PILL_BUTTON_CONVO": "konuşmalar"
     }
   },
