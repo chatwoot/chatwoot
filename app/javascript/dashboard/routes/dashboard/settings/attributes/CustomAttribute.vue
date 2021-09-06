@@ -39,7 +39,7 @@
               <td class="item text-truncate">
                 {{ attribute.attribute_display_name }}
               </td>
-              <td class="item text-truncate">
+              <td class="item-description text-truncate">
                 {{ attribute.attribute_description }}
               </td>
               <td class="item text-truncatee">
@@ -133,8 +133,7 @@ export default {
 }
 
 .woot-table {
-  table-layout: fixed;
-  width: 95%;
+  width: 100%;
   margin-top: var(--space-small);
 }
 
@@ -150,6 +149,14 @@ export default {
 
 .item {
   padding-left: 0;
+  max-width: 10rem;
+  min-width: 8rem;
+}
+
+.item-description {
+  padding-left: 0;
+  max-width: 16vw;
+  min-width: 10vw;
 }
 
 .key {
