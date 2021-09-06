@@ -16,7 +16,7 @@ class Api::V1::WebhooksController < ApplicationController
 
   def instagram_verify
     if valid_instagram_token?(params['hub.verify_token'])
-      Rails.logger.info("Instagram webhook verified")
+      Rails.logger.info('Instagram webhook verified')
       render json: params['hub.challenge']
     else
       render json: { error: 'Error; wrong verify token', status: 403 }
@@ -24,8 +24,8 @@ class Api::V1::WebhooksController < ApplicationController
   end
 
   def instagram_events
-    Rails.logger.info("Instagram webhook received events")
-    if params['object'].downcase == "instagram"
+    Rails.logger.info('Instagram webhook received events')
+    if params['object'].casecmp('instagram').zero?
       instagram_consumer.consume
       render json: :ok
     else
@@ -47,7 +47,7 @@ class Api::V1::WebhooksController < ApplicationController
   end
 
   def instagram_consumer
-    @messenger_account ||= ::Webhooks::Instagram.new(params[:entry.freeze])
+    @messenger_account ||= ::Webhooks::Instagram.new(params[:entry])
   end
 
   def valid_instagram_token?(token)

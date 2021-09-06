@@ -13,13 +13,13 @@ class Webhooks::Instagram
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def consume
     if @entries[0].key?(:changes)
-      Rails.logger.info("Probably Test data.")
+      Rails.logger.info('Probably Test data.')
 
       return
     end
 
     @entries.each do |entry|
-      entry[:messaging.freeze].each do |messaging|
+      entry[:messaging].each do |messaging|
         send(@event_name, messaging) if event_name(messaging)
       end
     end

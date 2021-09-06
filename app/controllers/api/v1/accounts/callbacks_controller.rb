@@ -25,11 +25,11 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
   def set_instagram_id(page_access_token, facebook_channel)
     fb_object = Koala::Facebook::API.new(page_access_token)
-    response = fb_object.get_connections('me', "", options = {fields: "instagram_business_account"})
-    if response["instagram_business_account"].present?
-      instagram_id = response["instagram_business_account"]["id"]
-      facebook_channel.update_attribute(:instagram_id, instagram_id)
-    end
+    response = fb_object.get_connections('me', '', { fields: 'instagram_business_account' })
+    return if response['instagram_business_account'].blank?
+
+    instagram_id = response['instagram_business_account']['id']
+    facebook_channel.update(instagram_id: instagram_id)
   end
 
   # get params[:inbox_id], current_account. params[:omniauth_token]

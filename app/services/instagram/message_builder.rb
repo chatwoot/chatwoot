@@ -15,6 +15,7 @@ class Instagram::MessageBuilder
 
   def perform
     return if @inbox.channel.reauthorization_required?
+
     build_message
   rescue Koala::Facebook::AuthenticationError
     Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
@@ -92,10 +93,9 @@ class Instagram::MessageBuilder
     file_type = attachment['type'].to_sym
     params = { file_type: file_type, account_id: @message.account_id }
 
-    if [:image, :file, :audio, :video].include? file_type
-      params.merge!(file_type_params(attachment))
-    end
+    return params unless %w[image audio video file].include? file_type
 
+    params.merge!(file_type_params(attachment))
     params
   end
 
@@ -128,5 +128,4 @@ class Instagram::MessageBuilder
       sender: @outgoing_echo ? nil : contact
     }
   end
-
 end

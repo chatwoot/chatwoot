@@ -2,7 +2,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   include HTTParty
 
   pattr_initialize [:message!]
-  base_uri 'https://graph.facebook.com/v3.2/me'
+  base_uri 'https://graph.facebook.com/v11.0/me'
 
   private
 
@@ -15,7 +15,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def perform_reply
     if message.attachments.present?
       send_to_facebook_page merge_attachement_params
-    elsif
+    else
       send_to_facebook_page message_params
     end
   rescue Facebook::Messenger::FacebookError => e
@@ -35,7 +35,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def merge_attachement_params
     attachment = message.attachments.first
     message_params[:message][:attachment] = {
-      type: "image",
+      type: 'image',
       payload: {
         url: attachment.file_url
       }
@@ -43,21 +43,20 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     message_params
   end
 
-   # Deliver a message with the given payload.
+  # Deliver a message with the given payload.
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message
   def send_to_facebook_page(message_content)
     access_token = channel.page_access_token
-    query = { access_token: access_token }
     options = {
       body: message_content
     }
-    url = "https://graph.facebook.com/v3.2/me/messages?access_token=#{access_token}"
+    url = "https://graph.facebook.com/v11.0/me/messages?access_token=#{access_token}"
 
     response = HTTParty.post(url, options)
     response.body
   end
 
-   def attachment_type(attachment)
+  def attachment_type(attachment)
     return attachment.file_type if %w[image audio video file].include? attachment.file_type
 
     'file'
@@ -75,8 +74,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def last_incoming_message
     conversation.messages.incoming.last
   end
-
-  private
 
   def config
     Facebook::Messenger.config
