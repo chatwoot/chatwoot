@@ -35,7 +35,7 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="attribute in attributes" :key="attribute.model">
+            <tr v-for="attribute in attributes" :key="attribute.attribute_key">
               <td class="item text-truncate">
                 {{ attribute.attribute_display_name }}
               </td>
@@ -84,7 +84,6 @@ export default {
   data() {
     return {
       selectedTabIndex: 0,
-      selectedAttribute: {},
     };
   },
   computed: {
@@ -96,12 +95,12 @@ export default {
         ? 'contact_attribute'
         : 'conversation_attribute';
 
-      return this.$store.getters['attributes/getAttributeModel'](
+      return this.$store.getters['attributes/getAttributesByModel'](
         attributeModel
       );
     },
     tabs() {
-      const tabs = [
+      return [
         {
           key: 0,
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
@@ -111,16 +110,18 @@ export default {
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
         },
       ];
-      return tabs;
-    },
-    selectedTabKey() {
-      return this.tabs[this.selectedTabIndex]?.key;
     },
   },
-
+  mounted() {
+    this.fetchAttributes(this.selectedTabIndex);
+  },
   methods: {
     onClickTabChange(index) {
       this.selectedTabIndex = index;
+      this.fetchAttributes(index);
+    },
+    fetchAttributes(index) {
+      this.$store.dispatch('attributes/get', index);
     },
   },
 };
@@ -143,7 +144,7 @@ export default {
 
 .tabs {
   padding-left: 0;
-  margin-right: 2.4rem;
+  margin-right: var(--space-medium);
   user-select: none;
 }
 

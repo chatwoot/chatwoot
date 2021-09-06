@@ -28,9 +28,6 @@ export default {
       showAddPopup: false,
     };
   },
-  mounted() {
-    this.$store.dispatch('attributes/get');
-  },
   methods: {
     openAddPopup() {
       this.showAddPopup = true;
