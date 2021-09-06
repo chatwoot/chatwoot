@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-6">
     <label class="text-base font-medium text-black-800">
       {{ $t('SURVEY.FEEDBACK.LABEL') }}
     </label>
