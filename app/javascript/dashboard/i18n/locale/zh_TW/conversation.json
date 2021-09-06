@@ -3,7 +3,7 @@
     "404": "請從左側窗格選擇一個對話",
     "NO_MESSAGE_1": "您的收件匣中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
-    "NO_INBOX_1": "看來你還没有建立任何收件匣。",
+    "NO_INBOX_1": "看來你還沒有新增任何收件匣。",
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
@@ -58,7 +58,7 @@
       "REPLY": "回覆",
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
-      "CREATE": "建立筆記",
+      "CREATE": "新增筆記",
       "TWEET": "推特",
       "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
@@ -73,7 +73,7 @@
           "ERROR": "請輸入有效的電子信箱"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "密件副本",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "請輸入有效的電子信箱"
         }

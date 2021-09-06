@@ -1,36 +1,36 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
+    "HEADER": "Öznitelikler",
+    "HEADER_BTN_TXT": "Öznitelik ekle",
     "ADD": {
-      "TITLE": "Add attribute",
+      "TITLE": "Öznitelik ekle",
       "SUBMIT": "Yarat",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "LABEL": "Ekran adı",
+          "PLACEHOLDER": "Öznitelik adı girin"
         },
         "DESC": {
           "LABEL": "Açıklama",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Öznitelik açıklaması girin"
         },
         "MODEL": {
           "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "PLACEHOLDER": "Lütfen model seçin",
+          "ERROR": "Model gerekli"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "LABEL": "Tip",
+          "PLACEHOLDER": "Lütfen tip seçin",
+          "ERROR": "Tip gerekli"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Anahtar"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "SUCCESS_MESSAGE": "Öznitelik başarıyla eklendi",
         "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     }
