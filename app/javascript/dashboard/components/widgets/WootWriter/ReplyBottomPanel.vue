@@ -54,7 +54,7 @@
       </transition>
     </div>
     <div class="right-wrap">
-      <div v-if="isFormatMode" class="enter-to-send--checkbox">
+      <div class="enter-to-send--checkbox">
         <input
           :checked="enterToSendEnabled"
           type="checkbox"
