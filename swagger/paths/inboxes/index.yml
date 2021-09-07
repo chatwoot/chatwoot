@@ -4,6 +4,8 @@ get:
   operationId: listAllInboxes
   summary: List all inboxes
   description: List all inboxes available in the current account
+  parameters:
+    - $ref: '#/parameters/account_id'
   responses:
     200:
       description: Success

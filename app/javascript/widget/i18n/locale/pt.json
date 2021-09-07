@@ -2,70 +2,70 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "A carregar..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "submeter"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Estamos online",
+    "OFFLINE": "Estamos ausentes"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Normalmente respondemos em poucos minutos",
+    "IN_A_FEW_HOURS": "Normalmente respondemos em poucas horas",
+    "IN_A_DAY": "Normalmente respondemos num dia"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Iniciar Conversa",
+  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
     "CLOSE_MESSAGES_BUTTON": "FECHAR",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "de",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Fale connosco"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Desenvolvido por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor, digite seu e-mail",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "CHAT_PLACEHOLDER": "Escreva a sua mensagem",
+  "TODAY": "Hoje",
+  "YESTERDAY": "Ontem",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "Nome completo",
+        "PLACEHOLDER": "Por favor, digite o seu nome completo",
+        "ERROR": "Nome completo é necessário"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Por favor, insira um endereço de email válido",
+        "ERROR": "Endereço de email inválido"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Por favor, escreva a sua mensagem",
+        "ERROR": "Mensagem muito pequena"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Campo inválido"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Avalie a sua conversa",
+    "SUBMITTED_TITLE": "Obrigado pela sua Avaliação",
+    "PLACEHOLDER": "Conte-nos mais..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "BUTTON_TEXT": "Pedir a transcrição da conversa",
+    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
   }
 }
