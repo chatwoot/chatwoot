@@ -28,11 +28,16 @@ export const initializeChatwootEvents = () => {
   });
   window.bus.$on(CHATWOOT_SET_USER, ({ user }) => {
     if (window.$chatwoot) {
-      window.$chatwoot.setUser(user.id, {
-        name: user.name,
+      window.$chatwoot.setUser(user.email, {
+        avatar_url: user.avatar_url,
         email: user.email,
+        identifier_hash: user.hmac_identifier,
+        name: user.name,
       });
-      window.$chatwoot.setLabel('cloud-customer');
+      window.$chatwoot.setCustomAttributes({
+        signedUpAt: user.created_at,
+        cloudCustomer: 'true',
+      });
     }
   });
 };
