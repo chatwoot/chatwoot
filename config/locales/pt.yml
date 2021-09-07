@@ -28,58 +28,61 @@ pt:
       email_already_exists: "Você já se inscreveu para uma conta com %{email}"
       failed: Falha na inscrição
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Período do relatório de %{since} a %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Nome do agente
+      conversations_count: Número de conversas
+      avg_first_response_time: Média do tempo de resposta (minutos)
+      avg_resolution_time: Média do tempo de resolução (minutos)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nova conversa] - #%{display_id} foi criada em %{inbox_name}"
+      conversation_assignment: "[Atribuído a si] - #%{display_id} foi-lhe atribuído"
+      assigned_conversation_new_message: "[Nova mensagem] -%{display_id} %{content}"
+      conversation_mention: "Foi mencionado na conversa [ID - %{display_id}] por %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Esta mensagem foi apagada
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        pending: "Conversa marcada como pendente por %{user_name}"
+        snoozed: "Conversa adiada por %{user_name}"
+        auto_resolved: "Conversa auto-resolvida pelo sistema por causa dos %{duration} dias sem inatividade"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} auto-atribuída esta conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
         removed: "Conversa não atribuída por %{user_name}"
       team:
         assigned: "Atribuído a %{team_name} por %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Atribuído a %{assignee_name} via %{team_name} por %{user_name}"
+        removed: "Não atribuído a %{team_name} por %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} acrescentou %{labels}"
+        removed: "%{user_name} removeu a %{labels}"
+      muted: "%{user_name} bloqueou a conversa"
+      unmuted: "%{user_name} reativou a conversa"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
+      greeting_message_body: "%{account_name} normalmente responde em poucas horas."
       ways_to_reach_you_message_body: "Dê à equipe um jeito de contatá-lo."
       email_input_box_message_body: "Seja notificado por e-mail"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Por favor, avalie a conversa"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Novas mensagens nesta conversa"
+      transcript_subject: "Transcrição da conversa"
+    survey:
+      response: "Por favor, avalie esta conversa, %{link}"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack é uma ferramenta de chat que junta num só lugar todas as suas comunicações. Ao integrar o Slack com a sua conta, pode ser notificado de todas as novas conversas diretamente no seu Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Os eventos Webhook fornecem informações em tempo real sobre o que está a acontecer na sua conta Chatwoot. Pode utilizar os Webhooks para comunicar eventos com as suas aplicações favoritas como o Slack ou o Github. Clique em Configurar para configurar os seus Webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Construa chatbots utilizando o Dialogflow e ligue-os rapidamente à sua caixa de entrada. Deixe os robost \"bots\" tratarem das consultas dos seus contatos antes de as entregar aos seus agentes de atendimento."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "A integração com o FullContact ajuda a enriquecer os perfis dos seus visitantes. Identifica os utilizadores assim que eles partilham o seu endereço de e-mail e ofereça um atendimento ao cliente mais personalizado. Ligue a sua conta ao FullContact utilizando apenas a sua chave API."

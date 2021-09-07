@@ -1,9 +1,9 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Visão geral",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Descarregar relatórios de agentes",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -41,49 +41,49 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últimos 3 meses"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últimos 6 meses"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Último ano"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Intervalo de tempo personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Confirmar",
+      "PLACEHOLDER": "Escolher intervalo de tempo"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Relatórios CSAT",
+    "NO_RECORDS": "Sem dados CSAT disponíveis para reposta.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Contato",
+        "AGENT_NAME": "Agente atribuído",
+        "RATING": "Avaliar",
+        "FEEDBACK_TEXT": "Comentário de feedback"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas recolhidas"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Pontuação de satisfação",
+        "TOOLTIP": "Número total de respostas positivas / Número total de respostas * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Taxa de resposta",
+        "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT enviadas * 100"
       }
     }
   }
