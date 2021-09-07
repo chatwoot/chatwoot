@@ -229,7 +229,8 @@ export default {
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel
+        this.isAnEmailChannel ||
+        this.isATwilioSMSChannel
       );
     },
     replyButtonLabel() {
