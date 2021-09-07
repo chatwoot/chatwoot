@@ -6,7 +6,6 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   base_uri 'https://graph.facebook.com/v11.0/'
 
   def initialize(messaging)
-    super
     @messaging = messaging
   end
 

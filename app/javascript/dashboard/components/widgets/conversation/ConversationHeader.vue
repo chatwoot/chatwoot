@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="inboxBadge"
+        :badge="chatBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -73,9 +73,29 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
+<<<<<<< HEAD
     chatMetadata() {
       return this.chat.meta;
     },
+=======
+
+    chatExtraAttributes() {
+      return this.chat.additional_attributes;
+    },
+
+    chatMetadata() {
+      return this.chat.meta;
+    },
+
+    chatBadge() {
+      if(this.chatExtraAttributes['type']){
+        return this.chatExtraAttributes['type']
+      } else {
+        return this.chatMetadata.channel
+      }
+    },
+
+>>>>>>> 48e45e29... [2850] update messenger badge according to the channel type
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id

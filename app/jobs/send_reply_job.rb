@@ -3,12 +3,12 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    channel = message.conversation.inbox.channel
-    channel_name = channel.class.to_s
+    conversation = message.conversation
+    channel_name = conversation.inbox.channel.class.to_s
 
     case channel_name
     when 'Channel::FacebookPage'
-      if channel.instagram_id.present?
+      if conversation.additional_attributes['type'] == 'instagram_direct_message'
         ::Instagram::SendOnInstagramService.new(message: message).perform
       else
         ::Facebook::SendOnFacebookService.new(message: message).perform

@@ -5,7 +5,6 @@
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
 class Instagram::MessageBuilder
-  include ::FacebookMessenger::MessageBuilder
   attr_reader :messaging
 
   def initialize(messaging, inbox, outgoing_echo: false)
