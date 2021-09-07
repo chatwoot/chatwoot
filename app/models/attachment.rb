@@ -87,7 +87,7 @@ class Attachment < ApplicationRecord
   end
 
   def acceptable_file
-    should_validate_file?
+    return unless should_validate_file?
 
     errors.add(:file, 'is too big') if file.byte_size > 40.megabytes
 
