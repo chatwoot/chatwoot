@@ -94,10 +94,6 @@ export default {
   methods: {
     logout() {
       Auth.logout();
-
-      if (this.globalConfig.chatwootInboxToken) {
-        window.$chatwoot.reset();
-      }
     },
   },
 };
