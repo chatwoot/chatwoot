@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ::MessageTemplates::HookExecutionService do
-  context 'when Greeting Message' do 
+  context 'when Greeting Message' do
     it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
@@ -22,13 +22,12 @@ describe ::MessageTemplates::HookExecutionService do
       expect(email_collect_service).to have_received(:perform)
     end
 
-
     it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       # ensure greeting hook is enabled and greeting_message is present
       twitter_inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message')
-   
+
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
       greeting_service = double
       allow(::MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
@@ -38,6 +37,7 @@ describe ::MessageTemplates::HookExecutionService do
       expect(::MessageTemplates::Template::Greeting).not_to have_received(:new).with(conversation: message.conversation)
     end
   end
+
   context 'when it is a first message from web widget' do
     it 'calls ::MessageTemplates::Template::EmailCollect' do
       contact = create(:contact, email: nil)
