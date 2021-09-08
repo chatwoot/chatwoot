@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributes",
     "HEADER_BTN_TXT": "Add Attribute",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Add attribute",
       "SUBMIT": "Create",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "PLACEHOLDER": "Enter attribute display name",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Enter attribute description",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -32,6 +36,22 @@
       "API": {
         "SUCCESS_MESSAGE": "Attribute added successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "TABS": {
+      "HEADER": "Custom Attributes",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": ["Name", "Description", "Type", "Key"],
+      "BUTTONS": {
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }
