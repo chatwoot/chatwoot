@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "ربات",
-        "VALUE": "ربات"
+        "TEXT": "در انتظار",
+        "VALUE": "pending"
+      },
+      {
+        "TEXT": "به تعویق افتاد",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {

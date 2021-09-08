@@ -77,6 +77,8 @@ class Contact < ApplicationRecord
     }
   end
 
+  private
+
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
 

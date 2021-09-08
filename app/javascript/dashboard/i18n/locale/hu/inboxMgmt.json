@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Törlés megerősítése",
         "MESSAGE": "Biztos abban, hogy törli ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox sikeresen törölve",
-        "ERROR_MESSAGE": "Nem sikerült a fiók törlése. Kérjük próbáld később."
+        "ERROR_MESSAGE": "Nem sikerült a fiók törlése. Kérjük próbáld később.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
       "HMAC_VERIFICATION": "Felhasználói fiók validálás",
-      "HMAC_DESCRIPTION": "A felhasználói fiók ellenőrzése céljából az SDK lehetőséget ad egy 'identifier_hash' kódra minden felhasználónak. Ezt HMAC-al tudod generálni 'sha256'-t használva, az itt látható kóddal."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Kezdd el továbbítani az e-maileket a következő e-mail címekre."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Újraengedélyezés",

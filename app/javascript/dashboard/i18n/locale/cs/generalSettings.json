@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Nyní můžete přijímat e-maily na vaši vlastní doménu."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Je dostupná aktualizace %{latestChatwootVersion} pro Chatwoot. Aktualizujte prosím svou instanci."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -53,11 +53,11 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Oznámení",
+    "MARK_ALL_DONE": "Označit vše dokončeno",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Načítání upozornění...",
+      "404": "Žádná upozornění",
       "TABLE_HEADER": [
         "Název",
         "Telefonní číslo",
@@ -66,10 +66,10 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nová konverzace",
+      "conversation_assignment": "Přiřazená konverzace",
+      "assigned_conversation_new_message": "Nová zpráva",
+      "conversation_mention": "Zmínka"
     }
   }
 }

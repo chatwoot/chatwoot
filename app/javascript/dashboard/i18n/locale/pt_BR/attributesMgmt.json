@@ -1,0 +1,38 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Atributos",
+    "HEADER_BTN_TXT": "Adicionar atributo",
+    "ADD": {
+      "TITLE": "Adicionar atributo",
+      "SUBMIT": "Criar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome para exibição",
+          "PLACEHOLDER": "Digite o nome de exibição do atributo"
+        },
+        "DESC": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Digite a descrição do atributo"
+        },
+        "MODEL": {
+          "LABEL": "Modelo",
+          "PLACEHOLDER": "Por favor, selecione um modelo",
+          "ERROR": "O modelo é necessário"
+        },
+        "TYPE": {
+          "LABEL": "Tipo",
+          "PLACEHOLDER": "Selecione um tipo",
+          "ERROR": "O tipo é obrigatório"
+        },
+        "KEY": {
+          "LABEL": "Chave"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atributo adicionado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    }
+  }
+}

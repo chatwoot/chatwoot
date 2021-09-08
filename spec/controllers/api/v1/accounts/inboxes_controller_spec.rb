@@ -44,6 +44,51 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox) { create(:inbox, account: account) }
+
+      it 'returns unauthorized for an agent who is not assigned' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns the inbox if administrator' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
+      end
+
+      it 'returns the inbox if assigned inbox is assigned as agent' do
+        create(:inbox_member, user: agent, inbox: inbox)
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignable_agents' do
     let(:inbox) { create(:inbox, account: account) }
 
@@ -109,6 +154,42 @@ RSpec.describe 'Inboxes API', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body.first[:id]).to eq(campaign.display_id)
         expect(body.length).to eq(1)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/avatar' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+        inbox.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'delete inbox avatar for administrator user' do
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect { inbox.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns unauthorized for agent user' do
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/avatar",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
