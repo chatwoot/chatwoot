@@ -18,11 +18,12 @@ class Channel::Telegram < ApplicationRecord
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
 
+  has_one :inbox, as: :channel, dependent: :destroy
+  belongs_to :account
+
   before_validation :ensure_valid_bot_token, on: :create
   validates :account_id, presence: true
   validates :bot_token, presence: true, uniqueness: true
-
-  has_one :inbox, as: :channel, dependent: :destroy
   before_save :setup_telegram_webhook
 
   def name
