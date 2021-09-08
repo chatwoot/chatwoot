@@ -34,6 +34,11 @@ import {
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
+import posthog from 'posthog-js';
+import {
+  initializeAnalyticsEvents,
+  initializeChatwootEvents,
+} from '../dashboard/helper/scriptHelpers';
 
 Vue.config.env = process.env;
 
@@ -42,6 +47,12 @@ if (window.errorLoggingConfig) {
     Vue,
     dsn: window.errorLoggingConfig,
     integrations: [new Integrations.BrowserTracing()],
+  });
+}
+
+if (window.analyticsConfig) {
+  posthog.init(window.analyticsConfig.token, {
+    api_host: window.analyticsConfig.host,
   });
 }
 
@@ -75,6 +86,9 @@ commonHelpers();
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 window.bus = new Vue();
+initializeChatwootEvents();
+initializeAnalyticsEvents();
+
 window.onload = () => {
   window.WOOT = new Vue({
     router,
@@ -85,6 +99,7 @@ window.onload = () => {
   }).$mount('#app');
   vueActionCable.init();
 };
+
 window.addEventListener('load', () => {
   verifyServiceWorkerExistence(registration =>
     registration.pushManager.getSubscription().then(subscription => {
