@@ -129,6 +129,24 @@ describe('#actions', () => {
     });
   });
 
+  describe('#verifyWidgetInstallation', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: { message: 'Widget installed successfully' },
+      });
+      // await actions.verifyWidgetInstallation({}, 12).resolves.toBe();
+      await expect(actions.verifyWidgetInstallation({}, 12)).resolves.toBe(
+        'Widget installed successfully'
+      );
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.verifyWidgetInstallation({}, 12)).rejects.toThrow(
+        Error
+      );
+    });
+  });
+
   describe('#deleteInboxAvatar', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue();

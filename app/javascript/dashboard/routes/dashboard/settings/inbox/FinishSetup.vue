@@ -30,6 +30,14 @@
           </woot-code>
         </div>
         <div class="footer">
+          <woot-button
+            v-if="isAWebWidgetInbox"
+            color-scheme="primary"
+            class="settings-button"
+            @click="verifyWidgetInstallation"
+          >
+            {{ $t('INBOX_MGMT.FINISH.VERIFY_WIDGET_INSTALLATION') }}
+          </woot-button>
           <router-link
             class="button hollow primary settings-button"
             :to="{
@@ -55,6 +63,7 @@
 </template>
 
 <script>
+import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import EmptyState from '../../../../components/widgets/EmptyState';
 
@@ -62,7 +71,12 @@ export default {
   components: {
     EmptyState,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, alertMixin],
+  data() {
+    return {
+      alertMessage: null,
+    };
+  },
   computed: {
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -74,6 +88,9 @@ export default {
     },
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
+    },
+    isAWebWidgetInbox() {
+      return this.currentInbox.channel_type === 'Channel::WebWidget';
     },
     message() {
       if (this.isATwilioInbox) {
@@ -90,6 +107,24 @@ export default {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+    },
+  },
+  methods: {
+    async verifyWidgetInstallation() {
+      try {
+        const result = await this.$store.dispatch(
+          'inboxes/verifyWidgetInstallation',
+          this.$route.params.inbox_id
+        );
+        this.alertMessage = result;
+      } catch (error) {
+        const errorMessage = error?.response?.data?.message;
+        this.alertMessage =
+          errorMessage ||
+          this.$t('INBOX_MGMT.FINISH.ERRORS.VERIFY_INSTALLATION_ERROR');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
     },
   },
 };
