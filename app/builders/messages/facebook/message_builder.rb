@@ -4,7 +4,7 @@
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
-class Messages::Facebook::MessageBuilder
+class Messages::Facebook::MessageBuilder < FacebookMessenger::MessageBuilder
   attr_reader :response
 
   def initialize(response, inbox, outgoing_echo: false)
@@ -47,10 +47,9 @@ class Messages::Facebook::MessageBuilder
 
   def build_message
     @message = conversation.messages.create!(message_params)
-    messenger = FacebookMessenger::MessageBuilder.new(@message)
 
     @attachments.each do |attachment|
-      messenger.process_attachment(attachment)
+      process_attachment(attachment)
     end
   end
 
@@ -70,13 +69,6 @@ class Messages::Facebook::MessageBuilder
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id
                          ))
-  end
-
-  def file_type_params(attachment)
-    {
-      external_url: attachment['payload']['url'],
-      remote_file_url: attachment['payload']['url']
-    }
   end
 
   def location_params(attachment)

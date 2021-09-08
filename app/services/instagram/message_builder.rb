@@ -4,7 +4,7 @@
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
-class Instagram::MessageBuilder
+class Instagram::MessageBuilder < FacebookMessenger::MessageBuilder
   attr_reader :messaging
 
   def initialize(messaging, inbox, outgoing_echo: false)
@@ -67,11 +67,12 @@ class Instagram::MessageBuilder
   end
 
   def build_message
+    return if @outgoing_echo && already_sent_from_chatwoot?
+
     @message = conversation.messages.create!(message_params)
-    messenger = FacebookMessenger::MessageBuilder.new(@message)
 
     attachments.each do |attachment|
-      messenger.process_attachment(attachment)
+      process_attachment(attachment)
     end
   end
 
@@ -80,13 +81,6 @@ class Instagram::MessageBuilder
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id
                          ))
-  end
-
-  def file_type_params(attachment)
-    {
-      external_url: attachment['payload']['url'],
-      remote_file_url: attachment['payload']['url']
-    }
   end
 
   def conversation_params
@@ -111,4 +105,43 @@ class Instagram::MessageBuilder
       sender: @outgoing_echo ? nil : contact
     }
   end
+
+  def already_sent_from_chatwoot?
+    cw_message = conversation.messages.where(
+      source_id: nil,
+      message_type: 'outgoing',
+      content: message_content,
+      private: false,
+      status: :sent
+    ).first
+    cw_message.update(content_attributes: content_attributes) if cw_message.present?
+    cw_message.present?
+  end
+
+
+  ### Sample response
+  # {
+  #   "object": "instagram",
+  #   "entry": [
+  #     {
+  #       "id": "<IGID>",// ig id of the business
+  #       "time": 1569262486134,
+  #       "messaging": [
+  #         {
+  #           "sender": {
+  #             "id": "<IGSID>"
+  #           },
+  #           "recipient": {
+  #             "id": "<IGID>"
+  #           },
+  #           "timestamp": 1569262485349,
+  #           "message": {
+  #             "mid": "<MESSAGE_ID>",
+  #             "text": "<MESSAGE_CONTENT>"
+  #           }
+  #         }
+  #       ]
+  #     }
+  #   ],
+  # }
 end

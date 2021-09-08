@@ -2,6 +2,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   include HTTParty
 
   pattr_initialize [:message!]
+
   base_uri 'https://graph.facebook.com/v11.0/me'
 
   private
@@ -13,14 +14,15 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
-    if message.attachments.present?
-      send_to_facebook_page merge_attachement_params
+    if message.attachments.any?
+      send_to_facebook_page message_params if message.content.present?
+      send_to_facebook_page attachament_message_params if message.attachments.present?
     else
       send_to_facebook_page message_params
     end
-  rescue Facebook::Messenger::FacebookError => e
-    Rails.logger.info e
-    channel.authorization_error!
+  rescue StandardError => e
+    Sentry.capture_exception(e)
+    true
   end
 
   def message_params
@@ -32,28 +34,50 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     }
   end
 
-  def merge_attachement_params
+  def attachament_message_params
     attachment = message.attachments.first
-    message_params[:message][:attachment] = {
-      type: 'image',
-      payload: {
-        url: attachment.file_url
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: attachment_type(attachment),
+          payload: {
+            url: attachment.file_url
+          }
+        }
       }
     }
-    message_params
   end
 
   # Deliver a message with the given payload.
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message
   def send_to_facebook_page(message_content)
     access_token = channel.page_access_token
+    app_secret_proof = calculate_app_secret_proof(ENV['FB_APP_SECRET'], access_token)
+
+    query = { access_token: access_token }
+    query[:appsecret_proof] = app_secret_proof if app_secret_proof
+
     options = {
       body: message_content
     }
-    url = "https://graph.facebook.com/v11.0/me/messages?access_token=#{access_token}"
 
-    response = HTTParty.post(url, options)
+    # url = "https://graph.facebook.com/v11.0/me/messages?access_token=#{access_token}"
+
+    response = HTTParty.post(
+      "https://graph.facebook.com/v11.0/me/messages",
+      body: message_content,
+      query: query,
+    )
+    # response = HTTParty.post(url, options)
+    Rails.logger.info("Instagram Error: #{response} : #{message_content}")
     response.body
+  end
+
+  def calculate_app_secret_proof(app_secret, access_token)
+     Facebook::Messenger::Configuration::AppSecretProofCalculator.call(
+      app_secret, access_token
+    )
   end
 
   def attachment_type(attachment)

@@ -15,7 +15,7 @@ class Webhooks::Instagram
     if @entries[0].key?(:changes)
       Rails.logger.info('Probably Test data.')
       # grab the test entry for the review app
-      create_test_text(@entries[0])
+      create_test_text
       return
     end
 
@@ -36,13 +36,15 @@ class Webhooks::Instagram
     ::Instagram::MessageText.new(messaging).perform
   end
 
-  def create_test_text(entry)
+  def create_test_text
     messenger_channel = Channel::FacebookPage.where(instagram_id: '17841449543715721')
     @inbox = ::Inbox.find_by!(channel: messenger_channel)
     @contact_inbox = @inbox.contact_inboxes.where(source_id: 'sender_username').first
-    @contact_inbox = @inbox.channel.create_contact_inbox(
-      'sender_username', 'sender_username'
-    ) unless @contact_inbox
+    unless @contact_inbox
+      @contact_inbox ||= @inbox.channel.create_contact_inbox(
+        'sender_username', 'sender_username'
+      )
+    end
     @contact = @contact_inbox.contact
 
     conversation_params = {
@@ -58,17 +60,19 @@ class Webhooks::Instagram
     message_params = {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
-      message_type: "incoming",
-      source_id: "",
-      content: "This is a test message from facebook.",
+      message_type: 'incoming',
+      source_id: 'facebook_test_webhooks',
+      content: 'This is a test message from facebook.',
       sender: @contact
     }
     @message = @conversation.messages.create!(message_params)
   end
 
   def build_conversation(conversation_params)
-    Conversation.create!(conversation_params.merge(
-       contact_inbox_id: @contact_inbox.id
-    ))
+    Conversation.create!(
+      conversation_params.merge(
+        contact_inbox_id: @contact_inbox.id
+      )
+    )
   end
 end

@@ -1,7 +1,4 @@
 class FacebookMessenger::MessageBuilder
-  def initialize(message)
-    @message = message
-  end
 
   def process_attachment(attachment)
     return if attachment['type'].to_sym == :template
@@ -20,5 +17,27 @@ class FacebookMessenger::MessageBuilder
       filename: attachment_file.original_filename,
       content_type: attachment_file.content_type
     )
+  end
+
+  def attachment_params(attachment)
+    file_type = attachment['type'].to_sym
+    params = { file_type: file_type, account_id: @message.account_id }
+
+    if [:image, :file, :audio, :video].include? file_type
+      params.merge!(file_type_params(attachment))
+    elsif file_type == :location
+      params.merge!(location_params(attachment))
+    elsif file_type == :fallback
+      params.merge!(fallback_params(attachment))
+    end
+
+    params
+  end
+
+  def file_type_params(attachment)
+    {
+      external_url: attachment['payload']['url'],
+      remote_file_url: attachment['payload']['url']
+    }
   end
 end
