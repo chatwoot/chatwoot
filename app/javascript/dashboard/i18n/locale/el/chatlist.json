@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "Εκκρεμεί",
-        "VALUE": "εκκρεμεί"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Αναβολή",
-        "VALUE": "αναβολή"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
