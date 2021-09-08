@@ -2,8 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos",
     "HEADER_BTN_TXT": "Adicionar atributo",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "LOADING": "Buscando atributos",
+    "SIDEBAR_TXT": "<p><b>Atributos</b> <p>Um atributo personalizado faixa fatos sobre seus contatos/conversa — como o plano de assinatura. ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um Atributo, basta clicar no<b>Adicionar Atributo.</b> Pode também editar ou apagar um atributo existente clicando em Editar ou Apagar botão.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo",
       "SUBMIT": "Criar",
@@ -12,12 +12,12 @@
         "NAME": {
           "LABEL": "Nome para exibição",
           "PLACEHOLDER": "Digite o nome de exibição do atributo",
-          "ERROR": "Name is required"
+          "ERROR": "O nome é obrigatório"
         },
         "DESC": {
           "LABEL": "Descrição",
           "PLACEHOLDER": "Digite a descrição do atributo",
-          "ERROR": "Description is required"
+          "ERROR": "Descrição obrigatória"
         },
         "MODEL": {
           "LABEL": "Modelo",
@@ -40,7 +40,7 @@
     },
     "TABS": {
       "HEADER": "Atributos Personalizados",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Conversas",
       "CONTACT": "Contato"
     },
     "LIST": {
@@ -55,8 +55,8 @@
         "DELETE": "Excluir"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Não há atributos criados",
+        "NOT_FOUND": "Não há atributos configurados"
       }
     }
   }
