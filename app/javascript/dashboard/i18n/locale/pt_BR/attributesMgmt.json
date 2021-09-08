@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos",
     "HEADER_BTN_TXT": "Adicionar atributo",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo",
       "SUBMIT": "Criar",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Nome para exibição",
-          "PLACEHOLDER": "Digite o nome de exibição do atributo"
+          "PLACEHOLDER": "Digite o nome de exibição do atributo",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Digite a descrição do atributo"
+          "PLACEHOLDER": "Digite a descrição do atributo",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Modelo",
@@ -32,6 +36,27 @@
       "API": {
         "SUCCESS_MESSAGE": "Atributo adicionado com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "TABS": {
+      "HEADER": "Atributos Personalizados",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contato"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nome",
+        "Descrição",
+        "Tipo",
+        "Chave"
+      ],
+      "BUTTONS": {
+        "EDIT": "Alterar",
+        "DELETE": "Excluir"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }
