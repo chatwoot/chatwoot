@@ -63,7 +63,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <woot-button :is-loading="uiFlags.isCreating">
+        <woot-button
+          :disabled="$v.displayName.$invalid || $v.description.$invalid"
+        >
           {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
         <woot-button variant="clear" @click.prevent="onClose">
@@ -77,6 +79,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
+import { convertToAttributeKey } from './attributeHelper';
+import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {},
@@ -93,42 +97,8 @@ export default {
       description: '',
       attributeModel: 0,
       attributeType: 0,
-      models: [
-        {
-          id: 0,
-          option: 'Conversation',
-        },
-        {
-          id: 1,
-          option: 'Contact',
-        },
-      ],
-      types: [
-        {
-          id: 0,
-          option: 'Text',
-        },
-        {
-          id: 1,
-          option: 'Number',
-        },
-        {
-          id: 2,
-          option: 'Currency',
-        },
-        {
-          id: 3,
-          option: 'Percent',
-        },
-        {
-          id: 4,
-          option: 'Link',
-        },
-        {
-          id: 5,
-          option: 'Date',
-        },
-      ],
+      models: ATTRIBUTE_MODELS,
+      types: ATTRIBUTE_TYPES,
       show: true,
     };
   },
@@ -157,10 +127,7 @@ export default {
       }`;
     },
     attributeKey() {
-      return this.displayName
-        .toLowerCase()
-        .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '_');
+      return convertToAttributeKey(this.displayName);
     },
   },
   mounted() {
