@@ -80,15 +80,20 @@ class Telegram::IncomingMessageService
   end
 
   def attach_files
-    return if params[:message][:document].blank?
+
+    file = params[:message][:document]
+    file ||= params[:message][:photo]&.last
+    file_content_type = :image if params[:message][:photo].present?
+
+    return unless file
 
     attachment_file = Down.download(
-      inbox.channel.get_telegram_file_path(params[:message][:document][:file_id])
+      inbox.channel.get_telegram_file_path(file[:file_id])
     )
 
     @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:message][:document][:mime_type]),
+      file_type: file_content_type || file_type(params[:message][:document][:mime_type]),
       file: {
         io: attachment_file,
         filename: attachment_file.original_filename,
