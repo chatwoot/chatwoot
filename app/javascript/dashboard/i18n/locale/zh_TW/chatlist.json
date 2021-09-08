@@ -48,7 +48,7 @@
       },
       {
         "TEXT": "待處理",
-        "VALUE": "待處理"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Snoozed",
