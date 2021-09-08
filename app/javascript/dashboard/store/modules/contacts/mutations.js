@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import types from '../../mutation-types';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 export const mutations = {
   [types.SET_CONTACT_UI_FLAG]($state, data) {

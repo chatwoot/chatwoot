@@ -71,6 +71,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    if ::OnlineStatusTracker.get_presence(
+      @contact.account.id, 'Contact', @contact.id
+    )
+      return render_error({ message: "#{@contact.name.capitalize} is Online, please try again later" },
+                          :unprocessable_entity)
+    end
+
     @contact.destroy!
     head :ok
   end
@@ -137,5 +144,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def render_error(error, error_status)
+    render json: error, status: error_status
   end
 end

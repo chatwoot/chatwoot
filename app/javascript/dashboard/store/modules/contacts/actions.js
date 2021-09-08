@@ -83,15 +83,18 @@ export const actions = {
     }
   },
 
-  delete: async ({ commit, dispatch }, id) => {
+  delete: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isDeleting: true });
     try {
       await ContactAPI.delete(id);
-      commit(types.DELETE_CONTACT, id);
       commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
-      throw new Error(error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
     }
   },
 
@@ -121,5 +124,13 @@ export const actions = {
 
   setContact({ commit }, data) {
     commit(types.SET_CONTACT_ITEM, data);
+  },
+
+  deleteContactConversations: ({ commit }, id) => {
+    commit(types.DELETE_CONTACT, id);
+    commit(types.CLEAR_CONTACT_CONVERSATIONS, id, { root: true });
+    commit(`contactConversations/${types.DELETE_CONTACT_CONVERSATION}`, id, {
+      root: true,
+    });
   },
 };

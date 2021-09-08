@@ -178,11 +178,10 @@ export const mutations = {
     }
   },
 
-  [types.default.CLEAR_CONTACT_CONVERSATIONS](
-    _state,
-    contactId
-  ) {
-    const chats = _state.allConversations.filter(c => c.meta.sender.id !== contactId);
+  [types.default.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
+    const chats = _state.allConversations.filter(
+      c => c.meta.sender.id !== contactId
+    );
     Vue.set(_state, 'allConversations', chats);
   },
 };

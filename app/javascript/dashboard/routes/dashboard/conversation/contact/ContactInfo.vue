@@ -66,6 +66,7 @@
             size="small"
             color-scheme="alert"
             @click="toggleDeleteModal"
+            :disabled="uiFlags.isDeleting"
           >
             {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
           </woot-button>
@@ -94,6 +95,7 @@
             size="small expanded"
             color-scheme="alert"
             @click="toggleDeleteModal"
+            :disabled="uiFlags.isDeleting"
           >
             {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
           </woot-button>
@@ -134,6 +136,7 @@ import EditContact from './EditContact';
 import NewConversation from './NewConversation';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -170,6 +173,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
@@ -221,9 +225,7 @@ export default {
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);
-        await this.$store.dispatch('contactConversations/delete', id);
         this.$emit('onPanelClose');
-        bus.$emit('fetch_conversation_stats');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(

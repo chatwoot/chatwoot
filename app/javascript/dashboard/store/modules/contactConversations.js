@@ -66,10 +66,6 @@ export const actions = {
       });
     }
   },
-  delete: async ({ commit }, contactId) => {
-    commit(types.default.CLEAR_CONTACT_CONVERSATIONS, contactId, { root: true, });
-    commit(types.default.DELETE_CONTACT_CONVERSATION, contactId);
-  },
 };
 
 export const mutations = {
