@@ -51,16 +51,6 @@ class WebhookListener < BaseListener
     deliver_webhook_payloads(payload, inbox)
   end
 
-  def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    payload = contact.webhook_data.merge(event: __method__.to_s)
-
-    # Account webhooks
-    account.webhooks.account.each do |webhook|
-      WebhookJob.perform_later(webhook.url, payload)
-    end
-  end
-
   private
 
   def deliver_webhook_payloads(payload, inbox)
