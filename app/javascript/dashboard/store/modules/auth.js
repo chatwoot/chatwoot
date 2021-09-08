@@ -81,7 +81,9 @@ export const actions = {
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
-      setUser(response.data.payload.data, getHeaderExpiry(response));
+      setUser(response.data.payload.data, getHeaderExpiry(response), {
+        setUserInSDK: true,
+      });
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
       if (error?.response?.status === 401) {
