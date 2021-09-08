@@ -1,6 +1,43 @@
 require 'rails_helper'
 
 describe ::MessageTemplates::HookExecutionService do
+  context 'when Greeting Message' do
+    it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact)
+      # ensure greeting hook is enabled
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
+
+      email_collect_service = double
+
+      allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
+      allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(::MessageTemplates::Template::Greeting).to receive(:new)
+
+      # described class gets called in message after commit
+      message = create(:message, conversation: conversation)
+
+      expect(::MessageTemplates::Template::Greeting).not_to have_received(:new)
+      expect(::MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
+      expect(email_collect_service).to have_received(:perform)
+    end
+
+    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
+      twitter_channel = create(:channel_twitter_profile)
+      twitter_inbox = create(:inbox, channel: twitter_channel)
+      # ensure greeting hook is enabled and greeting_message is present
+      twitter_inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message')
+
+      conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
+      greeting_service = double
+      allow(::MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+
+      message = create(:message, conversation: conversation)
+      expect(::MessageTemplates::Template::Greeting).not_to have_received(:new).with(conversation: message.conversation)
+    end
+  end
+
   context 'when it is a first message from web widget' do
     it 'calls ::MessageTemplates::Template::EmailCollect' do
       contact = create(:contact, email: nil)
@@ -49,26 +86,6 @@ describe ::MessageTemplates::HookExecutionService do
       message = create(:message, conversation: conversation)
 
       expect(::MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
-    end
-
-    it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
-      contact = create(:contact, email: nil)
-      conversation = create(:conversation, contact: contact)
-      # ensure greeting hook is enabled
-      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
-
-      email_collect_service = double
-
-      allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
-      allow(email_collect_service).to receive(:perform).and_return(true)
-      allow(::MessageTemplates::Template::Greeting).to receive(:new)
-
-      # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
-
-      expect(::MessageTemplates::Template::Greeting).not_to have_received(:new)
-      expect(::MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
-      expect(email_collect_service).to have_received(:perform)
     end
 
     it 'doesnot calls ::MessageTemplates::Template::EmailCollect when enable_email_collect form is disabled' do
