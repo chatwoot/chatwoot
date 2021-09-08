@@ -16,6 +16,7 @@
 
 class Channel::Telegram < ApplicationRecord
   self.table_name = 'channel_telegram'
+  EDITABLE_ATTRS = [:bot_token].freeze
 
   before_validation :ensure_valid_bot_token, on: :create
   validates :account_id, presence: true

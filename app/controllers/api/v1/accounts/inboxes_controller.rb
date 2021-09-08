@@ -87,20 +87,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
-      Current.account.web_widgets.create!(permitted_params(website_channel_attributes)[:channel].except(:type))
+      Current.account.web_widgets.create!(permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].except(:type))
     when 'api'
-      Current.account.api_channels.create!(permitted_params(api_channel_attributes)[:channel].except(:type))
+      Current.account.api_channels.create!(permitted_params(Channel::Api::EDITABLE_ATTRS)[:channel].except(:type))
     when 'email'
-      Current.account.email_channels.create!(permitted_params(email_channel_attributes)[:channel].except(:type))
+      Current.account.email_channels.create!(permitted_params(Channel::Email::EDITABLE_ATTRS)[:channel].except(:type))
     when 'telegram'
-      Current.account.telegram_channels.create!(permitted_params(telegram_channel_attributes)[:channel].except(:type))
+      Current.account.telegram_channels.create!(permitted_params(Channel::Telegram::EDITABLE_ATTRS)[:channel].except(:type))
     end
   end
 
   def update_channel_feature_flags
-    return unless permitted_params(website_channel_attributes)[:channel].key? :selected_feature_flags
+    return unless permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags
 
-    @inbox.channel.selected_feature_flags = permitted_params(website_channel_attributes)[:channel][:selected_feature_flags]
+    @inbox.channel.selected_feature_flags = permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel][:selected_feature_flags]
     @inbox.channel.save!
   end
 
@@ -115,33 +115,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def get_channel_attributes(channel_type)
     case channel_type
     when 'Channel::WebWidget'
-      website_channel_attributes
+      Channel::WebWidget::EDITABLE_ATTRS
     when 'Channel::Api'
-      api_channel_attributes
+      Channel::Api::EDITABLE_ATTRS
     when 'Channel::Email'
-      email_channel_attributes
+      Channel::Email::EDITABLE_ATTRS
     when 'Channel::Telegram'
-      telegram_channel_attributes
+      Channel::Telegram::EDITABLE_ATTRS
     else
       []
     end
-  end
-
-  def website_channel_attributes
-    [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
-     { pre_chat_form_options: [:pre_chat_message, :require_email] },
-     { selected_feature_flags: [] }]
-  end
-
-  def api_channel_attributes
-    [:webhook_url]
-  end
-
-  def email_channel_attributes
-    [:email]
-  end
-
-  def telegram_channel_attributes
-    [:bot_token]
   end
 end
