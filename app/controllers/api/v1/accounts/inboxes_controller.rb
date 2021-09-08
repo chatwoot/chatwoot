@@ -27,22 +27,23 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
-        name: inbox_name(channel),
-        greeting_message: permitted_params[:greeting_message],
-        greeting_enabled: permitted_params[:greeting_enabled],
-        channel: channel
+        {
+          name: inbox_name(channel), 
+          channel: channel 
+        }.merge(
+          permitted_params.except(:channel)
+        )
       )
-      @inbox.avatar.attach(permitted_params[:avatar])
       @inbox.save!
     end
   end
 
   def update
-    @inbox.update(inbox_update_params.except(:channel))
+    @inbox.update(permitted_params.except(:channel))
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
-    return unless @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
 
-    @inbox.channel.update!(inbox_update_params[:channel])
+    channel_attributes = get_channel_attributes(@inbox.channel_type)
+    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
   end
 
@@ -86,42 +87,61 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
-      Current.account.web_widgets.create!(permitted_params[:channel].except(:type))
+      Current.account.web_widgets.create!(permitted_params(website_channel_attributes)[:channel].except(:type))
     when 'api'
-      Current.account.api_channels.create!(permitted_params[:channel].except(:type))
+      Current.account.api_channels.create!(permitted_params(api_channel_attributes)[:channel].except(:type))
     when 'email'
-      Current.account.email_channels.create!(permitted_params[:channel].except(:type))
+      Current.account.email_channels.create!(permitted_params(email_channel_attributes)[:channel].except(:type))
     when 'telegram'
-      Current.account.telegram_channels.create!(permitted_params[:channel].except(:type))
+      Current.account.telegram_channels.create!(permitted_params(telegram_channel_attributes)[:channel].except(:type))
     end
   end
 
   def update_channel_feature_flags
-    return unless inbox_update_params[:channel].key? :selected_feature_flags
+    return unless permitted_params(website_channel_attributes)[:channel].key? :selected_feature_flags
 
-    @inbox.channel.selected_feature_flags = inbox_update_params[:channel][:selected_feature_flags]
+    @inbox.channel.selected_feature_flags = permitted_params(website_channel_attributes)[:channel][:selected_feature_flags]
     @inbox.channel.save!
   end
 
-  def permitted_params
-    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, :enable_email_collect, :csat_survey_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time, :bot_token])
+  def permitted_params(channel_attributes = [])
+    params.permit(
+      :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled, 
+      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone,
+      channel:[:type, *channel_attributes]
+    )
   end
 
-  def inbox_update_params
-    params.permit(:enable_auto_assignment, :enable_email_collect, :name, :avatar, :greeting_message, :greeting_enabled, :csat_survey_enabled,
-                  :working_hours_enabled, :out_of_office_message, :timezone,
-                  channel: [
-                    :website_url,
-                    :widget_color,
-                    :welcome_title,
-                    :welcome_tagline,
-                    :webhook_url,
-                    :email,
-                    :reply_time,
-                    :pre_chat_form_enabled,
+  def get_channel_attributes(channel_type)
+    case channel_type
+    when 'Channel::WebWidget'
+      website_channel_attributes
+    when 'Channel::Api'
+      api_channel_attributes
+    when 'Channel::Email'
+      email_channel_attributes
+    when 'Channel::Telegram'
+      telegram_channel_attributes
+    else
+      []
+    end
+  end
+
+  def website_channel_attributes
+    [:website_url,:widget_color,:welcome_title,:welcome_tagline,:reply_time,:pre_chat_form_enabled,
                     { pre_chat_form_options: [:pre_chat_message, :require_email] },
-                    { selected_feature_flags: [] }
-                  ])
+                    { selected_feature_flags: [] }]
+  end
+
+  def api_channel_attributes
+    [:webhook_url]
+  end
+  
+  def email_channel_attributes
+    [:email]
+  end
+
+  def telegram_channel_attributes
+    [:bot_token]
   end
 end

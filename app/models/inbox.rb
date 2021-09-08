@@ -78,6 +78,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Api'
   end
 
+  def email?
+    channel_type == 'Channel::Email'
+  end
+
   def inbox_type
     channel.name
   end

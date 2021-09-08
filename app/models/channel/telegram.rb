@@ -69,7 +69,6 @@ class Channel::Telegram < ApplicationRecord
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
     unless response.success?
-      byebug
       errors.add(:bot_token, 'invalid token')
       return
     end
