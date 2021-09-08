@@ -1,8 +1,8 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
+    "HEADER": "屬性",
+    "HEADER_BTN_TXT": "新增屬性",
+    "LOADING": "取得屬性",
     "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "新增屬性",
@@ -10,7 +10,7 @@
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
+          "LABEL": "顯示名稱",
           "PLACEHOLDER": "Enter attribute display name",
           "ERROR": "Name is required"
         },
@@ -40,8 +40,8 @@
     },
     "TABS": {
       "HEADER": "自訂屬性",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "對話",
+      "CONTACT": "聯絡人"
     },
     "LIST": {
       "TABLE_HEADER": [
