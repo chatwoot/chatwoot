@@ -86,7 +86,7 @@ class Telegram::IncomingMessageService
       inbox.channel.get_telegram_file_path(params[:message][:document][:file_id])
     )
 
-    attachment = @message.attachments.new(
+    @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_type(params[:message][:document][:mime_type]),
       file: {

@@ -77,7 +77,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def setup_telegram_webhook
-    response = HTTParty.post("#{telegram_api_url}/deleteWebhook")
+    HTTParty.post("#{telegram_api_url}/deleteWebhook")
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
                                url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"

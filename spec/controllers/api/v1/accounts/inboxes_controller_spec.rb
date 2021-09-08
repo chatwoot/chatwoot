@@ -325,12 +325,12 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'updates api inbox when administrator' do
-        api_channel =  create(:channel_api, account: account)
+        api_channel = create(:channel_api, account: account)
         api_inbox = create(:inbox, channel: api_channel, account: account)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: {  enable_auto_assignment: false, channel: { webhook_url: 'webhook.test' } },
+              params: { enable_auto_assignment: false, channel: { webhook_url: 'webhook.test' } },
               as: :json
 
         expect(response).to have_http_status(:success)
@@ -339,12 +339,12 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'updates email inbox when administrator' do
-        email_channel =  create(:channel_email, account: account)
+        email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: {  enable_auto_assignment: false, channel: { email: 'emailtest@email.test' } },
+              params: { enable_auto_assignment: false, channel: { email: 'emailtest@email.test' } },
               as: :json
 
         expect(response).to have_http_status(:success)

@@ -28,8 +28,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       channel = create_channel
       @inbox = Current.account.inboxes.build(
         {
-          name: inbox_name(channel), 
-          channel: channel 
+          name: inbox_name(channel),
+          channel: channel
         }.merge(
           permitted_params.except(:channel)
         )
@@ -106,9 +106,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def permitted_params(channel_attributes = [])
     params.permit(
-      :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled, 
+      :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
       :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone,
-      channel:[:type, *channel_attributes]
+      channel: [:type, *channel_attributes]
     )
   end
 
@@ -128,15 +128,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def website_channel_attributes
-    [:website_url,:widget_color,:welcome_title,:welcome_tagline,:reply_time,:pre_chat_form_enabled,
-                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
-                    { selected_feature_flags: [] }]
+    [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
+     { pre_chat_form_options: [:pre_chat_message, :require_email] },
+     { selected_feature_flags: [] }]
   end
 
   def api_channel_attributes
     [:webhook_url]
   end
-  
+
   def email_channel_attributes
     [:email]
   end
