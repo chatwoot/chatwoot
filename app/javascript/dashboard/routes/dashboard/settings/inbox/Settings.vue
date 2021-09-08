@@ -358,7 +358,6 @@ export default {
         },
       ],
       selectedTabIndex: 0,
-      test: 'testval',
     };
   },
   computed: {
