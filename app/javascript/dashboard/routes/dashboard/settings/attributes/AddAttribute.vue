@@ -85,7 +85,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { convertToAttributeKey } from './attributeHelper';
+import { convertToSlug } from '../../../../../widget/helpers/convertToSlugHelper';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 
@@ -115,7 +115,7 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     attributeKey() {
-      return convertToAttributeKey(this.displayName);
+      return convertToSlug(this.displayName);
     },
   },
 

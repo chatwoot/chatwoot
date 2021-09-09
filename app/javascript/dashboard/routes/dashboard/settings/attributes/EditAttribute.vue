@@ -52,6 +52,7 @@
       </div>
       <div class="modal-footer">
         <woot-button
+          :is-loading="isUpdating"
           :disabled="$v.displayName.$invalid || $v.description.$invalid"
         >
           {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
@@ -67,7 +68,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
-import { convertToAttributeKey } from './attributeHelper';
+import { convertToSlug } from '../../../../../widget/helpers/convertToSlugHelper';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
@@ -77,6 +78,10 @@ export default {
     selectedAttribute: {
       type: Object,
       default: () => {},
+    },
+    isUpdating: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -110,7 +115,7 @@ export default {
       }`;
     },
     attributeKey() {
-      return convertToAttributeKey(this.displayName);
+      return convertToSlug(this.displayName);
     },
   },
   mounted() {

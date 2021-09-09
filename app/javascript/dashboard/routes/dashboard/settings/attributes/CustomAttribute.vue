@@ -79,6 +79,7 @@
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-attribute
         :selected-attribute="selectedAttribute"
+        :is-updating="uiFlags.isUpdating"
         @on-close="hideEditPopup"
       />
     </woot-modal>
