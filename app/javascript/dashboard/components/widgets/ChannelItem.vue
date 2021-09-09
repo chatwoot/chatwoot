@@ -76,7 +76,7 @@ export default {
       if (key === 'email') {
         return this.enabledFeatures.channel_email;
       }
-      return ['website', 'twilio', 'api', 'whatsapp', 'sms'].includes(key);
+      return ['website', 'twilio', 'api', 'whatsapp', 'sms', 'telegram'].includes(key);
     },
   },
   methods: {
