@@ -255,16 +255,6 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
 
-      it 'creates inbox' do
-        post "/api/v1/accounts/#{account.id}/inboxes",
-             headers: admin.create_new_auth_token,
-             params: valid_params,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.body).to include('test.com')
-      end
-
       it 'will not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 
@@ -274,6 +264,26 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'creates a webwidget inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('test.com')
+      end
+
+      it 'creates a email inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'test', channel: { type: 'email', email: 'test@test.com' } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('test@test.com')
       end
     end
   end
@@ -312,6 +322,34 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
+      end
+
+      it 'updates api inbox when administrator' do
+        api_channel = create(:channel_api, account: account)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { enable_auto_assignment: false, channel: { webhook_url: 'webhook.test' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(api_inbox.reload.enable_auto_assignment).to be_falsey
+        expect(api_channel.reload.webhook_url).to eq('webhook.test')
+      end
+
+      it 'updates email inbox when administrator' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { enable_auto_assignment: false, channel: { email: 'emailtest@email.test' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.enable_auto_assignment).to be_falsey
+        expect(email_channel.reload.email).to eq('emailtest@email.test')
       end
 
       it 'updates avatar when administrator' do

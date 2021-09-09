@@ -17,6 +17,7 @@
 
 class Channel::Email < ApplicationRecord
   self.table_name = 'channel_email'
+  EDITABLE_ATTRS = [:email].freeze
 
   validates :account_id, presence: true
   belongs_to :account
