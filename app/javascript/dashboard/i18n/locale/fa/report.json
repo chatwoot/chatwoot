@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "بررسی اجمالی",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
@@ -53,37 +53,37 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "محدوده تاریخ سفارشی"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "درخواست دادن",
+      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "گزارشات رضایت مشتری",
+    "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "مخاطب",
+        "AGENT_NAME": "ایجنت تعیین شده",
         "RATING": "رتبه",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "نظر ثبت شده"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "مجموع پاسخ ها",
+        "TOOLTIP": "تعداد کل پاسخهای جمع آوری شده"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "نمره رضایت",
+        "TOOLTIP": "تعداد کل پاسخ های مثبت / تعداد کل پاسخ ها از 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "نرخ پاسخ",
+        "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
       }
     }
   }

@@ -108,7 +108,7 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
     "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
+    "DESC": "Start en samtale ved at sende en besked.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
@@ -119,14 +119,14 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "Besked",
+        "PLACEHOLDER": "Skriv din besked her",
+        "ERROR": "Beskeden må ikke være tom"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Besked sendt!",
+      "ERROR_MESSAGE": "Kunne ikke sendes! prøv igen"
     }
   },
   "CONTACTS_PAGE": {

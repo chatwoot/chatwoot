@@ -68,7 +68,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "การประเมิน",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },

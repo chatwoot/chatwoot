@@ -30,6 +30,9 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_greeting?
+    # should not send if its a tweet message
+    return false if conversation.tweet?
+
     first_message_from_contact? && inbox.greeting_enabled? && inbox.greeting_message.present?
   end
 
