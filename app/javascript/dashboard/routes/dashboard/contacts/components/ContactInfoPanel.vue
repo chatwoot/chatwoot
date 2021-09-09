@@ -8,11 +8,7 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
-    <contact-label
-      v-if="contact.id"
-      :contact-id="contact.id"
-      class="contact-labels"
-    />
+    <contact-label :contact-id="contact.id" class="contact-labels" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
