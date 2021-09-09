@@ -173,7 +173,7 @@
         "FINISH_MESSAGE": "Commencez à transférer vos courriels à l'adresse suivante."
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Choisir un canal",
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
