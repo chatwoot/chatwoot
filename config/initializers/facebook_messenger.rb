@@ -26,8 +26,7 @@ Rails.application.reloader.to_prepare do
 
   Facebook::Messenger::Bot.on :message do |message|
     Rails.logger.info "MESSAGE_RECIEVED #{message}"
-    response = ::Integrations::Facebook::MessageParser.new(message)
-    ::Integrations::Facebook::MessageCreator.new(response).perform
+    Webhooks::FacebookEventsJob.perform_later(message)
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|
@@ -43,7 +42,6 @@ Rails.application.reloader.to_prepare do
 
   Facebook::Messenger::Bot.on :message_echo do |message|
     Rails.logger.info "MESSAGE_ECHO #{message}"
-    response = ::Integrations::Facebook::MessageParser.new(message)
-    ::Integrations::Facebook::MessageCreator.new(response).perform
+    Webhooks::FacebookEventsJob.perform_later(message)
   end
 end
