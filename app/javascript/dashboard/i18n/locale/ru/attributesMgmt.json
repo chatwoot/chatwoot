@@ -2,8 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Свойства",
     "HEADER_BTN_TXT": "Добавить параметр",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "LOADING": "Загрузка атрибутов",
+    "SIDEBAR_TXT": "<p><b>Атрибуты</b> <p>Пользовательский атрибут отслеживает факты о ваших контактах/диалогах — как план подписки, или когда они сделали первый заказ и т. д. <br /><br />Для создания атрибутов, просто нажмите кнопку<b>Добавить атрибут.</b> Вы также можете редактировать или удалять существующие атрибуты, нажав на кнопку Правка или Удалить.</p>",
     "ADD": {
       "TITLE": "Добавить параметр",
       "SUBMIT": "Создать",
@@ -12,12 +12,12 @@
         "NAME": {
           "LABEL": "Отображать имя",
           "PLACEHOLDER": "Введите имя отображаемого атрибута",
-          "ERROR": "Name is required"
+          "ERROR": "Необходимо указать имя"
         },
         "DESC": {
           "LABEL": "Описание",
           "PLACEHOLDER": "Введите описание атрибута",
-          "ERROR": "Description is required"
+          "ERROR": "Необходимо описание"
         },
         "MODEL": {
           "LABEL": "Модель",
@@ -40,7 +40,7 @@
     },
     "TABS": {
       "HEADER": "Пользовательские атрибуты",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Диалоги",
       "CONTACT": "Контакт"
     },
     "LIST": {
@@ -55,8 +55,8 @@
         "DELETE": "Удалить"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Нет созданных атрибутов",
+        "NOT_FOUND": "Нет настроенных атрибутов"
       }
     }
   }
