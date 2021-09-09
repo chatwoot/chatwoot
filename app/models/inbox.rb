@@ -95,7 +95,7 @@ class Inbox < ApplicationRecord
 
   def webhook_url
     case channel_type
-    when 'Channel::TwilioSMS' 
+    when 'Channel::TwilioSMS'
       "#{ENV['FRONTEND_URL']}/twilio/callback"
     when 'Channel::Line'
       "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
