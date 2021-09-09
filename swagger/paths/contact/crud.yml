@@ -57,7 +57,7 @@ delete:
       description: ID of the contact
       required: true
   responses:
-    204:
+    200:
       description: Success
     401:
       description: Unauthorized

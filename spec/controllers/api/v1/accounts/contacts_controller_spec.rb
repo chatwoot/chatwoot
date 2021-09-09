@@ -364,10 +364,10 @@ RSpec.describe 'Contacts API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/contacts/:id', :contact_delete do
-    let!(:inbox) { create(:inbox, account: account) }
-    let!(:contact) { create(:contact, account: account) }
-    let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
-    let!(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

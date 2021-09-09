@@ -75,30 +75,31 @@
       <div v-else>
         <div class="contact-actions">
           <woot-button
+            v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
             class="new-message"
+            icon="ion-chatboxes"
             size="small expanded"
             @click="toggleConversationModal"
-          >
-            {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
-          </woot-button>
+          />
           <woot-button
+            v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+            class="edit-contact"
+            icon="ion-edit"
             variant="smooth"
             size="small expanded"
             @click="toggleEditModal"
-          >
-            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-        <div v-if="isAdmin" class="contact-actions">
+          />
           <woot-button
+            v-if="isAdmin"
+            v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
+            class="delete-contact"
+            icon="ion-trash-a"
             variant="hollow"
             size="small expanded"
             color-scheme="alert"
             @click="toggleDeleteModal"
             :disabled="uiFlags.isDeleting"
-          >
-            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
+          />
         </div>
       </div>
       <edit-contact
@@ -272,20 +273,32 @@ export default {
 .contact-actions {
   margin-top: var(--space-small);
 }
-.button.edit-contact {
-  margin-left: var(--space-medium);
-}
-.button.delete-contact {
+
+.edit-contact {
   margin-left: var(--space-medium);
 }
 
-.button.new-message {
-  margin-right: var(--space-small);
+.delete-contact {
+  margin-left: var(--space-medium);
 }
 
 .contact-actions {
   display: flex;
   align-items: center;
   width: 100%;
+
+  .new-message {
+    font-size: var(--font-size-medium);
+  }
+
+  .edit-contact {
+    margin-left: var(--space-small);
+    font-size: var(--font-size-medium);
+  }
+
+  .delete-contact {
+    margin-left: var(--space-small);
+    font-size: var(--font-size-medium);
+  }
 }
 </style>
