@@ -35,7 +35,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
       }
     },
     "DELETE": {
@@ -57,7 +57,7 @@
       "UPDATE_BUTTON_TEXT": "Update",
       "API": {
         "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
       }
     },
     "TABS": {

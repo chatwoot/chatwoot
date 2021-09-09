@@ -29,18 +29,6 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
           </span>
         </label>
-        <label :class="{ error: $v.attributeModel.$error }">
-          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
-          <select v-model="attributeModel">
-            <option v-for="model in models" :key="model.id" :value="model.id">
-              {{ model.option }}
-            </option>
-          </select>
-          <span v-if="$v.attributeModel.$error" class="message">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
-          </span>
-        </label>
-
         <label :class="{ error: $v.attributeType.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
           <select v-model="attributeType">
@@ -80,7 +68,7 @@
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToAttributeKey } from './attributeHelper';
-import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
+import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {},
@@ -95,9 +83,7 @@ export default {
     return {
       displayName: '',
       description: '',
-      attributeModel: 0,
       attributeType: 0,
-      models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       show: true,
     };
@@ -112,9 +98,6 @@ export default {
     description: {
       required,
       minLength: minLength(1),
-    },
-    attributeModel: {
-      required,
     },
   },
   computed: {
@@ -151,14 +134,16 @@ export default {
           id: this.selectedAttribute.id,
           attribute_display_name: this.displayName,
           attribute_description: this.description,
-          attribute_model: this.attributeModel,
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
         });
         this.showAlert(this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE'));
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
   },

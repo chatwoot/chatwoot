@@ -175,7 +175,10 @@ export default {
         await this.$store.dispatch('attributes/delete', id);
         this.showAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE'));
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
     openEditPopup(response) {
