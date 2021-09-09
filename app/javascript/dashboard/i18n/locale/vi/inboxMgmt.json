@@ -162,9 +162,9 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "Thư điện tử",
           "SUBTITLE": "Email nơi khách hàng của bạn gửi cho bạn vé hỗ trợ",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "Thư điện tử"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
         "API": {
