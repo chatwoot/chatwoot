@@ -62,7 +62,7 @@ class Notification < ApplicationRecord
 
   def fcm_push_data
     {
-      id: id, 
+      id: id,
       notification_type: notification_type,
       primary_actor_id: primary_actor_id,
       primary_actor_type: primary_actor_type,
