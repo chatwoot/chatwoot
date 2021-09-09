@@ -172,6 +172,19 @@
         },
         "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
       },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
         "TITLE": "اختر قناة",
         "DESC": "شاتوت يدعم أداة الدردشة المباشرة، صفحة الفيسبوك، ملف تويتر الشخصي، واتسب، البريد الإلكتروني وما إلى ذلك، كقنوات. إذا كنت ترغب في إنشاء قناة مخصصة، يمكنك إنشاءها باستخدام قناة API. حدد قناة واحدة من الخيارات أدناه للمتابعة."
