@@ -97,11 +97,12 @@ Rails.application.routes.draw do
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
-          resources :inboxes, only: [:index, :create, :update, :destroy] do
+          resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            delete :avatar, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
           resources :labels, only: [:index, :show, :create, :update, :destroy]
@@ -242,6 +243,7 @@ Rails.application.routes.draw do
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
+  post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
 
   namespace :twitter do
     resource :callback, only: [:show]

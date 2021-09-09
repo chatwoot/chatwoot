@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
       "TITLE": "Search messages",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "No results found."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小时消息窗口限制",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "下载",
@@ -41,7 +42,13 @@
       "DETAILS": "详情"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "输入“/”开始选择快捷回复",
@@ -57,16 +64,29 @@
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
     "CHANGE_STATUS": "对话状态已更改",
     "CHANGE_AGENT": "对话分配人已更改",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "选择代理",
       "REMOVE": "删除",
       "ASSIGN": "Assign"
     },
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

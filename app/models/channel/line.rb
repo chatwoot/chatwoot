@@ -17,6 +17,7 @@
 
 class Channel::Line < ApplicationRecord
   self.table_name = 'channel_line'
+  EDITABLE_ATTRS = [:line_channel_id, :line_channel_secret, :line_channel_token].freeze
 
   validates :account_id, presence: true
   belongs_to :account

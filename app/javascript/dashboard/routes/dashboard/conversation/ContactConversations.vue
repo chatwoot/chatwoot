@@ -1,6 +1,7 @@
 <template>
   <div class="contact-conversation--panel">
     <contact-details-item
+      v-if="showTitle"
       :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
       icon="ion-chatboxes"
       emoji="💬"
@@ -39,6 +40,10 @@ export default {
     Spinner,
   },
   props: {
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
     contactId: {
       type: [String, Number],
       required: true,
@@ -77,11 +82,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact-conversation__wrap {
-  margin-left: var(--space-medium);
-}
-
 .no-label-message {
+  margin-bottom: var(--space-normal);
   color: var(--b-500);
 }
 

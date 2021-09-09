@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Skrzynka odbiorcza została usunięta",
-        "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później."
+        "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
       "HMAC_VERIFICATION": "Weryfikacja tożsamości użytkownika",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ponowna autoryzacja",

@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Saapuneet-kansiot",
-    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai Facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita Chatwoot tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
+    "SIDEBAR_TXT": "<p><b>Postilaatikko</b></p> <p> Kun yhdistät sivuston tai facebook-sivun Chatwotiin, sitä kutsutaan <b>postilaatikoksi</b>. Sinulla voi olla rajoittamaton määrä postilaatikoita Chatwoot tililläsi. </p><p> Klikkaa <b>Lisää postilaatikko</b> yhdistääksesi verkkosivuston tai Facebook-sivun. </p><p> Kojelaudalla näet kaikki keskustelut kaikista saapuneet-kansiostasi yhdessä paikassa ja vastaat niihin `Keskustelut`-välilehdessä. </p><p> Voit myös nähdä postilaatikkoon liittyviä keskusteluja klikkaamalla postilaatikon nimeä kojelaudan vasemmassa paneelissa. </p>",
     "LIST": {
       "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
     },
@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Kansion nimi",
-        "PLACEHOLDER": "Valitse kansion nimi (esim: Acme Oy)"
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Sivuston nimi",
@@ -47,7 +47,7 @@
       },
       "TWITTER": {
         "HELP": "Lisätäksesi twitter-profiilin kanavaksesi, sinun tulee autentikoida twitter-tilisi klikkaamalla \"Kirjaudu sisään Twitterillä\" ",
-        "ERROR_MESSAGE": "Twitteriin yhdistäessä tapahtui virhe"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Sivuston chat",
@@ -83,7 +83,7 @@
           "IN_A_FEW_MINUTES": "Muutamassa minuutissa",
           "IN_A_FEW_HOURS": "Muutamassa tunnissa",
           "IN_A_DAY": "Päivän kuluessa",
-          "HELP_TEXT": "Vastausaika näytetään chat-widgetissä"
+          "HELP_TEXT": "Vastausaika näytetään chat -widgetissä"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widgetin väri",
@@ -128,12 +128,12 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Twilio:n kautta",
-        "DESC": "Ala palvelemaan asiakkaitasi tekstiviestien avulla käyttäen Twilio-alustaa"
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Twilio:n kautta",
-        "DESC": "Ala palvelemaan asiakkaitasi Whatsapp-viestien avulla käyttäen Twilio-alustaa"
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
       },
       "API_CHANNEL": {
         "TITLE": "API-rajapinta",
@@ -173,8 +173,8 @@
         "FINISH_MESSAGE": "Aloita välittämällä sähköpostit seuraavaan osoitteeseen."
       },
       "AUTH": {
-        "TITLE": "Valitse kanava",
-        "DESC": "Chatwoot tukee live-chat widgettiä, Facebook-sivua, Twitter-profiilia, Whatsappia, Sähköpostia jne., as channels. Voit luoda oman kanavan API-rajapinnalla."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Edustajat",
@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Vahvista poistaminen",
         "MESSAGE": "Oletko varma että haluat poistaa ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Postilaatikko poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Postilaatikkoa ei voitu poistaa. Yritä myöhemmin uudelleen."
+        "ERROR_MESSAGE": "Postilaatikkoa ei voitu poistaa. Yritä myöhemmin uudelleen.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -264,16 +267,20 @@
       "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
       "UPDATE": "Päivitä",
-      "ENABLE_EMAIL_COLLECT_BOX": "Aktivoi sähköpostilaatikko",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivoi tai disabloi sähköpostilaatikko uusissa keskusteluissa",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Ota automaattinen delegointi käyttöön",
-      "ENABLE_CSAT": "Aktivoi ASTK",
-      "ENABLE_CSAT_SUB_TEXT": "Aktivoi/Disabloi ASTK(ASiakasTyytyväisyysKysely) keskustelun ratkaisun jälkeen",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Postilaatikon tiedot",
       "INBOX_UPDATE_SUB_TEXT": "Päivitä postilaatikon asetukset",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ota käyttöön tai poista käytöstä automaattinen keskusteluiden delegointi edustajille.",
-      "HMAC_VERIFICATION": "Käyttäjän identiteettivarmistus",
-      "HMAC_DESCRIPTION": "Varmistaaksemme käyttäjän identiteetin, SDK sallii sinun antaa `identifier_hash` jokaiselle käyttäjälle. Voit generoida HMAC käyttäen 'sha256' avaimella joka on alla."
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Aloita välittämällä sähköpostit seuraavaan osoitteeseen."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Uudelleenvaltuuta",
@@ -282,38 +289,38 @@
       "MESSAGE_ERROR": "Tapahtui virhe, yritä uudelleen"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pikakysely kysyy käyttäjän sähköpostin ja nimen ennen keskustelua",
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
       "ENABLE": {
-        "LABEL": "Aktivoi pikakysely",
+        "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Kyllä",
-          "DISABLED": "Ei"
+          "ENABLED": "Yes",
+          "DISABLED": "No"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pikakyselyviesti",
-        "PLACEHOLDER": "Tämä viesti näytetään käyttäjille joille pikakysely näytetään"
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Käyttäjien tulee antaa sähköpostiosoite ja nimi ennen keskustelun aloitusta"
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Aseta tilasi",
-      "SUBTITLE": "Aseta tilasi livechat widgetissä",
-      "WEEKLY_TITLE": "Aseta viikkotyöaikasi",
-      "TIMEZONE_LABEL": "Aseta aikavyöhyke",
-      "UPDATE": "Aseta työaika",
-      "TOGGLE_AVAILABILITY": "Aktivoi työaikasaatavuus tälle kansiolle",
-      "UNAVAILABLE_MESSAGE_LABEL": "Ei saatavilla-viesti käyttäjille",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Emme ole saatavilla juuri nyt. Jätä viesti ja vastaamme heti kun pystymme.",
-      "TOGGLE_HELP": "Aktivoimalla työaikasaatavuus livechat widgetissä näytetään olevanne saatavilla, vaikka kukaan edustaja ei olisi paikalla. Näiden aikojen ulkopuolella käyttäjille näytetään varoitus ja pikakysely.",
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
-        "ENABLE": "Aktivoi saatavuus tälle päivälle",
-        "UNAVAILABLE": "Ei saatavilla",
-        "HOURS": "tuntia",
-        "VALIDATION_ERROR": "Avaamisajan tulisi olla ennen sulkemisaikaa.",
-        "CHOOSE": "Valitse"
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
       }
     }
   }

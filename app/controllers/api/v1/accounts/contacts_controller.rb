@@ -79,6 +79,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = Current.account.contacts
                                 .where.not(email: [nil, ''])
                                 .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+                                .or(Current.account.contacts.where.not(identifier: [nil, '']))
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
   end
