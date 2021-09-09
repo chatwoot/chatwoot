@@ -29,4 +29,6 @@ if resource.web_widget?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
 end
+json.email resource.channel.try(:email) if resource.email?
+json.webhook_url resource.channel.try(:webhook_url) if resource.api?
 json.inbox_identifier resource.channel.try(:identifier) if resource.api?
