@@ -173,16 +173,16 @@
         "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Κανάλι Telegram",
+        "DESC": "Ενσωμάτωση με το κανάλι Telegram και ξεκινήστε να υποστηρίζετε τους πελάτες σας.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "Ρυθμίστε το bot token που λάβατε από το BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Δεν ήμασταν σε θέση να αποθηκεύσουμε το telegram κανάλι"
         }
       },
       "AUTH": {
