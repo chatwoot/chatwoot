@@ -172,6 +172,19 @@
         },
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email."
       },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
         "TITLE": "Выберите источник",
         "DESC": "Chatwoot поддерживает виджет живого-чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
