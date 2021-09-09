@@ -23,6 +23,6 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'ion-ios-email';
 
     default:
-      return 'ion-chatbubbles';
+      return '';
   }
 };
