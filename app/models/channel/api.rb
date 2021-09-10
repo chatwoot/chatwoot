@@ -17,23 +17,14 @@
 #  index_channel_api_on_identifier  (identifier) UNIQUE
 #
 
-class Channel::Api < ApplicationRecord
+class Channel::Api < Channel::BaseRecord
   self.table_name = 'channel_api'
   EDITABLE_ATTRS = [:webhook_url].freeze
-
-  validates :account_id, presence: true
-  belongs_to :account
 
   has_secure_token :identifier
   has_secure_token :hmac_token
 
-  has_one :inbox, as: :channel, dependent: :destroy
-
   def name
     'API'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 end

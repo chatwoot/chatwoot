@@ -15,23 +15,15 @@
 #  index_channel_twitter_profiles_on_account_id_and_profile_id  (account_id,profile_id) UNIQUE
 #
 
-class Channel::TwitterProfile < ApplicationRecord
+class Channel::TwitterProfile < Channel::BaseRecord
   self.table_name = 'channel_twitter_profiles'
 
-  validates :account_id, presence: true
   validates :profile_id, uniqueness: { scope: :account_id }
-  belongs_to :account
-
-  has_one :inbox, as: :channel, dependent: :destroy
 
   before_destroy :unsubscribe
 
   def name
     'Twitter'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def create_contact_inbox(profile_id, name, additional_attributes)

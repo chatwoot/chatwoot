@@ -24,7 +24,7 @@ class Line::IncomingMessageService
   end
 
   def line_contact_info
-    @line_contact_info ||= JSON.parse(client.get_profile(params[:events].first['source']['userId']).body)
+    @line_contact_info ||= JSON.parse(inbox.channel.client.get_profile(params[:events].first['source']['userId']).body)
   end
 
   def set_contact
@@ -59,13 +59,5 @@ class Line::IncomingMessageService
       name: line_contact_info['displayName'],
       avatar_url: line_contact_info['pictureUrl']
     }
-  end
-
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_id = inbox.channel.line_channel_id
-      config.channel_secret = inbox.channel.line_channel_secret
-      config.channel_token = inbox.channel.line_channel_token
-    end
   end
 end

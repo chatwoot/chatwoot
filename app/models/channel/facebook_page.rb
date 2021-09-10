@@ -16,16 +16,12 @@
 #  index_channel_facebook_pages_on_page_id_and_account_id  (page_id,account_id) UNIQUE
 #
 
-class Channel::FacebookPage < ApplicationRecord
+class Channel::FacebookPage < Channel::BaseRecord
   self.table_name = 'channel_facebook_pages'
 
   include Reauthorizable
 
-  validates :account_id, presence: true
   validates :page_id, uniqueness: { scope: :account_id }
-  belongs_to :account
-
-  has_one :inbox, as: :channel, dependent: :destroy
 
   after_create_commit :subscribe
   before_destroy :unsubscribe

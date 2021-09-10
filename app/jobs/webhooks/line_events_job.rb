@@ -2,17 +2,17 @@ class Webhooks::LineEventsJob < ApplicationJob
   queue_as :default
 
   def perform(params: {}, signature: '', post_body: '')
-    return unless params[:line_channel_id]
-
-    @channel = Channel::Line.find_by(line_channel_id: params[:line_channel_id])
-    return unless @channel
-
+    return unless valid_event_payload?
     return unless valid_post_body?(post_body, signature)
 
     Line::IncomingMessageService.new(inbox: @channel.inbox, params: params['line'].with_indifferent_access).perform
   end
 
   private
+
+  def valid_event_payload?
+    @channel = Channel::Line.find_by(line_channel_id: params[:line_channel_id]) if params[:line_channel_id]
+  end
 
   # https://developers.line.biz/en/reference/messaging-api/#signature-validation
   # validate the line payload
