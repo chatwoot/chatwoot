@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Voit nyt vastaanottaa sähköposteja mukautetulla verkkotunnuksellasi."
       }
     },
-    "UPDATE_CHATWOOT": "Uusi ChatWoot-päivitys on saatavilla. Uusin versio on %{latestChatwootVersion}"
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -54,10 +54,10 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Ilmoitukset",
-    "MARK_ALL_DONE": "Merkkaa kaikki luetuksi",
+    "MARK_ALL_DONE": "Mark All Done",
     "LIST": {
-      "LOADING_MESSAGE": "Ladataan ilmoituksia...",
-      "404": "Ei ilmoituksia",
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
       "TABLE_HEADER": [
         "Nimi",
         "Puhelinnumero",
@@ -67,9 +67,9 @@
     },
     "TYPE_LABEL": {
       "conversation_creation": "Uusi keskustelu",
-      "conversation_assignment": "Keskustelu määrätty",
-      "assigned_conversation_new_message": "Uusi viesti",
-      "conversation_mention": "Mainitse"
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "New Message",
+      "conversation_mention": "Mention"
     }
   }
 }

@@ -98,10 +98,11 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Wechseln",
+    "CHANGE_AVAILABILITY_STATUS": "Ändern",
     "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
+    "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
     "LOGOUT": "Ausloggen"
   },
   "APP_GLOBAL": {
@@ -118,7 +119,7 @@
       "UPLOADING": "Wird hochgeladen..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Einreichen"
+      "SUBMIT": "Abschicken"
     }
   },
   "CONFIRM_EMAIL": "Überprüft...",
@@ -130,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gespräche",
     "REPORTS": "Berichte",
-    "CONTACTS": "Kontakte",
     "SETTINGS": "Einstellungen",
+    "CONTACTS": "Kontakte",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "INBOXES": "Posteingänge",
@@ -141,13 +142,18 @@
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
     "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
+    "ATTRIBUTES": "Attributes",
     "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "ALL_CONTACTS": "Alle Kontakte",
+    "TAGGED_WITH": "Markiert mit",
+    "REPORTS_OVERVIEW": "Übersicht",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampagnen",
+    "ONGOING": "Im Gange",
+    "ONE_OFF": "Einmalig"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
     "NEW_ACCOUNT": "Neuer Account",
     "SELECTOR_SUBTITLE": "Neuen Account erstellen",
     "API": {
@@ -160,7 +166,32 @@
         "LABEL": "Kontobezeichnung",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Einreichen"
+      "SUBMIT": "Abschicken"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Unterhaltung öffnen",
+      "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
+      "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
+      "RESOLVE_CONVERSATION": "Unterhaltung lösen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
+      "ADD_ATTACHMENT": "Anhang hinzufügen",
+      "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
+      "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
+      "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
+      "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
+      "GO_TO_SETTINGS": "Zu den Einstellungen",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
+      "SWITCH_TO_REPLY": "Zur Antwort wechseln",
+      "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

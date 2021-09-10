@@ -9,6 +9,7 @@
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
       "TITLE": "메시지 검색",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "데이터 처리 중...",
       "PLACEHOLDER": "검색할 텍스트를 입력하세요",
       "NO_MATCHING_RESULTS": "검색 결과가 없습니다."
@@ -22,7 +23,7 @@
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
-    "LAST_INCOMING_TWEET": "마지막 수신 트윗에 회신하는 경우",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
@@ -41,7 +42,13 @@
       "DETAILS": "자세히"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
@@ -57,13 +64,26 @@
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
       "ENTER_TO_SEND": "엔터를 눌러 전송하기",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
     "CHANGE_STATUS": "대화 상태가 변경됨",
     "CHANGE_AGENT": "대화 담당자가 변경됨",
     "CHANGE_TEAM": "대화 담당자가 변경됨",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
@@ -123,5 +143,11 @@
     "SELECT": {
       "PLACEHOLDER": "없음"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

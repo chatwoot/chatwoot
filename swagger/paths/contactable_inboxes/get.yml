@@ -4,6 +4,13 @@ get:
   operationId: contactableInboxesGet
   description: Get List of contactable Inboxes
   summary: Get Contactable Inboxes
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the contact
+      required: true
   responses:
     200:
       description: Success

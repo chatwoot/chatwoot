@@ -26,8 +26,10 @@
 
 class Channel::WebWidget < ApplicationRecord
   include FlagShihTzu
-
   self.table_name = 'channel_web_widgets'
+  EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
+                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
+                    { selected_feature_flags: [] }].freeze
 
   validates :website_url, presence: true
   validates :widget_color, presence: true
@@ -59,6 +61,8 @@ class Channel::WebWidget < ApplicationRecord
         var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+\"/packs/js/sdk.js\";
+        g.defer = true;
+        g.async = true;
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({

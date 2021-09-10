@@ -28,4 +28,16 @@ class Label < ApplicationRecord
   before_validation do
     self.title = title.downcase if attribute_present?('title')
   end
+
+  def conversations
+    account.conversations.tagged_with(title)
+  end
+
+  def messages
+    account.messages.where(conversation_id: conversations.pluck(:id))
+  end
+
+  def events
+    account.events.where(conversation_id: conversations.pluck(:id))
+  end
 end

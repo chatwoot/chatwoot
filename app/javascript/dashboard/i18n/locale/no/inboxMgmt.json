@@ -232,6 +232,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Slett",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Bekreft sletting",
         "MESSAGE": "Er du sikker på at du vil slette ",
@@ -241,7 +242,9 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Innboksen ble slettet",
-        "ERROR_MESSAGE": "Kan ikke slette innboks. Prøv igjen senere."
+        "ERROR_MESSAGE": "Kan ikke slette innboks. Prøv igjen senere.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Oppdater innboksinnstillinger",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling av nye samtaler til agenter som er lagt til i denne innboksen.",
       "HMAC_VERIFICATION": "Brukeridentitetsvalidering",
-      "HMAC_DESCRIPTION": "For å bekrefte brukerens identitet vil SDK-en la deg legge inn en `identifier_hash` for hver bruker. Du kan generere HMAC ved å benytte 'sha256' med nøkkelen vist her."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Begynn å videresende e-post til følgende e-postadresse."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautoriser",

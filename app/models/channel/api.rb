@@ -19,6 +19,7 @@
 
 class Channel::Api < ApplicationRecord
   self.table_name = 'channel_api'
+  EDITABLE_ATTRS = [:webhook_url].freeze
 
   validates :account_id, presence: true
   belongs_to :account

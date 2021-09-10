@@ -6,12 +6,13 @@
     "NO_INBOX_1": "سلام! به نظر می‌رسد هنوز صندوق ورودی اضافه نکرده‌اید.",
     "NO_INBOX_2": " برای شروع",
     "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
-    "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "SEARCH_MESSAGES": "پیامها را در مکالمات جستجو کنید",
     "SEARCH": {
       "TITLE": "جستجو پیام‌ها",
+      "RESULT_TITLE": "نتایج جستجو",
       "LOADING_MESSAGE": "درحال پردازش داده...",
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "نتیجه‌ای یافت نشد."
     },
     "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
     "UNREAD_MESSAGE": "پیام خوانده نشده",
@@ -20,15 +21,15 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
-    "LAST_INCOMING_TWEET": "شما در حال پاسخ به آخرین توییت ورودی هستید",
+    "SELECT_A_TWEET_TO_REPLY": "لطفاً برای پاسخ دادن ، یک توییت را انتخاب کنید.",
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
+    "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
@@ -41,7 +42,13 @@
       "DETAILS": "جزئیات"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "با ربات باز کنید"
+      "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
+      "SNOOZE": {
+        "TITLE": "به تعویق انداختن تا",
+        "NEXT_REPLY": "پاسخ بعدی",
+        "TOMORROW": "فردا",
+        "NEXT_WEEK": "هفته بعد"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
@@ -57,13 +64,26 @@
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
       "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
-      "DRAG_DROP": "Drag and drop here to attach"
+      "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "افزودن bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
+    "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
     "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
@@ -93,35 +113,41 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "سلام 👋، خوش آمدی به %{installationName}!",
+    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از %{installationName} داشته باشید. در اینجا چند کار وجود دارد که می توانید در %{installationName} انجام دهید تا تجربه بهتری داشته باشید.",
+    "READ_LATEST_UPDATES": "آخرین به روزرسانی های ما را بخوانید",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "همه مکالمات شما در یک مکان",
+      "DESCRIPTION": "همه مکالمات مشتریان خود را در یک داشبورد واحد مشاهده کنید. می توانید مکالمات را بر اساس کانال ، برچسب و وضعیت ورودی فیلتر کنید."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "اعضای تیم خود را دعوت کنید",
+      "DESCRIPTION": "از آنجا که در حال آماده شدن برای صحبت با مشتری هستید ، می توانید از هم تیمی های خود نیز کمک بگیرید. با افزودن آدرس ایمیل آنها به لیست ایجنت ها، می توانید از هم تیمی های خود دعوت کنید.",
+      "NEW_LINK": "برای دعوت از یکی از اعضای تیم اینجا را کلیک کنید"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "صندوق ورودی را وصل کنید",
+      "DESCRIPTION": "شما می توانید کانال های مختلفی را برای ارتباط با مشتری ایجاد نمایید، شما میتوانید از طریق چت داخل سایت یا فیس بوک یا توییتر و حتی واتس آپ استفاده نمایید.",
+      "NEW_LINK": "برای ایجاد صندوق ورودی اینجا را کلیک کنید"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "سازماندهی مکالمات با برچسب ها",
+      "DESCRIPTION": "برچسب ها روش ساده تری برای دسته بندی مکالمه شما فراهم می کنند. برخی از برچسب ها مانند #پشتیبانی-درخواست ، #صورتحساب و غیره را ایجاد کنید تا بعداً بتوانید از آنها در مکالمه استفاده کنید.",
+      "NEW_LINK": "برای ایجاد برچسب ها اینجا را کلیک کنید"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "اختصاص به ایجنت",
+    "SELF_ASSIGN": "اختصاص به من",
+    "TEAM_LABEL": "اختصاص به تیم",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "هیچکدام"
     }
+  },
+  "EMAIL_HEADER": {
+    "TO": "به",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "موضوع"
   }
 }

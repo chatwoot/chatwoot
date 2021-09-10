@@ -232,16 +232,19 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, verwijderen ",
-        "NO": "No, Keep "
+        "NO": "Nee, Behouden "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox succesvol verwijderd",
-        "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw."
+        "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -273,7 +276,11 @@
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Autoriseer",
