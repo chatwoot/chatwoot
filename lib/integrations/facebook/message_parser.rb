@@ -2,45 +2,47 @@
 
 class Integrations::Facebook::MessageParser
   def initialize(response_json)
-    @response = response_json
+    @response = JSON.parse(response_json)
   end
 
   def sender_id
-    @response.sender['id']
+    @response['messaging']['sender']['id']
   end
 
   def recipient_id
-    @response.recipient['id']
+    @response['messaging']['recipient']['id']
   end
 
   def time_stamp
-    @response.sent_at
+    @response['messaging']['timestamp']
   end
 
   def content
-    @response.text
+    @response['messaging']['message']['text']
   end
 
   def sequence
-    @response.seq
+    @response['messaging']['message']['seq']
   end
 
   def attachments
-    @response.attachments
+    @response['messaging']['message']['attachments']
   end
 
   def identifier
-    @response.id
+    @response['messaging']['message']['mid']
   end
 
   def echo?
-    @response.echo?
+    @response['messaging']['message']['is_echo']
   end
 
+  # TODO : i don't think the payload contains app_id. if not remove
   def app_id
-    @response.app_id
+    @response['messaging']['message']['app_id']
   end
 
+  # TODO : does this work ?
   def sent_from_chatwoot_app?
     app_id && app_id == ENV['FB_APP_ID'].to_i
   end
