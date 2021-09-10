@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_120929) do
+ActiveRecord::Schema.define(version: 2021_08_28_124043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -183,6 +183,15 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.datetime "updated_at", null: false
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_telegram", force: :cascade do |t|
+    t.string "bot_name"
+    t.integer "account_id", null: false
+    t.string "bot_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|
