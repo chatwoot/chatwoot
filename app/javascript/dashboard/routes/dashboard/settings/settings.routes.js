@@ -11,7 +11,6 @@ import reports from './reports/reports.routes';
 import campaigns from './campaigns/campaigns.routes';
 import teams from './teams/teams.routes';
 import store from '../../../store';
-import attributes from './attributes/attributes.routes';
 
 export default {
   routes: [
@@ -37,6 +36,5 @@ export default {
     ...teams.routes,
     ...campaigns.routes,
     ...integrationapps.routes,
-    ...attributes.routes,
   ],
 };
