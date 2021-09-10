@@ -17,7 +17,9 @@
 #  index_channel_api_on_identifier  (identifier) UNIQUE
 #
 
-class Channel::Api < Channel::BaseRecord
+class Channel::Api < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_api'
   EDITABLE_ATTRS = [:webhook_url].freeze
 

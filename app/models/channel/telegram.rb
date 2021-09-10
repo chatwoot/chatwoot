@@ -14,7 +14,9 @@
 #  index_channel_telegram_on_bot_token  (bot_token) UNIQUE
 #
 
-class Channel::Telegram < Channel::BaseRecord
+class Channel::Telegram < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
 

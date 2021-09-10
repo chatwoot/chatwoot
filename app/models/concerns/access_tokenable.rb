@@ -1,8 +1,9 @@
 module AccessTokenable
   extend ActiveSupport::Concern
   included do
-    has_one :access_token, as: :owner, dependent: :destroy
-    after_create :create_access_token
+      validates :account_id, presence: true
+  belongs_to :account
+  has_one :inbox, as: :channel, dependent: :destroy
   end
 
   def create_access_token

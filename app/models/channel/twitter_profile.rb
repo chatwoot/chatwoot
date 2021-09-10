@@ -15,7 +15,9 @@
 #  index_channel_twitter_profiles_on_account_id_and_profile_id  (account_id,profile_id) UNIQUE
 #
 
-class Channel::TwitterProfile < Channel::BaseRecord
+class Channel::TwitterProfile < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_twitter_profiles'
 
   validates :profile_id, uniqueness: { scope: :account_id }

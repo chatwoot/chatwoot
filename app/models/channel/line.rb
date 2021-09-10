@@ -15,7 +15,9 @@
 #  index_channel_line_on_line_channel_id  (line_channel_id) UNIQUE
 #
 
-class Channel::Line < Channel::BaseRecord
+class Channel::Line < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_line'
   EDITABLE_ATTRS = [:line_channel_id, :line_channel_secret, :line_channel_token].freeze
 

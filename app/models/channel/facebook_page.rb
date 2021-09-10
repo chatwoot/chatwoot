@@ -16,10 +16,11 @@
 #  index_channel_facebook_pages_on_page_id_and_account_id  (page_id,account_id) UNIQUE
 #
 
-class Channel::FacebookPage < Channel::BaseRecord
-  self.table_name = 'channel_facebook_pages'
-
+class Channel::FacebookPage < ApplicationRecord
+  include Channelable
   include Reauthorizable
+
+  self.table_name = 'channel_facebook_pages'
 
   validates :page_id, uniqueness: { scope: :account_id }
 

@@ -15,7 +15,9 @@
 #  index_channel_email_on_forward_to_email  (forward_to_email) UNIQUE
 #
 
-class Channel::Email < Channel::BaseRecord
+class Channel::Email < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email].freeze
 

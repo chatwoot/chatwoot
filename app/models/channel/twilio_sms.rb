@@ -16,7 +16,9 @@
 #  index_channel_twilio_sms_on_account_id_and_phone_number  (account_id,phone_number) UNIQUE
 #
 
-class Channel::TwilioSms < Channel::BaseRecord
+class Channel::TwilioSms < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_twilio_sms'
 
   validates :account_sid, presence: true
