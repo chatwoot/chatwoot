@@ -68,7 +68,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
-import { convertToSlug } from '../../../../../widget/helpers/convertToSlugHelper';
+import { convertToSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
