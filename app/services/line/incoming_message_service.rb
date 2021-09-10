@@ -6,6 +6,8 @@ class Line::IncomingMessageService
     line_contact_info
     set_contact
     set_conversation
+    # TODO: iterate over the events and handle the attachments in future
+    # https://github.com/line/line-bot-sdk-ruby#synopsis
     @message = @conversation.messages.create(
       content: params[:events].first['message']['text'],
       account_id: @inbox.account_id,
