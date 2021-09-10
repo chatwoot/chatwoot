@@ -25,7 +25,9 @@
 #
 
 class Channel::WebWidget < ApplicationRecord
+  include Channelable
   include FlagShihTzu
+
   self.table_name = 'channel_web_widgets'
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     { pre_chat_form_options: [:pre_chat_message, :require_email] },
@@ -34,8 +36,6 @@ class Channel::WebWidget < ApplicationRecord
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
-  belongs_to :account
-  has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
   has_secure_token :hmac_token
 
@@ -48,10 +48,6 @@ class Channel::WebWidget < ApplicationRecord
 
   def name
     'Website'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def web_widget_script
