@@ -5,6 +5,7 @@ import Api from './channels/Api';
 import Email from './channels/Email';
 import Sms from './channels/Sms';
 import Whatsapp from './channels/Whatsapp';
+import Line from './channels/Line';
 import Telegram from './channels/Telegram';
 
 const channelViewList = {
@@ -15,6 +16,7 @@ const channelViewList = {
   email: Email,
   sms: Sms,
   whatsapp: Whatsapp,
+  line: Line,
   telegram: Telegram,
 };
 

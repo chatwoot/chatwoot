@@ -15,23 +15,17 @@
 #
 
 class Channel::Telegram < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
 
-  has_one :inbox, as: :channel, dependent: :destroy
-  belongs_to :account
-
   before_validation :ensure_valid_bot_token, on: :create
-  validates :account_id, presence: true
   validates :bot_token, presence: true, uniqueness: true
   before_save :setup_telegram_webhook
 
   def name
     'Telegram'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def telegram_api_url

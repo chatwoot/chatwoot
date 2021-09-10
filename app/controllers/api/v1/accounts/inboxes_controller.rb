@@ -92,6 +92,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Current.account.api_channels.create!(permitted_params(Channel::Api::EDITABLE_ATTRS)[:channel].except(:type))
     when 'email'
       Current.account.email_channels.create!(permitted_params(Channel::Email::EDITABLE_ATTRS)[:channel].except(:type))
+    when 'line'
+      Current.account.line_channels.create!(permitted_params(Channel::Line::EDITABLE_ATTRS)[:channel].except(:type))
     when 'telegram'
       Current.account.telegram_channels.create!(permitted_params(Channel::Telegram::EDITABLE_ATTRS)[:channel].except(:type))
     end
@@ -122,6 +124,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Channel::Email::EDITABLE_ATTRS
     when 'Channel::Telegram'
       Channel::Telegram::EDITABLE_ATTRS
+    when 'Channel::Line'
+      Channel::Line::EDITABLE_ATTRS
     else
       []
     end
