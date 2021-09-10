@@ -24,7 +24,7 @@ Rails.application.reloader.to_prepare do
     config.provider = ChatwootFbProvider.new
   end
 
-  Facebook::Messenger::Bot.on :message do |message| 
+  Facebook::Messenger::Bot.on :message do |message|
     Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
 
