@@ -173,39 +173,39 @@
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "Канал LINE",
+        "DESC": "Интегрируйте канал LINE и начните общаться с вашими клиентами.",
         "CHANNEL_NAME": {
           "LABEL": "имя источника",
           "PLACEHOLDER": "Пожалуйста введите имя источника",
           "ERROR": "Это поле обязательно"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID канала LINE",
+          "PLACEHOLDER": "ID канала LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Секрет канала LINE",
+          "PLACEHOLDER": "Секрет канала LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Токен канала LINE",
+          "PLACEHOLDER": "Токен канала LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Создать канал LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Не удалось сохранить канал LINE"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram канал",
+        "DESC": "Интегрируйте Telegram канал и начните общаться с вашими клиентами.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Токен авторизации",
+          "SUBTITLE": "Настройте токен бота, который вы получили в Telegram BotFather.",
+          "PLACEHOLDER": "Токен авторизации"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Создать канал Telegram",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
