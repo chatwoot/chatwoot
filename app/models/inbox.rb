@@ -78,6 +78,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Api'
   end
 
+  def email?
+    channel_type == 'Channel::Email'
+  end
+
   def inbox_type
     channel.name
   end
@@ -87,6 +91,15 @@ class Inbox < ApplicationRecord
       id: id,
       name: name
     }
+  end
+
+  def webhook_url
+    case channel_type
+    when 'Channel::TwilioSMS'
+      "#{ENV['FRONTEND_URL']}/twilio/callback"
+    when 'Channel::Line'
+      "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
+    end
   end
 
   private
