@@ -207,7 +207,7 @@
         },
         "SUBMIT_BUTTON": "Создать канал Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Не удалось добавить канал Телеграм"
         }
       },
       "AUTH": {
