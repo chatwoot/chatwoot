@@ -34,7 +34,7 @@ RSpec.describe WorkingHour do
       travel_to '10.09.2021 12:30'.to_datetime
     end
 
-    it 'is considered out of office' do
+    it 'is considered to be in business hours' do
       expect(described_class.today.open_now?).to be true
     end
   end

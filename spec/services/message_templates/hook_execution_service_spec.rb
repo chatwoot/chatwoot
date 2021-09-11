@@ -154,25 +154,24 @@ describe ::MessageTemplates::HookExecutionService do
     end
   end
 
-  # TODO: remove this if this hook is removed
-  # context 'when it is after working hours' do
-  #   it 'calls ::MessageTemplates::Template::OutOfOffice' do
-  #     contact = create :contact
-  #     conversation = create :conversation, contact: contact
+  context 'when it is after working hours', :hook do
+    it 'calls ::MessageTemplates::Template::OutOfOffice' do
+      contact = create :contact
+      conversation = create :conversation, contact: contact
 
-  #     conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
-  #     conversation.inbox.working_hours.today.update!(closed_all_day: true)
+      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
-  #     out_of_office_service = double
+      out_of_office_service = double
 
-  #     allow(::MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
-  #     allow(out_of_office_service).to receive(:perform).and_return(true)
+      allow(::MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
 
-  #     # described class gets called in message after commit
-  #     message = create(:message, conversation: conversation)
+      # described class gets called in message after commit
+      message = create(:message, conversation: conversation)
 
-  #     expect(::MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: message.conversation)
-  #     expect(out_of_office_service).to have_received(:perform)
-  #   end
-  # end
+      expect(::MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: message.conversation)
+      expect(out_of_office_service).to have_received(:perform)
+    end
+  end
 end
