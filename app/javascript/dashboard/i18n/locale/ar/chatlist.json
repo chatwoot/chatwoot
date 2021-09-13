@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "معلق",
-        "VALUE": "pending"
+        "VALUE": "معلق"
       },
       {
         "TEXT": "غفوة",
-        "VALUE": "snoozed"
+        "VALUE": "غفوة"
       }
     ],
     "ATTACHMENTS": {
