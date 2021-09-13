@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "Afwachtend",
-        "VALUE": "pending"
+        "VALUE": "afwachtend"
       },
       {
         "TEXT": "Gesluimerd",
-        "VALUE": "snoozed"
+        "VALUE": "gesluimerd"
       }
     ],
     "ATTACHMENTS": {
