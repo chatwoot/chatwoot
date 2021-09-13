@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/chatwoot/devise-secure_password
+  revision: de11e8765654b8242d42101ee9c8ffc8126f7975
+  specs:
+    devise-secure_password (2.0.1)
+      devise (>= 4.0.0, < 5.0.0)
+      railties (>= 5.0.0, < 7.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -152,9 +160,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-secure_password (2.0.1)
-      devise (>= 4.0.0, < 5.0.0)
-      railties (>= 5.0.0, < 7.0.0)
     devise_token_auth (1.2.0)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -612,6 +617,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
@@ -637,7 +643,7 @@ DEPENDENCIES
   database_cleaner
   ddtrace
   devise
-  devise-secure_password (~> 2.0)
+  devise-secure_password (~> 2.0)!
   devise_token_auth
   dotenv-rails
   down (~> 5.0)
