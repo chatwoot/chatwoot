@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
     "UNMUTED_SUCCESS": "تم إلغاء كتم هذه المحادثة",
     "SEND_TRANSCRIPT": "إرسال النص",
-    "EDIT_LABEL": "تعديل"
+    "EDIT_LABEL": "تعديل",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "سمات مخصصة",
+      "CONTACT_LABELS": "تصنفيات جهات الاتصال",
+      "PREVIOUS_CONVERSATIONS": "المحادثات السابقة"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "تعديل جهة الاتصال",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "سمات مخصصة",
     "BUTTON": "إضافة سمة خاصة",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "إنشاء سمة خاصة",
       "DESC": "أضف معلومات خاصة إلى جهة الاتصال هذه."
