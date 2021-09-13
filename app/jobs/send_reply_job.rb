@@ -11,6 +11,10 @@ class SendReplyJob < ApplicationJob
       ::Twitter::SendOnTwitterService.new(message: message).perform
     when 'Channel::TwilioSms'
       ::Twilio::SendOnTwilioService.new(message: message).perform
+    when 'Channel::Line'
+      ::Line::SendOnLineService.new(message: message).perform
+    when 'Channel::Telegram'
+      ::Telegram::SendOnTelegramService.new(message: message).perform
     end
   end
 end
