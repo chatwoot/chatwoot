@@ -16,23 +16,18 @@
 #
 
 class Channel::Email < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email].freeze
 
-  validates :account_id, presence: true
-  belongs_to :account
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true
 
-  has_one :inbox, as: :channel, dependent: :destroy
   before_validation :ensure_forward_to_email, on: :create
 
   def name
     'Email'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   private
