@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "В ожидании",
-        "VALUE": "в ожидании"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Отложено",
-        "VALUE": "отложено"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
