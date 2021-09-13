@@ -4,7 +4,8 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="thumbnailBadge"
+        :badge="chatMetadata.channel"
+        :chat-inbox-id="chatInboxId"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -79,19 +80,8 @@ export default {
       return this.chat.meta;
     },
 
-    thumbnailBadge() {
-      if (this.channelType === 'Channel::TwilioSms') {
-        if (this.isATwilioSMSChannel) {
-          return '';
-        }
-      }
-      return this.chatMetadata.channel;
-    },
-
-    inbox() {
-      const { inbox_id: inboxId } = this.chat;
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
-      return stateInbox;
+    chatInboxId() {
+      return this.chat.inbox_id;
     },
 
     currentContact() {
