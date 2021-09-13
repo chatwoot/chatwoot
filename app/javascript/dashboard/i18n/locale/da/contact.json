@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Denne samtale er gjort tavs i 6 timer",
     "UNMUTED_SUCCESS": "Denne samtale er genaktiveret",
     "SEND_TRANSCRIPT": "Send Udskrift",
-    "EDIT_LABEL": "Rediger"
+    "EDIT_LABEL": "Rediger",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Rediger Kontakt",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Brugerdefinerede Egenskaber",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

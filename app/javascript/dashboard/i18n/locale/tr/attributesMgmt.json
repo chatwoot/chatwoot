@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Öznitelikler",
     "HEADER_BTN_TXT": "Öznitelik ekle",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Öznitelik ekle",
       "SUBMIT": "Yarat",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Ekran adı",
-          "PLACEHOLDER": "Öznitelik adı girin"
+          "PLACEHOLDER": "Öznitelik adı girin",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Açıklama",
-          "PLACEHOLDER": "Öznitelik açıklaması girin"
+          "PLACEHOLDER": "Öznitelik açıklaması girin",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -31,7 +35,50 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Öznitelik başarıyla eklendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the attribute",
+        "YES": "Sil ",
+        "NO": "İptal Et"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit attribute",
+      "UPDATE_BUTTON_TEXT": "Güncelleme",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "Özel Nitelikler",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "İsim",
+        "Açıklama",
+        "Tip",
+        "Anahtar"
+      ],
+      "BUTTONS": {
+        "EDIT": "Düzenle",
+        "DELETE": "Sil"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }
