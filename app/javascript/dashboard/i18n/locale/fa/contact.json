@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
     "UNMUTED_SUCCESS": "این گفتگو از حالت بی صدا خارج شده است",
     "SEND_TRANSCRIPT": "ارسال متن",
-    "EDIT_LABEL": "ویرایش"
+    "EDIT_LABEL": "ویرایش",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
+      "CONTACT_LABELS": "تماس با برچسب ها",
+      "PREVIOUS_CONVERSATIONS": "گفتگوهای قبلی"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "ویرایش مخاطب",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "ویژگی‌های سفارشی",
     "BUTTON": "اضافه کردن ویژگی سفارشی",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "ساخت ویژگی سفارشی",
       "DESC": "اطلاعات سفارشی مخاطب را اضافه کنید."

@@ -19,7 +19,7 @@
           </p>
           <p>
             <a
-              href="https://changelog.chatwoot.com"
+              href="https://www.chatwoot.com/changelog"
               target="_blank"
               rel="noopener nofollow noreferrer"
               class="onboarding--link"

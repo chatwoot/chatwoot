@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Tato konverzace je ztlumena na 6 hodin",
     "UNMUTED_SUCCESS": "Tato konverzace je odtlumena",
     "SEND_TRANSCRIPT": "Poslat přepis",
-    "EDIT_LABEL": "Upravit"
+    "EDIT_LABEL": "Upravit",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Vlastní atributy",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Předchozí konverzace"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Upravit kontakt",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Vlastní atributy",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
