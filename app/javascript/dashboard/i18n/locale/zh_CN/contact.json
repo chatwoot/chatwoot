@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "此对话被静音6小时",
     "UNMUTED_SUCCESS": "此对话已取消静音",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "编辑"
+    "EDIT_LABEL": "编辑",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "自定义属性",
+      "CONTACT_LABELS": "联系人标签",
+      "PREVIOUS_CONVERSATIONS": "上一次对话"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "编辑联系人",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "自定义属性",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

@@ -172,6 +172,44 @@
         },
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "Канал LINE",
+        "DESC": "Интегрируйте канал LINE и начните общаться с вашими клиентами.",
+        "CHANNEL_NAME": {
+          "LABEL": "имя источника",
+          "PLACEHOLDER": "Пожалуйста введите имя источника",
+          "ERROR": "Это поле обязательно"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID канала LINE",
+          "PLACEHOLDER": "ID канала LINE"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Секрет канала LINE",
+          "PLACEHOLDER": "Секрет канала LINE"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "Токен канала LINE",
+          "PLACEHOLDER": "Токен канала LINE"
+        },
+        "SUBMIT_BUTTON": "Создать канал LINE",
+        "API": {
+          "ERROR_MESSAGE": "Не удалось сохранить канал LINE"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram канал",
+        "DESC": "Интегрируйте Telegram канал и начните общаться с вашими клиентами.",
+        "BOT_TOKEN": {
+          "LABEL": "Токен авторизации",
+          "SUBTITLE": "Настройте токен бота, который вы получили в Telegram BotFather.",
+          "PLACEHOLDER": "Токен авторизации"
+        },
+        "SUBMIT_BUTTON": "Создать канал Telegram",
+        "API": {
+          "ERROR_MESSAGE": "Не удалось добавить канал Телеграм"
+        }
+      },
       "AUTH": {
         "TITLE": "Выберите источник",
         "DESC": "Chatwoot поддерживает виджет живого-чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."

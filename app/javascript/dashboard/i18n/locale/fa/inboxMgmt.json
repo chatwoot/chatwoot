@@ -172,6 +172,44 @@
         },
         "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "عنوان کانال",
+          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
         "DESC": "ما از چت زنده روی سایت، فیسبوک، توییتر، واتس آپ و ایمیل پشتیبانی می کنیم. در صورتی که نیاز به ارتباط از طریق کانال اختصاصی دیگیر دارید می توانید آن را به کمک API ایجاد نمایید."
