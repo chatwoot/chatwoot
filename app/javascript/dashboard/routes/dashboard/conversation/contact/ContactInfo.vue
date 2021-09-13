@@ -48,15 +48,29 @@
           />
         </div>
       </div>
-      <woot-button
-        v-if="!showNewMessage"
-        class="edit-contact"
-        variant="link"
-        size="small"
-        @click="toggleEditModal"
-      >
-        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-      </woot-button>
+      <div v-if="!showNewMessage">
+        <div>
+          <woot-button
+            class="edit-contact"
+            variant="link"
+            size="small"
+            @click="toggleEditModal"
+          >
+            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+        <div>
+          <woot-button
+            class="edit-contact"
+            color-scheme="secondary"
+            variant="link"
+            size="small"
+            @click="openMergeModal"
+          >
+            {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
+          </woot-button>
+        </div>
+      </div>
       <div v-else class="contact-actions">
         <woot-button
           class="new-message"
@@ -90,35 +104,6 @@
         :show="showMergeModal"
         @close="toggleMergeModal"
       />
-    </div>
-
-    <woot-button
-      variant="secondary"
-      color-scheme="clear"
-      icon="ion-android-more-vertical"
-      class="button--contact-menu"
-      size="large"
-      :title="$t('CONTACT_PANEL.CONTACT_ACTIONS')"
-      @click="toggleContactActions"
-    />
-    <div
-      v-if="showContactActions"
-      v-on-clickaway="hideContactActions"
-      class="dropdown-pane"
-      :class="{ 'dropdown-pane--open': showContactActions }"
-    >
-      <woot-dropdown-menu>
-        <woot-dropdown-item>
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            size="small"
-            @click="openMergeModal"
-          >
-            {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
-          </woot-button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
     </div>
   </div>
 </template>
