@@ -146,7 +146,6 @@ export default {
       showEditModal: false,
       showConversationModal: false,
       showMergeModal: false,
-      showContactActions: false,
     };
   },
   computed: {
@@ -172,17 +171,8 @@ export default {
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
     },
-    hideContactActions() {
-      if (this.showContactActions) {
-        this.showContactActions = false;
-      }
-    },
-    toggleContactActions() {
-      this.showContactActions = !this.showContactActions;
-    },
     openMergeModal() {
       this.toggleMergeModal();
-      this.hideContactActions();
     },
   },
 };
@@ -241,10 +231,5 @@ export default {
   position: absolute;
   right: var(--space-normal);
   top: 0;
-}
-
-.dropdown-pane {
-  top: var(--space-large);
-  right: var(--space-normal);
 }
 </style>
