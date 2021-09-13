@@ -19,7 +19,7 @@ module RequestExceptionHandler
     Current.reset
   end
 
-    def render_unauthorized(message)
+  def render_unauthorized(message)
     render json: { error: message }, status: :unauthorized
   end
 

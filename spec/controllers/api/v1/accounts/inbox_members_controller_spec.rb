@@ -43,7 +43,6 @@ RSpec.describe 'Inbox Member API', type: :request do
     end
   end
 
-
   describe 'POST /api/v1/accounts/{account.id}/inbox_members' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -76,7 +75,7 @@ RSpec.describe 'Inbox Member API', type: :request do
       let(:administrator) { create(:user, account: account, role: :administrator) }
       let(:old_agent) { create(:user, account: account, role: :agent) }
       let(:agent_to_add) { create(:user, account: account, role: :agent) }
-      
+
       before do
         create(:inbox_member, user: old_agent, inbox: inbox)
       end
@@ -139,9 +138,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: [agent.id] }
 
         patch "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: agent.create_new_auth_token,
-             params: params,
-             as: :json
+              headers: agent.create_new_auth_token,
+              params: params,
+              as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -151,7 +150,7 @@ RSpec.describe 'Inbox Member API', type: :request do
       let(:administrator) { create(:user, account: account, role: :administrator) }
       let(:old_agent) { create(:user, account: account, role: :agent) }
       let(:agent_to_add) { create(:user, account: account, role: :agent) }
-      
+
       before do
         create(:inbox_member, user: old_agent, inbox: inbox)
       end
@@ -160,9 +159,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: [agent_to_add.id] }
 
         patch "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+              headers: administrator.create_new_auth_token,
+              params: params,
+              as: :json
 
         expect(response).to have_http_status(:success)
         expect(inbox.inbox_members&.count).to eq(1)
@@ -173,9 +172,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: nil, user_ids: [agent_to_add.id] }
 
         patch "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+              headers: administrator.create_new_auth_token,
+              params: params,
+              as: :json
 
         expect(response).to have_http_status(:not_found)
       end
@@ -184,9 +183,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: ['invalid'] }
 
         patch "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+              headers: administrator.create_new_auth_token,
+              params: params,
+              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include('User must exist')
@@ -214,9 +213,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: [agent.id] }
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: agent.create_new_auth_token,
-             params: params,
-             as: :json
+               headers: agent.create_new_auth_token,
+               params: params,
+               as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -227,7 +226,7 @@ RSpec.describe 'Inbox Member API', type: :request do
       let(:old_agent) { create(:user, account: account, role: :agent) }
       let(:agent_to_delete) { create(:user, account: account, role: :agent) }
       let(:non_member_agent) { create(:user, account: account, role: :agent) }
-      
+
       before do
         create(:inbox_member, user: old_agent, inbox: inbox)
         create(:inbox_member, user: agent_to_delete, inbox: inbox)
@@ -237,9 +236,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: [agent_to_delete.id] }
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+               headers: administrator.create_new_auth_token,
+               params: params,
+               as: :json
 
         expect(response).to have_http_status(:success)
         expect(inbox.inbox_members&.count).to eq(1)
@@ -249,9 +248,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: nil, user_ids: [agent_to_delete.id] }
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+               headers: administrator.create_new_auth_token,
+               params: params,
+               as: :json
 
         expect(response).to have_http_status(:not_found)
       end
@@ -260,9 +259,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: ['invalid'] }
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+               headers: administrator.create_new_auth_token,
+               params: params,
+               as: :json
 
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Resource could not be found')
@@ -272,9 +271,9 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: [non_member_agent.id] }
 
         delete "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
+               headers: administrator.create_new_auth_token,
+               params: params,
+               as: :json
 
         expect(response).to have_http_status(:not_found)
         expect(response.body).to include('Resource could not be found')

@@ -9,7 +9,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     end
     fetch_updated_agents
   end
-  
+
   def show
     authorize @inbox, :show?
     fetch_updated_agents
@@ -28,7 +28,6 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     end
     head :ok
   end
-
 
   private
 

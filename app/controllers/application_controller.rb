@@ -10,9 +10,7 @@ class ApplicationController < ActionController::Base
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
-
   private
-
 
   def set_current_user
     @user ||= current_user
