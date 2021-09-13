@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "Čekající",
-        "VALUE": "pending"
+        "VALUE": "čekající"
       },
       {
         "TEXT": "Odložené",
-        "VALUE": "snoozed"
+        "VALUE": "odložené"
       }
     ],
     "ATTACHMENTS": {
