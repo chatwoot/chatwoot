@@ -1,11 +1,5 @@
 <template>
   <div class="contact-conversation--panel">
-    <contact-details-item
-      v-if="showTitle"
-      :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
-      icon="ion-chatboxes"
-      emoji="💬"
-    />
     <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
       <div v-if="!previousConversations.length" class="no-label-message">
         <span>
@@ -28,22 +22,16 @@
 </template>
 
 <script>
-import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
+import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard';
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
-import ContactDetailsItem from './ContactDetailsItem.vue';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
     ConversationCard,
-    ContactDetailsItem,
     Spinner,
   },
   props: {
-    showTitle: {
-      type: Boolean,
-      default: true,
-    },
     contactId: {
       type: [String, Number],
       required: true,
