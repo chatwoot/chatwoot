@@ -192,7 +192,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "اضافه کردن ویژگی سفارشی",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
     "ADD": {
       "TITLE": "ساخت ویژگی سفارشی",
       "DESC": "اطلاعات سفارشی مخاطب را اضافه کنید."
