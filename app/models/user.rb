@@ -156,7 +156,8 @@ class User < ApplicationRecord
       available_name: available_name,
       avatar_url: avatar_url,
       type: 'user',
-      availability_status: availability_status
+      availability_status: availability_status,
+      thumbnail: avatar_url
     }
   end
 
