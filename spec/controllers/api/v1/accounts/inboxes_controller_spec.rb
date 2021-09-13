@@ -285,6 +285,28 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('test@test.com')
       end
+
+      it 'creates an api inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'API Inbox', channel: { type: 'api', webhook_url: 'http://test.com' } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('API Inbox')
+      end
+
+      it 'creates a line inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Line Inbox',
+                       channel: { type: 'line', line_channel_id: SecureRandom.uuid, line_channel_secret: SecureRandom.uuid,
+                                  line_channel_token: SecureRandom.uuid } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Line Inbox')
+      end
     end
   end
 

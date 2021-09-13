@@ -322,6 +322,7 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
+    line-bot-api (1.21.0)
     liquid (5.0.1)
     listen (3.6.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -661,6 +662,7 @@ DEPENDENCIES
   kaminari
   koala
   letter_opener
+  line-bot-api
   liquid
   listen
   maxminddb
