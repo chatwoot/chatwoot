@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="chatMetadata.channel"
+        :badge="thumbnailBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -42,6 +42,7 @@ import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import inboxMixin from 'shared/mixins/inboxMixin';
 import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
@@ -49,7 +50,7 @@ export default {
     MoreActions,
     Thumbnail,
   },
-  mixins: [agentMixin, eventListenerMixins],
+  mixins: [inboxMixin, agentMixin, eventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -76,6 +77,21 @@ export default {
 
     chatMetadata() {
       return this.chat.meta;
+    },
+
+    thumbnailBadge() {
+      if (this.channelType === 'Channel::TwilioSms') {
+        if (this.isATwilioSMSChannel) {
+          return '';
+        }
+      }
+      return this.chatMetadata.channel;
+    },
+
+    inbox() {
+      const { inbox_id: inboxId } = this.chat;
+      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+      return stateInbox;
     },
 
     currentContact() {
