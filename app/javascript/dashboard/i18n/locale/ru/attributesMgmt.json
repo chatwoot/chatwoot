@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Свойства",
     "HEADER_BTN_TXT": "Добавить параметр",
+    "LOADING": "Загрузка атрибутов",
+    "SIDEBAR_TXT": "<p><b>Атрибуты</b> <p>Пользовательский атрибут отслеживает факты о ваших контактах/диалогах — как план подписки, или когда они сделали первый заказ и т. д. <br /><br />Для создания атрибутов, просто нажмите кнопку<b>Добавить атрибут.</b> Вы также можете редактировать или удалять существующие атрибуты, нажав на кнопку Правка или Удалить.</p>",
     "ADD": {
       "TITLE": "Добавить параметр",
       "SUBMIT": "Создать",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Отображать имя",
-          "PLACEHOLDER": "Введите имя отображаемого атрибута"
+          "PLACEHOLDER": "Введите имя отображаемого атрибута",
+          "ERROR": "Необходимо указать имя"
         },
         "DESC": {
           "LABEL": "Описание",
-          "PLACEHOLDER": "Введите описание атрибута"
+          "PLACEHOLDER": "Введите описание атрибута",
+          "ERROR": "Необходимо описание"
         },
         "MODEL": {
           "LABEL": "Модель",
@@ -31,7 +35,50 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Атрибут успешно добавлен",
-        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Удалить",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Вы уверены, что хотите удалить - %{attributeName}",
+        "PLACE_HOLDER": "Пожалуйста, введите {attributeName} для подтверждения",
+        "MESSAGE": "Deleting will remove the attribute",
+        "YES": "Удалить ",
+        "NO": "Отменить"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit attribute",
+      "UPDATE_BUTTON_TEXT": "Обновить",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "Пользовательские атрибуты",
+      "CONVERSATION": "Диалоги",
+      "CONTACT": "Контакт"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Имя",
+        "Описание",
+        "Тип",
+        "Ключ"
+      ],
+      "BUTTONS": {
+        "EDIT": "Редактировать",
+        "DELETE": "Удалить"
+      },
+      "EMPTY_RESULT": {
+        "404": "Нет созданных атрибутов",
+        "NOT_FOUND": "Нет настроенных атрибутов"
       }
     }
   }
