@@ -20,8 +20,8 @@
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
+          "LABEL": "مدل",
+          "PLACEHOLDER": "لطفا مدل را انتخاب کنید",
           "ERROR": "Model is required"
         },
         "TYPE": {
