@@ -35,7 +35,29 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the attribute",
+        "YES": "Delete ",
+        "NO": "Cancel"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit attribute",
+      "UPDATE_BUTTON_TEXT": "Update",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
       }
     },
     "TABS": {

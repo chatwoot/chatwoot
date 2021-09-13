@@ -7,6 +7,8 @@ export const state = {
   uiFlags: {
     isFetching: false,
     isCreating: false,
+    isUpdating: false,
+    isDeleting: false,
   },
 };
 
