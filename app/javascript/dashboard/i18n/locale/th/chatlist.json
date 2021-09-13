@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "กำลังร้องขอ",
-        "VALUE": "pending"
+        "VALUE": "กำลังร้องขอ"
       },
       {
         "TEXT": "หลับ",
-        "VALUE": "snoozed"
+        "VALUE": "หลับ"
       }
     ],
     "ATTACHMENTS": {
