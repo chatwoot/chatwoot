@@ -85,6 +85,8 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import { convertToSlug } from 'dashboard/helper/commons.js';
+import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -102,42 +104,8 @@ export default {
       description: '',
       attributeModel: 0,
       attributeType: 0,
-      models: [
-        {
-          id: 0,
-          option: 'Conversation',
-        },
-        {
-          id: 1,
-          option: 'Contact',
-        },
-      ],
-      types: [
-        {
-          id: 0,
-          option: 'Text',
-        },
-        {
-          id: 1,
-          option: 'Number',
-        },
-        {
-          id: 2,
-          option: 'Currency',
-        },
-        {
-          id: 3,
-          option: 'Percent',
-        },
-        {
-          id: 4,
-          option: 'Link',
-        },
-        {
-          id: 5,
-          option: 'Date',
-        },
-      ],
+      models: ATTRIBUTE_MODELS,
+      types: ATTRIBUTE_TYPES,
       show: true,
     };
   },
@@ -147,10 +115,7 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     attributeKey() {
-      return this.displayName
-        .toLowerCase()
-        .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '_');
+      return convertToSlug(this.displayName);
     },
   },
 
