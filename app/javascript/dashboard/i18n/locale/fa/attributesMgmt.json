@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "ویژگی ها",
     "HEADER_BTN_TXT": "افزودن ویژگی",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "افزودن ویژگی",
       "SUBMIT": "ايجاد كردن",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "PLACEHOLDER": "Enter attribute display name",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "توضیحات",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Enter attribute description",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -31,7 +35,50 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - %{attributeName}",
+        "PLACE_HOLDER": "برای تایید لطفا {attributeName} را تایپ کنید",
+        "MESSAGE": "Deleting will remove the attribute",
+        "YES": "حذف ",
+        "NO": "انصراف"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit attribute",
+      "UPDATE_BUTTON_TEXT": "اعمال شود",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "ویژگی‌های سفارشی",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "مخاطب"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "نام",
+        "توضیحات",
+        "Type",
+        "Key"
+      ],
+      "BUTTONS": {
+        "EDIT": "ویرایش",
+        "DELETE": "حذف"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }

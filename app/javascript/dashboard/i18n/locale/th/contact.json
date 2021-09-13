@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "การสนทนานี้ถูกระงับ 6 ชั่วโมง",
     "UNMUTED_SUCCESS": "การสนทนานี้เลิกใบ้เเล้ว",
     "SEND_TRANSCRIPT": "ส่งประวัติเเชท",
-    "EDIT_LABEL": "เเก้ไข"
+    "EDIT_LABEL": "เเก้ไข",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
+      "CONTACT_LABELS": "ป้ายกำกับผู้ติดต่อ",
+      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "เเก้ไขผู้ติดต่อ",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "แอตทริบิวต์ที่กำหนดเอง",
     "BUTTON": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "สร้างแอตทริบิวต์เเบบกำหนดเอง",
       "DESC": "เพิ่มข้อมูลแอตทริบิวต์ในผู้ติดต่อนี้"

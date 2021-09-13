@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Dit gesprek is gedempt voor 6 uur",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Transcript verzenden",
-    "EDIT_LABEL": "Bewerken"
+    "EDIT_LABEL": "Bewerken",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Vorige gesprekken"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Contact bewerken",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

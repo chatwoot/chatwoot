@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Ta rozmowa jest wyciszona na 6 godzin",
     "UNMUTED_SUCCESS": "Ta rozmowa nie jest wyciszona",
     "SEND_TRANSCRIPT": "Wyślij transkrypcję",
-    "EDIT_LABEL": "Edytuj"
+    "EDIT_LABEL": "Edytuj",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
+      "CONTACT_LABELS": "Etykiety kontaktu",
+      "PREVIOUS_CONVERSATIONS": "Poprzednie rozmowy"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edytuj Kontakt",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Niestandardowe atrybuty",
     "BUTTON": "Dodaj niestandardowy atrybut",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Dodaj niestandardowy atrybut",
       "DESC": "Dodaj niestandardową informację do tego kontaktu."

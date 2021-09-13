@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alınır",
     "UNMUTED_SUCCESS": "Bu görüşmenin sesi kapatıldı",
     "SEND_TRANSCRIPT": "Transkript Gönder",
-    "EDIT_LABEL": "Düzenle"
+    "EDIT_LABEL": "Düzenle",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Düzenle",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Özel Nitelikler",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

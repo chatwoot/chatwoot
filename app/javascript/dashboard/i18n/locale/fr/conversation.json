@@ -45,9 +45,9 @@
       "MARK_PENDING": "Mark as pending",
       "SNOOZE": {
         "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "NEXT_REPLY": "Réponse suivante",
+        "TOMORROW": "Demain",
+        "NEXT_WEEK": "Semaine prochaine"
       }
     },
     "FOOTER": {
@@ -70,12 +70,12 @@
         "CC": {
           "LABEL": "CC",
           "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "ERROR": "Veuillez saisir une adresse de courriel valide"
         },
         "BCC": {
           "LABEL": "BCC",
           "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "ERROR": "Veuillez saisir une adresse de courriel valide"
         }
       }
     },
@@ -142,6 +142,14 @@
     "TEAM_LABEL": "Équipe assignée",
     "SELECT": {
       "PLACEHOLDER": "Aucun"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Détails du contact",
+      "CONVERSATION_ACTIONS": "Actions de conversation",
+      "CONVERSATION_LABELS": "Étiquettes de conversation",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Conversations précédentes"
     }
   },
   "EMAIL_HEADER": {
