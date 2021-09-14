@@ -192,7 +192,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Добавить пользовательский атрибут",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Для этого контакта нет доступных пользовательских атрибутов.",
     "ADD": {
       "TITLE": "Создать пользовательский атрибут",
       "DESC": "Добавить пользовательскую информацию этому контакту."
