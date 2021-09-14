@@ -7,11 +7,11 @@ class Line::IncomingMessageService
 
   def perform
     # probably test events
-    return unless params[:events].present?
+    return if params[:events].blank?
 
     line_contact_info
-    return unless line_contact_info['userId'].present?
-    
+    return if line_contact_info['userId'].blank?
+
     set_contact
     set_conversation
     # TODO: iterate over the events and handle the attachments in future
