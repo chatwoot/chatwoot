@@ -14,7 +14,7 @@ json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
 json.callback_webhook_url resource.callback_webhook_url
 
-## Channel specific settings 
+## Channel specific settings
 ## TODO : Clean up and move the attributes into channel sub section
 
 ## WebWidget Attributes
@@ -42,7 +42,6 @@ json.phone_number resource.channel.try(:phone_number)
 ## Email Channel Attributes
 json.forward_to_email resource.channel.try(:forward_to_email)
 json.email resource.channel.try(:email) if resource.email?
-
 
 ## API Channel Attributes
 json.webhook_url resource.channel.try(:webhook_url) if resource.api?
