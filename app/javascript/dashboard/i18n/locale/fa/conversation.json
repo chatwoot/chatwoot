@@ -144,11 +144,11 @@
       "PLACEHOLDER": "هیچکدام"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "اطلاعات تماس",
+      "CONVERSATION_ACTIONS": "عملیات مکالمات",
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "اطلاعات مکالمه",
+      "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
       "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
     }
   },
