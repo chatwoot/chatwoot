@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
     "UNMUTED_SUCCESS": "Cette conversation n'est plus muette",
     "SEND_TRANSCRIPT": "Envoyer la transcription",
-    "EDIT_LABEL": "Modifier"
+    "EDIT_LABEL": "Modifier",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
+      "CONTACT_LABELS": "Libellés des contacts",
+      "PREVIOUS_CONVERSATIONS": "Conversations précédentes"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Modifier le contact",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Attributs personnalisés",
     "BUTTON": "Ajouter un attribut personnalisé",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Créer un attribut personnalisé",
       "DESC": "Ajouter des informations personnalisées à ce contact."

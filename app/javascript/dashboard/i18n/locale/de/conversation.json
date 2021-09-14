@@ -142,6 +142,14 @@
     "TEAM_LABEL": "Zugewiesenes Team",
     "SELECT": {
       "PLACEHOLDER": "Keine"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Konversationsetiketten",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Vorherige Gespräche"
     }
   },
   "EMAIL_HEADER": {

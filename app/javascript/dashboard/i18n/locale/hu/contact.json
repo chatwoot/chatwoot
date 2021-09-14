@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "A beszélgetés 6 órára elnémítva",
     "UNMUTED_SUCCESS": "A beszélgetés elnémítása megszűntetve",
     "SEND_TRANSCRIPT": "Jegyzetek elküldése",
-    "EDIT_LABEL": "Szerkesztés"
+    "EDIT_LABEL": "Szerkesztés",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Jegyzetek szerkesztése",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Egyedi atribútumok",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
