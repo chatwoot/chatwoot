@@ -173,39 +173,39 @@
         "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "کانال لاین",
+        "DESC": "با لاین ادغام شده و به مشتریان خود پشتیبانی دهید.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "آی دی کانال لاین",
+          "PLACEHOLDER": "آی دی کانال لاین"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "رمز کانال لاین",
+          "PLACEHOLDER": "رمز کانال لاین"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "توکن کانال لاین",
+          "PLACEHOLDER": "توکن کانال لاین"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "ایجاد کانال لاین",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "ما نتوانستیم کانال لاین را ذخیره کنیم"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "کانال تلگرام",
+        "DESC": "با کانال تلگرام ادغام شده و از مشتریان خود پشتیبانی کنید.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "توکن ربات",
+          "SUBTITLE": "توکن ربات را که از تلگرام BotFather بدست آورده اید پیکربندی کنید.",
+          "PLACEHOLDER": "توکن ربات"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "ساخت کانال تلگرام",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
@@ -270,7 +270,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "حذف آواتار",
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
         "MESSAGE": "مطمئن هستید که حذف شود ",
@@ -281,7 +281,7 @@
       "API": {
         "SUCCESS_MESSAGE": "صندوق ورودی حذف شد",
         "ERROR_MESSAGE": "صندوق ورودی حذف نشد، لطفا بعدا امتحان کنید",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_SUCCESS_MESSAGE": "آواتار صندوق ورودی با موفقیت حذف شد",
         "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
