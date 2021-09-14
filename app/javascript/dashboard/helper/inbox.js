@@ -21,7 +21,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.EMAIL:
       return 'ion-ios-email';
-    
+
     case INBOX_TYPES.TELEGRAM:
       return 'ion-ios-navigate';
 
