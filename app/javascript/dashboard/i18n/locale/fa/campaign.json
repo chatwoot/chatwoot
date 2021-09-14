@@ -1,56 +1,64 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER": "کمپین ها",
+    "SIDEBAR_TXT": "پیام های فعال به مشتری اجازه می دهد تا پیام های خروجی را برای مخاطبین خود ارسال کند که باعث ایجاد مکالمات بیشتر می شود. برای ایجاد یک کمپین جدید ، روی <b> افزودن کمپین </b> کلیک کنید. همچنین می توانید با کلیک روی دکمه ویرایش یا حذف ، کمپین موجود را ویرایش یا حذف کنید.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "ایجاد کمپین یکبار مصرف",
+      "ONGOING": "یک کمپین مداوم ایجاد کنید"
+    },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "یک کمپین ایجاد کنید",
+      "DESC": "پیام های فعال به مشتری اجازه می دهد تا پیام های خروجی را برای مخاطبین خود ارسال کند که باعث ایجاد مکالمات بیشتر می شود.",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "CREATE_BUTTON_TEXT": "ايجاد كردن",
       "FORM": {
         "TITLE": {
           "LABEL": "عنوان",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "PLACEHOLDER": "لطفا عنوان کمپین را وارد کنید",
+          "ERROR": "عنوان الزامی است"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "زمان برنامه ریزی شده",
+          "PLACEHOLDER": "لطفاً زمان را انتخاب کنید",
+          "CONFIRM": "تایید",
+          "ERROR": "زمان برنامه ریزی شده الزامی است"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "شنودگان",
+          "PLACEHOLDER": "برچسب های مشتری را انتخاب کنید",
+          "ERROR": "شنودگان ضروری است"
+        },
+        "INBOX": {
+          "LABEL": "انتخاب صندوق ورودی",
+          "PLACEHOLDER": "انتخاب صندوق ورودی",
+          "ERROR": "صندوق ورودی مورد نیاز است"
         },
         "MESSAGE": {
           "LABEL": "پیام",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "PLACEHOLDER": "لطفاً پیام کمپین را وارد کنید",
+          "ERROR": "پیام الزامی است"
         },
         "SENT_BY": {
           "LABEL": "ارسال شده توسط",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "PLACEHOLDER": "لطفاً محتوای کمپین را انتخاب کنید",
+          "ERROR": "ارسال کننده الزامی است"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "لطفاً URL را وارد کنید",
           "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "زمان در صفحه (ثانیه ها)",
+          "PLACEHOLDER": "لطفاً زمان را وارد کنید",
+          "ERROR": "زمان حضور در صفحه لازم است"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "فعال کردن کمپین",
+        "SUBMIT": "افزودن کمپین"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "کمپین با موفقیت ایجاد شد",
+        "ERROR_MESSAGE": "یک خطای وجود دارد. لطفا دوباره تلاش کنید."
       }
     },
     "DELETE": {
@@ -62,30 +70,31 @@
         "NO": "نه، بماند "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "کمپین با موفقیت حذف شد",
+        "ERROR_MESSAGE": "کمپین حذف نشد. لطفا بعداً دوباره امتحان کنید."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "ویرایش کمپین",
       "UPDATE_BUTTON_TEXT": "اعمال شود",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "کمپین با موفقیت به روز شد",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "در حال بارگیری کمپین ها...",
+      "404": "هیچ کمپینی برای این صندوق ورودی ایجاد نشده است.",
       "TABLE_HEADER": {
         "TITLE": "عنوان",
         "MESSAGE": "پیام",
+        "INBOX": "صندوق ورودی",
         "STATUS": "وضعیت",
-        "SENDER": "Sender",
+        "SENDER": "فرستنده",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "زمان برنامه ریزی شده",
+        "TIME_ON_PAGE": "زمان (ثانیه)",
+        "CREATED_AT": "ایجاد شده در"
       },
       "BUTTONS": {
         "ADD": "افزودن",
@@ -95,12 +104,22 @@
       "STATUS": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "تکمیل شد",
+        "ACTIVE": "فعال"
       },
       "SENDER": {
         "BOT": "ربات"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "کمپین های یکبار مصرف",
+      "404": "هیچ کمپینی یکبار مصرفی ایجاد نشده است",
+      "INBOXES_NOT_FOUND": "لطفاً صندوق ورودی پیامک ایجاد کنید و کمپین ها را اضافه کنید"
+    },
+    "ONGOING": {
+      "HEADER": "کمپین های مداوم",
+      "404": "هیچ کمپینی ایجاد نشده است",
+      "INBOXES_NOT_FOUND": "لطفا صندوق ورودی وب سایت ایجاد کنید و کمپین ها را اضافه کنید"
     }
   }
 }

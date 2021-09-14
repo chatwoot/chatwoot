@@ -198,6 +198,8 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 # Inboxes
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/:
+  $ref: ./inboxes/show.yml
 /api/v1/accounts/{account_id}/inboxes/:
   $ref: ./inboxes/create.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:

@@ -14,10 +14,10 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact) { create(:contact, account: account) }
+      let!(:contact) { create(:contact, :with_email, account: account) }
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
-      it 'returns all contacts with contact inboxes' do
+      it 'returns all resolved contacts along with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
@@ -52,8 +52,8 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['last_seen_at']).present?
       end
 
-      it 'filters contacts based on label filter' do
-        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, account: account)
+      it 'filters resolved contacts based on label filter' do
+        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, :with_email, account: account)
         contact_with_label1.update_labels(['label1'])
         contact_with_label2.update_labels(['label2'])
 
@@ -126,7 +126,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).not_to include(contact.email)
+        expect(response.body).not_to include(contact.name)
       end
 
       it 'returns all contacts who are online' do
@@ -137,7 +137,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(contact.email)
+        expect(response.body).to include(contact.name)
       end
     end
   end
@@ -153,10 +153,10 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact1) { create(:contact, account: account) }
-      let!(:contact2) { create(:contact, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact1) { create(:contact, :with_email, account: account) }
+      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
 
-      it 'returns all contacts with contact inboxes' do
+      it 'returns all resolved contacts with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: contact2.email },
             headers: admin.create_new_auth_token,
@@ -189,7 +189,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).not_to include(contact1.email)
       end
 
-      it 'matches the contact respecting the identifier character casing' do
+      it 'matches the resolved contact respecting the identifier character casing' do
         contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
         contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
         get "/api/v1/accounts/#{account.id}/contacts/search",
@@ -224,7 +224,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(contact.email)
+        expect(response.body).to include(contact.name)
       end
     end
   end
