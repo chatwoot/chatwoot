@@ -13,18 +13,18 @@
     "STATUS_TABS": [
       {
         "NAME": "Apri",
-        "KEY": "contaaperture"
+        "KEY": "openCount"
       },
       {
         "NAME": "Risolti",
-        "KEY": "Conteggio"
+        "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
         "NAME": "Miniera",
         "KEY": "Io",
-        "COUNT_KEY": "contaMinore"
+        "COUNT_KEY": "mineCount"
       },
       {
         "NAME": "Non assegnato",
@@ -40,11 +40,11 @@
     "CHAT_STATUS_ITEMS": [
       {
         "TEXT": "Apri",
-        "VALUE": "Aperto"
+        "VALUE": "open"
       },
       {
         "TEXT": "Risolti",
-        "VALUE": "risolto"
+        "VALUE": "resolved"
       },
       {
         "TEXT": "Pending",
