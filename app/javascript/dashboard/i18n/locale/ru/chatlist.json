@@ -48,11 +48,11 @@
       },
       {
         "TEXT": "В ожидании",
-        "VALUE": "pending"
+        "VALUE": "в ожидании"
       },
       {
         "TEXT": "Отложено",
-        "VALUE": "snoozed"
+        "VALUE": "отложено"
       }
     ],
     "ATTACHMENTS": {
@@ -85,6 +85,8 @@
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
     "NO_MESSAGES": "Нет сообщений",
-    "NO_CONTENT": "Содержимое отсутствует"
+    "NO_CONTENT": "Содержимое отсутствует",
+    "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",
+    "SHOW_QUOTED_TEXT": "Показать цитируемый текст"
   }
 }
