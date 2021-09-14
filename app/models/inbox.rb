@@ -62,7 +62,7 @@ class Inbox < ApplicationRecord
   end
 
   def remove_member(user_id)
-    member = inbox_members.find_by(user_id: user_id)
+    member = inbox_members.find_by!(user_id: user_id)
     member.try(:destroy)
   end
 
