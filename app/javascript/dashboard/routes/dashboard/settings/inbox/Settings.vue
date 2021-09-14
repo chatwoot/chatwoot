@@ -33,6 +33,17 @@
           :placeholder="inboxNamePlaceHolder"
         />
         <woot-input
+          v-if="isAPIInbox"
+          v-model.trim="webhookUrl"
+          class="medium-9 columns"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
+          "
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+          "
+        />
+        <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWebsiteUrl"
           class="medium-9 columns"
@@ -343,6 +354,7 @@ export default {
       csatSurveyEnabled: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
+      webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -484,6 +496,7 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
+        this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
@@ -536,6 +549,7 @@ export default {
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
+            webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
