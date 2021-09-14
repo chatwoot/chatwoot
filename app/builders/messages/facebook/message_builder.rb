@@ -148,6 +148,14 @@ class Messages::Facebook::MessageBuilder
     }
   end
 
+  def process_contact_params_result(result)
+    {
+      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
+      account_id: @inbox.account_id,
+      remote_avatar_url: result['profile_pic'] || ''
+    }
+  end
+
   def contact_params
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
@@ -164,10 +172,6 @@ class Messages::Facebook::MessageBuilder
       result = {}
       Sentry.capture_exception(e)
     end
-    {
-      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
-      account_id: @inbox.account_id,
-      remote_avatar_url: result['profile_pic'] || ''
-    }
+    process_contact_params_result(result)
   end
 end

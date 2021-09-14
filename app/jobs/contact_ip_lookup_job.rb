@@ -35,7 +35,7 @@ class ContactIpLookupJob < ApplicationJob
   end
 
   def get_contact_ip(contact)
-    contact.additional_attributes&.dig 'updated_at_ip' || contact.additional_attributes&.dig 'created_at_ip'
+    contact.additional_attributes&.dig('updated_at_ip') || contact.additional_attributes&.dig('created_at_ip')
   end
 
   def ensure_look_up_db
