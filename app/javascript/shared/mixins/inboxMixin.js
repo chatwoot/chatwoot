@@ -5,6 +5,7 @@ export const INBOX_TYPES = {
   TWILIO: 'Channel::TwilioSms',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
+  LINE: 'Channel::Line',
 };
 
 export default {
@@ -26,6 +27,9 @@ export default {
     },
     isATwilioChannel() {
       return this.channelType === INBOX_TYPES.TWILIO;
+    },
+    isALineChannel() {
+      return this.channelType === INBOX_TYPES.LINE;
     },
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;
