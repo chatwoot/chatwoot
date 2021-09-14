@@ -5,7 +5,6 @@ FactoryBot.define do
     page_access_token { SecureRandom.uuid }
     user_access_token { SecureRandom.uuid }
     page_id { SecureRandom.uuid }
-    inbox
     account
   end
 end

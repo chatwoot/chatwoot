@@ -4,10 +4,11 @@
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
-class Messages::Facebook::MessageBuilder < FacebookMessenger::MessageBuilder
+class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   attr_reader :response
 
   def initialize(response, inbox, outgoing_echo: false)
+    super()
     @response = response
     @inbox = inbox
     @outgoing_echo = outgoing_echo

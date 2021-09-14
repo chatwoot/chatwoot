@@ -37,7 +37,7 @@ class Webhooks::Instagram
   end
 
   def create_test_text
-    messenger_channel = Channel::FacebookPage.where(instagram_id: '17841449543715721')
+    messenger_channel = Channel::FacebookPage.last
     @inbox = ::Inbox.find_by!(channel: messenger_channel)
     @contact_inbox = @inbox.contact_inboxes.where(source_id: 'sender_username').first
     unless @contact_inbox
@@ -47,7 +47,13 @@ class Webhooks::Instagram
     end
     @contact = @contact_inbox.contact
 
-    conversation_params = {
+    @conversation ||= Conversation.find_by(conversation_params) || build_conversation(conversation_params)
+
+    @message = @conversation.messages.create!(message_params)
+  end
+
+  def conversation_params
+    {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
@@ -55,9 +61,10 @@ class Webhooks::Instagram
         type: 'instagram_direct_message'
       }
     }
-    @conversation ||= Conversation.find_by(conversation_params) || build_conversation(conversation_params)
+  end
 
-    message_params = {
+  def message_params
+    {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',
@@ -65,7 +72,6 @@ class Webhooks::Instagram
       content: 'This is a test message from facebook.',
       sender: @contact
     }
-    @message = @conversation.messages.create!(message_params)
   end
 
   def build_conversation(conversation_params)

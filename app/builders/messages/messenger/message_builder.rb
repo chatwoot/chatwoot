@@ -1,5 +1,4 @@
-class FacebookMessenger::MessageBuilder
-
+class Messages::Messenger::MessageBuilder
   def process_attachment(attachment)
     return if attachment['type'].to_sym == :template
 

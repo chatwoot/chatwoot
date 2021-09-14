@@ -6,6 +6,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   base_uri 'https://graph.facebook.com/v11.0/'
 
   def initialize(messaging)
+    super()
     @messaging = messaging
   end
 
@@ -17,6 +18,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
                                end
     inbox_channel(instagram_id)
     ensure_contact(contact_id)
+
     create_message
   end
 
@@ -42,6 +44,6 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   def create_message
-    Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
+    Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 end

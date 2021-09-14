@@ -4,10 +4,11 @@
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
-class Instagram::MessageBuilder < FacebookMessenger::MessageBuilder
+class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   attr_reader :messaging
 
   def initialize(messaging, inbox, outgoing_echo: false)
+    super()
     @messaging = messaging
     @inbox = inbox
     @outgoing_echo = outgoing_echo
@@ -16,7 +17,9 @@ class Instagram::MessageBuilder < FacebookMessenger::MessageBuilder
   def perform
     return if @inbox.channel.reauthorization_required?
 
-    build_message
+    ActiveRecord::Base.transaction do
+      build_message
+    end
   rescue Koala::Facebook::AuthenticationError
     Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
@@ -117,7 +120,6 @@ class Instagram::MessageBuilder < FacebookMessenger::MessageBuilder
     cw_message.update(content_attributes: content_attributes) if cw_message.present?
     cw_message.present?
   end
-
 
   ### Sample response
   # {
