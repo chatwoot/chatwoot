@@ -1,9 +1,17 @@
+# ref : https://developers.line.biz/en/docs/messaging-api/receiving-messages/#webhook-event-types
+# https://developers.line.biz/en/reference/messaging-api/#message-event
+
 class Line::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    # probably test events
+    return unless params[:events].present?
+
     line_contact_info
+    return unless line_contact_info['userId'].present?
+    
     set_contact
     set_conversation
     # TODO: iterate over the events and handle the attachments in future
