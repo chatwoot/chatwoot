@@ -17,7 +17,7 @@
           <woot-code
             v-if="isATwilioInbox"
             lang="html"
-            :script="currentInbox.webhook_url"
+            :script="currentInbox.callback_webhook_url"
           >
           </woot-code>
         </div>
@@ -25,7 +25,7 @@
           <woot-code
             v-if="isALineInbox"
             lang="html"
-            :script="currentInbox.webhook_url"
+            :script="currentInbox.callback_webhook_url"
           >
           </woot-code>
         </div>
@@ -90,6 +90,12 @@ export default {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isALineInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
