@@ -155,6 +155,11 @@ class Messages::Facebook::MessageBuilder
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
       raise
+    rescue Koala::Facebook::ClientError => e
+      result = {}
+      # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
+      # We don't need to capture this error as we don't care about contact params in case of echo messages
+      Sentry.capture_exception(e) unless outgoing_echo?
     rescue StandardError => e
       result = {}
       Sentry.capture_exception(e)
