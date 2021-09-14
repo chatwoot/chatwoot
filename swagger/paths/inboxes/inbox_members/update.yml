@@ -1,0 +1,36 @@
+tags:
+  - Inbox
+operationId: update-agents-in-inbox
+summary: Update Agents in Inbox
+description: All agents execept the one passed in params will be removed
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        inbox_id:
+          type: string
+          description: The ID of the inbox
+          required: true
+        user_ids: 
+          type: array
+          description: IDs of users to be added to the inbox
+          required: true
+responses:
+  200:
+    description: Success
+    schema:
+        type: array
+        description: 'Array of all active agents'
+        items:
+          $ref: '#/definitions/agent'
+  404:
+    description: Inbox not found
+  403:
+    description: Access denied
+  422:
+    description: User must exist
