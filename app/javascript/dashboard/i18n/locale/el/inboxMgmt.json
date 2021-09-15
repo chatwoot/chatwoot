@@ -198,7 +198,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL επανάκλησης",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Θα πρέπει να ρυθμίσετε τη διεύθυνση URL webhook στην εφαρμογή LINE με τη διεύθυνση URL που αναφέρεται εδώ."
         }
       },
       "TELEGRAM_CHANNEL": {
