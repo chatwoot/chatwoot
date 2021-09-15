@@ -1920,7 +1920,7 @@
         "tags": [
           "Inbox"
         ],
-        "operationId": "GetInboxe",
+        "operationId": "GetInbox",
         "summary": "Get an inbox",
         "description": "Get an inbox available in the current account",
         "parameters": [
@@ -2194,6 +2194,213 @@
           },
           "403": {
             "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/inbox_members": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "get-inbox-members",
+        "summary": "List Agents in Inbox",
+        "description": "Get Details of Agents in an Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/inbox_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "add-new-agent-to-inbox",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be added to the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "update-agents-in-inbox",
+        "summary": "Update Agents in Inbox",
+        "description": "All agents execept the one passed in params will be removed",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be added to the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "delete-agent-in-inbox",
+        "summary": "Remove an Agent from Inbox",
+        "description": "Remove an Agent from Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be deleted from the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
           }
         }
       }
@@ -3193,6 +3400,46 @@
         }
       }
     },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "available_name": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "account_id": {
+          "type": "number"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "administrator"
+          ]
+        },
+        "confirmed": {
+          "type": "boolean"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Available for users who are created through platform APIs and has custom attributes associated."
+        }
+      }
+    },
     "inbox": {
       "type": "object",
       "properties": {
@@ -4127,6 +4374,15 @@
       },
       "required": true,
       "description": "The ID of the team to be updated"
+    },
+    "inbox_id": {
+      "in": "path",
+      "name": "inbox_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The ID of the Inbox"
     },
     "hook_id": {
       "in": "path",

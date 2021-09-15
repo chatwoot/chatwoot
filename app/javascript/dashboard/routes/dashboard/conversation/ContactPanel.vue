@@ -8,7 +8,7 @@
       <accordion-item
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
         :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
-        @click="value => onContactItemClick('is_conv_actions_open', value)"
+        @click="value => toggleSidebarUIState('is_conv_actions_open', value)"
       >
         <div>
           <div class="multiselect-wrap--small">
@@ -66,10 +66,7 @@
           <contact-details-item
             :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
           />
-          <conversation-labels
-            :show-title="false"
-            :conversation-id="conversationId"
-          />
+          <conversation-labels :conversation-id="conversationId" />
         </div>
       </accordion-item>
     </div>
@@ -78,7 +75,7 @@
       v-if="browser.browser_name"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
       :is-open="isContactSidebarItemOpen('is_conv_details_open')"
-      @click="value => onContactItemClick('is_conv_details_open', value)"
+      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
     >
       <div class="conversation--details">
         <contact-details-item
@@ -133,10 +130,11 @@
       v-if="hasContactAttributes"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
-      @click="value => onContactItemClick('is_contact_attributes_open', value)"
+      @click="
+        value => toggleSidebarUIState('is_contact_attributes_open', value)
+      "
     >
       <contact-custom-attributes
-        :show-title="false"
         :custom-attributes="contact.custom_attributes"
       />
     </accordion-item>
@@ -144,10 +142,9 @@
       v-if="contact.id"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')"
       :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
-      @click="value => onContactItemClick('is_previous_conv_open', value)"
+      @click="value => toggleSidebarUIState('is_previous_conv_open', value)"
     >
       <contact-conversations
-        :show-title="false"
         :contact-id="contact.id"
         :conversation-id="conversationId"
       />
@@ -335,16 +332,6 @@ export default {
     this.getContactDetails();
   },
   methods: {
-    onContactItemClick(key) {
-      this.updateUISettings({ [key]: !this.isContactSidebarItemOpen(key) });
-    },
-    isContactSidebarItemOpen(key) {
-      if (this.currentChat.id) {
-        const { [key]: isOpen } = this.uiSettings;
-        return isOpen;
-      }
-      return false;
-    },
     onPanelToggle() {
       this.onToggle();
     },
@@ -365,7 +352,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        avatar_url,
       } = this.currentUser;
       const selfAssign = {
         account_id,
@@ -375,7 +362,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        thumbnail: avatar_url,
       };
       this.assignedAgent = selfAssign;
     },

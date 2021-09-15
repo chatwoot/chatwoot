@@ -12,6 +12,7 @@
           :message="message"
           :is-email="isEmailContentType"
           :readable-time="readableTime"
+          :display-quoted-button="displayQuotedButton"
         />
         <span
           v-if="isPending && hasAttachments"
@@ -36,7 +37,6 @@
             />
           </div>
         </div>
-
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
@@ -128,6 +128,24 @@ export default {
     };
   },
   computed: {
+    contentToBeParsed() {
+      const {
+        html_content: { full: fullHTMLContent } = {},
+        text_content: { full: fullTextContent } = {},
+      } = this.contentAttributes.email || {};
+      return fullHTMLContent || fullTextContent || '';
+    },
+    displayQuotedButton() {
+      if (!this.isIncoming) {
+        return false;
+      }
+
+      if (this.contentToBeParsed.includes('<blockquote')) {
+        return true;
+      }
+
+      return false;
+    },
     message() {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
@@ -142,20 +160,10 @@ export default {
       );
 
       const {
-        email: {
-          content_type: contentType = '',
-          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
-          text_content: { full: fullTextContent, reply: replyTextContent } = {},
-        } = {},
+        email: { content_type: contentType = '' } = {},
       } = this.contentAttributes;
-      let contentToBeParsed =
-        replyHTMLContent ||
-        replyTextContent ||
-        fullHTMLContent ||
-        fullTextContent ||
-        '';
-      if (contentToBeParsed && this.isIncoming) {
-        const parsedContent = this.stripStyleCharacters(contentToBeParsed);
+      if (this.contentToBeParsed && this.isIncoming) {
+        const parsedContent = this.stripStyleCharacters(this.contentToBeParsed);
         if (parsedContent) {
           // This is a temporary fix for line-breaks in text/plain emails
           // Now, It is not rendered properly in the email preview.

@@ -1,8 +1,14 @@
+# Find the various telegram payload samples here: https://core.telegram.org/bots/webhooks#testing-your-bot-with-updates
+# https://core.telegram.org/bots/api#available-types
+
 class Telegram::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    # chatwoot doesn't support group conversations at the moment
+    return unless private_message?
+
     set_contact
     update_contact_avatar
     set_conversation
@@ -19,6 +25,10 @@ class Telegram::IncomingMessageService
   end
 
   private
+
+  def private_message?
+    params.dig(:message, :chat, :type) == 'private'
+  end
 
   def account
     @account ||= inbox.account

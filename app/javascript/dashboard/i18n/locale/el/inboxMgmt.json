@@ -172,6 +172,44 @@
         },
         "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "Κανάλι LINE",
+        "DESC": "Ενσωμάτωση με κανάλι LINE και ξεκινήστε να υποστηρίζετε τους πελάτες σας.",
+        "CHANNEL_NAME": {
+          "LABEL": "Όνομα καναλιού",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID Καναλιού LINE",
+          "PLACEHOLDER": "ID Καναλιού LINE"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Secret Καναλιού LINE",
+          "PLACEHOLDER": "Secret Καναλιού LINE"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "Token Καναλιού LINE",
+          "PLACEHOLDER": "Token Καναλιού LINE"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία LINE Καναλιού",
+        "API": {
+          "ERROR_MESSAGE": "Δεν είμαστε σε θέση να αποθηκεύσουμε το LINE κανάλι"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Κανάλι Telegram",
+        "DESC": "Ενσωμάτωση με το κανάλι Telegram και ξεκινήστε να υποστηρίζετε τους πελάτες σας.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Ρυθμίστε το bot token που λάβατε από το BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Telegram",
+        "API": {
+          "ERROR_MESSAGE": "Δεν ήμασταν σε θέση να αποθηκεύσουμε το telegram κανάλι"
+        }
+      },
       "AUTH": {
         "TITLE": "Επιλογή Καναλιού",
         "DESC": "Chatwoot υποστηρίζει widget live-chat, σελίδα Facebook, προφίλ Twitter, Whatsapp, Email κλπ., ως κανάλια. Αν θέλετε να δημιουργήσετε ένα προσαρμοσμένο κανάλι, μπορείτε να το δημιουργήσετε χρησιμοποιώντας το κανάλι API. Επιλέξτε ένα κανάλι από τις παρακάτω επιλογές για να συνεχίσετε."
@@ -232,7 +270,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Διαγραφή Avatar",
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
@@ -243,8 +281,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Το κιβώτιο διαγράφηκε επιτυχώς",
         "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Το avatar εισερχομένων διαγράφηκε επιτυχώς",
+        "AVATAR_ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του avatar εισερχομένων. Παρακαλώ προσπαθήστε ξανά αργότερα."
       }
     },
     "TABS": {
@@ -277,9 +315,9 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ενεργοποιήστε ή απενεργοποιήστε την αυτόματη αντιστοίχιση των νέων συζητήσεων στους πράκτορες αυτού του κιβωτίου.",
       "HMAC_VERIFICATION": "Επικύρωση Ταυτότητας Χρήστη",
       "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identity_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "INBOX_IDENTIFIER": "Αναγνωριστικό Εισερχόμενων",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Χρησιμοποιήστε το διακριτικό `inbox_identifier` που εμφανίζεται εδώ για τον έλεγχο ταυτότητας των πελατών API.",
+      "FORWARD_EMAIL_TITLE": "Προώθηση στο email",
       "FORWARD_EMAIL_SUB_TEXT": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
     },
     "FACEBOOK_REAUTHORIZE": {

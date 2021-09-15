@@ -142,6 +142,14 @@
     "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
       "PLACEHOLDER": "Nincs"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Beszélgetés cimkék",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések"
     }
   },
   "EMAIL_HEADER": {
