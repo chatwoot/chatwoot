@@ -27,7 +27,6 @@ module SlackStubs
       team_id: 'TLST3048H',
       api_app_id: 'A012S5UETV4',
       event: message_event,
-      files: file_stub,
       type: 'event_callback',
       event_id: 'Ev013QUX3WV6',
       event_time: 1_588_623_033,
@@ -67,6 +66,7 @@ module SlackStubs
       ts: '1588623033.006000',
       team: 'TLST3048H',
       blocks: message_blocks,
+      files: file_stub,
       thread_ts: '1588623023.005900',
       channel: 'G01354F6A6Q',
       event_ts: '1588623033.006000',
@@ -78,10 +78,11 @@ module SlackStubs
     [
       {
         mimetype: 'image/png',
-        permalink: 'https://via.placeholder.com/250x250.png',
+        url_private: 'https://via.placeholder.com/250x250.png',
         name: 'name_of_the_file',
         title: 'title_of_the_file',
-        filetype: 'png'
+        filetype: 'png',
+        url_private_download: 'https://via.placeholder.com/250x250.png'
       }
     ]
   end

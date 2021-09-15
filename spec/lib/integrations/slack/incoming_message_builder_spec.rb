@@ -61,7 +61,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
-        expect(conversation.messages.last.attachments.any?).to be_truthy
+        expect(conversation.messages.last.attachments).to be_any
       end
     end
   end

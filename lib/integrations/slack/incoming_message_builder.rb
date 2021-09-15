@@ -88,8 +88,8 @@ class Integrations::Slack::IncomingMessageBuilder
       private: private_note?,
       sender: sender
     )
-    # check if it is inside the event and change the stub
-    process_attachments(params[:files]) if params[:files].present?
+
+    process_attachments(params[:event][:files]) if params[:event][:files].present?
 
     { status: 'success' }
   end
@@ -98,30 +98,27 @@ class Integrations::Slack::IncomingMessageBuilder
     @slack_client ||= Slack::Web::Client.new(token: @integration_hook.access_token)
   end
 
-  # ToDo: move process attachment for facebook instagram and slack in one place
+  # TODO: move process attachment for facebook instagram and slack in one place
+  # https://api.slack.com/messaging/files
   def process_attachments(attachments)
     attachments.each do |attachment|
+      tempfile = Down::NetHttp.download(attachment[:url_private], headers: { 'Authorization' => "Bearer #{integration_hook.access_token}" })
+
       attachment_params = {
         file_type: file_type(attachment),
         account_id: @message.account_id,
-        external_url: attachment[:permalink]
+        external_url: attachment[:url_private],
+        file: {
+          io: tempfile,
+          filename: tempfile.original_filename,
+          content_type: tempfile.content_type
+        }
       }
+
       attachment_obj = @message.attachments.new(attachment_params)
+      attachment_obj.file.content_type = attachment[:mimetype]
       attachment_obj.save!
-      attach_file(attachment_obj, attachment_params[:external_url]) if attachment_params[:external_url]
     end
-  end
-
-  def attach_file(attachment, file_url)
-    attachment_file = Down.download(
-      file_url
-    )
-
-    attachment.file.attach(
-      io: attachment_file,
-      filename: attachment_file.original_filename,
-      content_type: attachment_file.content_type
-    )
   end
 
   def file_type(attachment)
