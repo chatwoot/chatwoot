@@ -54,6 +54,16 @@
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file. Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Cancel"
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
