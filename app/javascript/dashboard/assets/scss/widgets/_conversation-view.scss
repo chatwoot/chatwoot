@@ -113,10 +113,18 @@
   }
 
   &:last-child {
-    margin-bottom: $space-small;
+    margin-bottom: 0;
   }
 
   &.unread--toast {
+    +.right {
+      margin-bottom: 0;
+    }
+
+    +.left {
+      margin-bottom: 0;
+    }
+
     span {
       @include elegant-card;
       @include round-corner;
@@ -139,6 +147,7 @@
       font-family: inherit;
     }
   }
+
 
   &.left {
 
@@ -183,6 +192,19 @@
       }
     }
 
+    +.unread--toast {
+      +.right {
+        margin-top: $space-one;
+
+        .bubble {
+          border-top-right-radius: $space-one;
+        }
+      }
+
+      +.left {
+        margin-top: 0;
+      }
+    }
   }
 
   &.right {
@@ -226,6 +248,21 @@
         border-top-left-radius: $space-one;
       }
     }
+
+    +.unread--toast {
+      +.left {
+        margin-top: $space-one;
+
+        .bubble {
+          border-top-left-radius: $space-one;
+        }
+      }
+
+      +.right {
+        margin-top: 0;
+      }
+    }
+
   }
 
   &.center {
@@ -259,11 +296,11 @@
     display: flex;
     font-size: var(--font-size-small);
     justify-content: center;
-    margin: var(--space-small) var(--space-normal);
-    padding: var(--space-small) var(--space-normal);
+    margin: var(--space-smaller) 0;
+    padding: var(--space-smaller) var(--space-micro) var(--space-smaller) var(--space-one);
 
     .is-text {
-      display: inline-block;
+      display: inline-flex;
       text-align: start;
 
       @include breakpoint(xxxlarge up) {

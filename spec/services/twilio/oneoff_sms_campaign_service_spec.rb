@@ -34,7 +34,7 @@ describe Twilio::OneoffSmsCampaignService do
     end
 
     it 'send messages to contacts in the audience and marks the campaign completed' do
-      contact_with_label1, contact_with_label2, contact_with_both_labels = FactoryBot.create_list(:contact, 3, account: account)
+      contact_with_label1, contact_with_label2, contact_with_both_labels = FactoryBot.create_list(:contact, 3, :with_phone_number, account: account)
       contact_with_label1.update_labels([label1.title])
       contact_with_label2.update_labels([label2.title])
       contact_with_both_labels.update_labels([label1.title, label2.title])

@@ -19,7 +19,7 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
+        "TITLE": "聯絡人標籤",
         "ERROR": "Couldn't update labels"
       },
       "CONVERSATION": {
@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "將對話靜音 6 小時",
     "UNMUTED_SUCCESS": "對話已解除靜音",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "編輯"
+    "EDIT_LABEL": "編輯",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "自訂屬性",
+      "CONTACT_LABELS": "聯絡人標籤",
+      "PREVIOUS_CONVERSATIONS": "上一次對話"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "編輯聯絡人",
@@ -154,7 +159,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "建立",
+      "BUTTON": "新增",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -167,8 +172,8 @@
       "TITLE": "筆記"
     },
     "ADD": {
-      "BUTTON": "建立",
-      "PLACEHOLDER": "建立筆記",
+      "BUTTON": "新增",
+      "PLACEHOLDER": "新增筆記",
       "TITLE": "Shift + Enter to create a note"
     },
     "FOOTER": {
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "自訂屬性",
     "BUTTON": "新增自訂屬性",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "建立自訂屬性",
       "DESC": "為聯絡人新增自訂資訊"
@@ -207,14 +212,14 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "合併聯絡人",
     "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
     "PRIMARY": {
       "TITLE": "Primary contact"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "PLACEHOLDER": "選擇一個聯絡人"
     },
     "SUMMARY": {
       "TITLE": "Summary",
@@ -225,7 +230,7 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " 合併聯絡人",
       "CANCEL": "取消",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"

@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "ערוך"
+    "EDIT_LABEL": "ערוך",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Previous Conversations"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
@@ -103,7 +108,7 @@
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
@@ -167,7 +172,7 @@
       "TITLE": "Notes"
     },
     "ADD": {
-      "BUTTON": "Add",
+      "BUTTON": "הוסף",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

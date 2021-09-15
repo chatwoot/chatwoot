@@ -12,7 +12,7 @@
       "404": "Nie ma agentów powiązanych z tym kontem",
       "TITLE": "Zarządzaj agentami w zespole",
       "DESC": "Możesz dodać/usunąć agentów do/w zespole.",
-      "NAME": "Nazwisko",
+      "NAME": "Nazwa",
       "EMAIL": "EMAIL",
       "STATUS": "Status",
       "ACTIONS": "Akcje",
@@ -91,6 +91,23 @@
     },
     "SEARCH": {
       "NO_RESULTS": "Brak wyników."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Brak",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "No agents found",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }

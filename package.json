@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -12,7 +12,8 @@
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:dev-overmind": "overmind start -f ./Procfile.dev",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "ruby:prettier": "bundle exec rubocop -a"
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
@@ -40,6 +41,7 @@
     "lodash.groupby": "^4.6.0",
     "marked": "2.0.3",
     "md5": "^2.3.0",
+    "posthog-js": "^1.13.7",
     "prosemirror-markdown": "1.5.1",
     "prosemirror-state": "1.3.4",
     "prosemirror-view": "1.18.4",
@@ -59,7 +61,7 @@
     "vue-i18n": "8.24.3",
     "vue-loader": "15.9.6",
     "vue-multiselect": "~2.1.6",
-    "vue-router": "~2.2.0",
+    "vue-router": "~3.5.2",
     "vue-template-compiler": "2.6.12",
     "vue-upload-component": "2.8.22",
     "vue2-datepicker": "^3.9.1",

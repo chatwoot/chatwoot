@@ -176,7 +176,9 @@ export default {
         '.conversations-list .conversation'
       );
       if (hasPressedAltAndMKey(e)) {
-        this.$refs.arrowDownButton.$el.click();
+        if (this.$refs.arrowDownButton) {
+          this.$refs.arrowDownButton.$el.click();
+        }
       }
       if (hasPressedAltAndEKey(e)) {
         const activeConversation = document.querySelector(
@@ -198,6 +200,7 @@ export default {
             allConversations[0].click();
             document.querySelector('.conversations-list').scrollTop = 0;
           }
+          e.preventDefault();
         }
       }
     },

@@ -148,6 +148,14 @@ class Messages::Facebook::MessageBuilder
     }
   end
 
+  def process_contact_params_result(result)
+    {
+      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
+      account_id: @inbox.account_id,
+      remote_avatar_url: result['profile_pic'] || ''
+    }
+  end
+
   def contact_params
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
@@ -155,14 +163,15 @@ class Messages::Facebook::MessageBuilder
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
       raise
+    rescue Koala::Facebook::ClientError => e
+      result = {}
+      # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
+      # We don't need to capture this error as we don't care about contact params in case of echo messages
+      Sentry.capture_exception(e) unless outgoing_echo?
     rescue StandardError => e
       result = {}
       Sentry.capture_exception(e)
     end
-    {
-      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
-      account_id: @inbox.account_id,
-      remote_avatar_url: result['profile_pic'] || ''
-    }
+    process_contact_params_result(result)
   end
 end

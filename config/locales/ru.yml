@@ -47,7 +47,8 @@ ru:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
-        bot: "Разговор передан боту %{user_name}"
+        pending: "Разговор был помечен как ожидающий %{user_name}"
+        snoozed: "Разговор был помечен как отложенный %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"
@@ -70,6 +71,8 @@ ru:
     reply:
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
+    survey:
+      response: "Пожалуйста, оцените этот разговор, %{link}"
   integration_apps:
     slack:
       name: "Slack"

@@ -11,7 +11,7 @@ class ConversationReplyMailer < ApplicationMailer
     recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
     new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
     @messages = recap_messages + new_messages
-    @messages = @messages.select(&:reportable?)
+    @messages = @messages.select(&:email_reply_summarizable?)
 
     mail({
            to: @contact&.email,
@@ -29,7 +29,8 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
+    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('created_at >= ?', message_queued_time)
+    @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
     mail({
@@ -47,7 +48,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
 
-    @messages = @conversation.messages.chat.select(&:reportable?)
+    @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
 
     mail({
            to: to_email,

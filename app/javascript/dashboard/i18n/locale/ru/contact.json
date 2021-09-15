@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
     "UNMUTED_SUCCESS": "Этот диалог включен",
     "SEND_TRANSCRIPT": "Отправить субтитры",
-    "EDIT_LABEL": "Редактировать"
+    "EDIT_LABEL": "Редактировать",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
+      "CONTACT_LABELS": "Ярлыки контактов",
+      "PREVIOUS_CONVERSATIONS": "Предыдущие диалоги"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Изменить контакт",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Пользовательские атрибуты",
     "BUTTON": "Добавить пользовательский атрибут",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Создать пользовательский атрибут",
       "DESC": "Добавить пользовательскую информацию этому контакту."

@@ -66,7 +66,7 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
+      "conversation_creation": "สร้างการสนทนาใหม่",
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "New Message",
       "conversation_mention": "Mention"

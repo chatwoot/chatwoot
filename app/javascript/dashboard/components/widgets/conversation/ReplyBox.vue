@@ -5,6 +5,8 @@
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -74,7 +76,6 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -106,19 +107,17 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [
-    clickaway,
-    inboxMixin,
-    uiSettingsMixin,
-    alertMixin,
-    eventListenerMixins,
-  ],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     selectedTweet: {
       type: [Object, String],
       default: () => ({}),
     },
     isATweet: {
+      type: Boolean,
+      default: false,
+    },
+    popoutReplyBox: {
       type: Boolean,
       default: false,
     },
@@ -222,7 +221,9 @@ export default {
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isAnEmailChannel ||
+        this.isATwilioSMSChannel
       );
     },
     replyButtonLabel() {
@@ -296,6 +297,15 @@ export default {
       }
     },
   },
+
+  mounted() {
+    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // working even if input/textarea is focussed.
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
   methods: {
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -354,9 +364,6 @@ export default {
       if (this.showRichContentEditor) {
         return;
       }
-      if (this.$refs.messageInput === undefined) {
-        return;
-      }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
@@ -390,13 +397,11 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-        });
-      }
+      const conversationId = this.currentChat.id;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+      });
     },
     onFileUpload(file) {
       if (!file) {
