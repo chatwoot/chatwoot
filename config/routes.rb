@@ -182,6 +182,7 @@ Rails.application.routes.draw do
             get :agents
             get :inboxes
             get :labels
+            get :teams
           end
         end
       end
