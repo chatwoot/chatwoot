@@ -195,6 +195,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de retorno",
+          "SUBTITLE": "Você precisa configurar a URL do webhook no aplicativo LINE com a URL mencionada aqui."
         }
       },
       "TELEGRAM_CHANNEL": {
