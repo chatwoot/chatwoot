@@ -31,6 +31,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
+  validates :name, presence: true
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
 
@@ -93,9 +94,9 @@ class Inbox < ApplicationRecord
     }
   end
 
-  def webhook_url
+  def callback_webhook_url
     case channel_type
-    when 'Channel::TwilioSMS'
+    when 'Channel::TwilioSms'
       "#{ENV['FRONTEND_URL']}/twilio/callback"
     when 'Channel::Line'
       "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
