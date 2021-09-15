@@ -8,7 +8,6 @@ import {
   getConversationAPI,
   getConversationsAPI,
 } from 'widget/api/conversation';
-import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
 import {
   createTemporaryMessage,
@@ -88,7 +87,7 @@ export const actions = {
       const { data } = await sendAttachmentAPI(params);
       commit('updateAttachmentMessageStatus', {
         message: data,
-        tempId: tempMessage.id,
+        tempId: message.id,
       });
     } catch (error) {
       // Show error
