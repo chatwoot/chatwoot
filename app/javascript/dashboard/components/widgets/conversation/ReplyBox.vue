@@ -76,7 +76,6 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -108,13 +107,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [
-    clickaway,
-    inboxMixin,
-    uiSettingsMixin,
-    alertMixin,
-    eventListenerMixins,
-  ],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -303,6 +296,15 @@ export default {
         this.showMentions = false;
       }
     },
+  },
+
+  mounted() {
+    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // working even if input/textarea is focussed.
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     toggleUserMention(currentMentionState) {
