@@ -5,6 +5,8 @@
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -122,6 +124,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -222,7 +228,9 @@ export default {
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isAnEmailChannel ||
+        this.isATwilioSMSChannel
       );
     },
     replyButtonLabel() {
@@ -354,9 +362,6 @@ export default {
       if (this.showRichContentEditor) {
         return;
       }
-      if (this.$refs.messageInput === undefined) {
-        return;
-      }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
@@ -390,13 +395,11 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-        });
-      }
+      const conversationId = this.currentChat.id;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+      });
     },
     onFileUpload(file) {
       if (!file) {

@@ -10,8 +10,21 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_off': this.onTypingOff,
       'conversation.status_changed': this.onStatusChange,
       'presence.update': this.onPresenceUpdate,
+      'contact.merged': this.onContactMerge,
     };
   }
+
+  static refreshConnector = pubsubToken => {
+    if (!pubsubToken || window.chatwootPubsubToken === pubsubToken) {
+      return;
+    }
+    window.chatwootPubsubToken = pubsubToken;
+    window.actionCable.disconnect();
+    window.actionCable = new ActionCableConnector(
+      window.WOOT_WIDGET,
+      window.chatwootPubsubToken
+    );
+  };
 
   onStatusChange = data => {
     this.app.$store.dispatch('conversationAttributes/update', data);
@@ -31,6 +44,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onPresenceUpdate = data => {
     this.app.$store.dispatch('agent/updatePresence', data.users);
+  };
+
+  onContactMerge = data => {
+    const { pubsub_token: pubsubToken } = data;
+    ActionCableConnector.refreshConnector(pubsubToken);
   };
 
   onTypingOn = () => {
@@ -63,16 +81,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 }
 
-export const refreshActionCableConnector = pubsubToken => {
-  if (!pubsubToken || window.chatwootPubsubToken === pubsubToken) {
-    return;
-  }
-  window.chatwootPubsubToken = pubsubToken;
-  window.actionCable.disconnect();
-  window.actionCable = new ActionCableConnector(
-    window.WOOT_WIDGET,
-    window.chatwootPubsubToken
-  );
-};
+export const refreshActionCableConnector =
+  ActionCableConnector.refreshConnector;
 
 export default ActionCableConnector;

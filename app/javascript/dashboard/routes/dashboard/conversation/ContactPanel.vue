@@ -5,122 +5,150 @@
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
     <div class="conversation--actions">
-      <div class="multiselect-wrap--small">
-        <contact-details-item
-          :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
-          icon="ion-headphone"
-          emoji="🧑‍🚀"
-        >
-          <template v-slot:button>
-            <woot-button
-              v-if="showSelfAssign"
-              icon="ion-arrow-right-c"
-              variant="link"
-              size="small"
-              class-names="button-content"
-              @click="onSelfAssign"
-            >
-              {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
-            </woot-button>
-          </template>
-        </contact-details-item>
-        <multiselect-dropdown
-          :options="agentsList"
-          :selected-item="assignedAgent"
-          :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-          :multiselector-placeholder="
-            $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
-          "
-          :no-search-result="
-            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-          "
-          :input-placeholder="
-            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-          "
-          @click="onClickAssignAgent"
-        />
-      </div>
-      <div class="multiselect-wrap--small">
-        <contact-details-item
-          :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
-          icon="ion-ios-people"
-          emoji="🎢"
-        />
-        <multiselect-dropdown
-          :options="teamsList"
-          :selected-item="assignedTeam"
-          :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
-          :multiselector-placeholder="
-            $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
-          "
-          :no-search-result="
-            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
-          "
-          :input-placeholder="
-            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
-          "
-          @click="onClickAssignTeam"
-        />
-      </div>
-    </div>
-    <conversation-labels :conversation-id="conversationId" />
-    <div v-if="browser.browser_name" class="conversation--details">
-      <contact-details-item
-        v-if="location"
-        :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
-        :value="location"
-        icon="ion-map"
-        emoji="📍"
-      />
-      <contact-details-item
-        v-if="ipAddress"
-        :title="$t('CONTACT_PANEL.IP_ADDRESS')"
-        :value="ipAddress"
-        icon="ion-android-locate"
-        emoji="🧭"
-      />
-      <contact-details-item
-        v-if="browser.browser_name"
-        :title="$t('CONTACT_PANEL.BROWSER')"
-        :value="browserName"
-        icon="ion-ios-world-outline"
-        emoji="🌐"
-      />
-      <contact-details-item
-        v-if="browser.platform_name"
-        :title="$t('CONTACT_PANEL.OS')"
-        :value="platformName"
-        icon="ion-laptop"
-        emoji="💻"
-      />
-      <contact-details-item
-        v-if="referer"
-        :title="$t('CONTACT_PANEL.INITIATED_FROM')"
-        :value="referer"
-        icon="ion-link"
-        emoji="🔗"
+      <accordion-item
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
+        :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
+        @click="value => toggleSidebarUIState('is_conv_actions_open', value)"
       >
-        <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
-          {{ referer }}
-        </a>
-      </contact-details-item>
-      <contact-details-item
-        v-if="initiatedAt"
-        :title="$t('CONTACT_PANEL.INITIATED_AT')"
-        :value="initiatedAt.timestamp"
-        icon="ion-clock"
-        emoji="🕰"
-      />
+        <div>
+          <div class="multiselect-wrap--small">
+            <contact-details-item
+              :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+            >
+              <template v-slot:button>
+                <woot-button
+                  v-if="showSelfAssign"
+                  icon="ion-arrow-right-c"
+                  variant="link"
+                  size="small"
+                  @click="onSelfAssign"
+                >
+                  {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+                </woot-button>
+              </template>
+            </contact-details-item>
+            <multiselect-dropdown
+              :options="agentsList"
+              :selected-item="assignedAgent"
+              :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+              :multiselector-placeholder="
+                $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
+              "
+              :no-search-result="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+              "
+              :input-placeholder="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+              "
+              @click="onClickAssignAgent"
+            />
+          </div>
+          <div class="multiselect-wrap--small">
+            <contact-details-item
+              :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+            />
+            <multiselect-dropdown
+              :options="teamsList"
+              :selected-item="assignedTeam"
+              :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
+              :multiselector-placeholder="
+                $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
+              "
+              :no-search-result="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
+              "
+              :input-placeholder="
+                $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
+              "
+              @click="onClickAssignTeam"
+            />
+          </div>
+          <contact-details-item
+            :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+          />
+          <conversation-labels :conversation-id="conversationId" />
+        </div>
+      </accordion-item>
     </div>
-    <contact-custom-attributes
+
+    <accordion-item
+      v-if="browser.browser_name"
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
+      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
+      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
+    >
+      <div class="conversation--details">
+        <contact-details-item
+          v-if="location"
+          :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
+          :value="location"
+          icon="ion-map"
+          emoji="📍"
+        />
+        <contact-details-item
+          v-if="ipAddress"
+          :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+          :value="ipAddress"
+          icon="ion-android-locate"
+          emoji="🧭"
+        />
+        <contact-details-item
+          v-if="browser.browser_name"
+          :title="$t('CONTACT_PANEL.BROWSER')"
+          :value="browserName"
+          icon="ion-ios-world-outline"
+          emoji="🌐"
+        />
+        <contact-details-item
+          v-if="browser.platform_name"
+          :title="$t('CONTACT_PANEL.OS')"
+          :value="platformName"
+          icon="ion-laptop"
+          emoji="💻"
+        />
+        <contact-details-item
+          v-if="referer"
+          :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+          :value="referer"
+          icon="ion-link"
+          emoji="🔗"
+        >
+          <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+            {{ referer }}
+          </a>
+        </contact-details-item>
+        <contact-details-item
+          v-if="initiatedAt"
+          :title="$t('CONTACT_PANEL.INITIATED_AT')"
+          :value="initiatedAt.timestamp"
+          icon="ion-clock"
+          emoji="🕰"
+        />
+      </div>
+    </accordion-item>
+    <accordion-item
       v-if="hasContactAttributes"
-      :custom-attributes="contact.custom_attributes"
-    />
-    <contact-conversations
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
+      :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
+      @click="
+        value => toggleSidebarUIState('is_contact_attributes_open', value)
+      "
+    >
+      <contact-custom-attributes
+        :custom-attributes="contact.custom_attributes"
+      />
+    </accordion-item>
+    <accordion-item
       v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')"
+      :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
+      @click="value => toggleSidebarUIState('is_previous_conv_open', value)"
+    >
+      <contact-conversations
+        :contact-id="contact.id"
+        :conversation-id="conversationId"
+      />
+    </accordion-item>
   </div>
 </template>
 
@@ -129,12 +157,14 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import agentMixin from '../../../mixins/agentMixin';
 
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
+import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
-import ContactCustomAttributes from './ContactCustomAttributes';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 import flag from 'country-code-emoji';
 
@@ -146,8 +176,9 @@ export default {
     ContactInfo,
     ConversationLabels,
     MultiselectDropdown,
+    AccordionItem,
   },
-  mixins: [alertMixin, agentMixin],
+  mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -232,7 +263,16 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     teamsList() {
-      return [{ id: 0, name: 'None' }, ...this.teams];
+      if (this.assignedTeam) {
+        return [
+          {
+            id: 0,
+            name: 'None',
+          },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
     },
     assignedAgent: {
       get() {
@@ -312,7 +352,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        avatar_url,
       } = this.currentUser;
       const selfAssign = {
         account_id,
@@ -322,7 +362,7 @@ export default {
         id,
         name,
         role,
-        thumbnail,
+        thumbnail: avatar_url,
       };
       this.assignedAgent = selfAssign;
     },
@@ -364,7 +404,6 @@ export default {
 ::v-deep {
   .contact--profile {
     padding-bottom: var(--space-slab);
-    margin-bottom: var(--space-normal);
     border-bottom: 1px solid var(--color-border-light);
   }
   .conversation--actions .multiselect-wrap--small {
@@ -415,18 +454,7 @@ export default {
   justify-content: center;
 }
 
-.conversation--actions {
-  margin-bottom: var(--space-normal);
-}
-
-.option__desc {
-  display: flex;
-  align-items: center;
-
-  &::v-deep .status-badge {
-    margin-right: var(--space-small);
-    min-width: 0;
-    flex-shrink: 0;
-  }
+.contact-info {
+  margin-top: var(--space-two);
 }
 </style>

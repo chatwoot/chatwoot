@@ -1,4 +1,8 @@
-import { getTypingUsersText, createPendingMessage } from '../commons';
+import {
+  getTypingUsersText,
+  createPendingMessage,
+  convertToSlug,
+} from '../commons';
 
 describe('#getTypingUsersText', () => {
   it('returns the correct text is there is only one typing user', () => {
@@ -81,5 +85,11 @@ describe('#createPendingMessage', () => {
     };
     const pending = createPendingMessage(messageWithFile);
     expect(pending.attachments.length).toBe(1);
+  });
+});
+
+describe('convertToSlug', () => {
+  it('should convert to slug', () => {
+    expect(convertToSlug('Test@%^&*(){}>.!@`~_ ing')).toBe('test__ing');
   });
 });

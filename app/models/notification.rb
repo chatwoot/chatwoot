@@ -60,6 +60,16 @@ class Notification < ApplicationRecord
     }
   end
 
+  def fcm_push_data
+    {
+      id: id,
+      notification_type: notification_type,
+      primary_actor_id: primary_actor_id,
+      primary_actor_type: primary_actor_type,
+      primary_actor: primary_actor.push_event_data.slice(:conversation_id)
+    }
+  end
+
   # TODO: move to a data presenter
   def push_message_title
     case notification_type

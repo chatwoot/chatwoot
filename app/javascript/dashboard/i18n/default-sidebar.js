@@ -144,6 +144,7 @@ export const getSidebarItems = accountId => ({
       'canned_list',
       'labels_list',
       'settings_inbox',
+      'attributes_list',
       'settings_inbox_new',
       'settings_inbox_list',
       'settings_inbox_show',
@@ -201,6 +202,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
         toStateName: 'labels_list',
+      },
+      attributes: {
+        icon: 'ion-code',
+        label: 'ATTRIBUTES',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/attributes/list`),
+        toStateName: 'attributes_list',
       },
       cannedResponses: {
         icon: 'ion-chatbox-working',

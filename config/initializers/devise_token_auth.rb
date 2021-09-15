@@ -9,6 +9,10 @@ DeviseTokenAuth.setup do |config|
   # determines how long tokens will remain valid after they are issued.
   config.token_lifespan = 2.months
 
+  # By default, old tokens are not invalidated when password is changed.
+  # Enable this option if you want to make passwords updates to logout other devices.
+  config.remove_tokens_after_password_reset = true
+
   # Sets the max number of concurrent devices per user, which is 10 by default.
   # After this limit is reached, the oldest tokens will be removed.
   # config.max_number_of_devices = 10

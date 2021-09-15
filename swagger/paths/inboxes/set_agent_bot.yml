@@ -5,6 +5,7 @@ post:
   summary: Add or remove agent bot
   description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
       type: number

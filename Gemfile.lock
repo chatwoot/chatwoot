@@ -1,63 +1,71 @@
+GIT
+  remote: https://github.com/chatwoot/devise-secure_password
+  revision: de11e8765654b8242d42101ee9c8ffc8126f7975
+  specs:
+    devise-secure_password (2.0.1)
+      devise (>= 4.0.0, < 5.0.0)
+      railties (>= 5.0.0, < 7.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (6.1.4)
-      actionpack (= 6.1.4)
-      activesupport (= 6.1.4)
+    actioncable (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailbox (6.1.4)
-      actionpack (= 6.1.4)
-      activejob (= 6.1.4)
-      activerecord (= 6.1.4)
-      activestorage (= 6.1.4)
-      activesupport (= 6.1.4)
+    actionmailbox (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      activejob (= 6.1.4.1)
+      activerecord (= 6.1.4.1)
+      activestorage (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       mail (>= 2.7.1)
-    actionmailer (6.1.4)
-      actionpack (= 6.1.4)
-      actionview (= 6.1.4)
-      activejob (= 6.1.4)
-      activesupport (= 6.1.4)
+    actionmailer (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      actionview (= 6.1.4.1)
+      activejob (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (6.1.4)
-      actionview (= 6.1.4)
-      activesupport (= 6.1.4)
+    actionpack (6.1.4.1)
+      actionview (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       rack (~> 2.0, >= 2.0.9)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actiontext (6.1.4)
-      actionpack (= 6.1.4)
-      activerecord (= 6.1.4)
-      activestorage (= 6.1.4)
-      activesupport (= 6.1.4)
+    actiontext (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      activerecord (= 6.1.4.1)
+      activestorage (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       nokogiri (>= 1.8.5)
-    actionview (6.1.4)
-      activesupport (= 6.1.4)
+    actionview (6.1.4.1)
+      activesupport (= 6.1.4.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
     active_record_query_trace (1.8)
-    activejob (6.1.4)
-      activesupport (= 6.1.4)
+    activejob (6.1.4.1)
+      activesupport (= 6.1.4.1)
       globalid (>= 0.3.6)
-    activemodel (6.1.4)
-      activesupport (= 6.1.4)
-    activerecord (6.1.4)
-      activemodel (= 6.1.4)
-      activesupport (= 6.1.4)
+    activemodel (6.1.4.1)
+      activesupport (= 6.1.4.1)
+    activerecord (6.1.4.1)
+      activemodel (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
     activerecord-import (1.2.0)
       activerecord (>= 3.2)
-    activestorage (6.1.4)
-      actionpack (= 6.1.4)
-      activejob (= 6.1.4)
-      activerecord (= 6.1.4)
-      activesupport (= 6.1.4)
+    activestorage (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      activejob (= 6.1.4.1)
+      activerecord (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       marcel (~> 1.0.0)
       mini_mime (>= 1.1.0)
-    activesupport (6.1.4)
+    activesupport (6.1.4.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -98,10 +106,6 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.2.4)
       aws-eventstream (~> 1, >= 1.0.2)
-    axiom-types (0.1.1)
-      descendants_tracker (~> 0.0.4)
-      ice_nine (~> 0.11.0)
-      thread_safe (~> 0.3, >= 0.3.1)
     azure-storage-blob (2.0.1)
       azure-storage-common (~> 2.0)
       nokogiri (~> 1.11.0.rc2)
@@ -115,7 +119,7 @@ GEM
       statsd-ruby (~> 1.1)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.7.6)
+    bootsnap (1.7.7)
       msgpack (~> 1.0)
     brakeman (5.1.1)
     browser (5.3.1)
@@ -130,8 +134,6 @@ GEM
       thor (~> 1.0)
     byebug (11.1.3)
     coderay (1.1.3)
-    coercible (1.0.0)
-      descendants_tracker (~> 0.0.1)
     commonmarker (0.22.0)
     concurrent-ruby (1.1.9)
     connection_pool (2.2.5)
@@ -152,17 +154,12 @@ GEM
       ffi (~> 1.0)
       msgpack
     declarative (0.0.20)
-    descendants_tracker (0.0.4)
-      thread_safe (~> 0.3, >= 0.3.1)
     devise (4.8.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-secure_password (2.0.1)
-      devise (>= 4.0.0, < 5.0.0)
-      railties (>= 5.0.0, < 7.0.0)
     devise_token_auth (1.2.0)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -179,7 +176,6 @@ GEM
       railties (>= 3.2)
     down (5.2.3)
       addressable (~> 2.8)
-    dry-inflector (0.2.1)
     ecma-re-validator (0.3.0)
       regexp_parser (~> 2.0)
     erubi (1.10.0)
@@ -216,7 +212,7 @@ GEM
       grpc (~> 1.25)
     geocoder (1.6.7)
     gli (2.20.1)
-    globalid (0.5.1)
+    globalid (0.5.2)
       activesupport (>= 5.0)
     google-apis-core (0.4.1)
       addressable (~> 2.5, >= 2.5.1)
@@ -292,7 +288,6 @@ GEM
     httpclient (2.8.3)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    ice_nine (0.11.2)
     image_processing (1.12.1)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
@@ -332,11 +327,12 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
+    line-bot-api (1.21.0)
     liquid (5.0.1)
     listen (3.6.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.11.0)
+    loofah (2.12.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -349,7 +345,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0704)
     mini_magick (4.11.0)
-    mini_mime (1.1.0)
+    mini_mime (1.1.1)
     minitest (5.14.4)
     mock_redis (0.28.0)
       ruby2_keywords
@@ -362,7 +358,8 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     netrc (0.11.0)
-    nio4r (2.5.7)
+    newrelic_rpm (7.2.0)
+    nio4r (2.5.8)
     nokogiri (1.11.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-darwin)
@@ -400,29 +397,29 @@ GEM
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack-timeout (0.6.0)
-    rails (6.1.4)
-      actioncable (= 6.1.4)
-      actionmailbox (= 6.1.4)
-      actionmailer (= 6.1.4)
-      actionpack (= 6.1.4)
-      actiontext (= 6.1.4)
-      actionview (= 6.1.4)
-      activejob (= 6.1.4)
-      activemodel (= 6.1.4)
-      activerecord (= 6.1.4)
-      activestorage (= 6.1.4)
-      activesupport (= 6.1.4)
+    rails (6.1.4.1)
+      actioncable (= 6.1.4.1)
+      actionmailbox (= 6.1.4.1)
+      actionmailer (= 6.1.4.1)
+      actionpack (= 6.1.4.1)
+      actiontext (= 6.1.4.1)
+      actionview (= 6.1.4.1)
+      activejob (= 6.1.4.1)
+      activemodel (= 6.1.4.1)
+      activerecord (= 6.1.4.1)
+      activestorage (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       bundler (>= 1.15.0)
-      railties (= 6.1.4)
+      railties (= 6.1.4.1)
       sprockets-rails (>= 2.0.0)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.3.0)
+    rails-html-sanitizer (1.4.1)
       loofah (~> 2.3)
-    railties (6.1.4)
-      actionpack (= 6.1.4)
-      activesupport (= 6.1.4)
+    railties (6.1.4.1)
+      actionpack (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
       method_source
       rake (>= 0.13)
       thor (~> 1.0)
@@ -563,13 +560,8 @@ GEM
       sprockets (>= 3.0.0)
     squasher (0.6.2)
     statsd-ruby (1.5.0)
-    telegram-bot-ruby (0.16.0)
-      dry-inflector
-      faraday
-      virtus (~> 2.0)
     telephone_number (1.4.12)
     thor (1.1.0)
-    thread_safe (0.3.6)
     tilt (2.0.10)
     time_diff (0.3.0)
       activesupport
@@ -597,10 +589,6 @@ GEM
     valid_email2 (4.0.0)
       activemodel (>= 3.2)
       mail (~> 2.5)
-    virtus (2.0.0)
-      axiom-types (~> 0.1)
-      coercible (~> 1.0)
-      descendants_tracker (~> 0.0, >= 0.0.3)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -629,6 +617,8 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x86_64-darwin-18
+  x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
 
@@ -653,7 +643,7 @@ DEPENDENCIES
   database_cleaner
   ddtrace
   devise
-  devise-secure_password (~> 2.0)
+  devise-secure_password (~> 2.0)!
   devise_token_auth
   dotenv-rails
   down (~> 5.0)
@@ -678,10 +668,12 @@ DEPENDENCIES
   kaminari
   koala
   letter_opener
+  line-bot-api
   liquid
   listen
   maxminddb
   mock_redis
+  newrelic_rpm
   pg
   procore-sift
   pry-rails
@@ -713,7 +705,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   squasher
-  telegram-bot-ruby
   telephone_number
   time_diff
   twilio-ruby (~> 5.32.0)

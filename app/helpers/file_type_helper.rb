@@ -3,12 +3,12 @@ module FileTypeHelper
     return :image if [
       'image/jpeg',
       'image/png',
-      'image/svg+xml',
       'image/gif',
       'image/tiff',
       'image/bmp'
     ].include?(content_type)
 
+    return :video if content_type.include?('video/')
     return :audio if content_type.include?('audio/')
 
     :file

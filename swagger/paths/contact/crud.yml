@@ -3,7 +3,9 @@ get:
     - Contact
   operationId: contactDetails
   summary: Show Contact
+  description: Get a contact belonging to the account using ID
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
       type: number
@@ -24,7 +26,9 @@ put:
     - Contact
   operationId: contactUpdate
   summary: Update Contact
+  description: Update a contact belonging to the account using ID
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
       type: number

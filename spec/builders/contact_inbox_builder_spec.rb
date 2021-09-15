@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ::ContactInboxBuilder do
   let(:account) { create(:account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, email: 'xyc@example.com', phone_number: '+23423424123', account: account) }
 
   describe '#perform' do
     describe 'twilio sms inbox' do

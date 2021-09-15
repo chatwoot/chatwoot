@@ -10,6 +10,7 @@ json.out_of_office_message resource.out_of_office_message
 json.csat_survey_enabled resource.csat_survey_enabled
 json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
+json.webhook_url resource.webhook_url
 json.avatar_url resource.try(:avatar_url)
 json.page_id resource.channel.try(:page_id)
 json.widget_color resource.channel.try(:widget_color)
@@ -29,3 +30,6 @@ if resource.web_widget?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
 end
+json.email resource.channel.try(:email) if resource.email?
+json.webhook_url resource.channel.try(:webhook_url) if resource.api?
+json.inbox_identifier resource.channel.try(:identifier) if resource.api?

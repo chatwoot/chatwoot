@@ -47,7 +47,8 @@ pt_BR:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
-        bot: "Conversa foi marcada como resolvida por %{user_name}"
+        pending: "Conversa foi marcada como pendente por %{user_name}"
+        snoozed: "Conversa não atribuída por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
@@ -70,6 +71,8 @@ pt_BR:
     reply:
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
+    survey:
+      response: "Por favor, classifique esta conversa, %{link}"
   integration_apps:
     slack:
       name: "Slack"
