@@ -23,12 +23,13 @@ describe('#Reports API', () => {
         1621621800
       );
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/account',
+        '/api/v2/reports',
         {
           params: {
             metric: 'conversations_count',
             since: 1621103400,
             until: 1621621800,
+            type: 'account'
           },
         }
       );
@@ -37,11 +38,12 @@ describe('#Reports API', () => {
     it('#getAccountSummary', () => {
       reportsAPI.getAccountSummary(1621103400, 1621621800);
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v2/reports/account_summary',
+        '/api/v2/reports/summary',
         {
           params: {
             since: 1621103400,
             until: 1621621800,
+            type: 'account'
           },
         }
       );

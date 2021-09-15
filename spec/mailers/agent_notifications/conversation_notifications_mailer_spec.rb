@@ -39,7 +39,8 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_mention' do
-    let(:message) { create(:message, conversation: conversation, account: account) }
+    let(:another_agent) { create(:user, email: 'agent2@example.com', account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account, sender: another_agent) }
     let(:mail) { described_class.with(account: account).conversation_mention(message, agent).deliver_now }
 
     it 'renders the subject' do
@@ -48,6 +49,10 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
 
     it 'renders the receiver email' do
       expect(mail.to).to eq([agent.email])
+    end
+
+    it 'renders the senders name' do
+      expect(mail.body.encoded).to match("You've been mentioned in a conversation. <b>#{another_agent.display_name}</b> wrote:")
     end
   end
 

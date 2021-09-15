@@ -94,8 +94,16 @@ import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
-import { hasPressedCommandAndForwardSlash } from 'shared/helpers/KeyboardHelpers';
+import {
+  hasPressedAltAndCKey,
+  hasPressedAltAndRKey,
+  hasPressedAltAndSKey,
+  hasPressedAltAndVKey,
+  hasPressedCommandAndForwardSlash,
+  isEscape,
+} from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import router from '../../routes';
 
 export default {
   components: {
@@ -252,19 +260,11 @@ export default {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
   },
-  watch: {
-    currentUser(newUserInfo, oldUserInfo) {
-      if (!oldUserInfo.email && newUserInfo.email) {
-        this.setChatwootUser();
-      }
-    },
-  },
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
-    this.setChatwootUser();
   },
 
   methods: {
@@ -278,20 +278,33 @@ export default {
       if (hasPressedCommandAndForwardSlash(e)) {
         this.toggleKeyShortcutModal();
       }
+      if (isEscape(e)) {
+        this.closeKeyShortcutModal();
+      }
+
+      if (hasPressedAltAndCKey(e)) {
+        if (!this.isCurrentRouteSameAsNavigation('home')) {
+          router.push({ name: 'home' });
+        }
+      } else if (hasPressedAltAndVKey(e)) {
+        if (!this.isCurrentRouteSameAsNavigation('contacts_dashboard')) {
+          router.push({ name: 'contacts_dashboard' });
+        }
+      } else if (hasPressedAltAndRKey(e)) {
+        if (!this.isCurrentRouteSameAsNavigation('settings_account_reports')) {
+          router.push({ name: 'settings_account_reports' });
+        }
+      } else if (hasPressedAltAndSKey(e)) {
+        if (!this.isCurrentRouteSameAsNavigation('agent_list')) {
+          router.push({ name: 'agent_list' });
+        }
+      }
+    },
+    isCurrentRouteSameAsNavigation(routeName) {
+      return router.currentRoute && router.currentRoute.name === routeName;
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
-    },
-    setChatwootUser() {
-      if (!this.currentUser.email || !this.globalConfig.chatwootInboxToken) {
-        return;
-      }
-      window.$chatwoot.setUser(this.currentUser.email, {
-        name: this.currentUser.name,
-        email: this.currentUser.email,
-        avatar_url: this.currentUser.avatar_url,
-        identifier_hash: this.currentUser.hmac_identifier,
-      });
     },
     filterMenuItemsByRole(menuItems) {
       if (!this.currentRole) {

@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "この会話は6時間ミュートされています。",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "会話のログを送信",
-    "EDIT_LABEL": "編集"
+    "EDIT_LABEL": "編集",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "カスタム属性",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "前の会話"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "連絡先を編集",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "カスタム属性",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

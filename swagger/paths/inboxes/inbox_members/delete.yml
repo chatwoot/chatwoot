@@ -1,0 +1,31 @@
+tags:
+  - Inbox
+operationId: delete-agent-in-inbox
+summary: Remove an Agent from Inbox
+description: Remove an Agent from Inbox
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        inbox_id:
+          type: string
+          description: The ID of the inbox
+          required: true
+        user_ids: 
+          type: array
+          description: IDs of users to be deleted from the inbox
+          required: true
+responses:
+  200:
+    description: Success
+  404:
+    description: Inbox not found
+  403:
+    description: Access denied
+  422:
+    description: User must exist

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_23_095657) do
+ActiveRecord::Schema.define(version: 2021_08_29_124254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -185,6 +185,25 @@ ActiveRecord::Schema.define(version: 2021_07_23_095657) do
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
+  create_table "channel_line", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "line_channel_id", null: false
+    t.string "line_channel_secret", null: false
+    t.string "line_channel_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
+  end
+
+  create_table "channel_telegram", force: :cascade do |t|
+    t.string "bot_name"
+    t.integer "account_id", null: false
+    t.string "bot_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
+  end
+
   create_table "channel_twilio_sms", force: :cascade do |t|
     t.string "phone_number", null: false
     t.string "auth_token", null: false
@@ -311,6 +330,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_095657) do
     t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "attribute_description"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
@@ -658,6 +678,7 @@ ActiveRecord::Schema.define(version: 2021_07_23_095657) do
     t.string "pubsub_token"
     t.integer "availability", default: 0
     t.jsonb "ui_settings", default: {}
+    t.jsonb "custom_attributes", default: {}
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

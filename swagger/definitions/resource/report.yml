@@ -1,0 +1,6 @@
+type: object
+properties:
+  value:
+    type: number
+  timestamp:
+    type: string

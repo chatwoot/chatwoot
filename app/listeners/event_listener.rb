@@ -24,7 +24,8 @@ class EventListener < BaseListener
       value: first_response_time,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id
     )
     event.save
   end

@@ -18,7 +18,7 @@
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -28,7 +28,7 @@
   "BUBBLE": {
     "LABEL": "با ما گفتگو کنید"
   },
-  "POWERED_BY": "قدرت یافته از چت ووت",
+  "POWERED_BY": "قدرت گرفته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
@@ -52,19 +52,19 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "فیلد نامتعارف"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "به مکالمه خود امتیاز دهید",
     "SUBMITTED_TITLE": "با تشکر از شما برای ثبت رتبه",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "توضیحات بیشتر بدهید..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "درخواست رونوشت مکالمه",
     "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   }
