@@ -195,6 +195,10 @@
         "SUBMIT_BUTTON": "Создать канал LINE",
         "API": {
           "ERROR_MESSAGE": "Не удалось сохранить канал LINE"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
