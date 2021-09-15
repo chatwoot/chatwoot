@@ -195,6 +195,10 @@
         "SUBMIT_BUTTON": "ایجاد کانال لاین",
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال لاین را ذخیره کنیم"
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
