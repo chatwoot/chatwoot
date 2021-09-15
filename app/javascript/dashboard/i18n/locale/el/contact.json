@@ -192,7 +192,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
     "ADD": {
       "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
       "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."
