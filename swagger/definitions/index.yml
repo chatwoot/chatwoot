@@ -20,6 +20,8 @@ message:
   $ref: ./resource/message.yml
 user:
   $ref: ./resource/user.yml
+agent:
+  $ref: ./resource/agent.yml
 inbox:
   $ref: ./resource/inbox.yml
 agent_bot:

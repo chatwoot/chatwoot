@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "திருத்து"
+    "EDIT_LABEL": "திருத்து",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "முந்தைய உரையாடல்கள்"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

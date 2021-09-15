@@ -22,7 +22,9 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
+          deleteAvatar
           @change="handleImageUpload"
+          @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
           v-model.trim="selectedInboxName"
@@ -100,11 +102,9 @@
             }}
           </p>
         </label>
-
-        <woot-input
+        <greetings-editor
           v-if="greetingEnabled"
           v-model.trim="greetingMessage"
-          class="medium-9 columns"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           "
@@ -113,8 +113,8 @@
               'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
             )
           "
+          :richtext="!textAreaChannels"
         />
-
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -280,12 +280,12 @@
         </div>
       </div>
       <div v-else-if="isAPIInbox" class="settings--content">
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
-            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
-          >
-            <woot-code :script="inbox.inbox_identifier"></woot-code>
-          </settings-section>
+        <settings-section
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+        >
+          <woot-code :script="inbox.inbox_identifier"></woot-code>
+        </settings-section>
       </div>
       <div v-else-if="isAnEmailChannel">
         <div class="settings--content">
@@ -318,6 +318,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
+import GreetingsEditor from 'shared/components/GreetingsEditor';
 
 export default {
   components: {
@@ -326,6 +327,7 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
+    GreetingsEditor,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -434,7 +436,16 @@ export default {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
-    }
+    },
+    textAreaChannels() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return true;
+      return false;
+    },
   },
   watch: {
     $route(to) {
@@ -473,8 +484,8 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
-        this.greetingEnabled = this.inbox.greeting_enabled;
-        this.greetingMessage = this.inbox.greeting_message;
+        this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
@@ -543,6 +554,23 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
+    },
+    async handleAvatarDelete() {
+      try {
+        await this.$store.dispatch(
+          'inboxes/deleteInboxAvatar',
+          this.currentInboxId
+        );
+        this.avatarFile = null;
+        this.avatarUrl = '';
+        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.AVATAR_SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE')
+        );
+      }
     },
   },
   validations: {

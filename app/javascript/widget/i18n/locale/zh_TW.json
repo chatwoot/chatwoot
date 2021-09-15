@@ -61,7 +61,7 @@
   "CSAT": {
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "告訴我們更多..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",

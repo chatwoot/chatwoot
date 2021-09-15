@@ -142,6 +142,7 @@ export const IFrameHelper = {
     },
 
     onBubbleToggle: isOpen => {
+      IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (!isOpen) {
         IFrameHelper.events.resetUnreadMode();
       } else {
@@ -193,6 +194,10 @@ export const IFrameHelper = {
     removeUnreadClass: () => {
       const holderEl = document.querySelector('.woot-widget-holder');
       removeClass(holderEl, 'has-unread-view');
+    },
+
+    closeChat: () => {
+      onBubbleClick({ toggleValue: false });
     },
   },
   pushEvent: eventName => {

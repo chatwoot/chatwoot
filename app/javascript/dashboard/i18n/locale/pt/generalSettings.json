@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
-    "BACK": "Back",
+    "BACK": "Voltar",
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Email recebido do domínio",
+        "PLACEHOLDER": "O domínio onde irá receber os emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -34,42 +34,42 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Número de dias sem nenhuma atividade, após os quais, o ticket se auto-resolve",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Por favor, escolha um período para auto-resolução válido (mínimo de 1 dia)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativada.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber emails no domínio que escolheu."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Pressione Enter para escolher",
+      "ENTER_TO_REMOVE": "Pressione Enter para eliminar",
+      "SELECT_ONE": "Selecionar um"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Notificaçoes",
+    "MARK_ALL_DONE": "Marcar todos como Resolvidos",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "A carregar notificações...",
+      "404": "Sem Notificações",
       "TABLE_HEADER": [
         "Nome:",
-        "Phone Number",
+        "Número de telefone",
         "Conversas",
-        "Last Contacted"
+        "Último contato"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nova conversa",
+      "conversation_assignment": "Conversa atribuída",
+      "assigned_conversation_new_message": "Nova mensagem",
+      "conversation_mention": "Mencionar"
     }
   }
 }

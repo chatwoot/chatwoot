@@ -1,10 +1,5 @@
 <template>
   <div class="custom-attributes--panel">
-    <contact-details-item
-      :title="$t('CUSTOM_ATTRIBUTES.TITLE')"
-      icon="ion-code"
-      emoji="📕"
-    />
     <div
       v-for="attribute in listOfAttributes"
       :key="attribute"
@@ -17,18 +12,16 @@
         <span v-html="valueWithLink(customAttributes[attribute])"></span>
       </div>
     </div>
+    <p v-if="!listOfAttributes.length">
+      {{ $t('CUSTOM_ATTRIBUTES.NOT_AVAILABLE') }}
+    </p>
   </div>
 </template>
 
 <script>
-import ContactDetailsItem from './ContactDetailsItem.vue';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 
 export default {
-  components: {
-    ContactDetailsItem,
-  },
-
   props: {
     customAttributes: {
       type: Object,
@@ -51,13 +44,13 @@ export default {
     },
     parseAttributeToString(attribute) {
       switch (typeof attribute) {
-         case 'string':
-           return attribute;
-         case 'object':
-           return JSON.stringify(attribute);
-         default:
-           return `${attribute}`;
-       }
+        case 'string':
+          return attribute;
+        case 'object':
+          return JSON.stringify(attribute);
+        default:
+          return `${attribute}`;
+      }
     },
   },
 };
@@ -70,10 +63,6 @@ export default {
 
 .conv-details--item {
   padding-bottom: 0;
-}
-.custom-attribute--row {
-  margin-bottom: var(--space-small);
-  margin-left: var(--space-medium);
 }
 
 .custom-attribute--row__attribute {

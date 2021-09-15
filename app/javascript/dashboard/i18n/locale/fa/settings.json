@@ -14,7 +14,7 @@
       "UPDATE_IMAGE": "تغییر عکس",
       "PROFILE_SECTION": {
         "TITLE": "پروفایل",
-        "NOTE": "ایمیل عامل شناسایی شما برای ورود به سیستم است"
+        "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
       },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
@@ -26,11 +26,11 @@
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "اعلان های صوتی",
+        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "NONE": "هیچکدام",
+        "ASSIGNED": "مکالمات اختصاص داده شده",
+        "ALL_CONVERSATIONS": "همه مکالمات"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "رمز عبور فعلی",
+        "ERROR": "لطفاً رمز عبور فعلی را وارد کنید",
+        "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -102,6 +102,7 @@
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
+    "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
     "LOGOUT": "خروج از حساب"
   },
   "APP_GLOBAL": {
@@ -130,24 +131,29 @@
   "SIDEBAR": {
     "CONVERSATIONS": "گفتگوها",
     "REPORTS": "گزارشات",
-    "CONTACTS": "مخاطبین",
     "SETTINGS": "تنظیمات",
+    "CONTACTS": "مخاطبین",
     "HOME": "صفحه اصلی",
-    "AGENTS": "اپراتورها",
+    "AGENTS": "ایجنت ها",
     "INBOXES": "صندوق‌های ورودی",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
+    "ATTRIBUTES": "ویژگی ها",
     "TEAMS": "تیم‌ها",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "ALL_CONTACTS": "تمام مخاطبین",
+    "TAGGED_WITH": "برچسب گذاری شده با",
+    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "CSAT": "رضایت مشتری",
+    "CAMPAIGNS": "کمپین ها",
+    "ONGOING": "درحال انجام",
+    "ONE_OFF": "یکبار مصرف"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
     "NEW_ACCOUNT": "حساب‌کاربری جدید",
     "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {
@@ -161,6 +167,31 @@
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
       "SUBMIT": "ثبت"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "باز کردن مکالمه",
+      "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
+      "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
+      "RESOLVE_CONVERSATION": "حل مکالمه",
+      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "ADD_ATTACHMENT": "افزودن پیوست",
+      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "TOGGLE_SIDEBAR": "نوار کناری",
+      "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
+      "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
+      "GO_TO_SETTINGS": "برو به تنظیمات",
+      "SWITCH_CONVERSATION_STATUS": "به وضعیت مکالمه بعدی بروید",
+      "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
+      "TOGGLE_RICH_CONTENT_EDITOR": "تغییر وضعیت ویرایشگر محتوا",
+      "SWITCH_TO_REPLY": "رفتن به پاسخ",
+      "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
