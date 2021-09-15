@@ -195,6 +195,10 @@
         "SUBMIT_BUTTON": "Δημιουργία LINE Καναλιού",
         "API": {
           "ERROR_MESSAGE": "Δεν είμαστε σε θέση να αποθηκεύσουμε το LINE κανάλι"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL επανάκλησης",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
