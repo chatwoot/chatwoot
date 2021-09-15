@@ -33,7 +33,7 @@
         <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
             <i
-              v-if="computedInboxClass(child)"
+              v-if="menuItem.key === 'inbox'"
               class="inbox-icon"
               :class="computedInboxClass(child)"
             />

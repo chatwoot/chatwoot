@@ -5,6 +5,7 @@ export const INBOX_TYPES = {
   TWILIO: 'Channel::TwilioSms',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
+  TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
 };
 
