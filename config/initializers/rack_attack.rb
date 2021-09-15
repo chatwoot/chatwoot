@@ -58,7 +58,7 @@ class Rack::Attack
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
       email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '') 
+      email.to_s.downcase.gsub(/\s+/, '')
     end
   end
 
