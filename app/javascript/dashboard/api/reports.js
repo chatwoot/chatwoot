@@ -6,15 +6,15 @@ class ReportsAPI extends ApiClient {
     super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getAccountReports(metric, since, until) {
+  getAccountReports(metric, since, until, type = 'account', id) {
     return axios.get(`${this.url}`, {
-      params: { metric, since, until, type: 'account' },
+      params: { metric, since, until, type, id },
     });
   }
 
-  getAccountSummary(since, until) {
+  getAccountSummary(since, until, type = 'account', id) {
     return axios.get(`${this.url}/summary`, {
-      params: { since, until, type: 'account' },
+      params: { since, until, type, id },
     });
   }
 

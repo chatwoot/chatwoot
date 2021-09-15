@@ -39,7 +39,9 @@ export const actions = {
     Report.getAccountReports(
       reportObj.metric,
       reportObj.from,
-      reportObj.to
+      reportObj.to,
+      reportObj.type,
+      reportObj.id
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
@@ -60,7 +62,12 @@ export const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
-    Report.getAccountSummary(reportObj.from, reportObj.to)
+    Report.getAccountSummary(
+      reportObj.from,
+      reportObj.to,
+      reportObj.type,
+      reportObj.id
+    )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
       })

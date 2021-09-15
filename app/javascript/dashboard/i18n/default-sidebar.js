@@ -87,7 +87,12 @@ export const getSidebarItems = accountId => ({
     },
   },
   reports: {
-    routes: ['settings_account_reports', 'csat_reports'],
+    routes: [
+      'settings_account_reports',
+      'csat_reports',
+      'agent_reports',
+      'label_reports',
+    ],
     menuItems: {
       back: {
         icon: 'ion-ios-arrow-back',
@@ -109,6 +114,20 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/reports/csat`),
         toStateName: 'csat_reports',
+      },
+      agentReports: {
+        icon: 'ion-ios-people',
+        label: 'REPORTS_AGENT',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/reports/agent`),
+        toStateName: 'agent_reports',
+      },
+      labelReports: {
+        icon: 'ion-pricetags',
+        label: 'REPORTS_LABEL',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/reports/label`),
+        toStateName: 'label_reports',
       },
     },
   },
