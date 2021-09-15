@@ -2,8 +2,15 @@ import { isEscape } from '../helpers/KeyboardHelpers';
 
 export default {
   mounted() {
-    document.addEventListener('keydown', e => {
-      const isEventFromAnInputBox = e.target?.tagName === 'INPUT';
+    document.addEventListener('keydown', this.onKeyDownHandler);
+  },
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.onKeyDownHandler);
+  },
+  methods: {
+    onKeyDownHandler(e) {
+      const isEventFromAnInputBox =
+        e.target?.tagName === 'INPUT' || e.target?.tagName === 'TEXTAREA';
       const isEventFromProseMirror = e.target?.className?.includes(
         'ProseMirror'
       );
@@ -16,9 +23,6 @@ export default {
       }
 
       this.handleKeyEvents(e);
-    });
-  },
-  destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
+    },
   },
 };
