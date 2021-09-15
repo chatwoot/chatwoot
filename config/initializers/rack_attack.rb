@@ -54,13 +54,19 @@ class Rack::Attack
 
   # ref: https://github.com/rack/rack-attack/issues/399
   throttle('login/email', limit: 20, period: 5.minutes) do |req|
-    email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-    email.to_s.downcase.gsub(/\s+/, '') if req.path == '/auth/sign_in' && req.post?
+    if req.path == '/auth/sign_in' && req.post?
+      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
+      # Hence placed in the if block
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
   end
 
   throttle('reset_password/email', limit: 5, period: 1.hour) do |req|
-    email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-    email.to_s.downcase.gsub(/\s+/, '') if req.path == '/auth/password' && req.post?
+    if req.path == '/auth/password' && req.post?
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
   end
 end
 

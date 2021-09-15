@@ -45,6 +45,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def send_message
+    return if message_content.blank?
+
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message_content,
