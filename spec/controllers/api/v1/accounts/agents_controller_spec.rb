@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Agents API', type: :request do
   let(:account) { create(:account) }
-  let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
   describe 'GET /api/v1/accounts/{account.id}/agents' do
@@ -24,6 +24,18 @@ RSpec.describe 'Agents API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body).size).to eq(account.users.count)
+      end
+
+      it 'returns custom fields on agents if present' do
+        agent.update(custom_attributes: { test: 'test' })
+
+        get "/api/v1/accounts/#{account.id}/agents",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body)
+        expect(data.first['custom_attributes']['test']).to eq('test')
       end
     end
   end

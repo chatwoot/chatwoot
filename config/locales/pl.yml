@@ -47,7 +47,8 @@ pl:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
-        bot: "Rozmowa została przeniesiona do bota przez %{user_name}"
+        pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
@@ -70,6 +71,8 @@ pl:
     reply:
       email_subject: "Nowe wiadomości w tej dyskusji"
       transcript_subject: "Transkrypcja rozmowy"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

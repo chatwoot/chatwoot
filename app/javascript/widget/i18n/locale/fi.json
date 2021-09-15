@@ -9,8 +9,8 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Olemme paikalla",
-    "OFFLINE": "Olemme hetken poissa"
+    "ONLINE": "Olemme online-tilassa",
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "Vastaa tyypillisesti päivässä"
   },
   "START_CONVERSATION": "Aloita keskustelu",
-  "START_NEW_CONVERSATION": "Aloita uusi keskustelu",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
     "CLOSE_MESSAGES_BUTTON": "Sulje",
-    "COMPANY_FROM": "yrityksessä",
+    "COMPANY_FROM": "from",
     "BOT": "Botti"
   },
   "BUBBLE": {
@@ -38,33 +38,33 @@
       "FULL_NAME": {
         "LABEL": "Koko nimi",
         "PLACEHOLDER": "Syötä koko nimesi",
-        "ERROR": "Koko nimi on pakollinen kenttä"
+        "ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
-        "PLACEHOLDER": "Syötä sähköpostiosoite",
-        "ERROR": "Virheellinen sähköpostiosoite"
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
       },
       "MESSAGE": {
         "LABEL": "Message",
-        "PLACEHOLDER": "Viestisi",
-        "ERROR": "Viesti on liian lyhyt"
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "Tiedoston koko ylittää {MAXIMUM_FILE_UPLOAD_SIZE} maksimin",
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Virheellinen kenttä"
+      "FIELD": "Invalid field"
     }
   },
   "CSAT": {
-    "TITLE": "Arvostele keskustelu",
-    "SUBMITTED_TITLE": "Kiitos arvostelustasi",
-    "PLACEHOLDER": "Kerro lisää"
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Pyydä keskustelun kopiota",
+    "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
     "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
   }

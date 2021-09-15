@@ -1109,9 +1109,12 @@
           "Contact"
         ],
         "operationId": "contactList",
-        "description": "Listing all the contacts with pagination (Page size = 15)",
+        "description": "Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "List Contacts",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "$ref": "#/parameters/contact_sort_param"
           },
@@ -1139,9 +1142,12 @@
           "Contact"
         ],
         "operationId": "contactCreate",
-        "description": "Create New Contact",
+        "description": "Create a new Contact",
         "summary": "Create Contact",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "data",
             "in": "body",
@@ -1174,7 +1180,11 @@
         ],
         "operationId": "contactDetails",
         "summary": "Show Contact",
+        "description": "Get a contact belonging to the account using ID",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1204,7 +1214,11 @@
         ],
         "operationId": "contactUpdate",
         "summary": "Update Contact",
+        "description": "Update a contact belonging to the account using ID",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1243,8 +1257,12 @@
           "Contact"
         ],
         "operationId": "contactConversations",
-        "summary": "Conversations",
+        "summary": "Contact Conversations",
+        "description": "Get conversations associated to that contact",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -1275,9 +1293,12 @@
           "Contact"
         ],
         "operationId": "contactSearch",
-        "description": "Search the contacts using a search key, currently supports email search (Page size = 15)",
+        "description": "Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "Search Contacts",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "q",
             "in": "query",
@@ -1321,6 +1342,16 @@
         "description": "Create a contact inbox record for an inbox",
         "summary": "Create contact inbox",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          },
           {
             "name": "data",
             "in": "body",
@@ -1367,6 +1398,18 @@
         "operationId": "contactableInboxesGet",
         "description": "Get List of contactable Inboxes",
         "summary": "Get Contactable Inboxes",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1847,6 +1890,11 @@
         "operationId": "listAllInboxes",
         "summary": "List all inboxes",
         "description": "List all inboxes available in the current account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1867,6 +1915,42 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/inboxes/{id}/": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "GetInbox",
+        "summary": "Get an inbox",
+        "description": "Get an inbox available in the current account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/inboxes/": {
       "post": {
         "tags": [
@@ -1876,6 +1960,9 @@
         "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "data",
             "in": "body",
@@ -1951,6 +2038,9 @@
         "summary": "Update Inbox",
         "description": "Add avatar and disable auto assignment for an inbox",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -2034,6 +2124,9 @@
         "description": "See if an agent bot is associated to the Inbox",
         "parameters": [
           {
+            "$ref": "#/parameters/account_id"
+          },
+          {
             "name": "id",
             "in": "path",
             "type": "number",
@@ -2066,6 +2159,9 @@
         "summary": "Add or remove agent bot",
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "name": "id",
             "in": "path",
@@ -2102,6 +2198,213 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/inbox_members": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "get-inbox-members",
+        "summary": "List Agents in Inbox",
+        "description": "Get Details of Agents in an Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/inbox_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "add-new-agent-to-inbox",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be added to the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "update-agents-in-inbox",
+        "summary": "Update Agents in Inbox",
+        "description": "All agents execept the one passed in params will be removed",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be added to the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "delete-agent-in-inbox",
+        "summary": "Remove an Agent from Inbox",
+        "description": "Remove an Agent from Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox",
+                  "required": true
+                },
+                "user_ids": {
+                  "type": "array",
+                  "description": "IDs of users to be deleted from the inbox",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{id}/messages": {
       "post": {
         "tags": [
@@ -2109,7 +2412,7 @@
         ],
         "operationId": "conversationNewMessageAttachment",
         "summary": "Create New Message Attachment",
-        "description": "Create an attachment Message",
+        "description": "Create an attachment message. Refer to this discussion if you have any further doubts. https://github.com/chatwoot/chatwoot/discussions/1809#discussioncomment-1211845",
         "consumes": [
           "multipart/form-data"
         ],
@@ -2156,7 +2459,7 @@
           },
           {
             "in": "formData",
-            "name": "attachments",
+            "name": "attachments[]",
             "type": "array",
             "description": "The files to be uploaded.",
             "items": {
@@ -2757,6 +3060,129 @@
           }
         }
       }
+    },
+    "/api/v1/accounts/{id}/reports": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/report_metric"
+        },
+        {
+          "$ref": "#/parameters/report_type"
+        },
+        {
+          "in": "query",
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The Id of specific object in case of agent/inbox/label"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "list-all-conversation-statistics",
+        "summary": "Get Account reports",
+        "description": "Get Account reports for a specific type, metric and date range",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of date based conversation statistics",
+              "items": {
+                "$ref": "#/definitions/report"
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{id}/reports/summary": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/report_type"
+        },
+        {
+          "in": "query",
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The Id of specific object in case of agent/inbox/label"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "list-all-conversation-statistics-summary",
+        "summary": "Get Account reports summary",
+        "description": "Get Account reports summary for a specific type and date range",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of date based conversation statistics",
+              "items": {
+                "$ref": "#/definitions/report"
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2962,11 +3388,55 @@
         "confirmed": {
           "type": "boolean"
         },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Available for users who are created through platform APIs and has custom attributes associated."
+        },
         "accounts": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/account"
           }
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "available_name": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "account_id": {
+          "type": "number"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "administrator"
+          ]
+        },
+        "confirmed": {
+          "type": "boolean"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Available for users who are created through platform APIs and has custom attributes associated."
         }
       }
     },
@@ -3366,6 +3836,10 @@
         "password": {
           "type": "string",
           "description": "Password must contain uppercase, lowercase letters, number and a special character"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Custom attributes you want to associate with the user"
         }
       }
     },
@@ -3391,6 +3865,10 @@
         "identifier": {
           "type": "string",
           "description": "A unique identifier for the contact in external system"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}"
         }
       }
     },
@@ -3412,6 +3890,10 @@
         "identifier": {
           "type": "string",
           "description": "A unique identifier for the contact in external system"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}"
         }
       }
     },
@@ -3844,6 +4326,25 @@
           }
         }
       ]
+    },
+    "report": {
+      "type": "array",
+      "description": "array of conversation count based on date",
+      "items": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "timestamp": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "parameters": {
@@ -3873,6 +4374,15 @@
       },
       "required": true,
       "description": "The ID of the team to be updated"
+    },
+    "inbox_id": {
+      "in": "path",
+      "name": "inbox_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The ID of the Inbox"
     },
     "hook_id": {
       "in": "path",
@@ -3952,6 +4462,38 @@
       "required": true,
       "description": "The numeric ID of the custom filter"
     },
+    "report_type": {
+      "in": "query",
+      "name": "report_type",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "account",
+          "agent",
+          "inbox",
+          "label"
+        ]
+      },
+      "required": true,
+      "description": "Type of report"
+    },
+    "report_metric": {
+      "in": "query",
+      "name": "metric",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "conversations_count",
+          "incoming_messages_count",
+          "outgoing_messages_count",
+          "avg_first_response_time",
+          "avg_resolution_time",
+          "resolutions_count"
+        ]
+      },
+      "required": true,
+      "description": "The type of metric"
+    },
     "public_inbox_identifier": {
       "in": "path",
       "name": "inbox_identifier",
@@ -3994,11 +4536,12 @@
         "Integrations",
         "Profile",
         "Teams",
-        "Custom Filter"
+        "Custom Filter",
+        "Reports"
       ]
     },
     {
-      "name": "Public",
+      "name": "Client",
       "tags": [
         "Contacts API",
         "Conversations API",

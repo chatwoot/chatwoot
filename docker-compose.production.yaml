@@ -4,6 +4,8 @@ services:
   base: &base
     image: chatwoot/chatwoot:latest
     env_file: .env ## Change this file for customized env variables
+    volumes:
+      - /data/storage:/app/storage
 
   rails:
     <<: *base

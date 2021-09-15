@@ -4,7 +4,7 @@ describe  ::Messages::Facebook::MessageBuilder do
   subject(:message_builder) { described_class.new(incoming_fb_text_message, facebook_channel.inbox).perform }
 
   let!(:facebook_channel) { create(:channel_facebook_page) }
-  let!(:message_object) { JSON.parse(build(:incoming_fb_text_message).to_json, object_class: OpenStruct) }
+  let!(:message_object) { build(:incoming_fb_text_message).to_json }
   let!(:incoming_fb_text_message) { Integrations::Facebook::MessageParser.new(message_object) }
   let(:fb_object) { double }
 

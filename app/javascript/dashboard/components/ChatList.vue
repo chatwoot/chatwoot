@@ -194,7 +194,7 @@ export default {
     });
   },
   methods: {
-    handleKeyEvents(e) {
+    getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
         'div.conversations-list div.conversation'
       );
@@ -205,7 +205,19 @@ export default {
         activeConversation
       );
       const lastConversationIndex = allConversations.length - 1;
+      return {
+        allConversations,
+        activeConversation,
+        activeConversationIndex,
+        lastConversationIndex,
+      };
+    },
+    handleKeyEvents(e) {
       if (hasPressedAltAndJKey(e)) {
+        const {
+          allConversations,
+          activeConversationIndex,
+        } = this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[0].click();
         }
@@ -214,6 +226,11 @@ export default {
         }
       }
       if (hasPressedAltAndKKey(e)) {
+        const {
+          allConversations,
+          activeConversationIndex,
+          lastConversationIndex,
+        } = this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[lastConversationIndex].click();
         } else if (activeConversationIndex < lastConversationIndex) {

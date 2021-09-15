@@ -63,5 +63,21 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.messages.last.sender.id).to eq(contact.id)
       end
     end
+
+    describe 'group email sender' do
+      let(:group_sender_support_mail) { create_inbound_email_from_fixture('group_sender_support.eml') }
+      let(:described_subject) { described_class.receive group_sender_support_mail }
+
+      before do
+        # this email is hardcoded eml fixture file that's why we are updating this
+        channel_email.email = 'support@chatwoot.com'
+        channel_email.save
+      end
+
+      it 'create new contact with original sender' do
+        described_subject
+        expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
+      end
+    end
   end
 end

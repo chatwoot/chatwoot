@@ -1,56 +1,64 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER": "Campanhas",
+    "SIDEBAR_TXT": "Mensagens proativas permitem-lhe enviar mensagens automáticas aos seus contatos, o que irá originar mais conversas. Clique em <b>Adicionar Campanha</b> para criar uma nova campanha. Também pode editar ou apagar uma campanha existente clicando no botão Editar ou Apagar.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Criar uma campanha de ausência",
+      "ONGOING": "Criar uma campanha em andamento"
+    },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "Criar uma campanha",
+      "DESC": "As mensagens proativas permitem-lhe enviar mensagens automáticas aos seus contatos, o que origina um maior número de conversas.",
       "CANCEL_BUTTON_TEXT": "cancelar",
       "CREATE_BUTTON_TEXT": "Criar",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Por favor, digite o nome da campanha",
+          "ERROR": "Nome é obrigatório"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Horário agendado",
+          "PLACEHOLDER": "Por favor, escolha a hora",
+          "CONFIRM": "Confirmar",
+          "ERROR": "Horário de agendamento obrigatório"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Público-alvo",
+          "PLACEHOLDER": "Escolher etiquetas dos clientes",
+          "ERROR": "Publico-alvo necessário"
+        },
+        "INBOX": {
+          "LABEL": "Escolher caixa de entrada",
+          "PLACEHOLDER": "Escolher caixa de entrada",
+          "ERROR": "Caixa de entrada necessária"
         },
         "MESSAGE": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "LABEL": "Messagem",
+          "PLACEHOLDER": "Por favor, digite a mensagem da campanha",
+          "ERROR": "A mensagem é obrigatória"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "Enviado por",
+          "PLACEHOLDER": "Por favor, escolha o conteúdo da campanha",
+          "ERROR": "Remetente é obrigatório"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "Por favor, insira a URL",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "Tempo na página (segundos)",
+          "PLACEHOLDER": "Por favor, digite a hora",
+          "ERROR": "O tempo na página é obrigatório"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "Ativar a campanha",
+        "SUBMIT": "Adicionar Campanha"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Campanha criado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro. Por favor, tente novamente."
       }
     },
     "DELETE": {
@@ -62,45 +70,56 @@
         "NO": "Não, Manter "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Campanha apagada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível apagar a campanha. Por favor, tente novamente mais tarde."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Editar a campanha",
       "UPDATE_BUTTON_TEXT": "Atualização",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Campanha atualizada com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "A carregar campanhas...",
+      "404": "Não há campanhas criadas para esta caixa de entrada.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
+        "TITLE": "Nome",
+        "MESSAGE": "Messagem",
+        "INBOX": "Recebidas",
         "STATUS": "SItuação",
-        "SENDER": "Sender",
+        "SENDER": "Remetente",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "Horário agendado",
+        "TIME_ON_PAGE": "Tempo (segundos)",
+        "CREATED_AT": "Criada em"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Adicionar",
         "EDIT": "Alterar",
         "DELETE": "excluir"
       },
       "STATUS": {
         "ENABLED": "Ativado",
         "DISABLED": "Desabilitado",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Concluída",
+        "ACTIVE": "Ativa"
       },
       "SENDER": {
         "BOT": "Bot"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "Uma campanha pontual",
+      "404": "Não há nenhuma campanha pontual criada",
+      "INBOXES_NOT_FOUND": "Por favor, crie uma caixa de entrada para SMS e comece a adicionar campanhas"
+    },
+    "ONGOING": {
+      "HEADER": "Campanhas em andamento",
+      "404": "Não há campanhas em andamento criadas",
+      "INBOXES_NOT_FOUND": "Por favor, crie uma caixa de entrada para o SITE e comece a adicionar campanhas"
     }
   }
 }
