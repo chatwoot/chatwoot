@@ -42,12 +42,14 @@
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     WootSubmitButton,
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -70,8 +72,14 @@ export default {
   },
   methods: {
     async uploadFile() {
-      if (!this.file) return;
-      await this.$store.dispatch('contacts/import', this.file);
+      try {
+        if (!this.file) return;
+        await this.$store.dispatch('contacts/import', this.file);
+        this.onClose();
+        this.showAlert(this.$t('IMPORT_CONTACTS.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('IMPORT_CONTACTS.ERROR_MESSAGE'));
+      }
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];

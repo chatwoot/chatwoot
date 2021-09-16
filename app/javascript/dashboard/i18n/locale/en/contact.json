@@ -62,7 +62,9 @@
       "LABEL": "CSV File",
       "SUBMIT": "Import",
       "CANCEL": "Cancel"
-    }
+    },
+    "SUCCESS_MESSAGE": "Contacts imported successfully",
+    "ERROR_MESSAGE": "There was an error, please try again"
   },
   "CONTACT_FORM": {
     "FORM": {
