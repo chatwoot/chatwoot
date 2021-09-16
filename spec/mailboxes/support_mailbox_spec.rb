@@ -32,7 +32,9 @@ RSpec.describe SupportMailbox, type: :mailbox do
       end
 
       it 'create a new contact as the sender of the email' do
+        email_sender = Mail::Address.new(support_mail.mail[:from].value).name
         expect(conversation.messages.last.sender.email).to eq(support_mail.mail.from.first)
+        expect(conversation.contact.name).to eq(email_sender)
       end
 
       it 'add the mail content as new message on the conversation' do
@@ -49,6 +51,18 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
       it 'set proper content_type' do
         expect(conversation.messages.last.content_type).to eq('incoming_email')
+      end
+    end
+
+    describe 'Sender without name' do
+      let(:support_mail_without_sender_name) { create_inbound_email_from_fixture('support_without_sender_name.eml') }
+      let(:described_subject) { described_class.receive support_mail_without_sender_name }
+
+      it 'create a new contact with the email' do
+        described_subject
+        email_sender = support_mail_without_sender_name.mail.from.first.split('@').first
+        expect(conversation.messages.last.sender.email).to eq(support_mail.mail.from.first)
+        expect(conversation.contact.name).to eq(email_sender)
       end
     end
 
@@ -76,7 +90,10 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
       it 'create new contact with original sender' do
         described_subject
+        email_sender = Mail::Address.new(group_sender_support_mail.mail[:from].value).name
+
         expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
+        expect(conversation.contact.name).to eq(email_sender)
       end
     end
   end
