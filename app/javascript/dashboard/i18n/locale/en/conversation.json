@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Open",
       "OPEN": "More",
       "CLOSE": "Close",
-      "DETAILS": "details"
+      "DETAILS": "details",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",

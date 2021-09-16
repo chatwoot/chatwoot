@@ -225,7 +225,10 @@ describe('#actions', () => {
       );
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        ['RESOLVE_CONVERSATION', { conversationId: 1, status: 'resolved' }],
+        [
+          'CHANGE_CONVERSATION_STATUS',
+          { conversationId: 1, status: 'resolved' },
+        ],
       ]);
     });
   });
