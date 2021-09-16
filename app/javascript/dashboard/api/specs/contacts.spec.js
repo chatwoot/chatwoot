@@ -2,6 +2,12 @@ import contactAPI, { buildContactParams } from '../contacts';
 import ApiClient from '../ApiClient';
 import describeWithAPIMock from './apiSpecHelper';
 
+const csvFile = {
+  name: 'sample.csv',
+  size: 1234,
+  type: 'text/csv',
+};
+
 describe('#ContactsAPI', () => {
   it('creates correct instance', () => {
     expect(contactAPI).toBeInstanceOf(ApiClient);
@@ -57,6 +63,17 @@ describe('#ContactsAPI', () => {
       contactAPI.search('leads', 1, 'date', 'customer-support');
       expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support'
+      );
+    });
+
+    it('#importContacts', () => {
+      const file = 'file';
+      contactAPI.importContacts(file);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/import',
+        {
+          file: csvFile,
+        }
       );
     });
   });
