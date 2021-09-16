@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'agents/getUIFlags',
+      uiFlags: 'contacts/getUIFlags',
     }),
     csvUrl() {
       return '/assets/import-contacts-sample.csv';
@@ -80,7 +80,9 @@ export default {
         this.onClose();
         this.showAlert(this.$t('IMPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('IMPORT_CONTACTS.ERROR_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('IMPORT_CONTACTS.ERROR_MESSAGE')
+        );
       }
     },
     handleFileUpload() {
