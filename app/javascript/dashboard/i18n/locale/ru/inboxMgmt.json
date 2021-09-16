@@ -198,7 +198,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Установите адрес webhook в приложении LINE, который указан здесь."
         }
       },
       "TELEGRAM_CHANNEL": {
