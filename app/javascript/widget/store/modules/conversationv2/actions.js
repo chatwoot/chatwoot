@@ -13,9 +13,9 @@ export const actions = {
       );
       data.forEach(conversation => {
         const { id: conversationId, messages } = conversation;
-        commit('message/addConversationEntry', conversation, { root: true });
+        commit('addConversationEntry', conversation);
         commit('addConversationId', conversation.id);
-        commit('addMessagesEntry', { conversationId, messages });
+        commit('messagev2/addMessagesEntry', { conversationId, messages }, { root: true });
         commit('addMessageIdsToConversation', { conversationId, messages });
       });
     } catch (error) {
@@ -37,8 +37,8 @@ export const actions = {
 
       commit('addConversationEntry', data);
       commit('addConversationId', conversationId);
-      commit('addMessagesEntry', { conversationId, messages });
-      commit('addMessageIds', { conversationId, messages });
+      commit('messagev2/addMessagesEntry', { conversationId, messages }, { root: true });
+      commit('addMessageIdsToConversation', { conversationId, messages });
     } catch (error) {
       throw new Error(error);
     } finally {
