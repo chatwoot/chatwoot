@@ -126,7 +126,7 @@ export const actions = {
     commit(types.SET_CONTACT_ITEM, data);
   },
 
-  deleteContactConversations: ({ commit }, id) => {
+  deleteContactThroughConversations: ({ commit }, id) => {
     commit(types.DELETE_CONTACT, id);
     commit(types.CLEAR_CONTACT_CONVERSATIONS, id, { root: true });
     commit(`contactConversations/${types.DELETE_CONTACT_CONVERSATION}`, id, {

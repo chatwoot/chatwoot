@@ -161,10 +161,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    onPanelClose: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
@@ -226,7 +222,7 @@ export default {
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);
-        this.$emit('onPanelClose');
+        this.$emit('panel-close');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(

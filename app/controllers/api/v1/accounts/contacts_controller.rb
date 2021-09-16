@@ -74,7 +74,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     if ::OnlineStatusTracker.get_presence(
       @contact.account.id, 'Contact', @contact.id
     )
-      return render_error({ message: "#{@contact.name.capitalize} is Online, please try again later" },
+      return render_error({ message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) },
                           :unprocessable_entity)
     end
 
