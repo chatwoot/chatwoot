@@ -70,7 +70,7 @@ sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
 sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
 sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
-echo -en "\nINSTALLATION_ENV=LINUX_SCRIPT" >> ".env"
+echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
 RAILS_ENV=production bundle exec rake db:create
 RAILS_ENV=production bundle exec rake db:reset
