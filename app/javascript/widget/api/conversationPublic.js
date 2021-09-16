@@ -23,7 +23,6 @@ export default {
     );
   },
 
-  // https://www.chatwoot.com/developers/api#operation/update-a-contact
   update(inboxIdentifier, contactIdentifier, userObject) {
     return API.patch(
       buildUrl(`inboxes/${inboxIdentifier}/contacts/${contactIdentifier}`),

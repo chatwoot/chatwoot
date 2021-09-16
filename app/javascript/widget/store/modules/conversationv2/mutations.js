@@ -48,45 +48,13 @@ export const mutations = {
     };
   },
 
-  addMessagesEntry($state, { conversationId, messages = [] }) {
-    if (!conversationId) return;
-
-    const allMessages = $state.messages;
-    const newMessages = messages.reduce(
-      (obj, message) => ({
-        ...obj,
-        [message.id]: message,
-      }),
-      {}
-    );
-    const updatedMessages = { ...allMessages, ...newMessages };
-    Vue.set($state.messages, 'byId', updatedMessages);
-  },
-
-  addMessageIds($state, { conversationId, messages }) {
+  addMessageIdsToConversation($state, { conversationId, messages }) {
     const conversationById = $state.conversations.byId[conversationId];
     if (!conversationById) return;
 
     const messageIds = messages.map(message => message.id);
     const updatedMessageIds = [...conversationById.messages, ...messageIds];
     Vue.set(conversationById, 'messages', updatedMessageIds);
-  },
-
-  updateMessageEntry($state, message) {
-    const messageId = message.id;
-    if (!messageId) return;
-
-    const messageById = $state.messages.byId[messageId];
-    if (!messageById) return;
-    if (messageId !== message.id) return;
-
-    Vue.set($state.messages.byId, messageId, { ...message });
-  },
-
-  removeMessageEntry($state, messageId) {
-    if (!messageId) return;
-
-    Vue.delete($state.messages.byId, messageId);
   },
 
   removeMessageIdFromConversation($state, { conversationId, messageId }) {
@@ -98,21 +66,5 @@ export const mutations = {
     conversationById.messages = conversationById.messages.filter(
       id => id !== messageId
     );
-  },
-
-  removeMessageId($state, messageId) {
-    if (!messageId) return;
-
-    $state.messages.allIds = $state.messages.allIds.filter(
-      id => id !== messageId
-    );
-  },
-
-  setMessageUIFlag($state, { messageId, uiFlags }) {
-    const flags = $state.messages.uiFlags.byId[messageId];
-    $state.messages.uiFlags.byId[messageId] = {
-      ...flags,
-      ...uiFlags,
-    };
   },
 };

@@ -12,15 +12,6 @@ const state = {
       },
     },
   },
-  messages: {
-    byId: {},
-    allIds: [],
-    uiFlags: {
-      byId: {
-        // 1: { isCreating: false, isPending: false, isDeleting: false },
-      },
-    },
-  },
   uiFlags: {
     allConversationsLoaded: false,
     isFetching: false,
