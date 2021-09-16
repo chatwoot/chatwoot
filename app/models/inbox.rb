@@ -83,6 +83,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Email'
   end
 
+  def twilio?
+    channel_type == 'Channel::TwilioSms'
+  end
+
   def inbox_type
     channel.name
   end
