@@ -91,6 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/_utility-helpers.scss';
 .page-title {
   margin: 0;
 }
@@ -154,8 +155,5 @@ export default {
     transform: translateX(0);
     visibility: visible;
   }
-}
-.margin-right-small {
-  margin-right: var(--space-small);
 }
 </style>
