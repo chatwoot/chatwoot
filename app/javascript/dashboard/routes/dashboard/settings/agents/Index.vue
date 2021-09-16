@@ -129,7 +129,6 @@ import AddAgent from './AddAgent';
 import EditAgent from './EditAgent';
 
 export default {
-  name: 'AgentsList',
   components: {
     AddAgent,
     EditAgent,
