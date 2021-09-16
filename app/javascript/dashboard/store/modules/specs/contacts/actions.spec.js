@@ -168,9 +168,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#deleteContactConversations', () => {
+  describe('#deleteContactThroughConversations', () => {
     it('returns correct mutations', () => {
-      actions.deleteContactConversations({ commit }, contactList[0].id);
+      actions.deleteContactThroughConversations({ commit }, contactList[0].id);
       expect(commit.mock.calls).toEqual([
         [types.DELETE_CONTACT, contactList[0].id],
         [types.CLEAR_CONTACT_CONVERSATIONS, contactList[0].id, { root: true }],
