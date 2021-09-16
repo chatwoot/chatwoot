@@ -6,8 +6,8 @@ class InboxMembers extends ApiClient {
     super('inbox_members', { accountScoped: true });
   }
 
-  create({ inboxId, agentList }) {
-    return axios.post(this.url, {
+  update({ inboxId, agentList }) {
+    return axios.patch(this.url, {
       inbox_id: inboxId,
       user_ids: agentList,
     });
