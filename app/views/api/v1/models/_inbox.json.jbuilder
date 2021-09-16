@@ -38,6 +38,7 @@ json.reauthorization_required resource.channel.try(:reauthorization_required?) i
 
 ## Twilio Attributes
 json.phone_number resource.channel.try(:phone_number)
+json.medium resource.channel.try(:medium) if resource.twilio?
 
 ## Email Channel Attributes
 json.forward_to_email resource.channel.try(:forward_to_email)
