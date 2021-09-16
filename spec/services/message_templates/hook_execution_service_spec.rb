@@ -177,6 +177,7 @@ describe ::MessageTemplates::HookExecutionService do
     it 'will not call ::MessageTemplates::Template::OutOfOffice if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
+      twitter_inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
 
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
 
