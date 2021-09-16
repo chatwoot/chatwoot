@@ -132,8 +132,27 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
 			"WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "Whatsapp Channel",
+        "DESC": "Start supporting your customers via Whatsapp.",
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "This field is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone number",
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the whatsapp API key.",
+          "PLACEHOLDER": "API key"
+        },
+        "SUBMIT_BUTTON": "Create Whatsapp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the whatsapp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API Channel",

@@ -1,3 +1,4 @@
+
 <template>
   <div class="wizard-body small-12 medium-9 columns height-auto">
     <page-header
@@ -42,7 +43,7 @@ export default {
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Facebook' },
         { key: 'twitter', name: 'Twitter' },
-        { key: 'whatsapp', name: 'WhatsApp via Twilio' },
+        { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS via Twilio' },
         { key: 'email', name: 'Email' },
         {

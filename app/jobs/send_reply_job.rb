@@ -15,6 +15,8 @@ class SendReplyJob < ApplicationJob
       ::Line::SendOnLineService.new(message: message).perform
     when 'Channel::Telegram'
       ::Telegram::SendOnTelegramService.new(message: message).perform
+    when 'Channel::Whatsapp'
+      ::Whatsapp::SendOnWhatsappService.new(message: message).perform
     end
   end
 end
