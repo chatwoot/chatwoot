@@ -306,6 +306,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Line Inbox')
+        expect(response.body).to include('callback_webhook_url')
       end
     end
   end
@@ -352,7 +353,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: { enable_auto_assignment: false, channel: { webhook_url: 'webhook.test' } },
+              params: { enable_auto_assignment: false, channel: { webhook_url: 'webhook.test', selected_feature_flags: [] } },
               as: :json
 
         expect(response).to have_http_status(:success)
