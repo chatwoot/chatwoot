@@ -57,13 +57,14 @@
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Import",
     "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file. Download a sample csv.",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
       "CANCEL": "Cancel"
     },
-    "SUCCESS_MESSAGE": "Contacts imported successfully",
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "CONTACT_FORM": {

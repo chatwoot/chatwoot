@@ -3,8 +3,10 @@
     <div class="column content-box">
       <woot-modal-header :header-title="$t('IMPORT_CONTACTS.TITLE')">
         <p>
-          Import contacts through a CSV file.
-          <a :href="csvUrl" download="sample.csv">Download</a> a sample csv.
+          {{ $t('IMPORT_CONTACTS.DESC') }}
+          <a :href="csvUrl" download="import-contacts-sample">{{
+            $t('IMPORT_CONTACTS.DOWNLOAD_LABEL')
+          }}</a>
         </p>
       </woot-modal-header>
       <div class="row modal-content">
@@ -67,7 +69,7 @@ export default {
       uiFlags: 'agents/getUIFlags',
     }),
     csvUrl() {
-      return 'https://gitcdn.link/repo/chatwoot/chatwoot/develop/spec/assets/contacts.csv';
+      return '/assets/import-contacts-sample.csv';
     },
   },
   methods: {
