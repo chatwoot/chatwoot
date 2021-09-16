@@ -82,6 +82,6 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def identify_contact_name
-    processed_mail.from.first.split('@').first
+    processed_mail.sender_name || processed_mail.from.first.split('@').first
   end
 end
