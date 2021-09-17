@@ -14,7 +14,6 @@
       icon="ion-volume-medium"
       @click="unmute"
     />
-
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
       class="hollow secondary"

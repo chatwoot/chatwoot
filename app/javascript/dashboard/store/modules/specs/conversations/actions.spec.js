@@ -227,7 +227,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [
           'CHANGE_CONVERSATION_STATUS',
-          { conversationId: 1, status: 'resolved' },
+          { conversationId: 1, status: 'resolved', snoozedUntil: null },
         ],
       ]);
     });
