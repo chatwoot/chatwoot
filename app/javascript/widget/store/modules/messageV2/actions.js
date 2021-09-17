@@ -7,77 +7,102 @@ import {
 
 export const actions = {
   sendMessage: async ({ commit }, params) => {
-    const {
-      id: echoId,
-      content,
-      conversationId,
-      inboxIdentifier,
-      contactIdentifier,
-    } = params;
-    const message = createTemporaryMessage({ content });
-    const messages = [message];
-    commit('addMessagesEntry', { conversationId, messages });
-    commit('addMessageIds', { conversationId, messages });
-    await MessagePublicAPI.create(
-      inboxIdentifier,
-      contactIdentifier,
-      conversationId,
-      content,
-      echoId
-    );
+    try {
+      commit(
+        'conversationV2/setConversationUIFlag',
+        { isCreating: true },
+        { root: true }
+      );
+      const { content, conversationId } = params;
+      const message = createTemporaryMessage({ content });
+      const { id: echoId } = message;
+      const messages = [message];
+      commit('addMessagesEntry', { conversationId, messages });
+      commit('addMessageIds', { conversationId, messages });
+      await MessagePublicAPI.create(
+        ...params,
+
+        content,
+        echoId
+      );
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(
+        'conversationV2/setConversationUIFlag',
+        { isCreating: false },
+        { root: true }
+      );
+    }
   },
 
   sendAttachment: async ({ commit }, params) => {
-    const {
-      attachment: { thumbUrl, fileType },
-      conversationId,
-    } = params;
-    const message = createTemporaryAttachmentMessage({
-      thumbUrl,
-      fileType,
-    });
-    const messages = [message];
-    commit('addMessagesEntry', { conversationId, messages });
-    commit('addMessageIds', { conversationId, messages });
     try {
-      const { data } = await sendAttachmentAPI(params);
+      commit(
+        'conversationV2/setConversationUIFlag',
+        { isCreating: true },
+        { root: true }
+      );
+      const {
+        attachment: { thumbUrl, fileType },
+        conversationId,
+      } = params;
+      const message = createTemporaryAttachmentMessage({
+        thumbUrl,
+        fileType,
+      });
+      const messages = [message];
+      const { id: echoId, ...rest } = message;
+      commit('addMessagesEntry', { conversationId, messages });
+      commit('addMessageIds', { conversationId, messages });
+      const { data } = await MessagePublicAPI.create({
+        echo_id: echoId,
+        ...rest,
+      });
       commit('updateAttachmentMessageStatus', {
         message: data,
         tempId: message.id,
       });
     } catch (error) {
-      // Show error
+      throw new Error(error);
+    } finally {
+      commit(
+        'conversationV2/setConversationUIFlag',
+        { isCreating: false },
+        { root: true }
+      );
     }
   },
-  update: async (
+
+  updateMessage: async (
     { commit, dispatch },
     { email, messageId, submittedValues }
   ) => {
-    commit('toggleUpdateStatus', true);
     try {
+      commit('setMessageUIFlag', {
+        messageId,
+        uiFlags: { isUpdating: true },
+      });
       const {
         data: { contact: { pubsub_token: pubsubToken } = {} },
-      } = await MessageAPI.update({
+      } = await MessagePublicAPI.update({
         email,
         messageId,
         values: submittedValues,
       });
-      commit(
-        'conversation/updateMessage',
-        {
-          id: messageId,
-          content_attributes: {
-            submitted_email: email,
-            submitted_values: email ? null : submittedValues,
-          },
+      commit('updateMessageEntry', {
+        id: messageId,
+        content_attributes: {
+          submitted_email: email,
+          submitted_values: email ? null : submittedValues,
         },
-        { root: true }
-      );
+      });
       dispatch('contacts/get', {}, { root: true });
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
-      // Ignore error
+      throw new Error(error);
+    } finally {
+      commit('setMessageUIFlag', { messageId, uiFlags: { isUpdating: false } });
     }
-    commit('toggleUpdateStatus', false);
   },
 };

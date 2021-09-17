@@ -1,4 +1,5 @@
 import conversationPublicAPI from 'widget/api/conversationPublic';
+import MessagePublicAPI from 'widget/api/messagePublic';
 
 export const actions = {
   fetchAllConversations: async (
@@ -15,8 +16,15 @@ export const actions = {
         const { id: conversationId, messages } = conversation;
         commit('addConversationEntry', conversation);
         commit('addConversationId', conversation.id);
-        commit('messagev2/addMessagesEntry', { conversationId, messages }, { root: true });
-        commit('addMessageIdsToConversation', { conversationId, messages });
+        commit(
+          'messagev2/addMessagesEntry',
+          { conversationId, messages },
+          { root: true }
+        );
+        commit('addMessageIdsToConversation', {
+          conversationId,
+          messages,
+        });
       });
     } catch (error) {
       throw new Error(error);
@@ -25,11 +33,35 @@ export const actions = {
     }
   },
 
+  fetchConversationById: async ({ commit }, params) => {
+    const { conversationId, inboxIdentifier, contactIdentifier } = params;
+    try {
+      commit('setConversationUIFlag', { isFetching: true });
+      const { data } = await MessagePublicAPI.get(
+        inboxIdentifier,
+        contactIdentifier,
+        conversationId
+      );
+
+      const { messages } = data;
+      commit('updateConversationEntry', data);
+      commit('addMessagesEntry', { conversationId, messages });
+      commit('addMessageIds', { conversationId, messages });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit('setConversationUIFlag', {
+        conversationId,
+        uiFlags: { isFetching: false },
+      });
+    }
+  },
+
   createConversation: async (
     { commit },
     { inboxIdentifier, contactIdentifier }
   ) => {
-    commit('setConversationUIFlag', { isCreating: true });
+    commit('setUIFlag', { isCreating: true });
     try {
       const params = { inboxIdentifier, contactIdentifier };
       const { data } = await conversationPublicAPI.create(params);
@@ -37,12 +69,19 @@ export const actions = {
 
       commit('addConversationEntry', data);
       commit('addConversationId', conversationId);
-      commit('messagev2/addMessagesEntry', { conversationId, messages }, { root: true });
-      commit('addMessageIdsToConversation', { conversationId, messages });
+      commit(
+        'messagev2/addMessagesEntry',
+        { conversationId, messages },
+        { root: true }
+      );
+      commit('addMessageIdsToConversation', {
+        conversationId,
+        messages,
+      });
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit('setConversationUIFlag', { isCreating: false });
+      commit('setUIFlag', { isCreating: false });
     }
   },
 };

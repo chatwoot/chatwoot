@@ -21,11 +21,17 @@ export const mutations = {
     $state.conversations.allIds.push(conversationId);
   },
 
-  updateConversationEntry($state, conversation) {
+  updateConversationEntry($state, conversation, content_attributes = {}) {
     if (!conversation.id) return;
     if (!$state.conversations.allIds.includes(conversation.id)) return;
 
-    Vue.set($state.conversations.byId, conversation.id, conversation);
+    Vue.set($state.conversations.byId, conversation.id, {
+      ...conversation,
+      content_attributes: {
+        ...(conversation.content_attributes || {}),
+        ...content_attributes,
+      },
+    });
   },
 
   removeConversationEntry($state, conversationId) {
