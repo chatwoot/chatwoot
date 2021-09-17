@@ -36,7 +36,7 @@ class Whatsapp::IncomingMessageService
     contact_inbox = ::ContactBuilder.new(
       source_id: contact_params.dig(:wa_id),
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: contact_params.dig(:profile, :phone) }
+      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{ params[:messages].first.dig(:from)}" }
     ).perform
 
     @contact_inbox = contact_inbox
