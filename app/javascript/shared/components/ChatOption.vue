@@ -45,6 +45,7 @@ export default {
   border-radius: $space-jumbo;
   float: left;
   margin: $space-smaller;
+  max-width: 100%;
 
   .option-button {
     background: transparent;
@@ -53,6 +54,7 @@ export default {
     color: $color-woot;
     cursor: pointer;
     text-align: left;
+    white-space: normal;
 
     span {
       display: inline-block;
