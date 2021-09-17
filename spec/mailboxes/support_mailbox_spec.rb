@@ -66,6 +66,16 @@ RSpec.describe SupportMailbox, type: :mailbox do
       end
     end
 
+    describe 'Sender with upcase mail address' do
+      let(:support_mail_without_sender_name) { create_inbound_email_from_fixture('support_without_sender_name.eml') }
+      let(:described_subject) { described_class.receive support_mail_without_sender_name }
+
+      it 'create a new inbox with the email case insensitive' do
+        described_subject
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+      end
+    end
+
     describe 'handle inbox contacts' do
       let(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
       let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
