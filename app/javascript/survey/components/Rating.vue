@@ -35,7 +35,7 @@ export default {
         { selected: rating.value === this.selectedRating },
         { disabled: !!this.selectedRating },
         { hover: !!this.selectedRating },
-        'emoji-button shadow-none text-4xl outline-none mr-8',
+        'emoji-button shadow-none text-3xl lg:text-4xl outline-none mr-8',
       ];
     },
     onClick(rating) {

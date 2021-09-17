@@ -41,7 +41,7 @@
         "CHOOSE_PAGE": "選擇頁面",
         "CHOOSE_PLACEHOLDER": "從列表中選擇一個頁面",
         "INBOX_NAME": "收件匣名稱",
-        "ADD_NAME": "為收件匣建立名稱",
+        "ADD_NAME": "為收件匣新增名稱",
         "PICK_NAME": "選擇收件匣名稱",
         "PICK_A_VALUE": "選擇一個數值"
       },
@@ -172,13 +172,51 @@
         },
         "FINISH_MESSAGE": "開始將您的電子信箱轉發到以下電子信箱地址。"
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "頻道類型",
+          "PLACEHOLDER": "請輸入頻道名稱",
+          "ERROR": "此欄位是必填項目"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服",
-        "DESC": "在這裡您可以建立客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
+        "DESC": "在這裡您可以新增客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
         "VALIDATION_ERROR": "新增至少一位客服到新的收件匣",
         "PICK_AGENTS": "為收件匣挑選一些客服"
       },
@@ -265,7 +303,7 @@
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "將此按鈕放置在視窗標籤中",
       "INBOX_AGENTS": "客服",
-      "INBOX_AGENTS_SUB_TEXT": "建立或刪除此收件匣中的客服",
+      "INBOX_AGENTS_SUB_TEXT": "新增或刪除此收件匣中的客服",
       "UPDATE": "更新",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

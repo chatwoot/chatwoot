@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Denna konversation är tystad i 6 timmar",
     "UNMUTED_SUCCESS": "Denna konversation är avtystad",
     "SEND_TRANSCRIPT": "Skicka transkribering",
-    "EDIT_LABEL": "Redigera"
+    "EDIT_LABEL": "Redigera",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Egna egenskaper",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Redigera kontakt",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Egna egenskaper",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

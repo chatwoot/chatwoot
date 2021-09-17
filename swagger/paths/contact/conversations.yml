@@ -2,8 +2,10 @@ get:
   tags:
     - Contact
   operationId: contactConversations
-  summary: Conversations
+  summary: Contact Conversations
+  description: Get conversations associated to that contact
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: id
       in: path
       type: number

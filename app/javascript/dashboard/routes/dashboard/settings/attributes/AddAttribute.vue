@@ -5,17 +5,19 @@
 
       <form class="row" @submit.prevent="addAttributes()">
         <div class="medium-12 columns">
-          <label :class="{ error: $v.displayName.$error }">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL') }}
-            <input
-              v-model.trim="displayName"
-              type="text"
-              :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-              @blur="$v.displayName.$touch"
-            />
-          </label>
-        </div>
-        <div class="medium-12 columns">
+          <woot-input
+            v-model="displayName"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
+            type="text"
+            :class="{ error: $v.displayName.$error }"
+            :error="
+              $v.displayName.$error
+                ? $t('ATTRIBUTES_MGMT.ADD.FORM.NAME.ERROR')
+                : ''
+            "
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
+            @blur="$v.displayName.$touch"
+          />
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
@@ -25,9 +27,10 @@
               :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
               @blur="$v.description.$touch"
             />
+            <span v-if="$v.description.$error" class="message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
+            </span>
           </label>
-        </div>
-        <div class="medium-12 columns">
           <label :class="{ error: $v.attributeModel.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
             <select v-model="attributeModel">
@@ -39,8 +42,7 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
             </span>
           </label>
-        </div>
-        <div class="medium-12 columns">
+
           <label :class="{ error: $v.attributeType.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
             <select v-model="attributeType">
@@ -52,18 +54,16 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-        </div>
-        <div v-if="displayName" class="medium-12 columns">
-          <label>
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
-            <i class="ion-help" />
-          </label>
-          <p class="key-value text-truncate">
-            {{ attributeKey }}
-          </p>
-        </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
+          <div v-if="displayName" class="medium-12 columns">
+            <label>
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
+              <i class="ion-help" />
+            </label>
+            <p class="key-value text-truncate">
+              {{ attributeKey }}
+            </p>
+          </div>
+          <div class="modal-footer">
             <woot-submit-button
               :disabled="
                 $v.displayName.$invalid ||
@@ -85,6 +85,8 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import { convertToSlug } from 'dashboard/helper/commons.js';
+import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -102,42 +104,8 @@ export default {
       description: '',
       attributeModel: 0,
       attributeType: 0,
-      models: [
-        {
-          id: 0,
-          option: 'Conversation',
-        },
-        {
-          id: 1,
-          option: 'Contact',
-        },
-      ],
-      types: [
-        {
-          id: 0,
-          option: 'Text',
-        },
-        {
-          id: 1,
-          option: 'Number',
-        },
-        {
-          id: 2,
-          option: 'Currency',
-        },
-        {
-          id: 3,
-          option: 'Percent',
-        },
-        {
-          id: 4,
-          option: 'Link',
-        },
-        {
-          id: 5,
-          option: 'Date',
-        },
-      ],
+      models: ATTRIBUTE_MODELS,
+      types: ATTRIBUTE_TYPES,
       show: true,
     };
   },
@@ -147,10 +115,7 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     attributeKey() {
-      return this.displayName
-        .toLowerCase()
-        .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '_');
+      return convertToSlug(this.displayName);
     },
   },
 

@@ -4,11 +4,6 @@
       v-if="!conversationUiFlags.isFetching"
       class="contact-conversation--list"
     >
-      <contact-details-item
-        :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.TITLE')"
-        icon="ion-pricetags"
-        emoji="🏷️"
-      />
       <div
         v-on-clickaway="closeDropdownLabel"
         class="label-wrap"
@@ -47,7 +42,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ContactDetailsItem from '../ContactDetailsItem';
 import Spinner from 'shared/components/Spinner';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
@@ -55,7 +49,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
-    ContactDetailsItem,
     Spinner,
     LabelDropdown,
     AddLabel,
@@ -84,7 +77,7 @@ export default {
     },
 
     ...mapGetters({
-      conversationUiFlags: 'contactConversations/getUIFlags',
+      conversationUiFlags: 'conversationLabels/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
       accountLabels: 'labels/getLabels',
     }),
@@ -160,17 +153,16 @@ export default {
   width: 100%;
 
   .label-wrap {
-    margin-left: var(--space-medium);
-    position: relative;
     line-height: var(--space-medium);
+    position: relative;
 
     .dropdown-wrap {
       display: flex;
-      position: absolute;
+      left: -1px;
       margin-right: var(--space-medium);
+      position: absolute;
       top: var(--space-medium);
       width: 100%;
-      left: -1px;
 
       .dropdown-pane {
         width: 100%;

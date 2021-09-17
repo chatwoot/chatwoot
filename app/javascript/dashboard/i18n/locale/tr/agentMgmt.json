@@ -93,19 +93,19 @@
       "NO_RESULTS": "Sonuç bulunamadı."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Hiç",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Temsilci seçin",
+        "TEAM": "Takım seçin"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Kullanıcı bulunamadı",
-          "TEAM": "No teams found"
+          "TEAM": "Takım bulunamadı"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Temsilci ara",
+          "TEAM": "Takım ara"
         }
       }
     }

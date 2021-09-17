@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ::ContactBuilder do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:contact) { create(:contact, account: account, identifier: '123') }
+  let(:contact) { create(:contact, email: 'xyc@example.com', phone_number: '+23423424123', account: account, identifier: '123') }
   let(:existing_contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
 
   describe '#perform' do

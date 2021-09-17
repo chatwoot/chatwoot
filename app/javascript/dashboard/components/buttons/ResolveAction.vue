@@ -176,7 +176,9 @@ export default {
         '.conversations-list .conversation'
       );
       if (hasPressedAltAndMKey(e)) {
-        this.$refs.arrowDownButton.$el.click();
+        if (this.$refs.arrowDownButton) {
+          this.$refs.arrowDownButton.$el.click();
+        }
       }
       if (hasPressedAltAndEKey(e)) {
         const activeConversation = document.querySelector(
