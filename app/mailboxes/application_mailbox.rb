@@ -22,7 +22,7 @@ class ApplicationMailbox < ActionMailbox::Base
     proc do |inbound_mail_obj|
       is_a_support_email = false
       inbound_mail_obj.mail.to&.each do |email|
-        channel = Channel::Email.find_by('email = ? OR forward_to_email = ?', email, email)
+        channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
         if channel.present?
           is_a_support_email = true
           break
