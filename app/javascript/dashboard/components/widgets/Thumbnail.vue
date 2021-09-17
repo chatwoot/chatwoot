@@ -22,21 +22,28 @@
       src="~dashboard/assets/images/fb-badge.png"
     />
     <img
-      v-if="badge === 'Channel::TwitterProfile'"
+      v-if="badge === 'twitter-tweet'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/twitter-badge.png"
     />
     <img
-      v-if="isATwilioWhatsappChannel"
+      v-if="badge === 'twitter-message'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/twitter-message.png"
+    />
+    <img
+      v-if="badge === 'whatsapp'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/channels/whatsapp.png"
     />
     <img
-      v-if="isATwilioSMSChannel"
+      v-if="badge === 'sms'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
@@ -72,13 +79,11 @@
  * Username - User name for avatar
  */
 import Avatar from './Avatar';
-import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
     Avatar,
   },
-  mixins: [inboxMixin],
   props: {
     src: {
       type: String,
@@ -91,10 +96,6 @@ export default {
     badge: {
       type: String,
       default: 'fb',
-    },
-    chatInboxId: {
-      type: Number,
-      default: 0,
     },
     username: {
       type: String,
@@ -115,12 +116,6 @@ export default {
     };
   },
   computed: {
-    inbox() {
-      const stateInbox = this.$store.getters['inboxes/getInbox'](
-        this.chatInboxId
-      );
-      return stateInbox;
-    },
     showStatusIndicator() {
       return this.status === 'online' || this.status === 'busy';
     },
