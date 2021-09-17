@@ -2,12 +2,6 @@ import contactAPI, { buildContactParams } from '../contacts';
 import ApiClient from '../ApiClient';
 import describeWithAPIMock from './apiSpecHelper';
 
-const csvFile = {
-  name: 'sample.csv',
-  size: 1234,
-  type: 'text/csv',
-};
-
 describe('#ContactsAPI', () => {
   it('creates correct instance', () => {
     expect(contactAPI).toBeInstanceOf(ApiClient);
@@ -71,8 +65,9 @@ describe('#ContactsAPI', () => {
       contactAPI.importContacts(file);
       expect(context.axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/contacts/import',
+        expect.any(FormData),
         {
-          file: csvFile,
+          headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
     });
