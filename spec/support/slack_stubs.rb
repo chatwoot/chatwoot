@@ -21,6 +21,20 @@ module SlackStubs
     }
   end
 
+  def slack_attachment_stub
+    {
+      token: '[FILTERED]',
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: message_event,
+      type: 'event_callback',
+      event_id: 'Ev013QUX3WV6',
+      event_time: 1_588_623_033,
+      authed_users: '[FILTERED]',
+      webhook: {}
+    }
+  end
+
   def slack_message_stub_without_thread_ts
     {
       token: '[FILTERED]',
@@ -52,11 +66,25 @@ module SlackStubs
       ts: '1588623033.006000',
       team: 'TLST3048H',
       blocks: message_blocks,
+      files: file_stub,
       thread_ts: '1588623023.005900',
       channel: 'G01354F6A6Q',
       event_ts: '1588623033.006000',
       channel_type: 'group'
     }
+  end
+
+  def file_stub
+    [
+      {
+        mimetype: 'image/png',
+        url_private: 'https://via.placeholder.com/250x250.png',
+        name: 'name_of_the_file',
+        title: 'title_of_the_file',
+        filetype: 'png',
+        url_private_download: 'https://via.placeholder.com/250x250.png'
+      }
+    ]
   end
 
   def message_blocks
