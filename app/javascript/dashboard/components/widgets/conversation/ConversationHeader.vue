@@ -25,13 +25,7 @@
             variant="link"
             @click="$emit('contact-panel-toggle')"
           >
-            {{
-              `${
-                isContactPanelOpen
-                  ? $t('CONVERSATION.HEADER.CLOSE')
-                  : $t('CONVERSATION.HEADER.OPEN')
-              } ${$t('CONVERSATION.HEADER.DETAILS')}`
-            }}
+            {{ contactPanelToggleText }}
           </woot-button>
         </div>
       </div>
@@ -77,11 +71,9 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
-
     chatMetadata() {
       return this.chat.meta;
     },
-
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id
@@ -107,7 +99,13 @@ export default {
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
-
+    contactPanelToggleText() {
+      return `${
+        this.isContactPanelOpen
+          ? this.$t('CONVERSATION.HEADER.CLOSE')
+          : this.$t('CONVERSATION.HEADER.OPEN')
+      } ${this.$t('CONVERSATION.HEADER.DETAILS')}`;
+    },
     inbox() {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
