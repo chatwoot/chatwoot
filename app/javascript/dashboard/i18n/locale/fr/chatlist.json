@@ -47,11 +47,11 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Pending",
+        "TEXT": "En attente",
         "VALUE": "pending"
       },
       {
-        "TEXT": "Snoozed",
+        "TEXT": "Reporté",
         "VALUE": "snoozed"
       }
     ],
@@ -86,7 +86,7 @@
     "REPLY_TO_TWEET": "Répondre à ce tweet",
     "NO_MESSAGES": "Pas de messages",
     "NO_CONTENT": "Aucun contenu disponible",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "Masquer le texte cité",
+    "SHOW_QUOTED_TEXT": "Afficher le texte cité"
   }
 }
