@@ -47,8 +47,8 @@ fr:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
         open: "La conversation a été ré-ouverte par %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        pending: "La conversation a été marquée comme en attente par %{user_name}"
+        snoozed: "La conversation a été reportée par %{user_name}"
         auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
       assignee:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
@@ -72,7 +72,7 @@ fr:
       email_subject: "Nouveaux messages dans cette conversation"
       transcript_subject: "Transcription de conversation"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Merci de noter cette conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"
