@@ -25,12 +25,12 @@
           "ERROR": "Model is required"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "نوع",
           "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
-          "ERROR": "Type is required"
+          "ERROR": "نوع الزامی است"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "کلید"
         }
       },
       "API": {
@@ -62,15 +62,15 @@
     },
     "TABS": {
       "HEADER": "ویژگی‌های سفارشی",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "گفتگو",
       "CONTACT": "مخاطب"
     },
     "LIST": {
       "TABLE_HEADER": [
         "نام",
         "توضیحات",
-        "Type",
-        "Key"
+        "نوع",
+        "کلید"
       ],
       "BUTTONS": {
         "EDIT": "ویرایش",
