@@ -140,15 +140,23 @@ const actions = {
     { conversationId, status, snoozedUntil = null }
   ) => {
     try {
-      const response = await ConversationApi.toggleStatus({
+      const {
+        data: {
+          payload: {
+            current_status: updatedStatus,
+            snoozed_until: updatedSnoozedUntil,
+          } = {},
+        } = {},
+      } = await ConversationApi.toggleStatus({
         conversationId,
         status,
         snoozedUntil,
       });
+
       commit(types.default.CHANGE_CONVERSATION_STATUS, {
         conversationId,
-        status: response.data.payload.current_status,
-        snoozedUntil,
+        status: updatedStatus,
+        snoozedUntil: updatedSnoozedUntil,
       });
     } catch (error) {
       // Handle error

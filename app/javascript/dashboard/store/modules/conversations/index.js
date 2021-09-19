@@ -75,8 +75,8 @@ export const mutations = {
   ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
-    Vue.set(conversation, 'status', status);
     Vue.set(conversation, 'snoozed_until', snoozedUntil);
+    Vue.set(conversation, 'status', status);
   },
 
   [types.default.MUTE_CONVERSATION](_state) {
