@@ -41,8 +41,8 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .option {
-  border: 1px solid $color-woot;
   border-radius: $space-jumbo;
+  border: 1px solid $color-woot;
   float: left;
   margin: $space-smaller;
   max-width: 100%;
@@ -53,6 +53,9 @@ export default {
     border: 0;
     color: $color-woot;
     cursor: pointer;
+    height: auto;
+    line-height: 1.5;
+    min-height: $space-two * 2;
     text-align: left;
     white-space: normal;
 
