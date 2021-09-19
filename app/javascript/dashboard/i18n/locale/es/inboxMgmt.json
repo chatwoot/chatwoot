@@ -354,7 +354,7 @@
       "TIMEZONE_LABEL": "Seleccione la zona horaria",
       "UPDATE": "Actualice las horas de atención",
       "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
-      "UNAVAILABLE_MESSAGE_LABEL": "Mensajes de no atención disponible para los visitantes",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "No estamos disponibles en este momento. Déjenos un mensaje y le responderemos tan pronto estemos de regreso.",
       "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
       "DAY": {
