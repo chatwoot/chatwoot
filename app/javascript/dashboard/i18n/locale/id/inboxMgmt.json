@@ -354,7 +354,7 @@
       "TIMEZONE_LABEL": "Pilih zona waktu",
       "UPDATE": "Perbarui pengaturan jam kerja",
       "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
-      "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Kami tidak tersedia saat ini. Tinggalkan pesan kami akan merespon setelah kami kembali.",
       "TOGGLE_HELP": "Mengaktifkan ketersediaan bisnis akan menunjukkan jam yang tersedia di widget obrolan langsung meskipun semua agen sedang offline. Di luar jam buka yang tersedia, pengunjung dapat diperingatkan dengan pesan dan formulir pra-obrolan.",
       "DAY": {
