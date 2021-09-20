@@ -45,8 +45,15 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def send_message
-    return if message_content.blank?
+    post_message if message_content.present?
+    upload_file if message.attachments.any?
+  rescue Slack::Web::Api::Errors::AccountInactive => e
+    Rails.logger.info e
+    hook.authorization_error!
+    hook.disable if hook.enabled?
+  end
 
+  def post_message
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message_content,
@@ -54,10 +61,28 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
       thread_ts: conversation.identifier,
       icon_url: avatar_url(message.sender)
     )
-  rescue Slack::Web::Api::Errors::AccountInactive => e
-    Rails.logger.info e
-    hook.authorization_error!
-    hook.disable if hook.enabled?
+  end
+
+  def upload_file
+    result = slack_client.files_upload({
+      channels: hook.reference_id,
+      initial_comment: 'Attached File!',
+      thread_ts: conversation.identifier
+    }.merge(file_information))
+    Rails.logger.info(result)
+  end
+
+  def file_type
+    File.extname(message.attachments.first.file_url).strip.downcase[1..]
+  end
+
+  def file_information
+    {
+      filename: message.attachments.first.file.filename,
+      filetype: file_type,
+      content: message.attachments.first.file.download,
+      title: message.attachments.first.file.filename
+    }
   end
 
   def sender_name(sender)
