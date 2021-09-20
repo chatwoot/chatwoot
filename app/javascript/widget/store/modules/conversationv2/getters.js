@@ -4,28 +4,40 @@ import { groupConversationBySender } from './helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
-  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
-  getIsCreating: _state => _state.uiFlags.isCreating,
-  getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
-  getConversation: _state => _state.conversations,
-  getConversationSize: _state => Object.keys(_state.conversations).length,
-  getEarliestMessage: _state => {
-    const conversation = Object.values(_state.conversations);
-    if (conversation.length) {
-      return conversation[0];
+  isAllMessagesFetched: _state => conversationId =>
+    _state.conversations[conversationId].uiFlags.allFetched,
+  isCreating: _state => _state.uiFlags.isCreating,
+  isAgentTypingIn: _state => conversationId =>
+    _state.conversations[conversationId].uiFlags.isAgentTyping,
+  allConversations: _state =>
+    _state.conversations.allIds.map(id => _state.conversations.byId[id]),
+  totalConversationsLength: _state => _state.conversations.allIds.length,
+  firstMessageIn: (...getterArguments) => conversationId => {
+    const { _state, _rootGetters } = getterArguments;
+    const messagesInConversation =
+      _state.conversations.byId[conversationId].messages;
+    if (messagesInConversation.length) {
+      const messageId = messagesInConversation[0];
+      const lastMessage = _rootGetters.messageV2.getMessageById(messageId);
+      return lastMessage;
     }
     return {};
   },
-  getGroupedConversation: _state => {
-    const conversationGroupedByDate = groupBy(
-      Object.values(_state.conversations),
-      message => formatUnixDate(message.created_at)
+  groupByMessagesIn: (...getterArguments) => conversationId => {
+    const { _state, _rootGetters } = getterArguments;
+    const messageIds = _state.conversations.byId[conversationId].messages;
+    const messagesInConversation = messageIds.map(messageId =>
+      _rootGetters.messageV2.getMessageById(messageId)
+    );
+    const conversationGroupedByDate = groupBy(messagesInConversation, message =>
+      formatUnixDate(message.created_at)
     );
     return Object.keys(conversationGroupedByDate).map(date => ({
       date,
       messages: groupConversationBySender(conversationGroupedByDate[date]),
     }));
   },
+
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getMessageCount: _state => {
     return Object.values(_state.conversations).length;

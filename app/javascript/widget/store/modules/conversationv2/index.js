@@ -8,12 +8,12 @@ const state = {
     allIds: [],
     uiFlags: {
       byId: {
-        // 1: { allMessagesLoaded: false, isAgentTyping: false, isFetching: false },
+        // 1: { allFetched: false, isAgentTyping: false, isFetching: false },
       },
     },
   },
   uiFlags: {
-    allConversationsLoaded: false,
+    allFetched: false,
     isFetching: false,
     isCreating: true,
   },
