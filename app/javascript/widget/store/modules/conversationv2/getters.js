@@ -29,23 +29,31 @@ export const getters = {
     const messagesInConversation = messageIds.map(messageId =>
       _rootGetters.messageV2.getMessageById(messageId)
     );
-    const conversationGroupedByDate = groupBy(messagesInConversation, message =>
+    const messagesGroupedByDate = groupBy(messagesInConversation, message =>
       formatUnixDate(message.created_at)
     );
-    return Object.keys(conversationGroupedByDate).map(date => ({
+    return Object.keys(messagesGroupedByDate).map(date => ({
       date,
-      messages: groupConversationBySender(conversationGroupedByDate[date]),
+      messages: groupConversationBySender(messagesGroupedByDate[date]),
     }));
   },
-
-  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
-  getMessageCount: _state => {
-    return Object.values(_state.conversations).length;
+  isFetchingMessages: _state => conversationId =>
+    _state.conversations[conversationId].uiFlags.isFetching,
+  allMessagesCountIn: _state => conversationId => {
+    return _state.conversations.byId[conversationId].messages.length;
   },
-  getUnreadMessageCount: _state => {
-    const { userLastSeenAt } = _state.meta;
-    const count = Object.values(_state.conversations).filter(chat => {
-      const { created_at: createdAt, message_type: messageType } = chat;
+  unreadMessageCountIn: (...getterArguments) => conversationId => {
+    const { _state, _rootGetters } = getterArguments;
+    const conversation = _state.conversations.byId[conversationId];
+    if (conversation) return 0;
+
+    const messageIds = _state.conversations.byId[conversationId].messages;
+    const messagesInConversation = messageIds.map(messageId =>
+      _rootGetters.messageV2.getMessageById(messageId)
+    );
+    const { meta: { userLastSeenAt } = {} } = conversation;
+    const count = messagesInConversation.filter(message => {
+      const { created_at: createdAt, message_type: messageType } = message;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
       const hasNotSeen = userLastSeenAt
         ? createdAt * 1000 > userLastSeenAt * 1000
@@ -54,10 +62,21 @@ export const getters = {
     }).length;
     return count;
   },
-  getUnreadTextMessages: (_state, _getters) => {
-    const unreadCount = _getters.getUnreadMessageCount;
-    const allMessages = [...Object.values(_state.conversations)];
-    const unreadAgentMessages = allMessages.filter(message => {
+  getUnreadMessagesIn: (...getterArguments) => conversationId => {
+    const {
+      state: _state,
+      getters: _getters,
+      rootGetters: _rootGetters,
+    } = getterArguments;
+    const unreadCount = _getters.unreadMessageCountIn(conversationId);
+    const conversation = _state.conversations.byId[conversationId];
+    if (conversation) return 0;
+
+    const messageIds = _state.conversations.byId[conversationId].messages;
+    const messagesInConversation = messageIds.map(messageId =>
+      _rootGetters.messageV2.getMessageById(messageId)
+    );
+    const unreadAgentMessages = messagesInConversation.filter(message => {
       const { message_type: messageType } = message;
       return messageType === MESSAGE_TYPE.OUTGOING;
     });

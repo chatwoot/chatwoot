@@ -13,16 +13,16 @@ const shouldShowAvatar = (message, nextMessage) => {
   );
 };
 
-export const groupConversationBySender = conversationsForADate =>
-  conversationsForADate.map((message, index) => {
+export const groupConversationBySender = messagesByDay =>
+  messagesByDay.map((message, index) => {
     let showAvatar = false;
-    const isLastMessage = index === conversationsForADate.length - 1;
+    const isLastMessage = index === messagesByDay.length - 1;
     if (isASubmittedFormMessage(message)) {
       showAvatar = false;
     } else if (isLastMessage) {
       showAvatar = true;
     } else {
-      const nextMessage = conversationsForADate[index + 1];
+      const nextMessage = messagesByDay[index + 1];
       showAvatar = shouldShowAvatar(message, nextMessage);
     }
     return { showAvatar, ...message };
