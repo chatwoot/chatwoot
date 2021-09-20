@@ -25,6 +25,8 @@ class Label < ApplicationRecord
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
+  after_update_commit :update_associated_models
+
   before_validation do
     self.title = title.downcase if attribute_present?('title')
   end
@@ -39,5 +41,11 @@ class Label < ApplicationRecord
 
   def events
     account.events.where(conversation_id: conversations.pluck(:id))
+  end
+
+  private
+
+  def update_associated_models
+    Labels::UpdateJob.perform_later(self.title, self.title_previously_was, self.account_id)
   end
 end

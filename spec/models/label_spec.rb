@@ -39,4 +39,14 @@ RSpec.describe Label, type: :model do
       expect(duplicate_label.valid?).to eq false
     end
   end
+
+  describe '.after_update_commit' do
+    let(:label) { create(:label) }
+
+    it 'should call update job' do
+      expect(Labels::UpdateJob).to receive(:perform_later).with('new-title', label.title, label.account_id)
+
+      label.update(title: 'new-title')
+    end
+  end
 end
