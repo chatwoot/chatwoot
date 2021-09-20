@@ -56,8 +56,8 @@ export default {
         if (this.chat.additional_attributes.type === 'tweet') {
           return 'twitter-tweet';
         }
-        if (this.chat.additional_attributes.type === 'message') {
-          return 'twitter-message';
+        if (this.chat.additional_attributes.type === 'chat') {
+          return 'twitter-chat';
         }
       }
       return this.chat.meta.channel;

@@ -29,11 +29,11 @@
       src="~dashboard/assets/images/twitter-badge.png"
     />
     <img
-      v-if="badge === 'twitter-message'"
+      v-if="badge === 'twitter-chat'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/twitter-message.png"
+      src="~dashboard/assets/images/twitter-chat-badge.png"
     />
     <img
       v-if="badge === 'whatsapp'"
