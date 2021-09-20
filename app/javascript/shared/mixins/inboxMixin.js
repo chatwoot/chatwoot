@@ -43,5 +43,24 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
     },
+    findInboxBadgeType() {
+      if (this.isATwilioChannel) {
+        if (this.isATwilioSMSChannel) {
+          return 'sms';
+        }
+        if (this.isATwilioWhatsappChannel) {
+          return 'whatsapp';
+        }
+      }
+      if (this.isATwitterInbox) {
+        if (this.chat.additional_attributes.type === 'tweet') {
+          return 'twitter-tweet';
+        }
+        if (this.chat.additional_attributes.type === 'message') {
+          return 'twitter-message';
+        }
+      }
+      return this.chat.meta.channel;
+    },
   },
 };

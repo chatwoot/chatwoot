@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="thumbnailBadge"
+        :badge="findInboxBadgeType"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -83,26 +83,6 @@ export default {
       const { inbox_id: inboxId } = this.chat;
       const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
       return stateInbox;
-    },
-
-    thumbnailBadge() {
-      if (this.isATwilioChannel) {
-        if (this.isATwilioSMSChannel) {
-          return 'sms';
-        }
-        if (this.isATwilioWhatsappChannel) {
-          return 'whatsapp';
-        }
-      }
-      if (this.isATwitterInbox) {
-        if (this.chat.additional_attributes.type === 'tweet') {
-          return 'twitter-tweet';
-        }
-        if (this.chat.additional_attributes.type === 'message') {
-          return 'twitter-message';
-        }
-      }
-      return this.chatMetadata.channel;
     },
 
     currentContact() {

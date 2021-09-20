@@ -11,7 +11,7 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="thumbnailBadge"
+      :badge="findInboxBadgeType"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -110,26 +110,6 @@ export default {
 
     chatMetadata() {
       return this.chat.meta;
-    },
-
-    thumbnailBadge() {
-      if (this.isATwilioChannel) {
-        if (this.isATwilioSMSChannel) {
-          return 'sms';
-        }
-        if (this.isATwilioWhatsappChannel) {
-          return 'whatsapp';
-        }
-      }
-      if (this.isATwitterInbox) {
-        if (this.chat.additional_attributes.type === 'tweet') {
-          return 'twitter-tweet';
-        }
-        if (this.chat.additional_attributes.type === 'message') {
-          return 'twitter-message';
-        }
-      }
-      return this.chatMetadata.channel;
     },
 
     currentContact() {
