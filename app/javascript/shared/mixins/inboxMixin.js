@@ -45,20 +45,14 @@ export default {
     },
     findInboxBadgeType() {
       if (this.isATwilioChannel) {
-        if (this.isATwilioSMSChannel) {
-          return 'sms';
-        }
-        if (this.isATwilioWhatsappChannel) {
-          return 'whatsapp';
-        }
+        return `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`;
       }
       if (this.isATwitterInbox) {
-        if (this.chat.additional_attributes.type === 'tweet') {
-          return 'twitter-tweet';
-        }
-        if (this.chat.additional_attributes.type === 'chat') {
-          return 'twitter-chat';
-        }
+        return `${
+          this.chat.additional_attributes.type === 'tweet'
+            ? 'twitter-tweet'
+            : 'twitter-chat'
+        }`;
       }
       return this.chat.meta.channel;
     },
