@@ -5,7 +5,7 @@ class Labels::UpdateJob < ApplicationJob
     Labels::UpdateService.new(
       new_label_title: new_label_title,
       old_label_title: old_label_title,
-      account_id: account_id,
+      account_id: account_id
     ).perform
   end
 end

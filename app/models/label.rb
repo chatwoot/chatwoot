@@ -46,6 +46,8 @@ class Label < ApplicationRecord
   private
 
   def update_associated_models
-    Labels::UpdateJob.perform_later(self.title, self.title_previously_was, self.account_id)
+    return unless title_previously_changed?
+
+    Labels::UpdateJob.perform_later(title, title_previously_was, account_id)
   end
 end

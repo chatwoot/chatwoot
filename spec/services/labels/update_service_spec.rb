@@ -18,11 +18,13 @@ describe Labels::UpdateService do
     it 'updates associated conversations/contacts labels' do
       expect(conversation.label_list).to eq([label.title])
       expect(contact.label_list).to eq([label.title])
-      Labels::UpdateService.new(
+
+      described_class.new(
         new_label_title: 'updated-label-title',
         old_label_title: label.title,
-        account_id: account.id,
+        account_id: account.id
       ).perform
+
       expect(conversation.reload.label_list).to eq(['updated-label-title'])
       expect(contact.reload.label_list).to eq(['updated-label-title'])
     end

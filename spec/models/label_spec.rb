@@ -43,10 +43,16 @@ RSpec.describe Label, type: :model do
   describe '.after_update_commit' do
     let(:label) { create(:label) }
 
-    it 'should call update job' do
+    it 'calls update job' do
       expect(Labels::UpdateJob).to receive(:perform_later).with('new-title', label.title, label.account_id)
 
       label.update(title: 'new-title')
+    end
+
+    it 'does not call update job if title is not updated' do
+      expect(Labels::UpdateJob).not_to receive(:perform_later)
+
+      label.update(description: 'new-description')
     end
   end
 end
