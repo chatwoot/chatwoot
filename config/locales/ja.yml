@@ -27,6 +27,9 @@ ja:
       invalid_email: 無効なメールアドレスを入力しました。
       email_already_exists: "あなたは既に %{email} でアカウントにサインアップしています"
       failed: サインアップに失敗しました
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
