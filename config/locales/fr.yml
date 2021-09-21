@@ -27,6 +27,9 @@ fr:
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
       failed: L'inscription a échoué
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Période de rapport %{since} à %{until}
     agent_csv:
