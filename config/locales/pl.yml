@@ -27,6 +27,9 @@ pl:
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
