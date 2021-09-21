@@ -27,6 +27,9 @@ id:
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       failed: Pendaftaran gagal
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     agent_csv:
