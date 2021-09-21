@@ -27,6 +27,9 @@ fa:
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
       failed: ثبت نام ناموفق بود
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
