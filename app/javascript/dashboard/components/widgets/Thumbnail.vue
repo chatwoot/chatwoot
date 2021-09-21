@@ -15,11 +15,18 @@
       :size="avatarSize"
     />
     <img
+      v-if="badge === 'instagram_direct_message'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/instagram_direct.png"
+    />
+    <img
       v-if="badge === 'Channel::FacebookPage'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/fb-badge.png"
+      src="~dashboard/assets/images/messenger_direct.png"
     />
     <img
       v-if="badge === 'Channel::TwitterProfile'"

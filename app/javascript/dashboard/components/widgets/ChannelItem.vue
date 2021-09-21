@@ -6,7 +6,7 @@
   >
     <img
       v-if="channel.key === 'facebook'"
-      src="~dashboard/assets/images/channels/facebook.png"
+      src="~dashboard/assets/images/channels/messenger.png"
     />
     <img
       v-if="channel.key === 'twitter'"
