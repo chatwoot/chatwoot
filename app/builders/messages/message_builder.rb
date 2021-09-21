@@ -64,7 +64,7 @@ class Messages::MessageBuilder
       content: @params[:content],
       private: @private,
       sender: sender,
-      content_type: @params[:content_type],
+      content_type: @params[:content_type] || Message.content_types[:text],
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id]
