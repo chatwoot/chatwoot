@@ -27,6 +27,9 @@ tr:
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
