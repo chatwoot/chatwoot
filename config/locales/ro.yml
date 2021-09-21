@@ -27,6 +27,9 @@ ro:
       invalid_email: Ați introdus un e-mail invalid
       email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
       failed: Înregistrare eșuată
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
