@@ -27,6 +27,9 @@ he:
       invalid_email: הכנסת מייל לא תקין
       email_already_exists: "כבר נרשמת לחשבון עם %{email}"
       failed: הרשמה נכשלה
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
