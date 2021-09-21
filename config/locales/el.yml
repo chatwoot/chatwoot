@@ -27,6 +27,9 @@ el:
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
+    contacts:
+      import:
+        failed: Το αρχείο είναι κενό
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     agent_csv:
