@@ -27,6 +27,9 @@ zh_TW:
       invalid_email: 您輸入的電子郵件無效。
       email_already_exists: "您已經註冊了一個帳號%{email}"
       failed: 註冊失敗。
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
