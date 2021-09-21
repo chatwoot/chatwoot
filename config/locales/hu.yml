@@ -27,6 +27,9 @@ hu:
       invalid_email: Hibás e-mailcímet adtál meg
       email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
       failed: Feliratkozás sikertelen
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
     agent_csv:
