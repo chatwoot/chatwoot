@@ -27,6 +27,9 @@ fi:
       invalid_email: Olet syöttänyt virheellisen sähköpostin
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Raportointijakso %{since} – %{until}
     agent_csv:
