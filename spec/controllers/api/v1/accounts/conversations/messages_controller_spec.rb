@@ -50,9 +50,9 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.last.sender_id).to eq(agent_bot.id)
-        expect(conversation.messages.last.content_type).to eq("text")
+        expect(conversation.messages.last.content_type).to eq('text')
       end
-      
+
       it 'creates a new outgoing message with attachment' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         params = { content: 'test-message', attachments: [file] }
