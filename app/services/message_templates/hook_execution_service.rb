@@ -23,6 +23,8 @@ class MessageTemplates::HookExecutionService
   def should_send_out_of_office_message?
     # should not send if its a tweet message
     return false if conversation.tweet?
+    # should not send for outbound messages
+    return false unless message.incoming?
 
     inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
   end
