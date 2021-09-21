@@ -27,6 +27,9 @@ ru:
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       failed: Ошибка регистрации
+    contacts:
+      import:
+        failed: Пустой файл
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:
