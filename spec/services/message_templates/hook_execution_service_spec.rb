@@ -174,6 +174,25 @@ describe ::MessageTemplates::HookExecutionService do
       expect(out_of_office_service).to have_received(:perform)
     end
 
+    it 'will not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do
+      contact = create :contact
+      conversation = create :conversation, contact: contact
+
+      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+
+      out_of_office_service = double
+
+      allow(::MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
+
+      # described class gets called in message after commit
+      message = create(:message, conversation: conversation, message_type: 'outgoing')
+
+      expect(::MessageTemplates::Template::OutOfOffice).not_to have_received(:new).with(conversation: message.conversation)
+      expect(out_of_office_service).not_to have_received(:perform)
+    end
+
     it 'will not call ::MessageTemplates::Template::OutOfOffice if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
