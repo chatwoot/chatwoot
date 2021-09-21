@@ -27,6 +27,9 @@ nl:
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
       email_already_exists: "Je hebt je al aangemeld voor een account bij %{email}"
       failed: Aanmelden mislukt
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
