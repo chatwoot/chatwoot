@@ -27,6 +27,9 @@ de:
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
