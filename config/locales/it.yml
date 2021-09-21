@@ -27,6 +27,9 @@ it:
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
       failed: Iscrizione fallita
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
