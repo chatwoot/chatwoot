@@ -66,10 +66,11 @@ export default {
       );
     },
     inboxBadge() {
-      if (this.isATwitterInbox || this.isATwilioChannel) {
-        return this.isTwitterChatOrTweet || this.isTwilioWhatsappOrSMS;
-      }
-      return this.channelType;
+      return (
+        this.isTwitterChatOrTweet ||
+        this.isTwilioWhatsappOrSMS ||
+        this.channelType
+      );
     },
   },
 };
