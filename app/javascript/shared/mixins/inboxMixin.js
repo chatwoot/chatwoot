@@ -35,6 +35,9 @@ export default {
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;
     },
+    isATelegramChannel() {
+      return this.channelType === INBOX_TYPES.TELEGRAM;
+    },
     isATwilioSMSChannel() {
       const { phone_number: phoneNumber = '' } = this.inbox;
       return this.isATwilioChannel && !phoneNumber.startsWith('whatsapp');
