@@ -27,6 +27,9 @@ ca:
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       failed: El registre ha fallat
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Període d'informes %{since} a %{until}
     agent_csv:
