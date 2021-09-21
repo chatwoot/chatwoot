@@ -22,7 +22,7 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
-          deleteAvatar
+          delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
@@ -36,12 +36,19 @@
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
           class="medium-9 columns"
+          :class="{ error: $v.webhookUrl.$error }"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
           "
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
           "
+          :error="
+            $v.webhookUrl.$error
+              ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
+              : ''
+          "
+          @blur="$v.webhookUrl.$touch"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -335,6 +342,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
+import { required } from 'vuelidate/lib/validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -344,6 +352,9 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
+
+const shouldNoBeEmpty = (value = '') =>
+  value ? value.startsWith('http') : true;
 
 export default {
   components: {
@@ -607,6 +618,10 @@ export default {
     },
   },
   validations: {
+    webhookUrl: {
+      required,
+      shouldNoBeEmpty,
+    },
     selectedAgents: {
       isEmpty() {
         return !!this.selectedAgents.length;
