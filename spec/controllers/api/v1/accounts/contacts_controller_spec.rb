@@ -105,6 +105,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(account.data_imports.first.import_file.attached?).to eq(true)
       end
     end
+
+    context 'when file is empty' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns Unprocessable Entity' do
+        post "/api/v1/accounts/#{account.id}/contacts/import",
+             headers: admin.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response['error']).to eq('File is blank')
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
