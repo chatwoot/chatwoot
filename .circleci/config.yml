@@ -120,12 +120,20 @@ jobs:
       - run:
           name: Run frontend tests
           command: |
-            yarn test:coverage
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o ~/tmp/codeclimate.frontend.json buildreports/lcov.info
+            mkdir -p ~/tmp/test-results/frontend_specs
+            ~/tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
+            yarn test:coverage --profile 10 \
+                               --out test-results/frontend_specs/rspec.xml \
+                               -- ${TESTFILES}
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend.json buildreports/lcov.info
       - persist_to_workspace:
           root: coverage
           paths:
-            - codeclimate.*.json
+            - codeclimate.frontend.json
 
       # collect reports
       - store_test_results:
