@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="findInboxBadgeType"
+        :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />

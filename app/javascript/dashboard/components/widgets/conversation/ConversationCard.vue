@@ -11,7 +11,7 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="findInboxBadgeType"
+      :badge="inboxBadge"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
