@@ -186,5 +186,19 @@ describe('#mutations', () => {
         },
       ]);
     });
+
+    describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {
+      it('update conversation custom attributes', () => {
+        const custom_attributes = { order_id: 1001 };
+        const state = { allConversations: [{ id: 1 }], selectedChatId: 1 };
+        mutations[types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](state, {
+          conversationId: 1,
+          custom_attributes,
+        });
+        expect(
+          state.allConversations[0].custom_attributes.custom_attributes
+        ).toEqual(custom_attributes);
+      });
+    });
   });
 });

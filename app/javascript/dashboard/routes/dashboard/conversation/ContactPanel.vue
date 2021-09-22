@@ -12,22 +12,10 @@
       "
     >
       <div class="conversation--details">
-        <custom-attribute
-          attribute-type="text"
-          label="Text"
-          icon="ion-document-text"
-          emoji=""
-          value="sam@gmail.com"
-          :show-edit="true"
+        <conversation-custom-attributes
+          :custom-attributes="conversationCustomAttributes"
         />
-        <custom-attribute
-          attribute-type="number"
-          label="Number"
-          icon="ion-calculator"
-          emoji=""
-          value="23232"
-          :show-edit="true"
-        />
+
         <woot-button size="small" variant="link" icon="ion-plus">
           {{ $t('CUSTOM_ATTRIBUTES.ADD.TITLE') }}
         </woot-button>
@@ -194,7 +182,7 @@ import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import ConversationCustomAttributes from './ConversationCustomAttributes.vue';
 
 import flag from 'country-code-emoji';
 
@@ -207,7 +195,7 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
     AccordionItem,
-    CustomAttribute,
+    ConversationCustomAttributes,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -347,6 +335,9 @@ export default {
       }
       return false;
     },
+    conversationCustomAttributes() {
+      return this.currentChat.custom_attributes || {};
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -360,12 +351,18 @@ export default {
   },
   mounted() {
     this.getContactDetails();
+    this.$store.dispatch('attributes/get', 0);
   },
   methods: {
     onPanelToggle() {
       this.onToggle();
     },
     getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
+    },
+    getAttributesByModel() {
       if (this.contactId) {
         this.$store.dispatch('contacts/show', { id: this.contactId });
       }

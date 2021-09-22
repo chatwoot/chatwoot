@@ -58,6 +58,7 @@ export default {
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
+    attributeKey: { type: String, required: true },
   },
   data() {
     return {
@@ -77,7 +78,7 @@ export default {
     },
     onUpdate() {
       this.isEditing = false;
-      this.$emit('update', this.editedValue);
+      this.$emit('update', this.attributeKey, this.editedValue);
     },
   },
 };

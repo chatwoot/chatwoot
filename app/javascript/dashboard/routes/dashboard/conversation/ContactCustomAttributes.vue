@@ -29,6 +29,11 @@ export default {
     },
   },
   computed: {
+    attributes() {
+      return this.$store.getters['attributes/getAttributesByModel'](
+        'conversation_attribute'
+      );
+    },
     listOfAttributes() {
       return Object.keys(this.customAttributes).filter(key => {
         const value = this.customAttributes[key];
