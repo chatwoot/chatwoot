@@ -4,6 +4,35 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
+    <accordion-item
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CUSTOM_ATTRIBUTES')"
+      :is-open="isContactSidebarItemOpen('is_conv_custom_attributes_open')"
+      @click="
+        value => toggleSidebarUIState('is_conv_custom_attributes_open', value)
+      "
+    >
+      <div class="conversation--details">
+        <custom-attribute
+          attribute-type="text"
+          label="Text"
+          icon="ion-document-text"
+          emoji=""
+          value="sam@gmail.com"
+          :show-edit="true"
+        />
+        <custom-attribute
+          attribute-type="number"
+          label="Number"
+          icon="ion-calculator"
+          emoji=""
+          value="23232"
+          :show-edit="true"
+        />
+        <woot-button size="small" variant="link" icon="ion-plus">
+          {{ $t('CUSTOM_ATTRIBUTES.ADD.TITLE') }}
+        </woot-button>
+      </div>
+    </accordion-item>
     <div class="conversation--actions">
       <accordion-item
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
@@ -165,6 +194,7 @@ import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 
 import flag from 'country-code-emoji';
 
@@ -177,6 +207,7 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
     AccordionItem,
+    CustomAttribute,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -222,8 +253,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -247,10 +279,8 @@ export default {
       return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
+      const { platform_name: platformName, platform_version: platformVersion } =
+        this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     channelType() {

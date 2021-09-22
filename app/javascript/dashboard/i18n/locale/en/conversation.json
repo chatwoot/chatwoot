@@ -149,7 +149,8 @@
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations"
+      "PREVIOUS_CONVERSATION": "Previous Conversations",
+      "CUSTOM_ATTRIBUTES": "Custom Attributes"
     }
   },
   "EMAIL_HEADER": {
