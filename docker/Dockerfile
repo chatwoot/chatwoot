@@ -33,6 +33,10 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
+# debug docker dialogflow issue
+RUN apk add --no-cache gcc musl-dev
+RUN bundle config set --local force_ruby_platform true
+
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   bundle config set without 'development test'; bundle install -j 4 -r 3; \
