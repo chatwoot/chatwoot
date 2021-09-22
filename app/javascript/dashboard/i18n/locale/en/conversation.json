@@ -153,6 +153,17 @@
       "CUSTOM_ATTRIBUTES": "Custom Attributes"
     }
   },
+  "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create custom attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    }
+  },
   "EMAIL_HEADER": {
     "TO": "To",
     "BCC": "Bcc",

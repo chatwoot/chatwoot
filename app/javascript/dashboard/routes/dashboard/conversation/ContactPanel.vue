@@ -17,7 +17,7 @@
         />
 
         <woot-button size="small" variant="link" icon="ion-plus">
-          {{ $t('CUSTOM_ATTRIBUTES.ADD.TITLE') }}
+          {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
         </woot-button>
       </div>
     </accordion-item>

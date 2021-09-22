@@ -50,15 +50,19 @@ export default {
     },
   },
   methods: {
-    onUpdate(key, value) {
-      this.$store
-        .dispatch('updateCustomAttributes', {
+    async onUpdate(key, value) {
+      try {
+        await this.$store.dispatch('updateCustomAttributes', {
           conversationId: this.currentChat.id,
           customAttributes: { [key]: value },
-        })
-        .then(() => {
-          this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
         });
+        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.UPDATE.SUCCESS'));
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('CUSTOM_ATTRIBUTES.UPDATE.SUCCESS');
+        this.showAlert(errorMessage);
+      }
     },
   },
 };
