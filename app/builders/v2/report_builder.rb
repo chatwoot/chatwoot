@@ -41,6 +41,8 @@ class V2::ReportBuilder
       user
     when :label
       label
+    when :team
+      team
     end
   end
 
@@ -54,6 +56,10 @@ class V2::ReportBuilder
 
   def label
     @label ||= account.labels.where(id: params[:id]).first
+  end
+
+  def team
+    @team ||= account.teams.where(id: params[:id]).first
   end
 
   def conversations_count

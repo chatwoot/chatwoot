@@ -2,6 +2,6 @@ in: query
 name: report_type
 schema:
   type: string
-  enum: [account,agent,inbox,label]
+  enum: [account,agent,inbox,label,team]
 required: true
 description: Type of report 
