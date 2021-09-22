@@ -178,31 +178,6 @@ describe('#actions', () => {
     });
   });
 
-  describe('#markMessagesReadForAssignee', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    it('sends correct mutations if api is successful', async () => {
-      const lastSeen = new Date().getTime() / 1000;
-      axios.post.mockResolvedValue({
-        data: { id: 1, assignee_last_seen_at: lastSeen },
-      });
-      await actions.markMessagesReadForAssignee({ commit }, { id: 1 });
-      jest.runAllTimers();
-      expect(commit).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([
-        [types.default.MARK_MESSAGE_READ_FOR_ASSIGNEE, { id: 1, lastSeen }],
-      ]);
-    });
-
-    it('sends correct mutations if api is unsuccessful', async () => {
-      axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.markMessagesReadForAssignee({ commit }, { id: 1 });
-      expect(commit.mock.calls).toEqual([]);
-    });
-  });
-
   describe('#sendEmailTranscript', () => {
     it('sends correct mutations if api is successful', async () => {
       axios.post.mockResolvedValue({});

@@ -246,7 +246,6 @@ export default {
     bus.$on('scrollToMessage', () => {
       this.$nextTick(() => this.scrollToBottom());
       this.makeMessagesRead();
-      this.makeMessagesReadForAssignee();
     });
 
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
@@ -340,9 +339,6 @@ export default {
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
-    },
-    makeMessagesReadForAssignee() {
-      this.$store.dispatch('markMessagesReadForAssignee', { id: this.currentChat.id });
     },
     removeTweetSelection() {
       this.selectedTweetId = null;
