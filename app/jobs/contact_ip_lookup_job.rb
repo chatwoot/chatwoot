@@ -27,6 +27,7 @@ class ContactIpLookupJob < ApplicationJob
     geocoder_result = Geocoder.search(ip).first
     return unless geocoder_result
 
+    contact.additional_attributes ||= {}
     contact.additional_attributes['city'] = geocoder_result.city
     contact.additional_attributes['country'] = geocoder_result.country
     contact.additional_attributes['country_code'] = geocoder_result.country_code
@@ -34,7 +35,7 @@ class ContactIpLookupJob < ApplicationJob
   end
 
   def get_contact_ip(contact)
-    contact.additional_attributes['updated_at_ip'] || contact.additional_attributes['created_at_ip']
+    contact.additional_attributes&.dig('updated_at_ip') || contact.additional_attributes&.dig('created_at_ip')
   end
 
   def ensure_look_up_db

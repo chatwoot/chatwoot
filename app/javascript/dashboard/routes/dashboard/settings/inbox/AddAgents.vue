@@ -88,7 +88,7 @@ export default {
       const selectedAgents = this.selectedAgents.map(x => x.id);
 
       try {
-        await InboxMembersAPI.create({ inboxId, agentList: selectedAgents });
+        await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
         router.replace({
           name: 'settings_inbox_finish',
           params: {

@@ -21,7 +21,7 @@ class SupportMailbox < ApplicationMailbox
 
   def find_channel
     mail.to.each do |email|
-      @channel = Channel::Email.find_by('email = ? OR forward_to_email = ?', email, email)
+      @channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
       break if @channel.present?
     end
     raise 'Email channel/inbox not found' if @channel.nil?
@@ -82,6 +82,6 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def identify_contact_name
-    processed_mail.from.first.split('@').first
+    processed_mail.sender_name || processed_mail.from.first.split('@').first
   end
 end
