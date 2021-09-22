@@ -231,6 +231,7 @@
 
         <woot-submit-button
           v-if="isAPIInbox"
+          type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
@@ -238,6 +239,7 @@
         />
         <woot-submit-button
           v-else
+          type="submit"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
