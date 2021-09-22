@@ -54,7 +54,7 @@ export default {
       try {
         await this.$store.dispatch('updateCustomAttributes', {
           conversationId: this.currentChat.id,
-          customAttributes: { [key]: value },
+          customAttributes: { ...this.customAttributes, [key]: value },
         });
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.UPDATE.SUCCESS'));
       } catch (error) {
