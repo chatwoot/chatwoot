@@ -9,9 +9,9 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     begin
       twilio_message = client.messages.create(**message_params)
     rescue Twilio::REST::TwilioError => e
-      Rails.logger.info "Twilio Error: #{e.message}"
+      Sentry.capture_exception(e)
     end
-    message.update!(source_id: twilio_message.sid)
+    message.update!(source_id: twilio_message.sid) if twilio_message
   end
 
   def message_params
