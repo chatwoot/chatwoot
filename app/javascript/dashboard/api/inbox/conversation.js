@@ -51,10 +51,6 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
-  markMessageReadForAssignee({ id }) {
-    return axios.post(`${this.url}/${id}/update_assignee_last_seen`);
-  }
-
   toggleTyping({ conversationId, status }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,

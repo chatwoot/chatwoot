@@ -221,25 +221,17 @@ const actions = {
       const {
         data: { id, agent_last_seen_at: lastSeen },
       } = await ConversationApi.markMessageRead(data);
-      setTimeout(() =>
-        commit(types.default.MARK_MESSAGE_READ, {
-          id, lastSeen }), 4000
+      setTimeout(
+        () =>
+          commit(types.default.MARK_MESSAGE_READ, {
+            id,
+            lastSeen,
+          }),
+        4000
       );
     } catch (error) {
       // Handle error
     }
-  },
-
-  markMessagesReadForAssignee: async ({ commit }, data) => {
-    try {
-      const {
-        data: { id, assignee_last_seen_at: lastSeen },
-      } = await ConversationApi.markMessageReadForAssignee(data);
-      setTimeout(() =>
-        commit(types.default.MARK_MESSAGE_READ_FOR_ASSIGNEE, {
-          id, lastSeen }), 4000
-      );
-    } catch (error) { console.log(error); }
   },
 
   setChatFilter({ commit }, data) {

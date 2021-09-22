@@ -393,31 +393,13 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).not_to eq nil
       end
-    end
-  end
 
-  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/update_assignee_last_seen' do
-    let(:conversation) { create(:conversation, account: account) }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_assignee_last_seen"
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-
-      before do
-        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      it 'updates assignee last seen' do
         conversation.update!(assignee_id: agent.id)
-      end
 
-      it 'updates last seen' do
         expect(conversation.reload.assignee_last_seen_at).to eq nil
-        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_assignee_last_seen",
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              as: :json
 

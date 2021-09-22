@@ -14,7 +14,6 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('assignAgent');
     expect(conversationAPI).toHaveProperty('assignTeam');
     expect(conversationAPI).toHaveProperty('markMessageRead');
-    expect(conversationAPI).toHaveProperty('markMessageReadForAssignee');
     expect(conversationAPI).toHaveProperty('toggleTyping');
     expect(conversationAPI).toHaveProperty('mute');
     expect(conversationAPI).toHaveProperty('unmute');
@@ -97,13 +96,6 @@ describe('#ConversationAPI', () => {
       conversationAPI.markMessageRead({ id: 12 });
       expect(context.axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/update_last_seen`
-      );
-    });
-
-    it('#markMessageReadForAssignee', () => {
-      conversationAPI.markMessageReadForAssignee({ id: 12 });
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
-        `/api/v1/conversations/12/update_assignee_last_seen`
       );
     });
 
