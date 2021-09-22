@@ -230,6 +230,14 @@
         </div>
 
         <woot-submit-button
+          v-if="isAPIInbox"
+          :disabled="$v.webhookUrl.$invalid"
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdatingInbox"
+          @click="updateInbox"
+        />
+        <woot-submit-button
+          v-else
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
@@ -343,6 +351,7 @@
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { required } from 'vuelidate/lib/validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -352,9 +361,6 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
-
-const shouldNoBeEmpty = (value = '') =>
-  value ? value.startsWith('http') : true;
 
 export default {
   components: {
@@ -620,7 +626,7 @@ export default {
   validations: {
     webhookUrl: {
       required,
-      shouldNoBeEmpty,
+      shouldBeUrl,
     },
     selectedAgents: {
       isEmpty() {
