@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_060144) do
+ActiveRecord::Schema.define(version: 2021_09_22_082754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_060144) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "instagram_id"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
@@ -244,6 +245,28 @@ ActiveRecord::Schema.define(version: 2021_09_16_060144) do
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "address"
+    t.string "city", null: false
+    t.string "state"
+    t.string "country", null: false
+    t.integer "no_of_employees", null: false
+    t.string "industry_type"
+    t.bigint "annual_revenue"
+    t.text "website"
+    t.string "office_phone_number"
+    t.string "facebook"
+    t.string "twitter"
+    t.string "linkedin"
+    t.jsonb "additional_attributes"
+    t.bigint "contact_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_companies_on_contact_id"
+    t.index ["name"], name: "index_companies_on_name", unique: true
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -296,6 +319,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_060144) do
     t.bigint "campaign_id"
     t.datetime "snoozed_until"
     t.jsonb "custom_attributes", default: {}
+    t.datetime "assignee_last_seen_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"

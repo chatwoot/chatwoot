@@ -42,6 +42,12 @@ const setUserLastSeenAt = async ({ lastSeen }) => {
     { contact_last_seen_at: lastSeen }
   );
 };
+const setAssigneeLastSeenAt = async ({ lastSeen }) => {
+  return API.post(
+    `/api/v1/widget/conversations/update_assignee_last_seen${window.location.search}`,
+    { assignee_last_seen_at: lastSeen }
+  );
+};
 const sendEmailTranscript = async ({ email }) => {
   return API.post(
     `/api/v1/widget/conversations/transcript${window.location.search}`,
@@ -57,5 +63,6 @@ export {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  setAssigneeLastSeenAt,
   sendEmailTranscript,
 };
