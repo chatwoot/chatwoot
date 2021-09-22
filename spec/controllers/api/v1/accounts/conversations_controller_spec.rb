@@ -496,4 +496,37 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/custom_attributes' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:custom_attributes) { { user_id: 1001, created_date: '23/12/2012', subscription_id: 12 } }
+      let(:valid_params) { { custom_attributes: custom_attributes } }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'updates last seen' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).not_to eq nil
+        expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+  end
 end
