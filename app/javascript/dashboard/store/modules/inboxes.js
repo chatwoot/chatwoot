@@ -73,6 +73,9 @@ export const getters = {
       item => item.channel_type === INBOX_TYPES.TWILIO
     );
   },
+  getTwilioSMSInboxes($state) {
+    return $state.records.filter(item => item.medium === 'sms');
+  },
 };
 
 export const actions = {
