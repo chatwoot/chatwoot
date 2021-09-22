@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_121815) do
     t.bigint "team_id"
     t.bigint "campaign_id"
     t.datetime "snoozed_until"
+    t.jsonb "custom_attributes", default: {}
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"

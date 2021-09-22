@@ -6,6 +6,7 @@
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
 #  contact_last_seen_at  :datetime
+#  custom_attributes     :jsonb
 #  identifier            :string
 #  last_activity_at      :datetime         not null
 #  snoozed_until         :datetime
