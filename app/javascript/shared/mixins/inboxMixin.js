@@ -43,34 +43,27 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
     },
-    isTwitterInboxChat() {
-      return (
-        this.isATwitterInbox && this.chat.additional_attributes.type === 'chat'
-      );
-    },
     isTwitterInboxTweet() {
       return (
-        this.isATwitterInbox && this.chat.additional_attributes.type === 'tweet'
+        this.chat &&
+        this.chat.additional_attributes &&
+        this.chat.additional_attributes.type === 'tweet'
       );
     },
-    isTwilioWhatsappOrSMS() {
-      return (
-        this.isATwilioChannel &&
-        `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`
-      );
+    twilioBadge() {
+      return `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`;
     },
-    isTwitterChatOrTweet() {
-      return (
-        this.isATwitterInbox &&
-        `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-chat'}`
-      );
+    twitterBadge() {
+      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-chat'}`;
     },
     inboxBadge() {
-      return (
-        this.isTwitterChatOrTweet ||
-        this.isTwilioWhatsappOrSMS ||
-        this.channelType
-      );
+      if (this.isATwitterInbox) {
+        return this.twitterBadge;
+      }
+      if (this.isATwilioChannel) {
+        return this.twilioBadge;
+      }
+      return this.channelType;
     },
   },
 };
