@@ -144,6 +144,13 @@ export const mutations = {
     }
   },
 
+  [types.default.MARK_MESSAGE_READ_FOR_ASSIGNEE](_state, { id, lastSeen }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (chat) {
+      chat.assignee_last_seen_at = lastSeen;
+    }
+  },
+
   [types.default.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
   },

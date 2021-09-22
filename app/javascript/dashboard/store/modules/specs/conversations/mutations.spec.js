@@ -29,6 +29,24 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#MARK_MESSAGE_READ_FOR_ASSIGNEE', () => {
+    it('mark conversation as read', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      const lastSeen = new Date().getTime() / 1000;
+      mutations[types.MARK_MESSAGE_READ_FOR_ASSIGNEE](state, { id: 1, lastSeen });
+      expect(state.allConversations).toEqual([
+        { id: 1, assignee_last_seen_at: lastSeen },
+      ]);
+    });
+
+    it('doesnot send any mutation if chat doesnot exist', () => {
+      const state = { allConversations: [] };
+      const lastSeen = new Date().getTime() / 1000;
+      mutations[types.MARK_MESSAGE_READ_FOR_ASSIGNEE](state, { id: 1, lastSeen });
+      expect(state.allConversations).toEqual([]);
+    });
+  });
+
   describe('#CLEAR_CURRENT_CHAT_WINDOW', () => {
     it('clears current chat window', () => {
       const state = { selectedChatId: 1 };

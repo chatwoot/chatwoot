@@ -8,6 +8,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :integer          not null
+#  instagram_id      :string
 #  page_id           :string           not null
 #
 # Indexes
