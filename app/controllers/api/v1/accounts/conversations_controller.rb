@@ -72,6 +72,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def custom_attributes
+    @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
+    @conversation.save!
+  end
+
   private
 
   def set_conversation_status
@@ -112,6 +117,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    custom_attributes = params[:custom_attributes]&.permit! || {}
     status = params[:status].present? ? { status: params[:status] } : {}
 
     # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
@@ -122,6 +128,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes,
+      custom_attributes: custom_attributes,
       snoozed_until: params[:snoozed_until]
     }.merge(status)
   end
