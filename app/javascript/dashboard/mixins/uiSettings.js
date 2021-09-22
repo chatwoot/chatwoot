@@ -15,5 +15,12 @@ export default {
         },
       });
     },
+    isContactSidebarItemOpen(key) {
+      const { [key]: isOpen } = this.uiSettings;
+      return !!isOpen;
+    },
+    toggleSidebarUIState(key) {
+      this.updateUISettings({ [key]: !this.isContactSidebarItemOpen(key) });
+    },
   },
 };

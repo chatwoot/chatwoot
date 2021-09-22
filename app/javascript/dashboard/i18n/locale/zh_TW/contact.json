@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "將對話靜音 6 小時",
     "UNMUTED_SUCCESS": "對話已解除靜音",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "編輯"
+    "EDIT_LABEL": "編輯",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "自訂屬性",
+      "CONTACT_LABELS": "聯絡人標籤",
+      "PREVIOUS_CONVERSATIONS": "上一次對話"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "編輯聯絡人",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "自訂屬性",
     "BUTTON": "新增自訂屬性",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "建立自訂屬性",
       "DESC": "為聯絡人新增自訂資訊"

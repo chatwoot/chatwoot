@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "ഈ സംഭാഷണം 6 മണിക്കൂർ നിശബ്ദമാക്കി",
     "UNMUTED_SUCCESS": "ഈ സംഭാഷണം നിശബ്ദമാക്കി",
     "SEND_TRANSCRIPT": "ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
-    "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
+    "EDIT_LABEL": "എഡിറ്റുചെയ്യുക",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

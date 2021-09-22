@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Η συνομιλία είναι σε σίγαση (mute) για 6 ώρες",
     "UNMUTED_SUCCESS": "Έγινε επαναφορά της συνομιλίας",
     "SEND_TRANSCRIPT": "Αποστολή μεταγραφής",
-    "EDIT_LABEL": "Επεξεργασία"
+    "EDIT_LABEL": "Επεξεργασία",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
+      "CONTACT_LABELS": "Ετικέτες Επαφών",
+      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Επεξεργασία Επαφής",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Προσαρμοζόμενες Ιδιότητες",
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
       "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."

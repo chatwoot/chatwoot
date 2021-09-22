@@ -28,6 +28,7 @@ describe Twilio::SendOnTwilioService do
         message = create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
         ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
+        expect(message.reload.source_id).to be_nil
       end
 
       it 'if inbox channel is not twilio' do
@@ -40,6 +41,7 @@ describe Twilio::SendOnTwilioService do
         message = create(:message, message_type: 'incoming', inbox: twilio_inbox, account: account)
         ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
+        expect(message.reload.source_id).to be_nil
       end
 
       it 'if message has an source id' do

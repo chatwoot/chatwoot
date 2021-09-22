@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
     "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
     "SEND_TRANSCRIPT": "Transkript senden",
-    "EDIT_LABEL": "Bearbeiten"
+    "EDIT_LABEL": "Bearbeiten",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
+      "CONTACT_LABELS": "Kontakt-Labels",
+      "PREVIOUS_CONVERSATIONS": "Vorherige Gespräche"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Kontakt bearbeiten",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Benutzerdefinierte Attribute",
     "BUTTON": "Eigenes Attribut hinzufügen",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Eigenes Attribut erstellen",
       "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."

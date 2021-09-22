@@ -82,6 +82,10 @@ class MailPresenter < SimpleDelegator
     @mail.from.map(&:downcase)
   end
 
+  def sender_name
+    Mail::Address.new(@mail[:from].value).name
+  end
+
   def original_sender
     @mail['X-Original-Sender'].try(:value) || from.first
   end

@@ -259,7 +259,21 @@
           :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
           :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
         >
-          <woot-code :script="twilioCallbackURL" lang="html"></woot-code>
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
+        </settings-section>
+      </div>
+      <div v-else-if="isALineChannel" class="settings--content">
+        <settings-section
+          :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
+          :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
+        >
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
         </settings-section>
       </div>
       <div v-else-if="isAWebWidgetInbox">
@@ -378,6 +392,10 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
+        {
+          key: 'businesshours',
+          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
       ];
 
       if (this.isAWebWidgetInbox) {
@@ -388,17 +406,18 @@ export default {
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
           {
-            key: 'businesshours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-          },
-          {
             key: 'configuration',
             name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
           },
         ];
       }
 
-      if (this.isATwilioChannel || this.isAPIInbox || this.isAnEmailChannel) {
+      if (
+        this.isATwilioChannel ||
+        this.isALineChannel ||
+        this.isAPIInbox ||
+        this.isAnEmailChannel
+      ) {
         return [
           ...visibleToAllChannelTabs,
           {
