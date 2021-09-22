@@ -3,8 +3,8 @@
     "LINK": "Impostazioni profilo",
     "TITLE": "Impostazioni profilo",
     "BTN_TEXT": "Aggiorna Profilo",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "UPDATE_SUCCESS": "Il tuo profilo è stato aggiornato con successo",
+    "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
     "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente il login quando le tue credenziali di accesso sono state modificate",
     "FORM": {
       "AVATAR": "Immagine del profilo",
@@ -19,25 +19,25 @@
       "PASSWORD_SECTION": {
         "TITLE": "password",
         "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Cambia password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Notifiche Audio",
+        "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
+        "NONE": "Nessuno",
+        "ASSIGNED": "Conversazioni Assegnate",
+        "ALL_CONVERSATIONS": "Tutte Le Conversazioni"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
         "NOTE": "Aggiorna qui le tue preferenze di notifica email",
         "CONVERSATION_ASSIGNMENT": "Invia notifiche via email quando viene assegnata una conversazione a me",
         "CONVERSATION_CREATION": "Invia notifiche via email quando viene creata una nuova conversazione",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche via e-mail quando viene creato un nuovo messaggio in una conversazione assegnata"
       },
       "API": {
@@ -142,7 +142,7 @@
     "ACCOUNT_SETTINGS": "Impostazioni Account",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "ATTRIBUTES": "Attributi",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
