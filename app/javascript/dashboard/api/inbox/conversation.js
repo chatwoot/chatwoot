@@ -80,6 +80,12 @@ class ConversationApi extends ApiClient {
   sendEmailTranscript({ conversationId, email }) {
     return axios.post(`${this.url}/${conversationId}/transcript`, { email });
   }
+
+  updateCustomAttributes({ conversationId, customAttributes }) {
+    return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
+      custom_attributes: customAttributes,
+    });
+  }
 }
 
 export default new ConversationApi();
