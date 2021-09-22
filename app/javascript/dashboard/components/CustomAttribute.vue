@@ -5,6 +5,7 @@
         <div class="title--icon">
           <emoji-or-icon :icon="icon" :emoji="emoji" />
         </div>
+
         {{ label }}
       </h4>
     </div>
@@ -13,7 +14,7 @@
         <input
           ref="inputfield"
           v-model="editedValue"
-          :type="attributeType"
+          :type="inputType"
           class="input-group-field"
           autofocus="true"
           @keyup.enter="onUpdate"
@@ -28,7 +29,16 @@
       class="value--view"
       :class="{ 'is-editable': showEdit }"
     >
-      <p class="value">
+      <a
+        v-if="isAttributeTypeLink"
+        :href="value"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="value"
+      >
+        {{ value }}
+      </a>
+      <p v-else class="value">
         {{ value || '---' }}
       </p>
       <woot-button
@@ -65,6 +75,14 @@ export default {
       isEditing: false,
       editedValue: this.value,
     };
+  },
+  computed: {
+    isAttributeTypeLink() {
+      return this.attributeType === 'link';
+    },
+    inputType() {
+      return this.attributeType === 'link' ? 'url' : this.attributeType;
+    },
   },
   methods: {
     focusInput() {

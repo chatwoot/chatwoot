@@ -6,7 +6,7 @@
       :attribute-key="attribute.key"
       :attribute-type="attribute.attribute_display_type"
       :label="attribute.attribute_display_name"
-      icon="ion-document-text"
+      :icon="attribute.icon"
       emoji=""
       :value="attribute.value"
       :show-edit="true"
@@ -34,6 +34,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
     }),
+
     attributes() {
       const attributes = this.$store.getters['attributes/getAttributesByModel'](
         'conversation_attribute'
@@ -43,13 +44,34 @@ export default {
         const value = this.customAttributes[key];
         const itemExist = attributes.find(item => item.attribute_key === key);
         if (itemExist) {
-          customAttributes.push({ key, value, ...itemExist });
+          customAttributes.push({
+            key,
+            value,
+            ...itemExist,
+            icon: this.attributeIcon(itemExist.attribute_display_type),
+          });
         }
       });
       return customAttributes;
     },
   },
   methods: {
+    attributeIcon(type) {
+      switch (type) {
+        case 'date':
+          return 'ion-calendar';
+        case 'link':
+          return 'ion-link';
+        case 'currency':
+          return 'ion-social-usd';
+        case 'number':
+          return 'ion-android-call';
+        case 'percent':
+          return 'ion-calculator';
+        default:
+          return 'ion-edit';
+      }
+    },
     async onUpdate(key, value) {
       try {
         await this.$store.dispatch('updateCustomAttributes', {

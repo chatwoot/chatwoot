@@ -12,13 +12,15 @@
       "
     >
       <div class="conversation--details">
+        <div class="custom--attributes--header">
+          <woot-button size="small" variant="link" icon="ion-plus">
+            {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
+          </woot-button>
+        </div>
+
         <conversation-custom-attributes
           :custom-attributes="conversationCustomAttributes"
         />
-
-        <woot-button size="small" variant="link" icon="ion-plus">
-          {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
-        </woot-button>
       </div>
     </accordion-item>
     <div class="conversation--actions">
@@ -467,6 +469,12 @@ export default {
     color: #fff;
     padding: 0.2rem;
   }
+}
+
+.custom--attributes--header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-one);
 }
 
 .contact--mute {
