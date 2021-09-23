@@ -160,6 +160,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
+      "TITLE": "Add",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to update attribute. Please try again later"
     },

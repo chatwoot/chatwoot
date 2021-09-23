@@ -31,6 +31,15 @@
         <div v-if="noResult" class="no-result">
           {{ $t('CONVERSATION_CUSTOM_ATTRIBUTES.ATTRIBUTE_SELECT.NO_RESULT') }}
         </div>
+        <woot-button
+          variant="hollow"
+          class="add"
+          icon="ion-plus-round"
+          size="tiny"
+          @click="addNewAttribute"
+        >
+          {{ $t('CONVERSATION_CUSTOM_ATTRIBUTES.ADD.TITLE') }}
+        </woot-button>
       </div>
     </div>
   </div>
@@ -38,7 +47,7 @@
 
 <script>
 import AttributeDropDownItem from './AttributeDropDownItem.vue';
-
+import { mapGetters } from 'vuex';
 export default {
   components: {
     AttributeDropDownItem,
@@ -61,10 +70,17 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
+    }),
     attributes() {
       return this.$store.getters['attributes/getAttributesByModel'](
         'conversation_attribute'
       );
+    },
+    conversationCustomAttributes() {
+      return this.currentChat.custom_attributes || {};
     },
 
     filteredAttributes() {
@@ -75,7 +91,14 @@ export default {
         icon: this.attributeIcon(item.attribute_display_type),
       }));
 
-      return mappedAttributes.filter(attribute => {
+      const filteredAttributes = mappedAttributes.filter(
+        item =>
+          !Object.keys(this.conversationCustomAttributes).includes(
+            item.attribute_key
+          )
+      );
+
+      return filteredAttributes.filter(attribute => {
         return attribute.title
           .toLowerCase()
           .includes(this.search.toLowerCase());
@@ -123,7 +146,11 @@ export default {
     onRemove(label) {
       this.$emit('remove', label);
     },
-
+    addNewAttribute() {
+      this.$router.push(
+        `/app/accounts/${this.accountId}/settings/attributes/list`
+      );
+    },
     async onAddRemove(attribute) {
       this.$emit('add-attribute', attribute);
     },
@@ -167,6 +194,9 @@ export default {
 
     .list {
       width: 100%;
+      .add {
+        float: right;
+      }
     }
 
     .no-result {
