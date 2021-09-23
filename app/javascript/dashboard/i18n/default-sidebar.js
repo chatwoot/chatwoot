@@ -129,6 +129,13 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/reports/label`),
         toStateName: 'label_reports',
       },
+      inboxReports: {
+        icon: 'ion-archive',
+        label: 'REPORTS_INBOX',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/reports/inboxes`),
+        toStateName: 'inbox_reports',
+      },
     },
   },
   campaigns: {

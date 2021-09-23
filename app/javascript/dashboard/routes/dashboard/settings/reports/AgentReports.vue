@@ -1,5 +1,6 @@
 <template>
   <woot-reports
+    key="agent-reports"
     type="agent"
     getter-key="agents/getAgents"
     action-key="agents/get"

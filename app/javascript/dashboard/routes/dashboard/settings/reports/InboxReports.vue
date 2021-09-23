@@ -1,9 +1,9 @@
 <template>
   <woot-reports
-    key="label-reports"
-    type="label"
-    getter-key="labels/getLabels"
-    action-key="labels/get"
+    key="inbox-reports"
+    type="inbox"
+    getter-key="labels/getInboxes"
+    action-key="inboxes/get"
     :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
   />
 </template>
