@@ -76,6 +76,9 @@ tr:
       transcript_subject: "Konuşma Metni"
     survey:
       response: "Lütfen konuşmayı oylayın, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
