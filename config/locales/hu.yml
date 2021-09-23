@@ -76,6 +76,9 @@ hu:
       transcript_subject: "Beszélgetés kivonat"
     survey:
       response: "Kérlek értékeld a beszélgetést, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
