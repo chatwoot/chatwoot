@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_121815) do
+ActiveRecord::Schema.define(version: 2021_09_23_132659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -507,7 +507,7 @@ ActiveRecord::Schema.define(version: 2021_09_21_121815) do
     t.boolean "private", default: false
     t.integer "status", default: 0
     t.string "source_id"
-    t.integer "content_type", default: 0
+    t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"
