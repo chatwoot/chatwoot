@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_112533) do
+ActiveRecord::Schema.define(version: 2021_09_16_060144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(version: 2021_09_16_112533) do
     t.bigint "team_id"
     t.bigint "campaign_id"
     t.datetime "snoozed_until"
+    t.jsonb "custom_attributes", default: {}
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"

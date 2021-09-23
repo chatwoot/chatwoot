@@ -105,6 +105,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(account.data_imports.first.import_file.attached?).to eq(true)
       end
     end
+
+    context 'when file is empty' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns Unprocessable Entity' do
+        post "/api/v1/accounts/#{account.id}/contacts/import",
+             headers: admin.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response['error']).to eq('File is blank')
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
@@ -359,6 +373,55 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['contact']['id']).to eq(other_contact.id)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/contacts/:id', :contact_delete do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'deletes the contact for administrator user' do
+        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(false)
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: admin.create_new_auth_token
+
+        expect(contact.conversations).to be_empty
+        expect(contact.inboxes).to be_empty
+        expect(contact.contact_inboxes).to be_empty
+        expect(contact.csat_survey_responses).to be_empty
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not delete the contact if online' do
+        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(true)
+
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns unauthorized for agent user' do
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
