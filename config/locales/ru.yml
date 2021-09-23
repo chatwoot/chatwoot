@@ -76,6 +76,9 @@ ru:
       transcript_subject: "Субтитры общения"
     survey:
       response: "Пожалуйста, оцените этот разговор, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
