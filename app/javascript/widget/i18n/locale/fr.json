@@ -64,7 +64,7 @@
     "PLACEHOLDER": "Dites-nous en plus..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Demander une transcription de conversation",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer"
   }

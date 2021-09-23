@@ -54,6 +54,22 @@
     "TITLE": "Skapa ny kontakt",
     "DESC": "Add basic information details about the contact."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Bekräfta borttagning",
+      "MESSAGE": "Är du säker på att ta bort ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Ja, ta bort ",
+      "NO": "Nej, behåll "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Skicka",

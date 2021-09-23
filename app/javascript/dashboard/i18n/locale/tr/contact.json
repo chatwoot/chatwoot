@@ -54,6 +54,22 @@
     "TITLE": "Yeni kişi oluştur",
     "DESC": "Kişi hakkındaki temel bilgileri giriniz."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Silmeyi onayla",
+      "MESSAGE": "Silmek istediğinize emin misiniz ?",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Evet, Sil ",
+      "NO": "Hayır, Tut"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Yolla",

@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Vue d'ensemble",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
@@ -53,37 +53,37 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Plage de date personnalisée"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Appliquer",
+      "PLACEHOLDER": "Sélectionnez la plage de dates"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Rapports CSAT",
+    "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "AGENT_NAME": "Agent assigné",
         "RATING": "Note",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "Commentaire sur la rétroaction"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Réponses totales",
+        "TOOLTIP": "Nombre total de réponses collectées"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Score de satisfaction",
+        "TOOLTIP": "Nombre total de réponses positives / Nombre total de réponses * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Taux de réponse",
+        "TOOLTIP": "Nombre total de réponses / Nombre total de messages de l'enquête CSAT envoyés * 100"
       }
     }
   }

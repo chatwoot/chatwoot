@@ -195,6 +195,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "عنوان Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -350,7 +354,7 @@
       "TIMEZONE_LABEL": "اختر المنطقة الزمنية",
       "UPDATE": "تحديث إعدادات ساعات العمل",
       "TOGGLE_AVAILABILITY": "تمكين توافر العمل لهذا البريد الوارد",
-      "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "نحن غير متوفرين في هذه اللحظة. اترك رسالة سنرد عليها بمجرد عودتنا.",
       "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {

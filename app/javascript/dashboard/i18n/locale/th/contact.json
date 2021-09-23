@@ -54,6 +54,22 @@
     "TITLE": "สร้างการติดต่อใหม่",
     "DESC": "เพิ่าข้อความพื้นฐานเกี่ยวกับการติดต่อนี้"
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "ยืนยันการลบ",
+      "MESSAGE": "คุณต้องการที่จะลบไหม ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "เอาเลย ",
+      "NO": "ไม่อะเก็บไว้ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "ส่ง",

@@ -27,6 +27,9 @@ ko:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: 보고 기간 %{since} - %{until}
     agent_csv:
@@ -73,6 +76,9 @@ ko:
       transcript_subject: "Conversation Transcript"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

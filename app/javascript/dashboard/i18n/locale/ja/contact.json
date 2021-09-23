@@ -54,6 +54,22 @@
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "削除の確認",
+      "MESSAGE": "削除してもよろしいですか？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "削除する ",
+      "NO": "いいえ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送信",

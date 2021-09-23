@@ -2,7 +2,7 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "ویژگی ها",
     "HEADER_BTN_TXT": "افزودن ویژگی",
-    "LOADING": "Fetching attributes",
+    "LOADING": "واکشی ویژگی ها",
     "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "افزودن ویژگی",
@@ -10,9 +10,9 @@
       "CANCEL_BUTTON_TEXT": "انصراف",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "نمایش نام",
+          "PLACEHOLDER": "نام نمایشی ویژگی را وارد کنید",
+          "ERROR": "نام الزامی است"
         },
         "DESC": {
           "LABEL": "توضیحات",
@@ -20,17 +20,17 @@
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
+          "LABEL": "مدل",
+          "PLACEHOLDER": "لطفا مدل را انتخاب کنید",
           "ERROR": "Model is required"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "نوع",
           "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
-          "ERROR": "Type is required"
+          "ERROR": "نوع الزامی است"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "کلید"
         }
       },
       "API": {
@@ -62,15 +62,15 @@
     },
     "TABS": {
       "HEADER": "ویژگی‌های سفارشی",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "گفتگو",
       "CONTACT": "مخاطب"
     },
     "LIST": {
       "TABLE_HEADER": [
         "نام",
         "توضیحات",
-        "Type",
-        "Key"
+        "نوع",
+        "کلید"
       ],
       "BUTTONS": {
         "EDIT": "ویرایش",

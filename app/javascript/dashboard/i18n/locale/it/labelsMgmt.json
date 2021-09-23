@@ -1,63 +1,63 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Etichette",
+    "HEADER_BTN_TXT": "Aggiungi Etichette",
+    "LOADING": "Recupero etichette",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Etichette</b> <p>Le etichette ti aiutano a categorizzare le conversazioni e a darle la priorità. È possibile assegnare l'etichetta a una conversazione dal pannello laterale. <br /><br />Le etichette sono legate all'account e possono essere utilizzate per creare flussi di lavoro personalizzati nell'organizzazione. È possibile assegnare un colore personalizzato a un'etichetta, rende più facile identificare l'etichetta. Potrai visualizzare l'etichetta sulla barra laterale per filtrare facilmente le conversazioni.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Non ci sono etichette disponibili in questo account.",
+      "TITLE": "Gestisci etichette",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "TABLE_HEADER": [
         "nome",
-        "Description",
-        "Color"
+        "Descrizione",
+        "Colore"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "Nome Etichetta",
+        "PLACEHOLDER": "Nome Etichetta",
+        "REQUIRED_ERROR": "Nome etichetta obbligatorio",
+        "MINIMUM_LENGTH_ERROR": "È richiesta la lunghezza minima 2",
+        "VALID_ERROR": "Sono ammessi solo lettere, numeri, trattino e sottolineatura"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "Descrizione Etichetta"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Colore"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Mostra etichetta nella barra laterale"
       },
       "EDIT": "Modifica",
-      "CREATE": "Create",
+      "CREATE": "Crea",
       "DELETE": "Cancellare",
       "CANCEL": "annulla"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Aggiungi Etichette",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etichetta aggiunta correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Modifica etichetta",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Campagna aggiornata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Cancellare",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etichetta eliminata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",

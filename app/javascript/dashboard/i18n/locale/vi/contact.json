@@ -54,6 +54,22 @@
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Xác nhận xoá",
+      "MESSAGE": "Bạn có muốn xoá? ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Có, xoá ",
+      "NO": "Không, giữ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Gửi",
