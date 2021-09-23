@@ -1,6 +1,7 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
 import Button from 'dashboard/components/buttons/Button';
 import i18n from 'dashboard/i18n';
@@ -10,6 +11,7 @@ import MoreActions from '../MoreActions';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
+localVue.use(VTooltip);
 
 localVue.component('woot-button', Button);
 
@@ -63,21 +65,9 @@ describe('MoveActions', () => {
     moreActions = mount(MoreActions, { store, localVue, i18n: i18nConfig });
   });
 
-  it('opens the menu when user clicks "more"', async () => {
-    expect(moreActions.find('.dropdown-pane').exists()).toBe(false);
-
-    await moreActions.find('.more--button').trigger('click');
-
-    expect(moreActions.find('.dropdown-pane').exists()).toBe(true);
-  });
-
   describe('muting discussion', () => {
     it('triggers "muteConversation"', async () => {
-      await moreActions.find('.more--button').trigger('click');
-
-      await moreActions
-        .find('.dropdown-pane button:first-child')
-        .trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(muteConversation).toBeCalledWith(
         expect.any(Object),
@@ -87,11 +77,7 @@ describe('MoveActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('.more--button').trigger('click');
-
-      await moreActions
-        .find('.dropdown-pane button:first-child')
-        .trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
@@ -106,11 +92,7 @@ describe('MoveActions', () => {
     });
 
     it('triggers "unmuteConversation"', async () => {
-      await moreActions.find('.more--button').trigger('click');
-
-      await moreActions
-        .find('.dropdown-pane button:first-child')
-        .trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(unmuteConversation).toBeCalledWith(
         expect.any(Object),
@@ -120,11 +102,7 @@ describe('MoveActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('.more--button').trigger('click');
-
-      await moreActions
-        .find('.dropdown-pane button:first-child')
-        .trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',

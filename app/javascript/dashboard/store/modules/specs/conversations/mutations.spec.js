@@ -161,7 +161,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#RESOLVE_CONVERSATION', () => {
+  describe('#CHANGE_CONVERSATION_STATUS', () => {
     it('updates the conversation status correctly', () => {
       const state = {
         allConversations: [
@@ -173,7 +173,7 @@ describe('#mutations', () => {
         ],
       };
 
-      mutations[types.RESOLVE_CONVERSATION](state, {
+      mutations[types.CHANGE_CONVERSATION_STATUS](state, {
         conversationId: '1',
         status: 'resolved',
       });
