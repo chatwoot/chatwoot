@@ -76,6 +76,9 @@ it:
       transcript_subject: "Trascrizione della Conversazione"
     survey:
       response: "Valuta questa conversazione, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
