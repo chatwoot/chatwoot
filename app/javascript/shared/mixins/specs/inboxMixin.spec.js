@@ -70,7 +70,23 @@ describe('inboxMixin', () => {
         return {
           inbox: {
             channel_type: 'Channel::TwilioSms',
-            phone_number: '+91944444444',
+          },
+        };
+      },
+    };
+    const wrapper = shallowMount(Component);
+    expect(wrapper.vm.isATwilioChannel).toBe(true);
+  });
+
+  it('isATwilioSMSChannel returns true if channel type is Twilio and medium is SMS', () => {
+    const Component = {
+      render() {},
+      mixins: [inboxMixin],
+      data() {
+        return {
+          inbox: {
+            channel_type: 'Channel::TwilioSms',
+            medium: 'sms',
           },
         };
       },
@@ -80,7 +96,7 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isATwilioSMSChannel).toBe(true);
   });
 
-  it('isATwilioWhatsappChannel returns true if channel type is Twilio and phonenumber is a whatsapp number', () => {
+  it('isATwilioWhatsappChannel returns true if channel type is Twilio and medium is whatsapp', () => {
     const Component = {
       render() {},
       mixins: [inboxMixin],
@@ -88,7 +104,7 @@ describe('inboxMixin', () => {
         return {
           inbox: {
             channel_type: 'Channel::TwilioSms',
-            phone_number: 'whatsapp:+91944444444',
+            medium: 'whatsapp',
           },
         };
       },
