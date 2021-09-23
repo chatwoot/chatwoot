@@ -1,4 +1,4 @@
-import MessagePublicAPI from 'widget/api/messagesPublic';
+import MessagePublicAPI from 'widget/api/messagePublic';
 import { refreshActionCableConnector } from 'widget/helpers/actionCable';
 import {
   createTemporaryMessage,

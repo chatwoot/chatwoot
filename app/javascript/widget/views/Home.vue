@@ -6,6 +6,7 @@
     <spinner size="" />
   </div>
   <div v-else class="home" @keydown.esc="closeChat">
+    <conversations />
     <div
       class="header-wrap bg-white"
       :class="{ expanded: !isHeaderCollapsed, collapsed: isHeaderCollapsed }"
@@ -73,6 +74,7 @@ import Branding from 'shared/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
+import Conversations from './Conversations.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
@@ -83,6 +85,7 @@ import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import PreChatForm from '../components/PreChat/Form';
+
 export default {
   name: 'Home',
   components: {
@@ -95,6 +98,7 @@ export default {
     Spinner,
     TeamAvailability,
     Banner,
+    Conversations,
   },
   mixins: [configMixin],
   props: {
