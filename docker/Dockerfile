@@ -34,7 +34,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # debug docker dialogflow issue
-RUN apk add --no-cache gcc musl-dev
+RUN apk add --no-cache musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers
 RUN bundle config set --local force_ruby_platform true
 
 # Do not install development or test gems in production
