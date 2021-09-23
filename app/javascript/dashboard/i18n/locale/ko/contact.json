@@ -54,6 +54,22 @@
     "TITLE": "새 연결 만들기",
     "DESC": "연락처에 대한 기본 정보 세부 정보를 추가합니다."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "삭제 확인",
+      "MESSAGE": "삭제하시겠습니까? ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "예, 삭제합니다. ",
+      "NO": "아니요, 유지해주세요. "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "보내기",
