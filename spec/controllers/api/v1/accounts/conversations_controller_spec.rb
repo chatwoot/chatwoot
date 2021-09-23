@@ -393,6 +393,19 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).not_to eq nil
       end
+
+      it 'updates assignee last seen' do
+        conversation.update!(assignee_id: agent.id)
+
+        expect(conversation.reload.assignee_last_seen_at).to eq nil
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee_last_seen_at).not_to eq nil
+      end
     end
   end
 
