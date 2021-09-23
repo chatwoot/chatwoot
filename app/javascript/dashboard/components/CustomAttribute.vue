@@ -36,7 +36,7 @@
         rel="noopener noreferrer"
         class="value"
       >
-        {{ value }}
+        {{ value || '---' }}
       </a>
       <p v-else class="value">
         {{ value || '---' }}
@@ -49,6 +49,15 @@
         icon="ion-compose"
         class-names="edit-button"
         @click="onEdit"
+      />
+      <woot-button
+        v-if="showEdit"
+        variant="clear link"
+        size="small"
+        color-scheme="secondary"
+        icon="ion-trash-a"
+        class-names="edit-button"
+        @click="onDelete"
       />
     </div>
   </div>
@@ -97,6 +106,10 @@ export default {
     onUpdate() {
       this.isEditing = false;
       this.$emit('update', this.attributeKey, this.editedValue);
+    },
+    onDelete() {
+      this.isEditing = false;
+      this.$emit('delete', this.attributeKey);
     },
   },
 };

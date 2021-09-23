@@ -12,11 +12,7 @@
       "
     >
       <div class="conversation--details">
-        <div class="custom--attributes--header">
-          <woot-button size="small" variant="link" icon="ion-plus">
-            {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
-          </woot-button>
-        </div>
+        <custom-attribute-selector :conversation-id="conversationId" />
 
         <conversation-custom-attributes
           :custom-attributes="conversationCustomAttributes"
@@ -182,6 +178,7 @@ import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
+import CustomAttributeSelector from './CustomAttributeSelector.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import ConversationCustomAttributes from './ConversationCustomAttributes.vue';
@@ -198,6 +195,7 @@ export default {
     MultiselectDropdown,
     AccordionItem,
     ConversationCustomAttributes,
+    CustomAttributeSelector,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {

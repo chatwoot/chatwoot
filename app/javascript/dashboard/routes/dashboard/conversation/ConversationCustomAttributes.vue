@@ -11,6 +11,7 @@
       :value="attribute.value"
       :show-edit="true"
       @update="onUpdate"
+      @delete="onDelete"
     />
   </div>
 </template>
@@ -78,11 +79,31 @@ export default {
           conversationId: this.currentChat.id,
           customAttributes: { ...this.customAttributes, [key]: value },
         });
-        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.UPDATE.SUCCESS'));
+        this.showAlert(
+          this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.UPDATE.SUCCESS')
+        );
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
-          this.$t('CUSTOM_ATTRIBUTES.UPDATE.SUCCESS');
+          this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.UPDATE.ERROR');
+        this.showAlert(errorMessage);
+      }
+    },
+    async onDelete(key) {
+      const { [key]: remove, ...updatedAttributes } = this.customAttributes;
+
+      try {
+        await this.$store.dispatch('updateCustomAttributes', {
+          conversationId: this.currentChat.id,
+          customAttributes: updatedAttributes,
+        });
+        this.showAlert(
+          this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.DELETE.SUCCESS')
+        );
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.DELETE.ERROR');
         this.showAlert(errorMessage);
       }
     },

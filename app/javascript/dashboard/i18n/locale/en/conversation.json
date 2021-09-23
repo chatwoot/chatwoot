@@ -153,7 +153,7 @@
       "CUSTOM_ATTRIBUTES": "Custom Attributes"
     }
   },
-  "CUSTOM_ATTRIBUTES": {
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create custom attribute",
     "UPDATE": {
       "SUCCESS": "Attribute updated successfully",
@@ -162,6 +162,15 @@
     "ADD": {
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute delete successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
