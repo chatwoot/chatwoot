@@ -16,7 +16,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def update
     @agent.update!(agent_params.except(:role))
-    @agent.current_account_user.update!(role: agent_params[:role]) if agent_params[:role]
+    @agent.current_account_user.update!(role: agent_params[:role], availability: new_agent_params[:availability], auto_offline: new_agent_params[:auto_offline],) if agent_params[:role]
     render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @agent }
   end
 
@@ -51,18 +51,20 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       account_id: Current.account.id,
       user_id: @user.id,
       role: new_agent_params[:role],
-      inviter_id: current_user.id
+      inviter_id: current_user.id,
+      availability: new_agent_params[:availability],
+      auto_offline: new_agent_params[:auto_offline],
     )
   end
 
   def agent_params
-    params.require(:agent).permit(:email, :name, :role)
+    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
   end
 
   def new_agent_params
     # intial string ensures the password requirements are met
     temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    params.require(:agent).permit(:email, :name, :role)
+    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
           .merge!(password: temp_password, password_confirmation: temp_password, inviter: current_user)
   end
 

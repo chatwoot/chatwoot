@@ -159,7 +159,11 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
-      resource :profile, only: [:show, :update]
+      resource :profile, only: [:show, :update] do  
+        member do
+          post :availability
+        end
+      end
       resource :notification_subscriptions, only: [:create]
 
       namespace :widget do
