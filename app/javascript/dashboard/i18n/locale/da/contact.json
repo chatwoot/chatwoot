@@ -54,6 +54,22 @@
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Bekræft Sletning",
+      "MESSAGE": "Er du sikker på du vil slette ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Ja, Slet ",
+      "NO": "Nej, Behold "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Send",
