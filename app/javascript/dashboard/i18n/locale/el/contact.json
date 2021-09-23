@@ -54,6 +54,22 @@
     "TITLE": "Δημιουργία νέας επαφής",
     "DESC": "Προσθήκη βασικών πληροφοριών για την επαφή."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Επιβεβαίωση Διαγραφής",
+      "MESSAGE": "Είσαστε σίγουροι για την διαγραφή ",
+      "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {contactName} για επιβεβαίωση",
+      "YES": "Ναι, Διέγραψε τον/την ",
+      "NO": "Όχι, Κράτησε τον/την"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Καταχώρηση",
