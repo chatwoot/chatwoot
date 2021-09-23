@@ -76,6 +76,9 @@ vi:
       transcript_subject: "Bản ghi cuộc hội thoại"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
