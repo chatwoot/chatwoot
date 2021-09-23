@@ -76,6 +76,9 @@ fa:
       transcript_subject: "متن مکالمه"
     survey:
       response: "لطفاً به مکالمه امتیاز دهید %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
