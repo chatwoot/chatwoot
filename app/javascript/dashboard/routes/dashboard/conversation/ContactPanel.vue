@@ -4,6 +4,21 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
+    <accordion-item
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CUSTOM_ATTRIBUTES')"
+      :is-open="isContactSidebarItemOpen('is_conv_custom_attributes_open')"
+      @click="
+        value => toggleSidebarUIState('is_conv_custom_attributes_open', value)
+      "
+    >
+      <div class="conversation--details">
+        <custom-attribute-selector :conversation-id="conversationId" />
+
+        <conversation-custom-attributes
+          :custom-attributes="conversationCustomAttributes"
+        />
+      </div>
+    </accordion-item>
     <div class="conversation--actions">
       <accordion-item
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
@@ -163,8 +178,10 @@ import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
+import CustomAttributeSelector from './CustomAttributeSelector.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import ConversationCustomAttributes from './ConversationCustomAttributes.vue';
 
 import flag from 'country-code-emoji';
 
@@ -177,6 +194,8 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
     AccordionItem,
+    ConversationCustomAttributes,
+    CustomAttributeSelector,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -222,8 +241,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -247,10 +267,8 @@ export default {
       return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
+      const { platform_name: platformName, platform_version: platformVersion } =
+        this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     channelType() {
@@ -317,6 +335,9 @@ export default {
       }
       return false;
     },
+    conversationCustomAttributes() {
+      return this.currentChat.custom_attributes || {};
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -330,12 +351,18 @@ export default {
   },
   mounted() {
     this.getContactDetails();
+    this.$store.dispatch('attributes/get', 0);
   },
   methods: {
     onPanelToggle() {
       this.onToggle();
     },
     getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
+    },
+    getAttributesByModel() {
       if (this.contactId) {
         this.$store.dispatch('contacts/show', { id: this.contactId });
       }
@@ -440,6 +467,12 @@ export default {
     color: #fff;
     padding: 0.2rem;
   }
+}
+
+.custom--attributes--header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-one);
 }
 
 .contact--mute {
