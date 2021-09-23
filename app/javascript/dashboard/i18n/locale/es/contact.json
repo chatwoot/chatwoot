@@ -54,6 +54,22 @@
     "TITLE": "Crear un contacto nuevo",
     "DESC": "Añadir información básica sobre el contacto."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Confirmar eliminación",
+      "MESSAGE": "¿Está seguro de eliminar ",
+      "PLACE_HOLDER": "Por favor, escriba {contactName} para confirmar",
+      "YES": "Sí, eliminar ",
+      "NO": "No, mantenerlo "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Enviar",
