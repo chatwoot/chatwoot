@@ -150,11 +150,11 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "CUSTOM_ATTRIBUTES": "Custom Attributes"
+      "CUSTOM_ATTRIBUTES": "Conversation Attributes"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create custom attribute",
+    "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
       "SUCCESS": "Attribute updated successfully",
       "ERROR": "Unable to update attribute. Please try again later"
