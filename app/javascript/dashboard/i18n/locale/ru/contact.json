@@ -55,9 +55,9 @@
     "DESC": "Добавить основную информацию о контакте."
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Удалить контакт",
+    "TITLE": "Удалить контакт",
+    "DESC": "Удалить данные контакта",
     "CONFIRM": {
       "TITLE": "Подтвердите удаление",
       "MESSAGE": "Вы точно хотите удалить ",
@@ -66,8 +66,8 @@
       "NO": "Нет, не удалять "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Кампания успешно удалена",
+      "ERROR_MESSAGE": "Не удалось удалить канал. Пожалуйста, повторите попытку позже."
     }
   },
   "CONTACT_FORM": {
