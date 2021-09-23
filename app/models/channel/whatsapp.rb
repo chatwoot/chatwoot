@@ -30,7 +30,8 @@ class Channel::Whatsapp < ApplicationRecord
 
   # all this should happen in provider service . but hack mode on
   def api_base_path
-    'https://waba-sandbox.360dialog.io/v1'
+    # provide the environment variable when testing against sandbox : 'https://waba-sandbox.360dialog.io/v1'
+    ENV.fetch('360DIALOG_BASE_URL', 'https://waba.360dialog.io/v1')
   end
 
   # Extract later into provider Service
