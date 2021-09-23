@@ -19,6 +19,11 @@ describe('#getters', () => {
     expect(getters.getTwilioInboxes(state).length).toEqual(1);
   });
 
+  it('getTwilioSMSInboxes', () => {
+    const state = { records: inboxList };
+    expect(getters.getTwilioSMSInboxes(state).length).toEqual(1);
+  });
+
   it('getInbox', () => {
     const state = {
       records: inboxList,

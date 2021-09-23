@@ -161,7 +161,7 @@ export default {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return this.$store.getters['inboxes/getTwilioInboxes'];
+      return this.$store.getters['inboxes/getTwilioSMSInboxes'];
     },
     pageTitle() {
       return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
