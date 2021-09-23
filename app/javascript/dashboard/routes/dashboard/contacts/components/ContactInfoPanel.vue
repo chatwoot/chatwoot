@@ -91,9 +91,9 @@ export default {
 .close-button {
   position: absolute;
   right: var(--space-normal);
-  top: var(--space-slab);
+  top: 3.6rem;
   font-size: var(--font-size-big);
-  color: var(--color-heading);
+  color: var(--s-500);
 
   .close-icon {
     margin-right: var(--space-smaller);

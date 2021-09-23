@@ -48,15 +48,29 @@
           />
         </div>
       </div>
-      <woot-button
-        v-if="!showNewMessage"
-        class="edit-contact"
-        variant="link"
-        size="small"
-        @click="toggleEditModal"
-      >
-        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-      </woot-button>
+      <div v-if="!showNewMessage">
+        <div>
+          <woot-button
+            class="edit-contact"
+            variant="link"
+            size="small"
+            @click="toggleEditModal"
+          >
+            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+        <div>
+          <woot-button
+            class="edit-contact"
+            color-scheme="secondary"
+            variant="link"
+            size="small"
+            @click="openMergeModal"
+          >
+            {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
+          </woot-button>
+        </div>
+      </div>
       <div v-else class="contact-actions">
         <woot-button
           class="new-message"
@@ -84,15 +98,24 @@
         :contact="contact"
         @cancel="toggleConversationModal"
       />
+      <contact-merge-modal
+        v-if="showMergeModal"
+        :primary-contact="contact"
+        :show="showMergeModal"
+        @close="toggleMergeModal"
+      />
     </div>
   </div>
 </template>
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
+import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 
 export default {
   components: {
@@ -101,7 +124,9 @@ export default {
     Thumbnail,
     SocialIcons,
     NewConversation,
+    ContactMergeModal,
   },
+  mixins: [clickaway],
   props: {
     contact: {
       type: Object,
@@ -120,6 +145,7 @@ export default {
     return {
       showEditModal: false,
       showConversationModal: false,
+      showMergeModal: false,
     };
   },
   computed: {
@@ -136,30 +162,35 @@ export default {
     },
   },
   methods: {
+    toggleMergeModal() {
+      this.showMergeModal = !this.showMergeModal;
+    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
     },
+    openMergeModal() {
+      this.toggleMergeModal();
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
 .contact--profile {
+  position: relative;
   align-items: flex-start;
   padding: var(--space-normal);
 
   .user-thumbnail-box {
-    margin-right: $space-normal;
+    margin-right: var(--space-normal);
   }
 }
 
 .contact--details {
-  margin-top: $space-small;
+  margin-top: var(--space-small);
   width: 100%;
 }
 
@@ -191,5 +222,14 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
+}
+.merege-summary--card {
+  padding: var(--space-normal);
+}
+
+.button--contact-menu {
+  position: absolute;
+  right: var(--space-normal);
+  top: 0;
 }
 </style>

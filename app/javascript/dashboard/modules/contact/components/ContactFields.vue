@@ -1,6 +1,6 @@
 <template>
   <div class="contact-fields">
-    <h3 class="block-title title">Contact fields</h3>
+    <h3 class="block-title title">{{ $t('CONTACTS_PAGE.FIELDS') }}</h3>
     <attribute
       :label="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
       icon="ion-email"
