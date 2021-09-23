@@ -54,6 +54,22 @@
     "TITLE": "Buat kontak baru",
     "DESC": "Tambahkan detail informasi dasar tentang kontak tersebut."
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Konfirmasi Penghapusan",
+      "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Ya, Hapus ",
+      "NO": "Tidak, Simpan "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Kirim",
