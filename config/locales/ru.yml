@@ -78,7 +78,7 @@ ru:
       response: "Пожалуйста, оцените этот разговор, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} в сети, повторите попытку позже"
   integration_apps:
     slack:
       name: "Slack"
