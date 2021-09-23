@@ -139,11 +139,47 @@ describe('#actions', () => {
     });
   });
 
+  describe('#delete', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.delete.mockResolvedValue();
+      await actions.delete({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isDeleting: true }],
+        [types.SET_CONTACT_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.delete({ commit }, contactList[0].id)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isDeleting: true }],
+        [types.SET_CONTACT_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
+
   describe('#setContact', () => {
     it('returns correct mutations', () => {
       const data = { id: 1, name: 'john doe', availability_status: 'online' };
       actions.setContact({ commit }, data);
       expect(commit.mock.calls).toEqual([[types.SET_CONTACT_ITEM, data]]);
+    });
+  });
+
+  describe('#deleteContactThroughConversations', () => {
+    it('returns correct mutations', () => {
+      actions.deleteContactThroughConversations({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.DELETE_CONTACT, contactList[0].id],
+        [types.CLEAR_CONTACT_CONVERSATIONS, contactList[0].id, { root: true }],
+        [
+          `contactConversations/${types.DELETE_CONTACT_CONVERSATION}`,
+          contactList[0].id,
+          { root: true },
+        ],
+      ]);
     });
   });
 });
