@@ -29,6 +29,10 @@ const getConversationAPI = async () => {
   return API.get(`/api/v1/widget/conversations${window.location.search}`);
 };
 
+const getConversationsAPI = async () => {
+  return API.get(`/api/v1/widget/conversations`);
+};
+
 const toggleTyping = async ({ typingStatus }) => {
   return API.post(
     `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
@@ -58,4 +62,5 @@ export {
   toggleTyping,
   setUserLastSeenAt,
   sendEmailTranscript,
+  getConversationsAPI,
 };
