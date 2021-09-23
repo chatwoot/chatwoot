@@ -54,6 +54,22 @@
     "TITLE": "新增聯絡人",
     "DESC": "為聯絡人增加基本資訊"
   },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "您確定要刪除嗎？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "是，刪除 ",
+      "NO": "不，保留 "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送出",
