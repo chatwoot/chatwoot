@@ -64,11 +64,16 @@ export default {
 
   computed: {
     filteredAttributes() {
-      return this.attributes.filter(attribute => {
-        return attribute.attribute_display_name
-          .toLowerCase()
-          .includes(this.search.toLowerCase());
-      });
+      return this.attributes
+        .filter(
+          item =>
+            !Object.keys(this.customAttributes).includes(item.attribute_key)
+        )
+        .filter(attribute => {
+          return attribute.attribute_display_name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        });
     },
 
     noResult() {

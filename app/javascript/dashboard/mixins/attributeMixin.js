@@ -6,7 +6,7 @@ export default {
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
     }),
-    allAttributes() {
+    attributes() {
       return this.$store.getters['attributes/getAttributesByModel'](
         'conversation_attribute'
       );
@@ -17,28 +17,22 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
-    attributes() {
-      return this.allAttributes.filter(
-        item => !Object.keys(this.customAttributes).includes(item.attribute_key)
-      );
-    },
+    // Select only custom attribute which are already defined
     filteredAttributes() {
-      const customAttributes = [];
-      Object.keys(this.customAttributes).filter(key => {
-        const value = this.customAttributes[key];
-        const itemExist = this.allAttributes.find(
-          item => item.attribute_key === key
-        );
-        if (itemExist) {
-          customAttributes.push({
-            key,
-            value,
-            ...itemExist,
-            icon: this.attributeIcon(itemExist.attribute_display_type),
-          });
-        }
-      });
-      return customAttributes;
+      return Object.keys(this.customAttributes)
+        .filter(key => {
+          return this.attributes.find(item => item.attribute_key === key);
+        })
+        .map(key => {
+          const item = this.attributes.find(
+            attribute => attribute.attribute_key === key
+          );
+          return {
+            ...item,
+            value: this.customAttributes[key],
+            icon: this.attributeIcon(item.attribute_display_type),
+          };
+        });
     },
   },
   methods: {

@@ -3,7 +3,7 @@
     <custom-attribute
       v-for="attribute in filteredAttributes"
       :key="attribute.id"
-      :attribute-key="attribute.key"
+      :attribute-key="attribute.attribute_key"
       :attribute-type="attribute.attribute_display_type"
       :label="attribute.attribute_display_name"
       :icon="attribute.icon"
