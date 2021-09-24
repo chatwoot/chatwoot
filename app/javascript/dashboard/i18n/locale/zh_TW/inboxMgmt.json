@@ -335,8 +335,8 @@
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "是",
+          "DISABLED": "否"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -360,7 +360,7 @@
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "無法使用",
-        "HOURS": "hours",
+        "HOURS": "小時",
         "VALIDATION_ERROR": "開始時間必須在關閉時間之前",
         "CHOOSE": "選擇"
       }
