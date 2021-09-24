@@ -33,6 +33,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
+    byebug
     return send_text(message) if message.attachments.empty?
 
     telegram_attachments = []
@@ -49,26 +50,6 @@ class Channel::Telegram < ApplicationRecord
       telegram_attachments << telegram_attachment
     end
     send_attachments(message, telegram_attachments)
-  end
-
-  def send_text(message)
-    response = HTTParty.post("#{telegram_api_url}/sendMessage",
-                             body: {
-                               chat_id: message.conversation[:additional_attributes]['chat_id'],
-                               text: message.content
-                             })
-
-    response.parsed_response['result']['message_id'] if response.success?
-  end
-
-  def send_attachments(message, attachments)
-    response = HTTParty.post("#{telegram_api_url}/sendMediaGroup",
-                  body: {
-                    chat_id: message.conversation[:additional_attributes]['chat_id'],
-                    media: attachments.to_json
-                  })
-
-    response.parsed_response['result'].first['message_id']
   end
 
   def get_telegram_profile_image(user_id)
@@ -108,5 +89,25 @@ class Channel::Telegram < ApplicationRecord
                                url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"
                              })
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
+  end
+
+  def send_text(message)
+    response = HTTParty.post("#{telegram_api_url}/sendMessage",
+                             body: {
+                               chat_id: message.conversation[:additional_attributes]['chat_id'],
+                               text: message.content
+                             })
+
+    response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def send_attachments(message, attachments)
+    response = HTTParty.post("#{telegram_api_url}/sendMediaGroup",
+                  body: {
+                    chat_id: message.conversation[:additional_attributes]['chat_id'],
+                    media: attachments.to_json
+                  })
+                  
+    response.parsed_response['result'].first['message_id']
   end
 end
