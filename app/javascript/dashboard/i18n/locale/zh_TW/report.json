@@ -57,7 +57,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "套用",
       "PLACEHOLDER": "Select date range"
     }
   },
