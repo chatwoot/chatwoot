@@ -1,4 +1,6 @@
-class Webhooks::Instagram
+class Webhooks::InstagramEventsJob < ApplicationJob
+  queue_as :default
+
   include HTTParty
 
   base_uri 'https://graph.facebook.com/v11.0/me'
@@ -6,12 +8,10 @@ class Webhooks::Instagram
   # @return [Array] We will support further events like reaction or seen in future
   SUPPORTED_EVENTS = [:message].freeze
 
-  def initialize(entries)
-    @entries = entries
-  end
-
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
-  def consume
+  def perform(entries)
+    @entries = entries
+
     if @entries[0].key?(:changes)
       Rails.logger.info('Probably Test data.')
       # grab the test entry for the review app

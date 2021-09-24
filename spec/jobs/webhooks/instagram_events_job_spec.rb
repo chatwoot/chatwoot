@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'webhooks/twitter'
 
-describe Webhooks::Instagram do
+describe Webhooks::InstagramEventsJob do
   subject(:instagram_webhook) { described_class }
 
   let!(:account) { create(:account) }
@@ -23,7 +23,7 @@ describe Webhooks::Instagram do
             profile_pic: 'https://via.placeholder.com/250x250.png'
           }.with_indifferent_access
         )
-        instagram_webhook.new(dm_params[:entry]).consume
+        instagram_webhook.perform_now(dm_params[:entry])
 
         instagram_inbox.reload
 
@@ -42,7 +42,7 @@ describe Webhooks::Instagram do
             profile_pic: 'https://via.placeholder.com/250x250.png'
           }.with_indifferent_access
         )
-        instagram_webhook.new(test_params[:entry]).consume
+        instagram_webhook.perform_now(test_params[:entry])
 
         instagram_inbox.reload
 

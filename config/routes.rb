@@ -251,8 +251,8 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  get 'webhooks/instagram', to: 'api/v1/webhooks#instagram_verify'
-  post 'webhooks/instagram', to: 'api/v1/webhooks#instagram_events'
+  get 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#verify'
+  post 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
