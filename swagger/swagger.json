@@ -1249,6 +1249,33 @@
             "description": "Access denied"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactDelete",
+        "summary": "Delete Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Contact not found"
+          }
+        }
       }
     },
     "/api/v1/accounts/{account_id}/contacts/{id}/conversations": {
