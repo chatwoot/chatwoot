@@ -21,7 +21,8 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       build_message
     end
   rescue Koala::Facebook::AuthenticationError
-    Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
+    @inbox.channel.authorization_error!
+    raise
   rescue StandardError => e
     Sentry.capture_exception(e)
     true
