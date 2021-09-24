@@ -40,8 +40,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
 
-    toggle() {
-      IFrameHelper.events.toggleBubble();
+    toggle(state) {
+      IFrameHelper.events.toggleBubble(state);
     },
 
     setUser(identifier, user) {
