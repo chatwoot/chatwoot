@@ -33,7 +33,7 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
-# debug docker dialogflow issue
+# natively compile grpc and protobuf to support alpine musl (dialogflow-docker workflow)
 RUN apk add --no-cache musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers
 RUN bundle config set --local force_ruby_platform true
 
@@ -74,6 +74,9 @@ ENV EXECJS_RUNTIME ${EXECJS_RUNTIME}
 
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
+
+ARG BUNDLE_FORCE_RUBY_PLATFORM=1
+ENV BUNDLE_FORCE_RUBY_PLATFORM ${BUNDLE_FORCE_RUBY_PLATFORM}
 
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
