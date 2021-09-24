@@ -30,10 +30,6 @@ class Telegram::IncomingMessageService
     params.dig(:message, :chat, :type) == 'private'
   end
 
-  def account
-    @account ||= inbox.account
-  end
-
   def set_contact
     contact_inbox = ::ContactBuilder.new(
       source_id: params[:message][:from][:id],
