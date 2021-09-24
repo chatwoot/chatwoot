@@ -137,7 +137,7 @@ export const IFrameHelper = {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
 
-    toggleBubble: (state) => {
+    toggleBubble: state => {
       if (state === 'open') {
         onBubbleClick({ toggleValue: true });
       } else if (state === 'close') {
