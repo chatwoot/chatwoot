@@ -12,7 +12,7 @@
       "
     >
       <div class="conversation--details">
-        <custom-attribute-selector :conversation-id="conversationId" />
+        <custom-attribute-selector attribute-type="conversation_attribute" />
 
         <conversation-custom-attributes
           :custom-attributes="conversationCustomAttributes"

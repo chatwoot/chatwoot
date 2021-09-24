@@ -2,9 +2,9 @@
   <div class="sidebar-labels-wrap">
     <div class="contact-conversation--list">
       <div
-        v-on-clickaway="closeDropdownLabel"
+        v-on-clickaway="closeDropdown"
         class="label-wrap"
-        @keyup.esc="closeDropdownLabel"
+        @keyup.esc="closeDropdown"
       >
         <woot-button
           size="small"
@@ -12,7 +12,7 @@
           icon="ion-plus"
           @click="toggleAttributeDropDown"
         >
-          {{ $t('CONVERSATION_CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
+          {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
         </woot-button>
 
         <div class="dropdown-wrap">
@@ -20,8 +20,9 @@
             :class="{ 'dropdown-pane--open': showAttributeDropDown }"
             class="dropdown-pane"
           >
-            <attribute-drop-down
+            <custom-attribute-drop-down
               v-if="showAttributeDropDown"
+              :attribute-type="attributeType"
               @add-attribute="addAttribute"
             />
           </div>
@@ -32,62 +33,47 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import AttributeDropDown from './AttributeDropDown.vue';
+import CustomAttributeDropDown from './CustomAttributeDropDown.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import attributeMixin from 'dashboard/mixins/attributeMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
-    AttributeDropDown,
+    CustomAttributeDropDown,
   },
-  mixins: [clickaway, alertMixin],
+  mixins: [clickaway, alertMixin, attributeMixin],
   props: {
-    conversationId: {
-      type: Number,
-      required: true,
+    attributeType: {
+      type: String,
+      default: 'conversation_attribute',
     },
   },
-
   data() {
     return {
       showAttributeDropDown: false,
     };
   },
-
-  computed: {
-    attributes() {
-      return this.$store.getters['attributes/getAttributesByModel'](
-        'conversation_attribute'
-      );
-    },
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
-    conversationCustomAttributes() {
-      return this.currentChat.custom_attributes || {};
-    },
-  },
   methods: {
     async addAttribute(attribute) {
-      const key = attribute.attribute_key;
+      const { attribute_key } = attribute;
       try {
         await this.$store.dispatch('updateCustomAttributes', {
-          conversationId: this.currentChat.id,
+          conversationId: this.conversationId,
           customAttributes: {
-            [key]: null,
-            ...this.conversationCustomAttributes,
+            [attribute_key]: null,
+            ...this.customAttributes,
           },
         });
 
-        this.showAlert(this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.ADD.SUCCESS'));
+        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.ADD.SUCCESS'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
-          this.$t('CONVERSATION_CUSTOM_ATTRIBUTES.ADD.ERROR');
+          this.$t('CUSTOM_ATTRIBUTES.FORM.ADD.ERROR');
         this.showAlert(errorMessage);
       } finally {
-        this.closeDropdownLabel();
+        this.closeDropdown();
       }
     },
 
@@ -95,7 +81,7 @@ export default {
       this.showAttributeDropDown = !this.showAttributeDropDown;
     },
 
-    closeDropdownLabel() {
+    closeDropdown() {
       this.showAttributeDropDown = false;
     },
   },

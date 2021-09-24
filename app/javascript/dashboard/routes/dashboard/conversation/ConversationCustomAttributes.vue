@@ -66,7 +66,7 @@ export default {
         case 'currency':
           return 'ion-social-usd';
         case 'number':
-          return 'ion-android-call';
+          return 'ion-calculator';
         case 'percent':
           return 'ion-calculator';
         default:
