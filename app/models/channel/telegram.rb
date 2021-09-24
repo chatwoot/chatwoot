@@ -35,10 +35,20 @@ class Channel::Telegram < ApplicationRecord
   def send_message_on_telegram(message)
     return send_text(message) if message.attachments.empty?
 
+    telegram_attachments = []
     message.attachments.each do |attachment|
-      send_photo(message, attachment) if attachment[:file_type] == 'image'
-      send_document(message, attachment) if attachment[:file_type] == 'file'
+      telegram_attachment = {}
+
+      case attachment[:file_type]
+      when "image"
+        telegram_attachment[:type] = "photo"
+      when "file"
+        telegram_attachment[:type] = "document"
+      end
+      telegram_attachment[:media] = attachment.file_url
+      telegram_attachments << telegram_attachment
     end
+    send_attachments(message, telegram_attachments)
   end
 
   def send_text(message)
@@ -51,20 +61,14 @@ class Channel::Telegram < ApplicationRecord
     response.parsed_response['result']['message_id'] if response.success?
   end
 
-  def send_photo(message, attachment)
-    HTTParty.post("#{telegram_api_url}/sendPhoto",
+  def send_attachments(message, attachments)
+    response = HTTParty.post("#{telegram_api_url}/sendMediaGroup",
                   body: {
                     chat_id: message.conversation[:additional_attributes]['chat_id'],
-                    photo: attachment.file_url
+                    media: attachments.to_json
                   })
-  end
 
-  def send_document(message, attachment)
-    HTTParty.post("#{telegram_api_url}/sendDocument",
-                  body: {
-                    chat_id: message.conversation[:additional_attributes]['chat_id'],
-                    document: attachment.file_url
-                  })
+    response.parsed_response['result'].first['message_id']
   end
 
   def get_telegram_profile_image(user_id)
