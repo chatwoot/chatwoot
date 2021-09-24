@@ -138,13 +138,14 @@ export const IFrameHelper = {
     },
 
     toggleBubble: state => {
+      let bubbleState = {};
       if (state === 'open') {
-        onBubbleClick({ toggleValue: true });
+        bubbleState.toggleValue = true;
       } else if (state === 'close') {
-        onBubbleClick({ toggleValue: false });
-      } else {
-        onBubbleClick();
+        bubbleState.toggleValue = false;
       }
+
+      onBubbleClick(bubbleState);
     },
 
     onBubbleToggle: isOpen => {
