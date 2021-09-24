@@ -18,9 +18,9 @@
         <woot-dropdown-menu>
           <custom-attribute-drop-down-item
             v-for="attribute in filteredAttributes"
-            :key="attribute.title"
-            :title="attribute.title"
-            :icon="attribute.icon"
+            :key="attribute.attribute_display_name"
+            :title="attribute.attribute_display_name"
+            :icon="attributeIcon(attribute.attribute_display_type)"
             @click="onAddAttribute(attribute)"
           />
         </woot-dropdown-menu>
@@ -65,7 +65,7 @@ export default {
   computed: {
     filteredAttributes() {
       return this.attributes.filter(attribute => {
-        return attribute.title
+        return attribute.attribute_display_name
           .toLowerCase()
           .includes(this.search.toLowerCase());
       });

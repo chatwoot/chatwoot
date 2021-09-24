@@ -6,26 +6,39 @@ export default {
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
     }),
+    allAttributes() {
+      return this.$store.getters['attributes/getAttributesByModel'](
+        'conversation_attribute'
+      );
+    },
     customAttributes() {
       return this.currentChat.custom_attributes || {};
     },
     conversationId() {
       return this.currentChat.id;
     },
-    allAttributes() {
-      return this.$store.getters['attributes/getAttributesByModel'](
-        this.attributeType
-      ).map(item => ({
-        id: item.id,
-        title: item.attribute_display_name,
-        attribute_key: item.attribute_key,
-        icon: this.attributeIcon(item.attribute_display_type),
-      }));
-    },
     attributes() {
       return this.allAttributes.filter(
         item => !Object.keys(this.customAttributes).includes(item.attribute_key)
       );
+    },
+    filteredAttributes() {
+      const customAttributes = [];
+      Object.keys(this.customAttributes).filter(key => {
+        const value = this.customAttributes[key];
+        const itemExist = this.allAttributes.find(
+          item => item.attribute_key === key
+        );
+        if (itemExist) {
+          customAttributes.push({
+            key,
+            value,
+            ...itemExist,
+            icon: this.attributeIcon(itemExist.attribute_display_type),
+          });
+        }
+      });
+      return customAttributes;
     },
   },
   methods: {

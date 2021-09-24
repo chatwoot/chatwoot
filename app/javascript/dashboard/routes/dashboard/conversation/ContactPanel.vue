@@ -14,7 +14,8 @@
       <div class="conversation--details">
         <custom-attribute-selector attribute-type="conversation_attribute" />
 
-        <conversation-custom-attributes
+        <custom-attributes
+          attribute-type="conversation_attribute"
           :custom-attributes="conversationCustomAttributes"
         />
       </div>
@@ -181,7 +182,7 @@ import ConversationLabels from './labels/LabelBox.vue';
 import CustomAttributeSelector from './CustomAttributeSelector.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import ConversationCustomAttributes from './ConversationCustomAttributes.vue';
+import CustomAttributes from './CustomAttributes.vue';
 
 import flag from 'country-code-emoji';
 
@@ -194,8 +195,8 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
     AccordionItem,
-    ConversationCustomAttributes,
     CustomAttributeSelector,
+    CustomAttributes,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
