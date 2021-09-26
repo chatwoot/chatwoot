@@ -3,7 +3,7 @@
     <div v-if="type === 'agent'" class="small-12 medium-3 pull-right">
       <multiselect
         v-model="currentSelectedFilter"
-        placeholder="Select Agent"
+        :placeholder="$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL')"
         label="name"
         track-by="id"
         :options="filterItemsList"
@@ -12,15 +12,23 @@
         @input="changeFilterSelection"
       >
         <template slot="singleLabel" slot-scope="props">
-          <img class="reports-option__image" :src="props.option.thumbnail" />
+          <img
+            class="reports-option__rounded--item reports-option__item"
+            :src="props.option.thumbnail"
+          />
           <span class="reports-option__desc">
             <span class="reports-option__title">{{ props.option.name }}</span>
           </span>
         </template>
         <template slot="option" slot-scope="props">
-          <img class="reports-option__image" :src="props.option.thumbnail" />
-          <div class="reports-option__desc">
-            <span class="reports-option__title">{{ props.option.name }}</span>
+          <div class="display-flex">
+            <img
+              class="reports-option__rounded--item reports-option__item"
+              :src="props.option.thumbnail"
+            />
+            <span class="reports-option__desc">
+              <span class="reports-option__title">{{ props.option.name }}</span>
+            </span>
           </div>
         </template>
       </multiselect>
@@ -28,7 +36,7 @@
     <div v-if="type === 'label'" class="small-12 medium-3 pull-right">
       <multiselect
         v-model="currentSelectedFilter"
-        placeholder="Select Label"
+        :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
         label="title"
         track-by="id"
         :options="filterItemsList"
@@ -37,11 +45,10 @@
         @input="changeFilterSelection"
       >
         <template slot="singleLabel" slot-scope="props">
-          <div style="display: flex">
+          <div class="display-flex">
             <div
               :style="{ backgroundColor: props.option.color }"
-              style="margin-right: 8px"
-              class="reports-option__image"
+              class="reports-option__rounded--item margin-right-small"
             ></div>
             <span class="reports-option__desc">
               <span class="reports-option__title">{{
@@ -51,11 +58,14 @@
           </div>
         </template>
         <template slot="option" slot-scope="props">
-          <div style="display: flex">
+          <div class="display-flex">
             <div
               :style="{ backgroundColor: props.option.color }"
-              style="margin-right: 8px; border: 1px solid white; flex-shrink: 0"
-              class="reports-option__image"
+              class="
+                reports-option__rounded--item
+                reports-option__item
+                reports-option__label--swatch
+              "
             ></div>
             <span class="reports-option__desc">
               <span class="reports-option__title">{{
@@ -65,6 +75,21 @@
           </div>
         </template>
       </multiselect>
+    </div>
+    <div v-if="type === 'inbox'" class="small-12 medium-3 pull-right">
+      <multiselect
+        v-model="currentSelectedFilter"
+        track-by="id"
+        label="name"
+        :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        deselect-label=""
+        :options="filterItemsList"
+        :searchable="false"
+        :allow-empty="false"
+        @input="changeFilterSelection"
+      />
     </div>
     <div class="small-12 medium-3 pull-right margin-left-small">
       <multiselect
@@ -150,6 +175,9 @@ export default {
     filterItemsList(val) {
       this.currentSelectedFilter = val[0];
     },
+    currentSelectedFilter() {
+      this.changeFilterSelection();
+    },
   },
   mounted() {
     this.onDateRangeChange();
@@ -177,15 +205,5 @@ export default {
 </script>
 
 <style lang="scss">
-.date-picker {
-  margin-left: var(--space-smaller);
-}
-.margin-left-small {
-  margin-left: var(--space-smaller);
-}
-.reports-option__image {
-  height: 20px;
-  width: 20px;
-  border-radius: 100%;
-}
+@import '~dashboard/assets/scss/widgets/_reports';
 </style>

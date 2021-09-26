@@ -2,7 +2,7 @@
   <woot-reports
     key="inbox-reports"
     type="inbox"
-    getter-key="labels/getInboxes"
+    getter-key="inboxes/getInboxes"
     action-key="inboxes/get"
     :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
   />

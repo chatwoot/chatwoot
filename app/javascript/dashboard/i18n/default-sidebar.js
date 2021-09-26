@@ -92,6 +92,7 @@ export const getSidebarItems = accountId => ({
       'csat_reports',
       'agent_reports',
       'label_reports',
+      'inbox_reports',
     ],
     menuItems: {
       back: {

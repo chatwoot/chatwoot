@@ -14,28 +14,30 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
     />
-    <div v-if="!accountReport.isFetching" class="row">
-      <woot-report-stats-card
-        v-for="(metric, index) in metrics"
-        :key="metric.NAME"
-        :desc="metric.DESC"
-        :heading="metric.NAME"
-        :index="index"
-        :on-click="changeSelection"
-        :point="accountSummary[metric.KEY]"
-        :selected="index === currentSelection"
-      />
-    </div>
-    <div class="report-bar">
-      <woot-loading-state
-        v-if="accountReport.isFetching"
-        :message="$t('REPORT.LOADING_CHART')"
-      />
-      <div v-else class="chart-container">
-        <woot-bar v-if="accountReport.data.length" :collection="collection" />
-        <span v-else class="empty-state">
-          {{ $t('REPORT.NO_ENOUGH_DATA') }}
-        </span>
+    <div v-if="selectedFilter">
+      <div class="row">
+        <woot-report-stats-card
+          v-for="(metric, index) in metrics"
+          :key="metric.NAME"
+          :desc="metric.DESC"
+          :heading="metric.NAME"
+          :index="index"
+          :on-click="changeSelection"
+          :point="accountSummary[metric.KEY]"
+          :selected="index === currentSelection"
+        />
+      </div>
+      <div class="report-bar">
+        <woot-loading-state
+          v-if="accountReport.isFetching"
+          :message="$t('REPORT.LOADING_CHART')"
+        />
+        <div v-else class="chart-container">
+          <woot-bar v-if="accountReport.data.length" :collection="collection" />
+          <span v-else class="empty-state">
+            {{ $t('REPORT.NO_ENOUGH_DATA') }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -132,18 +134,19 @@ export default {
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
-    this.fetchAllData();
   },
   methods: {
     fetchAllData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-        type: this.type,
-        id: this.selectedFilter.id,
-      });
-      this.fetchChartData();
+      if (this.selectedFilter) {
+        const { from, to } = this;
+        this.$store.dispatch('fetchAccountSummary', {
+          from,
+          to,
+          type: this.type,
+          id: this.selectedFilter.id,
+        });
+        this.fetchChartData();
+      }
     },
     fetchChartData() {
       const { from, to } = this;
@@ -173,8 +176,10 @@ export default {
       this.fetchAllData();
     },
     onFilterChange(payload) {
-      this.selectedFilter = payload;
-      this.fetchAllData();
+      if (payload) {
+        this.selectedFilter = payload;
+        this.fetchAllData();
+      }
     },
   },
 };

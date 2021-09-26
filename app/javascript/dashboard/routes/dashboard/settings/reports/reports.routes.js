@@ -77,7 +77,7 @@ export default {
       ],
     },
     {
-      path: frontendURL('accounts/:accountId/inbox'),
+      path: frontendURL('accounts/:accountId/reports'),
       component: SettingsContent,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
@@ -85,7 +85,7 @@ export default {
       },
       children: [
         {
-          path: 'inbox',
+          path: 'inboxes',
           name: 'inbox_reports',
           roles: ['administrator'],
           component: InboxReports,
