@@ -37,6 +37,11 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
+    team_csv:
+      team_name: Nome do departamento
+      conversations_count: Contagem de conversas
+      avg_first_response_time: Tempo médio de primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"
