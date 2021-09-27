@@ -200,7 +200,7 @@ export default {
       this.$store.dispatch('events/create', { name: eventName });
     },
     registerListeners() {
-      const { websiteToken, workingHoursEnabled } = window.chatwootWebChannel;
+      const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
@@ -219,14 +219,10 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          if (workingHoursEnabled) {
-            this.initCampaigns({
-              currentURL: referrerURL,
-              websiteToken,
-              workingHoursEnabled,
-            });
-          }
-
+          this.initCampaigns({
+            currentURL: referrerURL,
+            websiteToken,
+          });
           window.referrerURL = referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {

@@ -21,6 +21,8 @@ const resetCampaignTimers = (campaigns, currentURL) => {
     campaigns: formattedCampaigns,
     currentURL,
   });
+  console.log('filteredCampaigns', filteredCampaigns);
+
   campaignTimer.initTimers({ campaigns: filteredCampaigns });
 };
 
@@ -31,13 +33,16 @@ export const getters = {
 };
 
 export const actions = {
-  fetchCampaigns: async ({ commit }, { websiteToken, currentURL }) => {
+  fetchCampaigns: async (
+    { commit },
+    { websiteToken, currentURL, workingHoursEnabled }
+  ) => {
     try {
       const { data: campaigns } = await getCampaigns(websiteToken);
       commit('setCampaigns', campaigns);
       commit('setError', false);
       commit('setHasFetched', true);
-      resetCampaignTimers(campaigns, currentURL);
+      resetCampaignTimers(campaigns, currentURL, workingHoursEnabled);
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
@@ -48,7 +53,10 @@ export const actions = {
     { currentURL, websiteToken }
   ) => {
     if (!campaigns.length) {
-      dispatch('fetchCampaigns', { websiteToken, currentURL });
+      dispatch('fetchCampaigns', {
+        websiteToken,
+        currentURL,
+      });
     } else {
       resetCampaignTimers(campaigns, currentURL);
     }
