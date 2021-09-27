@@ -72,10 +72,11 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
+              post :custom_attributes
             end
           end
 
-          resources :contacts, only: [:index, :show, :update, :create] do
+          resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
               get :search
