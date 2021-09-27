@@ -347,7 +347,10 @@ export default {
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
-          this.showAlert(this.$t('CONVERSATION.FILE_FORMAT_ERROR'));
+          const errorMessage =
+            error?.response?.data?.error ||
+            this.$t('CONVERSATION.MESSAGE_ERROR');
+          this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
       }
