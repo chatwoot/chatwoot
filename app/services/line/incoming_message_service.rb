@@ -16,18 +16,54 @@ class Line::IncomingMessageService
     set_conversation
     # TODO: iterate over the events and handle the attachments in future
     # https://github.com/line/line-bot-sdk-ruby#synopsis
+
+    params[:events].each do |event|
+      next unless event_type_message?(event)
+
+      create_message event['message']
+
+      next unless message_type_non_text?(event['message']['type'])
+
+      response = inbox.channel.client.get_message_content(event['message']['id'])
+      next unless response
+
+      attach_files response
+    end
+  end
+
+  private
+
+  def create_message(message)
     @message = @conversation.messages.create(
-      content: params[:events].first['message']['text'],
+      content: message['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: (params[:events].first['message']['id']).to_s
+      source_id: message['id'].to_s
+    )
+  end
+
+  def attach_files(response)
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(response),
+      file: {
+        io: response,
+        filename: response.original_filename,
+        content_type: response.content_type
+      }
     )
     @message.save!
   end
 
-  private
+  def event_type_message?(event)
+    event['type'] == 'message'
+  end
+
+  def message_type_non_text?(type)
+    [Line::Bot::Event::MessageType::Video, Line::Bot::Event::MessageType::Audio, Line::Bot::Event::MessageType::Image].include?(type)
+  end
 
   def account
     @account ||= inbox.account
@@ -69,5 +105,9 @@ class Line::IncomingMessageService
       name: line_contact_info['displayName'],
       avatar_url: line_contact_info['pictureUrl']
     }
+  end
+
+  def file_content_type(file_content)
+    file_type(file_content.content_type)
   end
 end
