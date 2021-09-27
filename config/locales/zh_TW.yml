@@ -37,6 +37,11 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
+    team_csv:
+      team_name: 團隊名稱
+      conversations_count: 對話數量
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
   notifications:
     notification_title:
       conversation_creation: "[新對話] - #%{display_id} 已經在 %{inbox_name} 中被建立"
