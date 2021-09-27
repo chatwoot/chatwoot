@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_082754) do
+ActiveRecord::Schema.define(version: 2021_09_27_062350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_082754) do
     t.integer "campaign_status", default: 0, null: false
     t.jsonb "audience", default: []
     t.datetime "scheduled_at"
+    t.boolean "trigger_only_during_business_hours", default: true
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
