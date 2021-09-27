@@ -9,19 +9,17 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @agents = agents
   end
 
-  def destroy
-    @agent.current_account_user.destroy
-    head :ok
+  def create
   end
 
   def update
-    @agent.update!(agent_params.except(:role))
-    @agent.current_account_user.update!(role: agent_params[:role], availability: new_agent_params[:availability], auto_offline: new_agent_params[:auto_offline],) if agent_params[:role]
-    render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @agent }
+    @agent.update!(agent_params.slice(:name).compact)
+    @agent.current_account_user.update!(agent_params.slice(:role, :availability, :auto_offline).compact)
   end
 
-  def create
-    render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @user }
+  def destroy
+    @agent.current_account_user.destroy
+    head :ok
   end
 
   private
@@ -53,12 +51,12 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       role: new_agent_params[:role],
       inviter_id: current_user.id,
       availability: new_agent_params[:availability],
-      auto_offline: new_agent_params[:auto_offline],
+      auto_offline: new_agent_params[:auto_offline]
     )
   end
 
   def agent_params
-    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+    params.require(:agent).permit(:name, :email, :name, :role, :availability, :auto_offline)
   end
 
   def new_agent_params

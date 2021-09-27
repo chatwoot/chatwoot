@@ -22,5 +22,6 @@ json.accounts do
     json.active_at account_user.active_at
     json.role account_user.role
     json.availability_status account_user.availability_status
+    json.auto_offline account_user.auto_offline
   end
 end

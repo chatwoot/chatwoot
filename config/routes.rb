@@ -40,7 +40,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
 
-          resources :agents, except: [:show, :edit, :new]
+          resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
 
           resources :callbacks, only: [] do

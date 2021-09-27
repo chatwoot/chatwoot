@@ -144,6 +144,10 @@ class User < ApplicationRecord
     current_account_user&.availability_status
   end
 
+  def auto_offline
+    current_account_user&.auto_offline
+  end
+
   def inviter
     current_account_user&.inviter
   end
