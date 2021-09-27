@@ -56,7 +56,6 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
@@ -121,6 +120,11 @@ gem 'maxminddb'
 gem 'hairtrigger'
 
 gem 'procore-sift'
+
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
 
 group :development do
   gem 'annotate'
