@@ -19,6 +19,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_off': this.onTypingOff,
       'conversation.contact_changed': this.onConversationContactChange,
       'presence.update': this.onPresenceUpdate,
+      'contact.deleted': this.onContactDelete,
     };
   }
 
@@ -114,6 +115,14 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
+  };
+
+  onContactDelete = data => {
+    this.app.$store.dispatch(
+      'contacts/deleteContactThroughConversations',
+      data.id
+    );
+    this.fetchConversationStats();
   };
 }
 

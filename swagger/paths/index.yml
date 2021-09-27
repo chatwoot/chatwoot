@@ -209,6 +209,18 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot:
   $ref: ./inboxes/set_agent_bot.yml
 
+# Inbox Members
+/api/v1/accounts/{account_id}/inbox_members:
+  get:
+    $ref: ./inboxes/inbox_members/show.yml
+  post:
+    $ref: ./inboxes/inbox_members/create.yml
+  patch:
+    $ref: ./inboxes/inbox_members/update.yml
+  delete: 
+    $ref: ./inboxes/inbox_members/delete.yml
+  
+
 
 # Messages
 /api/v1/accounts/{account_id}/conversations/{id}/messages:
@@ -273,7 +285,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 
 ### Custom Filters goes here
 
-# Teams
+# Custom Filters
 /api/v1/accounts/{account_id}/custom_filters:
   parameters:
     - $ref: '#/parameters/account_id'

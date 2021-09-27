@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Denne samtalen er dempet i 6 timer",
     "UNMUTED_SUCCESS": "Demping er skrudd av for samtalen",
     "SEND_TRANSCRIPT": "Send kopi av samtale",
-    "EDIT_LABEL": "Rediger"
+    "EDIT_LABEL": "Rediger",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Egendefinerte verdier",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Tidligere samtaler"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Rediger kontakt",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Egendefinerte verdier",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
