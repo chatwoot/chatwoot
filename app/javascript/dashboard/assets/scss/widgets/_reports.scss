@@ -1,21 +1,26 @@
 .date-picker {
   margin-left: var(--space-smaller);
 }
+
 .margin-left-small {
   margin-left: var(--space-smaller);
 }
+
 .reports-option__rounded--item {
+  border-radius: 100%;
   height: var(--space-two);
   width: var(--space-two);
-  border-radius: 100%;
 }
+
 .reports-option__item {
-  margin-right: var(--space-small);
   flex-shrink: 0;
+  margin-right: var(--space-small);
 }
+
 .reports-option__label--swatch {
-  border: 1px solid white;
+  border: 1px solid #ffffff;
 }
+
 .margin-right-small {
   margin-right: var(--space-small);
 }
