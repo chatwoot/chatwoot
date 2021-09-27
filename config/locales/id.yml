@@ -37,6 +37,11 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    team_csv:
+      team_name: Team name
+      conversations_count: Jumlah percakapan
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
