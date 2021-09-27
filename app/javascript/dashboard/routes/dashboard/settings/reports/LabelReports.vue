@@ -4,7 +4,7 @@
     type="label"
     getter-key="labels/getLabels"
     action-key="labels/get"
-    :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
+    :download-button-label="$t('LABEL_REPORTS.DOWNLOAD_LABEL_REPORTS')"
   />
 </template>
 

@@ -7,6 +7,8 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
+import downloadFile from '../../helper/fileDownload.js';
+
 const state = {
   fetchingStatus: false,
   reportData: [],
@@ -87,6 +89,24 @@ export const actions = {
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadLabelReports(_, reportObj) {
+    return Report.getLabelReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadFile(reportObj.fileName, response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadInboxReports(_, reportObj) {
+    return Report.getInboxReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadFile(reportObj.fileName, response.data);
       })
       .catch(error => {
         console.error(error);

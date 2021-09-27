@@ -4,6 +4,7 @@
       color-scheme="success"
       class-names="button--fixed-right-top"
       icon="ion-android-download"
+      @click="downloadReports"
     >
       {{ downloadButtonLabel }}
     </woot-button>
@@ -158,13 +159,25 @@ export default {
         id: this.selectedFilter.id,
       });
     },
-    downloadAgentReports() {
+    downloadReports() {
       const { from, to } = this;
-      const fileName = `agent-report-${format(
+      const fileName = `agent-${this.type}-${format(
         fromUnixTime(to),
         'dd-MM-yyyy'
       )}.csv`;
-      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+      switch (this.type) {
+        case 'agent':
+          this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+          break;
+        case 'label':
+          this.$store.dispatch('downloadLabelReports', { from, to, fileName });
+          break;
+        case 'inbox':
+          this.$store.dispatch('downloadInboxReports', { from, to, fileName });
+          break;
+        default:
+          break;
+      }
     },
     changeSelection(index) {
       this.currentSelection = index;

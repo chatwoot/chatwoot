@@ -23,6 +23,18 @@ class ReportsAPI extends ApiClient {
       params: { since, until },
     });
   }
+
+  getLabelReports(since, until) {
+    return axios.get(`${this.url}/labels`, {
+      params: { since, until },
+    });
+  }
+
+  getInboxReports(since, until) {
+    return axios.get(`${this.url}/inboxes`, {
+      params: { since, until },
+    });
+  }
 }
 
 export default new ReportsAPI();
