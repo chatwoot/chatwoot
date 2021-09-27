@@ -181,6 +181,7 @@ describe('inboxMixin', () => {
       },
     };
     const wrapper = shallowMount(Component);
+    expect(wrapper.vm.isTwitterInboxTweet).toBe(true);
     expect(wrapper.vm.twitterBadge).toBe('twitter-tweet');
   });
 
