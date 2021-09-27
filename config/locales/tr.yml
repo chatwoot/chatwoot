@@ -37,6 +37,11 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    team_csv:
+      team_name: Team name
+      conversations_count: Konuşma sayısı
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
