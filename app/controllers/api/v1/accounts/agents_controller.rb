@@ -44,14 +44,15 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def save_account_user
-    AccountUser.create!(
+    AccountUser.create!({
       account_id: Current.account.id,
       user_id: @user.id,
+      inviter_id: current_user.id
+    }.merge({
       role: new_agent_params[:role],
-      inviter_id: current_user.id,
       availability: new_agent_params[:availability],
       auto_offline: new_agent_params[:auto_offline]
-    )
+    }.compact))
   end
 
   def agent_params
