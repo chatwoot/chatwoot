@@ -102,7 +102,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update_channel_feature_flags
     return unless @inbox.web_widget?
     return unless permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags
-    return unless @inbox.channel.try(:selected_feature_flags)
 
     @inbox.channel.selected_feature_flags = permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel][:selected_feature_flags]
     @inbox.channel.save!
