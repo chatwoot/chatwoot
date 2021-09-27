@@ -37,6 +37,11 @@ pl:
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    team_csv:
+      team_name: Team name
+      conversations_count: Liczba rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
