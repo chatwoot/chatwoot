@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
-    "EDIT_LABEL": "Chỉnh sửa"
+    "EDIT_LABEL": "Chỉnh sửa",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Chỉnh sửa liên hệ",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Thuộc tính tùy chỉnh",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

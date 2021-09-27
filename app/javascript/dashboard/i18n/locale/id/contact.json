@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Percakapan ini di mute selama 6 jam",
     "UNMUTED_SUCCESS": "Percakapan ini di unmute",
     "SEND_TRANSCRIPT": "Kirim Transkrip",
-    "EDIT_LABEL": "Edit"
+    "EDIT_LABEL": "Edit",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Atribut Kustom",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Percakapan Sebelumnya"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Kontak",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Atribut Kustom",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

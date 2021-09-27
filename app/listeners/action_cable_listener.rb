@@ -111,6 +111,13 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONTACT_MERGED, contact.push_event_data)
   end
 
+  def contact_deleted(event)
+    contact, account = extract_contact_and_account(event)
+    tokens = user_tokens(account, account.agents)
+
+    broadcast(account, tokens, CONTACT_DELETED, contact.push_event_data)
+  end
+
   private
 
   def typing_event_listener_tokens(account, conversation, user)

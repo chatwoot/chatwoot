@@ -2,6 +2,8 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributes",
     "HEADER_BTN_TXT": "Add Attribute",
+    "LOADING": "Fetching attributes",
+    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Add attribute",
       "SUBMIT": "Create",
@@ -9,11 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name"
+          "PLACEHOLDER": "Enter attribute display name",
+          "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description"
+          "PLACEHOLDER": "Enter attribute description",
+          "ERROR": "Description is required"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -31,7 +35,50 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Cancellare",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the attribute",
+        "YES": "Cancellare ",
+        "NO": "annulla"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit attribute",
+      "UPDATE_BUTTON_TEXT": "Aggiornamento",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "Custom Attributes",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "nome",
+        "Description",
+        "Type",
+        "Key"
+      ],
+      "BUTTONS": {
+        "EDIT": "Modifica",
+        "DELETE": "Cancellare"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no attributes created",
+        "NOT_FOUND": "There are no attributes configured"
       }
     }
   }

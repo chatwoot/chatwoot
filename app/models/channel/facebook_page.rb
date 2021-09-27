@@ -17,15 +17,12 @@
 #
 
 class Channel::FacebookPage < ApplicationRecord
-  self.table_name = 'channel_facebook_pages'
-
+  include Channelable
   include Reauthorizable
 
-  validates :account_id, presence: true
-  validates :page_id, uniqueness: { scope: :account_id }
-  belongs_to :account
+  self.table_name = 'channel_facebook_pages'
 
-  has_one :inbox, as: :channel, dependent: :destroy
+  validates :page_id, uniqueness: { scope: :account_id }
 
   after_create_commit :subscribe
   before_destroy :unsubscribe

@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Esta conversa foi silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Esta conversa foi reativada",
     "SEND_TRANSCRIPT": "Enviar Transcrição",
-    "EDIT_LABEL": "Alterar"
+    "EDIT_LABEL": "Alterar",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados",
+      "CONTACT_LABELS": "Etiquetas de Contato",
+      "PREVIOUS_CONVERSATIONS": "Conversas anteriores"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Editar Contato",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Atributos personalizados",
     "BUTTON": "Adicionar atributo personalizado",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Criar atributo personalizado",
       "DESC": "Adicionar informação personalizada a este contato."
