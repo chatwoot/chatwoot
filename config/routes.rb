@@ -159,7 +159,7 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
-      resource :profile, only: [:show, :update] do  
+      resource :profile, only: [:show, :update] do
         member do
           post :availability
         end

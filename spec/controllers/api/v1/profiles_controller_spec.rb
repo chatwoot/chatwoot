@@ -116,9 +116,9 @@ RSpec.describe 'Profile API', type: :request do
 
       it 'updates the availability status' do
         post '/api/v1/profile/availability',
-            params: { profile: { availability: 'busy', account_id: account.id } },
-            headers: agent.create_new_auth_token,
-            as: :json
+             params: { profile: { availability: 'busy', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
 
         expect(response).to have_http_status(:success)
         expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')

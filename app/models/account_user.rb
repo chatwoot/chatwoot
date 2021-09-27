@@ -4,8 +4,8 @@
 #
 #  id           :bigint           not null, primary key
 #  active_at    :datetime
-#  auto_offline :boolean          default(TRUE)
-#  availability :integer          default("online")
+#  auto_offline :boolean          default(TRUE), not null
+#  availability :integer          default("online"), not null
 #  role         :integer          default("agent")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -63,8 +63,6 @@ class AccountUser < ApplicationRecord
   def notify_deletion
     Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
   end
-
-  private
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)

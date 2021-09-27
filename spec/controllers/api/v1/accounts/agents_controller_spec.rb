@@ -106,7 +106,7 @@ RSpec.describe 'Agents API', type: :request do
 
       it 'modifies an agents account user attributes' do
         put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
-            params: {role:'administrator', availability: 'busy', auto_offline: false},
+            params: { role: 'administrator', availability: 'busy', auto_offline: false },
             headers: admin.create_new_auth_token,
             as: :json
 

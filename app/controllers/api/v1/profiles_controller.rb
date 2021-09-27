@@ -1,8 +1,7 @@
 class Api::V1::ProfilesController < Api::BaseController
   before_action :set_user
 
-  def show
-  end
+  def show; end
 
   def update
     if password_params[:password].present?

@@ -9,8 +9,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @agents = agents
   end
 
-  def create
-  end
+  def create; end
 
   def update
     @agent.update!(agent_params.slice(:name).compact)

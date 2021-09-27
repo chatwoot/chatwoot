@@ -56,7 +56,7 @@ class User < ApplicationRecord
          :confirmable,
          :password_has_required_content
 
-  # TODO: remove in a future version once online status is moved to account users 
+  # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
   enum availability: { online: 0, offline: 1, busy: 2 }
 
