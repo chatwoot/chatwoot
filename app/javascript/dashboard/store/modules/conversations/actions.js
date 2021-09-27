@@ -164,6 +164,9 @@ const actions = {
         status: MESSAGE_STATUS.SENT,
       });
     } catch (error) {
+      if (error.response.status === 422) {
+        throw new Error(error);
+      }
       // Handle error
     }
   },

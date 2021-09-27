@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "Conversation Assignee changed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_FORMAT_ERROR": "You are trying to upload an unsupported file format, Please upload supported file format ( 'image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/tiff', 'application/pdf', 'audio/mpeg', 'video/mp4', 'audio/ogg', 'text/csv )",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
