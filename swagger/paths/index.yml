@@ -327,7 +327,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 ### Reports
 
 # List
-/api/v1/accounts/{id}/reports:
+/api/v2/accounts/{id}/reports:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/report_metric'
@@ -351,7 +351,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: './application/reports/index.yml'
 
 # Summary
-/api/v1/accounts/{id}/reports/summary:
+/api/v2/accounts/{id}/reports/summary:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/report_type'
