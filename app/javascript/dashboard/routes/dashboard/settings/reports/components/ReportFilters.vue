@@ -12,23 +12,27 @@
         @input="changeFilterSelection"
       >
         <template slot="singleLabel" slot-scope="props">
-          <img
-            class="reports-option__rounded--item reports-option__item"
-            :src="props.option.thumbnail"
-          />
-          <span class="reports-option__desc">
-            <span class="reports-option__title">{{ props.option.name }}</span>
-          </span>
-        </template>
-        <template slot="option" slot-scope="props">
           <div class="display-flex">
-            <img
-              class="reports-option__rounded--item reports-option__item"
-              :src="props.option.thumbnail"
+            <thumbnail
+              src="props.option.thumbnail"
+              :username="props.option.name"
+              size="22px"
+              class="margin-right-small"
             />
             <span class="reports-option__desc">
               <span class="reports-option__title">{{ props.option.name }}</span>
             </span>
+          </div>
+        </template>
+        <template slot="option" slot-scope="props">
+          <div class="display-flex">
+            <thumbnail
+              src="props.option.thumbnail"
+              :username="props.option.name"
+              size="22px"
+              class="margin-right-small"
+            />
+            <p>{{ props.option.name }}</p>
           </div>
         </template>
       </multiselect>
@@ -122,10 +126,12 @@ const CUSTOM_DATE_RANGE_ID = 5;
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
     WootDateRangePicker,
+    Thumbnail,
   },
   props: {
     filterItemsList: {
