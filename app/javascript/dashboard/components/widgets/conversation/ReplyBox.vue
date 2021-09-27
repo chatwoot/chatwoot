@@ -20,6 +20,10 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
+      <reply-email-head
+        ccEmails=""
+        bccEmails=""
+      />
       <resizable-text-area
         v-if="!showRichContentEditor"
         ref="messageInput"
@@ -82,6 +86,7 @@ import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
+import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
