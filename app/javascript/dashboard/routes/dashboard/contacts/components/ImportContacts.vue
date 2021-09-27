@@ -24,12 +24,13 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="uiFlags.isCreating || !file"
-              :button-text="$t('IMPORT_CONTACTS.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
               @click="uploadFile"
-            />
+            >
+              {{ $t('IMPORT_CONTACTS.FORM.SUBMIT') }}
+            </woot-button>
             <button class="button clear" @click.prevent="onClose">
               {{ $t('IMPORT_CONTACTS.FORM.CANCEL') }}
             </button>
