@@ -192,4 +192,37 @@ RSpec.describe 'Reports API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/teams' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/teams.csv"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      params = {
+        since: 30.days.ago.to_i.to_s,
+        until: Time.zone.today.to_time.to_i.to_s
+      }
+
+      it 'returns unauthorized for teams' do
+        get "/api/v2/accounts/#{account.id}/reports/teams.csv",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns summary' do
+        get "/api/v2/accounts/#{account.id}/reports/teams.csv",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end
