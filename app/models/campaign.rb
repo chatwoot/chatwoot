@@ -11,7 +11,7 @@
 #  message                            :text             not null
 #  scheduled_at                       :datetime
 #  title                              :string           not null
-#  trigger_only_during_business_hours :boolean          default(TRUE)
+#  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
