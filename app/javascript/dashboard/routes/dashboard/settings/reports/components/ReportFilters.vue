@@ -1,6 +1,9 @@
 <template>
   <div class="flex-container flex-dir-column medium-flex-dir-row">
     <div v-if="type === 'agent'" class="small-12 medium-3 pull-right">
+      <p aria-hidden="true" class="hide">
+        {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
+      </p>
       <multiselect
         v-model="currentSelectedFilter"
         :placeholder="$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL')"
@@ -38,6 +41,9 @@
       </multiselect>
     </div>
     <div v-if="type === 'label'" class="small-12 medium-3 pull-right">
+      <p aria-hidden="true" class="hide">
+        {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
+      </p>
       <multiselect
         v-model="currentSelectedFilter"
         :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
@@ -81,6 +87,9 @@
       </multiselect>
     </div>
     <div v-if="type === 'inbox'" class="small-12 medium-3 pull-right">
+      <p aria-hidden="true" class="hide">
+        {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
+      </p>
       <multiselect
         v-model="currentSelectedFilter"
         track-by="id"
