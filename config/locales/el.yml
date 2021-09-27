@@ -37,6 +37,11 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    team_csv:
+      team_name: Όνομα ομάδας
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
   notifications:
     notification_title:
       conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
