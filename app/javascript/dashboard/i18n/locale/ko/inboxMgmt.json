@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "채널 아바타"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "웹훅 URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "올바른 URL을 입력하십시오."
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "웹사이트 도메인",
           "PLACEHOLDER": "웹사이트 도메인을 입력하십시오 (예: acme.com)"
