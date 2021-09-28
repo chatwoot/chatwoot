@@ -7,7 +7,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
-import downloadFile from '../../helper/fileDownload.js';
+import downloadFile from '../../utils/fileDownload';
 
 const state = {
   fetchingStatus: false,
