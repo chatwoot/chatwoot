@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanavan avatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhookin URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Anna kelvollinen URL-osoite"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Sivuston verkkotunnus",
           "PLACEHOLDER": "Anna sivuston verkkotunnus (esim. acme.fi)"
