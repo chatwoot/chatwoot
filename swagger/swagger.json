@@ -3088,7 +3088,7 @@
         }
       }
     },
-    "/api/v1/accounts/{id}/reports": {
+    "/api/v2/accounts/{id}/reports": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3151,7 +3151,7 @@
         }
       }
     },
-    "/api/v1/accounts/{id}/reports/summary": {
+    "/api/v2/accounts/{id}/reports/summary": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -4498,7 +4498,8 @@
           "account",
           "agent",
           "inbox",
-          "label"
+          "label",
+          "team"
         ]
       },
       "required": true,
