@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Hình đại diện kênh"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Vui lòng nhập một URL hợp lệ"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain trang web",
           "PLACEHOLDER": "Nhập tên miền trang web của bạn (ví dụ: acme.com)"
