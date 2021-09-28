@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar do canal"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL do Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Por favor, insira uma URL válida"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do site",
           "PLACEHOLDER": "Digite o domínio do seu site (por exemplo: acme.com)"
