@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar Channel"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Harap masukkan URL yang valid"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Website",
           "PLACEHOLDER": "Masukkan domain situs web Anda (misalnya: acme.com)"
