@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar kanálu"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL webového háčku",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Zadejte prosím platnou URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Doména webových stránek",
           "PLACEHOLDER": "Zadejte doménu webu (např. acme.com)"
