@@ -10,7 +10,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
   before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
@@ -71,6 +71,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       message: e.record.errors.full_messages.join(', '),
       contact: Current.account.contacts.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
+  end
+
+  def destroy
+    if ::OnlineStatusTracker.get_presence(
+      @contact.account.id, 'Contact', @contact.id
+    )
+      return render_error({ message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) },
+                          :unprocessable_entity)
+    end
+
+    @contact.destroy!
+    head :ok
   end
 
   private
@@ -136,5 +148,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def render_error(error, error_status)
+    render json: error, status: error_status
   end
 end
