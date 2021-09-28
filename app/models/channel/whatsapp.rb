@@ -47,6 +47,10 @@ class Channel::Whatsapp < ApplicationRecord
     )
   end
 
+  def has_24_hour_messaging_window?
+    true
+  end
+
   private
 
   # Extract later into provider Service

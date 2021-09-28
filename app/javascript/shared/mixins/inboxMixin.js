@@ -44,5 +44,11 @@ export default {
       const { phone_number: phoneNumber = '' } = this.inbox;
       return this.isATwilioChannel && phoneNumber.startsWith('whatsapp');
     },
+    isAWhatsappChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP ||
+        this.isATwilioWhatsappChannel
+      );
+    },
   },
 };
