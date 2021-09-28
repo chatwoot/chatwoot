@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "avatar pentru canal"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Te rog introdu un URL valid"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domeniu website",
           "PLACEHOLDER": "Introduceți domeniul website-ului (exemplu: acme.com)"
