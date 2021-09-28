@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "チャネルアバター"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "有効な URL を入力してください"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "ウェブサイトのドメイン",
           "PLACEHOLDER": "ウェブサイトのドメインを入力してください(例：acme.com)"
