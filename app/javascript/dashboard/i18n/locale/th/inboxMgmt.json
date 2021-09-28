@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "รูปของช่อง"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "ลิ้ง Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "โดเมนเว็บไซต์",
           "PLACEHOLDER": "กรอกโดเมนเว็บไซต์ของคุณ (เช่น snowboltz.net)"
