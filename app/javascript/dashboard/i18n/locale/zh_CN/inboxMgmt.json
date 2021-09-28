@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "频道头像"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 网址",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "请输入一个有效的 URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "网站域名",
           "PLACEHOLDER": "输入您的网站域名(e.g: acme.com)"
