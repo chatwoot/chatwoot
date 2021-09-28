@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal profilbilde"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Vennligst skriv inn en gyldig URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Nettstedets domene",
           "PLACEHOLDER": "Angi URL på nettsiden (f. eks.: acme.no)"
