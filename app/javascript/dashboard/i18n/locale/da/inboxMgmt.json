@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Angiv en gyldig URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Hjemmeside Domæne",
           "PLACEHOLDER": "Indtast dit website domæne (fx: ditfirma.dk)"
