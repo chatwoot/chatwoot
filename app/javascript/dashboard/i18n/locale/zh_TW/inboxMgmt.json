@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "頻道頭像"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 網址",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "請輸入一個有效的 URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站域名",
           "PLACEHOLDER": "輸入您的網站域名(e.g: acme.com)"
