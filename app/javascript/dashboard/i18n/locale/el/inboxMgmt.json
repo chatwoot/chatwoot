@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar Καναλιού"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Σύνδεσμος Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Ιστοσελίδας",
           "PLACEHOLDER": "Συμπληρώστε το domain της Ιστοσελίδας σας (π.χ: hmu.gr)"
