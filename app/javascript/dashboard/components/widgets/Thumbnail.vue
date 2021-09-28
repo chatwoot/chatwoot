@@ -29,7 +29,7 @@
       src="~dashboard/assets/images/twitter-badge.png"
     />
     <img
-      v-if="badge === 'Channel::TwilioSms'"
+      v-if="badge === 'Channel::TwilioSms' || badge === 'Channel::Whatsapp'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
