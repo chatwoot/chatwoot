@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatarı"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Web kancası URL'si",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Lütfen geçerli bir adres girin"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
           "PLACEHOLDER": "Web sitenizin adresini girin"
