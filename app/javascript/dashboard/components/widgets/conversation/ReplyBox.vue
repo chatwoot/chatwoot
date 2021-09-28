@@ -351,7 +351,6 @@ export default {
             error?.response?.data?.error ||
             this.$t('CONVERSATION.MESSAGE_ERROR');
           this.showAlert(errorMessage);
-          this.message = '';
         }
         this.hideEmojiPicker();
       }
@@ -409,10 +408,6 @@ export default {
     },
     onFileUpload(file) {
       if (!file) {
-        return;
-      }
-      if (file.type === 'image/svg+xml') {
-        this.showAlert(this.$t('CONVERSATION.FILE_NOT_SUPPORTED'));
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
