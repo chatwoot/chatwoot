@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "சேனல் அவதார்"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "வெப்ஹூக் URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "சரியான URL ஐ பதிவிடவும்"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "இணையதள களம்",
           "PLACEHOLDER": "உங்கள் இணையதள களத்தை உள்ளிடவும் (eg: உதாரணமாக acme.com)"
