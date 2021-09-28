@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Csatorna avatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Kérjük helyes URL-t adj meg"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domain",
           "PLACEHOLDER": "Add meg weboldalad domainjét (pl.: példa.hu)"
