@@ -20,10 +20,7 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <reply-email-head
-        ccEmails=""
-        bccEmails=""
-      />
+      <reply-email-head @blur="onBlur"/>
       <resizable-text-area
         v-if="!showRichContentEditor"
         ref="messageInput"
@@ -109,6 +106,7 @@ export default {
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
+    ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
   },
@@ -447,6 +445,8 @@ export default {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
+        ccEmails: '',
+        bccEmails: ''
       };
 
       if (this.inReplyTo) {
@@ -455,6 +455,14 @@ export default {
 
       if (attachment) {
         messagePayload.file = attachment.resource.file;
+      }
+
+      if(this.ccEmails) {
+        messagePayload.ccEmails = 'test_cc1@test.com,test_cc2@test.com';
+      }
+
+      if(this.bccEmails) {
+        messagePayload.bccEmails = 'test_bcc1@test.com,test_bcc2@test.com';
       }
 
       return messagePayload;

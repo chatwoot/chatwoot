@@ -85,6 +85,9 @@ export default {
     handleAddBcc() {
       this.showBcc = true;
     },
+    onBlur() {
+      this.$v.$touch();
+    },
   },
 };
 </script>
