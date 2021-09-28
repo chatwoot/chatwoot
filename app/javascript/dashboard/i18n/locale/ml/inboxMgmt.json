@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "ചാനൽ അവതാർ"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "വെബ്സൈറ്റ് ഡൊമെയ്ൻ",
           "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റ് ഡൊമെയ്ൻ നൽകുക (ഉദാ: punnyalan.com)"
