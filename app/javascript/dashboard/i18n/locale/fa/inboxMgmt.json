@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "آواتار کانال"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "آدرس URL وب هوک",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "دامنه سایت",
           "PLACEHOLDER": "دامنه سایت خود را وارد کنید (به عنوان مثال: acme.com)"
