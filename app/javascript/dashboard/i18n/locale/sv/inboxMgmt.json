@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanalavatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Ange en giltig URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Webbplatsens domän",
           "PLACEHOLDER": "Ange din webbplatsdomän (t.ex. acme.com)"
