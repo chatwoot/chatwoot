@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Voer een geldige URL in"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domein",
           "PLACEHOLDER": "Voer uw website domein in (bv. acme.com)"
