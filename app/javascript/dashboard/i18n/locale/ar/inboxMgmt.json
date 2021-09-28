@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "الصورة الرمزية للقناة"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "رابط Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "الرجاء إدخال عنوان URL صالح"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "نطاق الموقع",
           "PLACEHOLDER": "أدخل نطاق موقعك الإلكتروني (مثال: acme.com)"
