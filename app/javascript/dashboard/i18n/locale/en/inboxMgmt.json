@@ -136,6 +136,10 @@
         "TITLE": "SMS Channel via Twilio",
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
+       "WHATSAPP_VIA_TWILIO": {
+        "TITLE": "Whatsapp Channel via Twilio",
+        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+       },
 			"WHATSAPP": {
         "TITLE": "Whatsapp Channel",
         "DESC": "Start supporting your customers via Whatsapp.",

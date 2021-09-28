@@ -4,6 +4,7 @@ import Twitter from './channels/Twitter';
 import Api from './channels/Api';
 import Email from './channels/Email';
 import Sms from './channels/Sms';
+import TwilioWhatsapp from './channels/TwilioWhatsapp';
 import Whatsapp from './channels/Whatsapp';
 import Line from './channels/Line';
 import Telegram from './channels/Telegram';
@@ -15,6 +16,7 @@ const channelViewList = {
   api: Api,
   email: Email,
   sms: Sms,
+  twilio_whatsapp: TwilioWhatsapp,
   whatsapp: Whatsapp,
   line: Line,
   telegram: Telegram,

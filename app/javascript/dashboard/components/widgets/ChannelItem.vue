@@ -41,7 +41,7 @@
       src="~dashboard/assets/images/channels/sms.png"
     />
     <img
-      v-if="channel.key === 'whatsapp'"
+      v-if="channel.key === 'whatsapp' || channel.key === 'twilio_whatsapp'"
       src="~dashboard/assets/images/channels/whatsapp.png"
     />
     <h3 class="channel__title">
@@ -82,6 +82,7 @@ export default {
         'twilio',
         'api',
         'whatsapp',
+        'twilio_whatsapp',
         'sms',
         'telegram',
         'line',
