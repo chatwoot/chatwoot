@@ -33,9 +33,9 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    message_id = send_message(message) if message.attachments.empty? || !message.content.nil?
-    message_attachment_id = send_attachments(message) unless message.attachments.empty?
-    message_attachment_id.nil? ? message_id : message_attachment_id
+    return send_message(message) if message.attachments.empty?
+
+    send_attachments(message)
   end
 
   def get_telegram_profile_image(user_id)
@@ -83,6 +83,8 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_attachments(message)
+    send_message(message) unless message.content.nil?
+
     telegram_attachments = []
     message.attachments.each do |attachment|
       telegram_attachment = {}
