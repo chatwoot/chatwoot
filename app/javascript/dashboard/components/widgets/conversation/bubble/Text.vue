@@ -60,11 +60,14 @@ export default {
 .text-content {
   overflow: auto;
 
-  &::v-deep {
-    ul,
-    ol {
-      margin-left: var(--space-normal);
-    }
+  ol,
+  ul {
+    padding-inline-start: revert;
+    margin-left: var(--space-zero);
+  }
+
+  ul {
+    padding-left: var(--space-two);
   }
   table {
     all: revert;
