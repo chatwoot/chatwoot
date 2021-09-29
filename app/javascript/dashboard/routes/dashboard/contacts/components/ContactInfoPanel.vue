@@ -3,7 +3,7 @@
     <span class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
-    <contact-info show-new-message :contact="contact" />
+    <contact-info show-new-message :contact="contact" @panel-close="onClose" />
     <accordion-item
       :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CUSTOM_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
