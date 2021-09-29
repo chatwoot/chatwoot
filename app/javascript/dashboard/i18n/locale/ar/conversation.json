@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
