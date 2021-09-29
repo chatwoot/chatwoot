@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
+    "FILTER_ALL": "Alla",
     "STATUS_TABS": [
       {
         "NAME": "Öppna",
