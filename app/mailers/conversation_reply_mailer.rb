@@ -149,9 +149,10 @@ class ConversationReplyMailer < ApplicationMailer
   def cc_bcc_emails
     content_attributes = @conversation.messages.outgoing.last&.content_attributes
 
-    if content_attributes && (content_attributes[:cc_emails] || content_attributes[:bcc_emails])
-      [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
-    end
+    return [] unless content_attributes
+    return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
+
+    [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
   end
 
   def inbound_email_enabled?

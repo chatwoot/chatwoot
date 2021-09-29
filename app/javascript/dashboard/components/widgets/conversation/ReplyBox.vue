@@ -20,7 +20,9 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <reply-email-head @blur="onBlur"/>
+      <reply-email-head
+        @set-emails="setCcEmails"
+      />
       <resizable-text-area
         v-if="!showRichContentEditor"
         ref="messageInput"
@@ -445,8 +447,6 @@ export default {
         conversationId: this.currentChat.id,
         message,
         private: this.isPrivate,
-        ccEmails: '',
-        bccEmails: ''
       };
 
       if (this.inReplyTo) {
@@ -458,11 +458,11 @@ export default {
       }
 
       if(this.ccEmails) {
-        messagePayload.ccEmails = 'test_cc1@test.com,test_cc2@test.com';
+        messagePayload.ccEmails = this.ccEmails;
       }
 
       if(this.bccEmails) {
-        messagePayload.bccEmails = 'test_bcc1@test.com,test_bcc2@test.com';
+        messagePayload.bccEmails = this.bccEmails;
       }
 
       return messagePayload;
@@ -470,6 +470,10 @@ export default {
     setFormatMode(value) {
       this.updateUISettings({ display_rich_content_editor: value });
     },
+    setCcEmails(value) {
+      this.bccEmails = value['bccEmails'];
+      this.ccEmails = value['ccEmails']
+    }
   },
 };
 </script>

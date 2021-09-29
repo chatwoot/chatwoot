@@ -36,11 +36,10 @@ class Messages::MessageBuilder
   end
 
   def process_emails
-    return unless @params[:cc_emails] || @params[:cc_emails]
     return unless @conversation.inbox&.inbox_type == 'Email'
 
-    cc_emails = @params[:cc_emails].split(",")
-    bcc_emails = @params[:bcc_emails].split(",")
+    cc_emails = @params[:cc_emails].split(',') if @params[:cc_emails]
+    bcc_emails = @params[:bcc_emails].split(',') if @params[:bcc_emails]
 
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
