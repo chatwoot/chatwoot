@@ -27,11 +27,13 @@ export const actions = {
         identifier_hash: userObject.identifier_hash,
         phone_number: userObject.phone_number,
       };
-      const { data } = await ContactPublicAPI.update(inboxIdentifier, user);
+      const { data } = await ContactPublicAPI.create(inboxIdentifier, user);
       const { pubsub_token: pubsubToken } = data;
 
       commit('setCurrentUser', data);
       refreshActionCableConnector(pubsubToken);
+
+      return data;
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -45,7 +47,10 @@ export const actions = {
         inboxIdentifier,
         contactIdentifier
       );
+      const { pubsub_token: pubsubToken } = data;
       commit('setCurrentUser', data);
+
+      refreshActionCableConnector(pubsubToken);
     } catch (error) {
       throw new Error(error);
     } finally {

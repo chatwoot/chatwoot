@@ -46,6 +46,10 @@ export default {
       type: String,
       default: '',
     },
+    conversationId: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
@@ -67,7 +71,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('conversation', [
+    ...mapActions('messageV2', [
       'sendMessage',
       'sendAttachment',
       'clearConversations',
@@ -80,6 +84,9 @@ export default {
       const conversationSize = this.getConversationSize;
       await this.sendMessage({
         content,
+        inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
+        contactIdentifier: window.contactIdentifier,
+        conversationId: this.conversationId,
       });
       // Update conversation attributes on new conversation
       if (conversationSize === 0) {

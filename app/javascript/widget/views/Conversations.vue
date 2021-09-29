@@ -1,26 +1,34 @@
 <template>
   <div class="flex flex-1 items-center h-full bg-black-25 justify-center">
-    {{ JSON.stringify(allConversations) }}
+    <div>
+      <conversation-item
+        v-for="conversation in allConversations"
+        :key="conversation.id"
+        :conversation="conversation"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+
+import ConversationItem from 'widget/components/ConversationItem';
+
 export default {
   name: 'Conversations',
-  components: {},
+  components: {
+    ConversationItem,
+  },
   props: {},
   data() {
     return {};
   },
-  mountd() {
-    this.$store.dispatch('contactV2/get', { inboxIdentifier: '', user: {} });
-  },
   computed: {
     ...mapGetters({
+      user: 'contacts/getCurrentUser',
       allConversations: 'conversationV2/allConversations',
     }),
   },
-  mounted() {},
 };
 </script>

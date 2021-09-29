@@ -1,19 +1,7 @@
 <template>
-  <div
-    id="app"
-    class="woot-widget-wrap"
-    :class="{
-      'is-mobile': isMobile,
-      'is-widget-right': !isLeftAligned,
-      'is-bubble-hidden': hideMessageBubble,
-    }"
-  >
-    <home
-      v-if="showHomePage"
-      :has-fetched="hasFetched"
-      :unread-message-count="unreadMessageCount"
-      :show-popout-button="showPopoutButton"
-    />
+  <div>
+    <conversations v-if="showConversationsPage" />
+    <home v-if="showHomePage" :show-popout-button="showPopoutButton" />
     <unread
       v-else
       :show-unread-view="showUnreadView"
@@ -27,12 +15,14 @@
 <script>
 import Home from './Home';
 import Unread from './Unread';
+import Conversations from './Conversations';
 
 export default {
   name: 'Router',
   components: {
     Home,
     Unread,
+    Conversations,
   },
   props: {
     hasFetched: {
@@ -55,6 +45,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showConversationsView: {
+      type: Boolean,
+      default: false,
+    },
     hideMessageBubble: {
       type: Boolean,
       default: false,
@@ -70,7 +64,14 @@ export default {
   },
   computed: {
     showHomePage() {
-      return !this.showUnreadView && !this.showCampaignView;
+      return (
+        !this.showUnreadView && !this.showCampaignView
+        // && this.currentPage === 'home'
+      );
+    },
+    showConversationsPage() {
+      console.log(this.currentPage);
+      return this.currentPage === 'conversations';
     },
   },
 };

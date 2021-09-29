@@ -17,7 +17,7 @@ export const actions = {
         commit('addConversationEntry', conversation);
         commit('addConversationId', conversation.id);
         commit(
-          'messagev2/addMessagesEntry',
+          'messageV2/addMessagesEntry',
           { conversationId, messages },
           { root: true }
         );
@@ -45,8 +45,12 @@ export const actions = {
 
       const { messages } = data;
       commit('updateConversationEntry', data);
-      commit('addMessagesEntry', { conversationId, messages });
-      commit('addMessageIds', { conversationId, messages });
+      commit(
+        'messageV2/addMessagesEntry',
+        { conversationId, messages },
+        { root: true }
+      );
+      commit('addMessageIdsToConversation', { conversationId, messages });
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -70,7 +74,7 @@ export const actions = {
       commit('addConversationEntry', data);
       commit('addConversationId', conversationId);
       commit(
-        'messagev2/addMessagesEntry',
+        'messageV2/addMessagesEntry',
         { conversationId, messages },
         { root: true }
       );

@@ -2,16 +2,15 @@ import Vue from 'vue';
 
 export const mutations = {
   addMessagesEntry($state, { messages = [] }) {
-    const allMessages = $state.messages;
-    const newMessages = messages.reduce(
-      (obj, message) => ({
-        ...obj,
-        [message.id]: message,
-      }),
-      {}
-    );
-    const updatedMessages = { ...allMessages, ...newMessages };
-    Vue.set($state.messages, 'byId', updatedMessages);
+    messages.forEach(message => {
+      Vue.set($state.messages.byId, message.id, message);
+    });
+  },
+
+  addMessageIds($state, { messages }) {
+    const messageIds = messages.map(message => message.id);
+
+    $state.messages.allIds.push(...messageIds);
   },
 
   updateMessageEntry($state, message) {

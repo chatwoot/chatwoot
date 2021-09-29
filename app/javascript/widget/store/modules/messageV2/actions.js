@@ -6,6 +6,34 @@ import {
 } from './helpers';
 
 export const actions = {
+  addOrUpdate: async ({ commit, getters }, message) => {
+    const {
+      conversation_id: conversationId,
+      id: messageId,
+      echo_id: echoId,
+    } = message;
+
+    const messageIdInStore = echoId || messageId;
+    const doesMessageExist = getters.messageById(messageIdInStore);
+
+    if (doesMessageExist) {
+      commit('removeMessageEntry', echoId);
+      commit('removeMessageId', echoId);
+      commit(
+        'conversationV2/removeMessageIdFromConversation',
+        { conversationId, messageId: echoId },
+        { root: true }
+      );
+    }
+    const messages = [message];
+    commit('addMessagesEntry', { conversationId, messages });
+    commit('addMessageIds', { messages });
+    commit(
+      'conversationV2/addMessageIdsToConversation',
+      { conversationId, messages },
+      { root: true }
+    );
+  },
   sendMessage: async ({ commit }, params) => {
     try {
       commit(
@@ -13,15 +41,27 @@ export const actions = {
         { isCreating: true },
         { root: true }
       );
-      const { content, conversationId } = params;
+
+      const {
+        content,
+        conversationId,
+        inboxIdentifier,
+        contactIdentifier,
+      } = params;
       const message = createTemporaryMessage({ content });
       const { id: echoId } = message;
       const messages = [message];
-      commit('addMessagesEntry', { conversationId, messages });
-      commit('addMessageIds', { conversationId, messages });
+      commit('addMessagesEntry', { messages });
+      commit('addMessageIds', { messages });
+      commit(
+        'conversationV2/addMessageIdsToConversation',
+        { conversationId, messages },
+        { root: true }
+      );
       await MessagePublicAPI.create(
-        ...params,
-
+        inboxIdentifier,
+        contactIdentifier,
+        conversationId,
         content,
         echoId
       );
@@ -55,6 +95,11 @@ export const actions = {
       const { id: echoId, ...rest } = message;
       commit('addMessagesEntry', { conversationId, messages });
       commit('addMessageIds', { conversationId, messages });
+      commit(
+        'conversationV2/addMessageIdsToConversation',
+        { conversationId, messages },
+        { root: true }
+      );
       const { data } = await MessagePublicAPI.create({
         echo_id: echoId,
         ...rest,
@@ -102,7 +147,10 @@ export const actions = {
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit('setMessageUIFlag', { messageId, uiFlags: { isUpdating: false } });
+      commit('setMessageUIFlag', {
+        messageId,
+        uiFlags: { isUpdating: false },
+      });
     }
   },
 };

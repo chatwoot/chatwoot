@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import VueI18n from 'vue-i18n';
+import VueCompositionAPI from '@vue/composition-api';
+
 import store from '../widget/store';
+import router from '../widget/router';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
 
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
+Vue.use(VueCompositionAPI);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -22,6 +26,7 @@ Vue.config.productionTip = false;
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
     store,
+    router,
     i18n: i18nConfig,
     render: h => h(App),
   }).$mount('#app');

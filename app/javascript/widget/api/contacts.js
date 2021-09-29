@@ -1,6 +1,6 @@
 import { API } from 'widget/helpers/axios';
 
-const buildUrl = endPoint => `/api/v1/${endPoint}${window.location.search}`;
+const buildUrl = endPoint => `/public/api/v1/${endPoint}`;
 
 export default {
   create(inboxIdentifier, userObject) {

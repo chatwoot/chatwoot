@@ -1,24 +1,34 @@
 <template>
-  <div class="home" @keydown.esc="closeChat">
-    <div class="header-wrap bg-white expanded">
-      <chat-header-expanded
-        :intro-heading="channelConfig.welcomeTitle"
-        :intro-body="channelConfig.welcomeTagline"
+  <div
+    v-if="!conversationSize && isFetchingList"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+  >
+    <spinner size="" />
+  </div>
+  <div v-else class="home" @keydown.esc="closeChat">
+    <div class="header-wrap bg-white  collapsed">
+      <chat-header
+        :title="channelConfig.websiteName"
         :avatar-url="channelConfig.avatarUrl"
         :show-popout-button="showPopoutButton"
+        :available-agents="availableAgents"
       />
     </div>
     <banner />
     <div class="flex flex-1 overflow-auto">
-      <button class="button" @click="clickAllConversations">
-        Open last conversation
-      </button>
+      <conversation-wrap
+        v-if="currentView === 'messageView'"
+        :grouped-messages="groupedMessages"
+      />
+      <pre-chat-form
+        v-if="currentView === 'preChatFormView'"
+        :options="preChatFormOptions"
+      />
     </div>
     <div class="footer-wrap">
-      <team-availability
-        :available-agents="availableAgents"
-        @start-conversation="startConversation"
-      />
+      <div class="input-wrap">
+        <chat-footer :conversation-id="conversationId" />
+      </div>
       <branding></branding>
     </div>
   </div>
@@ -26,31 +36,32 @@
 
 <script>
 import Branding from 'shared/components/Branding.vue';
-import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
-
+import ChatFooter from 'widget/components/ChatFooter.vue';
+import ChatHeader from 'widget/components/ChatHeader.vue';
+import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
-import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
 import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import PreChatForm from '../components/PreChat/Form';
 
 export default {
   name: 'Home',
   components: {
     Branding,
-    ChatHeaderExpanded,
+    ChatFooter,
+    ChatHeader,
+
+    ConversationWrap,
+    PreChatForm,
     Spinner,
-    TeamAvailability,
     Banner,
   },
   mixins: [configMixin],
   props: {
-    conversationId: {
-      type: Boolean,
-      default: false,
-    },
     showPopoutButton: {
       type: Boolean,
       default: false,
@@ -66,11 +77,15 @@ export default {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       conversationAttributes: 'conversationAttributes/getConversationParams',
+      currentUser: 'contactV2/getCurrentUser',
       getTotalMessageCount: 'conversationV2/allMessagesCountIn',
       getGroupedMessages: 'conversationV2/groupByMessagesIn',
-      getIsFetchingList: 'conversationV2/isFetchingConversationsList',
-      getCurrentUser: 'contactV2/getCurrentUser',
+      getIsFetchingList: 'conversationV2/isFetchingMessages',
     }),
+    conversationId() {
+      const { conversationId } = this.$route.params;
+      return conversationId;
+    },
     conversationSize() {
       return this.getTotalMessageCount(this.conversationId);
     },
@@ -80,8 +95,23 @@ export default {
     isFetchingList() {
       return this.getIsFetchingList(this.conversationId);
     },
-    currentUser() {
-      return this.getCurrentUser(this.conversationId);
+    currentView() {
+      const { email: currentUserEmail = '' } = this.currentUser;
+
+      if (this.conversationSize) return 'messageView';
+
+      const shouldShowPreChatForm =
+        this.isOnNewConversation ||
+        (this.preChatFormEnabled && !currentUserEmail);
+
+      if (shouldShowPreChatForm) return 'preChatFormView';
+      return 'messageView';
+    },
+    isOpen() {
+      return this.conversationAttributes.status === 'open';
+    },
+    fileUploadSizeLimit() {
+      return MAXIMUM_FILE_UPLOAD_SIZE;
     },
   },
   mounted() {
@@ -89,7 +119,9 @@ export default {
       this.isOnCollapsedView = true;
       this.isOnNewConversation = true;
     });
-    this.$store.dispatch('conversationV2/fetchAllConversations', {
+
+    this.$store.dispatch('conversationV2/fetchConversationById', {
+      conversationId: this.conversationId,
       inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
       contactIdentifier: window.contactIdentifier,
     });
@@ -104,11 +136,6 @@ export default {
     },
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });
-    },
-    clickAllConversations() {
-      this.$router.push({
-        name: 'conversations',
-      });
     },
   },
 };
@@ -131,16 +158,9 @@ export default {
     border-radius: $space-normal $space-normal 0 0;
     flex-shrink: 0;
     transition: max-height 300ms;
+    max-height: 4.5rem;
     z-index: 99;
     @include shadow-large;
-
-    &.expanded {
-      max-height: 16rem;
-    }
-
-    &.collapsed {
-      max-height: 4.5rem;
-    }
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
       border-radius: 0;

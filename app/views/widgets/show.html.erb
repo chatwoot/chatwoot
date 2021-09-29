@@ -11,7 +11,7 @@
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',
         websiteToken: '<%= @web_widget.website_token %>',
-        inboxIdentifier: '<%= @web_widget.inbox_identifier %>',
+        inboxIdentifier: 'BoxqqGwtN9LLJPm69YS1McZa',
         welcomeTagline: '<%= @web_widget.welcome_tagline %>',
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
@@ -31,6 +31,7 @@
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'
+      window.contactIdentifier = '<%= @contact_identifier %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
     <%= javascript_pack_tag 'widget' %>

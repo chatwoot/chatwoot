@@ -107,6 +107,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
 
       Cookies.remove('cw_conversation');
+      Cookies.remove('cw_contact');
       Cookies.remove(getUserCookieName());
 
       const iframe = IFrameHelper.getAppFrame();

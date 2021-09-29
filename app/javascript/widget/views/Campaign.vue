@@ -82,20 +82,14 @@ export default {
       return firstMessage.sender || {};
     },
     allMessages() {
-      if (this.lastConversation) return [];
-
-      const { id: lastConversationId } = this.lastConversation;
-
-      return this.unreadMessages(lastConversationId);
-
-      // const { sender, id: campaignId, message: content } = this.campaign;
-      // return [
-      //   {
-      //     content,
-      //     sender,
-      //     campaignId,
-      //   },
-      // ];
+      const { sender, id: campaignId, message: content } = this.campaign;
+      return [
+        {
+          content,
+          sender,
+          campaignId,
+        },
+      ];
     },
   },
   methods: {

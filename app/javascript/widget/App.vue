@@ -1,44 +1,46 @@
 <template>
-  <router
-    :show-unread-view="showUnreadView"
-    :show-campaign-view="showCampaignView"
-    :is-mobile="isMobile"
-    :has-fetched="hasFetched"
-    :unread-message-count="unreadMessageCount"
-    :is-left-aligned="isLeftAligned"
-    :hide-message-bubble="hideMessageBubble"
-    :show-popout-button="showPopoutButton"
-  />
+  <div
+    id="app"
+    class="woot-widget-wrap"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': !isLeftAligned,
+      'is-bubble-hidden': isChatTriggerHidden,
+    }"
+  >
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import Router from './views/Router';
+
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   name: 'App',
-  components: {
-    Router,
-  },
   data() {
     return {
       showUnreadView: false,
       showCampaignView: false,
       isMobile: false,
-      hideMessageBubble: false,
-      widgetPosition: 'right',
+      isChatTriggerHidden: false,
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+
+      showConversationsPage: false,
+      activePage: '',
     };
   },
   computed: {
     ...mapGetters({
-      hasFetched: 'agent/getHasFetched',
+      widgetSettings: 'appConfig/getWidgetSettings',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
@@ -87,6 +89,7 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
+    this.fetchOrCreateContact();
     this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
@@ -126,10 +129,12 @@ export default {
     },
     setPosition(position) {
       const widgetPosition = position || 'right';
-      this.widgetPosition = widgetPosition;
+      this.$store.dispatch('appConfig/setWidgetSettings', { widgetPosition });
     },
-    setHideMessageBubble(hideBubble) {
-      this.hideMessageBubble = !!hideBubble;
+    setIsChatTriggerHidden(hideBubble) {
+      this.$store.dispatch('appConfig/setWidgetSettings', {
+        isChatTriggerHidden: !!hideBubble,
+      });
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-recieved', () => {
@@ -213,7 +218,7 @@ export default {
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
-          this.setHideMessageBubble(message.hideMessageBubble);
+          this.setIsChatTriggerHidden(message.hideMessageBubble);
           this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
@@ -246,6 +251,7 @@ export default {
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
           this.showUnreadView = true;
+          this.$router.replace('unread');
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
@@ -261,6 +267,7 @@ export default {
         config: {
           authToken: window.authToken,
           channelConfig: window.chatwootWebChannel,
+          contactIdentifier: window.contactIdentifier,
         },
       });
     },
@@ -270,6 +277,7 @@ export default {
         config: {
           authToken: window.authToken,
           channelConfig: window.chatwootWebChannel,
+          contactIdentifier: window.contactIdentifier,
         },
       });
     },
@@ -289,6 +297,30 @@ export default {
       if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
 
       return extraHeight;
+    },
+    fetchOrCreateContact() {
+      if (!window.contactIdentifier) {
+        this.$store
+          .dispatch('contactV2/create', {
+            inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
+            user: {},
+          })
+          .then(data => {
+            const { source_id: contactIdentifier } = data;
+            window.contactIdentifier = contactIdentifier;
+            this.sendLoadedEvent();
+          });
+      } else {
+        this.$store.dispatch('contactV2/get', {
+          inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
+          contactIdentifier: window.contactIdentifier,
+        });
+      }
+    },
+    setConvView() {
+      // this.showConversationsPage = true;
+      this.showCampaignView = false;
+      this.showUnreadView = false;
     },
   },
 };
