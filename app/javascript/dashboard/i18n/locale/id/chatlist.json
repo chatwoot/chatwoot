@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
     },
+    "FILTER_ALL": "Semua",
     "STATUS_TABS": [
       {
         "NAME": "Terbuka",
