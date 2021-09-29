@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Please enter a valid URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
@@ -127,11 +132,11 @@
           "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
-			"SMS": {
+      "SMS": {
         "TITLE": "SMS Channel via Twilio",
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
-			"WHATSAPP": {
+      "WHATSAPP": {
         "TITLE": "Whatsapp Channel via Twilio",
         "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
       },
@@ -195,6 +200,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -350,7 +359,7 @@
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {

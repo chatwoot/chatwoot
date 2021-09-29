@@ -22,7 +22,7 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
-          deleteAvatar
+          delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
@@ -31,6 +31,24 @@
           class="medium-9 columns"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
+        />
+        <woot-input
+          v-if="isAPIInbox"
+          v-model.trim="webhookUrl"
+          class="medium-9 columns"
+          :class="{ error: $v.webhookUrl.$error }"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
+          "
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+          "
+          :error="
+            $v.webhookUrl.$error
+              ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
+              : ''
+          "
+          @blur="$v.webhookUrl.$touch"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -212,6 +230,16 @@
         </div>
 
         <woot-submit-button
+          v-if="isAPIInbox"
+          type="submit"
+          :disabled="$v.webhookUrl.$invalid"
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdatingInbox"
+          @click="updateInbox"
+        />
+        <woot-submit-button
+          v-else
+          type="submit"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
@@ -259,7 +287,21 @@
           :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
           :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
         >
-          <woot-code :script="twilioCallbackURL" lang="html"></woot-code>
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
+        </settings-section>
+      </div>
+      <div v-else-if="isALineChannel" class="settings--content">
+        <settings-section
+          :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
+          :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
+        >
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
         </settings-section>
       </div>
       <div v-else-if="isAWebWidgetInbox">
@@ -310,6 +352,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
+import { required } from 'vuelidate/lib/validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -343,6 +387,7 @@ export default {
       csatSurveyEnabled: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
+      webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -378,6 +423,10 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
+        {
+          key: 'businesshours',
+          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
       ];
 
       if (this.isAWebWidgetInbox) {
@@ -388,17 +437,18 @@ export default {
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
           {
-            key: 'businesshours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-          },
-          {
             key: 'configuration',
             name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
           },
         ];
       }
 
-      if (this.isATwilioChannel || this.isAPIInbox || this.isAnEmailChannel) {
+      if (
+        this.isATwilioChannel ||
+        this.isALineChannel ||
+        this.isAPIInbox ||
+        this.isAnEmailChannel
+      ) {
         return [
           ...visibleToAllChannelTabs,
           {
@@ -484,6 +534,7 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
+        this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
@@ -536,6 +587,7 @@ export default {
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
+            webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
@@ -574,6 +626,10 @@ export default {
     },
   },
   validations: {
+    webhookUrl: {
+      required,
+      shouldBeUrl,
+    },
     selectedAgents: {
       isEmpty() {
         return !!this.selectedAgents.length;

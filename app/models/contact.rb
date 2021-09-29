@@ -48,6 +48,7 @@ class Contact < ApplicationRecord
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
+  after_destroy_commit :dispatch_destroy_event
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -73,7 +74,8 @@ class Contact < ApplicationRecord
       id: id,
       name: name,
       avatar: avatar_url,
-      type: 'contact'
+      type: 'contact',
+      account: account.webhook_data
     }
   end
 
@@ -97,5 +99,9 @@ class Contact < ApplicationRecord
 
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self)
+  end
+
+  def dispatch_destroy_event
+    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
 end

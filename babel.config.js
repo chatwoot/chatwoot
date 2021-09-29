@@ -8,6 +8,15 @@ const plugins = () => [
     },
   ],
   [require('babel-plugin-transform-vue-jsx')],
+  [
+    require('@babel/plugin-transform-runtime').default,
+    {
+      helpers: false,
+      regenerator: true,
+      corejs: false,
+    },
+  ],
+  ['@babel/plugin-proposal-private-methods', { loose: true }],
 ];
 
 module.exports = api => {

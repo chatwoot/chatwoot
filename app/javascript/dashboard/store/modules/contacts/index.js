@@ -13,6 +13,7 @@ const state = {
     isFetchingItem: false,
     isFetchingInboxes: false,
     isUpdating: false,
+    isDeleting: false,
   },
   sortOrder: [],
 };

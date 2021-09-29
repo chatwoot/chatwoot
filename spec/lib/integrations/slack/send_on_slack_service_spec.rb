@@ -9,6 +9,7 @@ describe Integrations::Slack::SendOnSlackService do
     create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
   end
   let(:slack_message) { double }
+  let(:file_attachment) { double }
   let(:slack_message_content) { double }
   let(:slack_client) { double }
   let(:builder) { described_class.new(message: message, hook: hook) }
@@ -56,6 +57,36 @@ describe Integrations::Slack::SendOnSlackService do
         builder.perform
 
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+      end
+
+      it 'sent attachment on slack' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: message.content,
+          username: "Contact: #{message.sender.name}",
+          thread_ts: conversation.identifier,
+          icon_url: anything
+        ).and_return(slack_message)
+
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+
+        expect(slack_client).to receive(:files_upload).with(
+          channels: hook.reference_id,
+          initial_comment: 'Attached File!',
+          content: anything,
+          filename: attachment.file.filename,
+          filetype: 'png',
+          thread_ts: conversation.identifier,
+          title: anything
+        ).and_return(file_attachment)
+
+        message.save!
+
+        builder.perform
+
+        expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
+        expect(message.attachments).to be_any
       end
 
       it 'disables hook on Slack AccountInactive error' do

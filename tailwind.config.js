@@ -10,6 +10,15 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      xlarge: '1200px',
+      xxlarge: '1400px',
+      xxxlarge: '1600px',
+    },
     colors: {
       white: colors.white,
       woot: {

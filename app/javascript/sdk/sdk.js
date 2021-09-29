@@ -99,6 +99,7 @@ export const SDK_CSS = `.woot-widget-holder {
 .woot--close::before, .woot--close::after {
   background-color: #fff;
   content: ' ';
+  display: inline;
   height: 24px;
   left: 32px;
   position: absolute;
@@ -149,7 +150,7 @@ export const SDK_CSS = `.woot-widget-holder {
     max-height: 100vh;
     padding: 0 8px;
   }
- 
+
   .woot-widget-holder.has-unread-view iframe {
     min-height: unset !important;
   }
@@ -157,7 +158,7 @@ export const SDK_CSS = `.woot-widget-holder {
  .woot-widget-holder.has-unread-view.woot-elements--left {
     left: 0;
   }
-  
+
   .woot-widget-bubble.woot--close {
     bottom: 60px;
     opacity: 0;

@@ -41,19 +41,25 @@ class V2::ReportBuilder
       user
     when :label
       label
+    when :team
+      team
     end
   end
 
   def inbox
-    @inbox ||= account.inboxes.where(id: params[:id]).first
+    @inbox ||= account.inboxes.find(params[:id])
   end
 
   def user
-    @user ||= account.users.where(id: params[:id]).first
+    @user ||= account.users.find(params[:id])
   end
 
   def label
-    @label ||= account.labels.where(id: params[:id]).first
+    @label ||= account.labels.find(params[:id])
+  end
+
+  def team
+    @team ||= account.teams.find(params[:id])
   end
 
   def conversations_count
