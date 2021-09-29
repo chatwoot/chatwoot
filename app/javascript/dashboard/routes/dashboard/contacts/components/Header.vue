@@ -91,7 +91,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/_utility-helpers.scss';
 .page-title {
   margin: 0;
 }
