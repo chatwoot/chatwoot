@@ -9,14 +9,16 @@
       :icon="attribute.icon"
       emoji=""
       :value="attribute.value"
-      :show-edit="true"
+      :show-actions="true"
       @update="onUpdate"
       @delete="onDelete"
+      @copy="onCopy"
     />
   </div>
 </template>
 
 <script>
+import copy from 'copy-text-to-clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
@@ -61,6 +63,10 @@ export default {
           this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
         this.showAlert(errorMessage);
       }
+    },
+    onCopy(attributeValue) {
+      copy(attributeValue);
+      this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
     },
   },
 };

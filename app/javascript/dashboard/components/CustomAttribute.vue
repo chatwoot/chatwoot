@@ -27,7 +27,7 @@
     <div
       v-show="!isEditing"
       class="value--view"
-      :class="{ 'is-editable': showEdit }"
+      :class="{ 'is-editable': showActions }"
     >
       <a
         v-if="isAttributeTypeLink"
@@ -42,7 +42,16 @@
         {{ value || '---' }}
       </p>
       <woot-button
-        v-if="showEdit"
+        v-if="showActions"
+        variant="clear link"
+        size="small"
+        color-scheme="secondary"
+        icon="ion-clipboard"
+        class-names="edit-button"
+        @click="onCopy"
+      />
+      <woot-button
+        v-if="showActions"
         variant="clear link"
         size="small"
         color-scheme="secondary"
@@ -51,7 +60,7 @@
         @click="onEdit"
       />
       <woot-button
-        v-if="showEdit"
+        v-if="showActions"
         variant="clear link"
         size="small"
         color-scheme="secondary"
@@ -76,7 +85,7 @@ export default {
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
+    showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeKey: { type: String, required: true },
   },
@@ -118,6 +127,9 @@ export default {
     onDelete() {
       this.isEditing = false;
       this.$emit('delete', this.attributeKey);
+    },
+    onCopy() {
+      this.$emit('copy', this.value);
     },
   },
 };
