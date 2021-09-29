@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
+    "FILTER_ALL": "Tất cả",
     "STATUS_TABS": [
       {
         "NAME": "Mở",
