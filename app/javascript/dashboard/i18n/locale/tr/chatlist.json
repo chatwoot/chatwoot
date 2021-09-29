@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
+    "FILTER_ALL": "Hepsi",
     "STATUS_TABS": [
       {
         "NAME": "Açık",
