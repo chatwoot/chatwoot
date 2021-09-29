@@ -354,6 +354,7 @@ RSpec.describe Conversation, type: :model do
         timestamp: conversation.last_activity_at.to_i,
         can_reply: true,
         channel: 'Channel::WebWidget',
+        snoozed_until: conversation.snoozed_until,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0

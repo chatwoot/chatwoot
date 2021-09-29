@@ -19,11 +19,7 @@
     />
     <div class="conversation--details columns">
       <div class="conversation--metadata">
-        <span v-if="showInboxName" class="label">
-          <i :class="computedInboxClass" />
-          {{ inboxName }}
-        </span>
-
+        <inbox-name v-if="showInboxName" :inbox="inbox" />
         <span
           v-if="showAssignee && assignee"
           class="label assignee-label text-truncate"
@@ -72,16 +68,17 @@
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
+import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
+    InboxName,
     Thumbnail,
   },
 
@@ -192,12 +189,6 @@ export default {
       return stateInbox;
     },
 
-    computedInboxClass() {
-      const { phone_number: phoneNumber, channel_type: type } = this.inbox;
-      const classByType = getInboxClassByType(type, phoneNumber);
-      return classByType;
-    },
-
     showInboxName() {
       return (
         !this.hideInboxName &&
@@ -244,15 +235,6 @@ export default {
   }
 }
 
-.conversation--details .label {
-  padding: var(--space-micro) 0 var(--space-micro) 0;
-  line-height: var(--space-slab);
-  font-weight: var(--font-weight-medium);
-  background: none;
-  color: var(--s-500);
-  font-size: var(--font-size-mini);
-}
-
 .conversation--details {
   .conversation--user {
     padding-top: var(--space-micro);
@@ -275,6 +257,15 @@ export default {
   display: flex;
   justify-content: space-between;
   padding-right: var(--space-normal);
+
+  .label {
+    padding: var(--space-micro) 0 var(--space-micro) 0;
+    line-height: var(--space-slab);
+    font-weight: var(--font-weight-medium);
+    background: none;
+    color: var(--s-500);
+    font-size: var(--font-size-mini);
+  }
 
   .assignee-label {
     max-width: 50%;
