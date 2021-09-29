@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
+    "FILTER_ALL": "Allemaal",
     "STATUS_TABS": [
       {
         "NAME": "Open",
