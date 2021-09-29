@@ -33,23 +33,9 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    byebug
-    return send_text(message) if message.attachments.empty?
-
-    telegram_attachments = []
-    message.attachments.each do |attachment|
-      telegram_attachment = {}
-
-      case attachment[:file_type]
-      when "image"
-        telegram_attachment[:type] = "photo"
-      when "file"
-        telegram_attachment[:type] = "document"
-      end
-      telegram_attachment[:media] = attachment.file_url
-      telegram_attachments << telegram_attachment
-    end
-    send_attachments(message, telegram_attachments)
+    message_id = send_message(message) if message.attachments.empty? || !message.content.nil?
+    message_attachment_id = send_attachments(message) unless message.attachments.empty?
+    message_attachment_id.nil? ? message_id : message_attachment_id
   end
 
   def get_telegram_profile_image(user_id)
@@ -91,23 +77,43 @@ class Channel::Telegram < ApplicationRecord
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
-  def send_text(message)
-    response = HTTParty.post("#{telegram_api_url}/sendMessage",
-                             body: {
-                               chat_id: message.conversation[:additional_attributes]['chat_id'],
-                               text: message.content
-                             })
-
+  def send_message(message)
+    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content)
     response.parsed_response['result']['message_id'] if response.success?
   end
 
-  def send_attachments(message, attachments)
-    response = HTTParty.post("#{telegram_api_url}/sendMediaGroup",
+  def send_attachments(message)
+    telegram_attachments = []
+    message.attachments.each do |attachment|
+      telegram_attachment = {}
+
+      case attachment[:file_type]
+      when 'image'
+        telegram_attachment[:type] = 'photo'
+      when 'file'
+        telegram_attachment[:type] = 'document'
+      end
+      telegram_attachment[:media] = attachment.file_url
+      telegram_attachments << telegram_attachment
+    end
+
+    response = attachments_request(message.conversation[:additional_attributes]['chat_id'], telegram_attachments)
+    response.parsed_response['result'].first['message_id'] if response.success?
+  end
+
+  def attachments_request(chat_id, attachments)
+    HTTParty.post("#{telegram_api_url}/sendMediaGroup",
                   body: {
-                    chat_id: message.conversation[:additional_attributes]['chat_id'],
+                    chat_id: chat_id,
                     media: attachments.to_json
                   })
-                  
-    response.parsed_response['result'].first['message_id']
+  end
+
+  def message_request(chat_id, text)
+    HTTParty.post("#{telegram_api_url}/sendMessage",
+                  body: {
+                    chat_id: chat_id,
+                    text: text
+                  })
   end
 end
