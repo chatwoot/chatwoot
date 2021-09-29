@@ -69,6 +69,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def update_last_seen
     @conversation.agent_last_seen_at = DateTime.now.utc
+    @conversation.assignee_last_seen_at = DateTime.now.utc if assignee?
     @conversation.save!
   end
 
@@ -135,5 +136,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_finder
     @conversation_finder ||= ConversationFinder.new(current_user, params)
+  end
+
+  def assignee?
+    @conversation.assignee_id? && current_user == @conversation.assignee
   end
 end
