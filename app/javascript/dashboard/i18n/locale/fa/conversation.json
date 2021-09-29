@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
     "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
