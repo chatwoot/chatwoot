@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
+    "FILTER_ALL": "Totes",
     "STATUS_TABS": [
       {
         "NAME": "Obrir",
