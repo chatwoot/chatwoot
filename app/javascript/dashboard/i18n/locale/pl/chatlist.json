@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
+    "FILTER_ALL": "Wszystkie",
     "STATUS_TABS": [
       {
         "NAME": "Otwórz",
