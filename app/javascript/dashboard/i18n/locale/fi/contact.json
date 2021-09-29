@@ -54,6 +54,19 @@
     "TITLE": "Luo uusi kontakti",
     "DESC": "Lisää kontaktin yhteystiedot."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Peruuta"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
