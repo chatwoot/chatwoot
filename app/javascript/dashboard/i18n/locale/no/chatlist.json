@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
+    "FILTER_ALL": "Alle",
     "STATUS_TABS": [
       {
         "NAME": "Åpne",
