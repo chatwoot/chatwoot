@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Search for People, Chats, Saved Replies .."
     },
+    "FILTER_ALL": "All",
     "STATUS_TABS": [
       {
         "NAME": "Open",
