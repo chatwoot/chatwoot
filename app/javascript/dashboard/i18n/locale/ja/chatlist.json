@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "人物、チャット、保存された返信を検索する"
     },
+    "FILTER_ALL": "すべて",
     "STATUS_TABS": [
       {
         "NAME": "開く",
