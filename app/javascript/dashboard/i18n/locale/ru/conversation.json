@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Открыть",
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
-      "DETAILS": "подробности"
+      "DETAILS": "подробности",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Отметить как ожидающие",
