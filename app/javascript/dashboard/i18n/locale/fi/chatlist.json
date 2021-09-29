@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
+    "FILTER_ALL": "Kaikki",
     "STATUS_TABS": [
       {
         "NAME": "Avaa",
