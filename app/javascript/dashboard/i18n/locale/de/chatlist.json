@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
+    "FILTER_ALL": "Alle",
     "STATUS_TABS": [
       {
         "NAME": "Offen",
