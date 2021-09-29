@@ -65,6 +65,7 @@
 
 <script>
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -92,6 +93,13 @@ export default {
     inputType() {
       return this.attributeType === 'link' ? 'url' : this.attributeType;
     },
+  },
+  mounted() {
+    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, focusAttributeKey => {
+      if (this.attributeKey === focusAttributeKey) {
+        this.onEdit();
+      }
+    });
   },
   methods: {
     focusInput() {

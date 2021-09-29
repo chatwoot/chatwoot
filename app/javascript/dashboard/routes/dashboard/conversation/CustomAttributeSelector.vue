@@ -37,6 +37,7 @@ import CustomAttributeDropDown from './CustomAttributeDropDown.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
 import { mixin as clickaway } from 'vue-clickaway';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -65,7 +66,7 @@ export default {
             ...this.customAttributes,
           },
         });
-
+        bus.$emit(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, attribute_key);
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.ADD.SUCCESS'));
       } catch (error) {
         const errorMessage =
