@@ -54,6 +54,19 @@
     "TITLE": "Создать новый контакт",
     "DESC": "Добавить основную информацию о контакте."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Отменить"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Удалить контакт",
     "TITLE": "Удалить контакт",
