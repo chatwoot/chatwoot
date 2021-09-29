@@ -7,6 +7,9 @@
     >
       {{ item['TEXT'] }}
     </option>
+    <option value="all">
+      {{ $t('CHAT_LIST.FILTER_ALL') }}
+    </option>
   </select>
 </template>
 
@@ -30,6 +33,8 @@ export default {
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
           this.activeStatus = wootConstants.STATUS_TYPE.SNOOZED;
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.SNOOZED) {
+          this.activeStatus = wootConstants.STATUS_TYPE.ALL;
+        } else if (this.activeStatus === wootConstants.STATUS_TYPE.ALL) {
           this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
         }
       }
