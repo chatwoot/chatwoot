@@ -39,7 +39,10 @@
       "OPEN_ACTION": "열기",
       "OPEN": "더보기",
       "CLOSE": "닫기",
-      "DETAILS": "자세히"
+      "DETAILS": "자세히",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
