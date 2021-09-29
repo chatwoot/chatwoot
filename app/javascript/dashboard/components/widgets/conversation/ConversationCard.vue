@@ -18,7 +18,7 @@
       size="40px"
     />
     <div class="conversation--details columns">
-      <inbox-name v-if="showInboxName" :inbox="chatInbox" />
+      <inbox-name v-if="showInboxName" :inbox="inbox" />
       <h4 class="conversation--user">
         {{ currentContact.name }}
       </h4>
