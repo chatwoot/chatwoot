@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
+    "FILTER_ALL": "Mind",
     "STATUS_TABS": [
       {
         "NAME": "Megnyitás",
