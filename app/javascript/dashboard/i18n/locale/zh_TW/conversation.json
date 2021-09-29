@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "對話指派人已更改",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "寄送者：",
     "ASSIGNMENT": {
       "SELECT_AGENT": "選擇客服",
