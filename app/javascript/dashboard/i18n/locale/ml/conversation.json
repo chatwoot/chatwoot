@@ -39,7 +39,10 @@
       "OPEN_ACTION": "സജീവം",
       "OPEN": "കൂടുതൽ",
       "CLOSE": "അടയ്ക്കുക",
-      "DETAILS": "വിശദാംശങ്ങൾ"
+      "DETAILS": "വിശദാംശങ്ങൾ",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
