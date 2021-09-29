@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "사람 검색, 채팅, 저장된 응답..."
     },
+    "FILTER_ALL": "모두",
     "STATUS_TABS": [
       {
         "NAME": "열기",
