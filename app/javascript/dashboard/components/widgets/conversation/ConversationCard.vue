@@ -258,6 +258,15 @@ export default {
   justify-content: space-between;
   padding-right: var(--space-normal);
 
+  .label {
+    padding: var(--space-micro) 0 var(--space-micro) 0;
+    line-height: var(--space-slab);
+    font-weight: var(--font-weight-medium);
+    background: none;
+    color: var(--s-500);
+    font-size: var(--font-size-mini);
+  }
+
   .assignee-label {
     max-width: 50%;
   }

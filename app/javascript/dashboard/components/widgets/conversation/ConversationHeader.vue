@@ -13,14 +13,15 @@
           {{ currentContact.name }}
         </h3>
         <div class="conversation--header--actions">
-          <inbox-name :inbox="inbox" />
-
-          <span v-if="isSnoozed" class="snoozed--display-text">
+          <inbox-name :inbox="inbox" class="margin-right-small" />
+          <span
+            v-if="isSnoozed"
+            class="snoozed--display-text margin-right-small"
+          >
             {{ snoozedDisplayText }}
           </span>
-
           <woot-button
-            class="user--profile__button"
+            class="user--profile__button margin-right-small"
             size="small"
             variant="link"
             @click="$emit('contact-panel-toggle')"
@@ -160,10 +161,6 @@ export default {
   align-items: center;
   display: flex;
   font-size: var(--font-size-mini);
-
-  > * {
-    margin-right: var(--space-small);
-  }
 
   .user--profile__button {
     padding: 0;

@@ -3,20 +3,20 @@
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      class="hollow secondary"
+      class="hollow secondary actions--button"
       icon="ion-volume-mute"
       @click="mute"
     />
     <woot-button
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      class="hollow secondary"
+      class="hollow secondary actions--button"
       icon="ion-volume-medium"
       @click="unmute"
     />
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      class="hollow secondary"
+      class="hollow secondary actions--button"
       icon="ion-share"
       @click="toggleEmailActionsModal"
     />
@@ -83,10 +83,12 @@ export default {
 <style scoped lang="scss">
 .actions--container {
   align-items: center;
+
   .button {
     font-size: var(--font-size-large);
     margin-right: var(--space-small);
     border-color: var(--color-border);
+    color: var(--s-400);
   }
 }
 
