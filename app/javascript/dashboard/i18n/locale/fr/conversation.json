@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
