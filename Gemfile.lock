@@ -723,7 +723,7 @@ DEPENDENCIES
   valid_email2
   web-console
   webmock
-  webpacker (~> 5.x)
+  webpacker (~> 5.4.0)
   webpush
   wisper (= 2.0.0)
 
