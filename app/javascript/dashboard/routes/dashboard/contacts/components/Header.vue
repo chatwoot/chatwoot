@@ -29,10 +29,19 @@
         <woot-button
           color-scheme="success"
           icon="ion-android-add-circle"
-          @click="onToggleCreate"
+          class="margin-right-small"
           data-testid="create-new-contact"
+          @click="onToggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
+        </woot-button>
+
+        <woot-button
+          color-scheme="info"
+          icon="ion-android-upload"
+          @click="onToggleImport"
+        >
+          {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
         </woot-button>
       </div>
     </div>
@@ -41,7 +50,6 @@
 
 <script>
 export default {
-  components: {},
   props: {
     headerTitle: {
       type: String,
@@ -63,10 +71,15 @@ export default {
       type: Function,
       default: () => {},
     },
+    onToggleImport: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
       showCreateModal: false,
+      showImportModal: false,
     };
   },
   computed: {
@@ -78,6 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/_utility-helpers.scss';
 .page-title {
   margin: 0;
 }
