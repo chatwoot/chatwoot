@@ -14,9 +14,16 @@ class Line::IncomingMessageService
 
     set_contact
     set_conversation
+
     # TODO: iterate over the events and handle the attachments in future
     # https://github.com/line/line-bot-sdk-ruby#synopsis
 
+    parse_events
+  end
+
+  private
+
+  def parse_events
     params[:events].each do |event|
       next unless event_type_message?(event)
 
@@ -25,13 +32,10 @@ class Line::IncomingMessageService
       next unless message_type_non_text?(event['message']['type'])
 
       response = inbox.channel.client.get_message_content(event['message']['id'])
-      next unless response
 
-      attach_files response
+      attach_files(response, event['message']['id'])
     end
   end
-
-  private
 
   def create_message(message)
     @message = @conversation.messages.create(
@@ -44,13 +48,19 @@ class Line::IncomingMessageService
     )
   end
 
-  def attach_files(response)
+  def attach_files(response, message_id)
+    file_name = "media-#{message_id}.#{response.content_type.split('/')[1]}"
+    temp_file = Tempfile.new(file_name)
+    temp_file.binmode
+    temp_file << response.body
+    temp_file.rewind
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(response),
       file: {
-        io: response,
-        filename: response.original_filename,
+        io: temp_file,
+        filename: file_name,
         content_type: response.content_type
       }
     )
