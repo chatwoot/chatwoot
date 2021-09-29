@@ -247,6 +247,7 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
+    google-protobuf (3.17.3)
     google-protobuf (3.17.3-universal-darwin)
     google-protobuf (3.17.3-x86_64-linux)
     googleapis-common-protos (1.3.11)
@@ -264,6 +265,9 @@ GEM
       signet (~> 0.14)
     groupdate (5.2.2)
       activesupport (>= 5)
+    grpc (1.38.0)
+      google-protobuf (~> 3.15)
+      googleapis-common-protos-types (~> 1.0)
     grpc (1.38.0-universal-darwin)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
@@ -346,6 +350,7 @@ GEM
     mime-types-data (3.2021.0704)
     mini_magick (4.11.0)
     mini_mime (1.1.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     mock_redis (0.28.0)
       ruby2_keywords
@@ -360,6 +365,9 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (7.2.0)
     nio4r (2.5.8)
+    nokogiri (1.11.7)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     nokogiri (1.11.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-darwin)
@@ -617,6 +625,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  ruby
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
