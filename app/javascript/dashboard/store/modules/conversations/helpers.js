@@ -15,7 +15,7 @@ export const applyPageFilters = (conversation, filters) => {
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
-  const filterByStatus = chatStatus === status;
+  const filterByStatus = status === 'all' ? true : chatStatus === status;
   let shouldFilter = filterByStatus;
 
   if (inboxId) {

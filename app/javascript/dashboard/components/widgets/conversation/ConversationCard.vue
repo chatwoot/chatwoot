@@ -8,7 +8,7 @@
     }"
     @click="cardClick(chat)"
   >
-    <Thumbnail
+    <thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
       :badge="chatMetadata.channel"
@@ -18,10 +18,20 @@
       size="40px"
     />
     <div class="conversation--details columns">
-      <span v-if="showInboxName" class="label">
-        <i :class="computedInboxClass" />
-        {{ inboxName }}
-      </span>
+      <div class="conversation--metadata">
+        <span v-if="showInboxName" class="label">
+          <i :class="computedInboxClass" />
+          {{ inboxName }}
+        </span>
+
+        <span
+          v-if="showAssignee && assignee"
+          class="label assignee-label text-truncate"
+        >
+          <i class="ion-person" />
+          {{ assignee.name }}
+        </span>
+      </div>
       <h4 class="conversation--user">
         {{ currentContact.name }}
       </h4>
@@ -96,6 +106,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    showAssignee: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -108,7 +122,11 @@ export default {
     }),
 
     chatMetadata() {
-      return this.chat.meta;
+      return this.chat.meta || {};
+    },
+
+    assignee() {
+      return this.chatMetadata.assignee || {};
     },
 
     currentContact() {
@@ -251,5 +269,15 @@ export default {
 .last-message-icon {
   color: var(--s-600);
   font-size: var(--font-size-mini);
+}
+
+.conversation--metadata {
+  display: flex;
+  justify-content: space-between;
+  padding-right: var(--space-normal);
+
+  .assignee-label {
+    max-width: 50%;
+  }
 }
 </style>
