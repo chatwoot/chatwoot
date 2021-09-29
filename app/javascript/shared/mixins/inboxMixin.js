@@ -36,12 +36,34 @@ export default {
       return this.channelType === INBOX_TYPES.EMAIL;
     },
     isATwilioSMSChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return this.isATwilioChannel && !phoneNumber.startsWith('whatsapp');
+      const { medium: medium = '' } = this.inbox;
+      return this.isATwilioChannel && medium === 'sms';
     },
     isATwilioWhatsappChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return this.isATwilioChannel && phoneNumber.startsWith('whatsapp');
+      const { medium: medium = '' } = this.inbox;
+      return this.isATwilioChannel && medium === 'whatsapp';
+    },
+    isTwitterInboxTweet() {
+      return (
+        this.chat &&
+        this.chat.additional_attributes &&
+        this.chat.additional_attributes.type === 'tweet'
+      );
+    },
+    twilioBadge() {
+      return `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`;
+    },
+    twitterBadge() {
+      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-chat'}`;
+    },
+    inboxBadge() {
+      if (this.isATwitterInbox) {
+        return this.twitterBadge;
+      }
+      if (this.isATwilioChannel) {
+        return this.twilioBadge;
+      }
+      return this.channelType;
     },
   },
 };
