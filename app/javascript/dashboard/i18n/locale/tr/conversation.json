@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
     "CHANGE_TEAM": "Görüşme takımı değişti",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
