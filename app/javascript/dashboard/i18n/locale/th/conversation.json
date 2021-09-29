@@ -39,7 +39,10 @@
       "OPEN_ACTION": "เปิด",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
-      "DETAILS": "รายละเอียด"
+      "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างการรอ",
