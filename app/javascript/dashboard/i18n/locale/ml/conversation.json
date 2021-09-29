@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "അയച്ചത്:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
