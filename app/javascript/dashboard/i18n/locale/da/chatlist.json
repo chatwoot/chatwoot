@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
     },
+    "FILTER_ALL": "Alle",
     "STATUS_TABS": [
       {
         "NAME": "Åbn",
