@@ -39,7 +39,10 @@
       "OPEN_ACTION": "打开",
       "OPEN": "详细信息",
       "CLOSE": "关闭",
-      "DETAILS": "详情"
+      "DETAILS": "详情",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
