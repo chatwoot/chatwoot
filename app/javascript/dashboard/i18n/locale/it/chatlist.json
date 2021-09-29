@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
+    "FILTER_ALL": "Tutti",
     "STATUS_TABS": [
       {
         "NAME": "Apri",
