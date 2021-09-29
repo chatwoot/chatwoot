@@ -158,6 +158,7 @@ const actions = {
   },
 
   sendMessage: async ({ commit }, data) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const pendingMessage = createPendingMessage(data);
       commit(types.default.ADD_MESSAGE, pendingMessage);
@@ -167,7 +168,7 @@ const actions = {
         status: MESSAGE_STATUS.SENT,
       });
     } catch (error) {
-      // Handle error
+      throw error;
     }
   },
 
