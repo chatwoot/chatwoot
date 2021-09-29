@@ -16,7 +16,6 @@
           :src="selectedItem.thumbnail"
           size="24px"
           :status="selectedItem.availability_status"
-          :badge="selectedItem.channel"
           :username="selectedItem.name"
         />
         <div class="selector-name-wrap">

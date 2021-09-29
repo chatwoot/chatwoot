@@ -11,7 +11,7 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="chatMetadata.channel"
+      :badge="inboxBadge"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -68,13 +68,14 @@ import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
     Thumbnail,
   },
 
-  mixins: [timeMixin, conversationMixin, messageFormatterMixin],
+  mixins: [inboxMixin, timeMixin, conversationMixin, messageFormatterMixin],
   props: {
     activeLabel: {
       type: String,
@@ -167,14 +168,14 @@ export default {
       return this.getPlainText(subject || this.lastMessageInChat.content);
     },
 
-    chatInbox() {
+    inbox() {
       const { inbox_id: inboxId } = this.chat;
       const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
       return stateInbox;
     },
 
     computedInboxClass() {
-      const { phone_number: phoneNumber, channel_type: type } = this.chatInbox;
+      const { phone_number: phoneNumber, channel_type: type } = this.inbox;
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
     },
@@ -187,11 +188,10 @@ export default {
       );
     },
     inboxName() {
-      const stateInbox = this.chatInbox;
+      const stateInbox = this.inbox;
       return stateInbox.name || '';
     },
   },
-
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
