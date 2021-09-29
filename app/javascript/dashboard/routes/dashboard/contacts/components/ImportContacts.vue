@@ -17,7 +17,7 @@
               id="file"
               ref="file"
               type="file"
-              accept=".csv"
+              accept="text/csv"
               @change="handleFileUpload"
             />
           </label>
@@ -42,14 +42,12 @@
 </template>
 
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   mixins: [alertMixin],
@@ -70,7 +68,7 @@ export default {
       uiFlags: 'contacts/getUIFlags',
     }),
     csvUrl() {
-      return '/assets/import-contacts-sample.csv';
+      return '/downloads/import-contacts-sample.csv';
     },
   },
   methods: {

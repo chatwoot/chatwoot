@@ -30,15 +30,15 @@
           color-scheme="success"
           icon="ion-android-add-circle"
           class="margin-right-small"
-          @click="onToggleCreate"
           data-testid="create-new-contact"
+          @click="onToggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
         <woot-button
           color-scheme="info"
-          icon="ion-android-add-circle"
+          icon="ion-android-upload"
           @click="onToggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
