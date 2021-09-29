@@ -54,6 +54,19 @@
     "TITLE": "ایجاد مخاطب جدید",
     "DESC": "اطلاعات اولیه درباره مخاطب را اضافه کنید."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "انصراف"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
