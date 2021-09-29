@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
+    "FILTER_ALL": "Todos",
     "STATUS_TABS": [
       {
         "NAME": "Abertas",
