@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "会話の担当者が変更されました",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
