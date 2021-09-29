@@ -161,7 +161,7 @@ export default {
     },
     downloadReports() {
       const { from, to } = this;
-      const fileName = `agent-${this.type}-${format(
+      const fileName = `${this.type}-report-${format(
         fromUnixTime(to),
         'dd-MM-yyyy'
       )}.csv`;
