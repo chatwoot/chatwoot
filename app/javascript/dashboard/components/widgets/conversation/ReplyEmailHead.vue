@@ -55,13 +55,9 @@
 import { validEmailsByComma } from './helpers/emailHeadHelper';
 export default {
   props: {
-    ccEmails: {
-      type: String,
-      default: '',
-    },
-    bccEmails: {
-      type: String,
-      default: '',
+    clearMails: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -92,6 +88,15 @@ export default {
       this.$emit("set-emails", { bccEmails: this.bccEmailsVal, ccEmails: this.ccEmailsVal });
     },
   },
+  watch: {
+    clearMails: function(value){
+      if(value) {
+        this.ccEmailsVal = '';
+        this.bccEmailsVal = '';
+        this.clearMails = false;
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
