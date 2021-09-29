@@ -84,6 +84,7 @@
     "CHANGE_AGENT": "Назначенный оператор изменен",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
     "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Отправитель:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Выбрать Агента",
