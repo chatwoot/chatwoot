@@ -6,7 +6,7 @@
       </p>
       <multiselect
         v-model="currentSelectedFilter"
-        :placeholder="$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         label="name"
         track-by="id"
         :options="filterItemsList"
@@ -40,13 +40,13 @@
         </template>
       </multiselect>
     </div>
-    <div v-if="type === 'label'" class="small-12 medium-3 pull-right">
+    <div v-else-if="type === 'label'" class="small-12 medium-3 pull-right">
       <p aria-hidden="true" class="hide">
         {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
         v-model="currentSelectedFilter"
-        :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         label="title"
         track-by="id"
         :options="filterItemsList"
@@ -94,7 +94,7 @@
         v-model="currentSelectedFilter"
         track-by="id"
         label="name"
-        :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         deselect-label=""
@@ -184,6 +184,21 @@ export default {
       const diff = dateRange[this.currentDateRangeSelection.id];
       const fromDate = subDays(new Date(), diff);
       return this.fromCustomDate(fromDate);
+    },
+    multiselectLabel() {
+      if (this.type === 'agent') {
+        return this.$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL');
+      }
+      if (this.type === 'label') {
+        return this.$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL');
+      }
+      if (this.type === 'inbox') {
+        return this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL');
+      }
+      if (this.type === 'team') {
+        return this.$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL');
+      }
+      return this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL');
     },
   },
   watch: {
