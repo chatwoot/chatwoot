@@ -62,7 +62,7 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Visão Geral de Agentes",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
@@ -125,11 +125,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Visão Geral dos Marcadores",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Baixar relatórios de marcadores",
+    "FILTER_DROPDOWN_LABEL": "Selecionar etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -188,10 +188,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Visualizar Caixa de Entrada",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Baixar relatórios de entrada",
     "FILTER_DROPDOWN_LABEL": "Selecionar caixa de entrada",
     "METRICS": {
       "CONVERSATIONS": {
