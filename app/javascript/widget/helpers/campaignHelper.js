@@ -15,12 +15,15 @@ export const formatCampaigns = ({ campaigns }) => {
   });
 };
 
-// Find all campaigns that matches the current URL and check the working hour
-export const filterCampaigns = ({ campaigns, currentURL }) => {
-  const { workingHoursEnabled } = window.chatwootWebChannel;
+// Filter all campaigns based on current URL and business availability time
+export const filterCampaigns = ({
+  campaigns,
+  currentURL,
+  isInBusinessHours,
+}) => {
   return campaigns.filter(item =>
     item.triggerOnlyDuringBusinessHours
-      ? workingHoursEnabled
+      ? isInBusinessHours
       : true &&
         stripTrailingSlash({ URL: item.url }) ===
           stripTrailingSlash({ URL: currentURL })
