@@ -2,14 +2,14 @@ class ConversationReplyMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
-  def reply_with_summary(conversation, message_queued_time)
+  def reply_with_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
-    new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
+    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
+    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
 
@@ -23,15 +23,31 @@ class ConversationReplyMailer < ApplicationMailer
          })
   end
 
-  def reply_without_summary(conversation, message_queued_time)
+  def reply_without_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('created_at >= ?', message_queued_time)
+    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
+
+    mail({
+           to: @contact&.email,
+           from: from_email_with_name,
+           reply_to: reply_email,
+           subject: mail_subject,
+           message_id: custom_message_id,
+           in_reply_to: in_reply_to_email
+         })
+  end
+
+  def email_reply(message)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(message.conversation)
+    @message = message
 
     mail({
            to: @contact&.email,
@@ -148,7 +164,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def choose_layout
-    return false if action_name == 'reply_without_summary'
+    return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
   end
