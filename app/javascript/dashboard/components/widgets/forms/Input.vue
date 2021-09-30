@@ -44,8 +44,8 @@ export default {
       default: '',
     },
     readonly: {
-      type: String,
-      deafaut: '',
+      type: Boolean,
+      deafaut: false,
     },
   },
   methods: {
