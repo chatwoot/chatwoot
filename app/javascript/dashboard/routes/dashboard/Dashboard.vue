@@ -2,7 +2,7 @@
   <div class="row app-wrapper">
     <sidebar :route="currentRoute" :class="sidebarClassName"></sidebar>
     <section class="app-content columns" :class="contentClassName">
-      <router-view></router-view>
+      <router-view :key="$route.path"></router-view>
     </section>
   </div>
 </template>
