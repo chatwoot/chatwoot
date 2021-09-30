@@ -175,6 +175,9 @@ export default {
         case 'inbox':
           this.$store.dispatch('downloadInboxReports', { from, to, fileName });
           break;
+        case 'team':
+          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
+          break;
         default:
           break;
       }

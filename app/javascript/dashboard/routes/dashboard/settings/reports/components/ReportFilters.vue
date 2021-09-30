@@ -86,7 +86,7 @@
         </template>
       </multiselect>
     </div>
-    <div v-if="type === 'inbox'" class="small-12 medium-3 pull-right">
+    <div v-else class="small-12 medium-3 pull-right">
       <p aria-hidden="true" class="hide">
         {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>

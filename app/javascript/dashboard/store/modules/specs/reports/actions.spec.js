@@ -78,4 +78,25 @@ describe('#actions', () => {
       expect(mockInboxDownloadElement.download).toEqual(param.fileName);
     });
   });
+
+  describe('#downloadTeamReports', () => {
+    it('open CSV download prompt if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: `Team name,Conversations count,Avg first response time (Minutes),Avg resolution time (Minutes)
+        sales team,0,0,0
+        Reporting period 2021-09-23 to 2021-09-29`,
+      });
+      const param = {
+        from: 1631039400,
+        to: 1635013800,
+        fileName: 'inbox-report-24-10-2021.csv',
+      };
+      const mockInboxDownloadElement = createElementSpy();
+      await actions.downloadInboxReports(1, param);
+      expect(mockInboxDownloadElement.href).toEqual(
+        'data:text/csv;charset=utf-8,Team%20name,Conversations%20count,Avg%20first%20response%20time%20(Minutes),Avg%20resolution%20time%20(Minutes)%0A%20%20%20%20%20%20%20%20sales%20team,0,0,0%0A%20%20%20%20%20%20%20%20Reporting%20period%202021-09-23%20to%202021-09-29'
+      );
+      expect(mockInboxDownloadElement.download).toEqual(param.fileName);
+    });
+  });
 });
