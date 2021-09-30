@@ -73,11 +73,6 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
-<<<<<<< HEAD
-    chatMetadata() {
-      return this.chat.meta;
-    },
-=======
 
     chatExtraAttributes() {
       return this.chat.additional_attributes;
@@ -95,7 +90,6 @@ export default {
       }
     },
 
->>>>>>> 48e45e29... [2850] update messenger badge according to the channel type
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id
