@@ -49,14 +49,16 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(message.conversation)
     @message = message
 
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
-         })
+    reply_mail_object = mail({
+      to: @contact&.email,
+      from: reply_email,
+      reply_to: reply_email,
+      subject: mail_subject,
+      message_id: custom_message_id,
+      in_reply_to: in_reply_to_email
+    })
+
+    message.update(source_id: reply_mail_object.message_id)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -116,7 +118,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if should_use_conversation_email_address?
-      "#{assignee_name} <reply+#{@conversation.uuid}@#{@account.inbound_email_domain}>"
+      "#{assignee_name} from #{@inbox.name} <reply+#{@conversation.uuid}@#{@account.inbound_email_domain}>"
     else
       @inbox.email_address || @agent&.email
     end

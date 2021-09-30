@@ -1,6 +1,12 @@
 <template>
   <div class="message-text--metadata">
     <span class="time">{{ readableTime }}</span>
+    <span v-if="isOutgoing && sourceId && isAnEmailChannel" class="time">
+      <i
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        class="icon ion-checkmark"
+      />
+    </span>
     <i
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
@@ -36,8 +42,10 @@
 <script>
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
+  mixins: [inboxMixin],
   props: {
     sender: {
       type: Object,
@@ -128,8 +136,7 @@ export default {
 }
 
 .right {
-  .ion-reply,
-  .ion-android-open {
+  .icon {
     color: var(--white);
   }
 }
@@ -200,5 +207,9 @@ export default {
       padding-left: var(--space-one);
     }
   }
+}
+
+.delivered-icon {
+  margin-left: -var(--space-normal);
 }
 </style>
