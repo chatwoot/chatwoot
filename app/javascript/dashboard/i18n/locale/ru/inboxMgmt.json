@@ -58,7 +58,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Введите URL-адрес вебхука",
           "ERROR": "Пожалуйста, введите правильный URL"
         },
         "CHANNEL_DOMAIN": {
