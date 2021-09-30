@@ -25,31 +25,32 @@ class Line::IncomingMessageService
 
   def parse_events
     params[:events].each do |event|
-      next unless event_type_message?(event)
+      next unless message_created? event
 
-      create_message event['message']
-
-      next unless message_type_non_text?(event['message']['type'])
-
-      response = inbox.channel.client.get_message_content(event['message']['id'])
-
-      attach_files(response, event['message']['id'])
+      attach_files event['message']
     end
   end
 
-  def create_message(message)
+  def message_created?(event)
+    return unless event_type_message?(event)
+
     @message = @conversation.messages.create(
-      content: message['text'],
+      content: event['message']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: message['id'].to_s
+      source_id: event['message']['id'].to_s
     )
+    @message
   end
 
-  def attach_files(response, message_id)
-    file_name = "media-#{message_id}.#{response.content_type.split('/')[1]}"
+  def attach_files(message)
+    return unless message_type_non_text?(message['type'])
+
+    response = inbox.channel.client.get_message_content(message['id'])
+
+    file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
     temp_file = Tempfile.new(file_name)
     temp_file.binmode
     temp_file << response.body
