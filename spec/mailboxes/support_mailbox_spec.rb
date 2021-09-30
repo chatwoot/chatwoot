@@ -5,6 +5,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
   describe 'add mail as a new ticket in the email inbox' do
     let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let!(:channel_email) { create(:channel_email, account: account) }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
     let(:described_subject) { described_class.receive support_mail }
@@ -104,6 +105,32 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
         expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
         expect(conversation.contact.name).to eq(email_sender)
+      end
+    end
+
+    context 'when email channel available for recipient' do
+      let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
+      let(:described_subject) { described_class.receive reply_mail_without_uuid }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:contact) { create(:contact, email: 'sony@chatwoot.com') }
+      let(:conversation_1) do
+        create(
+          :conversation,
+          assignee: agent,
+          inbox: email_channel.inbox,
+          contact: contact,
+          account: account,
+          additional_attributes: { mail_subject: "Discussion: Let's debate these attachments" }
+        )
+      end
+
+      before do
+        conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+      end
+
+      it 'append message to channel with same subject' do
+        described_subject
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
       end
     end
   end

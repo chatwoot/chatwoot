@@ -4,6 +4,7 @@ class SupportMailbox < ApplicationMailbox
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   before_processing :find_channel,
+                    :find_conversation_with_recipient,
                     :load_account,
                     :load_inbox,
                     :decorate_mail
@@ -29,6 +30,28 @@ class SupportMailbox < ApplicationMailbox
     @channel
   end
 
+  def find_conversation_with_recipient
+    conversations = recipient_email_channel_conversations
+    return unless conversations.any?
+
+    @conversation = conversations.last
+    @conversation_uuid = @conversation.uuid
+  end
+
+  def recipient_email_channel_conversations
+    inbox = @channel.try(:inbox)
+    collect_conversations(inbox)
+  end
+
+  def collect_conversations(inbox)
+    return if inbox.nil?
+
+    inbox.conversations.open.joins(:contact).where(
+      "conversations.additional_attributes ->> 'mail_subject' = ? AND contacts.email IN (?)",
+      mail.subject, mail.from
+    )
+  end
+
   def load_account
     @account = @channel.account
   end
@@ -42,6 +65,8 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def create_conversation
+    return if @conversation.present?
+
     @conversation = ::Conversation.create!({
                                              account_id: @account.id,
                                              inbox_id: @inbox.id,
