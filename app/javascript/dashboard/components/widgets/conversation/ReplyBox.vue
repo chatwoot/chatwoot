@@ -223,7 +223,8 @@ export default {
         this.isATwilioWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel
+        this.isATwilioSMSChannel ||
+        this.isATelegramChannel
       );
     },
     replyButtonLabel() {
