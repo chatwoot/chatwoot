@@ -134,6 +134,7 @@ export default {
     },
   },
   mounted() {
+    console.log('hi');
     this.$store.dispatch(this.actionKey);
   },
   methods: {
