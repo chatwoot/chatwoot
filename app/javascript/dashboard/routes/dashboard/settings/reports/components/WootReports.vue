@@ -15,7 +15,7 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
     />
-    <div v-if="selectedFilter">
+    <div>
       <div class="row">
         <woot-report-stats-card
           v-for="(metric, index) in metrics"
