@@ -1,41 +1,29 @@
 <template>
   <div class="flex-container actions--container">
+    <woot-button
+      v-if="!currentChat.muted"
+      v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
+      class="hollow secondary actions--button"
+      icon="ion-volume-mute"
+      @click="mute"
+    />
+    <woot-button
+      v-else
+      v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
+      class="hollow secondary actions--button"
+      icon="ion-volume-medium"
+      @click="unmute"
+    />
+    <woot-button
+      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      class="hollow secondary actions--button"
+      icon="ion-share"
+      @click="toggleEmailActionsModal"
+    />
     <resolve-action
       :conversation-id="currentChat.id"
       :status="currentChat.status"
     />
-    <woot-button
-      class="more--button"
-      variant="clear"
-      size="large"
-      color-scheme="secondary"
-      icon="ion-android-more-vertical"
-      @click="toggleConversationActions"
-    />
-    <div
-      v-if="showConversationActions"
-      v-on-clickaway="hideConversationActions"
-      class="dropdown-pane dropdowm--bottom"
-      :class="{ 'dropdown-pane--open': showConversationActions }"
-    >
-      <woot-dropdown-menu>
-        <woot-dropdown-item v-if="!currentChat.muted">
-          <button class="button clear alert " @click="mute">
-            <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
-          </button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-else>
-          <button class="button clear alert" @click="unmute">
-            <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
-          </button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
-          <button class="button clear" @click="toggleEmailActionsModal">
-            {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
-          </button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
-    </div>
     <email-transcript-modal
       v-if="showEmailActionsModal"
       :show="showEmailActionsModal"
@@ -50,13 +38,9 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 export default {
   components: {
-    WootDropdownMenu,
-    WootDropdownItem,
     EmailTranscriptModal,
     ResolveAction,
   },
@@ -97,7 +81,16 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
+.actions--container {
+  align-items: center;
+
+  .button {
+    font-size: var(--font-size-large);
+    margin-right: var(--space-small);
+    border-color: var(--color-border);
+    color: var(--s-400);
+  }
+}
 
 .more--button {
   align-items: center;
