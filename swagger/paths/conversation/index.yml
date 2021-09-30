@@ -15,7 +15,7 @@ get:
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'pending']
+      enum: ['open', 'resolved', 'pending', 'all']
     - name: page
       in: query
       type: integer
