@@ -48,6 +48,15 @@ describe ::ConversationFinder do
       end
     end
 
+    context 'with status all' do
+      let(:params) { { status: 'all' } }
+
+      it 'returns all conversations' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 5
+      end
+    end
+
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
 

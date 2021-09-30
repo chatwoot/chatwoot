@@ -26,6 +26,7 @@
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :show-assignee="showAssigneeInConversationCard"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -118,6 +119,9 @@ export default {
           count,
         };
       });
+    },
+    showAssigneeInConversationCard() {
+      return this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
