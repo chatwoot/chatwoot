@@ -150,7 +150,10 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campagnes",
     "ONGOING": "En cours",
-    "ONE_OFF": "Isolées"
+    "ONE_OFF": "Isolées",
+    "REPORTS_AGENT": "Agents",
+    "REPORTS_LABEL": "Étiquettes",
+    "REPORTS_INBOX": "Boîte de réception"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
