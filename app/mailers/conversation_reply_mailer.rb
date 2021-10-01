@@ -50,13 +50,13 @@ class ConversationReplyMailer < ApplicationMailer
     @message = message
 
     reply_mail_object = mail({
-      to: @contact&.email,
-      from: reply_email,
-      reply_to: reply_email,
-      subject: mail_subject,
-      message_id: custom_message_id,
-      in_reply_to: in_reply_to_email
-    })
+                               to: @contact&.email,
+                               from: reply_email,
+                               reply_to: reply_email,
+                               subject: mail_subject,
+                               message_id: custom_message_id,
+                               in_reply_to: in_reply_to_email
+                             })
 
     message.update(source_id: reply_mail_object.message_id)
   end
