@@ -11,9 +11,11 @@ describe Whatsapp::SendOnWhatsappService do
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation)
         allow(HTTParty).to receive(:post).and_return(whatsapp_request)
-        expect(HTTParty).to receive(:post).with( 'https://waba.360dialog.io/v1/messages', headers: { 'D360-API-KEY': 'test_key', 'Content-Type': 'application/json' }, body: {to: '123456789',
-        text: { body: 'test' },
-        type: 'text'}.to_json)
+        expect(HTTParty).to receive(:post).with(
+          'https://waba.360dialog.io/v1/messages',
+          headers: { 'D360-API-KEY': 'test_key', 'Content-Type': 'application/json' },
+          body: { to: '123456789', text: { body: 'test' }, type: 'text' }.to_json
+        )
         described_class.new(message: message).perform
       end
     end

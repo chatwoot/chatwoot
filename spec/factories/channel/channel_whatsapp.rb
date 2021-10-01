@@ -4,7 +4,6 @@ FactoryBot.define do
     account
     provider_config { { 'api_key' => 'test_key' } }
 
-
     after(:create) do |channel_whatsapp|
       create(:inbox, channel: channel_whatsapp, account: channel_whatsapp.account)
     end
