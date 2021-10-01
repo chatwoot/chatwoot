@@ -60,13 +60,8 @@ export default {
 .text-content {
   overflow: auto;
 
-  ol,
-  ul {
-    padding-inline-start: revert;
-    margin-left: var(--space-zero);
-  }
-
-  ul {
+  ul,
+  ol {
     padding-left: var(--space-two);
   }
   table {
