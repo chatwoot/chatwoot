@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="p-4">
-      <div class="flex items-center mt-2">
+      <div class="flex items-center my-2">
         <button
           type="button"
           class="inline-flex items-center px-2 py-2 border-transparent text-sm leading-4 font-medium rounded-md text-black-900 hover:bg-black-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-woot-200"
@@ -20,7 +20,9 @@
             />
           </svg>
         </button>
-        <h1 class="text-xl font-semibold ml-1">All conversations</h1>
+        <h1 class="text-xl font-medium ml-1 text-black-900">
+          All conversations
+        </h1>
       </div>
       <conversation-list :conversations="allConversations" />
     </div>

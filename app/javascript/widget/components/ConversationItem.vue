@@ -1,17 +1,17 @@
 <template>
   <div class="item--wrap">
     <button @click="onItemClick">
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2">
         <div class="h-10 w-10 rounded-full border-2 border-woot-100">
           <thumbnail
-            src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            src="https://randomuser.me/api/portraits/women/11.jpg"
             size="40px"
             username="Erin Lindford"
           />
         </div>
-        <div class="ml-2 text-left">
-          <p class="text-sm font-medium text-gray-900">Nithin David</p>
-          <p class="text-sm text-gray-500">
+        <div class="text-left">
+          <p class="text-sm font-medium text-black-900">Nithin David</p>
+          <p class="text-sm text-black-500">
             {{ lastMessageContent }}
           </p>
         </div>
