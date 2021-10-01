@@ -19,6 +19,14 @@ module.exports = {
       xxlarge: '1400px',
       xxxlarge: '1600px',
     },
+    borderWidth: {
+      DEFAULT: '1px',
+      '0': '0',
+      '2': '2px',
+      '4': '4px',
+      '6': '6px',
+      '8': '8px',
+    },
     colors: {
       white: colors.white,
       woot: {

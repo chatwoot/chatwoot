@@ -47,8 +47,8 @@ export default {
       default: '',
     },
     conversationId: {
-      type: String,
-      default: '',
+      type: Number,
+      required: true,
     },
   },
   computed: {

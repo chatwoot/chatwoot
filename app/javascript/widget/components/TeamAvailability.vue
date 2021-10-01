@@ -1,29 +1,29 @@
 <template>
-  <div class="px-4">
-    <div class="flex items-center justify-between mb-4">
-      <div class="text-black-700">
-        <div class="text-base leading-5 font-medium mb-1">
+  <div class="px-6">
+    <custom-button
+      class="font-medium rounded-full"
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startConversation"
+    >
+      <i class="ion-send" />
+      {{ $t('START_CONVERSATION') }}
+    </custom-button>
+    <div class="flex items-center justify-between my-1">
+      <div class="text-black-600">
+        <div class="text-xs">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-xs leading-4 mt-1">
+        <div class="text-xs">
           {{ replyWaitMeessage }}
         </div>
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startConversation"
-    >
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
   </div>
 </template>
 

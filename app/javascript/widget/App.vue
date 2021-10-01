@@ -90,6 +90,7 @@ export default {
       this.sendRNWebViewLoadedEvent();
     }
     this.fetchOrCreateContact();
+    this.fetchAllConversations();
     this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
@@ -316,6 +317,12 @@ export default {
           contactIdentifier: window.contactIdentifier,
         });
       }
+    },
+    fetchAllConversations() {
+      this.$store.dispatch('conversationV2/fetchAllConversations', {
+        inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
+        contactIdentifier: window.contactIdentifier,
+      });
     },
     setConvView() {
       // this.showConversationsPage = true;

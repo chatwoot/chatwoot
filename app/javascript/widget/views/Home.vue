@@ -1,32 +1,67 @@
 <template>
   <div class="home" @keydown.esc="closeChat">
-    <div class="header-wrap bg-white expanded">
-      <chat-header-expanded
-        :intro-heading="channelConfig.welcomeTitle"
-        :intro-body="channelConfig.welcomeTagline"
-        :avatar-url="channelConfig.avatarUrl"
-        :show-popout-button="showPopoutButton"
-      />
-    </div>
-    <banner />
-    <div class="flex flex-1 overflow-auto">
-      <button class="button" @click="clickAllConversations">
-        Open last conversation
-      </button>
-    </div>
-    <div class="footer-wrap">
+    <div class="flex flex-col flex-1 overflow-auto">
+      <div class="header-wrap bg-white expanded">
+        <chat-header-expanded
+          :intro-heading="channelConfig.welcomeTitle"
+          :intro-body="channelConfig.welcomeTagline"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="showPopoutButton"
+        />
+      </div>
+      <banner />
+
       <team-availability
         :available-agents="availableAgents"
         @start-conversation="startConversation"
       />
-      <branding></branding>
+
+      <div class="px-6 mt-8">
+        <h3 class="text-xl font-medium text-gray-900">
+          Last conversation
+        </h3>
+        <conversation-item :conversation="lastActiveConversation" />
+        <chat-footer :conversation-id="lastActiveConversationId" />
+        <button
+          class="mt-2 font-medium text-woot-600 hover:text-woot-500 transition
+          ease-in-out duration-150"
+          @click="clickAllConversations"
+        >
+          See all conversations
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+
+      <div class="px-6 mt-8">
+        <h3 class="text-xl font-medium text-gray-900">
+          FAQ
+        </h3>
+        <div>
+          <h4></h4>
+        </div>
+
+        <button
+          class="font-medium text-woot-600 hover:text-woot-500 transition
+          ease-in-out duration-150"
+          @click="clickAllConversations"
+        >
+          See all conversations
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+
+      <div class="footer-wrap">
+        <branding></branding>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Branding from 'shared/components/Branding.vue';
+import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
+import ConversationItem from 'widget/components/ConversationItem';
 
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
@@ -40,9 +75,11 @@ export default {
   name: 'Home',
   components: {
     Branding,
+    ChatFooter,
     ChatHeaderExpanded,
     Spinner,
     TeamAvailability,
+    ConversationItem,
     Banner,
   },
   mixins: [configMixin],
@@ -69,6 +106,8 @@ export default {
       getTotalMessageCount: 'conversationV2/allMessagesCountIn',
       getGroupedMessages: 'conversationV2/groupByMessagesIn',
       getIsFetchingList: 'conversationV2/isFetchingConversationsList',
+      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
+      getConversationById: 'conversationV2/getConversationById',
       getCurrentUser: 'contactV2/getCurrentUser',
     }),
     conversationSize() {
@@ -83,23 +122,33 @@ export default {
     currentUser() {
       return this.getCurrentUser(this.conversationId);
     },
+    lastActiveConversation() {
+      const conversationId = this.lastActiveConversationId;
+      return this.getConversationById(conversationId);
+    },
   },
   mounted() {
     bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
       this.isOnCollapsedView = true;
       this.isOnNewConversation = true;
     });
-    this.$store.dispatch('conversationV2/fetchAllConversations', {
-      inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-      contactIdentifier: window.contactIdentifier,
-    });
   },
   methods: {
-    startConversation() {
+    async startConversation() {
       this.isOnCollapsedView = !this.isOnCollapsedView;
-      this.$store.dispatch('conversationV2/createConversation', {
-        inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-        contactIdentifier: window.contactIdentifier,
+      const conversationId = await this.$store.dispatch(
+        'conversationV2/createConversation',
+        {
+          inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
+          contactIdentifier: window.contactIdentifier,
+        }
+      );
+
+      this.$router.push({
+        name: 'chat',
+        params: {
+          conversationId: conversationId,
+        },
       });
     },
     closeChat() {
@@ -125,14 +174,12 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   overflow: hidden;
-  background: $color-background;
 
   .header-wrap {
     border-radius: $space-normal $space-normal 0 0;
     flex-shrink: 0;
     transition: max-height 300ms;
     z-index: 99;
-    @include shadow-large;
 
     &.expanded {
       max-height: 16rem;
@@ -153,21 +200,6 @@ export default {
     display: flex;
     flex-direction: column;
     position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: -$space-normal;
-      left: 0;
-      width: 100%;
-      height: $space-normal;
-      opacity: 0.1;
-      background: linear-gradient(
-        to top,
-        $color-background,
-        rgba($color-background, 0)
-      );
-    }
   }
 
   .input-wrap {

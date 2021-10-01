@@ -31,6 +31,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    classNames: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonClassName() {
@@ -45,7 +49,7 @@ export default {
       if (this.block) {
         className = `${className} w-full`;
       }
-      return className;
+      return this.classNames + className;
     },
     buttonStyles() {
       const styles = {};

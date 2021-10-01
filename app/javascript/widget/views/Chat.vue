@@ -20,10 +20,6 @@
         v-if="currentView === 'messageView'"
         :grouped-messages="groupedMessages"
       />
-      <pre-chat-form
-        v-if="currentView === 'preChatFormView'"
-        :options="preChatFormOptions"
-      />
     </div>
     <div class="footer-wrap">
       <div class="input-wrap">

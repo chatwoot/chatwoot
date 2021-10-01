@@ -1,35 +1,26 @@
 <template>
-  <li class="py-4">
-    <div class="flex items-center space-x-4">
-      <div class="flex-shrink-0">
-        <div class="h-8 w-8 rounded-full">
+  <div class="item--wrap">
+    <button @click="onItemClick">
+      <div class="flex items-center space-x-4">
+        <div class="h-10 w-10 rounded-full border-2 border-woot-100">
           <thumbnail
             src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            size="24px"
+            size="40px"
             username="Erin Lindford"
           />
         </div>
+        <div class="ml-2 text-left">
+          <p class="text-sm font-medium text-gray-900">Nithin David</p>
+          <p class="text-sm text-gray-500">
+            {{ lastMessageContent }}
+          </p>
+        </div>
       </div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-medium text-gray-900 truncate">
-          Leonard Krasner
-        </p>
-        <p class="text-sm text-gray-500 truncate">
-          @leonardkrasner
-        </p>
-      </div>
-      <div>
-        <a
-          href="#"
-          class="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-        >
-          View
-        </a>
-      </div>
-    </div>
-  </li>
+    </button>
+  </div>
 </template>
 <script>
+import { computed } from '@vue/composition-api';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
 export default {
@@ -40,8 +31,41 @@ export default {
       default: () => ({}),
     },
   },
-  setup(props) {
-    console.log(props);
+  setup(props, context) {
+    const router = context.root.$router;
+
+    const lastMessageContent = computed(() => {
+      const { conversation } = props;
+      const { messages = [] } = conversation;
+      const lastMessage = messages[messages.length - 1];
+
+      if (lastMessage) return lastMessage.content;
+      return '';
+    });
+
+    const onItemClick = () => {
+      const { conversation } = props;
+      // conversation
+      router.push({
+        name: 'chat',
+        params: {
+          conversationId: conversation.id,
+        },
+      });
+    };
+
+    return {
+      lastMessageContent,
+      onItemClick,
+    };
   },
 };
 </script>
+<style lang="scss" scoped>
+.item--wrap {
+  @apply flex;
+  @apply py-3;
+  @apply px-2;
+  border: 1px solid transparent;
+}
+</style>

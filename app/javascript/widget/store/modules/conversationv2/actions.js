@@ -82,6 +82,7 @@ export const actions = {
         conversationId,
         messages,
       });
+      return conversationId;
     } catch (error) {
       throw new Error(error);
     } finally {

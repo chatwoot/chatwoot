@@ -11,8 +11,21 @@ export const getters = {
     _state.conversations[conversationId].uiFlags.isAgentTyping,
   isFetchingConversationsList: _state =>
     _state.conversations.uiFlags.isFetching,
-  allConversations: _state =>
-    _state.conversations.allIds.map(id => _state.conversations.byId[id]),
+  allConversations: (...getterArguments) => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const conversations = _state.conversations.allIds.map(id => {
+      const conversation = _state.conversations.byId[id];
+      const messagesInConversation = conversation.messages.map(messageId => {
+        const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+        return lastMessage;
+      });
+      return {
+        ...conversation,
+        messages: messagesInConversation,
+      };
+    });
+    return conversations;
+  },
   totalConversationsLength: _state => _state.conversations.allIds.length || 0,
   firstMessageIn: (...getterArguments) => conversationId => {
     const [_state, , , _rootGetters] = getterArguments;
@@ -67,8 +80,24 @@ export const getters = {
     }).length;
     return count;
   },
+  getConversationById: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const conversation = _state.conversations.byId[conversationId];
+
+    if (!conversation) return undefined;
+
+    const messageIds = conversation.messages;
+    const messagesInConversation = messageIds.map(messageId => {
+      const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+      return lastMessage;
+    });
+    return {
+      ...conversation,
+      messages: messagesInConversation,
+    };
+  },
   getUnreadMessagesIn: (...getterArguments) => conversationId => {
-    const [_state, _getters, _rootGetters] = getterArguments;
+    const [_state, _getters, , _rootGetters] = getterArguments;
     const unreadCount = _getters.unreadMessageCountIn(conversationId);
     const conversation = _state.conversations.byId[conversationId];
     if (conversation) return 0;
@@ -85,7 +114,7 @@ export const getters = {
     const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
     return allUnreadMessages;
   },
-  getLastActiveConversation: (...getterArguments) => {
+  lastActiveConversationId: (...getterArguments) => {
     const [_state, _getters] = getterArguments;
 
     const size = _getters.totalConversationsLength;
