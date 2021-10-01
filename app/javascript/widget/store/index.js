@@ -12,9 +12,9 @@ import message from 'widget/store/modules/message';
 import campaign from 'widget/store/modules/campaign';
 
 // New store modules
-import contactV2 from 'widget/store/modules/contactV2';
-import conversationV2 from 'widget/store/modules/conversationV2';
-import messageV2 from 'widget/store/modules/messageV2';
+import contactV2 from './modules/contactV2';
+import conversationV2 from './modules/conversationV2';
+import messageV2 from './modules/messageV2';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
