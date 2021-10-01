@@ -1,4 +1,4 @@
-import { mutations } from '../../conversationv2/mutations';
+import { mutations } from '../../conversationNew/mutations';
 
 describe('#mutations', () => {
   describe('#setUIFlag', () => {
