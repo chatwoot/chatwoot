@@ -2,20 +2,21 @@
 const plugins = () => [
   require('babel-plugin-macros'),
   [
-    require('@babel/plugin-proposal-class-properties').default,
+    '@babel/plugin-proposal-class-properties',
     {
       loose: true,
     },
   ],
   [require('babel-plugin-transform-vue-jsx')],
   [
-    require('@babel/plugin-transform-runtime').default,
+    '@babel/plugin-transform-runtime',
     {
       helpers: false,
       regenerator: true,
       corejs: false,
     },
   ],
+  ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
   ['@babel/plugin-proposal-private-methods', { loose: true }],
 ];
 
@@ -35,10 +36,7 @@ module.exports = api => {
 
   return {
     presets: [
-      [
-        require('@babel/preset-env').default,
-        { useBuiltIns: 'usage', corejs: 3 },
-      ],
+      ['@babel/preset-env', { useBuiltIns: 'usage', corejs: 3, loose: true }],
     ],
     plugins: plugins(),
   };
