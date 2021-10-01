@@ -1,0 +1,30 @@
+.date-picker {
+  margin-left: var(--space-smaller);
+}
+
+.margin-left-small {
+  margin-left: var(--space-smaller);
+}
+
+.reports-option__rounded--item {
+  border-radius: 100%;
+  height: var(--space-two);
+  width: var(--space-two);
+}
+
+.reports-option__item {
+  flex-shrink: 0;
+  margin-right: var(--space-small);
+}
+
+.reports-option__label--swatch {
+  border: 1px solid var(--color-border);
+}
+
+.margin-right-small {
+  margin-right: var(--space-small);
+}
+
+.display-flex {
+  display: flex;
+}

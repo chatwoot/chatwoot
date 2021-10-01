@@ -32,14 +32,10 @@ class Channel::Telegram < ApplicationRecord
     "https://api.telegram.org/bot#{bot_token}"
   end
 
-  def send_message_on_telegram(message, chat_id)
-    response = HTTParty.post("#{telegram_api_url}/sendMessage",
-                             body: {
-                               chat_id: chat_id,
-                               text: message
-                             })
+  def send_message_on_telegram(message)
+    return send_message(message) if message.attachments.empty?
 
-    response.parsed_response['result']['message_id'] if response.success?
+    send_attachments(message)
   end
 
   def get_telegram_profile_image(user_id)
@@ -79,5 +75,47 @@ class Channel::Telegram < ApplicationRecord
                                url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"
                              })
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
+  end
+
+  def send_message(message)
+    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content)
+    response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def send_attachments(message)
+    send_message(message) unless message.content.nil?
+
+    telegram_attachments = []
+    message.attachments.each do |attachment|
+      telegram_attachment = {}
+
+      case attachment[:file_type]
+      when 'image'
+        telegram_attachment[:type] = 'photo'
+      when 'file'
+        telegram_attachment[:type] = 'document'
+      end
+      telegram_attachment[:media] = attachment.file_url
+      telegram_attachments << telegram_attachment
+    end
+
+    response = attachments_request(message.conversation[:additional_attributes]['chat_id'], telegram_attachments)
+    response.parsed_response['result'].first['message_id'] if response.success?
+  end
+
+  def attachments_request(chat_id, attachments)
+    HTTParty.post("#{telegram_api_url}/sendMediaGroup",
+                  body: {
+                    chat_id: chat_id,
+                    media: attachments.to_json
+                  })
+  end
+
+  def message_request(chat_id, text)
+    HTTParty.post("#{telegram_api_url}/sendMessage",
+                  body: {
+                    chat_id: chat_id,
+                    text: text
+                  })
   end
 end
