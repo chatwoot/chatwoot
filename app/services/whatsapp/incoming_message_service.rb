@@ -10,7 +10,7 @@ class Whatsapp::IncomingMessageService
 
     set_conversation
 
-    return unless params[:messages].present?
+    return if params[:messages].blank?
 
     @message = @conversation.messages.create(
       content: params[:messages].first.dig(:text, :body),
@@ -18,7 +18,7 @@ class Whatsapp::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:messages].first.dig(:id).to_s
+      source_id: params[:messages].first[:id].to_s
     )
     @message.save!
   end
@@ -31,12 +31,12 @@ class Whatsapp::IncomingMessageService
 
   def set_contact
     contact_params = params[:contacts].first
-    return unless contact_params.present?
+    return if contact_params.blank?
 
     contact_inbox = ::ContactBuilder.new(
-      source_id: contact_params.dig(:wa_id),
+      source_id: contact_params[:wa_id],
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{ params[:messages].first.dig(:from)}" }
+      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{params[:messages].first[:from]}" }
     ).perform
 
     @contact_inbox = contact_inbox

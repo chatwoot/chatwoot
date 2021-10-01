@@ -9,13 +9,18 @@ class Contacts::ContactableInboxesService
   private
 
   def get_contactable_inbox(inbox)
-    return twilio_contactable_inbox(inbox) if inbox.channel_type == 'Channel::TwilioSms'
-    return whatsapp_contactable_inbox(inbox) if inbox.channel_type == 'Channel::Whatsapp'
-    return email_contactable_inbox(inbox) if inbox.channel_type == 'Channel::Email'
-    return api_contactable_inbox(inbox) if inbox.channel_type == 'Channel::Api'
-    return website_contactable_inbox(inbox) if inbox.channel_type == 'Channel::WebWidget'
-
-    nil
+    case inbox.channel_type
+    when 'Channel::TwilioSms'
+      twilio_contactable_inbox(inbox)
+    when 'Channel::Whatsapp'
+      whatsapp_contactable_inbox(inbox)
+    when 'Channel::Email'
+      email_contactable_inbox(inbox)
+    when 'Channel::Api'
+      api_contactable_inbox(inbox)
+    when 'Channel::WebWidget'
+      website_contactable_inbox(inbox)
+    end
   end
 
   def website_contactable_inbox(inbox)
@@ -42,11 +47,10 @@ class Contacts::ContactableInboxesService
 
   def whatsapp_contactable_inbox(inbox)
     return unless @contact.phone_number
-   
+
     # Remove the plus since thats the format 360 dialog uses
     { source_id: @contact.phone_number.delete('+'), inbox: inbox }
   end
-
 
   def twilio_contactable_inbox(inbox)
     return if @contact.phone_number.blank?
