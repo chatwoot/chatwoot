@@ -14,6 +14,20 @@
             :src="avatarUrl"
             @change="handleImageUpload"
           />
+          <div
+            v-if="!avatarUrl.includes('www.gravatar.com')"
+            class="avatar-delete-btn"
+          >
+            <woot-button
+              type="button"
+              color-scheme="alert"
+              variant="hollow"
+              size="small"
+              @click="deleteAvatar"
+            >
+              {{ $t('PROFILE_SETTINGS.DEL_AVATAR') }}
+            </woot-button>
+          </div>
           <label :class="{ error: $v.name.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
             <input
@@ -129,7 +143,10 @@ export default {
     initializeUser() {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
-      this.avatarUrl = this.currentUser.avatar_url;
+      this.avatarUrl = this.currentUser.avatar_url.replace(
+        'localhost',
+        'localhost:3000'
+      );
       this.displayName = this.currentUser.display_name;
     },
     async updateUser() {
@@ -167,6 +184,14 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
+    },
+    async deleteAvatar() {
+      try {
+        await this.$store.dispatch('deleteAvatar');
+        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+      } catch (error) {
+        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+      }
     },
   },
 };

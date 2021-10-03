@@ -15,6 +15,11 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.update!(profile_params)
   end
 
+  def avatar
+    @user.avatar.attachment.destroy! if @user.avatar.attached?
+    head :ok
+  end
+
   private
 
   def set_user
