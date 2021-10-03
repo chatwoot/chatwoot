@@ -1,5 +1,5 @@
 namespace :vapid_keys do
-  desc 'task to generate vapid keys, store in db and cache them'
+  desc 'task to generate vapid keys'
   task generate: :environment do
     keys = Webpush.generate_key
     record = PushKey.where({ provider: 'vapid' })

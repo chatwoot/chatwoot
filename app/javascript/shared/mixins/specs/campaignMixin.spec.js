@@ -34,5 +34,4 @@ describe('campaignMixin', () => {
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.isOnOffType).toBe(true);
   });
-
 });

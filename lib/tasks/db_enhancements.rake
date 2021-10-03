@@ -6,7 +6,7 @@ Rake::Task['db:migrate'].enhance do
   end
 end
 
-# We are hooking config loader to run automatically everytime migration is executed
+# We are hooking a vapid_keys:generate task with db:seed task to auto generate vapid keys
 Rake::Task['db:seed'].enhance do
   Rake::Task['vapid_keys:generate'].invoke if ActiveRecord::Base.connection.table_exists? 'push_keys'
 end

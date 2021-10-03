@@ -13,6 +13,7 @@ class PushKey < ApplicationRecord
   validates :provider, presence: true
 
   after_commit do |record|
+    # cache pubilc and private keys
     ::Redis::Alfred.set(::Redis::Alfred::PUSH_PUBLIC_KEY, record.public_key)
     ::Redis::Alfred.set(::Redis::Alfred::PUSH_PRIVATE_KEY, record.private_key)
   end
