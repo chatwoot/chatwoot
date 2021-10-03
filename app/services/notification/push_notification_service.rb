@@ -43,7 +43,7 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push?(subscription)
-    ENV['VAPID_PUBLIC_KEY'] && subscription.browser_push?
+    ::Redis::Alfred.get(::Redis::Alfred::PUSH_PUBLIC_KEY) && subscription.browser_push?
   end
 
   def send_browser_push(subscription)
@@ -56,8 +56,8 @@ class Notification::PushNotificationService
       auth: subscription.subscription_attributes['auth'],
       vapid: {
         subject: push_url,
-        public_key: ENV['VAPID_PUBLIC_KEY'],
-        private_key: ENV['VAPID_PRIVATE_KEY']
+        public_key: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PUBLIC_KEY),
+        private_key: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PRIVATE_KEY)
       },
       ssl_timeout: 5,
       open_timeout: 5,

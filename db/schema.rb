@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_082754) do
+ActiveRecord::Schema.define(version: 2021_10_03_034306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -583,6 +583,14 @@ ActiveRecord::Schema.define(version: 2021_09_22_082754) do
 
   create_table "platform_apps", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "push_keys", force: :cascade do |t|
+    t.string "provider", null: false
+    t.string "public_key", default: "", null: false
+    t.string "private_key", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

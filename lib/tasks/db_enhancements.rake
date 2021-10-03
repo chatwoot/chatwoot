@@ -6,6 +6,11 @@ Rake::Task['db:migrate'].enhance do
   end
 end
 
+# We are hooking config loader to run automatically everytime migration is executed
+Rake::Task['db:seed'].enhance do
+  Rake::Task['vapid_keys:generate'].invoke if ActiveRecord::Base.connection.table_exists? 'push_keys'
+end
+
 # we are creating a custom database prepare task
 # the default rake db:prepare task isn't ideal for environments like heroku
 # In heroku the database is already created before the first run of db:prepare

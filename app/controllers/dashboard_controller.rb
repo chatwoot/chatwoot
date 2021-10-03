@@ -27,7 +27,9 @@ class DashboardController < ActionController::Base
       'ANALYTICS_TOKEN',
       'ANALYTICS_HOST'
     ).merge(
-      APP_VERSION: Chatwoot.config[:version]
+      APP_VERSION: Chatwoot.config[:version],
+      PUSH_PUBLIC_KEY: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PUBLIC_KEY),
+      PUSH_PRIVATE_KEY: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PRIVATE_KEY)
     )
   end
 
