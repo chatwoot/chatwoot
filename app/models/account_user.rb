@@ -47,6 +47,10 @@ class AccountUser < ApplicationRecord
     ::Agents::DestroyService.new(account: account, user: user).perform
   end
 
+  def user_deleted?
+    user.destroyed?
+  end
+
   private
 
   def notify_creation
