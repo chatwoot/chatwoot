@@ -48,59 +48,11 @@
           />
         </div>
       </div>
-      <div v-if="!showNewMessage">
-        <div>
-          <woot-button
-            class="edit-contact"
-            variant="link"
-            size="small"
-            @click="toggleEditModal"
-          >
-            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-        <div>
-          <woot-button
-            class="edit-contact"
-            color-scheme="secondary"
-            variant="link"
-            size="small"
-            @click="openMergeModal"
-          >
-            {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
-          </woot-button>
-        </div>
-        <div v-if="isAdmin">
-          <woot-button
-            class="delete-contact"
-            variant="link"
-            size="small"
-            color-scheme="alert"
-            @click="toggleDeleteModal"
-            :disabled="uiFlags.isDeleting"
-          >
-            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-      </div>
-
-      <div v-else class="contact-actions">
+      <div class="contact-actions">
         <woot-button
-          class="new-message"
-          size="small expanded"
-          @click="toggleConversationModal"
-        >
-          {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
-        </woot-button>
-        <woot-button
-          variant="smooth"
-          size="small expanded"
-          @click="toggleEditModal"
-        >
-          {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-        </woot-button>
-        <woot-button
+          v-if="showNewMessage"
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
           icon="ion-chatboxes"
           size="small expanded"
@@ -108,6 +60,7 @@
         />
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           class="edit-contact"
           icon="ion-edit"
           variant="smooth"
@@ -116,14 +69,27 @@
         />
         <woot-button
           v-if="isAdmin"
+          v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          title="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          class="merge-contact"
+          icon="ion-merge"
+          variant="smooth"
+          size="small expanded"
+          color-scheme="secondary"
+          :disabled="uiFlags.isMerging"
+          @click="openMergeModal"
+        />
+        <woot-button
+          v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           class="delete-contact"
           icon="ion-trash-a"
-          variant="hollow"
+          variant="smooth"
           size="small expanded"
           color-scheme="alert"
-          @click="toggleDeleteModal"
           :disabled="uiFlags.isDeleting"
+          @click="toggleDeleteModal"
         />
       </div>
       <edit-contact
@@ -310,31 +276,16 @@ export default {
   margin-top: var(--space-small);
 }
 
-.edit-contact {
-  margin-left: var(--space-medium);
-}
-
-.delete-contact {
-  margin-left: var(--space-medium);
-}
-
 .contact-actions {
   display: flex;
   align-items: center;
   width: 100%;
 
-  .new-message {
-    font-size: var(--font-size-medium);
-  }
-
-  .edit-contact {
-    margin-left: var(--space-small);
-    font-size: var(--font-size-medium);
-  }
-
+  .new-message,
+  .edit-contact,
+  .merge-contact,
   .delete-contact {
-    margin-left: var(--space-small);
-    font-size: var(--font-size-medium);
+    margin-right: var(--space-small);
   }
 }
 .merege-summary--card {

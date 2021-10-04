@@ -55,6 +55,7 @@ export default {
 <style lang="scss" scoped>
 .option-item--user {
   display: flex;
+  align-items: center;
 }
 .user-identifier {
   font-size: var(--font-size-mini);
