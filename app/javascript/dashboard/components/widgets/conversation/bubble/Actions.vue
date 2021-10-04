@@ -1,7 +1,7 @@
 <template>
   <div class="message-text--metadata">
     <span class="time">{{ readableTime }}</span>
-    <span v-if="isOutgoing && sourceId && isAnEmailChannel" class="time">
+    <span v-if="showSentIndicator" class="time">
       <i
         v-tooltip.top-start="$t('CHAT_LIST.SENT')"
         class="icon ion-checkmark"
@@ -106,6 +106,9 @@ export default {
       const { screenName, sourceId } = this;
       return `https://twitter.com/${screenName ||
         this.inbox.name}/status/${sourceId}`;
+    },
+    showSentIndicator() {
+      return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
     },
   },
   methods: {
