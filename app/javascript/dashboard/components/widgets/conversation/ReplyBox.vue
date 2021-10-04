@@ -21,6 +21,7 @@
         :on-click="emojiOnClick"
       />
       <reply-email-head
+        v-if="showReplyHead"
         @set-emails="setCcEmails"
         :clear-mails="clearMails"
       />
@@ -140,7 +141,7 @@ export default {
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
-      clearMails: false
+      clearMails: false,
     };
   },
   computed: {
@@ -276,6 +277,9 @@ export default {
         return true;
       }
       return !this.message.trim().replace(/\n/g, '').length;
+    },
+    showReplyHead(){
+      return this.isAnEmailChannel;
     },
   },
   watch: {
