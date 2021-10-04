@@ -186,19 +186,13 @@ export default {
       return this.fromCustomDate(fromDate);
     },
     multiselectLabel() {
-      if (this.type === 'agent') {
-        return this.$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL');
-      }
-      if (this.type === 'label') {
-        return this.$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL');
-      }
-      if (this.type === 'inbox') {
-        return this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL');
-      }
-      if (this.type === 'team') {
-        return this.$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL');
-      }
-      return this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL');
+      const typeLabels = {
+        agent: this.$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL'),
+        label: this.$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL'),
+        inbox: this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL'),
+        team: this.$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL'),
+      };
+      return typeLabels[this.type] || this.$t('FORMS.MULTISELECT.SELECT_ONE');
     },
   },
   watch: {
