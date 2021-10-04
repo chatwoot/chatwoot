@@ -204,8 +204,6 @@ export default {
   watch: {
     filterItemsList(val) {
       this.currentSelectedFilter = val[0];
-    },
-    currentSelectedFilter() {
       this.changeFilterSelection();
     },
   },
