@@ -13,6 +13,7 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
   def destroy
     if requested_resource.destroy
       flash[:notice] = translate_with_resource('destroy.success')
+      return redirect_to super_admin_account_url(requested_resource.account.id) if requested_resource.user_deleted?
     else
       flash[:error] = requested_resource.errors.full_messages.join('<br/>')
     end
