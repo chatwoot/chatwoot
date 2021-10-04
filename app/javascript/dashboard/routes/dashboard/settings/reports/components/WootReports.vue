@@ -16,7 +16,7 @@
       @filter-change="onFilterChange"
     />
     <div>
-      <div class="row">
+      <div v-if="filterItemsList.length" class="row">
         <woot-report-stats-card
           v-for="(metric, index) in metrics"
           :key="metric.NAME"
@@ -34,7 +34,10 @@
           :message="$t('REPORT.LOADING_CHART')"
         />
         <div v-else class="chart-container">
-          <woot-bar v-if="accountReport.data.length" :collection="collection" />
+          <woot-bar
+            v-if="accountReport.data.length && filterItemsList.length"
+            :collection="collection"
+          />
           <span v-else class="empty-state">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
