@@ -70,7 +70,20 @@
             {{ $t('CONTACT_PANEL.MERGE_CONTACT') }}
           </woot-button>
         </div>
+        <div v-if="isAdmin">
+          <woot-button
+            class="delete-contact"
+            variant="link"
+            size="small"
+            color-scheme="alert"
+            @click="toggleDeleteModal"
+            :disabled="uiFlags.isDeleting"
+          >
+            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+        </div>
       </div>
+
       <div v-else class="contact-actions">
         <woot-button
           class="new-message"
@@ -86,6 +99,32 @@
         >
           {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
         </woot-button>
+        <woot-button
+          v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          class="new-message"
+          icon="ion-chatboxes"
+          size="small expanded"
+          @click="toggleConversationModal"
+        />
+        <woot-button
+          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          class="edit-contact"
+          icon="ion-edit"
+          variant="smooth"
+          size="small expanded"
+          @click="toggleEditModal"
+        />
+        <woot-button
+          v-if="isAdmin"
+          v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          class="delete-contact"
+          icon="ion-trash-a"
+          variant="hollow"
+          size="small expanded"
+          color-scheme="alert"
+          @click="toggleDeleteModal"
+          :disabled="uiFlags.isDeleting"
+        />
       </div>
       <edit-contact
         v-if="showEditModal"
@@ -94,6 +133,7 @@
         @cancel="toggleEditModal"
       />
       <new-conversation
+        v-if="contact.id"
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
@@ -105,6 +145,18 @@
         @close="toggleMergeModal"
       />
     </div>
+    <woot-confirm-delete-modal
+      v-if="showDeleteModal"
+      :show.sync="showDeleteModal"
+      :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
+      :message="confirmDeleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="contact.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
+    />
   </div>
 </template>
 <script>
@@ -116,6 +168,9 @@ import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
+import alertMixin from 'shared/mixins/alertMixin';
+import adminMixin from '../../../../mixins/isAdmin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -126,7 +181,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [clickaway],
+  mixins: [alertMixin, adminMixin, clickaway],
   props: {
     contact: {
       type: Object,
@@ -146,9 +201,11 @@ export default {
       showEditModal: false,
       showConversationModal: false,
       showMergeModal: false,
+      showDeleteModal: false,
     };
   },
   computed: {
+    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
@@ -160,6 +217,23 @@ export default {
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
+    // Delete Modal
+    deleteConfirmText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.YES')} ${this.contact.name}`;
+    },
+    deleteRejectText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.NO')} ${this.contact.name}`;
+    },
+    confirmDeleteMessage() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
+        this.contact.name
+      } ?`;
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('DELETE_CONTACT.CONFIRM.PLACE_HOLDER', {
+        contactName: this.contact.name,
+      })}`;
+    },
   },
   methods: {
     toggleMergeModal() {
@@ -170,6 +244,31 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
+    },
+    toggleDeleteModal() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    confirmDeletion() {
+      this.deleteContact(this.contact);
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.showDeleteModal = false;
+      this.showConversationModal = false;
+      this.showEditModal = false;
+    },
+    async deleteContact({ id }) {
+      try {
+        await this.$store.dispatch('contacts/delete', id);
+        this.$emit('panel-close');
+        this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')
+        );
+      }
     },
     openMergeModal() {
       this.toggleMergeModal();
@@ -210,18 +309,33 @@ export default {
 .contact-actions {
   margin-top: var(--space-small);
 }
-.button.edit-contact {
+
+.edit-contact {
   margin-left: var(--space-medium);
 }
 
-.button.new-message {
-  margin-right: var(--space-small);
+.delete-contact {
+  margin-left: var(--space-medium);
 }
 
 .contact-actions {
   display: flex;
   align-items: center;
   width: 100%;
+
+  .new-message {
+    font-size: var(--font-size-medium);
+  }
+
+  .edit-contact {
+    margin-left: var(--space-small);
+    font-size: var(--font-size-medium);
+  }
+
+  .delete-contact {
+    margin-left: var(--space-small);
+    font-size: var(--font-size-medium);
+  }
 }
 .merege-summary--card {
   padding: var(--space-normal);

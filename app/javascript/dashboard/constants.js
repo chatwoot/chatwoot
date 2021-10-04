@@ -10,6 +10,7 @@ export default {
     RESOLVED: 'resolved',
     PENDING: 'pending',
     SNOOZED: 'snoozed',
+    ALL: 'all',
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';

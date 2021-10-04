@@ -42,14 +42,6 @@ $resolve-button-width: 13.2rem;
     margin-right: var(--space-normal);
     min-width: 0;
 
-    .user--name {
-      @include margin(0);
-      display: inline-block;
-      font-size: $font-size-medium;
-      line-height: 1.3;
-      text-transform: capitalize;
-      width: 100%;
-    }
 
     .user--profile__meta {
       align-items: flex-start;
@@ -58,12 +50,6 @@ $resolve-button-width: 13.2rem;
       justify-content: flex-start;
       margin-left: $space-slab;
       min-width: 0;
-    }
-
-    .user--profile__button {
-      font-size: $font-size-mini;
-      margin-top: $space-micro;
-      padding: 0;
     }
   }
 }

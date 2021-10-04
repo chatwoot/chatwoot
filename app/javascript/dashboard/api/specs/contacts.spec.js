@@ -59,6 +59,18 @@ describe('#ContactsAPI', () => {
         '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support'
       );
     });
+
+    it('#importContacts', () => {
+      const file = 'file';
+      contactAPI.importContacts(file);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/import',
+        expect.any(FormData),
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+    });
   });
 });
 
