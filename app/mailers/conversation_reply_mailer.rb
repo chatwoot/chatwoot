@@ -51,7 +51,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     reply_mail_object = mail({
                                to: @contact&.email,
-                               from: reply_email,
+                               from: from_email_with_name,
                                reply_to: reply_email,
                                subject: mail_subject,
                                message_id: custom_message_id,
@@ -143,6 +143,8 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_message_id
+    last_message = @message || @messages&.last&.id
+
     "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>"
   end
 
