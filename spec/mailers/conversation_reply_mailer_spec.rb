@@ -7,6 +7,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
+    let(:email_channel) { create(:channel_email, account: account) }
 
     before do
       allow(described_class).to receive(:new).and_return(class_instance)
@@ -86,6 +87,24 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
         expect(mail).to eq nil
+      end
+    end
+
+    context 'with email reply' do
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+      let(:mail) { described_class.email_reply(message).deliver_now }
+
+      it 'renders the subject' do
+        expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the body' do
+        expect(mail.decoded).to include message.content
+      end
+
+      it 'updates the source_id' do
+        expect(mail.message_id).to eq message.source_id
       end
     end
 
