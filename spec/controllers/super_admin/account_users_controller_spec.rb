@@ -19,4 +19,17 @@ RSpec.describe 'Super Admin Account Users API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /super_admin/account_users/:id' do
+    context 'when user has only one account' do
+      let(:account_user) { create(:account_user) }
+
+      it 'redirects to the account details' do
+        sign_in super_admin
+        delete "/super_admin/account_users/#{account_user.account.id}"
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to("/super_admin/accounts/#{account_user.account.id}")
+      end
+    end
+  end
 end
