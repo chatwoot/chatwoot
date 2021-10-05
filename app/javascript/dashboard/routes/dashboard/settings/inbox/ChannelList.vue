@@ -40,7 +40,7 @@ export default {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
         { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Facebook' },
+        { key: 'facebook', name: 'Messenger' },
         { key: 'twitter', name: 'Twitter' },
         { key: 'whatsapp', name: 'WhatsApp via Twilio' },
         { key: 'sms', name: 'SMS via Twilio' },
