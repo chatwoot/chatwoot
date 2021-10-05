@@ -15,25 +15,46 @@
       :size="avatarSize"
     />
     <img
+      v-if="badge === 'instagram_direct_message'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/instagram_direct.png"
+    />
+    <img
       v-if="badge === 'Channel::FacebookPage'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/fb-badge.png"
+      src="~dashboard/assets/images/messenger_direct.png"
     />
     <img
-      v-if="badge === 'Channel::TwitterProfile'"
+      v-if="badge === 'twitter-tweet'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/twitter-badge.png"
     />
     <img
-      v-if="badge === 'Channel::TwilioSms'"
+      v-if="badge === 'twitter-chat'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/twitter-chat-badge.png"
+    />
+    <img
+      v-if="badge === 'whatsapp'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/channels/whatsapp.png"
+    />
+    <img
+      v-if="badge === 'sms'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/channels/sms.png"
     />
     <img
       v-if="badge === 'Channel::Line'"

@@ -223,7 +223,8 @@ export default {
         this.isATwilioWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel
+        this.isATwilioSMSChannel ||
+        this.isATelegramChannel
       );
     },
     replyButtonLabel() {
@@ -347,7 +348,10 @@ export default {
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
-          // Error
+          const errorMessage =
+            error?.response?.data?.error ||
+            this.$t('CONVERSATION.MESSAGE_ERROR');
+          this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
       }

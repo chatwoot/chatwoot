@@ -1701,7 +1701,8 @@
             "enum": [
               "open",
               "resolved",
-              "pending"
+              "pending",
+              "all"
             ]
           },
           {
