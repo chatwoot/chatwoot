@@ -11,13 +11,13 @@
       "FORM": {
         "NAME": {
           "LABEL": "顯示名稱",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "輸入屬性顯示名稱",
+          "ERROR": "名稱為必填"
         },
         "DESC": {
           "LABEL": "描述資訊",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "輸入屬性描述",
+          "ERROR": "描述為必填"
         },
         "MODEL": {
           "LABEL": "Model",
@@ -25,16 +25,16 @@
           "ERROR": "Model is required"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "類別",
           "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "ERROR": "類別為必填"
         },
         "KEY": {
           "LABEL": "Key"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
+        "SUCCESS_MESSAGE": "屬性新增成功",
         "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
       }
     },
@@ -53,10 +53,10 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "編輯屬性",
       "UPDATE_BUTTON_TEXT": "更新",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
+        "SUCCESS_MESSAGE": "屬性更新成功",
         "ERROR_MESSAGE": "There was an error updating attribute, please try again"
       }
     },
@@ -69,7 +69,7 @@
       "TABLE_HEADER": [
         "姓名",
         "描述資訊",
-        "Type",
+        "類別",
         "Key"
       ],
       "BUTTONS": {
