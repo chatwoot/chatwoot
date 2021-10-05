@@ -20,7 +20,7 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "聯絡人標籤",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "無法更新標籤"
       },
       "CONVERSATION": {
         "TITLE": "對話標記",
