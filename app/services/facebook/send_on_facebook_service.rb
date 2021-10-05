@@ -10,7 +10,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     send_message_to_facebook fb_attachment_message_params if message.attachments.present?
   rescue Facebook::Messenger::FacebookError => e
     Rails.logger.info e
-    channel.authorization_error!
+    # TODO : handle specific errors or else page will get disconnected
+    # channel.authorization_error!
   end
 
   def send_message_to_facebook(delivery_params)
