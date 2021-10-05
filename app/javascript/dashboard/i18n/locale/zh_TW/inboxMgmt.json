@@ -22,7 +22,7 @@
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "Voila!",
+        "title": "瞧！",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
@@ -197,7 +197,7 @@
           "LABEL": "LINE Channel Token",
           "PLACEHOLDER": "LINE Channel Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "建立 LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
         },
@@ -214,7 +214,7 @@
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "建立 Telegram Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
@@ -279,7 +279,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "刪除頭貼",
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除吗？ ",
