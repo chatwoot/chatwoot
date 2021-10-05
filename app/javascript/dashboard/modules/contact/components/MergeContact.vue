@@ -5,7 +5,7 @@
         <label class="multiselect__label">
           {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
           <woot-label
-            title="To be kept"
+            :title="$t('MERGE_CONTACTS.PRIMARY.HELP_LABEL')"
             color-scheme="success"
             small
             class="label--merge-warning"
@@ -42,7 +42,7 @@
           <label class="multiselect__label">
             {{ $t('MERGE_CONTACTS.CHILD.TITLE')
             }}<woot-label
-              title="To be deleted"
+              :title="$t('MERGE_CONTACTS.CHILD.HELP_LABEL')"
               color-scheme="alert"
               small
               class="label--merge-warning"
