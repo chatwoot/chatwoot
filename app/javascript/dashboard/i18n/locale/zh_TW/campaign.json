@@ -19,7 +19,7 @@
         },
         "SCHEDULED_AT": {
           "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
+          "PLACEHOLDER": "請選擇時間",
           "CONFIRM": "確定",
           "ERROR": "Scheduled time is required"
         },
