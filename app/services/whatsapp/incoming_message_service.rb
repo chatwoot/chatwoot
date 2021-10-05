@@ -30,7 +30,7 @@ class Whatsapp::IncomingMessageService
   end
 
   def set_contact
-    contact_params = params[:contacts].first
+    contact_params = params[:contacts]&.first
     return if contact_params.blank?
 
     contact_inbox = ::ContactBuilder.new(
