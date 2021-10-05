@@ -11,7 +11,7 @@
     <thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="inboxBadge"
+      :badge="chatBadge"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -119,12 +119,24 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
+    chatExtraAttributes() {
+      return this.chat.additional_attributes;
+    },
+
     chatMetadata() {
       return this.chat.meta || {};
     },
 
     assignee() {
       return this.chatMetadata.assignee || {};
+    },
+
+    chatBadge() {
+      if(this.chatExtraAttributes['type']){
+        return this.chatExtraAttributes['type']
+      } else {
+        return this.chatMetadata.channel
+      }
     },
 
     currentContact() {
