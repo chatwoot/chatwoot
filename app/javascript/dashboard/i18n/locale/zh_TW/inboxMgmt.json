@@ -97,8 +97,8 @@
         "SUBMIT_BUTTON": "建立收件匣"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp 頻道",
-        "DESC": "整合 Twilio 並開始通過短信或Whatsap支持您的客户。",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "帳戶 SID",
           "PLACEHOLDER": "請輸入您的 Twilio 帳戶 SID",
@@ -114,8 +114,8 @@
           "ERROR": "此欄位是必填項目"
         },
         "CHANNEL_NAME": {
-          "LABEL": "頻道類型",
-          "PLACEHOLDER": "請輸入頻道名稱",
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -137,8 +137,34 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "此欄位是必填項目"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "電話號碼",
+          "PLACEHOLDER": "請輸入發送消息的電話號碼。",
+          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API 頻道",
@@ -221,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服",
