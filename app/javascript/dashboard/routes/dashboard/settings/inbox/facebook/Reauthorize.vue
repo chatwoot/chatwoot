@@ -79,7 +79,8 @@ export default {
           }
         },
         {
-          scope: 'pages_manage_metadata,pages_messaging',
+          scope:
+            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,instagram_manage_messages',
           auth_type: 'reauthorize',
         }
       );
