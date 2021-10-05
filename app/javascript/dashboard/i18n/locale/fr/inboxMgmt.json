@@ -97,8 +97,8 @@
         "SUBMIT_BUTTON": "Créer une boîte de réception"
       },
       "TWILIO": {
-        "TITLE": "Canal Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS ou WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
@@ -114,8 +114,8 @@
           "ERROR": "Ce champ est requis"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nom du canal",
-          "PLACEHOLDER": "Veuillez entrer un nom de canal",
+          "LABEL": "Nom de la boîte de réception",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Ce champ est requis"
         },
         "PHONE_NUMBER": {
@@ -137,8 +137,34 @@
         "DESC": "Commencez à assister vos clients par SMS avec l'intégration Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "Canal WhatsApp via Twilio",
-        "DESC": "Commencez à assister vos clients via WhatsApp avec l'intégration Twilio."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nom de la boîte de réception",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Ce champ est requis"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numéro de téléphone",
+          "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
+          "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",
@@ -221,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot propose un widget de chat en direct, supporte les pages Facebook, les profils Twitter, Whatsapp, Email etc., en tant que canaux. Si vous voulez construire un canal personnalisé, vous pouvez le créer en utilisant le canal API. Sélectionnez un canal parmi les options ci-dessous pour continuer."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agents",
