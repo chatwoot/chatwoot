@@ -319,6 +319,22 @@
           >
             <woot-code :script="inbox.hmac_token"></woot-code>
           </settings-section>
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+            :sub-title="
+              $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')
+            "
+          >
+            <div class="enter-to-send--checkbox">
+              <input
+                id="hmacMandatory"
+                v-model="hmacMandatory"
+                type="checkbox"
+                @change="handleHmacFlag"
+              />
+              <label for="hmacMandatory"> Enable </label>
+            </div>
+          </settings-section>
         </div>
       </div>
       <div v-else-if="isAPIInbox" class="settings--content">
@@ -380,6 +396,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
       emailCollectEnabled: false,
@@ -514,6 +531,9 @@ export default {
         e.target.value
       );
     },
+    handleHmacFlag() {
+      if (this.hmacMandatory) this.updateInbox();
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -536,6 +556,7 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -583,6 +604,7 @@ export default {
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
           greeting_enabled: this.greetingEnabled,
+          hmac_mandatory: this.hmacMandatory,
           greeting_message: this.greetingMessage || '',
           channel: {
             widget_color: this.inbox.widget_color,
