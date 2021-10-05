@@ -26,7 +26,7 @@
         },
         "TYPE": {
           "LABEL": "類別",
-          "PLACEHOLDER": "Please select a type",
+          "PLACEHOLDER": "請選擇一個類別",
           "ERROR": "類別為必填"
         },
         "KEY": {
@@ -42,11 +42,11 @@
       "BUTTON_TEXT": "刪除",
       "API": {
         "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "ERROR_MESSAGE": "無法刪除屬性，請再試一次。"
       },
       "CONFIRM": {
         "TITLE": "確定要刪除 - %{attributeName} ？",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "PLACE_HOLDER": "請輸入 {attributeName} 以確認",
         "MESSAGE": "Deleting will remove the attribute",
         "YES": "刪除 ",
         "NO": "取消"
