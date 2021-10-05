@@ -5,7 +5,7 @@
     "LOADING": "Fetching attributes",
     "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
+      "TITLE": "Tambahkan atribut",
       "SUBMIT": "Buat",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
