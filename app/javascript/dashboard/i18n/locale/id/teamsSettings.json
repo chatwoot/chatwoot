@@ -4,18 +4,18 @@
     "HEADER": "Tim",
     "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Belum ada tim yang dibuat pada akun ini.",
+      "EDIT_TEAM": "Edit Tim"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Buat tim",
+        "DESC": "Tambahkan judul dan deskripsi untuk tim baru Anda."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Tambahkan agen ke tim Anda",
+        "TITLE": "Tambahkan agen ke tim - %{teamName}",
+        "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama."
       },
       "WIZARD": [
         {
@@ -26,10 +26,10 @@
         {
           "title": "Tambahkan Agen",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Tambahkan agen ke tim."
         },
         {
-          "title": "Finish",
+          "title": "Selesai",
           "route": "settings_teams_finish",
           "body": "Kotak masuk Anda sudah siap!"
         }
@@ -37,13 +37,13 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Edit detil tim Anda",
+        "DESC": "Edit judul dan deskripsi tim Anda.",
+        "BUTTON_TEXT": "Update tim"
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Tambahkan agen ke tim - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
@@ -58,7 +58,7 @@
           "body": "Edit agents in your team."
         },
         {
-          "title": "Finish",
+          "title": "Selesai",
           "route": "settings_teams_edit_finish",
           "body": "Kotak masuk Anda sudah siap!"
         }
@@ -77,8 +77,8 @@
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "TITLE": "Tambahkan agen ke tim - %{teamName}",
+      "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
@@ -88,7 +88,7 @@
     "FINISH": {
       "TITLE": "Your team is ready!",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "BUTTON_TEXT": "Selesai"
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
@@ -106,7 +106,7 @@
     },
     "SETTINGS": "Pengaturan",
     "FORM": {
-      "UPDATE": "Update team",
+      "UPDATE": "Update tim",
       "CREATE": "Create team",
       "NAME": {
         "LABEL": "Team name",
