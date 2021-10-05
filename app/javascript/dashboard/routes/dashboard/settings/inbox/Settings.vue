@@ -604,7 +604,6 @@ export default {
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
           greeting_enabled: this.greetingEnabled,
-          hmac_mandatory: this.hmacMandatory,
           greeting_message: this.greetingMessage || '',
           channel: {
             widget_color: this.inbox.widget_color,
@@ -614,6 +613,7 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
+            hmac_mandatory: this.hmacMandatory,
           },
         };
         if (this.avatarFile) {
