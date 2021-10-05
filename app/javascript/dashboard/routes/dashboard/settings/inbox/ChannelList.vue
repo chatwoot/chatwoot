@@ -44,8 +44,6 @@ export default {
         { key: 'twitter', name: 'Twitter' },
         { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS via Twilio' },
-        // enable the following key to have twilio whatsapp working as well
-        { key: 'twilio_whatsapp', name: 'WhatsApp via Twilio' },
         { key: 'email', name: 'Email' },
         {
           key: 'api',
