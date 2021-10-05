@@ -11,7 +11,7 @@
     "ADD_BUTTON": "Add a new hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
+        "INBOX": "刪除確認",
         "ACCOUNT": "取消連結"
       },
       "MESSAGE": {
