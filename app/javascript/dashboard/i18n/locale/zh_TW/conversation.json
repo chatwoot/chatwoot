@@ -45,7 +45,7 @@
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "標記為待處理",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "下個回覆",
@@ -72,12 +72,12 @@
         "ADD_BCC": "密件副本",
         "CC": {
           "LABEL": "副本",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         },
         "BCC": {
           "LABEL": "密件副本",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         }
       }
