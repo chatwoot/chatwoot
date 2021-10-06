@@ -4,8 +4,8 @@
       <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
-          :cc="contentAttributes.cc_emails"
-          :bcc="contentAttributes.bcc_emails"
+          :cc="emailHeadAttributes.cc"
+          :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
         <bubble-text
