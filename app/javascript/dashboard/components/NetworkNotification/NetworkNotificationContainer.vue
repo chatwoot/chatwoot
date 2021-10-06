@@ -9,7 +9,7 @@
       <button class="ui-refresh-button" @click="refreshPage()">
         Refresh
       </button>
-      <button @click="print('Closed!')">
+      <button class="ui-close-button" @click="closeModal()">
         <i class="ui-close-icon icon ion-ios-close-outline" />
       </button>
     </div>
@@ -29,12 +29,17 @@ export default {
     refreshPage() {
       window.location.reload();
     },
+
+    closeModal() {
+      this.show = false;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
 
 .ui-notification-container {
   width: 100%;
@@ -47,6 +52,7 @@ export default {
 }
 
 .ui-notification {
+  @include shadow;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,6 +75,10 @@ export default {
   color: $primary-color;
   font-weight: bold;
   font-size: $font-size-small;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .ui-notification-icon {
@@ -79,5 +89,11 @@ export default {
 .ui-close-icon {
   font-size: $font-size-large;
   color: $color-gray;
+}
+
+.ui-close-button {
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>
