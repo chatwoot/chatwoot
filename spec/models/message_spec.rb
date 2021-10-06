@@ -77,4 +77,13 @@ RSpec.describe Message, type: :model do
       expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
     end
   end
+
+  context 'when content_type is blank' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'sets content_type as text' do
+      message.save!
+      expect(message.content_type).to eq 'text'
+    end
+  end
 end

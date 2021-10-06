@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_062350) do
+ActiveRecord::Schema.define(version: 2021_09_29_150415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 2021_09_27_062350) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
+
+  create_table "actions", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "execution_list", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_actions_on_name"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -182,6 +190,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_062350) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "instagram_id"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
@@ -245,6 +254,16 @@ ActiveRecord::Schema.define(version: 2021_09_27_062350) do
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
+  create_table "channel_whatsapp", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "provider", default: "default"
+    t.jsonb "provider_config", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -290,7 +309,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_062350) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -509,7 +528,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_062350) do
     t.boolean "private", default: false
     t.integer "status", default: 0
     t.string "source_id"
-    t.integer "content_type", default: 0
+    t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"
