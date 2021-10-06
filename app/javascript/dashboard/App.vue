@@ -8,6 +8,7 @@
       :has-accounts="hasAccounts"
     />
     <woot-snackbar-box />
+    <network-notification :show="!isOnline" />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
+import NetworkNotification from './components/NetworkNotification/NetworkNotificationContainer';
 import { accountIdFromPathname } from './helper/URLHelper';
 
 export default {
@@ -23,11 +25,13 @@ export default {
   components: {
     WootSnackbarBox,
     AddAccountModal,
+    NetworkNotification,
   },
 
   data() {
     return {
       showAddAccountModal: false,
+      isOnline: navigator.onLine,
     };
   },
 
@@ -56,6 +60,14 @@ export default {
     this.$store.dispatch('setUser');
     this.setLocale(window.chatwootConfig.selectedLocale);
     this.initializeAccount();
+
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus);
   },
 
   methods: {
@@ -72,6 +84,10 @@ export default {
         const { locale } = this.getAccount(accountId);
         this.setLocale(locale);
       }
+    },
+
+    updateOnlineStatus(event) {
+      this.isOnline = event.type === 'online';
     },
   },
 };
