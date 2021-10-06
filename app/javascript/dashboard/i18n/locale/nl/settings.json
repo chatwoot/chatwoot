@@ -153,7 +153,8 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Medewerkers",
     "REPORTS_LABEL": "Labelen",
-    "REPORTS_INBOX": "Inbox"
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
