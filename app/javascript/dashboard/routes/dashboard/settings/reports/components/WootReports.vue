@@ -121,9 +121,15 @@ export default {
       };
     },
     metrics() {
-      const reportKeys = [
-        'CONVERSATIONS',
-        'INCOMING_MESSAGES',
+      let reportKeys = ['CONVERSATIONS'];
+      // If report type is agent, we don't need to show
+      // incoming messages count, as there will not be any message
+      // sent by an agent which is incoming.
+      if (this.type !== 'agent') {
+        reportKeys.push('INCOMING_MESSAGES');
+      }
+      reportKeys = [
+        ...reportKeys,
         'OUTGOING_MESSAGES',
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
