@@ -250,6 +250,69 @@
       "PLACEHOLDER": "Seleziona intervallo di date"
     }
   },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Caricamento dati grafici...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversazioni",
+        "DESC": "(Totale )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messaggi in arrivo",
+        "DESC": "(Totale )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messaggi in uscita",
+        "DESC": "(Totale )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Tempo di prima risposta",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Risoluzione Tempo",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Conteggio risoluzioni",
+        "DESC": "(Totale )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimi 7 giorni"
+      },
+      {
+        "id": 1,
+        "name": "Ultimi 30 giorni"
+      },
+      {
+        "id": 2,
+        "name": "Ultimi 3 mesi"
+      },
+      {
+        "id": 3,
+        "name": "Ultimi 6 mesi"
+      },
+      {
+        "id": 4,
+        "name": "Ultimo anno"
+      },
+      {
+        "id": 5,
+        "name": "Intervallo di date personalizzato"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "Rapporti CSAT",
     "NO_RECORDS": "Non ci sono risposte al sondaggio CSAT disponibili.",
