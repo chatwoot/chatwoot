@@ -1,7 +1,7 @@
 class ApplicationMailbox < ActionMailbox::Base
   # Last part is the regex for the UUID
   # Eg: email should be something like : reply+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
-  REPLY_EMAIL_USERNAME_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
+  REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
   CONVERSATION_UUID_PATTERN = %r{^<account/(\d+?)/conversation/([a-zA-Z0-9\-]*?)@(\w+\.\w+)>$}
 
   def self.reply_mail?
@@ -33,6 +33,8 @@ class ApplicationMailbox < ActionMailbox::Base
     proc { |_mail| true }
   end
 
+  # checks if follow this pattern then send it to reply_mailbox
+  # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>
   def self.in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
     return if is_a_reply_email
 
@@ -42,9 +44,11 @@ class ApplicationMailbox < ActionMailbox::Base
     in_reply_to.present? && in_reply_to.match(CONVERSATION_UUID_PATTERN)
   end
 
+  # checks if follow this pattern  send it to reply_mailbox
+  # reply+<conversation-uuid>@<mailer-domain.com>
   def self.reply_uuid_mail?(email)
-    username = email.split('@')[0]
-    username.match(REPLY_EMAIL_USERNAME_PATTERN)
+    conversation_uuid = email.split('@')[0]
+    conversation_uuid.match(REPLY_EMAIL_UUID_PATTERN)
   end
 
   # routing should be defined below the referenced procs
