@@ -153,7 +153,8 @@
     "ONE_OFF": "Einmalig",
     "REPORTS_AGENT": "Agenten",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Posteingang"
+    "REPORTS_INBOX": "Posteingang",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
