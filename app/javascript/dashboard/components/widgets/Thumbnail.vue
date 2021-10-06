@@ -175,6 +175,7 @@ export default {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    object-fit: cover;
 
     &.border {
       border: 1px solid white;
