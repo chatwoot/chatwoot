@@ -531,7 +531,7 @@ export default {
       );
     },
     handleHmacFlag() {
-      if (this.hmacMandatory) this.updateInbox();
+      this.updateInbox();
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
