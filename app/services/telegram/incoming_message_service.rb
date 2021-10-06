@@ -86,12 +86,19 @@ class Telegram::IncomingMessageService
   end
 
   def file_content_type
-    params[:message][:photo].present? ? :image : file_type(params[:message][:document][:mime_type])
+    return :image if params[:message][:photo].present?
+    return :audio if params[:message][:voice].present? || params[:message][:audio].present?
+    return :video if params[:message][:video].present?
+
+    file_type(params[:message][:document][:mime_type])
   end
 
   def attach_files
     file = params[:message][:document]
-    file ||= params[:message][:photo]&.last
+    file ||= params[:message][:photo].presence ||
+             params[:message][:voice].presence ||
+             params[:message][:audio].presence ||
+             params[:message][:video].presence
 
     return unless file
 
