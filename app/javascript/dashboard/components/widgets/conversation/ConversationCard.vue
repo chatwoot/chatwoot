@@ -11,7 +11,7 @@
     <thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="chatBadge"
+      :badge="inboxBadge"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -21,7 +21,7 @@
       <div class="conversation--metadata">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
         <span
-          v-if="showAssignee && assignee"
+          v-if="showAssignee && assignee.name"
           class="label assignee-label text-truncate"
         >
           <i class="ion-person" />
@@ -119,24 +119,12 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
-    chatExtraAttributes() {
-      return this.chat.additional_attributes;
-    },
-
     chatMetadata() {
       return this.chat.meta || {};
     },
 
     assignee() {
       return this.chatMetadata.assignee || {};
-    },
-
-    chatBadge() {
-      if(this.chatExtraAttributes['type']){
-        return this.chatExtraAttributes['type']
-      } else {
-        return this.chatMetadata.channel
-      }
     },
 
     currentContact() {
