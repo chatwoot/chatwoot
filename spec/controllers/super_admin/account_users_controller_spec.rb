@@ -22,7 +22,7 @@ RSpec.describe 'Super Admin Account Users API', type: :request do
 
   describe 'DELETE /super_admin/account_users/:id' do
     context 'when user has only one account' do
-      let(:account_user) { create(:account_user) }
+      let!(:account_user) { create(:account_user) }
 
       it 'redirects to the account details' do
         sign_in super_admin

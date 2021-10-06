@@ -48,7 +48,7 @@ class AccountUser < ApplicationRecord
   end
 
   def user_deleted?
-    user.destroyed?
+    user.no_accounts? && user.destroyed?
   end
 
   private

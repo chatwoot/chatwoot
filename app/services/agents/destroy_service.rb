@@ -3,8 +3,6 @@ class Agents::DestroyService
 
   def perform
     ActiveRecord::Base.transaction do
-      return delete_user if user.no_accounts?
-
       destroy_notification_setting
       remove_user_from_teams
       remove_user_from_inboxes
@@ -28,9 +26,5 @@ class Agents::DestroyService
   def destroy_notification_setting
     setting = user.notification_settings.find_by(account_id: account.id)
     setting&.destroy!
-  end
-
-  def delete_user
-    user.destroy!
   end
 end
