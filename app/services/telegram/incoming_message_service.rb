@@ -95,7 +95,7 @@ class Telegram::IncomingMessageService
 
   def attach_files
     file = params[:message][:document]
-    file ||= params[:message][:photo].presence ||
+    file ||= params[:message][:photo].presence&.last ||
              params[:message][:voice].presence ||
              params[:message][:audio].presence ||
              params[:message][:video].presence
@@ -111,7 +111,7 @@ class Telegram::IncomingMessageService
       file_type: file_content_type,
       file: {
         io: attachment_file,
-        filename: attachment_file.original_filename,
+        filename: attachment_file,
         content_type: attachment_file.content_type
       }
     )
