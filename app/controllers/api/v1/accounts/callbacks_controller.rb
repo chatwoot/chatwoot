@@ -15,7 +15,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_instagram_id(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
-      Rails.logger.info e
+      Sentry.capture_exception(e)
     end
   end
 
@@ -55,8 +55,13 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
   def update_fb_page(fb_page_id, access_token)
     fb_page = get_fb_page(fb_page_id)
-    fb_page&.update!(user_access_token: @user_access_token, page_access_token: access_token)
-    fb_page&.reauthorized!
+    ActiveRecord::Base.transaction do
+      fb_page&.update!(user_access_token: @user_access_token, page_access_token: access_token)
+      set_instagram_id(access_token, fb_page)
+      fb_page&.reauthorized!
+    rescue StandardError => e
+      Sentry.capture_exception(e)
+    end
   end
 
   def get_fb_page(fb_page_id)
