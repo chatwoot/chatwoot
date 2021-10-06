@@ -250,6 +250,69 @@
       "PLACEHOLDER": "Выберите диапазон дат"
     }
   },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Последние 7 дней"
+      },
+      {
+        "id": 1,
+        "name": "Последние 30 дней"
+      },
+      {
+        "id": 2,
+        "name": "Последние 3 месяца"
+      },
+      {
+        "id": 3,
+        "name": "Последние 6 месяцев"
+      },
+      {
+        "id": 4,
+        "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "Отчёты CSAT",
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
