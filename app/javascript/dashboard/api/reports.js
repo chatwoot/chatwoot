@@ -35,6 +35,12 @@ class ReportsAPI extends ApiClient {
       params: { since, until },
     });
   }
+
+  getTeamReports(since, until) {
+    return axios.get(`${this.url}/teams`, {
+      params: { since, until },
+    });
+  }
 }
 
 export default new ReportsAPI();

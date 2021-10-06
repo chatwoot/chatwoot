@@ -15,8 +15,8 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
     />
-    <div v-if="selectedFilter">
-      <div class="row">
+    <div>
+      <div v-if="filterItemsList.length" class="row">
         <woot-report-stats-card
           v-for="(metric, index) in metrics"
           :key="metric.NAME"
@@ -34,7 +34,10 @@
           :message="$t('REPORT.LOADING_CHART')"
         />
         <div v-else class="chart-container">
-          <woot-bar v-if="accountReport.data.length" :collection="collection" />
+          <woot-bar
+            v-if="accountReport.data.length && filterItemsList.length"
+            :collection="collection"
+          />
           <span v-else class="empty-state">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
@@ -118,9 +121,15 @@ export default {
       };
     },
     metrics() {
-      const reportKeys = [
-        'CONVERSATIONS',
-        'INCOMING_MESSAGES',
+      let reportKeys = ['CONVERSATIONS'];
+      // If report type is agent, we don't need to show
+      // incoming messages count, as there will not be any message
+      // sent by an agent which is incoming.
+      if (this.type !== 'agent') {
+        reportKeys.push('INCOMING_MESSAGES');
+      }
+      reportKeys = [
+        ...reportKeys,
         'OUTGOING_MESSAGES',
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
@@ -174,6 +183,9 @@ export default {
           break;
         case 'inbox':
           this.$store.dispatch('downloadInboxReports', { from, to, fileName });
+          break;
+        case 'team':
+          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
           break;
         default:
           break;
