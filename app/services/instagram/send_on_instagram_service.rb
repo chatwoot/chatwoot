@@ -18,7 +18,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     send_to_facebook_page message_params
   rescue StandardError => e
     Sentry.capture_exception(e)
-    channel.authorization_error!
+    # TODO : handle specific errors or else page will get disconnected
+    # channel.authorization_error!
   end
 
   def message_params
