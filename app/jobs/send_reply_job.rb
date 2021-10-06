@@ -8,11 +8,7 @@ class SendReplyJob < ApplicationJob
 
     case channel_name
     when 'Channel::FacebookPage'
-      if conversation.additional_attributes['type'] == 'instagram_direct_message'
-        ::Instagram::SendOnInstagramService.new(message: message).perform
-      else
-        ::Facebook::SendOnFacebookService.new(message: message).perform
-      end
+      send_on_facebook_page(message)
     when 'Channel::TwitterProfile'
       ::Twitter::SendOnTwitterService.new(message: message).perform
     when 'Channel::TwilioSms'
@@ -21,6 +17,18 @@ class SendReplyJob < ApplicationJob
       ::Line::SendOnLineService.new(message: message).perform
     when 'Channel::Telegram'
       ::Telegram::SendOnTelegramService.new(message: message).perform
+    when 'Channel::Whatsapp'
+      ::Whatsapp::SendOnWhatsappService.new(message: message).perform
+    end
+  end
+
+  private
+
+  def send_on_facebook_page(message)
+    if message.conversation.additional_attributes['type'] == 'instagram_direct_message'
+      ::Instagram::SendOnInstagramService.new(message: message).perform
+    else
+      ::Facebook::SendOnFacebookService.new(message: message).perform
     end
   end
 end
