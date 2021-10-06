@@ -28,8 +28,8 @@ class DashboardController < ActionController::Base
       'ANALYTICS_HOST'
     ).merge(
       APP_VERSION: Chatwoot.config[:version],
-      PUSH_PUBLIC_KEY: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PUBLIC_KEY),
-      PUSH_PRIVATE_KEY: ::Redis::Alfred.get(::Redis::Alfred::PUSH_PRIVATE_KEY)
+      PUSH_PUBLIC_KEY: VapidService.public_key,
+      PUSH_PRIVATE_KEY: VapidService.private_key
     )
   end
 

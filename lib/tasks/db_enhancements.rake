@@ -8,7 +8,7 @@ end
 
 # We are hooking a vapid_keys:generate task with db:seed task to auto generate vapid keys
 Rake::Task['db:seed'].enhance do
-  Rake::Task['vapid_keys:generate'].invoke if ActiveRecord::Base.connection.table_exists? 'push_keys'
+  Rake::Task['vapid_keys:generate'].invoke if ActiveRecord::Base.connection.table_exists? 'installation_configs'
 end
 
 # we are creating a custom database prepare task
