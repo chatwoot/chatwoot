@@ -153,7 +153,8 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "พนักงาน",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "กล่องข้อความ"
+    "REPORTS_INBOX": "กล่องข้อความ",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
