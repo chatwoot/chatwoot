@@ -153,7 +153,8 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "標籤",
-    "REPORTS_INBOX": "收件匣"
+    "REPORTS_INBOX": "收件匣",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
