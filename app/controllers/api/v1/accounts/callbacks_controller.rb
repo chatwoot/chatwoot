@@ -12,6 +12,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
         page_access_token: page_access_token
       )
       @facebook_inbox = Current.account.inboxes.create!(name: inbox_name, channel: facebook_channel)
+      set_instagram_id(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
       Rails.logger.info e
@@ -20,6 +21,15 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
   def facebook_pages
     @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
+  end
+
+  def set_instagram_id(page_access_token, facebook_channel)
+    fb_object = Koala::Facebook::API.new(page_access_token)
+    response = fb_object.get_connections('me', '', { fields: 'instagram_business_account' })
+    return if response['instagram_business_account'].blank?
+
+    instagram_id = response['instagram_business_account']['id']
+    facebook_channel.update(instagram_id: instagram_id)
   end
 
   # get params[:inbox_id], current_account. params[:omniauth_token]
