@@ -84,6 +84,7 @@ export default {
       if (this.campaignId) {
         bus.$emit('on-campaign-view-clicked', this.campaignId);
       }
+      bus.$emit('on-unread-view-clicked');
     },
   },
 };
