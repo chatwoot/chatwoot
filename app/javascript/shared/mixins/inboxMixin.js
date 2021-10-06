@@ -3,6 +3,7 @@ export const INBOX_TYPES = {
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
+  WHATSAPP: 'Channel::Whatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
@@ -67,6 +68,12 @@ export default {
         return this.twilioBadge;
       }
       return this.channelType;
+    },
+    isAWhatsappChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP ||
+        this.isATwilioWhatsappChannel
+      );
     },
   },
 };

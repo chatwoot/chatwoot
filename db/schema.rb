@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_082754) do
+ActiveRecord::Schema.define(version: 2021_09_23_132659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -245,26 +245,14 @@ ActiveRecord::Schema.define(version: 2021_09_22_082754) do
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
-  create_table "companies", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "address"
-    t.string "city", null: false
-    t.string "state"
-    t.string "country", null: false
-    t.integer "no_of_employees", null: false
-    t.string "industry_type"
-    t.bigint "annual_revenue"
-    t.text "website"
-    t.string "office_phone_number"
-    t.string "facebook"
-    t.string "twitter"
-    t.string "linkedin"
-    t.jsonb "additional_attributes"
-    t.bigint "contact_id"
+  create_table "channel_whatsapp", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "provider", default: "default"
+    t.jsonb "provider_config", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["contact_id"], name: "index_companies_on_contact_id"
-    t.index ["name"], name: "index_companies_on_name", unique: true
+    t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -531,7 +519,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_082754) do
     t.boolean "private", default: false
     t.integer "status", default: 0
     t.string "source_id"
-    t.integer "content_type", default: 0
+    t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"
