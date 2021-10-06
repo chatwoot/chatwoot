@@ -332,7 +332,9 @@
                 type="checkbox"
                 @change="handleHmacFlag"
               />
-              <label for="hmacMandatory"> Enable </label>
+              <label for="hmacMandatory">
+                {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+              </label>
             </div>
           </settings-section>
         </div>

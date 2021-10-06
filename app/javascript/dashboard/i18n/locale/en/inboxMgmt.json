@@ -275,6 +275,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
