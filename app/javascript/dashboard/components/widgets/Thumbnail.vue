@@ -130,7 +130,8 @@ export default {
       return Number(this.size.replace(/\D+/g, ''));
     },
     badgeStyle() {
-      const badgeSize = `${this.avatarSize / 3}px`;
+      const size = Math.floor(this.avatarSize / 3);
+      const badgeSize = `${size / 3}px`;
       return { width: badgeSize, height: badgeSize };
     },
     statusStyle() {
@@ -185,6 +186,9 @@ export default {
     position: absolute;
     right: $zero;
     width: $space-slab;
+    box-shadow: var(--shadow-small);
+    background: white;
+    border-radius: var(--border-radius-small);
   }
 
   .user-online-status {
