@@ -15,11 +15,18 @@
       :size="avatarSize"
     />
     <img
+      v-if="badge === 'instagram_direct_message'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/instagram_direct.png"
+    />
+    <img
       v-if="badge === 'Channel::FacebookPage'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/fb-badge.png"
+      src="~dashboard/assets/images/messenger_direct.png"
     />
     <img
       v-if="badge === 'twitter-tweet'"
@@ -166,6 +173,7 @@ export default {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    object-fit: cover;
 
     &.border {
       border: 1px solid white;
