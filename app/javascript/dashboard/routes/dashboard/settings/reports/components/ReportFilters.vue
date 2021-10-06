@@ -59,11 +59,11 @@
             <div
               :style="{ backgroundColor: props.option.color }"
               class="reports-option__rounded--item margin-right-small"
-            ></div>
+            />
             <span class="reports-option__desc">
-              <span class="reports-option__title">{{
-                props.option.title
-              }}</span>
+              <span class="reports-option__title">
+                {{ props.option.title }}
+              </span>
             </span>
           </div>
         </template>
@@ -78,9 +78,9 @@
               "
             ></div>
             <span class="reports-option__desc">
-              <span class="reports-option__title">{{
-                props.option.title
-              }}</span>
+              <span class="reports-option__title">
+                {{ props.option.title }}
+              </span>
             </span>
           </div>
         </template>

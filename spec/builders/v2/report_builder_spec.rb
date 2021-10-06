@@ -171,7 +171,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_1.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: (Time.zone.today + 1.days).to_time.to_i.to_s
+          until: (Time.zone.today + 1.day).to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -187,7 +187,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_1.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: (Time.zone.today + 1.days).to_time.to_i.to_s
+          until: (Time.zone.today + 1.day).to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -203,7 +203,7 @@ describe ::V2::ReportBuilder do
           type: :label,
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: (Time.zone.today + 1.days).to_time.to_i.to_s
+          until: (Time.zone.today + 1.day).to_time.to_i.to_s
         }
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
