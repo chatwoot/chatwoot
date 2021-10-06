@@ -153,7 +153,8 @@
     "ONE_OFF": "Isolées",
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Étiquettes",
-    "REPORTS_INBOX": "Boîte de réception"
+    "REPORTS_INBOX": "Boîte de réception",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
