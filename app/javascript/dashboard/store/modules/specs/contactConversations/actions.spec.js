@@ -49,7 +49,7 @@ describe('#actions', () => {
           message: { content: 'hi' },
           contactId: 4,
           sourceId: 5,
-          mail_subject: 'Mail Subject',
+          mailSubject: 'Mail Subject',
         }
       );
       expect(commit.mock.calls).toEqual([
@@ -76,7 +76,7 @@ describe('#actions', () => {
             message: { content: 'hi' },
             contactId: 4,
             sourceId: 5,
-            mail_subject: 'Mail Subject',
+            mailSubject: 'Mail Subject',
           }
         )
       ).rejects.toThrow(Error);
