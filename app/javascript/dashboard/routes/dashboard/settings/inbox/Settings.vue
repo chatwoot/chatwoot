@@ -245,10 +245,7 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize
-        v-if="isAFacebookInbox && inbox.reauthorization_required"
-        :inbox-id="inbox.id"
-      />
+      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <!-- update agents in inbox -->

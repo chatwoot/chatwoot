@@ -3,6 +3,7 @@ export const INBOX_TYPES = {
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
+  WHATSAPP: 'Channel::Whatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
@@ -46,27 +47,39 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
     },
+    chatAdditionalAttributes() {
+      const { additional_attributes: additionalAttributes } = this.chat || {};
+      return additionalAttributes || {};
+    },
     isTwitterInboxTweet() {
-      return (
-        this.chat &&
-        this.chat.additional_attributes &&
-        this.chat.additional_attributes.type === 'tweet'
-      );
+      return this.chatAdditionalAttributes.type === 'tweet';
     },
     twilioBadge() {
       return `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`;
     },
     twitterBadge() {
-      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-chat'}`;
+      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-dm'}`;
+    },
+    facebookBadge() {
+      return this.chatAdditionalAttributes.type || 'facebook';
     },
     inboxBadge() {
       if (this.isATwitterInbox) {
         return this.twitterBadge;
       }
+      if (this.isAFacebookInbox) {
+        return this.facebookBadge;
+      }
       if (this.isATwilioChannel) {
         return this.twilioBadge;
       }
       return this.channelType;
+    },
+    isAWhatsappChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP ||
+        this.isATwilioWhatsappChannel
+      );
     },
   },
 };
