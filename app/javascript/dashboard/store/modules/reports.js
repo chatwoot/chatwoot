@@ -7,6 +7,8 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
+import { downloadCsvFile } from '../../helper/downloadCsvFile';
+
 const state = {
   fetchingStatus: false,
   reportData: [],
@@ -78,15 +80,7 @@ export const actions = {
   downloadAgentReports(_, reportObj) {
     return Report.getAgentReports(reportObj.from, reportObj.to)
       .then(response => {
-        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
-        var encodedUri = encodeURI(csvContent);
-        var downloadLink = document.createElement('a');
-        downloadLink.href = encodedUri;
-        downloadLink.download = reportObj.fileName;
-
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        downloadCsvFile(reportObj.fileName, response.data);
       })
       .catch(error => {
         console.error(error);
@@ -95,15 +89,7 @@ export const actions = {
   downloadLabelReports(_, reportObj) {
     return Report.getLabelReports(reportObj.from, reportObj.to)
       .then(response => {
-        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
-        var encodedUri = encodeURI(csvContent);
-        var downloadLink = document.createElement('a');
-        downloadLink.href = encodedUri;
-        downloadLink.download = reportObj.fileName;
-
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        downloadCsvFile(reportObj.fileName, response.data);
       })
       .catch(error => {
         console.error(error);
@@ -112,15 +98,16 @@ export const actions = {
   downloadInboxReports(_, reportObj) {
     return Report.getInboxReports(reportObj.from, reportObj.to)
       .then(response => {
-        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
-        var encodedUri = encodeURI(csvContent);
-        var downloadLink = document.createElement('a');
-        downloadLink.href = encodedUri;
-        downloadLink.download = reportObj.fileName;
-
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        // document.body.removeChild(downloadLink);
+        downloadCsvFile(reportObj.fileName, response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadTeamReports(_, reportObj) {
+    return Report.getTeamReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
       })
       .catch(error => {
         console.error(error);

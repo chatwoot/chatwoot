@@ -16,6 +16,7 @@ describe('#Reports API', () => {
     expect(reportsAPI).toHaveProperty('getAgentReports');
     expect(reportsAPI).toHaveProperty('getLabelReports');
     expect(reportsAPI).toHaveProperty('getInboxReports');
+    expect(reportsAPI).toHaveProperty('getTeamReports');
   });
   describeWithAPIMock('API calls', context => {
     it('#getAccountReports', () => {
@@ -74,6 +75,19 @@ describe('#Reports API', () => {
       reportsAPI.getInboxReports(1621103400, 1621621800);
       expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v2/reports/inboxes',
+        {
+          params: {
+            since: 1621103400,
+            until: 1621621800,
+          },
+        }
+      );
+    });
+
+    it('#getTeamReports', () => {
+      reportsAPI.getTeamReports(1621103400, 1621621800);
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/teams',
         {
           params: {
             since: 1621103400,
