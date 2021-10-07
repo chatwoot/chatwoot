@@ -7,6 +7,7 @@ const reports = accountId => ({
     'agent_reports',
     'label_reports',
     'inbox_reports',
+    'team_reports',
   ],
   menuItems: {
     back: {
@@ -31,7 +32,7 @@ const reports = accountId => ({
       toStateName: 'csat_reports',
     },
     agentReports: {
-      icon: 'ion-ios-people',
+      icon: 'ion-person-stalker',
       label: 'REPORTS_AGENT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/agent`),
@@ -50,6 +51,13 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/inboxes`),
       toStateName: 'inbox_reports',
+    },
+    teamReports: {
+      icon: 'ion-ios-people',
+      label: 'REPORTS_TEAM',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/teams`),
+      toStateName: 'team_reports',
     },
   },
 });
