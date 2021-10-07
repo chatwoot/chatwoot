@@ -57,6 +57,11 @@ class Rack::Attack
     req.ip if req.path == '/api/v1/widget/conversations' && req.post?
   end
 
+  ## Prevent Contact update Bombing in Widget API ###
+  throttle('api/v1/widget/contacts', limit: 5, period: 1.hour) do |req|
+    req.ip if req.path == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+  end
+
   # ref: https://github.com/rack/rack-attack/issues/399
   throttle('login/email', limit: 20, period: 5.minutes) do |req|
     if req.path == '/auth/sign_in' && req.post?
