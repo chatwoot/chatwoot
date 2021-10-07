@@ -180,12 +180,4 @@ class User < ApplicationRecord
   def no_accounts?
     accounts.size.zero?
   end
-
-  private
-
-  def update_presence_in_redis
-    accounts.each do |account|
-      OnlineStatusTracker.set_status(account.id, id, availability)
-    end
-  end
 end
