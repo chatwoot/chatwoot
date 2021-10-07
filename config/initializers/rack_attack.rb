@@ -52,6 +52,11 @@ class Rack::Attack
     req.ip if req.path == '/api/v1/accounts' && req.post?
   end
 
+  ## Prevent Conversation Bombing on Widget APIs ###
+  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req| 
+    req.ip if req.path == '/api/v1/widget/conversations' && req.post?
+  end  
+
   # ref: https://github.com/rack/rack-attack/issues/399
   throttle('login/email', limit: 20, period: 5.minutes) do |req|
     if req.path == '/auth/sign_in' && req.post?
@@ -75,4 +80,4 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
 end
 
-Rack::Attack.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', false))
+Rack::Attack.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true))
