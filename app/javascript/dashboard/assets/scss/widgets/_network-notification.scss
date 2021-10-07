@@ -1,0 +1,54 @@
+.ui-notification-container {
+  width: 100%;
+  max-width: 40rem;
+  position: absolute;
+  right: 0;
+  top: $space-normal;
+  z-index: 9999;
+}
+
+.ui-notification {
+  @include shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-white;
+  border-radius: $space-one;
+  margin-right: $space-normal;
+  max-width: 40rem;
+  min-height: 3rem;
+  min-width: 24rem;
+  text-align: left;
+  border: 1px solid $color-border;
+  padding: $space-one $space-two;
+}
+
+.ui-notification-text {
+  margin: 0;
+}
+
+.ui-refresh-button {
+  color: $primary-color;
+  font-weight: bold;
+  font-size: $font-size-small;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ui-notification-icon {
+  font-size: $font-size-mega;
+  color: $color-gray;
+}
+
+.ui-close-icon {
+  font-size: $font-size-large;
+  color: $color-gray;
+}
+
+.ui-close-button {
+  &:hover {
+    cursor: pointer;
+  }
+}
