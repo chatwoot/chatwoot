@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 40rem;
   position: absolute;
-  right: 0;
+  right: $space-normal;
   top: $space-normal;
   z-index: 9999;
 }
@@ -14,13 +14,12 @@
   justify-content: space-between;
   background-color: $color-white;
   border-radius: $space-one;
-  margin-right: $space-normal;
   max-width: 40rem;
   min-height: 3rem;
   min-width: 24rem;
   text-align: left;
   border: 1px solid $color-border;
-  padding: $space-one $space-two;
+  padding: $space-normal $space-two;
 }
 
 .ui-notification-text {
@@ -38,7 +37,7 @@
 }
 
 .ui-notification-icon {
-  font-size: $font-size-mega;
+  width: $font-size-mega;
   color: $color-gray;
 }
 
