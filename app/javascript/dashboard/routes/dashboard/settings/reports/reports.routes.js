@@ -2,6 +2,7 @@ import Index from './Index';
 import AgentReports from './AgentReports';
 import LabelReports from './LabelReports';
 import InboxReports from './InboxReports';
+import TeamReports from './TeamReports';
 import CsatResponses from './CsatResponses';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
@@ -94,6 +95,22 @@ export default {
           name: 'inbox_reports',
           roles: ['administrator'],
           component: InboxReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TEAM_REPORTS.HEADER',
+        icon: 'ion-ios-people',
+      },
+      children: [
+        {
+          path: 'teams',
+          name: 'team_reports',
+          roles: ['administrator'],
+          component: TeamReports,
         },
       ],
     },
