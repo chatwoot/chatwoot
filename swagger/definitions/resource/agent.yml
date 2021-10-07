@@ -1,7 +1,7 @@
 type: object
 properties:
   id:
-    type: number
+    type: integer
   uid:
     type: string
   name:
@@ -13,12 +13,19 @@ properties:
   email:
     type: string
   account_id:
-    type: number
+    type: integer
   role:
     type: string
     enum: ['agent', 'administrator']
   confirmed:
     type: boolean
+  availability_status: 
+    type: string
+    enum: ['available', 'busy', 'offline']
+    description: The availability status of the agent computed by Chatwoot.
+  auto_offline:
+    type: boolean
+    description: Whether the availability status of agent is configured to go offline automatically when away.
   custom_attributes: 
     type: object
     description: Available for users who are created through platform APIs and has custom attributes associated.
