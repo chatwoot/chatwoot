@@ -58,7 +58,7 @@ class Rack::Attack
   end
 
   ## Prevent Contact update Bombing in Widget API ###
-  throttle('api/v1/widget/contacts', limit: 5, period: 1.hour) do |req|
+  throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
     req.ip if req.path == '/api/v1/widget/contacts' && (req.patch? || req.put?)
   end
 
