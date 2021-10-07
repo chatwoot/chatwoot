@@ -41,6 +41,22 @@
           </label>
         </div>
       </div>
+      <div class="row" v-if="isAnEmailInbox">
+        <div class="columns">
+          <label :class="{ error: $v.message.$error }">
+            {{ $t('NEW_CONVERSATION.FORM.SUBJECT.LABEL') }}
+            <input
+              v-model="subject"
+              type="text"
+              :placeholder="$t('NEW_CONVERSATION.FORM.SUBJECT.PLACEHOLDER')"
+              @input="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('NEW_CONVERSATION.FORM.SUBJECT.ERROR') }}
+            </span>
+          </label>
+        </div>
+      </div>
       <div class="row">
         <div class="columns">
           <label :class="{ error: $v.message.$error }">
@@ -75,6 +91,7 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
 import alertMixin from 'shared/mixins/alertMixin';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { required } from 'vuelidate/lib/validators';
 
@@ -96,11 +113,15 @@ export default {
   data() {
     return {
       name: '',
+      subject: '',
       message: '',
       selectedInbox: '',
     };
   },
   validations: {
+    subject: {
+      required,
+    },
     message: {
       required,
     },
@@ -119,6 +140,7 @@ export default {
         sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
         message: { content: this.message },
+        mailSubject: this.subject,
       };
     },
     targetInbox: {
@@ -138,6 +160,12 @@ export default {
     inboxes() {
       return this.contact.contactableInboxes || [];
     },
+    isAnEmailInbox() {
+      return (
+        this.selectedInbox &&
+        this.selectedInbox.inbox.channel_type === INBOX_TYPES.EMAIL
+      );
+    },
   },
   methods: {
     onCancel() {
@@ -154,7 +182,6 @@ export default {
       }
       try {
         const payload = this.getNewConversation;
-
         await this.onSubmit(payload);
         this.onSuccess();
         this.showAlert(this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'));

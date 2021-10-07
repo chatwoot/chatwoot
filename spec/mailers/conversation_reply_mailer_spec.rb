@@ -19,8 +19,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:private_message) { create(:message, account: account, content: 'This is a private message', conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
-      it 'renders the subject' do
+      it 'renders the default subject' do
         expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the subject in conversation' do
+        conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+        conversation.save
+        expect(mail.subject).to eq('Mail Subject')
       end
 
       it 'not have private notes' do
@@ -66,8 +72,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         message_2.save
       end
 
-      it 'renders the subject' do
+      it 'renders the default subject' do
         expect(mail.subject).to eq("[##{message_2.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the subject in conversation as reply' do
+        conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+        conversation.save
+        expect(mail.subject).to eq('Re: Mail Subject')
       end
 
       it 'not have private notes' do
