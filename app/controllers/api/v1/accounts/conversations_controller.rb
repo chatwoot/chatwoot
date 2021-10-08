@@ -130,7 +130,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
-      snoozed_until: params[:snoozed_until]
+      snoozed_until: params[:snoozed_until],
+      assignee_id: params[:assignee_id],
+      team_id: params[:team_id]
     }.merge(status)
   end
 
