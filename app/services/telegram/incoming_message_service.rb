@@ -94,12 +94,6 @@ class Telegram::IncomingMessageService
   end
 
   def attach_files
-    file = params[:message][:document]
-    file ||= params[:message][:photo].presence&.last ||
-             params[:message][:voice].presence ||
-             params[:message][:audio].presence ||
-             params[:message][:video].presence
-
     return unless file
 
     attachment_file = Down.download(
@@ -115,5 +109,10 @@ class Telegram::IncomingMessageService
         content_type: attachment_file.content_type
       }
     )
+  end
+
+  def file
+    @file ||= params[:message][:photo].presence&.last || params[:message][:voice].presence || params[:message][:audio].presence ||
+              params[:message][:video].presence || params[:message][:document].presence
   end
 end
