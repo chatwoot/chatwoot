@@ -301,6 +301,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -350,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
