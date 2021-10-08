@@ -83,8 +83,8 @@ describe Telegram::IncomingMessageService do
             'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
             'date' => 1_631_132_077,
             'photo' => [{
-              'file_id' => 'AgACAgUAAxkBAAODYV3aGZlD6vhzKsE2WNmblsr6zKwAAi-tMRvCoeBWNQ1ENVBzJdwBAAMCAANzAAMhBA', 'file_unique_id' => 'AQADL60xG8Kh4FZ4',
-              'file_size' => 1883, 'width' => 90, 'height' => 67
+              'file_id' => 'AgACAgUAAxkBAAODYV3aGZlD6vhzKsE2WNmblsr6zKwAAi-tMRvCoeBWNQ1ENVBzJdwBAAMCAANzAAMhBA',
+              'file_unique_id' => 'AQADL60xG8Kh4FZ4', 'file_size' => 1883, 'width' => 90, 'height' => 67
             }]
           }
         }.with_indifferent_access
@@ -109,8 +109,10 @@ describe Telegram::IncomingMessageService do
             'date' => 1_631_132_077,
             'video' => {
               'duration' => 1, 'width' => 720, 'height' => 1280, 'file_name' => 'IMG_2170.MOV', 'mime_type' => 'video/mp4', 'thumb' => {
-                'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE', 'file_unique_id' => 'AQADqwMAAp3x8FZy', 'file_size' => 11_462, 'width' => 180, 'height' => 320
-              }, 'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY', 'file_size' => 291_286
+                'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE', 'file_unique_id' => 'AQADqwMAAp3x8FZy',
+                'file_size' => 11_462, 'width' => 180, 'height' => 320
+              }, 'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY',
+              'file_size' => 291_286
             }
           }
         }.with_indifferent_access
