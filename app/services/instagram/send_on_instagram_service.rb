@@ -18,7 +18,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     send_to_facebook_page message_params
   rescue StandardError => e
     Sentry.capture_exception(e)
-    channel.authorization_error!
+    # TODO : handle specific errors or else page will get disconnected
+    # channel.authorization_error!
   end
 
   def message_params
@@ -61,9 +62,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       body: message_content,
       query: query
     )
-    # response = HTTParty.post(url, options)
 
-    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body][:error]
+    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body]
 
     response[:body]
   end
