@@ -10,7 +10,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
   before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
@@ -22,7 +22,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search',
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q]}%"
     )
     @contacts_count = contacts.count
@@ -30,10 +30,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def import
+    render json: { error: I18n.t('errors.contacts.import.failed') }, status: :unprocessable_entity and return if params[:import_file].blank?
+
     ActiveRecord::Base.transaction do
       import = Current.account.data_imports.create!(data_type: 'contacts')
       import.import_file.attach(params[:import_file])
     end
+
     head :ok
   end
 
@@ -70,6 +73,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     }, status: :unprocessable_entity
   end
 
+  def destroy
+    if ::OnlineStatusTracker.get_presence(
+      @contact.account.id, 'Contact', @contact.id
+    )
+      return render_error({ message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) },
+                          :unprocessable_entity)
+    end
+
+    @contact.destroy!
+    head :ok
+  end
+
   private
 
   # TODO: Move this to a finder class
@@ -79,6 +94,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = Current.account.contacts
                                 .where.not(email: [nil, ''])
                                 .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+                                .or(Current.account.contacts.where.not(identifier: [nil, '']))
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
   end
@@ -108,7 +124,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
@@ -132,5 +148,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def render_error(error, error_status)
+    render json: error, status: error_status
   end
 end

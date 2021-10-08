@@ -5,7 +5,9 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  assignee_last_seen_at :datetime
 #  contact_last_seen_at  :datetime
+#  custom_attributes     :jsonb
 #  identifier            :string
 #  last_activity_at      :datetime         not null
 #  snoozed_until         :datetime
@@ -140,6 +142,10 @@ class Conversation < ApplicationRecord
     return false if assignee_id.blank?
 
     true
+  end
+
+  def tweet?
+    inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
   private

@@ -5,6 +5,7 @@
 @import 'shared/assets/stylesheets/font-weights';
 @import 'shared/assets/stylesheets/shadows';
 @import 'shared/assets/stylesheets/border-radius';
+@import 'shared/assets/stylesheets/z-index';
 
 @import 'variables';
 
@@ -13,6 +14,7 @@
 @import 'helper-classes';
 @import 'formulate';
 @import 'date-picker';
+@import 'utility-helpers';
 
 @import 'foundation-sites/scss/foundation';
 @import '~bourbon/core/bourbon';

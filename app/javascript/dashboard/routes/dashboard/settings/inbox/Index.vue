@@ -45,8 +45,17 @@
                 <span v-if="item.channel_type === 'Channel::TwilioSms'">
                   Twilio SMS
                 </span>
+                <span v-if="item.channel_type === 'Channel::Whatsapp'">
+                  Whatsapp
+                </span>
                 <span v-if="item.channel_type === 'Channel::Email'">
                   Email
+                </span>
+                <span v-if="item.channel_type === 'Channel::Telegram'">
+                  Telegram
+                </span>
+                <span v-if="item.channel_type === 'Channel::Line'">
+                  Line
                 </span>
                 <span v-if="item.channel_type === 'Channel::Api'">
                   {{ globalConfig.apiChannelName || 'API' }}
@@ -107,6 +116,7 @@
     />
 
     <woot-confirm-delete-modal
+      v-if="showDeletePopup"
       :show.sync="showDeletePopup"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"

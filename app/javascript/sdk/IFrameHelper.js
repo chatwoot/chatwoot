@@ -97,6 +97,15 @@ export const IFrameHelper = {
       }
     });
   },
+
+  setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
+    const iframe = IFrameHelper.getAppFrame();
+    const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
+
+    if (iframe)
+      iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
+  },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -128,11 +137,19 @@ export const IFrameHelper = {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
 
-    toggleBubble: () => {
-      onBubbleClick();
+    toggleBubble: state => {
+      let bubbleState = {};
+      if (state === 'open') {
+        bubbleState.toggleValue = true;
+      } else if (state === 'close') {
+        bubbleState.toggleValue = false;
+      }
+
+      onBubbleClick(bubbleState);
     },
 
     onBubbleToggle: isOpen => {
+      IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (!isOpen) {
         IFrameHelper.events.resetUnreadMode();
       } else {
@@ -140,7 +157,10 @@ export const IFrameHelper = {
       }
     },
     onLocationChange: ({ referrerURL, referrerHost }) => {
-      IFrameHelper.sendMessage('change-url', { referrerURL, referrerHost });
+      IFrameHelper.sendMessage('change-url', {
+        referrerURL,
+        referrerHost,
+      });
     },
 
     setUnreadMode: message => {
@@ -166,6 +186,13 @@ export const IFrameHelper = {
       }
     },
 
+    updateIframeHeight: message => {
+      const { extraHeight = 0, isFixedHeight } = message;
+      if (!extraHeight) return;
+
+      IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
+    },
+
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       IFrameHelper.events.removeUnreadClass();
@@ -174,6 +201,10 @@ export const IFrameHelper = {
     removeUnreadClass: () => {
       const holderEl = document.querySelector('.woot-widget-holder');
       removeClass(holderEl, 'has-unread-view');
+    },
+
+    closeChat: () => {
+      onBubbleClick({ toggleValue: false });
     },
   },
   pushEvent: eventName => {

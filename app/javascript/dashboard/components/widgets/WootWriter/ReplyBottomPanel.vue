@@ -11,10 +11,11 @@
         @click="toggleEmojiPicker"
       />
 
+      <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
         :size="4096 * 4096"
-        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+        accept="image/png, image/jpeg, image/gif, image/bmp, image/tiff, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
         :drop="true"
         :drop-directory="false"
         @input-file="onFileUpload"
@@ -78,11 +79,17 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import {
+  hasPressedAltAndWKey,
+  hasPressedAltAndAKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
   components: { FileUpload },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -156,6 +163,14 @@ export default {
     },
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndWKey(e)) {
+        this.toggleFormatMode();
+      }
+      if (hasPressedAltAndAKey(e)) {
+        this.$refs.upload.$children[1].$el.click();
+      }
+    },
     toggleFormatMode() {
       this.setFormatMode(!this.isFormatMode);
     },

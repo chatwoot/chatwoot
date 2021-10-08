@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  content             :text
 #  content_attributes  :json
-#  content_type        :integer          default("text")
+#  content_type        :integer          default("text"), not null
 #  external_source_ids :jsonb
 #  message_type        :integer          not null
 #  private             :boolean          default(FALSE)
@@ -29,12 +29,16 @@
 #
 
 class Message < ApplicationRecord
+  include MessageFilterHelpers
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+
+  before_validation :ensure_content_type
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates :content_type, presence: true
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -81,9 +85,6 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy
 
-  after_create :reopen_conversation,
-               :notify_via_mail
-
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
@@ -109,10 +110,6 @@ class Message < ApplicationRecord
     data
   end
 
-  def reportable?
-    incoming? || outgoing?
-  end
-
   def webhook_data
     {
       id: id,
@@ -130,10 +127,23 @@ class Message < ApplicationRecord
     }
   end
 
+  def content
+    # move this to a presenter
+    return self[:content] if !input_csat? || inbox.web_widget?
+
+    I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
+  end
+
   private
+
+  def ensure_content_type
+    self.content_type ||= Message.content_types[:text]
+  end
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
+    reopen_conversation
+    notify_via_mail
     set_conversation_activity
     dispatch_create_events
     send_reply
@@ -175,7 +185,7 @@ class Message < ApplicationRecord
   end
 
   def email_notifiable_message?
-    return false unless outgoing?
+    return false unless outgoing? || input_csat?
     return false if private?
 
     true

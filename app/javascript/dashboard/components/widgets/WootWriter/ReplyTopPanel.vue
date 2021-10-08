@@ -26,17 +26,41 @@
         </span>
       </div>
     </div>
+    <woot-button
+      v-if="popoutReplyBox"
+      variant="clear"
+      size="large"
+      icon="ion-android-close"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
+    <woot-button
+      v-else
+      variant="clear"
+      size="large"
+      icon="ion-arrow-resize"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
   </div>
 </template>
 
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import {
+  hasPressedAltAndPKey,
+  hasPressedAltAndLKey,
+} from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
   components: {
     EmojiOrIcon,
   },
+  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -53,6 +77,10 @@ export default {
     charactersRemaining: {
       type: Number,
       default: () => 0,
+    },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -76,6 +104,14 @@ export default {
     },
   },
   methods: {
+    handleKeyEvents(e) {
+      if (hasPressedAltAndPKey(e)) {
+        this.handleNoteClick();
+      }
+      if (hasPressedAltAndLKey(e)) {
+        this.handleReplyClick();
+      }
+    },
     handleReplyClick() {
       this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
     },
@@ -91,7 +127,7 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  background: var(--b-100);
+  background: var(--b-50);
 }
 
 .button-group {
@@ -152,5 +188,12 @@ export default {
   .message-length {
     color: var(--s-600);
   }
+}
+
+.popout-button {
+  display: flex;
+  justify-content: flex-end;
+  height: auto;
+  padding-right: var(--space-normal);
 }
 </style>

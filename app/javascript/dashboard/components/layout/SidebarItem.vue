@@ -37,6 +37,26 @@
               {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
             </span>
           </a>
+          <a href="#" :class="computedChildClass(child)">
+          <div class="wrap">
+            <i
+              v-if="menuItem.key === 'inbox'"
+              class="inbox-icon"
+              :class="computedInboxClass(child)"
+            />
+            <span
+              v-if="child.color"
+              class="label-color--display"
+              :style="{ backgroundColor: child.color }"
+            />
+            <div
+              :title="computedChildTitle(child)"
+              :class="computedChildClass(child)"
+            >
+              {{ child.label }}
+            </div>
+          </div>
+        </a>
         </li>
       </router-link>
     </ul>

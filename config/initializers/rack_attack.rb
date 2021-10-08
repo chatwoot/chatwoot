@@ -52,15 +52,31 @@ class Rack::Attack
     req.ip if req.path == '/api/v1/accounts' && req.post?
   end
 
+  ## Prevent Conversation Bombing on Widget APIs ###
+  throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+    req.ip if req.path == '/api/v1/widget/conversations' && req.post?
+  end
+
+  ## Prevent Contact update Bombing in Widget API ###
+  throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
+    req.ip if req.path == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+  end
+
   # ref: https://github.com/rack/rack-attack/issues/399
   throttle('login/email', limit: 20, period: 5.minutes) do |req|
-    email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-    email.to_s.downcase.gsub(/\s+/, '') if req.path == '/auth/sign_in' && req.post?
+    if req.path == '/auth/sign_in' && req.post?
+      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
+      # Hence placed in the if block
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
   end
 
   throttle('reset_password/email', limit: 5, period: 1.hour) do |req|
-    email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-    email.to_s.downcase.gsub(/\s+/, '') if req.path == '/auth/password' && req.post?
+    if req.path == '/auth/password' && req.post?
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
   end
 end
 
@@ -69,4 +85,4 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
 end
 
-Rack::Attack.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', false))
+Rack::Attack.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true))

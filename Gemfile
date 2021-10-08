@@ -35,6 +35,8 @@ gem 'commonmarker'
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
+# a utility tool for streaming, flexible and safe downloading of remote files
+gem 'down', '~> 5.0'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -54,14 +56,13 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', '~> 2.0'
+gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -76,7 +77,7 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 # TODO: bump up gem to 2.0
 gem 'facebook-messenger'
-gem 'telegram-bot-ruby'
+gem 'line-bot-api'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
@@ -91,7 +92,10 @@ gem 'google-cloud-dialogflow'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+
+##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails'
 gem 'sentry-ruby'
@@ -116,6 +120,11 @@ gem 'maxminddb'
 gem 'hairtrigger'
 
 gem 'procore-sift'
+
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
 
 group :development do
   gem 'annotate'

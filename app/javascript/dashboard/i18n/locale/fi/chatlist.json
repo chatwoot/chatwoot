@@ -47,8 +47,12 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Botti",
-        "VALUE": "botti"
+        "TEXT": "Pending",
+        "VALUE": "pending"
+      },
+      {
+        "TEXT": "Snoozed",
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {

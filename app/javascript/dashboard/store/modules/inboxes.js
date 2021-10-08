@@ -66,8 +66,16 @@ export const getters = {
     return $state.uiFlags;
   },
   getWebsiteInboxes($state) {
+    return $state.records.filter(item => item.channel_type === INBOX_TYPES.WEB);
+  },
+  getTwilioInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type === 'Channel::WebWidget'
+      item => item.channel_type === INBOX_TYPES.TWILIO
+    );
+  },
+  getTwilioSMSInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms'
     );
   },
 };
@@ -168,6 +176,13 @@ export const actions = {
       commit(types.default.EDIT_INBOXES, response.data);
     } catch (error) {
       throw new Error(error.message);
+    }
+  },
+  deleteInboxAvatar: async (_, inboxId) => {
+    try {
+      await InboxesAPI.deleteInboxAvatar(inboxId);
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };

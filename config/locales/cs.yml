@@ -30,9 +30,9 @@ cs:
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
-      agent_name: Agent name
+      agent_name: Jméno agenta
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
+      avg_first_response_time: Prům. doba první odpovědi (minuty)
       avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
@@ -47,7 +47,8 @@ cs:
       status:
         resolved: "Konverzace byla vyřešena uživatelem %{user_name}"
         open: "Konverzace byla znovu otevřena uživatelem %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
@@ -66,10 +67,12 @@ cs:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Dejte týmu způsob, jak se k vám dostat."
       email_input_box_message_body: "Dostat upozornění e-mailem"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Ohodnoťte prosím konverzaci"
     reply:
       email_subject: "New messages on this conversation"
       transcript_subject: "Přepis konverzace"
+    survey:
+      response: "Please rate this conversation, %{link}"
   integration_apps:
     slack:
       name: "Slack"

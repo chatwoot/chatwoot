@@ -53,7 +53,7 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
+    "HEADER": "Notifiche",
     "MARK_ALL_DONE": "Mark All Done",
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",

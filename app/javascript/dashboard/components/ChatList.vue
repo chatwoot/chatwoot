@@ -19,13 +19,14 @@
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
-    <div class="conversations-list">
+    <div ref="activeConversation" class="conversations-list">
       <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :show-assignee="showAssigneeInConversationCard"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -62,8 +63,13 @@ import ChatFilter from './widgets/conversation/ChatFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
+import {
+  hasPressedAltAndJKey,
+  hasPressedAltAndKKey,
+} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -71,7 +77,7 @@ export default {
     ConversationCard,
     ChatFilter,
   },
-  mixins: [timeMixin, conversationMixin],
+  mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -94,6 +100,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentChat: 'getSelectedChat',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -112,6 +119,9 @@ export default {
           count,
         };
       });
+    },
+    showAssigneeInConversationCard() {
+      return this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -188,6 +198,50 @@ export default {
     });
   },
   methods: {
+    getKeyboardListenerParams() {
+      const allConversations = this.$refs.activeConversation.querySelectorAll(
+        'div.conversations-list div.conversation'
+      );
+      const activeConversation = this.$refs.activeConversation.querySelector(
+        'div.conversations-list div.conversation.active'
+      );
+      const activeConversationIndex = [...allConversations].indexOf(
+        activeConversation
+      );
+      const lastConversationIndex = allConversations.length - 1;
+      return {
+        allConversations,
+        activeConversation,
+        activeConversationIndex,
+        lastConversationIndex,
+      };
+    },
+    handleKeyEvents(e) {
+      if (hasPressedAltAndJKey(e)) {
+        const {
+          allConversations,
+          activeConversationIndex,
+        } = this.getKeyboardListenerParams();
+        if (activeConversationIndex === -1) {
+          allConversations[0].click();
+        }
+        if (activeConversationIndex >= 1) {
+          allConversations[activeConversationIndex - 1].click();
+        }
+      }
+      if (hasPressedAltAndKKey(e)) {
+        const {
+          allConversations,
+          activeConversationIndex,
+          lastConversationIndex,
+        } = this.getKeyboardListenerParams();
+        if (activeConversationIndex === -1) {
+          allConversations[lastConversationIndex].click();
+        } else if (activeConversationIndex < lastConversationIndex) {
+          allConversations[activeConversationIndex + 1].click();
+        }
+      }
+    },
     resetAndFetchData() {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');

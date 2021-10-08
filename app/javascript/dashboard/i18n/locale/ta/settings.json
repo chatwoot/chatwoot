@@ -102,6 +102,7 @@
     "CHANGE_ACCOUNTS": "கணக்கை மாற்றவும்",
     "SELECTOR_SUBTITLE": "பின்வரும் பட்டியலிலிருந்து ஒரு கணக்கைத் தேர்ந்தெடுக்கவும்",
     "PROFILE_SETTINGS": "சுயவிவர அமைப்புகள்",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "LOGOUT": "வெளியேறு"
   },
   "APP_GLOBAL": {
@@ -130,8 +131,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "உரையாடல்கள்",
     "REPORTS": "அறிக்கைகள்",
-    "CONTACTS": "Contacts",
     "SETTINGS": "அமைப்புகள்",
+    "CONTACTS": "Contacts",
     "HOME": "முகப்பு",
     "AGENTS": "ஏஜென்ட்கள்",
     "INBOXES": "இன்பாக்ஸ்கள்",
@@ -141,13 +142,18 @@
     "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
+    "ATTRIBUTES": "Attributes",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "REPORTS_OVERVIEW": "Overview",
-    "CSAT": "CSAT"
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "New Account",
     "SELECTOR_SUBTITLE": "Create a new account",
     "API": {
@@ -161,6 +167,31 @@
         "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
       },
       "SUBMIT": "சமர்பிக்கவும்"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

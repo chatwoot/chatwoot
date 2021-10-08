@@ -11,12 +11,7 @@
       />
     </div>
     <div class="list-scroll-container">
-      <div
-        ref="multiselectDropdown"
-        class="multiselect-dropdown--list"
-        @keyup.up="onArrowUp"
-        @keyup.down="onArrowDown"
-      >
+      <div class="multiselect-dropdown--list">
         <woot-dropdown-menu>
           <woot-dropdown-item
             v-for="option in filteredOptions"
@@ -118,38 +113,6 @@ export default {
     },
     focusInput() {
       this.$refs.searchbar.focus();
-    },
-    onArrowUp() {
-      const allDropdownItems = this.$refs.multiselectDropdown.querySelectorAll(
-        '.dropdown .multiselect-dropdown--item'
-      );
-      const focusedElement = this.$refs.multiselectDropdown.querySelector(
-        '.dropdown .multiselect-dropdown--item:focus'
-      );
-      const activeElementIndex = [...allDropdownItems].indexOf(focusedElement);
-      const lastElementIndex = allDropdownItems.length - 1;
-
-      if (activeElementIndex >= 1) {
-        allDropdownItems[activeElementIndex - 1].focus();
-      } else {
-        allDropdownItems[lastElementIndex].focus();
-      }
-    },
-    onArrowDown() {
-      const allDropdownItems = this.$refs.multiselectDropdown.querySelectorAll(
-        '.dropdown .multiselect-dropdown--item'
-      );
-      const focusedElement = this.$refs.multiselectDropdown.querySelector(
-        '.dropdown .multiselect-dropdown--item:focus'
-      );
-      const activeElementIndex = [...allDropdownItems].indexOf(focusedElement);
-      const lastElementIndex = allDropdownItems.length - 1;
-
-      if (activeElementIndex === lastElementIndex) {
-        allDropdownItems[0].focus();
-      } else {
-        allDropdownItems[activeElementIndex + 1].focus();
-      }
     },
   },
 };

@@ -71,7 +71,8 @@
     @include padding($space-large);
   }
 
-  form {
+  form,
+  .modal-content {
     @include padding($space-large);
     align-self: center;
 

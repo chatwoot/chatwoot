@@ -27,11 +27,7 @@ class Twilio::OneoffSmsCampaignService
   end
 
   def send_message(to:, from:, content:)
-    client.messages.create({
-                             body: content,
-                             from: from,
-                             to: to
-                           })
+    client.messages.create(body: content, from: from, to: to)
   end
 
   def client

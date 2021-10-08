@@ -40,7 +40,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
 
-          resources :agents, except: [:show, :edit, :new]
+          resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
 
           resources :callbacks, only: [] do
@@ -72,10 +72,11 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
+              post :custom_attributes
             end
           end
 
-          resources :contacts, only: [:index, :show, :update, :create] do
+          resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
               get :search
@@ -97,13 +98,19 @@ Rails.application.routes.draw do
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
-          resources :inboxes, only: [:index, :create, :update, :destroy] do
+          resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            delete :avatar, on: :member
           end
-          resources :inbox_members, only: [:create, :show], param: :inbox_id
+          resources :inbox_members, only: [:create, :show], param: :inbox_id do
+            collection do
+              delete :destroy
+              patch :update
+            end
+          end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
 
           resources :notifications, only: [:index, :update] do
@@ -152,7 +159,11 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
-      resource :profile, only: [:show, :update]
+      resource :profile, only: [:show, :update] do
+        member do
+          post :availability
+        end
+      end
       resource :notification_subscriptions, only: [:create]
 
       namespace :widget do
@@ -175,12 +186,13 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [] do
+        resources :reports, only: [:index] do
           collection do
-            get :account
-            get :account_summary
+            get :summary
             get :agents
             get :inboxes
+            get :labels
+            get :teams
           end
         end
       end
@@ -241,6 +253,11 @@ Rails.application.routes.draw do
   mount Facebook::Messenger::Server, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
+  post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
+  post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
+  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  get 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#verify'
+  post 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#events'
 
   namespace :twitter do
     resource :callback, only: [:show]

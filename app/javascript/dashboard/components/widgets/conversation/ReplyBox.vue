@@ -5,6 +5,8 @@
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -116,6 +118,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -151,7 +157,7 @@ export default {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isATwilioWhatsappChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsappChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -198,7 +204,7 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isATwilioWhatsappChannel) {
+      if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isATwilioSMSChannel) {
@@ -216,7 +222,10 @@ export default {
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isAnEmailChannel ||
+        this.isATwilioSMSChannel ||
+        this.isATelegramChannel
       );
     },
     replyButtonLabel() {
@@ -270,7 +279,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isATwilioWhatsappChannel) {
+      if (canReply || this.isAWhatsappChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -290,7 +299,10 @@ export default {
       }
     },
   },
+
   mounted() {
+    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
   },
   destroyed() {
@@ -337,7 +349,10 @@ export default {
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
-          // Error
+          const errorMessage =
+            error?.response?.data?.error ||
+            this.$t('CONVERSATION.MESSAGE_ERROR');
+          this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
       }
@@ -350,7 +365,7 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
+      if (canReply || this.isAWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         return;
       }
@@ -387,13 +402,11 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
-        });
-      }
+      const conversationId = this.currentChat.id;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+      });
     },
     onFileUpload(file) {
       if (!file) {

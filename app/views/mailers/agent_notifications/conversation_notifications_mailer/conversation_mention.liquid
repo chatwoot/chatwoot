@@ -1,8 +1,8 @@
-<p>Hi {{user.available_name}}</p>
+<p>Hi {{user.available_name}}, </p>
 
+<p>You've been mentioned in a conversation. <b>{{message.sender_display_name}}</b> wrote:</p>
+<blockquote style="box-sizing:border-box; padding:8px 16px; margin:0 0 20px; font-size:14px; border-left:5px solid #eeeeee">
+  {{message.text_content}}
+</blockquote>
 
-<p>Time to save the world. You have been mentioned in a conversation</p>
-
-<p>
-Click <a href="{{ action_url }}">here</a> to get cracking.
-</p>
+<p><a href="{{ action_url }}">View Message</a></p>

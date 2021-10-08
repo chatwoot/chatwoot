@@ -14,10 +14,10 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact) { create(:contact, account: account) }
+      let!(:contact) { create(:contact, :with_email, account: account) }
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
-      it 'returns all contacts with contact inboxes' do
+      it 'returns all resolved contacts along with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
@@ -52,8 +52,8 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['last_seen_at']).present?
       end
 
-      it 'filters contacts based on label filter' do
-        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, account: account)
+      it 'filters resolved contacts based on label filter' do
+        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, :with_email, account: account)
         contact_with_label1.update_labels(['label1'])
         contact_with_label2.update_labels(['label2'])
 
@@ -105,6 +105,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(account.data_imports.first.import_file.attached?).to eq(true)
       end
     end
+
+    context 'when file is empty' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns Unprocessable Entity' do
+        post "/api/v1/accounts/#{account.id}/contacts/import",
+             headers: admin.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response['error']).to eq('File is blank')
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
@@ -126,7 +140,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).not_to include(contact.email)
+        expect(response.body).not_to include(contact.name)
       end
 
       it 'returns all contacts who are online' do
@@ -137,7 +151,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(contact.email)
+        expect(response.body).to include(contact.name)
       end
     end
   end
@@ -153,10 +167,10 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact1) { create(:contact, account: account) }
-      let!(:contact2) { create(:contact, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact1) { create(:contact, :with_email, account: account) }
+      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
 
-      it 'returns all contacts with contact inboxes' do
+      it 'returns all resolved contacts with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: contact2.email },
             headers: admin.create_new_auth_token,
@@ -188,6 +202,19 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
       end
+
+      it 'matches the resolved contact respecting the identifier character casing' do
+        contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
+        contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'TestIdentifier' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact_special.identifier)
+        expect(response.body).not_to include(contact_normal.identifier)
+      end
     end
   end
 
@@ -211,7 +238,7 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(contact.email)
+        expect(response.body).to include(contact.name)
       end
     end
   end
@@ -284,7 +311,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
-      it 'creates the contact identifier when inbox id is passed' do
+      it 'creates the contact inbox when inbox id is passed' do
         expect do
           post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
                                                           params: valid_params.merge({ inbox_id: inbox.id })
@@ -346,6 +373,55 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['contact']['id']).to eq(other_contact.id)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/contacts/:id', :contact_delete do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'deletes the contact for administrator user' do
+        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(false)
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: admin.create_new_auth_token
+
+        expect(contact.conversations).to be_empty
+        expect(contact.inboxes).to be_empty
+        expect(contact.contact_inboxes).to be_empty
+        expect(contact.csat_survey_responses).to be_empty
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not delete the contact if online' do
+        allow(::OnlineStatusTracker).to receive(:get_presence).and_return(true)
+
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns unauthorized for agent user' do
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+               headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

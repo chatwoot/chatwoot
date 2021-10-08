@@ -37,7 +37,12 @@
     "MUTED_SUCCESS": "Aquesta conversa s'ha silenciat durant 6 hores",
     "UNMUTED_SUCCESS": "La conversa te desactivat el silenci",
     "SEND_TRANSCRIPT": "Envia la transcripció",
-    "EDIT_LABEL": "Edita"
+    "EDIT_LABEL": "Edita",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Converses prèvies"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edita el contacte",
@@ -186,8 +191,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Atributs personalitzats",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."

@@ -28,6 +28,7 @@ describe Twilio::SendOnTwilioService do
         message = create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
         ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
+        expect(message.reload.source_id).to be_nil
       end
 
       it 'if inbox channel is not twilio' do
@@ -40,6 +41,7 @@ describe Twilio::SendOnTwilioService do
         message = create(:message, message_type: 'incoming', inbox: twilio_inbox, account: account)
         ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
+        expect(message.reload.source_id).to be_nil
       end
 
       it 'if message has an source id' do
@@ -70,6 +72,21 @@ describe Twilio::SendOnTwilioService do
 
       message = build(
         :message, message_type: 'outgoing', inbox: twilio_whatsapp_inbox, account: account, conversation: conversation
+      )
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      message.save!
+
+      ::Twilio::SendOnTwilioService.new(message: message).perform
+    end
+
+    it 'if outgoing message has attachment and is for sms' do
+      # check for message attachment url
+      allow(messages_double).to receive(:create).with(hash_including(media_url: [anything])).and_return(message_record_double)
+      allow(message_record_double).to receive(:sid).and_return('1234')
+
+      message = build(
+        :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
       )
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
