@@ -132,8 +132,8 @@ export default {
       this.hideMessageBubble = !!hideBubble;
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        if (!this.isIFrame) {
+      bus.$on('on-agent-message-received', () => {
+        if (!this.isIFrame || this.isWebWidgetTriggered) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
