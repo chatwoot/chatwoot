@@ -37,26 +37,6 @@
               {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
             </span>
           </a>
-          <a href="#" :class="computedChildClass(child)">
-          <div class="wrap">
-            <i
-              v-if="menuItem.key === 'inbox'"
-              class="inbox-icon"
-              :class="computedInboxClass(child)"
-            />
-            <span
-              v-if="child.color"
-              class="label-color--display"
-              :style="{ backgroundColor: child.color }"
-            />
-            <div
-              :title="computedChildTitle(child)"
-              :class="computedChildClass(child)"
-            >
-              {{ child.label }}
-            </div>
-          </div>
-        </a>
         </li>
       </router-link>
     </ul>
@@ -106,6 +86,7 @@ export default {
   methods: {
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
+      if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
     },
@@ -178,5 +159,9 @@ export default {
   margin: var(--space-smaller) 0;
   padding: var(--space-smaller);
   color: var(--s-500);
+
+  &:hover {
+    color: var(--w-500);
+  }
 }
 </style>

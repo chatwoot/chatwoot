@@ -11,14 +11,14 @@
     <div v-if="showSecondaryMenu" class="main-nav secondary-menu">
       <transition-group name="menu-list" tag="ul" class="menu vertical">
         <sidebar-item
-          v-if="shouldShowTeams"
-          :key="teamSection.toState"
-          :menu-item="teamSection"
-        />
-        <sidebar-item
           v-if="shouldShowSidebarItem"
           :key="inboxSection.toState"
           :menu-item="inboxSection"
+        />
+        <sidebar-item
+          v-if="shouldShowTeams"
+          :key="teamSection.toState"
+          :menu-item="teamSection"
         />
         <sidebar-item
           v-if="shouldShowSidebarItem"
@@ -27,10 +27,20 @@
           @add-label="showAddLabelPopup"
         />
         <sidebar-item
-          v-if="showShowContactSideMenu"
+          v-if="shouldShowContactSideMenu"
           :key="contactLabelSection.key"
           :menu-item="contactLabelSection"
           @add-label="showAddLabelPopup"
+        />
+        <sidebar-item
+          v-if="shouldShowCampaignSideMenu"
+          :key="campaignSubSection.key"
+          :menu-item="campaignSubSection"
+        />
+        <sidebar-item
+          v-if="shouldShowReportsSideMenu"
+          :key="reportsSubSection.key"
+          :menu-item="reportsSubSection"
         />
         <sidebar-item
           v-if="shouldShowSettingsSideMenu"
@@ -45,7 +55,7 @@
       </transition-group>
     </div>
 
-   <woot-key-shortcut-modal
+    <woot-key-shortcut-modal
       v-if="showShortcutModal"
       @close="closeKeyShortcutModal"
       @clickaway="closeKeyShortcutModal"
@@ -157,8 +167,11 @@ export default {
     shouldShowSidebarItem() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
-    showShowContactSideMenu() {
+    shouldShowContactSideMenu() {
       return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
+    },
+    shouldShowCampaignSideMenu() {
+      return this.sidemenuItems.campaigns.routes.includes(this.currentRoute);
     },
     shouldShowSettingsSideMenu() {
       return this.sidemenuItems.settings.routes.includes(this.currentRoute);
@@ -243,6 +256,9 @@ export default {
         })),
       };
     },
+    campaignSubSection() {
+      return this.getSubSectionByKey('campaigns');
+    },
     teamSection() {
       return {
         icon: 'ion-ios-people',
@@ -264,29 +280,10 @@ export default {
       };
     },
     settingsSubMenu() {
-      const menuItems = Object.values(this.sidemenuItems.settings.menuItems);
-      return {
-        icon: 'ion-settings',
-        label: 'SETTINGS',
-        hasSubMenu: true,
-        key: 'settings',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings`),
-        children: menuItems.map(item => ({
-          ...item,
-          label: this.$t(`SIDEBAR.${item.label}`),
-        })),
-      };
+      return this.getSubSectionByKey('settings');
     },
-    reportsSubMenu() {
-      return {
-        icon: 'ion-ion-arrow-graph-up-right',
-        cssClass: 'menu-title align-justify',
-        label: 'REPORTS',
-        hasSubMenu: false,
-        key: 'reports',
-        children: [],
-      };
+    reportsSubSection() {
+      return this.getSubSectionByKey('reports');
     },
     notificationsSubMenu() {
       return {
@@ -302,7 +299,6 @@ export default {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
     showSecondaryMenu() {
-      if (this.shouldShowReportsSideMenu) return false;
       if (this.shouldShowNotificationsSideMenu) return false;
       return true;
     },
@@ -315,6 +311,22 @@ export default {
   },
 
   methods: {
+    getSubSectionByKey(subSectionKey) {
+      const menuItems = Object.values(
+        this.sidemenuItems[subSectionKey].menuItems
+      );
+      const campaignItem = this.primaryMenuItems.find(
+        ({ key }) => key === subSectionKey
+      );
+
+      return {
+        ...campaignItem,
+        children: menuItems.map(item => ({
+          ...item,
+          label: this.$t(`SIDEBAR.${item.label}`),
+        })),
+      };
+    },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
     },
@@ -398,7 +410,7 @@ export default {
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100vh;
-  width: 216px;
+  width: 20rem;
   flex-shrink: 0;
   overflow: auto;
   padding: var(--space-small);
