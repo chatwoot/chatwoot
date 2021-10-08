@@ -301,6 +301,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "Diaktifkan",
         "DISABLED": "Nonaktif"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -350,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
       "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
       "HMAC_DESCRIPTION": "Untuk memvalidasi identitas pengguna, SDK mengizinkan Anda untuk memberikan sebuah `identifier_hash` kepada setiap pengguna. Anda dapat menghasilkan HMAC menggunakan 'sha256' dengan kunci yang terlihat disini.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Pengenal Kotak Masuk",
       "INBOX_IDENTIFIER_SUB_TEXT": "Gunakan token inbox_identifier` yang terlihat disini untuk mengautentikasi klien API Anda.",
       "FORWARD_EMAIL_TITLE": "Teruskan ke Email",
