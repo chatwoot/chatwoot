@@ -167,3 +167,5 @@ group :development, :test do
   gem 'spring-watcher-listen'
   gem 'webmock'
 end
+
+gem "health_check", "~> 3.1"

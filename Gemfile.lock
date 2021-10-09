@@ -282,6 +282,8 @@ GEM
     hana (1.3.7)
     hashdiff (1.0.1)
     hashie (4.1.0)
+    health_check (3.1.0)
+      railties (>= 5.0)
     hkdf (0.3.0)
     http-accept (1.7.0)
     http-cookie (1.0.4)
@@ -669,6 +671,7 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
+  health_check (~> 3.1)
   image_processing
   jbuilder
   json_refs
