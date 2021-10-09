@@ -1,3 +1,5 @@
+## gem reference https://github.com/ianheggie/health_check
+
 HealthCheck.setup do |config|
   # uri prefix (no leading slash)
   config.uri = 'health_check'
