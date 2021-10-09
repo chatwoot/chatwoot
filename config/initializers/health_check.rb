@@ -65,6 +65,8 @@ HealthCheck.setup do |config|
   #   config.basic_auth_username = 'my_username'
   #   config.basic_auth_password = 'my_password'
 
+  # rubocop:disable Naming/InclusiveLanguage
+
   # Whitelist requesting IPs by a list of IP and/or CIDR ranges, either IPv4 or IPv6 (uses IPAddr.include? method to check)
   # Defaults to blank which allows any IP
   #   config.origin_ip_whitelist = %w[123.123.123.123 10.11.12.0/24 2400:cb00::/32]
@@ -76,6 +78,7 @@ HealthCheck.setup do |config|
 
   # http status code used when the ip is not allowed for the request
   config.http_status_for_ip_whitelist_error = 403
+  # rubocop:enable Naming/InclusiveLanguage
 
   # rabbitmq
   # config.rabbitmq_config = {}

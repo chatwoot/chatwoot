@@ -168,4 +168,4 @@ group :development, :test do
   gem 'webmock'
 end
 
-gem "health_check", "~> 3.1"
+gem 'health_check', '~> 3.1'
