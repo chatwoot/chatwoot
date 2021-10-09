@@ -20,7 +20,11 @@ const getters = {
     return selectedChat || {};
   },
   getMineChats: _state => activeFilters => {
-    const currentUserID = authAPI.getCurrentUser().id;
+    if (!authAPI.isLoggedIn()) {
+      return false
+    }
+
+    const currentUserID = authAPI.getCurrentUserID()
 
     return _state.allConversations.filter(conversation => {
       const { assignee } = conversation.meta;
