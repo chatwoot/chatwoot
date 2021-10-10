@@ -54,6 +54,35 @@
     "TITLE": "Neuen Kontakt erstellen",
     "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV-Datei",
+      "SUBMIT": "Import",
+      "CANCEL": "Stornieren"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Kontakt löschen",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+      "PLACE_HOLDER": "Bitte geben Sie {contactName} zur Bestätigung ein",
+      "YES": "Ja, löschen ",
+      "NO": "Nein, behalten "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Speichern",
