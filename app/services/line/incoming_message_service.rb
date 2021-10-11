@@ -14,10 +14,6 @@ class Line::IncomingMessageService
 
     set_contact
     set_conversation
-
-    # TODO: iterate over the events and handle the attachments in future
-    # https://github.com/line/line-bot-sdk-ruby#synopsis
-
     parse_events
   end
 
