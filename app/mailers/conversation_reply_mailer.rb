@@ -19,7 +19,9 @@ class ConversationReplyMailer < ApplicationMailer
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
+           in_reply_to: in_reply_to_email,
+           cc: cc_bcc_emails[0],
+           bcc: cc_bcc_emails[1]
          })
   end
 
@@ -39,7 +41,9 @@ class ConversationReplyMailer < ApplicationMailer
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
+           in_reply_to: in_reply_to_email,
+           cc: cc_bcc_emails[0],
+           bcc: cc_bcc_emails[1]
          })
   end
 
@@ -140,6 +144,15 @@ class ConversationReplyMailer < ApplicationMailer
     end
 
     nil
+  end
+
+  def cc_bcc_emails
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
+
+    [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
   end
 
   def inbound_email_enabled?
