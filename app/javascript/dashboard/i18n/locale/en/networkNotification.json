@@ -1,0 +1,10 @@
+{
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    }
+  }
+}
