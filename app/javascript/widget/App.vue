@@ -34,6 +34,7 @@ export default {
       widgetPosition: 'right',
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+      isWidgetOpened: false,
     };
   },
   computed: {
@@ -133,7 +134,7 @@ export default {
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
-        if (!this.isIFrame || this.isWebWidgetTriggered) {
+        if (!this.isIFrame || this.isWidgetOpened) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
@@ -251,6 +252,7 @@ export default {
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
+          this.isWidgetOpened = message.isOpen;
           this.toggleOpen();
         }
       });
