@@ -1,6 +1,6 @@
 <template>
   <transition name="network-notification-fade" tag="div">
-    <div v-show="show" class="ui-notification-container">
+    <div v-show="!isOnline" class="ui-notification-container">
       <div class="ui-notification">
         <svg
           class="ui-notification-icon"
@@ -32,11 +32,20 @@
 
 <script>
 export default {
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
+  data() {
+    return {
+      isOnline: navigator.onLine,
+    };
+  },
+
+  mounted() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus);
   },
 
   methods: {
@@ -46,6 +55,10 @@ export default {
 
     closeModal() {
       this.show = false;
+    },
+
+    updateOnlineStatus(event) {
+      this.isOnline = event.type === 'online';
     },
   },
 };
