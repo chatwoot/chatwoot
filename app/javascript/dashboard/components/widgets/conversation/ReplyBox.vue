@@ -20,6 +20,11 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
+      <reply-email-head
+        v-if="showReplyHead"
+        @set-emails="setCcEmails"
+        :clear-mails="clearMails"
+      />
       <resizable-text-area
         v-if="!showRichContentEditor"
         ref="messageInput"
@@ -82,6 +87,7 @@ import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
+import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
@@ -104,6 +110,7 @@ export default {
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
+    ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
   },
@@ -134,6 +141,7 @@ export default {
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
+      clearMails: false,
     };
   },
   computed: {
@@ -270,6 +278,9 @@ export default {
       }
       return !this.message.trim().replace(/\n/g, '').length;
     },
+    showReplyHead(){
+      return this.isAnEmailChannel;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -354,6 +365,7 @@ export default {
           this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
+        this.clearMails = false;
       }
     },
     replaceText(message) {
@@ -376,6 +388,7 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.clearMails = true;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -452,11 +465,23 @@ export default {
         messagePayload.file = attachment.resource.file;
       }
 
+      if(this.ccEmails) {
+        messagePayload.ccEmails = this.ccEmails;
+      }
+
+      if(this.bccEmails) {
+        messagePayload.bccEmails = this.bccEmails;
+      }
+
       return messagePayload;
     },
     setFormatMode(value) {
       this.updateUISettings({ display_rich_content_editor: value });
     },
+    setCcEmails(value) {
+      this.bccEmails = value.bccEmails;
+      this.ccEmails = value.ccEmails
+    }
   },
 };
 </script>

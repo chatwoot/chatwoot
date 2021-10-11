@@ -16,6 +16,7 @@ class Messages::MessageBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     process_attachments
+    process_emails
     @message.save!
     @message
   end
@@ -32,6 +33,16 @@ class Messages::MessageBuilder
         file: uploaded_attachment
       )
     end
+  end
+
+  def process_emails
+    return unless @conversation.inbox&.inbox_type == 'Email'
+
+    cc_emails = @params[:cc_emails].split(',') if @params[:cc_emails]
+    bcc_emails = @params[:bcc_emails].split(',') if @params[:bcc_emails]
+
+    @message.content_attributes[:cc_emails] = cc_emails
+    @message.content_attributes[:bcc_emails] = bcc_emails
   end
 
   def message_type
