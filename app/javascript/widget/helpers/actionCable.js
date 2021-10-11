@@ -1,4 +1,5 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+import { newMessageNotification } from './widgetAudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -36,6 +37,9 @@ class ActionCableConnector extends BaseActionCableConnector {
       .then(() => {
         window.bus.$emit('on-agent-message-recieved');
       });
+    if (data.sender_type === 'User') {
+      newMessageNotification();
+    }
   };
 
   onMessageUpdated = data => {
