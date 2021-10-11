@@ -3,8 +3,9 @@
     <div :class="wrapClass">
       <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-mail-head
-          v-if="isEmailContentType"
           :email-attributes="contentAttributes.email"
+          :cc="emailHeadAttributes.cc"
+          :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
         <bubble-text
@@ -221,6 +222,13 @@ export default {
     },
     isIncoming() {
       return this.data.message_type === MESSAGE_TYPE.INCOMING;
+    },
+    emailHeadAttributes() {
+      return {
+        email: this.contentAttributes.email,
+        cc: this.contentAttributes.cc_emails,
+        bcc: this.contentAttributes.bcc_emails
+      }
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
