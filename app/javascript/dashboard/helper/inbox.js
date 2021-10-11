@@ -16,13 +16,19 @@ export const getInboxClassByType = (type, phoneNumber) => {
         ? 'ion-social-whatsapp-outline'
         : 'ion-android-textsms';
 
+    case INBOX_TYPES.WHATSAPP:
+      return 'ion-social-whatsapp-outline';
+
     case INBOX_TYPES.API:
       return 'ion-cloud';
 
     case INBOX_TYPES.EMAIL:
       return 'ion-ios-email';
 
+    case INBOX_TYPES.TELEGRAM:
+      return 'ion-ios-navigate';
+
     default:
-      return '';
+      return 'ion-ios-chatbubble';
   }
 };

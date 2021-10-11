@@ -82,6 +82,9 @@ export const mutations = {
     const conversations = $state.records[id] || [];
     Vue.set($state.records, id, [...conversations, data]);
   },
+  [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
+    Vue.delete($state.records, id);
+  },
 };
 
 export default {

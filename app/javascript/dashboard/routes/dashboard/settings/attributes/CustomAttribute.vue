@@ -54,6 +54,7 @@
                   color-scheme="secondary"
                   class-names="grey-btn"
                   icon="ion-edit"
+                  @click="openEditPopup(attribute)"
                 >
                   {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT') }}
                 </woot-button>
@@ -62,6 +63,7 @@
                   color-scheme="secondary"
                   icon="ion-close-circled"
                   class-names="grey-btn"
+                  @click="openDelete(attribute)"
                 >
                   {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE') }}
                 </woot-button>
@@ -74,16 +76,44 @@
     <div class="small-4 columns">
       <span v-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
     </div>
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-attribute
+        :selected-attribute="selectedAttribute"
+        :is-updating="uiFlags.isUpdating"
+        @on-close="hideEditPopup"
+      />
+    </woot-modal>
+    <woot-confirm-delete-modal
+      v-if="showDeletePopup"
+      :show.sync="showDeletePopup"
+      :title="confirmDeleteTitle"
+      :message="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="selectedAttribute.attribute_display_name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
+import EditAttribute from './EditAttribute';
 
 export default {
+  components: {
+    EditAttribute,
+  },
+  mixins: [alertMixin],
   data() {
     return {
       selectedTabIndex: 0,
+      showEditPopup: false,
+      showDeletePopup: false,
+      selectedAttribute: {},
     };
   },
   computed: {
@@ -111,6 +141,24 @@ export default {
         },
       ];
     },
+    deleteConfirmText() {
+      return `${this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.YES')} ${
+        this.selectedAttribute.attribute_display_name
+      }`;
+    },
+    deleteRejectText() {
+      return this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.NO');
+    },
+    confirmDeleteTitle() {
+      return this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.TITLE', {
+        attributeName: this.selectedAttribute.attribute_display_name,
+      });
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+        attributeName: this.selectedAttribute.attribute_display_name,
+      })}`;
+    },
   },
   mounted() {
     this.fetchAttributes(this.selectedTabIndex);
@@ -122,6 +170,36 @@ export default {
     },
     fetchAttributes(index) {
       this.$store.dispatch('attributes/get', index);
+    },
+    async deleteAttributes({ id }) {
+      try {
+        await this.$store.dispatch('attributes/delete', id);
+        this.showAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
+    },
+    openEditPopup(response) {
+      this.showEditPopup = true;
+      this.selectedAttribute = response;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
+    confirmDeletion() {
+      this.deleteAttributes(this.selectedAttribute);
+      this.closeDelete();
+    },
+    openDelete(value) {
+      this.showDeletePopup = true;
+      this.selectedAttribute = value;
+    },
+    closeDelete() {
+      this.showDeletePopup = false;
+      this.selectedAttribute = {};
     },
   },
 };

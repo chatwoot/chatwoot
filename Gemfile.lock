@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/chatwoot/devise-secure_password
+  revision: de11e8765654b8242d42101ee9c8ffc8126f7975
+  specs:
+    devise-secure_password (2.0.1)
+      devise (>= 4.0.0, < 5.0.0)
+      railties (>= 5.0.0, < 7.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -152,9 +160,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-secure_password (2.0.1)
-      devise (>= 4.0.0, < 5.0.0)
-      railties (>= 5.0.0, < 7.0.0)
     devise_token_auth (1.2.0)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -242,6 +247,7 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
+    google-protobuf (3.17.3)
     google-protobuf (3.17.3-universal-darwin)
     google-protobuf (3.17.3-x86_64-linux)
     googleapis-common-protos (1.3.11)
@@ -259,6 +265,9 @@ GEM
       signet (~> 0.14)
     groupdate (5.2.2)
       activesupport (>= 5)
+    grpc (1.38.0)
+      google-protobuf (~> 3.15)
+      googleapis-common-protos-types (~> 1.0)
     grpc (1.38.0-universal-darwin)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
@@ -341,6 +350,7 @@ GEM
     mime-types-data (3.2021.0704)
     mini_magick (4.11.0)
     mini_mime (1.1.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     mock_redis (0.28.0)
       ruby2_keywords
@@ -355,6 +365,9 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (7.2.0)
     nio4r (2.5.8)
+    nokogiri (1.11.7)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     nokogiri (1.11.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-darwin)
@@ -612,6 +625,8 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  ruby
+  x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
@@ -637,7 +652,7 @@ DEPENDENCIES
   database_cleaner
   ddtrace
   devise
-  devise-secure_password (~> 2.0)
+  devise-secure_password (~> 2.0)!
   devise_token_auth
   dotenv-rails
   down (~> 5.0)

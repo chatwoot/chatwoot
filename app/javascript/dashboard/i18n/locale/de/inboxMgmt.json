@@ -172,6 +172,44 @@
         },
         "FINISH_MESSAGE": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanal Name",
+          "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
+          "ERROR": "Dieses Feld wird benötigt"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
         "TITLE": "Wähle einen Kanal",
         "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, Whatsapp, E-Mail etc., als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanals verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."

@@ -56,14 +56,13 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', '~> 2.0'
+gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -121,6 +120,11 @@ gem 'maxminddb'
 gem 'hairtrigger'
 
 gem 'procore-sift'
+
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
 
 group :development do
   gem 'annotate'

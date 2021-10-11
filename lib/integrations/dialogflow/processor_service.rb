@@ -7,14 +7,18 @@ class Integrations::Dialogflow::ProcessorService
     return unless processable_message?(message)
     return unless message.conversation.pending?
 
-    response = get_dialogflow_response(message.conversation.contact_inbox.source_id, message_content(message))
-    process_response(message, response)
+    content = message_content(message)
+    response = get_dialogflow_response(message.conversation.contact_inbox.source_id, content) if content.present?
+    process_response(message, response) if response.present?
   end
 
   private
 
   def message_content(message)
-    return message.content_attributes['submitted_values'].first['value'] if event_name == 'message.updated'
+    # TODO: might needs to change this to a way that we fetch the updated value from event data instead
+    # cause the message.updated event could be that that the message was deleted
+
+    return message.content_attributes['submitted_values']&.dig 'value' if event_name == 'message.updated'
 
     message.content
   end

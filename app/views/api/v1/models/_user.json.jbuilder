@@ -1,6 +1,5 @@
 json.access_token resource.access_token.token
 json.account_id resource.active_account_user&.account_id
-json.availability_status resource.availability_status
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
@@ -22,5 +21,7 @@ json.accounts do
     json.name account_user.account.name
     json.active_at account_user.active_at
     json.role account_user.role
+    json.availability_status account_user.availability_status
+    json.auto_offline account_user.auto_offline
   end
 end

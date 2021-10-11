@@ -20,6 +20,11 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
+      <reply-email-head
+        v-if="showReplyHead"
+        @set-emails="setCcEmails"
+        :clear-mails="clearMails"
+      />
       <resizable-text-area
         v-if="!showRichContentEditor"
         ref="messageInput"
@@ -76,13 +81,13 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
+import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
@@ -105,16 +110,11 @@ export default {
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
+    ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [
-    clickaway,
-    inboxMixin,
-    uiSettingsMixin,
-    alertMixin,
-    eventListenerMixins,
-  ],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -141,6 +141,7 @@ export default {
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
+      clearMails: false,
     };
   },
   computed: {
@@ -163,7 +164,7 @@ export default {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isATwilioWhatsappChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsappChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -210,7 +211,7 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isATwilioWhatsappChannel) {
+      if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isATwilioSMSChannel) {
@@ -230,7 +231,8 @@ export default {
         this.isATwilioWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel
+        this.isATwilioSMSChannel ||
+        this.isATelegramChannel
       );
     },
     replyButtonLabel() {
@@ -276,6 +278,9 @@ export default {
       }
       return !this.message.trim().replace(/\n/g, '').length;
     },
+    showReplyHead(){
+      return this.isAnEmailChannel;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -284,7 +289,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isATwilioWhatsappChannel) {
+      if (canReply || this.isAWhatsappChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -303,6 +308,15 @@ export default {
         this.showMentions = false;
       }
     },
+  },
+
+  mounted() {
+    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // working even if input/textarea is focussed.
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     toggleUserMention(currentMentionState) {
@@ -345,9 +359,13 @@ export default {
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
-          // Error
+          const errorMessage =
+            error?.response?.data?.error ||
+            this.$t('CONVERSATION.MESSAGE_ERROR');
+          this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
+        this.clearMails = false;
       }
     },
     replaceText(message) {
@@ -358,7 +376,7 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
+      if (canReply || this.isAWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         return;
       }
@@ -370,6 +388,7 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.clearMails = true;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -446,11 +465,23 @@ export default {
         messagePayload.file = attachment.resource.file;
       }
 
+      if(this.ccEmails) {
+        messagePayload.ccEmails = this.ccEmails;
+      }
+
+      if(this.bccEmails) {
+        messagePayload.bccEmails = this.bccEmails;
+      }
+
       return messagePayload;
     },
     setFormatMode(value) {
       this.updateUISettings({ display_rich_content_editor: value });
     },
+    setCcEmails(value) {
+      this.bccEmails = value.bccEmails;
+      this.ccEmails = value.ccEmails
+    }
   },
 };
 </script>

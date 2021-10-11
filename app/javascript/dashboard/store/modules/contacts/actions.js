@@ -82,6 +82,32 @@ export const actions = {
       }
     }
   },
+  import: async ({ commit }, file) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
+    try {
+      await ContactAPI.importContacts(file);
+      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      }
+    }
+  },
+  delete: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isDeleting: true });
+    try {
+      await ContactAPI.delete(id);
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    }
+  },
 
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
@@ -109,5 +135,13 @@ export const actions = {
 
   setContact({ commit }, data) {
     commit(types.SET_CONTACT_ITEM, data);
+  },
+
+  deleteContactThroughConversations: ({ commit }, id) => {
+    commit(types.DELETE_CONTACT, id);
+    commit(types.CLEAR_CONTACT_CONVERSATIONS, id, { root: true });
+    commit(`contactConversations/${types.DELETE_CONTACT_CONVERSATION}`, id, {
+      root: true,
+    });
   },
 };
