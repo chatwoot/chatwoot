@@ -1,5 +1,5 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
-import { newMessageNotification } from './widgetAudioNotificationHelper';
+import { playNewMessageNotificationInWidget } from '../../shared/helpers/AudioNotificationHelper.js';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -38,7 +38,7 @@ class ActionCableConnector extends BaseActionCableConnector {
         window.bus.$emit('on-agent-message-recieved');
       });
     if (data.sender_type === 'User') {
-      newMessageNotification();
+      playNewMessageNotificationInWidget();
     }
   };
 
