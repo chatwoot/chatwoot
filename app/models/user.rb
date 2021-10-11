@@ -39,7 +39,6 @@
 
 class User < ApplicationRecord
   include AccessTokenable
-  include AvailabilityStatusable
   include Avatarable
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
@@ -57,6 +56,8 @@ class User < ApplicationRecord
          :confirmable,
          :password_has_required_content
 
+  # TODO: remove in a future version once online status is moved to account users
+  # remove the column availability from users
   enum availability: { online: 0, offline: 1, busy: 2 }
 
   # The validation below has been commented out as it does not
@@ -88,8 +89,6 @@ class User < ApplicationRecord
   has_many :custom_filters, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
-
-  after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -141,6 +140,14 @@ class User < ApplicationRecord
     current_account_user&.role
   end
 
+  def availability_status
+    current_account_user&.availability_status
+  end
+
+  def auto_offline
+    current_account_user&.auto_offline
+  end
+
   def inviter
     current_account_user&.inviter
   end
@@ -168,13 +175,5 @@ class User < ApplicationRecord
       email: email,
       type: 'user'
     }
-  end
-
-  private
-
-  def update_presence_in_redis
-    accounts.each do |account|
-      OnlineStatusTracker.set_status(account.id, id, availability)
-    end
   end
 end

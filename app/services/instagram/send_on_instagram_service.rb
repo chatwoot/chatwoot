@@ -62,9 +62,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       body: message_content,
       query: query
     )
-    # response = HTTParty.post(url, options)
 
-    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body][:error]
+    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body]
 
     response[:body]
   end
