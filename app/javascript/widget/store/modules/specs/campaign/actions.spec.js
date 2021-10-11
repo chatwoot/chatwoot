@@ -29,7 +29,12 @@ describe('#actions', () => {
       expect(campaignTimer.initTimers).toHaveBeenCalledWith(
         {
           campaigns: [
-            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com', triggerOnlyDuringBusinessHours: false, },
+            {
+              id: 11,
+              timeOnPage: '20',
+              url: 'https://chatwoot.com',
+              triggerOnlyDuringBusinessHours: false,
+            },
           ],
         },
         'XDsafmADasd'
@@ -73,7 +78,12 @@ describe('#actions', () => {
       expect(campaignTimer.initTimers).toHaveBeenCalledWith(
         {
           campaigns: [
-            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com',  triggerOnlyDuringBusinessHours: false, },
+            {
+              id: 11,
+              timeOnPage: '20',
+              url: 'https://chatwoot.com',
+              triggerOnlyDuringBusinessHours: false,
+            },
           ],
         },
         'XDsafmADasd'

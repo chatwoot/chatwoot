@@ -14,7 +14,12 @@ const state = {
   activeCampaign: {},
 };
 
-const resetCampaignTimers = (campaigns, currentURL, websiteToken, isInBusinessHours) => {
+const resetCampaignTimers = (
+  campaigns,
+  currentURL,
+  websiteToken,
+  isInBusinessHours
+) => {
   const formattedCampaigns = formatCampaigns({ campaigns });
   // Find all campaigns that matches the current URL
   const filteredCampaigns = filterCampaigns({
@@ -41,7 +46,12 @@ export const actions = {
       commit('setCampaigns', campaigns);
       commit('setError', false);
       commit('setHasFetched', true);
-      resetCampaignTimers(campaigns, currentURL, websiteToken, isInBusinessHours);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
@@ -58,7 +68,12 @@ export const actions = {
         isInBusinessHours,
       });
     } else {
-      resetCampaignTimers(campaigns, currentURL, websiteToken, isInBusinessHours);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     }
   },
   startCampaign: async ({ commit }, { websiteToken, campaignId }) => {

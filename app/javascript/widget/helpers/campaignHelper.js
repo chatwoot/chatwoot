@@ -24,8 +24,7 @@ export const filterCampaigns = ({
   return campaigns.filter(item =>
     item.triggerOnlyDuringBusinessHours
       ? isInBusinessHours
-      : true &&
-        stripTrailingSlash({ URL: item.url }) ===
-          stripTrailingSlash({ URL: currentURL })
+      : stripTrailingSlash({ URL: item.url }) ===
+        stripTrailingSlash({ URL: currentURL })
   );
 };
