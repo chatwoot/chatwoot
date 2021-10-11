@@ -14,7 +14,7 @@ const state = {
   activeCampaign: {},
 };
 
-const resetCampaignTimers = (campaigns, currentURL, isInBusinessHours) => {
+const resetCampaignTimers = (campaigns, currentURL, websiteToken, isInBusinessHours) => {
   const formattedCampaigns = formatCampaigns({ campaigns });
   // Find all campaigns that matches the current URL
   const filteredCampaigns = filterCampaigns({
@@ -22,7 +22,7 @@ const resetCampaignTimers = (campaigns, currentURL, isInBusinessHours) => {
     currentURL,
     isInBusinessHours,
   });
-  campaignTimer.initTimers({ campaigns: filteredCampaigns });
+  campaignTimer.initTimers({ campaigns: filteredCampaigns }, websiteToken);
 };
 
 export const getters = {
@@ -41,7 +41,7 @@ export const actions = {
       commit('setCampaigns', campaigns);
       commit('setError', false);
       commit('setHasFetched', true);
-      resetCampaignTimers(campaigns, currentURL, isInBusinessHours);
+      resetCampaignTimers(campaigns, currentURL, websiteToken, isInBusinessHours);
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
@@ -58,15 +58,15 @@ export const actions = {
         isInBusinessHours,
       });
     } else {
-      resetCampaignTimers(campaigns, currentURL, isInBusinessHours);
+      resetCampaignTimers(campaigns, currentURL, websiteToken, isInBusinessHours);
     }
   },
-  startCampaign: async (
-    { getters: { getCampaigns: campaigns }, commit },
-    { campaignId }
-  ) => {
+  startCampaign: async ({ commit }, { websiteToken, campaignId }) => {
+    const { data: campaigns } = await getCampaigns(websiteToken);
     const campaign = campaigns.find(item => item.id === campaignId);
-    commit('setActiveCampaign', campaign);
+    if (campaign) {
+      commit('setActiveCampaign', campaign);
+    }
   },
 
   executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {

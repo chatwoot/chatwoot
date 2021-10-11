@@ -26,16 +26,14 @@ describe('#actions', () => {
         ['setError', false],
         ['setHasFetched', true],
       ]);
-      expect(campaignTimer.initTimers).toHaveBeenCalledWith({
-        campaigns: [
-          {
-            id: 11,
-            timeOnPage: '20',
-            url: 'https://chatwoot.com',
-            triggerOnlyDuringBusinessHours: false,
-          },
-        ],
-      });
+      expect(campaignTimer.initTimers).toHaveBeenCalledWith(
+        {
+          campaigns: [
+            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com', triggerOnlyDuringBusinessHours: false, },
+          ],
+        },
+        'XDsafmADasd'
+      );
     });
     it('sends correct actions if API is error', async () => {
       API.get.mockRejectedValue({ message: 'Authentication required' });
@@ -53,13 +51,11 @@ describe('#actions', () => {
       ]);
     });
   });
-
   describe('#initCampaigns', () => {
     const actionParams = {
       websiteToken: 'XDsafmADasd',
       currentURL: 'https://chatwoot.com',
     };
-
     it('sends correct actions if campaigns are empty', async () => {
       await actions.initCampaigns(
         { dispatch, getters: { getCampaigns: [] } },
@@ -74,27 +70,26 @@ describe('#actions', () => {
         actionParams
       );
       expect(dispatch.mock.calls).toEqual([]);
-      expect(campaignTimer.initTimers).toHaveBeenCalledWith({
-        campaigns: [
-          {
-            id: 11,
-            timeOnPage: '20',
-            url: 'https://chatwoot.com',
-            triggerOnlyDuringBusinessHours: false,
-          },
-        ],
-      });
+      expect(campaignTimer.initTimers).toHaveBeenCalledWith(
+        {
+          campaigns: [
+            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com',  triggerOnlyDuringBusinessHours: false, },
+          ],
+        },
+        'XDsafmADasd'
+      );
     });
   });
   describe('#startCampaign', () => {
     it('reset campaign if campaign id is not present in the campaign list', async () => {
+      API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
         { dispatch, getters: { getCampaigns: campaigns }, commit },
         { campaignId: 32 }
       );
-      expect(commit.mock.calls).toEqual([['setActiveCampaign', undefined]]);
     });
     it('start campaign if campaign id passed', async () => {
+      API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
         { dispatch, getters: { getCampaigns: campaigns }, commit },
         { campaignId: 1 }
