@@ -8,6 +8,8 @@ export const buildCreatePayload = ({
   contentAttributes,
   echoId,
   file,
+  ccEmails,
+  bccEmails,
 }) => {
   let payload;
   if (file) {
@@ -18,12 +20,16 @@ export const buildCreatePayload = ({
     }
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
+    payload.append('cc_emails', ccEmails);
+    payload.append('bcc_emails', bccEmails);
   } else {
     payload = {
       content: message,
       private: isPrivate,
       echo_id: echoId,
       content_attributes: contentAttributes,
+      cc_emails: ccEmails,
+      bcc_emails: bccEmails,
     };
   }
   return payload;
@@ -41,6 +47,8 @@ class MessageApi extends ApiClient {
     contentAttributes,
     echo_id: echoId,
     file,
+    ccEmails,
+    bccEmails,
   }) {
     return axios({
       method: 'post',
@@ -51,6 +59,8 @@ class MessageApi extends ApiClient {
         contentAttributes,
         echoId,
         file,
+        ccEmails,
+        bccEmails,
       }),
     });
   }
