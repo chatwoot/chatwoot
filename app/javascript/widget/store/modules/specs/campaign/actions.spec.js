@@ -15,7 +15,11 @@ describe('#actions', () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.fetchCampaigns(
         { commit },
-        { websiteToken: 'XDsafmADasd', currentURL: 'https://chatwoot.com' }
+        {
+          websiteToken: 'XDsafmADasd',
+          currentURL: 'https://chatwoot.com',
+          isInBusinessHours: true,
+        }
       );
       expect(commit.mock.calls).toEqual([
         ['setCampaigns', campaigns],
@@ -25,7 +29,12 @@ describe('#actions', () => {
       expect(campaignTimer.initTimers).toHaveBeenCalledWith(
         {
           campaigns: [
-            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com' },
+            {
+              id: 11,
+              timeOnPage: '20',
+              url: 'https://chatwoot.com',
+              triggerOnlyDuringBusinessHours: false,
+            },
           ],
         },
         'XDsafmADasd'
@@ -35,7 +44,11 @@ describe('#actions', () => {
       API.get.mockRejectedValue({ message: 'Authentication required' });
       await actions.fetchCampaigns(
         { commit },
-        { websiteToken: 'XDsafmADasd', currentURL: 'https://www.chatwoot.com' }
+        {
+          websiteToken: 'XDsafmADasd',
+          currentURL: 'https://www.chatwoot.com',
+          isInBusinessHours: true,
+        }
       );
       expect(commit.mock.calls).toEqual([
         ['setError', true],
@@ -65,7 +78,12 @@ describe('#actions', () => {
       expect(campaignTimer.initTimers).toHaveBeenCalledWith(
         {
           campaigns: [
-            { id: 11, timeOnPage: '20', url: 'https://chatwoot.com' },
+            {
+              id: 11,
+              timeOnPage: '20',
+              url: 'https://chatwoot.com',
+              triggerOnlyDuringBusinessHours: false,
+            },
           ],
         },
         'XDsafmADasd'
