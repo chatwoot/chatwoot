@@ -65,7 +65,7 @@
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "無法儲存團隊詳細資訊，請再試一次。"
     },
     "AGENTS": {
       "AGENT": "客服",
@@ -98,7 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "確定要刪除 - %{teamName} ？",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "PLACE_HOLDER": "請輸入 {teamName} 以確認",
         "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
         "YES": "刪除 ",
         "NO": "取消"
