@@ -86,13 +86,14 @@ class Telegram::IncomingMessageService
   end
 
   def file_content_type
-    params[:message][:photo].present? ? :image : file_type(params[:message][:document][:mime_type])
+    return :image if params[:message][:photo].present?
+    return :audio if params[:message][:voice].present? || params[:message][:audio].present?
+    return :video if params[:message][:video].present?
+
+    file_type(params[:message][:document][:mime_type])
   end
 
   def attach_files
-    file = params[:message][:document]
-    file ||= params[:message][:photo]&.last
-
     return unless file
 
     attachment_file = Down.download(
@@ -104,9 +105,14 @@ class Telegram::IncomingMessageService
       file_type: file_content_type,
       file: {
         io: attachment_file,
-        filename: attachment_file.original_filename,
+        filename: attachment_file,
         content_type: attachment_file.content_type
       }
     )
+  end
+
+  def file
+    @file ||= params[:message][:photo].presence&.last || params[:message][:voice].presence || params[:message][:audio].presence ||
+              params[:message][:video].presence || params[:message][:document].presence
   end
 end
