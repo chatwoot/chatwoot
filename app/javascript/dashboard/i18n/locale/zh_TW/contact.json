@@ -20,7 +20,7 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "聯絡人標籤",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "無法更新標籤"
       },
       "CONVERSATION": {
         "TITLE": "對話標記",
@@ -53,6 +53,35 @@
     "BUTTON_LABEL": "新聯絡人",
     "TITLE": "新增聯絡人",
     "DESC": "為聯絡人增加基本資訊"
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "匯入",
+    "TITLE": "匯入聯絡人",
+    "DESC": "透過 CSV 匯入聯絡人",
+    "DOWNLOAD_LABEL": "下載 CSV 範例",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "匯入",
+      "CANCEL": "取消"
+    },
+    "SUCCESS_MESSAGE": "聯絡人儲存成功",
+    "ERROR_MESSAGE": "出現錯誤，請重試"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "刪除聯絡人",
+    "TITLE": "刪除聯絡人",
+    "DESC": "刪除聯絡人資訊",
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "您確定要刪除嗎？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "是，刪除 ",
+      "NO": "不，保留 "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "聯絡人刪除成功",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
