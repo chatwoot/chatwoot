@@ -31,8 +31,8 @@
     }
 
     .modal-video {
-      max-width: 100%;
       max-height: 90vh;
+      max-width: 100%;
     }
 
     &::before {
@@ -46,9 +46,11 @@
       width: 100%;
     }
   }
+
   .video {
     .modal-container {
       width: auto;
+
       .modal--close {
         z-index: var(--z-index-low);
       }
