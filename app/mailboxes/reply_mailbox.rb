@@ -1,6 +1,4 @@
 class ReplyMailbox < ApplicationMailbox
-  include MailboxHelper
-
   attr_accessor :conversation_uuid, :processed_mail
 
   # Last part is the regex for the UUID
@@ -56,8 +54,8 @@ class ReplyMailbox < ApplicationMailbox
     find_conversation_with_uuid
   end
 
-  def find_conversation_by_message_id(in_reply_to_email)
-    @message = Message.find_by(source_id: in_reply_to_email)
+  def find_conversation_by_message_id(in_reply_to)
+    @message = Message.find_by(source_id: in_reply_to)
     @conversation = @message.conversation if @message.present?
     @conversation_uuid = @conversation.uuid if @conversation.present?
   end
@@ -65,13 +63,13 @@ class ReplyMailbox < ApplicationMailbox
   # find conversation uuid from below pattern
   # <conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>
   def find_conversation_with_in_reply_to
-    in_reply_to_email = mail['In-Reply-To'].value
-    match_result = in_reply_to_email.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN)
+    in_reply_to = mail['In-Reply-To'].try(:value)
+    match_result = in_reply_to.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN) if in_reply_to.present?
 
     if match_result
       find_conversation_by_uuid(match_result)
     else
-      find_conversation_by_message_id(in_reply_to_email)
+      find_conversation_by_message_id(in_reply_to)
     end
   end
 
