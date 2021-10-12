@@ -55,7 +55,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       before do
         conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
-        reply_mail_without_uuid.mail['In-Reply-To'] = "<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123@test.com>"
+        reply_mail_without_uuid.mail['In-Reply-To'] = '<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123@test.com>'
       end
 
       it 'find channel with reply to mail' do

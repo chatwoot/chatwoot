@@ -4,7 +4,6 @@ class ApplicationMailbox < ActionMailbox::Base
   REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
   CONVERSATION_MESSAGE_ID_PATTERN = %r{conversation/([a-zA-Z0-9\-]*?)/messages/(\d+?)@(\w+\.\w+)}
 
-
   def self.reply_mail?
     proc do |inbound_mail_obj|
       is_a_reply_email = false
@@ -40,7 +39,7 @@ class ApplicationMailbox < ActionMailbox::Base
     return if is_a_reply_email
 
     in_reply_to = inbound_mail_obj.mail['In-Reply-To'].value
-    return false unless in_reply_to.present?
+    return false if in_reply_to.blank?
 
     return true if in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
 
