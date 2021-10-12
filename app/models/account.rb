@@ -6,6 +6,7 @@
 #  auto_resolve_duration :integer
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
+#  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
@@ -19,6 +20,7 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
+  prepend_mod_with('Account') 
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -104,6 +106,13 @@ class Account < ApplicationRecord
 
   def support_email
     super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  end
+
+  def usage_limits
+    { 
+      agents: 1000000,
+      inboxes: 1000000
+    }
   end
 
   private

@@ -31,6 +31,10 @@ module RequestExceptionHandler
     render json: { error: message }, status: :unprocessable_entity
   end
 
+  def render_payment_required(message)
+    render json: { error: message }, status: :payment_required
+  end
+
   def render_internal_server_error(message)
     render json: { error: message }, status: :internal_server_error
   end

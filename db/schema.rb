@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_150415) do
+ActiveRecord::Schema.define(version: 2021_10_12_135050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_09_29_150415) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.jsonb "limits", default: {}
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
