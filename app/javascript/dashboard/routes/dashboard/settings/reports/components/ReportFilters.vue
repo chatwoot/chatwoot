@@ -6,7 +6,7 @@
       </p>
       <multiselect
         v-model="currentSelectedFilter"
-        :placeholder="$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         label="name"
         track-by="id"
         :options="filterItemsList"
@@ -40,13 +40,13 @@
         </template>
       </multiselect>
     </div>
-    <div v-if="type === 'label'" class="small-12 medium-3 pull-right">
+    <div v-else-if="type === 'label'" class="small-12 medium-3 pull-right">
       <p aria-hidden="true" class="hide">
         {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
         v-model="currentSelectedFilter"
-        :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         label="title"
         track-by="id"
         :options="filterItemsList"
@@ -59,11 +59,11 @@
             <div
               :style="{ backgroundColor: props.option.color }"
               class="reports-option__rounded--item margin-right-small"
-            ></div>
+            />
             <span class="reports-option__desc">
-              <span class="reports-option__title">{{
-                props.option.title
-              }}</span>
+              <span class="reports-option__title">
+                {{ props.option.title }}
+              </span>
             </span>
           </div>
         </template>
@@ -78,15 +78,15 @@
               "
             ></div>
             <span class="reports-option__desc">
-              <span class="reports-option__title">{{
-                props.option.title
-              }}</span>
+              <span class="reports-option__title">
+                {{ props.option.title }}
+              </span>
             </span>
           </div>
         </template>
       </multiselect>
     </div>
-    <div v-if="type === 'inbox'" class="small-12 medium-3 pull-right">
+    <div v-else class="small-12 medium-3 pull-right">
       <p aria-hidden="true" class="hide">
         {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
@@ -94,7 +94,7 @@
         v-model="currentSelectedFilter"
         track-by="id"
         label="name"
-        :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+        :placeholder="multiselectLabel"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         deselect-label=""
@@ -185,12 +185,19 @@ export default {
       const fromDate = subDays(new Date(), diff);
       return this.fromCustomDate(fromDate);
     },
+    multiselectLabel() {
+      const typeLabels = {
+        agent: this.$t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL'),
+        label: this.$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL'),
+        inbox: this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL'),
+        team: this.$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL'),
+      };
+      return typeLabels[this.type] || this.$t('FORMS.MULTISELECT.SELECT_ONE');
+    },
   },
   watch: {
     filterItemsList(val) {
       this.currentSelectedFilter = val[0];
-    },
-    currentSelectedFilter() {
       this.changeFilterSelection();
     },
   },

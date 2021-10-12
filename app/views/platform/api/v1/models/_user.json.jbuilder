@@ -1,6 +1,5 @@
 json.access_token resource.access_token.token
 json.account_id resource.active_account_user&.account_id
-json.availability_status resource.availability_status
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
