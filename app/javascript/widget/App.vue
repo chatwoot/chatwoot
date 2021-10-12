@@ -34,7 +34,7 @@ export default {
       widgetPosition: 'right',
       showPopoutButton: false,
       isWebWidgetTriggered: false,
-      isWidgetOpened: false,
+      isWidgetOpen: false,
     };
   },
   computed: {
@@ -134,7 +134,7 @@ export default {
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
-        if (!this.isIFrame || this.isWidgetOpened) {
+        if (!this.isIFrame || this.isWidgetOpen) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
