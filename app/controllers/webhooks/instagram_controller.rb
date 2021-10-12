@@ -1,4 +1,4 @@
-class Api::V1::InstagramCallbacksController < ApplicationController
+class Webhooks::InstagramController < ApplicationController
   skip_before_action :authenticate_user!, raise: false
   skip_before_action :set_current_user
 
