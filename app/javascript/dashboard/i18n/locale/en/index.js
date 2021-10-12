@@ -12,7 +12,6 @@ import { default as _integrationApps } from './integrationApps.json';
 import { default as _integrations } from './integrations.json';
 import { default as _labelsMgmt } from './labelsMgmt.json';
 import { default as _login } from './login.json';
-import { default as _networkNotification } from './networkNotification.json';
 import { default as _report } from './report.json';
 import { default as _resetPassword } from './resetPassword.json';
 import { default as _setNewPassword } from './setNewPassword.json';
@@ -35,7 +34,6 @@ export default {
   ..._integrations,
   ..._labelsMgmt,
   ..._login,
-  ..._networkNotification,
   ..._report,
   ..._resetPassword,
   ..._setNewPassword,
