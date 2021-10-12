@@ -54,6 +54,35 @@
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "ரத்துசெய்"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "There was an error, please try again"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+      "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "ஆம், நீக்கு ",
+      "NO": "இல்லை, வைத்திரு "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "சமர்பிக்கவும்",
