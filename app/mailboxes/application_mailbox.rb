@@ -39,9 +39,14 @@ class ApplicationMailbox < ActionMailbox::Base
     return if is_a_reply_email
 
     in_reply_to = inbound_mail_obj.mail['In-Reply-To'].value
-    return false unless in_reply_to
+    return false unless in_reply_to.present?
 
-    in_reply_to.present? && in_reply_to.match(CONVERSATION_UUID_PATTERN)
+    return true if in_reply_to.match(CONVERSATION_UUID_PATTERN)
+
+    message = Message.find_by(source_id: in_reply_to)
+    return true if message.present?
+
+    false
   end
 
   # checks if follow this pattern  send it to reply_mailbox
