@@ -16,6 +16,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
         ? 'ion-social-whatsapp-outline'
         : 'ion-android-textsms';
 
+    case INBOX_TYPES.WHATSAPP:
+      return 'ion-social-whatsapp-outline';
+
     case INBOX_TYPES.API:
       return 'ion-cloud';
 

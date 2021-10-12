@@ -36,6 +36,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    cc: {
+      type: Array,
+      default: () => [],
+    },
+    bcc: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     toMails() {
@@ -43,11 +51,11 @@ export default {
       return to.join(', ');
     },
     ccMails() {
-      const cc = this.emailAttributes.cc || [];
+      const cc = this.emailAttributes.cc || this.cc || [];
       return cc.join(', ');
     },
     bccMails() {
-      const bcc = this.emailAttributes.bcc || [];
+      const bcc = this.emailAttributes.bcc || this.bcc || [];
       return bcc.join(', ');
     },
     subject() {

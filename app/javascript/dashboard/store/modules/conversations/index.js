@@ -69,9 +69,13 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
-  [types.default.RESOLVE_CONVERSATION](_state, { conversationId, status }) {
+  [types.default.CHANGE_CONVERSATION_STATUS](
+    _state,
+    { conversationId, status, snoozedUntil }
+  ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
+    Vue.set(conversation, 'snoozed_until', snoozedUntil);
     Vue.set(conversation, 'status', status);
   },
 
@@ -176,6 +180,13 @@ export const mutations = {
     if (chat) {
       Vue.set(chat, 'can_reply', canReply);
     }
+  },
+
+  [types.default.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
+    const chats = _state.allConversations.filter(
+      c => c.meta.sender.id !== contactId
+    );
+    Vue.set(_state, 'allConversations', chats);
   },
 };
 
