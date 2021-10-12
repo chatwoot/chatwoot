@@ -74,10 +74,10 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Отключён от Чата"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Обновить"
     }
   }
 }
