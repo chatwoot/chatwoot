@@ -8,52 +8,15 @@
       @toggle-accounts="toggleAccountModal"
     />
 
-    <div v-if="showSecondaryMenu" class="main-nav secondary-menu">
-      <transition-group name="menu-list" tag="ul" class="menu vertical">
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="inboxSection.toState"
-          :menu-item="inboxSection"
-        />
-        <sidebar-item
-          v-if="shouldShowTeams"
-          :key="teamSection.toState"
-          :menu-item="teamSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="labelSection.toState"
-          :menu-item="labelSection"
-          @add-label="showAddLabelPopup"
-        />
-        <sidebar-item
-          v-if="shouldShowContactSideMenu"
-          :key="contactLabelSection.key"
-          :menu-item="contactLabelSection"
-          @add-label="showAddLabelPopup"
-        />
-        <sidebar-item
-          v-if="shouldShowCampaignSideMenu"
-          :key="campaignSubSection.key"
-          :menu-item="campaignSubSection"
-        />
-        <sidebar-item
-          v-if="shouldShowReportsSideMenu"
-          :key="reportsSubSection.key"
-          :menu-item="reportsSubSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSettingsSideMenu"
-          :key="settingsSubMenu.key"
-          :menu-item="settingsSubMenu"
-        />
-        <sidebar-item
-          v-if="shouldShowNotificationsSideMenu"
-          :key="notificationsSubMenu.key"
-          :menu-item="notificationsSubMenu"
-        />
-      </transition-group>
-    </div>
+    <secondary-sidebar
+      v-if="showSecondaryMenu"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :account-labels="accountLabels"
+      :teams="teams"
+      :menu-items="primaryMenuItems"
+      @add-label="showAddLabelPopup"
+    />
 
     <woot-key-shortcut-modal
       v-if="showShortcutModal"
@@ -82,8 +45,6 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../mixins/isAdmin';
-import SidebarItem from './SidebarItem';
-import { frontendURL } from '../../helper/URLHelper';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
@@ -91,6 +52,7 @@ import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from 'dashboard/modules/sidebar/components/Primary';
+import SecondarySidebar from 'dashboard/modules/sidebar/components/Secondary';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
@@ -105,11 +67,11 @@ import router from '../../routes';
 
 export default {
   components: {
-    SidebarItem,
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
     PrimarySidebar,
+    SecondarySidebar,
     WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
@@ -144,159 +106,13 @@ export default {
 
       return menuItems;
     },
-    accessibleMenuItems() {
-      // get all keys in menuGroup
-      const groupKey = Object.keys(this.sidemenuItems);
-
-      let menuItems = [];
-      // Iterate over menuGroup to find the correct group
-      for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = this.sidemenuItems[groupKey[i]];
-        // Check if current route is included
-        const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
-        if (isRouteIncluded) {
-          menuItems = Object.values(groupItem.menuItems);
-        }
-      }
-
-      return this.filterMenuItemsByRole(menuItems);
-    },
     currentRoute() {
       return this.$store.state.route.name;
-    },
-    shouldShowSidebarItem() {
-      return this.sidemenuItems.common.routes.includes(this.currentRoute);
-    },
-    shouldShowContactSideMenu() {
-      return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
-    },
-    shouldShowCampaignSideMenu() {
-      return this.sidemenuItems.campaigns.routes.includes(this.currentRoute);
-    },
-    shouldShowSettingsSideMenu() {
-      return this.sidemenuItems.settings.routes.includes(this.currentRoute);
-    },
-    shouldShowReportsSideMenu() {
-      return this.sidemenuItems.reports.routes.includes(this.currentRoute);
     },
     shouldShowNotificationsSideMenu() {
       return this.sidemenuItems.notifications.routes.includes(
         this.currentRoute
       );
-    },
-    shouldShowTeams() {
-      return this.shouldShowSidebarItem && this.teams.length;
-    },
-    inboxSection() {
-      return {
-        icon: 'ion-folder',
-        label: 'INBOXES',
-        hasSubMenu: true,
-        newLink: true,
-        newLinkTag: 'NEW_INBOX',
-        key: 'inbox',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
-        toStateName: 'settings_inbox_list',
-        newLinkRouteName: 'settings_inbox_new',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
-      };
-    },
-    labelSection() {
-      return {
-        icon: 'ion-pound',
-        label: 'LABELS',
-        hasSubMenu: true,
-        newLink: true,
-        newLinkTag: 'NEW_LABEL',
-        key: 'label',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
-        toStateName: 'labels_list',
-        showModalForNewItem: true,
-        modalName: 'AddLabel',
-        children: this.accountLabels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/label/${label.title}`
-          ),
-        })),
-      };
-    },
-    contactLabelSection() {
-      return {
-        icon: 'ion-pound',
-        label: 'TAGGED_WITH',
-        hasSubMenu: true,
-        key: 'label',
-        newLink: false,
-        newLinkTag: 'NEW_LABEL',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
-        toStateName: 'labels_list',
-        showModalForNewItem: true,
-        modalName: 'AddLabel',
-        children: this.accountLabels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/labels/${label.title}/contacts`
-          ),
-        })),
-      };
-    },
-    campaignSubSection() {
-      return this.getSubSectionByKey('campaigns');
-    },
-    teamSection() {
-      return {
-        icon: 'ion-ios-people',
-        label: 'TEAMS',
-        hasSubMenu: true,
-        newLink: true,
-        newLinkTag: 'NEW_TEAM',
-        key: 'team',
-        cssClass: 'menu-title align-justify teams-sidebar-menu',
-        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
-        toStateName: 'teams_list',
-        newLinkRouteName: 'settings_teams_new',
-        children: this.teams.map(team => ({
-          id: team.id,
-          label: team.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
-        })),
-      };
-    },
-    settingsSubMenu() {
-      return this.getSubSectionByKey('settings');
-    },
-    reportsSubSection() {
-      return this.getSubSectionByKey('reports');
-    },
-    notificationsSubMenu() {
-      return {
-        icon: 'ion-ios-bell',
-        label: 'NOTIFICATIONS',
-        hasSubMenu: false,
-        cssClass: 'menu-title align-justify',
-        key: 'notifications',
-        children: [],
-      };
-    },
-    dashboardPath() {
-      return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
     showSecondaryMenu() {
       if (this.shouldShowNotificationsSideMenu) return false;
@@ -311,22 +127,6 @@ export default {
   },
 
   methods: {
-    getSubSectionByKey(subSectionKey) {
-      const menuItems = Object.values(
-        this.sidemenuItems[subSectionKey].menuItems
-      );
-      const campaignItem = this.primaryMenuItems.find(
-        ({ key }) => key === subSectionKey
-      );
-
-      return {
-        ...campaignItem,
-        children: menuItems.map(item => ({
-          ...item,
-          label: this.$t(`SIDEBAR.${item.label}`),
-        })),
-      };
-    },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
     },
