@@ -38,12 +38,12 @@ export default {
     },
     cc: {
       type: Array,
-      default: [],
+      default: () => [],
     },
     bcc: {
       type: Array,
-      default: [],
-    }
+      default: () => [],
+    },
   },
   computed: {
     toMails() {
