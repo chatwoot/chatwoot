@@ -26,7 +26,9 @@
                 color-scheme="secondary"
                 class-names="status-change--dropdown-button"
                 :is-disabled="status.disabled"
-                @click="changeAvailabilityStatus(status.value)"
+                @click="
+                  changeAvailabilityStatus(status.value, currentAccountId)
+                "
               >
                 <availability-status-badge :status="status.value" />
                 {{ status.label }}
@@ -75,7 +77,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      currentUser: 'getCurrentUser',
+      getCurrentUserAvailabilityStatus: 'getCurrentUserAvailabilityStatus',
+      getCurrentAccountId: 'getCurrentAccountId',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
@@ -85,8 +88,11 @@ export default {
         availabilityIndex
       ];
     },
+    currentAccountId() {
+      return this.getCurrentAccountId;
+    },
     currentUserAvailabilityStatus() {
-      return this.currentUser.availability_status;
+      return this.getCurrentUserAvailabilityStatus;
     },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
@@ -108,16 +114,16 @@ export default {
     closeStatusMenu() {
       this.isStatusMenuOpened = false;
     },
-    changeAvailabilityStatus(availability) {
+    changeAvailabilityStatus(availability, accountId) {
       if (this.isUpdating) {
         return;
       }
 
       this.isUpdating = true;
-
       this.$store
         .dispatch('updateAvailability', {
-          availability,
+          availability: availability,
+          account_id: accountId,
         })
         .finally(() => {
           this.isUpdating = false;

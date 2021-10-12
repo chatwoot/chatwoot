@@ -94,7 +94,7 @@ RSpec.describe 'Agents API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'modifies an agent' do
+      it 'modifies an agent name' do
         put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
             params: params,
             headers: admin.create_new_auth_token,
@@ -102,6 +102,20 @@ RSpec.describe 'Agents API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(other_agent.reload.name).to eq(params[:name])
+      end
+
+      it 'modifies an agents account user attributes' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { role: 'administrator', availability: 'busy', auto_offline: false },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data['role']).to eq('administrator')
+        expect(response_data['availability_status']).to eq('busy')
+        expect(response_data['auto_offline']).to eq(false)
+        expect(other_agent.account_users.first.role).to eq('administrator')
       end
     end
   end

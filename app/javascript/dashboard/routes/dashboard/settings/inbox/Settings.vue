@@ -245,10 +245,7 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize
-        v-if="isAFacebookInbox && inbox.reauthorization_required"
-        :inbox-id="inbox.id"
-      />
+      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <!-- update agents in inbox -->
@@ -319,6 +316,24 @@
           >
             <woot-code :script="inbox.hmac_token"></woot-code>
           </settings-section>
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+            :sub-title="
+              $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')
+            "
+          >
+            <div class="enter-to-send--checkbox">
+              <input
+                id="hmacMandatory"
+                v-model="hmacMandatory"
+                type="checkbox"
+                @change="handleHmacFlag"
+              />
+              <label for="hmacMandatory">
+                {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+              </label>
+            </div>
+          </settings-section>
         </div>
       </div>
       <div v-else-if="isAPIInbox" class="settings--content">
@@ -380,6 +395,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
       emailCollectEnabled: false,
@@ -514,6 +530,9 @@ export default {
         e.target.value
       );
     },
+    handleHmacFlag() {
+      this.updateInbox();
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -536,6 +555,7 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -592,6 +612,7 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
+            hmac_mandatory: this.hmacMandatory,
           },
         };
         if (this.avatarFile) {

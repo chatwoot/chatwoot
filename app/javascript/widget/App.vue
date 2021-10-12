@@ -19,12 +19,14 @@ import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
+import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'App',
   components: {
     Router,
   },
+  mixins: [availabilityMixin],
   data() {
     return {
       showUnreadView: false,
@@ -219,7 +221,11 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          this.initCampaigns({ currentURL: referrerURL, websiteToken });
+          this.initCampaigns({
+            currentURL: referrerURL,
+            websiteToken,
+            isInBusinessHours: this.isInBusinessHours,
+          });
           window.referrerURL = referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {

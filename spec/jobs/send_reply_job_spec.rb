@@ -64,5 +64,14 @@ RSpec.describe SendReplyJob, type: :job do
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
+
+    it 'calls ::Whatsapp:SendOnWhatsappService when its line message' do
+      whatsapp_channel = create(:channel_whatsapp)
+      message = create(:message, conversation: create(:conversation, inbox: whatsapp_channel.inbox))
+      allow(::Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message).and_return(process_service)
+      expect(::Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
   end
 end

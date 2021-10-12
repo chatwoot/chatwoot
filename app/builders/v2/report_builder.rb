@@ -68,15 +68,14 @@ class V2::ReportBuilder
          .count
   end
 
-  # unscoped removes all scopes added to a model previously
   def incoming_messages_count
-    scope.messages.unscoped.where(account_id: account.id).incoming
+    scope.messages.incoming.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def outgoing_messages_count
-    scope.messages.unscoped.where(account_id: account.id).outgoing
+    scope.messages.outgoing.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
