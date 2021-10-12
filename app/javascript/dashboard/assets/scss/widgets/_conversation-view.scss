@@ -17,7 +17,8 @@
     }
   }
 
-  .image {
+  .image,
+  .video {
     cursor: pointer;
     position: relative;
 
@@ -29,15 +30,28 @@
       max-width: 85%;
     }
 
+    .modal-video {
+      max-width: 100%;
+      max-height: 90vh;
+    }
+
     &::before {
       background-image: linear-gradient(-180deg, transparent 3%, $color-heading 130%);
       bottom: 0;
       content: '';
       height: 20%;
       left: 0;
-      opacity: .8;
+      opacity: 0.8;
       position: absolute;
       width: 100%;
+    }
+  }
+  .video {
+    .modal-container {
+      width: auto;
+      .modal--close {
+        z-index: var(--z-index-low);
+      }
     }
   }
 }

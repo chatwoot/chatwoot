@@ -173,7 +173,8 @@ export default {
   }
 }
 
-.is-image {
+.is-image,
+.is-video {
   .message-text--metadata {
     .time {
       bottom: var(--space-smaller);
@@ -194,7 +195,8 @@ export default {
     }
   }
 
-  &.is-image {
+  &.is-image,
+  &.is-video {
     .time {
       position: inherit;
       padding-left: var(--space-one);
