@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Megnyitás",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
-      "DETAILS": "részletek"
+      "DETAILS": "részletek",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Küldő:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
