@@ -1,5 +1,5 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
-import { playNewMessageNotificationInWidget } from '../../shared/helpers/AudioNotificationHelper.js';
+import { playNewMessageNotificationInWidget } from 'shared/helpers/AudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
