@@ -54,6 +54,7 @@
           "ERROR": "Le temps sur la page est requis"
         },
         "ENABLED": "Activer la campagne",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Ajouter une campagne"
       },
       "API": {
