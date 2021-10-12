@@ -2,7 +2,8 @@ class ApplicationMailbox < ActionMailbox::Base
   # Last part is the regex for the UUID
   # Eg: email should be something like : reply+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
   REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
-  CONVERSATION_UUID_PATTERN = %r{^<account/(\d+?)/conversation/([a-zA-Z0-9\-]*?)@(\w+\.\w+)>$}
+  CONVERSATION_MESSAGE_ID_PATTERN = %r{conversation/([a-zA-Z0-9\-]*?)/messages/(\d+?)@(\w+\.\w+)}
+
 
   def self.reply_mail?
     proc do |inbound_mail_obj|
@@ -41,7 +42,7 @@ class ApplicationMailbox < ActionMailbox::Base
     in_reply_to = inbound_mail_obj.mail['In-Reply-To'].value
     return false unless in_reply_to.present?
 
-    return true if in_reply_to.match(CONVERSATION_UUID_PATTERN)
+    return true if in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
 
     message = Message.find_by(source_id: in_reply_to)
     return true if message.present?

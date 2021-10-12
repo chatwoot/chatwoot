@@ -43,7 +43,6 @@ RSpec.describe ReplyMailbox, type: :mailbox do
       let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
       let(:described_subject) { described_class.receive reply_mail_without_uuid }
       let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
-      # let(:contact) { create(:contact, email: 'sony@chatwoot.com') }
       let(:conversation_1) do
         create(
           :conversation,
@@ -56,7 +55,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       before do
         conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
-        reply_mail_without_uuid.mail['In-Reply-To'] = "<account/#{account.id}/conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489@test.com>"
+        reply_mail_without_uuid.mail['In-Reply-To'] = "<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123@test.com>"
       end
 
       it 'find channel with reply to mail' do

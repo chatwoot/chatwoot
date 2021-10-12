@@ -50,11 +50,9 @@ class ReplyMailbox < ApplicationMailbox
     validate_resource @conversation
   end
 
-  def find_conversation_by_account_id(match_result)
-    @account = Account.find_by(id: match_result.captures[0])
-    return unless @account && @account.inbound_email_domain == match_result.captures[2]
+  def find_conversation_by_uuid(match_result)
+    @conversation_uuid = match_result.captures[0]
 
-    @conversation_uuid = match_result.captures[1]
     find_conversation_with_uuid
   end
 
@@ -65,13 +63,13 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   # find conversation uuid from below pattern
-  # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>
+  # <conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>
   def find_conversation_with_in_reply_to
     in_reply_to_email = mail['In-Reply-To'].value
-    match_result = in_reply_to_email.match(ApplicationMailbox::CONVERSATION_UUID_PATTERN)
-    byebug
+    match_result = in_reply_to_email.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN)
+
     if match_result
-      find_conversation_by_account_id(match_result)
+      find_conversation_by_uuid(match_result)
     else
       find_conversation_by_message_id(in_reply_to_email)
     end
