@@ -32,6 +32,8 @@
         "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Σίγαση Συνομιλίας",
     "UNMUTE_CONTACT": "Επαναφορά Συνομιλίας",
     "MUTED_SUCCESS": "Η συνομιλία είναι σε σίγαση (mute) για 6 ώρες",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "Νέα Επαφή",
     "TITLE": "Δημιουργία νέας επαφής",
     "DESC": "Προσθήκη βασικών πληροφοριών για την επαφή."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Άκυρο"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Επιβεβαίωση Διαγραφής",
+      "MESSAGE": "Είσαστε σίγουροι για την διαγραφή ",
+      "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {contactName} για επιβεβαίωση",
+      "YES": "Ναι, Διέγραψε τον/την ",
+      "NO": "Όχι, Κράτησε τον/την"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -192,7 +223,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
     "ADD": {
       "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
       "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Συγχώνευση επαφών",
-    "DESCRIPTION": "Η συγχώνευση επαφών είναι χρήσιμη όταν έχετε διπλότυπες καταχωρήσεις της ίδιας επαφής. Η ενέργεια συγχώνευσης κάνει μια κύρια επαφή και μια επαφή δευτερεύουσα. Μετά τη συγχώνευση, όλα τα στοιχεία στην κύρια επαφή θα παραμείνουν τα ίδια. Αν η κύρια επαφή δεν έχει πεδίο, τότε η τιμή από την δευτερεύουσα επαφή παιδιού θα χρησιμοποιηθεί στη συγχώνευση. Αν συμβεί μια σύγκρουση, τα πεδία της κύριας επαφής θα παραμείνουν ανεπηρέαστα, αλλά τα πεδία της δευτερεύουσας θα αντιγραφούν στις προσαρμοσμένες ιδιότητες της κύρια επαφής.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Κύρια επαφή"
+      "TITLE": "Κύρια επαφή",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Επαφή για συγχώνευση",
-      "PLACEHOLDER": "Επιλογή επαφής"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Η επαφή του <strong>%{childContactName}</strong>θα διαγραφεί.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{childContactName}</strong> θα αντιγραφούν στο <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Επιλέξτε μια θυγατρική επαφή για συγχώνευση"
       },
       "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
-      "ERROR_MESSAGE": "Αδυναμία συγχώνευσης των επαφών, προσπαθήστε ξανά!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }
