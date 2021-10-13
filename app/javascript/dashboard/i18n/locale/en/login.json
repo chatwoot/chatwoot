@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Login to Fifth Point Message Centre",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "PLACEHOLDER": "Email eg: someone@fifthpointdiving.co.uk"
     },
     "PASSWORD": {
       "LABEL": "Password",
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
+      "ERROR_MESSAGE": "Could not connect to CIITS Server, Please try again later",
       "UNAUTH": "Username / Password Incorrect. Please try again"
     },
     "FORGOT_PASSWORD": "Forgot your password?",
