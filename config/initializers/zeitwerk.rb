@@ -1,5 +1,5 @@
 Rails.autoloaders.each do |autoloader|
   autoloader.inflector.inflect(
-    "ee" => "EE"
+    'ee' => 'EE'
   )
 end

@@ -7,15 +7,19 @@ module ChatwootApp
     Pathname.new(File.expand_path('..', __dir__))
   end
 
+  def self.max_limit
+    100_000
+  end
+
   def self.ee?
-    # Disable EE using environment variables when testing 
+    # Disable EE using environment variables when testing
     return if ENV.fetch('DISABLE_EE', false)
 
-    @is_ee ||= root.join('ee').exist?
+    @ee ||= root.join('ee').exist?
   end
 
   def self.custom?
-    @is_ee ||= root.join('custom').exist?
+    @custom ||= root.join('custom').exist?
   end
 
   def self.extensions

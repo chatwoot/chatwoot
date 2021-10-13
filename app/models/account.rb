@@ -20,7 +20,7 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
-  prepend_mod_with('Account') 
+  prepend_mod_with('Account')
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -109,9 +109,9 @@ class Account < ApplicationRecord
   end
 
   def usage_limits
-    { 
-      agents: 1000000,
-      inboxes: 1000000
+    {
+      agents: ChatwootApp.max_limit,
+      inboxes: ChatwootApp.max_limit
     }
   end
 

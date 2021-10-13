@@ -15,7 +15,9 @@ module Chatwoot
 
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('ee/lib')
+    # rubocop:disable Rails/FilePath
     config.eager_load_paths += Dir["#{Rails.root}/ee/app/**"]
+    # rubocop:enable Rails/FilePath
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
