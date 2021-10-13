@@ -112,7 +112,10 @@ class Telegram::IncomingMessageService
   end
 
   def file
-    @file ||= params[:message][:photo].presence&.last || params.dig(:message, :sticker, :thumb).presence || params[:message][:voice].presence || params[:message][:audio].presence ||
-              params[:message][:video].presence || params[:message][:document].presence
+    @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
+  end
+
+  def visual_media_params
+    params[:message][:photo].presence&.last || params.dig(:message, :sticker, :thumb).presence || params[:message][:video].presence
   end
 end
