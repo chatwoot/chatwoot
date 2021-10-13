@@ -3,7 +3,7 @@
     "TITLE": "Login to Fifth Point Message Centre",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@fifthpointdiving.co.uk"
+      "PLACEHOLDER": "someone@fifthpointdiving.co.uk"
     },
     "PASSWORD": {
       "LABEL": "Password",
