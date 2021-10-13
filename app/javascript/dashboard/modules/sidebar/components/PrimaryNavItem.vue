@@ -3,7 +3,7 @@
     <a
       :href="href"
       class="button clear button--only-icon menu-item"
-      :class="{ 'is-active': isActive }"
+      :class="{ 'is-active': isActive || isChildMenuActive }"
       @click="navigate"
     >
       <i class="icon" :class="icon" />
@@ -30,6 +30,10 @@ export default {
     count: {
       type: String,
       default: '',
+    },
+    isChildMenuActive: {
+      type: Boolean,
+      default: false,
     },
   },
 };

@@ -118,6 +118,7 @@ export default {
       if (this.shouldShowNotificationsSideMenu) return false;
       return true;
     },
+    activeParentRouteName() {},
   },
   mounted() {
     this.$store.dispatch('labels/get');

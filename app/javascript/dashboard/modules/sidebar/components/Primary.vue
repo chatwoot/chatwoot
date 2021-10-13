@@ -12,6 +12,7 @@
         :icon="menuItem.icon"
         :name="menuItem.label"
         :to="menuItem.toState"
+        :is-child-menu-active="false"
       />
     </nav>
     <div class="menu vertical user-menu">

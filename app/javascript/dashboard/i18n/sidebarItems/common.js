@@ -19,7 +19,8 @@ const common = accountId => ({
     assignedToMe: {
       icon: 'ion-chatbox-working',
       label: 'CONVERSATIONS',
-      hasSubMenu: false,
+      hasSubMenu: true,
+      meta: { home: 'neber' },
       key: '',
       toState: frontendURL(`accounts/${accountId}/dashboard`),
       toolTip: 'Conversation from all subscribed inboxes',
