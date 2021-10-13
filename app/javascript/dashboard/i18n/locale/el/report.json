@@ -62,7 +62,7 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Επισκόπηση Πρακτόρων",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
@@ -125,11 +125,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Επισκόπηση Ετικετών",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Λήψη αναφορών ετικέτας",
+    "FILTER_DROPDOWN_LABEL": "Επιλογή Ετικέτας",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -188,10 +188,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Επισκόπηση Εισερχομένων",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Λήψη αναφορών εισερχομένων",
     "FILTER_DROPDOWN_LABEL": "Επιλογή Εισερχομένων",
     "METRICS": {
       "CONVERSATIONS": {
@@ -251,11 +251,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Επισκόπηση Ομάδας",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Λήψη αναφορών ομάδας",
+    "FILTER_DROPDOWN_LABEL": "Επιλογή Ομάδας",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
