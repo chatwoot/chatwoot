@@ -41,9 +41,7 @@ class ConversationReplyMailer < ApplicationMailer
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
-           in_reply_to: in_reply_to_email,
-           cc: cc_bcc_emails[0],
-           bcc: cc_bcc_emails[1]
+           in_reply_to: in_reply_to_email
          })
   end
 
@@ -59,7 +57,9 @@ class ConversationReplyMailer < ApplicationMailer
                                reply_to: reply_email,
                                subject: mail_subject,
                                message_id: custom_message_id,
-                               in_reply_to: in_reply_to_email
+                               in_reply_to: in_reply_to_email,
+                               cc: cc_bcc_emails[0],
+                               bcc: cc_bcc_emails[1]
                              })
 
     message.update(source_id: reply_mail_object.message_id)
