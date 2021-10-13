@@ -44,8 +44,8 @@
 
 
 .menu-list-leave-to {
-  position: absolute;
   opacity: 0;
+  position: absolute;
   transform: translateX($space-small);
 }
 
@@ -82,8 +82,8 @@
 
 /* .slide-fade-leave-active for <2.1.8 */
   {
-  transform: translateY($space-small);
   opacity: 0;
+  transform: translateY($space-small);
 }
 
 
@@ -100,8 +100,8 @@
 
 /* .toast-fade-leave-active for <2.1.8 */
   {
-  transform: translateY(-$space-small);
   opacity: 0;
+  transform: translateY(-$space-small);
 }
 
 .modal-fade-enter-active {
