@@ -9,7 +9,9 @@
         </span>
       </h5>
       <p class="option__body">
-        <span v-if="email"><i class="icon ion-email" />{{ email }}</span>
+        <span v-if="email" class="email-icon-wrap">
+          <i class="icon ion-email" />{{ email }}
+        </span>
         <span v-if="phoneNumber" class="phone-icon-wrap">
           <i class="icon ion-ios-telephone" />
           {{ phoneNumber }}
@@ -59,20 +61,26 @@ export default {
 }
 .user-identifier {
   font-size: var(--font-size-mini);
-  margin-left: var(--space-smaller);
+  margin-left: var(--space-micro);
   color: var(--s-700);
 }
 .option__user-data {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  margin-left: var(--space-small);
 }
 .option__body,
 .option__title {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   line-height: 1.2;
   font-size: var(--font-size-small);
 }
 .option__body .icon {
+  position: relative;
+  top: 1px;
   margin-right: var(--space-micro);
 }
 .option__title {
@@ -81,10 +89,17 @@ export default {
 }
 .option__body {
   font-size: var(--font-size-mini);
-  margin-left: var(--space-small);
   color: var(--s-700);
 }
-.phone-icon-wrap {
-  margin-left: var(--space-small);
+
+.email-icon-wrap {
+  margin-right: var(--space-normal);
+}
+
+.option__user-data .option__body {
+  > .phone-icon-wrap,
+  > .email-icon-wrap {
+    width: auto;
+  }
 }
 </style>

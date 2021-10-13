@@ -72,6 +72,15 @@
                 :phone-number="props.option.phone_number"
               />
             </template>
+            <template slot="option" slot-scope="props">
+              <contact-dropdown-item
+                :thumbnail="props.option.thumbnail"
+                :identifier="props.option.id"
+                :name="props.option.name"
+                :email="props.option.email"
+                :phone-number="props.option.phone_number"
+              />
+            </template>
             <span slot="noResult">
               {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
             </span>
@@ -206,12 +215,6 @@ export default {
   position: absolute;
   top: -11px;
   left: var(--space-normal);
-}
-
-::v-deep .multiselect__tags .option__title {
-  display: inline-flex;
-  align-items: center;
-  margin-left: var(--space-small);
 }
 
 .footer {
