@@ -119,11 +119,12 @@ export const actions = {
   },
 
   deleteAvatar: async ({ commit }) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       await authAPI.deleteAvatar();
       commit(types.default.SET_CURRENT_USER);
     } catch (error) {
-      // Ignore error
+      throw error;
     }
   },
 

@@ -17,7 +17,7 @@ const i18nConfig = new VueI18n({
 });
 
 describe('AvailabilityStatus', () => {
-  const currentAvailabilityStatus =  'online' ;
+  const currentAvailabilityStatus = 'online';
   const currentAccountId = '1';
   let store = null;
   let actions = null;

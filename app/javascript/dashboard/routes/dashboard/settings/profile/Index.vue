@@ -14,10 +14,7 @@
             :src="avatarUrl"
             @change="handleImageUpload"
           />
-          <div
-            v-if="!avatarUrl && !avatarUrl.includes('www.gravatar.com')"
-            class="avatar-delete-btn"
-          >
+          <div v-if="showDeleteButton" class="avatar-delete-btn">
             <woot-button
               type="button"
               color-scheme="alert"
@@ -25,7 +22,7 @@
               size="small"
               @click="deleteAvatar"
             >
-              {{ $t('PROFILE_SETTINGS.DEL_AVATAR') }}
+              {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
             </woot-button>
           </div>
           <label :class="{ error: $v.name.$error }">
@@ -191,6 +188,9 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
+    },
+    showDeleteButton() {
+      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
   },
 };
