@@ -146,6 +146,15 @@
           />
           {{ $t('CAMPAIGN.ADD.FORM.ENABLED') }}
         </label>
+        <label v-if="isOngoingType">
+          <input
+            v-model="triggerOnlyDuringBusinessHours"
+            type="checkbox"
+            value="triggerOnlyDuringBusinessHours"
+            name="triggerOnlyDuringBusinessHours"
+          />
+          {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
+        </label>
       </div>
 
       <div class="modal-footer">
@@ -185,6 +194,7 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
+      triggerOnlyDuringBusinessHours: false,
       scheduledAt: null,
       selectedAudience: [],
       senderList: [],
@@ -280,6 +290,9 @@ export default {
           inbox_id: this.selectedInbox,
           sender_id: this.selectedSender || null,
           enabled: this.enabled,
+          trigger_only_during_business_hours:
+            // eslint-disable-next-line prettier/prettier
+            this.triggerOnlyDuringBusinessHours,
           trigger_rules: {
             url: this.endPoint,
             time_on_page: this.timeOnPage,

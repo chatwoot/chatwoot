@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="chatBadge"
+        :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -74,20 +74,8 @@ export default {
       currentChat: 'getSelectedChat',
     }),
 
-    chatExtraAttributes() {
-      return this.chat.additional_attributes;
-    },
-
     chatMetadata() {
       return this.chat.meta;
-    },
-
-    chatBadge() {
-      if(this.chatExtraAttributes['type']){
-        return this.chatExtraAttributes['type']
-      } else {
-        return this.chatMetadata.channel
-      }
     },
 
     currentContact() {

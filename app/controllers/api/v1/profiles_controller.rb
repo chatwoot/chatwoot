@@ -1,9 +1,7 @@
 class Api::V1::ProfilesController < Api::BaseController
   before_action :set_user
 
-  def show
-    render partial: 'api/v1/models/user.json.jbuilder', locals: { resource: @user }
-  end
+  def show; end
 
   def update
     if password_params[:password].present?
@@ -20,10 +18,18 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
+  def availability
+    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+  end
+
   private
 
   def set_user
     @user = current_user
+  end
+
+  def availability_params
+    params.require(:profile).permit(:account_id, :availability)
   end
 
   def profile_params
@@ -32,7 +38,6 @@ class Api::V1::ProfilesController < Api::BaseController
       :name,
       :display_name,
       :avatar,
-      :availability,
       ui_settings: {}
     )
   end
