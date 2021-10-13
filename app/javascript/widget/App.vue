@@ -258,7 +258,7 @@ export default {
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
-          this.isWidgetOpened = message.isOpen;
+          this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
         }
       });
