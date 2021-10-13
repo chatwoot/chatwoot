@@ -73,6 +73,9 @@ export default {
       if (this.isATwilioChannel) {
         return this.twilioBadge;
       }
+      if (this.isAWhatsappChannel) {
+        return 'whatsapp';
+      }
       return this.channelType;
     },
     isAWhatsappChannel() {
