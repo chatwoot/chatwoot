@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "Επικύρωση Ταυτότητας Χρήστη",
       "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identity_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ.",
       "HMAC_MANDATORY_VERIFICATION": "Επιβολή Επαλήθευσης Ταυτότητας Χρήστη",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "Αν ενεργοποιηθεί, η μέθοδος Chatwoot SDKs setUser δε θα λειτουργήσει παρά μόνο αν το `identifier_hash` παρέχεται για κάθε χρήστη.",
       "INBOX_IDENTIFIER": "Αναγνωριστικό Εισερχόμενων",
       "INBOX_IDENTIFIER_SUB_TEXT": "Χρησιμοποιήστε το διακριτικό `inbox_identifier` που εμφανίζεται εδώ για τον έλεγχο ταυτότητας των πελατών API.",
       "FORWARD_EMAIL_TITLE": "Προώθηση στο email",
