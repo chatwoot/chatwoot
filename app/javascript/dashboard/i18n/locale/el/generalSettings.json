@@ -74,10 +74,10 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Αποσυνδέθηκε από το Chatwood"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Ανανέωση"
     }
   }
 }
