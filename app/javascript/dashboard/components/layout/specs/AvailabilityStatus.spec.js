@@ -34,7 +34,7 @@ describe('AvailabilityStatus', () => {
     modules = {
       auth: {
         getters: {
-          getCurrentUserAvailabilityStatus: () => currentAvailabilityStatus,
+          getCurrentUserAvailability: () => currentAvailability,
           getCurrentAccountId: () => currentAccountId,
         },
       },
