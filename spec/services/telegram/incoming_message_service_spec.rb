@@ -95,6 +95,36 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when valid sticker attachment params' do
+      it 'creates appropriate conversations, message and contacts' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.png')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'message_id' => 1,
+            'from' => {
+              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
+            },
+            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
+            'date' => 1_631_132_077,
+            'sticker' => {
+              'emoji' => '👍', 'width' => 512, 'height' => 512, 'set_name' => 'a834556273_by_HopSins_1_anim', 'is_animated' => 1, 'thumb' => {
+                'file_id' => 'AAMCAQADGQEAA0dhXpKorj9CiRpNX3QOn7YPZ6XS4AAC4wADcVG-MexptyOf8SbfAQAHbQADIQQ',
+                'file_unique_id' => 'AQAD4wADcVG-MXI', 'file_size' => 4690, 'width' => 128, 'height' => 128
+              },
+              'file_id' => 'CAACAgEAAxkBAANHYV6SqK4_QokaTV90Dp-2D2el0uAAAuMAA3FRvjHsabcjn_Em3yEE',
+              'file_unique_id' => 'AgAD4wADcVG-MQ',
+              'file_size' => 7340
+            }
+          }
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
+      end
+    end
+
     context 'when valid video messages params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.mov')
