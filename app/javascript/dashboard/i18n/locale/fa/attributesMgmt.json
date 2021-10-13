@@ -2,83 +2,83 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "ویژگی ها",
     "HEADER_BTN_TXT": "افزودن ویژگی",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "LOADING": "واکشی ویژگی ها",
+    "SIDEBAR_TXT": "<p><b>ویژگی ها</b> <p> یک ویژگی سفارشی اطلاعات مربوط به مخاطبین یا مکالمات شما را ردیابی می کند - مانند طرح های اشتراکی یا زمانی که اولین مورد را سفارش داده اند و غیره. <br /><br /> برای ایجاد ویژگیها ، فقط روی <b> افزودن ویژگی. </b> کلیک کنید. همچنین می توانید با کلیک روی دکمه ویرایش یا حذف ، یک ویژگی موجود را ویرایش یا حذف کنید. </p>",
     "ADD": {
       "TITLE": "افزودن ویژگی",
       "SUBMIT": "ايجاد كردن",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "نمایش نام",
+          "PLACEHOLDER": "نام نمایشی ویژگی را وارد کنید",
+          "ERROR": "نام الزامی است"
         },
         "DESC": {
           "LABEL": "توضیحات",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "توضیحات ویژگی را وارد کنید",
+          "ERROR": "توضیحات الزامی است"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "مدل",
+          "PLACEHOLDER": "لطفا مدل را انتخاب کنید",
+          "ERROR": "مدل مورد نیاز است"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "نوع",
           "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
-          "ERROR": "Type is required"
+          "ERROR": "نوع الزامی است"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "کلید"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "ویژگی با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "ویژگی ایجاد نشد ، لطفاً بعداً دوباره امتحان کنید"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "ویژگی با موفقیت حذف شد.",
+        "ERROR_MESSAGE": "ویژگی حذف نشد. دوباره امتحان کنید."
       },
       "CONFIRM": {
         "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - %{attributeName}",
         "PLACE_HOLDER": "برای تایید لطفا {attributeName} را تایپ کنید",
-        "MESSAGE": "Deleting will remove the attribute",
+        "MESSAGE": "با حذف ویژگی ، ویژگی به طور کامل پاک می شود",
         "YES": "حذف ",
         "NO": "انصراف"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "ویرایش ویژگی",
       "UPDATE_BUTTON_TEXT": "اعمال شود",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "ویژگی با موفقیت به روز شد",
+        "ERROR_MESSAGE": "هنگام بروزرسانی ویژگی خطایی روی داد ، لطفاً دوباره امتحان کنید"
       }
     },
     "TABS": {
       "HEADER": "ویژگی‌های سفارشی",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "گفتگو",
       "CONTACT": "مخاطب"
     },
     "LIST": {
       "TABLE_HEADER": [
         "نام",
         "توضیحات",
-        "Type",
-        "Key"
+        "نوع",
+        "کلید"
       ],
       "BUTTONS": {
         "EDIT": "ویرایش",
         "DELETE": "حذف"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "هیچ ویژگی ایجاد نشده است",
+        "NOT_FOUND": "هیچ ویژگی پیکربندی نشده است"
       }
     }
   }
