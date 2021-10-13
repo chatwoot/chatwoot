@@ -47,8 +47,8 @@ export default {
       default: '',
     },
     identifier: {
-      type: String,
-      default: '',
+      type: [String, Number],
+      required: true,
     },
   },
 };
