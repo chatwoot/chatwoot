@@ -32,8 +32,8 @@
         "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Συγχώνευση επαφής",
+    "CONTACT_ACTIONS": "Ενέργειες επαφής",
     "MUTE_CONTACT": "Σίγαση Συνομιλίας",
     "UNMUTE_CONTACT": "Επαναφορά Συνομιλίας",
     "MUTED_SUCCESS": "Η συνομιλία είναι σε σίγαση (mute) για 6 ώρες",
@@ -57,22 +57,22 @@
     "DESC": "Προσθήκη βασικών πληροφοριών για την επαφή."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Εισαγωγή",
+    "TITLE": "Εισαγωγή Επαφών",
+    "DESC": "Εισαγωγή επαφών μέσω αρχείου CSV.",
+    "DOWNLOAD_LABEL": "Λήψη δείγματος csv.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Αρχείο CSV",
+      "SUBMIT": "Εισαγωγή",
       "CANCEL": "Άκυρο"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Οι επαφές αποθηκεύτηκαν με επιτυχία",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Διαγραφή Επαφής",
+    "TITLE": "Διαγραφή Επαφής",
+    "DESC": "Επεξεργασία λεπτομερειών επαφής",
     "CONFIRM": {
       "TITLE": "Επιβεβαίωση Διαγραφής",
       "MESSAGE": "Είσαστε σίγουροι για την διαγραφή ",
@@ -81,8 +81,8 @@
       "NO": "Όχι, Κράτησε τον/την"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Η επαφή διαγράφηκε επιτυχώς",
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
     }
   },
   "CONTACT_FORM": {
@@ -244,19 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Συγχώνευση επαφών",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Συγχώνευση επαφών, για να συνδυάσετε δύο προφίλ σε ένα, συμπεριλαμβανομένων όλων των χαρακτηριστικών και συνομιλιών. Σε περίπτωση σύγκρουσης, τα χαρακτηριστικά της κύριας επαφής υπερισχύουν.",
     "PRIMARY": {
       "TITLE": "Κύρια επαφή",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Να διατηρούνται"
     },
     "CHILD": {
       "TITLE": "Επαφή για συγχώνευση",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Αναζήτηση επαφής",
+      "HELP_LABEL": "Να διαγραφεί"
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "Η επαφή του <strong>%{childContactName}</strong>θα διαγραφεί.",
       "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{childContactName}</strong> θα αντιγραφούν στο <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +269,7 @@
         "ERROR": "Επιλέξτε μια θυγατρική επαφή για συγχώνευση"
       },
       "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!"
     }
   }
 }
