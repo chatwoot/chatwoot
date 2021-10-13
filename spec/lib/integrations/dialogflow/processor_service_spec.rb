@@ -89,5 +89,14 @@ describe Integrations::Dialogflow::ProcessorService do
         expect(processor.perform).to be(nil)
       end
     end
+
+    context 'when message updated' do
+      let(:message) { create(:message, account: account, conversation: conversation, private: true, submitted_values: [{"title"=>"Support", "value"=>"selected_gas"}]) }
+      let(:event_name) { 'message.updated' }
+
+      it 'returns submitted value for message content' do
+         expect(processor.send(:message_content, message)).to eql('selected_gas')
+      end
+    end
   end
 end
