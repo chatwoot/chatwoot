@@ -15,7 +15,7 @@ checks:
   similar-code:
     enabled: false
   method-count:
-      enabled: true
+    enabled: true
     config:
       threshold: 25
 exclude_patterns:
