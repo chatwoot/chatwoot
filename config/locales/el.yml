@@ -83,7 +83,7 @@ el:
       response: "Παρακαλώ αξιολογήστε αυτήν την συνομιλία, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
   integration_apps:
     slack:
       name: "Slack"
