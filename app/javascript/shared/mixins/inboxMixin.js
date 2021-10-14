@@ -64,7 +64,7 @@ export default {
       return this.chatAdditionalAttributes.type || 'facebook';
     },
     inboxBadge() {
-      const badgeKey = '';
+      let badgeKey = '';
       if (this.isATwitterInbox) {
         badgeKey = this.twitterBadge;
       } else if (this.isAFacebookInbox) {
