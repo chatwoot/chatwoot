@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Åpne",
       "OPEN": "Mer",
       "CLOSE": "Lukk",
-      "DETAILS": "detaljer"
+      "DETAILS": "detaljer",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Tildelt agent er endret",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sendt av:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Velg agent",

@@ -27,10 +27,18 @@ pl:
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
       agent_name: Nazwa agenta
+      conversations_count: Liczba rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    team_csv:
+      team_name: Team name
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
@@ -73,6 +81,9 @@ pl:
       transcript_subject: "Transkrypcja rozmowy"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
