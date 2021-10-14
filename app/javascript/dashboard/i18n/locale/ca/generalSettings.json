@@ -71,5 +71,13 @@
       "assigned_conversation_new_message": "Missatge Nou",
       "conversation_mention": "Menció"
     }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    }
   }
 }

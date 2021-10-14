@@ -32,6 +32,8 @@
         "NO_RESULT": "لم يتم العثور على تصنيفات"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "كتم المحادثة",
     "UNMUTE_CONTACT": "إلغاء كتم المحادثة",
     "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "جهة اتصال جديدة",
     "TITLE": "إنشاء جهة اتصال جديدة",
     "DESC": "إضافة معلومات أساسية حول جهة الاتصال."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "إلغاء"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "تأكيد الحذف",
+      "MESSAGE": "هل أنت متأكد من الحذف ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "نعم، احذف ",
+      "NO": "لا، احتفظ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "دمج جهة الاتصال",
-    "DESCRIPTION": "دمج جهة الاتصال مفيد عندما يكون لديك مدخلات مكررة لنفس جهة الاتصال. عملية الدمج تأخذ جهة اتصال رئيسية وتدمجها بجهة الاتصال المكررة. بعد الدمج، ستبقى جميع التفاصيل في جهة الاتصال الرئيسية كما هي. إذا لم يكن لدى جهة الاتصال الرئيسية حقل ، فسيتم استخدام القيمة من جهة الاتصال المكررة بعد الدمج. إذا حدث تضارب بالبيانات، ستبقى الحقول في جهة الاتصال الأساسية غير متأثرة، ولكن الحقول من جهة الاتصال الثانوية سيتم نسخها إلى السمات المخصصة في جهة الاتصال الرئيسية.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "جهة الاتصال الرئيسية"
+      "TITLE": "جهة الاتصال الرئيسية",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "دمج جهة الإتصال",
-      "PLACEHOLDER": "اختر جهة اتصال"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "ملخص",
-      "DELETE_WARNING": "الاتصال بـ <strong>%{childContactName}</strong>سيتم حذفه.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{childContactName}</strong> إلى <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "حدد جهة اتصال فرعية للدمج"
       },
       "SUCCESS_MESSAGE": "تم دمج جهة الاتصال بنجاح",
-      "ERROR_MESSAGE": "تعذر دمج جهات الاتصال ، حاول مرة أخرى!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

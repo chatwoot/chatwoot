@@ -1,119 +1,150 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Non Disponibile",
     "EMAIL_ADDRESS": "Indirizzo email",
     "PHONE_NUMBER": "Numero di telefono",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Copiato negli appunti con successo",
+    "COMPANY": "Azienda",
     "LOCATION": "Localizzazione",
     "CONVERSATION_TITLE": "Dettagli conversazione",
     "BROWSER": "Browser",
     "OS": "Sistema Operativo",
     "INITIATED_FROM": "Iniziato da",
     "INITIATED_AT": "Iniziato alle",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "Indirizzo IP",
+    "NEW_MESSAGE": "Nuovo messaggio",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
       "TITLE": "Conversazioni precedenti"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Etichette Di Contatto",
+        "ERROR": "Impossibile aggiornare le etichette"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "Etichette Di Conversazione",
+        "ADD_BUTTON": "Aggiungi Etichette"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Aggiungi Etichette",
+        "PLACEHOLDER": "Cerca etichette",
+        "NO_RESULT": "Nessuna etichetta trovata"
       }
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
+    "MUTE_CONTACT": "Silenzia La Conversazione",
+    "UNMUTE_CONTACT": "Riattiva La Conversazione",
+    "MUTED_SUCCESS": "Questa conversazione è silenziata per 6 ore",
+    "UNMUTED_SUCCESS": "Questa conversazione non è più silenziata",
+    "SEND_TRANSCRIPT": "Invia Trascrizione",
     "EDIT_LABEL": "Modifica",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
+      "CUSTOM_ATTRIBUTES": "Attributi Personalizzati",
+      "CONTACT_LABELS": "Etichette Di Contatto",
       "PREVIOUS_CONVERSATIONS": "Conversazioni precedenti"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "BUTTON_LABEL": "Modifica Contatto",
+    "TITLE": "Modifica Contatto",
+    "DESC": "Modifica dettagli contatto"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Nuovo Contatto",
+    "TITLE": "Crea nuovo contatto",
+    "DESC": "Aggiungi informazioni di base sul contatto."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "annulla"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Conferma eliminazione",
+      "MESSAGE": "Sei sicuro di voler eliminare ",
+      "PLACE_HOLDER": "Digita {contactName} per confermare",
+      "YES": "Sì, elimina ",
+      "NO": "No, Conserva "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Invia",
       "CANCEL": "annulla",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Immagine del contatto"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
+        "PLACEHOLDER": "Inserisci il nome completo del contatto",
         "LABEL": "Nome Completo"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Inserisci la biografia del contatto",
+        "LABEL": "Biografia"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Inserisci l'indirizzo email del contatto",
         "LABEL": "Indirizzo email"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "PLACEHOLDER": "Inserisci il numero di telefono del contatto",
+        "LABEL": "Numero di telefono",
+        "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice di zona][numero di telefono locale]",
+        "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Inserisci la posizione del contatto",
         "LABEL": "Localizzazione"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Inserisci il nome dell'azienda",
+        "LABEL": "Nome Azienda"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Inserisci il nome utente di Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Inserisci il nome utente Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Inserisci il nome utente LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Inserisci il nome utente GitHub",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "Contatto salvato con successo",
+    "CONTACT_ALREADY_EXIST": "Questo indirizzo email è in uso per un altro contatto.",
+    "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
+    "BUTTON_LABEL": "Avvia Conversazione",
+    "TITLE": "Nuova conversazione",
+    "DESC": "Avviare una nuova conversazione inviando un nuovo messaggio.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
@@ -151,7 +182,7 @@
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
+        "COMPANY": "Azienda",
         "EMAIL_ADDRESS": "Indirizzo email"
       },
       "VIEW_DETAILS": "View details"
@@ -213,30 +244,32 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>%{childContactName}</strong> verranno copiati in <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Unisci contatti",
       "CANCEL": "annulla",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Seleziona un contatto figlio da unire"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "SUCCESS_MESSAGE": "Contatto unito con successo",
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }
