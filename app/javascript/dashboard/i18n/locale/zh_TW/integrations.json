@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "編輯",
-        "TITLE": "Edit webhook",
+        "TITLE": "編輯 Webhook",
         "CANCEL": "取消",
         "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
         "FORM": {
@@ -28,7 +28,7 @@
             "PLACEHOLDER": "例如：https://example/api/webhook",
             "ERROR": "請輸入一個有效的 URL"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "編輯 Webhook"
         },
         "API": {
           "SUCCESS_MESSAGE": "Webhook URL updated successfully",
