@@ -20,7 +20,7 @@ class ReplyMailbox < ApplicationMailbox
   def find_relative_conversation
     if @conversation_uuid
       find_conversation_with_uuid
-    elsif mail['In-Reply-To'].try(:value).present?
+    elsif mail.in_reply_to.present?
       find_conversation_with_in_reply_to
     end
   end
@@ -63,7 +63,7 @@ class ReplyMailbox < ApplicationMailbox
   # find conversation uuid from below pattern
   # <conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>
   def find_conversation_with_in_reply_to
-    in_reply_to = mail['In-Reply-To'].try(:value)
+    in_reply_to = mail.in_reply_to
     match_result = in_reply_to.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN) if in_reply_to.present?
 
     if match_result
