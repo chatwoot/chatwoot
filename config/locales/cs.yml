@@ -27,10 +27,18 @@ cs:
       invalid_email: Zadali jste neplatný e-mail
       email_already_exists: "Již jste se zaregistrovali k účtu s %{email}"
       failed: Registrace se nezdařila
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Jméno agenta
+      conversations_count: Conversations count
+      avg_first_response_time: Prům. doba první odpovědi (minuty)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Prům. doba první odpovědi (minuty)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -73,6 +81,9 @@ cs:
       transcript_subject: "Přepis konverzace"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

@@ -32,6 +32,8 @@
         "NO_RESULT": "Метки не найдены"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Заглушить диалог",
     "UNMUTE_CONTACT": "Включить звук диалога",
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "Новый контакт",
     "TITLE": "Создать новый контакт",
     "DESC": "Добавить основную информацию о контакте."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Импорт",
+    "TITLE": "Импорт контактов",
+    "DESC": "Импорт контактов из CSV-файла.",
+    "DOWNLOAD_LABEL": "Скачать образец csv-файла.",
+    "FORM": {
+      "LABEL": "CSV файл",
+      "SUBMIT": "Импорт",
+      "CANCEL": "Отменить"
+    },
+    "SUCCESS_MESSAGE": "Контакты успешно сохранены",
+    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Удалить контакт",
+    "TITLE": "Удалить контакт",
+    "DESC": "Удалить данные контакта",
+    "CONFIRM": {
+      "TITLE": "Подтвердите удаление",
+      "MESSAGE": "Вы точно хотите удалить ",
+      "PLACE_HOLDER": "Пожалуйста, введите {contactName} для подтверждения",
+      "YES": "Да, удалить ",
+      "NO": "Нет, не удалять "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Кампания успешно удалена",
+      "ERROR_MESSAGE": "Не удалось удалить канал. Пожалуйста, повторите попытку позже."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -192,7 +223,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Добавить пользовательский атрибут",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Для этого контакта нет доступных пользовательских атрибутов.",
     "ADD": {
       "TITLE": "Создать пользовательский атрибут",
       "DESC": "Добавить пользовательскую информацию этому контакту."
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Объединить контакты",
-    "DESCRIPTION": "Объединение контактов полезно, когда у вас есть несколько похожих записей контактов. Объединение связывает первичный контакт и похожие контакты. После слияния все детали основного контакта останутся прежними. Если первичный контакт не имеет поля, то значение из похожих контактов будут использованы после слияния. Если произойдет конфликт, поля в первичном контакте не будут затронуты, но поля похожего контакта будут скопированы в дополнительные поля основного.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Основной контакт"
+      "TITLE": "Основной контакт",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Контакт для слияния",
-      "PLACEHOLDER": "Выберите контакт"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> будет удален.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Контактная информация <strong>%{childContactName}</strong> будет скопирована в <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Выберите контакт, для объединения"
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
-      "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

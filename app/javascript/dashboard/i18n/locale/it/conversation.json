@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Apri",
       "OPEN": "Ulteriori",
       "CLOSE": "Chiudi",
-      "DETAILS": "Dettagli"
+      "DETAILS": "Dettagli",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Modifica conversazione assegnatario",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
@@ -101,7 +105,7 @@
     "SUBMIT": "Invia",
     "CANCEL": "annulla",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
@@ -146,7 +150,7 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_LABELS": "Etichette Di Conversazione",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Conversazioni precedenti"
