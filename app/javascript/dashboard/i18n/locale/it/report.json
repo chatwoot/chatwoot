@@ -1,9 +1,9 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Panoramica",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -41,49 +41,301 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Ultimi 3 mesi"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Ultimi 6 mesi"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Ultimo anno"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Intervallo di date personalizzato"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Caricamento dati grafici...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
+    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversazioni",
+        "DESC": "(Totale )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messaggi in arrivo",
+        "DESC": "(Totale )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messaggi in uscita",
+        "DESC": "(Totale )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Tempo di prima risposta",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Risoluzione Tempo",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Conteggio risoluzioni",
+        "DESC": "(Totale )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimi 7 giorni"
+      },
+      {
+        "id": 1,
+        "name": "Ultimi 30 giorni"
+      },
+      {
+        "id": 2,
+        "name": "Ultimi 3 mesi"
+      },
+      {
+        "id": 3,
+        "name": "Ultimi 6 mesi"
+      },
+      {
+        "id": 4,
+        "name": "Ultimo anno"
+      },
+      {
+        "id": 5,
+        "name": "Intervallo di date personalizzato"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Caricamento dati grafici...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversazioni",
+        "DESC": "(Totale )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messaggi in arrivo",
+        "DESC": "(Totale )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messaggi in uscita",
+        "DESC": "(Totale )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Tempo di prima risposta",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Risoluzione Tempo",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Conteggio risoluzioni",
+        "DESC": "(Totale )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimi 7 giorni"
+      },
+      {
+        "id": 1,
+        "name": "Ultimi 30 giorni"
+      },
+      {
+        "id": 2,
+        "name": "Ultimi 3 mesi"
+      },
+      {
+        "id": 3,
+        "name": "Ultimi 6 mesi"
+      },
+      {
+        "id": 4,
+        "name": "Ultimo anno"
+      },
+      {
+        "id": 5,
+        "name": "Intervallo di date personalizzato"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Caricamento dati grafici...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Seleziona Posta In Arrivo",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversazioni",
+        "DESC": "(Totale )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messaggi in arrivo",
+        "DESC": "(Totale )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messaggi in uscita",
+        "DESC": "(Totale )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Tempo di prima risposta",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Risoluzione Tempo",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Conteggio risoluzioni",
+        "DESC": "(Totale )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimi 7 giorni"
+      },
+      {
+        "id": 1,
+        "name": "Ultimi 30 giorni"
+      },
+      {
+        "id": 2,
+        "name": "Ultimi 3 mesi"
+      },
+      {
+        "id": 3,
+        "name": "Ultimi 6 mesi"
+      },
+      {
+        "id": 4,
+        "name": "Ultimo anno"
+      },
+      {
+        "id": 5,
+        "name": "Intervallo di date personalizzato"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Caricamento dati grafici...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversazioni",
+        "DESC": "(Totale )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messaggi in arrivo",
+        "DESC": "(Totale )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messaggi in uscita",
+        "DESC": "(Totale )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Tempo di prima risposta",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Risoluzione Tempo",
+        "DESC": "( Media )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Conteggio risoluzioni",
+        "DESC": "(Totale )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimi 7 giorni"
+      },
+      {
+        "id": 1,
+        "name": "Ultimi 30 giorni"
+      },
+      {
+        "id": 2,
+        "name": "Ultimi 3 mesi"
+      },
+      {
+        "id": 3,
+        "name": "Ultimi 6 mesi"
+      },
+      {
+        "id": 4,
+        "name": "Ultimo anno"
+      },
+      {
+        "id": 5,
+        "name": "Intervallo di date personalizzato"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Applica",
+      "PLACEHOLDER": "Seleziona intervallo di date"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Rapporti CSAT",
+    "NO_RECORDS": "Non ci sono risposte al sondaggio CSAT disponibili.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Contatto",
+        "AGENT_NAME": "Agente assegnato",
+        "RATING": "Valutazione",
+        "FEEDBACK_TEXT": "Commento del feedback"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Risposte totali",
+        "TOOLTIP": "Numero totale di risposte raccolte"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Punteggio di soddisfazione",
+        "TOOLTIP": "Numero totale di risposte positive / Numero totale di risposte * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Tasso di risposta",
+        "TOOLTIP": "Numero totale di risposte / Numero totale di messaggi di sondaggio CSAT inviati * 100"
       }
     }
   }

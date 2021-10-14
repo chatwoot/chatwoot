@@ -54,6 +54,7 @@
           "ERROR": "Uhrzeit auf Seite ist erforderlich"
         },
         "ENABLED": "Kampagne aktivieren",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Kampagne hinzufügen"
       },
       "API": {

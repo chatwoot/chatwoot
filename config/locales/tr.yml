@@ -27,10 +27,18 @@ tr:
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
       agent_name: Temsilci adı
+      conversations_count: Konuşma sayısı
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    team_csv:
+      team_name: Team name
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
@@ -73,6 +81,9 @@ tr:
       transcript_subject: "Konuşma Metni"
     survey:
       response: "Lütfen konuşmayı oylayın, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

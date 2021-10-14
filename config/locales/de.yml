@@ -27,10 +27,18 @@ de:
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
       agent_name: Agentenname
+      conversations_count: Anzahl Gespräche
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    team_csv:
+      team_name: Teamname
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
@@ -73,6 +81,9 @@ de:
       transcript_subject: "Gesprächsprotokoll"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
