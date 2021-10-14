@@ -83,6 +83,8 @@ export default {
     onClickMessage() {
       if (this.campaignId) {
         bus.$emit('on-campaign-view-clicked', this.campaignId);
+      } else {
+        bus.$emit('on-unread-view-clicked');
       }
     },
   },

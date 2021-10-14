@@ -22,9 +22,11 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
+import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'App',
+  mixins: [availabilityMixin],
   data() {
     return {
       showUnreadView: false,
@@ -33,9 +35,7 @@ export default {
       isChatTriggerHidden: false,
       showPopoutButton: false,
       isWebWidgetTriggered: false,
-
-      showConversationsPage: false,
-      activePage: '',
+      isWidgetOpen: false,
     };
   },
   computed: {
@@ -138,8 +138,8 @@ export default {
       });
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        if (!this.isIFrame) {
+      bus.$on('on-agent-message-received', () => {
+        if (!this.isIFrame || this.isWidgetOpen) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
@@ -225,7 +225,11 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          this.initCampaigns({ currentURL: referrerURL, websiteToken });
+          this.initCampaigns({
+            currentURL: referrerURL,
+            websiteToken,
+            isInBusinessHours: this.isInBusinessHours,
+          });
           window.referrerURL = referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
@@ -258,6 +262,7 @@ export default {
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
+          this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
         }
       });

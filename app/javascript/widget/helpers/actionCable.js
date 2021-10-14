@@ -31,16 +31,14 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageCreated = data => {
-    console.log('onMessageUpdated', data);
     this.app.$store.dispatch('messageV2/addOrUpdate', data).then(() => {
-      window.bus.$emit('on-agent-message-recieved');
+      window.bus.$emit('on-agent-message-received');
     });
   };
 
   onMessageUpdated = data => {
-    console.log('onMessageUpdated', data);
     this.app.$store.dispatch('messageV2/addOrUpdate', data).then(() => {
-      window.bus.$emit('on-agent-message-recieved');
+      window.bus.$emit('on-agent-message-received');
     });
   };
 
