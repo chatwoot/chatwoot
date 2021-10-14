@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "正在载入图表数据...",
+    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
+    "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
+    "FILTER_DROPDOWN_LABEL": "选择代理",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会话",
+        "DESC": "(总计)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(总计)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "发送的消息",
+        "DESC": "(总计)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "首次响应时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解决时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解决的数量",
+        "DESC": "(总计)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "正在载入图表数据...",
+    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会话",
+        "DESC": "(总计)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(总计)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "发送的消息",
+        "DESC": "(总计)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "首次响应时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解决时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解决的数量",
+        "DESC": "(总计)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "正在载入图表数据...",
+    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会话",
+        "DESC": "(总计)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(总计)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "发送的消息",
+        "DESC": "(总计)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "首次响应时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解决时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解决的数量",
+        "DESC": "(总计)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "正在载入图表数据...",
+    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会话",
+        "DESC": "(总计)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(总计)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "发送的消息",
+        "DESC": "(总计)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "首次响应时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解决时间",
+        "DESC": "( 平均)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解决的数量",
+        "DESC": "(总计)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

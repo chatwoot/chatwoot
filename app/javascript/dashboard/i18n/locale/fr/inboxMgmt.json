@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar du canal"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL du Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Veuillez entrer une URL valide"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domaine du site Web",
           "PLACEHOLDER": "Entrez le domaine de votre site Web (ex : acme.com)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "Créer une boîte de réception"
       },
       "TWILIO": {
-        "TITLE": "Canal Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS ou WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
@@ -109,8 +114,8 @@
           "ERROR": "Ce champ est requis"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nom du canal",
-          "PLACEHOLDER": "Veuillez entrer un nom de canal",
+          "LABEL": "Nom de la boîte de réception",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Ce champ est requis"
         },
         "PHONE_NUMBER": {
@@ -128,12 +133,38 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "Canal SMS via Twilio",
+        "DESC": "Commencez à assister vos clients par SMS avec l'intégration Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nom de la boîte de réception",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Ce champ est requis"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numéro de téléphone",
+          "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
+          "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",
@@ -173,46 +204,50 @@
         "FINISH_MESSAGE": "Commencez à transférer vos courriels à l'adresse suivante."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "Canal LINE",
+        "DESC": "Intégrez le canal LINE et commencez à assister vos clients.",
         "CHANNEL_NAME": {
           "LABEL": "Nom du canal",
           "PLACEHOLDER": "Veuillez entrer un nom de canal",
           "ERROR": "Ce champ est requis"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID du canal LINE",
+          "PLACEHOLDER": "ID du canal LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Secret du canal LINE",
+          "PLACEHOLDER": "Secret du canal LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Jeton de canal LINE",
+          "PLACEHOLDER": "Jeton de canal LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Créer le canal LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal LINE"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL du webhook dans l'application LINE avec l'URL mentionnée ici."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Canal Telegram",
+        "DESC": "Intégrez le canal Telegram et commencez à assister vos clients.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Jeton du robot",
+          "SUBTITLE": "Configurez le jeton de bot que vous avez obtenu de Telegram BotFather.",
+          "PLACEHOLDER": "Jeton du robot"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Créer un canal Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal Telegram"
         }
       },
       "AUTH": {
         "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -266,11 +301,14 @@
       "ENABLE_CSAT": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Supprimer l'avatar",
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
@@ -281,8 +319,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Boîte de réception supprimée avec succès",
         "ERROR_MESSAGE": "Impossible de supprimer la boîte de réception. Veuillez réessayer plus tard.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Avatar de la boîte de réception supprimé avec succès",
+        "AVATAR_ERROR_MESSAGE": "Impossible de supprimer l'avatar de la boîte de réception. Veuillez réessayer plus tard."
       }
     },
     "TABS": {
@@ -308,16 +346,18 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Activer la boîte de collecte des courriels",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activer ou désactiver la boîte de collecte des courriels pour les nouvelles conversations",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CSAT": "Activer CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
       "HMAC_VERIFICATION": "Validation de l'identité de l'utilisateur",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_DESCRIPTION": "Afin de valider l'identité des utilisateurs, le SDK vous permet de passer un `identifier_hash` pour chaque utilisateur. Vous pouvez générer HMAC en utilisant 'sha256' avec la clé indiquée ici.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
+      "FORWARD_EMAIL_TITLE": "Transférer par e-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -350,7 +390,7 @@
       "TIMEZONE_LABEL": "Sélectionnez le fuseau horaire",
       "UPDATE": "Mettre à jour les paramètres des heures de bureau",
       "TOGGLE_AVAILABILITY": "Activer la disponibilité aux heures de bureau pour cette boîte de réception",
-      "UNAVAILABLE_MESSAGE_LABEL": "Message indisponible pour les visiteurs",
+      "UNAVAILABLE_MESSAGE_LABEL": "Message d'indisponibilité pour les visiteurs",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Nous ne sommes pas disponibles pour le moment. Laissez-nous un message, et nous répondrons dès notre retour.",
       "TOGGLE_HELP": "Activer la disponibilité aux heures de bureau montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
       "DAY": {

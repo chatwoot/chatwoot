@@ -29,8 +29,8 @@
         "TITLE": "音效通知",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "NONE": "無",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ASSIGNED": "已指派的對話",
+        "ALL_CONVERSATIONS": "所有對話"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "電子信箱通知",
@@ -144,13 +144,17 @@
     "LABELS": "標籤",
     "ATTRIBUTES": "屬性",
     "TEAMS": "團隊",
-    "ALL_CONTACTS": "All Contacts",
+    "ALL_CONTACTS": "所有聯絡人",
     "TAGGED_WITH": "Tagged with",
     "REPORTS_OVERVIEW": "總覽",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "客服",
+    "REPORTS_LABEL": "標籤",
+    "REPORTS_INBOX": "收件匣",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
@@ -176,7 +180,7 @@
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
+      "ADD_ATTACHMENT": "新增附件",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",

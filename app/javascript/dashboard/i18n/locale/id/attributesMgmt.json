@@ -1,84 +1,84 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Atribut",
+    "HEADER_BTN_TXT": "Tambahkan Attribut",
+    "LOADING": "Mengambil atribut",
+    "SIDEBAR_TXT": "<p><b>Atribut</b> <p>Sebuah atribut kustom melacak fakta-fakta terkait kontak/percakapan Anda — seperti rencana berlangganan, atau ketika melakukan pemesanan pertama kali dan sebagainya. <br /><br />Untuk membuat sebuah atribut, silakan klik pada <b>Tambahkan Atribut.</b> Anda juga bisa mengedit atau menghapus atribut yang sudah ada dengan mengklik pada tombol Edit atau Hapus.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
+      "TITLE": "Tambahkan atribut",
       "SUBMIT": "Buat",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nama tampilan",
+          "PLACEHOLDER": "Masukkan nama tampilan atribut",
+          "ERROR": "Nama dibutuhkan"
         },
         "DESC": {
           "LABEL": "Deskripsi",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Masukkan deskripsi atribut",
+          "ERROR": "Deskripsi dibutuhkan"
         },
         "MODEL": {
           "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "PLACEHOLDER": "Silakan pilih sebuah model",
+          "ERROR": "Model dibutuhkan"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "LABEL": "Tipe",
+          "PLACEHOLDER": "Silakan pilih sebuah tipe",
+          "ERROR": "Tipe dibutuhkan"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Kunci"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Atribut berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Atribut berhasil dihapus.",
+        "ERROR_MESSAGE": "Tidak dapat menghapus atribut. Coba lagi."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "TITLE": "Anda yakin akan menghapus - %{attributeName}",
+        "PLACE_HOLDER": "Silakan ketikkan {attributeName} untuk konfirmasi",
+        "MESSAGE": "Penghapusan akan menghilangkan atribut",
         "YES": "Hapus ",
         "NO": "Batalkan"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Edit atribut",
       "UPDATE_BUTTON_TEXT": "Perbarui",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Atribut berhasil diperbarui",
+        "ERROR_MESSAGE": "Terjadi kesalahan saat memperbarui atribut, silakan coba lagi"
       }
     },
     "TABS": {
       "HEADER": "Atribut Kustom",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "Percakapan",
+      "CONTACT": "Kontak"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nama",
         "Deskripsi",
-        "Type",
-        "Key"
+        "Tipe",
+        "Kunci"
       ],
       "BUTTONS": {
         "EDIT": "Edit",
         "DELETE": "Hapus"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Tidak ada atribut yang dibuat",
+        "NOT_FOUND": "Tidak ada atribut yang dikonfigurasi"
       }
     }
   }

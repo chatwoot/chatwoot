@@ -32,6 +32,8 @@
         "NO_RESULT": "Nenhuma Etiqueta encontrada"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Silenciar Conversa",
     "UNMUTE_CONTACT": "Reativar Conversa",
     "MUTED_SUCCESS": "Esta conversa foi silenciada por 6 horas",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "Novo Contato",
     "TITLE": "Criar novo contato",
     "DESC": "Adicionar informações básicas sobre o contato."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "cancelar"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Confirmar Exclusão",
+      "MESSAGE": "Tem certeza que deseja excluir ",
+      "PLACE_HOLDER": "Por favor, digite {contactName} para confirmar",
+      "YES": "Sim, excluir ",
+      "NO": "Não, Manter "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Unir contatos",
-    "DESCRIPTION": "A opção de juntar contatos é útil quando existem contatos duplicados. Para juntar contatos devem existir pelos menos, um contato principal e um contato filho. Depois de os juntar, todos os detalhes no contato principal mantêm-se os mesmos. Se o contato principal não tiver um campo preenchido, o valor do contato filho será utilizador para preencher esse campo. Se surgir um conflito, os campos do contato primário permanecem intactos, mas os campos do contato secundário serão copiados para os atributos personalizados no contato primário.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Contato principal"
+      "TITLE": "Contato principal",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contato para juntar",
-      "PLACEHOLDER": "Escolher um contato"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Sumário",
-      "DELETE_WARNING": "Contato do <strong>%{childContactName}</strong>será eliminado.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Detalhes do contato do <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Escolher um contato filho para juntar"
       },
       "SUCCESS_MESSAGE": "Contato unido com sucesso",
-      "ERROR_MESSAGE": "Não foi possível juntar os contatos, tente novamente!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }
