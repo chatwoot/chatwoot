@@ -39,12 +39,12 @@ export const getters = {
     return _state.currentUser.ui_settings || {};
   },
 
-  getCurrentUserAvailabilityStatus(_state) {
+  getCurrentUserAvailability(_state) {
     const { accounts = [] } = _state.currentUser;
     const [currentAccount = {}] = accounts.filter(
       account => account.id === _state.currentAccountId
     );
-    return currentAccount.availability_status;
+    return currentAccount.availability;
   },
 
   getCurrentAccountId(_state) {
@@ -146,7 +146,7 @@ export const actions = {
     commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
   },
 
-  setCurrentUserAvailabilityStatus({ commit, state: $state }, data) {
+  setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(
         types.default.SET_CURRENT_USER_AVAILABILITY,
@@ -158,8 +158,8 @@ export const actions = {
 
 // mutations
 export const mutations = {
-  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, status) {
-    Vue.set(_state.currentUser, 'availability_status', status);
+  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
+    Vue.set(_state.currentUser, 'availability', availability);
   },
   [types.default.CLEAR_USER](_state) {
     _state.currentUser.id = null;
