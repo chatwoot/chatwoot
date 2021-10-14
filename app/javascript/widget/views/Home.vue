@@ -83,6 +83,8 @@ import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import PreChatForm from '../components/PreChat/Form';
+import { isEmptyObject } from 'widget/helpers/utils';
+
 export default {
   name: 'Home',
   components: {
@@ -106,11 +108,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    isCampaignViewClicked: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isOnCollapsedView: false,
       isOnNewConversation: false,
+      isAboutToStart: false,
     };
   },
   computed: {
@@ -121,6 +128,7 @@ export default {
       groupedMessages: 'conversation/getGroupedConversation',
       isFetchingList: 'conversation/getIsFetchingList',
       currentUser: 'contacts/getCurrentUser',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     currentView() {
       const { email: currentUserEmail = '' } = this.currentUser;
@@ -129,6 +137,7 @@ export default {
           return 'messageView';
         }
         if (
+          (this.preChatFormEnabled && !isEmptyObject(this.activeCampaign)) ||
           this.isOnNewConversation ||
           (this.preChatFormEnabled && !currentUserEmail)
         ) {
@@ -145,10 +154,13 @@ export default {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
     isHeaderCollapsed() {
-      if (!this.hasIntroText || this.conversationSize) {
+      if (
+        !this.hasIntroText ||
+        this.conversationSize ||
+        this.isCampaignViewClicked
+      ) {
         return true;
       }
-
       return this.isOnCollapsedView;
     },
     hasIntroText() {

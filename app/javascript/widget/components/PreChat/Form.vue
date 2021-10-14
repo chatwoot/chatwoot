@@ -58,6 +58,8 @@ import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import { isEmptyObject } from 'widget/helpers/utils';
+
 export default {
   components: {
     FormInput,
@@ -107,6 +109,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -118,11 +121,16 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.$store.dispatch('conversation/createConversation', {
-        fullName: this.fullName,
-        emailAddress: this.emailAddress,
-        message: this.message,
-      });
+      // Check any active campaign exist or not
+      if (!isEmptyObject(this.activeCampaign)) {
+        bus.$emit('execute-campaign', this.activeCampaign.id);
+      } else {
+        this.$store.dispatch('conversation/createConversation', {
+          fullName: this.fullName,
+          emailAddress: this.emailAddress,
+          message: this.message,
+        });
+      }
     },
   },
 };
