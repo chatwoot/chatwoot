@@ -17,6 +17,7 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
+import availabilityMixin from 'widget/mixins/availability';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -27,7 +28,7 @@ export default {
   components: {
     Router,
   },
-  mixins: [configMixin],
+  mixins: [availabilityMixin, configMixin],
   data() {
     return {
       showUnreadView: false,
@@ -230,7 +231,11 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          this.initCampaigns({ currentURL: referrerURL, websiteToken });
+          this.initCampaigns({
+            currentURL: referrerURL,
+            websiteToken,
+            isInBusinessHours: this.isInBusinessHours,
+          });
           window.referrerURL = referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
