@@ -128,6 +128,10 @@ export default {
       color: var(--w-100);
     }
   }
+
+  .icon {
+    color: var(--white);
+  }
 }
 
 .left {
@@ -135,12 +139,6 @@ export default {
     .time {
       color: var(--s-400);
     }
-  }
-}
-
-.right {
-  .icon {
-    color: var(--white);
   }
 }
 
@@ -200,6 +198,10 @@ export default {
     align-items: flex-end;
 
     .time {
+      color: var(--s-400);
+    }
+
+    .icon {
       color: var(--s-400);
     }
   }
