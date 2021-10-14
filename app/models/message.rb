@@ -213,7 +213,7 @@ class Message < ApplicationRecord
     return if Redis::Alfred.get(conversation_mail_key).present?
 
     Redis::Alfred.setex(conversation_mail_key, id)
-    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
+    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, id)
   end
 
   def conversation_mail_key
