@@ -130,10 +130,16 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email_with_name
     if should_use_conversation_email_address?
-      "#{assignee_name} from #{@inbox.name} <#{parse_email(@account.support_email)}>"
+      "#{formatted_email_display_name(assignee_name)} from #{formatted_email_display_name(@inbox.name)} <#{parse_email(@account.support_email)}>"
     else
-      "#{assignee_name} from #{@inbox.name} <#{parse_email(inbox_from_email_address)}>"
+      "#{formatted_email_display_name(assignee_name)} from #{formatted_email_display_name(@inbox.name)} <#{parse_email(inbox_from_email_address)}>"
     end
+  end
+
+  def formatted_email_display_name(name)
+    # Ref https://stackoverflow.com/q/24940588/939299
+    # need to fix this based on the rfc
+    name.gsub(/[^\p{Alnum} -._]/, '')
   end
 
   def parse_email(email_string)
