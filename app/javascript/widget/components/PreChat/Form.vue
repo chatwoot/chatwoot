@@ -31,6 +31,7 @@
       "
     />
     <form-text-area
+      v-if="!activeCampaignExist"
       v-model="message"
       class="my-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -38,7 +39,7 @@
       :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
     />
     <custom-button
-      class="font-medium"
+      class="font-medium my-5"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -90,6 +91,9 @@ export default {
         minLength: minLength(1),
       },
     };
+    if (this.activeCampaignExist) {
+      return identityValidations;
+    }
     if (this.options.requireEmail) {
       return {
         ...identityValidations,
@@ -114,6 +118,9 @@ export default {
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
+    activeCampaignExist() {
+      return !isEmptyObject(this.activeCampaign);
+    },
   },
   methods: {
     onSubmit() {
@@ -122,8 +129,14 @@ export default {
         return;
       }
       // Check any active campaign exist or not
-      if (!isEmptyObject(this.activeCampaign)) {
+      if (this.activeCampaignExist) {
         bus.$emit('execute-campaign', this.activeCampaign.id);
+        this.$store.dispatch('contacts/update', {
+          user: {
+            email: this.emailAddress,
+            name: this.fullName,
+          },
+        });
       } else {
         this.$store.dispatch('conversation/createConversation', {
           fullName: this.fullName,
