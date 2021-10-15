@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf den Sie antworten möchten.",
+    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
     "REPLYING_TO": "Du antwortest auf:",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
@@ -40,9 +40,9 @@
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
@@ -87,7 +87,7 @@
     "CHANGE_AGENT": "Konversationsempfänger geändert",
     "CHANGE_TEAM": "Teamzuordnung dieser Konversation geändert",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",
@@ -148,11 +148,11 @@
       "PLACEHOLDER": "Keine"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Kontakt-Details",
+      "CONVERSATION_ACTIONS": "Aktionen für Unterhaltung",
       "CONVERSATION_LABELS": "Konversationsetiketten",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informationen über Unterhaltung",
+      "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Gespräche"
     }
   },
