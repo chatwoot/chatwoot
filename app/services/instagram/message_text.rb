@@ -18,7 +18,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
                                end
     inbox_channel(instagram_id)
     # person can connect the channel and then delete the inbox
-    return unless @inbox.present?
+    return if @inbox.blank?
 
     ensure_contact(contact_id)
 
