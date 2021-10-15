@@ -54,7 +54,7 @@ RSpec.describe 'Installation::Onboarding API', type: :request do
     end
 
     context 'when onboarding is not successfull' do
-      it ' does not deletes the redis key' do
+      it 'does not deletes the redis key' do
         allow(AccountBuilder).to receive(:new).and_raise('error')
         post '/installation/onboarding', params: { user: {} }
         expect(::Redis::Alfred.get(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)).not_to eq nil

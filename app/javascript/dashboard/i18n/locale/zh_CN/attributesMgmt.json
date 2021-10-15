@@ -69,16 +69,16 @@
       "TABLE_HEADER": [
         "姓名：",
         "描述信息",
-        "Type",
-        "Key"
+        "类型",
+        "关键字"
       ],
       "BUTTONS": {
         "EDIT": "编辑",
         "DELETE": "删除"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "未创建任何属性",
+        "NOT_FOUND": "没有配置任何属性"
       }
     }
   }

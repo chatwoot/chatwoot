@@ -5,7 +5,7 @@
       <h5 class="option__title">
         {{ name }}
         <span v-if="identifier" class="user-identifier">
-          ( id: {{ identifier }} )
+          (ID: {{ identifier }})
         </span>
       </h5>
       <p class="option__body">
