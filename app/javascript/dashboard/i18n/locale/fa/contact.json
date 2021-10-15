@@ -32,8 +32,8 @@
         "NO_RESULT": "هیچ برچسبی یافت نشد"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "ادغام مخاطبین",
+    "CONTACT_ACTIONS": "اقدامات مخاطب",
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
     "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
@@ -244,19 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "ادغام مخاطبین",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "با ادغام مخاطبین دو پروفایل به همراه تمام ویژگی ها و گفتگوها با هم ادغام می شود. در صورت تعارض، ویژگی های تماس اولیه اولویت دارد.",
     "PRIMARY": {
       "TITLE": "مخاطب اصلی",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "نگه داشتن"
     },
     "CHILD": {
       "TITLE": "ادغام مخاطب",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "جستجو برای یک مخاطب",
+      "HELP_LABEL": "حذف شود"
     },
     "SUMMARY": {
       "TITLE": "خلاصه",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> حذف خواهد شد.",
       "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> کپی شود به <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +269,7 @@
         "ERROR": "برای ادغام مخاطب ثانویه را انتخاب کنید"
       },
       "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "نمی توان مخاطبین را ادغام کرد، دوباره امتحان کنید!"
     }
   }
 }
