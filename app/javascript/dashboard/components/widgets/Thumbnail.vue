@@ -15,39 +15,60 @@
       :size="avatarSize"
     />
     <img
-      v-if="badge === 'Channel::FacebookPage'"
+      v-if="badge === 'instagram_direct_message'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/fb-badge.png"
+      src="/integrations/channels/badges/instagram-dm.png"
     />
     <img
-      v-if="badge === 'Channel::TwitterProfile'"
+      v-else-if="badge === 'facebook'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/twitter-badge.png"
+      src="/integrations/channels/badges/messenger.png"
     />
     <img
-      v-if="badge === 'Channel::TwilioSms'"
+      v-else-if="badge === 'twitter-tweet'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/channels/whatsapp.png"
+      src="/integrations/channels/badges/twitter-tweet.png"
     />
     <img
-      v-if="badge === 'Channel::Line'"
+      v-else-if="badge === 'twitter-dm'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/channels/line.png"
+      src="/integrations/channels/badges/twitter-dm.png"
     />
     <img
-      v-if="badge === 'Channel::Telegram'"
+      v-else-if="badge === 'whatsapp'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
-      src="~dashboard/assets/images/channels/telegram.png"
+      src="/integrations/channels/badges/whatsapp.png"
+    />
+    <img
+      v-else-if="badge === 'sms'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="/integrations/channels/badges/sms.png"
+    />
+    <img
+      v-else-if="badge === 'Channel::Line'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="/integrations/channels/badges/line.png"
+    />
+    <img
+      v-else-if="badge === 'Channel::Telegram'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="/integrations/channels/badges/telegram.png"
     />
     <div
       v-if="showStatusIndicator"
@@ -109,8 +130,10 @@ export default {
       return Number(this.size.replace(/\D+/g, ''));
     },
     badgeStyle() {
-      const badgeSize = `${this.avatarSize / 3}px`;
-      return { width: badgeSize, height: badgeSize };
+      const size = Math.floor(this.avatarSize / 3);
+      const badgeSize = `${size + 2}px`;
+      const borderRadius = `${size / 2}px`;
+      return { width: badgeSize, height: badgeSize, borderRadius };
     },
     statusStyle() {
       const statusSize = `${this.avatarSize / 4}px`;
@@ -152,6 +175,7 @@ export default {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    object-fit: cover;
 
     &.border {
       border: 1px solid white;
@@ -159,8 +183,12 @@ export default {
   }
 
   .source-badge {
+    background: white;
+    border-radius: var(--border-radius-small);
     bottom: -$space-micro;
+    box-shadow: var(--shadow-small);
     height: $space-slab;
+    padding: var(--space-micro);
     position: absolute;
     right: $zero;
     width: $space-slab;

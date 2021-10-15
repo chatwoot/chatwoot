@@ -56,7 +56,6 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
@@ -122,6 +121,11 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -143,6 +147,11 @@ group :test do
 end
 
 group :development, :test do
+  # TODO: is this needed ?
+  # errors thrown by devise password gem
+  gem 'flay'
+  gem 'rspec'
+  # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri

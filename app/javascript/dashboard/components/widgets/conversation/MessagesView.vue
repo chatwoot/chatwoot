@@ -1,7 +1,7 @@
 <template>
   <div class="view-box fill-height">
     <div
-      v-if="!currentChat.can_reply && !isATwilioWhatsappChannel"
+      v-if="!currentChat.can_reply && !isAWhatsappChannel"
       class="banner messenger-policy--banner"
     >
       <span>
@@ -16,7 +16,7 @@
       </span>
     </div>
     <div
-      v-if="!currentChat.can_reply && isATwilioWhatsappChannel"
+      v-if="!currentChat.can_reply && isAWhatsappChannel"
       class="banner messenger-policy--banner"
     >
       <span>
