@@ -7,6 +7,8 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
+import { downloadCsvFile } from '../../helper/downloadCsvFile';
+
 const state = {
   fetchingStatus: false,
   reportData: [],
@@ -36,10 +38,12 @@ const getters = {
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
-    Report.getAccountReports(
+    Report.getReports(
       reportObj.metric,
       reportObj.from,
-      reportObj.to
+      reportObj.to,
+      reportObj.type,
+      reportObj.id
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
@@ -60,7 +64,12 @@ export const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
-    Report.getAccountSummary(reportObj.from, reportObj.to)
+    Report.getSummary(
+      reportObj.from,
+      reportObj.to,
+      reportObj.type,
+      reportObj.id
+    )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
       })
@@ -71,15 +80,34 @@ export const actions = {
   downloadAgentReports(_, reportObj) {
     return Report.getAgentReports(reportObj.from, reportObj.to)
       .then(response => {
-        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
-        var encodedUri = encodeURI(csvContent);
-        var downloadLink = document.createElement('a');
-        downloadLink.href = encodedUri;
-        downloadLink.download = reportObj.fileName;
-
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        downloadCsvFile(reportObj.fileName, response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadLabelReports(_, reportObj) {
+    return Report.getLabelReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadInboxReports(_, reportObj) {
+    return Report.getInboxReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadTeamReports(_, reportObj) {
+    return Report.getTeamReports(reportObj.from, reportObj.to)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
       })
       .catch(error => {
         console.error(error);

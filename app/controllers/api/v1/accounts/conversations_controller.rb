@@ -69,6 +69,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def update_last_seen
     @conversation.agent_last_seen_at = DateTime.now.utc
+    @conversation.assignee_last_seen_at = DateTime.now.utc if assignee?
+    @conversation.save!
+  end
+
+  def custom_attributes
+    @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
     @conversation.save!
   end
 
@@ -112,6 +118,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    custom_attributes = params[:custom_attributes]&.permit! || {}
     status = params[:status].present? ? { status: params[:status] } : {}
 
     # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
@@ -122,11 +129,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes,
-      snoozed_until: params[:snoozed_until]
+      custom_attributes: custom_attributes,
+      snoozed_until: params[:snoozed_until],
+      assignee_id: params[:assignee_id],
+      team_id: params[:team_id]
     }.merge(status)
   end
 
   def conversation_finder
     @conversation_finder ||= ConversationFinder.new(current_user, params)
+  end
+
+  def assignee?
+    @conversation.assignee_id? && current_user == @conversation.assignee
   end
 end

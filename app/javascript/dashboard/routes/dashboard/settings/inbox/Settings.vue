@@ -22,7 +22,7 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
-          deleteAvatar
+          delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
@@ -31,6 +31,24 @@
           class="medium-9 columns"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
+        />
+        <woot-input
+          v-if="isAPIInbox"
+          v-model.trim="webhookUrl"
+          class="medium-9 columns"
+          :class="{ error: $v.webhookUrl.$error }"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
+          "
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+          "
+          :error="
+            $v.webhookUrl.$error
+              ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
+              : ''
+          "
+          @blur="$v.webhookUrl.$touch"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -212,15 +230,22 @@
         </div>
 
         <woot-submit-button
+          v-if="isAPIInbox"
+          type="submit"
+          :disabled="$v.webhookUrl.$invalid"
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdatingInbox"
+          @click="updateInbox"
+        />
+        <woot-submit-button
+          v-else
+          type="submit"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize
-        v-if="isAFacebookInbox && inbox.reauthorization_required"
-        :inbox-id="inbox.id"
-      />
+      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <!-- update agents in inbox -->
@@ -291,6 +316,24 @@
           >
             <woot-code :script="inbox.hmac_token"></woot-code>
           </settings-section>
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+            :sub-title="
+              $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')
+            "
+          >
+            <div class="enter-to-send--checkbox">
+              <input
+                id="hmacMandatory"
+                v-model="hmacMandatory"
+                type="checkbox"
+                @change="handleHmacFlag"
+              />
+              <label for="hmacMandatory">
+                {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+              </label>
+            </div>
+          </settings-section>
         </div>
       </div>
       <div v-else-if="isAPIInbox" class="settings--content">
@@ -324,6 +367,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
+import { required } from 'vuelidate/lib/validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -350,6 +395,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
       emailCollectEnabled: false,
@@ -357,6 +403,7 @@ export default {
       csatSurveyEnabled: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
+      webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -392,6 +439,10 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
+        {
+          key: 'businesshours',
+          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
       ];
 
       if (this.isAWebWidgetInbox) {
@@ -400,10 +451,6 @@ export default {
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
-          },
-          {
-            key: 'businesshours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
           },
           {
             key: 'configuration',
@@ -438,6 +485,9 @@ export default {
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      if (this.isAnEmailChannel) {
+        return `${this.inbox.name} (${this.inbox.email})`;
       }
       return this.inbox.name;
     },
@@ -483,6 +533,9 @@ export default {
         e.target.value
       );
     },
+    handleHmacFlag() {
+      this.updateInbox();
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -503,7 +556,9 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
+        this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -555,10 +610,12 @@ export default {
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
+            webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
+            hmac_mandatory: this.hmacMandatory,
           },
         };
         if (this.avatarFile) {
@@ -593,6 +650,10 @@ export default {
     },
   },
   validations: {
+    webhookUrl: {
+      required,
+      shouldBeUrl,
+    },
     selectedAgents: {
       isEmpty() {
         return !!this.selectedAgents.length;

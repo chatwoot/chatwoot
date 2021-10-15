@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "채널 아바타"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "웹훅 URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "올바른 URL을 입력하십시오."
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "웹사이트 도메인",
           "PLACEHOLDER": "웹사이트 도메인을 입력하십시오 (예: acme.com)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "받은 메시지함 만들기"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp 채널",
-        "DESC": "Twilio를 통합하고 SMS 또는 Whatsapp을 통해 고객을 지원하십시오.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "계정 SID",
           "PLACEHOLDER": "Twilio 계정 SID를 입력하십시오.",
@@ -109,8 +114,8 @@
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "CHANNEL_NAME": {
-          "LABEL": "채널 이름",
-          "PLACEHOLDER": "채널 이름을 입력하십시오.",
+          "LABEL": "받은 메시지함 이름",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "받은 메시지함 이름",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "휴대폰 번호",
+          "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
+          "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API 채널",
@@ -195,6 +226,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "콜백 URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "에이전트",
@@ -266,6 +301,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -315,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
       "HMAC_VERIFICATION": "사용자 신원 검증",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
@@ -350,7 +390,7 @@
       "TIMEZONE_LABEL": "표준시간대 선택",
       "UPDATE": "변경된 영업시간 적용",
       "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
-      "UNAVAILABLE_MESSAGE_LABEL": "영업외 시간에 표시할 메시지",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "현재 담당자가 자리비움 상태입니다. 메시지를 남겨주시면 담당자 복귀 시 답변드리겠습니다.",
       "TOGGLE_HELP": "영업시간 설정을 적용할 경우 라이브챗 위젯에 해당 시간을 표시합니다. 담당자가 현재 오프라인 상태일 때도 해당 영업시간을 표시합니다. 영업 외 시간에는 사용자에게 아래 메시지와 대화 전 설문을 대신 보여줍니다.",
       "DAY": {
