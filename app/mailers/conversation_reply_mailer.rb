@@ -139,7 +139,7 @@ class ConversationReplyMailer < ApplicationMailer
   def formatted_email_display_name(name)
     # Ref https://stackoverflow.com/q/24940588/939299
     # need to fix this based on the rfc
-    name.gsub(/[^\p{Alnum} -._]/, '')
+    name&.gsub(/[^\p{Alnum} -._]/, '')
   end
 
   def parse_email(email_string)
