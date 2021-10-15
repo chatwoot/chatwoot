@@ -1,9 +1,9 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
+    "HEADER": "Attribute",
     "HEADER_BTN_TXT": "Attribut hinzufügen",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "LOADING": "Lade Attribute",
+    "SIDEBAR_TXT": "<p><b>Attribute</b> <p>Ein benutzerdefiniertes Attribut erfasst Fakten über Ihre Kontakte/Gespräche — wie das Abonnement oder wenn Kontakte den ersten Artikel etc. bestellen. <br /><br />Zum Erstellen von Attributen klicken Sie einfach auf<b>Attribut hinzufügen.</b> Sie können auch ein vorhandenes Attribut bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.</p>",
     "ADD": {
       "TITLE": "Attribut hinzufügen",
       "SUBMIT": "Erstellen",
@@ -11,43 +11,43 @@
       "FORM": {
         "NAME": {
           "LABEL": "Anzeigename",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Anzeigename für Attribut eingeben",
+          "ERROR": "Name wird benötigt"
         },
         "DESC": {
           "LABEL": "Beschreibung",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Beschreibung des Attributs eingeben",
+          "ERROR": "Beschreibung wird benötigt"
         },
         "MODEL": {
           "LABEL": "Modell",
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
-          "ERROR": "Model is required"
+          "ERROR": "Modell wird benötigt"
         },
         "TYPE": {
           "LABEL": "Typ",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "PLACEHOLDER": "Bitte wählen Sie einen Typ",
+          "ERROR": "Typ wird benötigt"
         },
         "KEY": {
           "LABEL": "Schlüssel"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Attribut erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Konnte kein Attribut erstellen, bitte versuchen Sie es später erneut"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Attribut erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Attribut konnte nicht gelöscht werden. Versuchen Sie es erneut."
       },
       "CONFIRM": {
         "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
         "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
-        "MESSAGE": "Deleting will remove the attribute",
+        "MESSAGE": "Löschen wird das Attribut entfernen",
         "YES": "Löschen ",
         "NO": "Stornieren"
       }
@@ -56,13 +56,13 @@
       "TITLE": "Attribut hinzufügen",
       "UPDATE_BUTTON_TEXT": "Aktualisieren",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Attribut erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Beim Aktualisieren des Attributs ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       }
     },
     "TABS": {
       "HEADER": "Benutzerdefinierte Attribute",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Unterhaltung",
       "CONTACT": "Kontakt"
     },
     "LIST": {
@@ -77,8 +77,8 @@
         "DELETE": "Löschen"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Keine Attribute erstellt",
+        "NOT_FOUND": "Keine Attribute konfiguriert"
       }
     }
   }
