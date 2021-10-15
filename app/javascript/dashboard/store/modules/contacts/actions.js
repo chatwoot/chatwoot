@@ -4,6 +4,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
+import AccountActionsAPI from '../../../api/accountActions';
 
 export const actions = {
   search: async ({ commit }, { search, page, sortAttr, label }) => {
@@ -82,6 +83,32 @@ export const actions = {
       }
     }
   },
+  import: async ({ commit }, file) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
+    try {
+      await ContactAPI.importContacts(file);
+      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      }
+    }
+  },
+  delete: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isDeleting: true });
+    try {
+      await ContactAPI.delete(id);
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    }
+  },
 
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
@@ -109,5 +136,25 @@ export const actions = {
 
   setContact({ commit }, data) {
     commit(types.SET_CONTACT_ITEM, data);
+  },
+
+  merge: async ({ commit }, { childId, parentId }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isMerging: true });
+    try {
+      const response = await AccountActionsAPI.merge(parentId, childId);
+      commit(types.SET_CONTACT_ITEM, response.data);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isMerging: false });
+    }
+  },
+
+  deleteContactThroughConversations: ({ commit }, id) => {
+    commit(types.DELETE_CONTACT, id);
+    commit(types.CLEAR_CONTACT_CONVERSATIONS, id, { root: true });
+    commit(`contactConversations/${types.DELETE_CONTACT_CONVERSATION}`, id, {
+      root: true,
+    });
   },
 };

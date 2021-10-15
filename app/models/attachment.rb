@@ -25,6 +25,7 @@ class Attachment < ApplicationRecord
   enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
   def push_event_data
+    return unless file_type
     return base_data.merge(location_metadata) if file_type.to_sym == :location
     return base_data.merge(fallback_data) if file_type.to_sym == :fallback
 

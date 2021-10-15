@@ -1103,6 +1103,219 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/agents": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "get-account-agents",
+        "summary": "List Agents in Account",
+        "description": "Get Details of Agents in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "add-new-agent-to-account",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Full Name of the agent",
+                  "required": true
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Email of the Agent",
+                  "required": true
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "agent",
+                    "administrator"
+                  ],
+                  "description": "Whether its administrator or agent",
+                  "required": true
+                },
+                "availability_status": {
+                  "type": "string",
+                  "enum": [
+                    "available",
+                    "busy",
+                    "offline"
+                  ],
+                  "description": "The availability status of the agent."
+                },
+                "auto_offline": {
+                  "type": "boolean",
+                  "description": "Whether the availability status of agent is configured to go offline automatically when away."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/agent"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/agents/{id}": {
+      "patch": {
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "update-agent-in-account",
+        "summary": "Update Agent in Account",
+        "description": "Update an Agent in Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The ID of the agent to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "agent",
+                    "administrator"
+                  ],
+                  "description": "Whether its administrator or agent",
+                  "required": true
+                },
+                "availability_status": {
+                  "type": "string",
+                  "enum": [
+                    "available",
+                    "busy",
+                    "offline"
+                  ],
+                  "description": "The availability status of the agent."
+                },
+                "auto_offline": {
+                  "type": "boolean",
+                  "description": "Whether the availability status of agent is configured to go offline automatically when away."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/agent"
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Agent"
+        ],
+        "operationId": "delete-agent-from-account",
+        "summary": "Remove an Agent from Account",
+        "description": "Remove an Agent from Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The ID of the agent to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
@@ -1247,6 +1460,33 @@
           },
           "403": {
             "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactDelete",
+        "summary": "Delete Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Contact not found"
           }
         }
       }
@@ -1461,7 +1701,8 @@
             "enum": [
               "open",
               "resolved",
-              "pending"
+              "pending",
+              "all"
             ]
           },
           {
@@ -1555,6 +1796,14 @@
                     "pending"
                   ],
                   "description": "Specify the conversation whether it's pending, open, closed"
+                },
+                "assignee_id": {
+                  "type": "string",
+                  "description": "Agent Id for assigning a conversation to an agent"
+                },
+                "team_id": {
+                  "type": "string",
+                  "description": "Team Id for assigning a conversation to a team"
                 }
               }
             }
@@ -3061,7 +3310,7 @@
         }
       }
     },
-    "/api/v1/accounts/{id}/reports": {
+    "/api/v2/accounts/{id}/reports": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3124,7 +3373,7 @@
         }
       }
     },
-    "/api/v1/accounts/{id}/reports/summary": {
+    "/api/v2/accounts/{id}/reports/summary": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3404,7 +3653,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "number"
+          "type": "integer"
         },
         "uid": {
           "type": "string"
@@ -3422,7 +3671,7 @@
           "type": "string"
         },
         "account_id": {
-          "type": "number"
+          "type": "integer"
         },
         "role": {
           "type": "string",
@@ -3433,6 +3682,19 @@
         },
         "confirmed": {
           "type": "boolean"
+        },
+        "availability_status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "busy",
+            "offline"
+          ],
+          "description": "The availability status of the agent computed by Chatwoot."
+        },
+        "auto_offline": {
+          "type": "boolean",
+          "description": "Whether the availability status of agent is configured to go offline automatically when away."
         },
         "custom_attributes": {
           "type": "object",
@@ -4471,7 +4733,8 @@
           "account",
           "agent",
           "inbox",
-          "label"
+          "label",
+          "team"
         ]
       },
       "required": true,
@@ -4527,6 +4790,7 @@
       "name": "Application",
       "tags": [
         "Account AgentBots",
+        "Agent",
         "Contact",
         "Conversation",
         "Conversation Assignment",
