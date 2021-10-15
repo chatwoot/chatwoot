@@ -14,13 +14,13 @@ describe Notification::PushNotificationService do
 
   describe '#perform' do
     it 'sends webpush notifications for webpush subscription' do
-      ::Redis::Alfred.set(::Redis::Alfred::PUSH_PUBLIC_KEY, 'test')
+      ENV['VAPID_PUBLIC_KEY'] = 'test'
       create(:notification_subscription, user: notification.user)
 
       described_class.new(notification: notification).perform
       expect(Webpush).to have_received(:payload_send)
       expect(FCM).not_to have_received(:new)
-      ::Redis::Alfred.set(::Redis::Alfred::PUSH_PUBLIC_KEY, nil)
+      ENV['VAPID_PUBLIC_KEY'] = nil
     end
 
     it 'sends a fcm notification for firebase subscription' do

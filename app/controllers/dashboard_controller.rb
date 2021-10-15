@@ -28,8 +28,7 @@ class DashboardController < ActionController::Base
       'ANALYTICS_HOST'
     ).merge(
       APP_VERSION: Chatwoot.config[:version],
-      PUSH_PUBLIC_KEY: VapidService.public_key,
-      PUSH_PRIVATE_KEY: VapidService.private_key
+      VAPID_PUBLIC_KEY: VapidService.public_key
     )
   end
 
