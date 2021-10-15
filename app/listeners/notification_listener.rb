@@ -58,7 +58,7 @@ class NotificationListener < BaseListener
 
     return if message.content.blank?
 
-    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+)\)}).map(&:second).uniq
+    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+?)\)}).map(&:second).uniq
 
     return if mentioned_ids.blank?
 
