@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Offen",
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
-      "DETAILS": "Einzelheiten"
+      "DETAILS": "Einzelheiten",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Konversationsempfänger geändert",
     "CHANGE_TEAM": "Teamzuordnung dieser Konversation geändert",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Gesendet von:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",

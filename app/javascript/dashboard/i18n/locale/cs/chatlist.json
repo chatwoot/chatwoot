@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
     },
+    "FILTER_ALL": "Vše",
     "STATUS_TABS": [
       {
         "NAME": "Otevřít",
@@ -48,11 +49,11 @@
       },
       {
         "TEXT": "Čekající",
-        "VALUE": "pending"
+        "VALUE": "čekající"
       },
       {
         "TEXT": "Odložené",
-        "VALUE": "snoozed"
+        "VALUE": "odložené"
       }
     ],
     "ATTACHMENTS": {
@@ -85,6 +86,8 @@
     "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru",
     "REPLY_TO_TWEET": "Odpovědět na tento tweet",
     "NO_MESSAGES": "Žádné zprávy",
-    "NO_CONTENT": "Žádný obsah k dispozici"
+    "NO_CONTENT": "Žádný obsah k dispozici",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text"
   }
 }

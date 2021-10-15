@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "پیدا کردن افراد، گفتگوها و پاسخ‌های از پیش نوشته شده..."
     },
+    "FILTER_ALL": "همه",
     "STATUS_TABS": [
       {
         "NAME": "باز",
@@ -48,11 +49,11 @@
       },
       {
         "TEXT": "در انتظار",
-        "VALUE": "pending"
+        "VALUE": "در انتظار"
       },
       {
         "TEXT": "به تعویق افتاد",
-        "VALUE": "snoozed"
+        "VALUE": "به تعویق افتاد"
       }
     ],
     "ATTACHMENTS": {
@@ -85,6 +86,8 @@
     "VIEW_TWEET_IN_TWITTER": "مشاهده توییت در توییتر",
     "REPLY_TO_TWEET": "پاسخ به این توییت",
     "NO_MESSAGES": "هیچ پیامی وجود ندارد",
-    "NO_CONTENT": "هیچ محتوایی موجود نیست"
+    "NO_CONTENT": "هیچ محتوایی موجود نیست",
+    "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
+    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول"
   }
 }

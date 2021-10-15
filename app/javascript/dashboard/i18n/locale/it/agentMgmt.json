@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Nessun risultato trovato."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Nessuno",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Seleziona un'agente",
+        "TEAM": "Seleziona team"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Nessun agente trovato",
+          "TEAM": "Nessun team trovato"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Cerca agenti",
+          "TEAM": "Cerca team"
         }
       }
     }

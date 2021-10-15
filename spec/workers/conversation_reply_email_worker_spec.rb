@@ -2,8 +2,6 @@ require 'rails_helper'
 
 Sidekiq::Testing.fake!
 RSpec.describe ConversationReplyEmailWorker, type: :worker do
-  let(:perform_at) { (Time.zone.today + 6.hours).to_datetime }
-  let(:scheduled_job) { described_class.perform_at(perform_at, 1, Time.zone.now) }
   let(:conversation) { build(:conversation, display_id: nil) }
   let(:message) { build(:message, conversation: conversation, content_type: 'incoming_email', inbox: conversation.inbox) }
   let(:mailer) { double }
@@ -29,18 +27,18 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
       expect do
         described_class.perform_async
       end.to change(described_class.jobs, :size).by(1)
-      described_class.new.perform(1, Time.zone.now)
+      described_class.new.perform(1, message.id)
     end
 
     context 'with actions performed by the worker' do
       it 'calls ConversationSummaryMailer#reply_with_summary when last incoming message was not email' do
-        described_class.new.perform(1, Time.zone.now)
+        described_class.new.perform(1, message.id)
         expect(mailer).to have_received(:reply_with_summary)
       end
 
       it 'calls ConversationSummaryMailer#reply_without_summary when last incoming message was from email' do
         message.save
-        described_class.new.perform(1, Time.zone.now)
+        described_class.new.perform(1, message.id)
         expect(mailer).to have_received(:reply_without_summary)
       end
     end
