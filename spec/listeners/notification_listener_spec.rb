@@ -4,7 +4,7 @@ describe NotificationListener do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:first_agent_with_notification) { create(:user, account: account) }
-  let!(:second_first_agent_with_notification) { create(:user, account: account) }
+  let!(:second_agent_with_notification) { create(:user, account: account) }
   let!(:agent_with_out_notification) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
@@ -88,14 +88,14 @@ describe NotificationListener do
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
         create(:inbox_member, user: first_agent_with_notification, inbox: inbox)
-        create(:inbox_member, user: second_first_agent_with_notification, inbox: inbox)
+        create(:inbox_member, user: second_agent_with_notification, inbox: inbox)
         conversation.reload
 
         message = build(
           :message,
           conversation: conversation,
           account: account,
-          content: "hey [#{second_first_agent_with_notification.name}](mention://user/#{second_first_agent_with_notification.id}/#{second_first_agent_with_notification.name})/
+          content: "hey [#{second_agent_with_notification.name}](mention://user/#{second_agent_with_notification.id}/#{second_agent_with_notification.name})/
                     [#{first_agent_with_notification.name}](mention://user/#{first_agent_with_notification.id}/#{first_agent_with_notification.name}),
                      please look in to this?",
           private: true
@@ -105,7 +105,7 @@ describe NotificationListener do
         listener.message_created(event)
 
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
-                                                                user: second_first_agent_with_notification,
+                                                                user: second_agent_with_notification,
                                                                 account: account,
                                                                 primary_actor: message)
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
