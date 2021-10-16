@@ -32,8 +32,8 @@
         "NO_RESULT": "Метки не найдены"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Объединить контакты",
+    "CONTACT_ACTIONS": "Действия с контактами",
     "MUTE_CONTACT": "Заглушить диалог",
     "UNMUTE_CONTACT": "Включить звук диалога",
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
@@ -244,19 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Объединить контакты",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Объединение контактов для объединения двух профилей в один, включая все атрибуты и разговоры. В случае конфликта приоритет будет иметь атрибуты первичного контакта.",
     "PRIMARY": {
       "TITLE": "Основной контакт",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Оставлять"
     },
     "CHILD": {
       "TITLE": "Контакт для слияния",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Поиск по контактам",
+      "HELP_LABEL": "Удалять"
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> будет удален.",
       "ATTRIBUTE_WARNING": "Контактная информация <strong>%{childContactName}</strong> будет скопирована в <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +269,7 @@
         "ERROR": "Выберите контакт, для объединения"
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
     }
   }
 }
