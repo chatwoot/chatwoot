@@ -71,5 +71,13 @@
       "assigned_conversation_new_message": "رسالة جديدة",
       "conversation_mention": "إشارة"
     }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    }
   }
 }

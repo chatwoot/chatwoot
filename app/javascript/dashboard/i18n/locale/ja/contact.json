@@ -32,6 +32,8 @@
         "NO_RESULT": "No labels found"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "会話をミュート",
     "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "この会話は6時間ミュートされています。",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "New Contact",
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "キャンセル"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "削除の確認",
+      "MESSAGE": "削除してもよろしいですか？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "削除する ",
+      "NO": "いいえ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Select a child contact to merge"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }
