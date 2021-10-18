@@ -132,16 +132,22 @@ export default {
     },
     fetchContacts(page) {
       this.updatePageParam(page);
+      let value = '';
+      if(this.searchQuery.charAt(0) === '+') {
+        value = this.searchQuery.substring(1);
+      } else {
+        value = this.searchQuery;
+      }
       const requestParams = {
         page,
         sortAttr: this.getSortAttribute(),
         label: this.label,
       };
-      if (!this.searchQuery) {
+      if (!value) {
         this.$store.dispatch('contacts/get', requestParams);
       } else {
         this.$store.dispatch('contacts/search', {
-          search: this.searchQuery,
+          search: value,
           ...requestParams,
         });
       }
