@@ -76,11 +76,23 @@ export const actions = {
       );
     }
   },
-  startCampaign: async ({ commit }, { websiteToken, campaignId }) => {
-    const { data: campaigns } = await getCampaigns(websiteToken);
-    const campaign = campaigns.find(item => item.id === campaignId);
-    if (campaign) {
-      commit('setActiveCampaign', campaign);
+  startCampaign: async (
+    {
+      commit,
+      rootState: {
+        events: { isOpen },
+      },
+    },
+    { websiteToken, campaignId }
+  ) => {
+    // Disable starting the campaign if widget is opened
+    if (!isOpen) {
+      const { data: campaigns } = await getCampaigns(websiteToken);
+      // Check campaign is disabled or not
+      const campaign = campaigns.find(item => item.id === campaignId);
+      if (campaign) {
+        commit('setActiveCampaign', campaign);
+      }
     }
   },
 

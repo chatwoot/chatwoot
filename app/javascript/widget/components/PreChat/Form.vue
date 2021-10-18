@@ -3,8 +3,11 @@
     class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit.prevent="onSubmit"
   >
-    <div v-if="options.preChatMessage" class="text-black-800 text-sm leading-5">
-      {{ options.preChatMessage }}
+    <div
+      v-if="shouldShowHeaderMessage"
+      class="text-black-800 text-sm leading-5"
+    >
+      {{ headerMessage }}
     </div>
     <form-input
       v-if="options.requireEmail"
@@ -120,6 +123,15 @@ export default {
     },
     activeCampaignExist() {
       return !isEmptyObject(this.activeCampaign);
+    },
+    shouldShowHeaderMessage() {
+      return this.activeCampaignExist || this.options.preChatMessage;
+    },
+    headerMessage() {
+      if (this.activeCampaignExist) {
+        return 'Please provide your name and email before starting the conversation';
+      }
+      return this.options.preChatMessage;
     },
   },
   methods: {
