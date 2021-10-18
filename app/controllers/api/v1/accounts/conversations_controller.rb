@@ -32,7 +32,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def filter
-    @conversations = ::FilterService.new('conversation', params[:q], current_user).perform
+    @conversations = ::Conversations::FilterService.new(JSON.parse(params[:body]), current_user).perform
   end
 
   def mute

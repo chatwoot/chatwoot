@@ -51,7 +51,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def filter
-    @contacts = ::FilterService.new('contact', params[:q], current_user).perform
+    @contacts = ::Contacts::FilterService.new(params[:body], current_user).perform
   end
 
   def contactable_inboxes
