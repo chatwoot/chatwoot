@@ -27,10 +27,18 @@
       invalid_email: Du har angitt en ugyldig e-post
       email_already_exists: "Du har allerede registrert en konto med %{email}"
       failed: Registrering mislyktes
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -73,6 +81,9 @@
       transcript_subject: "Kopi av samtale"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

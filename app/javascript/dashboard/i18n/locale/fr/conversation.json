@@ -9,7 +9,7 @@
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
     "SEARCH": {
       "TITLE": "Rechercher des messages",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Résultats de recherche",
       "LOADING_MESSAGE": "Traitement des données ...",
       "PLACEHOLDER": "Saisissez n'importe quel texte pour rechercher des messages",
       "NO_MATCHING_RESULTS": "Aucun résultat trouvé."
@@ -23,7 +23,7 @@
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Veuillez sélectionner un tweet auquel répondre.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
@@ -39,12 +39,15 @@
       "OPEN_ACTION": "Ouvert",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
-      "DETAILS": "détails"
+      "DETAILS": "détails",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Marquer comme en attente",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "Reporter jusqu'à",
         "NEXT_REPLY": "Réponse suivante",
         "TOMORROW": "Demain",
         "NEXT_WEEK": "Semaine prochaine"
@@ -66,15 +69,15 @@
       "ENTER_TO_SEND": "Entrer pour envoyer",
       "DRAG_DROP": "Glissez et déposez ici pour lier",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Ajouter cci",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "LABEL": "CCI",
+          "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         }
       }
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
@@ -147,15 +151,15 @@
       "CONTACT_DETAILS": "Détails du contact",
       "CONVERSATION_ACTIONS": "Actions de conversation",
       "CONVERSATION_LABELS": "Étiquettes de conversation",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informations de la conversation",
+      "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes"
     }
   },
   "EMAIL_HEADER": {
     "TO": "À",
-    "BCC": "Bcc",
+    "BCC": "Cci",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Objet"
   }
 }
