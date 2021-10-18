@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "آواتار کانال"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "آدرس URL وب هوک",
+          "PLACEHOLDER": "نشانی وب Webhook خود را وارد کنید",
+          "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "دامنه سایت",
           "PLACEHOLDER": "دامنه سایت خود را وارد کنید (به عنوان مثال: acme.com)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "ساختن صندوق ورودی"
       },
       "TWILIO": {
-        "TITLE": "کانال اس ام اس تولیو/واتساپ",
-        "DESC": "به Twilio متصل شوید و مشتریان خود را از طریق پیامک یا واتساپ پشتیبانی کنید",
+        "TITLE": "Twilio SMS/کانال WhatsApp",
+        "DESC": "به Twilio متصل شوید و مشتریان خود را از طریق پیامک یا واتساپ پشتیبانی کنید.",
         "ACCOUNT_SID": {
           "LABEL": "شناسه SID",
           "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
@@ -109,8 +114,8 @@
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "CHANNEL_NAME": {
-          "LABEL": "عنوان کانال",
-          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
+          "LABEL": "عنوان صندوق ورودی",
+          "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "با ادغام Twilio از طریق SMS از مشتریان خود پشتیبانی کنید."
       },
       "WHATSAPP": {
-        "TITLE": "کانال واتساپ از طریق Twilio",
-        "DESC": "با ادغام Twilio از مشتریان خود از طریق Whatsapp پشتیبانی کنید."
+        "TITLE": "کانال واتس اپ",
+        "DESC": "شروع به پشتیبانی از مشتریان از طریق واتس اپ.",
+        "PROVIDERS": {
+          "LABEL": "ارائه دهنده API",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "عنوان صندوق ورودی",
+          "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "شماره تلفن",
+          "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+          "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "WhatsApp API key را پیکربندی کنید.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "API key ندارید؟ برای دسترسی از اینجا درخواست دهید",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال WhatsApp را ذخیره کنیم"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "کانال API",
@@ -173,46 +204,50 @@
         "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "کانال لاین",
+        "DESC": "با لاین ادغام شده و به مشتریان خود پشتیبانی دهید.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "آی دی کانال لاین",
+          "PLACEHOLDER": "آی دی کانال لاین"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "رمز کانال لاین",
+          "PLACEHOLDER": "رمز کانال لاین"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "توکن کانال لاین",
+          "PLACEHOLDER": "توکن کانال لاین"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "ایجاد کانال لاین",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "ما نتوانستیم کانال لاین را ذخیره کنیم"
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "شما باید URL webhook را در برنامه LINE با URL ذکر شده در اینجا پیکربندی کنید."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "کانال تلگرام",
+        "DESC": "با کانال تلگرام ادغام شده و از مشتریان خود پشتیبانی کنید.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "توکن ربات",
+          "SUBTITLE": "توکن ربات را که از تلگرام BotFather بدست آورده اید پیکربندی کنید.",
+          "PLACEHOLDER": "توکن ربات"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "ساخت کانال تلگرام",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "نتوانستیم کانال تلگرام را ذخیره کنیم"
         }
       },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
-        "DESC": "ما از چت زنده روی سایت، فیسبوک، توییتر، واتس آپ و ایمیل پشتیبانی می کنیم. در صورتی که نیاز به ارتباط از طریق کانال اختصاصی دیگیر دارید می توانید آن را به کمک API ایجاد نمایید."
+        "DESC": "Chatwoot از ویجت چت زنده ، صفحه فیس بوک ، نمایه توییتر ، WhatsApp ، ایمیل و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید ، می توانید آن را با استفاده از کانال API ایجاد کنید. برای ادامه ، یک کانال را از بین گزینه های زیر انتخاب کنید."
       },
       "AGENTS": {
         "TITLE": "ایجنت ها",
@@ -266,11 +301,14 @@
       "ENABLE_CSAT": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "فعال"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "حذف آواتار",
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
         "MESSAGE": "مطمئن هستید که حذف شود ",
@@ -281,8 +319,8 @@
       "API": {
         "SUCCESS_MESSAGE": "صندوق ورودی حذف شد",
         "ERROR_MESSAGE": "صندوق ورودی حذف نشد، لطفا بعدا امتحان کنید",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "آواتار صندوق ورودی با موفقیت حذف شد",
+        "AVATAR_ERROR_MESSAGE": "آواتار صندوق ورودی حذف نشد. لطفاً بعداً دوباره امتحان کنید."
       }
     },
     "TABS": {
@@ -315,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
       "HMAC_DESCRIPTION": "برای اعتبار سنجی کاربران با استفاده از این کلید `identifier_hash` یک هش HMAC sha256 تولید کنید.",
+      "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
+      "HMAC_MANDATORY_DESCRIPTION": "درصورت فعال بودن ، روش Chatwoot SDKs setUser کار نمی کند مگر اینکه `identifier_hash` برای هر کاربر ارائه شود.",
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
@@ -350,7 +390,7 @@
       "TIMEZONE_LABEL": "منطقه زمانی را انتخاب کنید",
       "UPDATE": "تنظیمات ساعات کاری را به روز کنید",
       "TOGGLE_AVAILABILITY": "دسترس بودن کسب و کار را برای این صندوق فعال کردن",
-      "UNAVAILABLE_MESSAGE_LABEL": "پیام غیرقابل دسترسی برای بازدید کنندگان",
+      "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
       "UNAVAILABLE_MESSAGE_DEFAULT": "متاسفانه در حال حاضر در دسترس نیستیم. لطفا پیامی بگذارید که پس از بازگشت به شما پاسخ دهیم.",
       "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه ایجنت ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
       "DAY": {

@@ -20,6 +20,7 @@ json.callback_webhook_url resource.callback_webhook_url
 ## WebWidget Attributes
 json.widget_color resource.channel.try(:widget_color)
 json.website_url resource.channel.try(:website_url)
+json.hmac_mandatory resource.channel.try(:hmac_mandatory)
 json.welcome_title resource.channel.try(:welcome_title)
 json.welcome_tagline resource.channel.try(:welcome_tagline)
 json.web_widget_script resource.channel.try(:web_widget_script)

@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
+    "FILTER_ALL": "Hepsi",
     "STATUS_TABS": [
       {
         "NAME": "Açık",
@@ -48,11 +49,11 @@
       },
       {
         "TEXT": "Bekliyor",
-        "VALUE": "pending"
+        "VALUE": "bekliyor"
       },
       {
         "TEXT": "Susturuldu",
-        "VALUE": "snoozed"
+        "VALUE": "susturuldu"
       }
     ],
     "ATTACHMENTS": {
@@ -85,6 +86,8 @@
     "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
     "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "İçerik yok"
+    "NO_CONTENT": "İçerik yok",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text"
   }
 }
