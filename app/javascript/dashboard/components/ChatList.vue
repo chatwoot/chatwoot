@@ -5,7 +5,9 @@
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
-      <chat-filter @statusFilterChange="updateStatusType" />
+      <button class="btn-filter" @click="onToggleAdvanceFiltersModal">
+        <i class="icon ion-funnel" />
+      </button>
     </div>
 
     <chat-type-tabs
@@ -53,13 +55,22 @@
         {{ $t('CHAT_LIST.EOF') }}
       </p>
     </div>
+    <woot-modal
+      :show.sync="showAdvancedFilters"
+      :on-close="onToggleAdvanceFiltersModal"
+    >
+      <chat-advanced-filter
+        v-if="showAdvancedFilters"
+        :on-close="onToggleAdvanceFiltersModal"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatFilter from './widgets/conversation/ChatFilter';
+import ChatAdvancedFilter from './widgets/conversation/ChatAdvancedFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -75,7 +86,7 @@ export default {
   components: {
     ChatTypeTabs,
     ConversationCard,
-    ChatFilter,
+    ChatAdvancedFilter,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -96,6 +107,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      showAdvancedFilters: false,
     };
   },
   computed: {
@@ -198,6 +210,9 @@ export default {
     });
   },
   methods: {
+    onToggleAdvanceFiltersModal() {
+      this.showAdvancedFilters = !this.showAdvancedFilters;
+    },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
         'div.conversations-list div.conversation'
@@ -293,6 +308,14 @@ export default {
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
+  }
+}
+.btn-filter {
+  margin-right: var(--space-normal);
+  cursor: pointer;
+
+  i {
+    font-size: 2rem;
   }
 }
 </style>
