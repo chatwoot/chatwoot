@@ -39,8 +39,12 @@ export const getters = {
     return _state.currentUser.ui_settings || {};
   },
 
-  getCurrentUserAvailabilityStatus(_state) {
-    return _state.currentUser.availability_status;
+  getCurrentUserAvailability(_state) {
+    const { accounts = [] } = _state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === _state.currentAccountId
+    );
+    return currentAccount.availability;
   },
 
   getCurrentAccountId(_state) {
@@ -125,21 +129,24 @@ export const actions = {
     }
   },
 
-  updateAvailability: ({ commit, dispatch }, { availability }) => {
-    authAPI.updateAvailability({ availability }).then(response => {
+  updateAvailability: async ({ commit, dispatch }, params) => {
+    try {
+      const response = await authAPI.updateAvailability(params);
       const userData = response.data;
-      const { id, availability_status: availabilityStatus } = userData;
+      const { id } = userData;
       setUser(userData, getHeaderExpiry(response));
       commit(types.default.SET_CURRENT_USER);
-      dispatch('agents/updatePresence', { [id]: availabilityStatus });
-    });
+      dispatch('agents/updatePresence', { [id]: params.availability });
+    } catch (error) {
+      // Ignore error
+    }
   },
 
   setCurrentAccountId({ commit }, accountId) {
     commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
   },
 
-  setCurrentUserAvailabilityStatus({ commit, state: $state }, data) {
+  setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(
         types.default.SET_CURRENT_USER_AVAILABILITY,
@@ -151,8 +158,8 @@ export const actions = {
 
 // mutations
 export const mutations = {
-  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, status) {
-    Vue.set(_state.currentUser, 'availability_status', status);
+  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
+    Vue.set(_state.currentUser, 'availability', availability);
   },
   [types.default.CLEAR_USER](_state) {
     _state.currentUser.id = null;

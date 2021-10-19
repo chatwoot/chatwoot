@@ -1,4 +1,5 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+import { playNewMessageNotificationInWidget } from 'shared/helpers/AudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -34,8 +35,11 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store
       .dispatch('conversation/addOrUpdateMessage', data)
       .then(() => {
-        window.bus.$emit('on-agent-message-recieved');
+        window.bus.$emit('on-agent-message-received');
       });
+    if (data.sender_type === 'User') {
+      playNewMessageNotificationInWidget();
+    }
   };
 
   onMessageUpdated = data => {

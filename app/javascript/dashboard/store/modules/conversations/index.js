@@ -76,10 +76,14 @@ export const mutations = {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'custom_attributes', custom_attributes);
   },
-
-  [types.default.RESOLVE_CONVERSATION](_state, { conversationId, status }) {
+    
+  [types.default.CHANGE_CONVERSATION_STATUS](
+    _state,
+    { conversationId, status, snoozedUntil }
+  ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
+    Vue.set(conversation, 'snoozed_until', snoozedUntil);
     Vue.set(conversation, 'status', status);
   },
 

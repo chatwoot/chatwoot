@@ -39,7 +39,10 @@
       "OPEN_ACTION": "باز",
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
-      "DETAILS": "جزئیات"
+      "DETAILS": "جزئیات",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
     "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+    "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
@@ -144,11 +148,11 @@
       "PLACEHOLDER": "هیچکدام"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "اطلاعات تماس",
+      "CONVERSATION_ACTIONS": "عملیات مکالمات",
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "اطلاعات مکالمه",
+      "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
       "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
     }
   },

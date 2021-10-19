@@ -449,10 +449,11 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-normal;
-  top: $space-slab;
+  right: $space-two;
+  top: $space-slab + $space-two;
   font-size: $font-size-default;
   color: $color-heading;
+  z-index: 9999;
 }
 
 .conversation--labels {

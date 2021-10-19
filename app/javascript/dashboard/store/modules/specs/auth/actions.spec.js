@@ -54,13 +54,16 @@ describe('#actions', () => {
 
   describe('#updateAvailability', () => {
     it('sends correct actions if API is success', async () => {
-      axios.put.mockResolvedValue({
-        data: { id: 1, name: 'John', availability_status: 'offline' },
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          account_users: [{ account_id: 1, availability_status: 'offline' }],
+        },
         headers: { expiry: 581842904 },
       });
       await actions.updateAvailability(
         { commit, dispatch },
-        { availability: 'offline' }
+        { availability: 'offline', account_id: 1 },
       );
       expect(setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
@@ -112,9 +115,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setCurrentUserAvailabilityStatus', () => {
+  describe('#setCurrentUserAvailability', () => {
     it('sends correct mutations if user id is available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },
@@ -127,7 +130,7 @@ describe('#actions', () => {
     });
 
     it('does not send correct mutations if user id is not available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },

@@ -150,7 +150,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
     "ONGOING": "В настоящее время",
-    "ONE_OFF": "Один выключен"
+    "ONE_OFF": "Один выключен",
+    "REPORTS_AGENT": "Операторы",
+    "REPORTS_LABEL": "Категории",
+    "REPORTS_INBOX": "Электронная почта",
+    "REPORTS_TEAM": "Команда"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
