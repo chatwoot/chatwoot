@@ -94,14 +94,28 @@ describe('#actions', () => {
     it('reset campaign if campaign id is not present in the campaign list', async () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
-        { dispatch, getters: { getCampaigns: campaigns }, commit },
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            events: { isOpen: true },
+          },
+        },
         { campaignId: 32 }
       );
     });
     it('start campaign if campaign id passed', async () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
-        { dispatch, getters: { getCampaigns: campaigns }, commit },
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            events: { isOpen: false },
+          },
+        },
         { campaignId: 1 }
       );
       expect(commit.mock.calls).toEqual([['setActiveCampaign', campaigns[0]]]);
