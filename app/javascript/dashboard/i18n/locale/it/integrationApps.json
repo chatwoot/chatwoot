@@ -41,7 +41,7 @@
           "LABEL": "Select Inbox",
           "PLACEHOLDER": "Select Inbox"
         },
-        "SUBMIT": "Create",
+        "SUBMIT": "Crea",
         "CANCEL": "annulla"
       },
       "API": {

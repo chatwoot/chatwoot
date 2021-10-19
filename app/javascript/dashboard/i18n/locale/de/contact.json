@@ -32,6 +32,8 @@
         "NO_RESULT": "Keine Labels gefunden"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Unterhaltung stummschalten",
     "UNMUTE_CONTACT": "Unterhaltung entmuten",
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "Neuer Kontakt",
     "TITLE": "Neuen Kontakt erstellen",
     "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV-Datei",
+      "SUBMIT": "Import",
+      "CANCEL": "Stornieren"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Kontakt löschen",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+      "PLACE_HOLDER": "Bitte geben Sie {contactName} zur Bestätigung ein",
+      "YES": "Ja, löschen ",
+      "NO": "Nein, behalten "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Kontakte zusammenführen",
-    "DESCRIPTION": "Das Zusammenführen von Kontakten ist hilfreich, wenn Sie doppelte Einträge desselben Kontakts haben. Dabei kann ein primärer Kontakt und ein sekundärer Kontakt gewählt werden. Nach dem Zusammenführen bleiben alle Details im primären Kontakt unverändert. Wenn der primäre Kontakt kein Feld hat, wird der Wert des sekondären Kontakts verwendet. Falls ein Konflikt auftritt, bleiben die Felder im primären Kontakt unberührt, aber benutzerdefinierte Attribute vom sekundären Kontakt werden zum primären Kontakt kopiert.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Hauptkontakt"
+      "TITLE": "Hauptkontakt",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Kontakt zum Zusammenführen",
-      "PLACEHOLDER": "Wählen Sie einen Kontakt"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Zusammenfassung",
-      "DELETE_WARNING": "Der Kontakt <strong>%{childContactName}</strong>wird gelöscht.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{childContactName}</strong> wird zu <strong>%{primaryContactName}</strong> kopiert."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Wählen Sie einen Kontakt zum Zusammenführen"
       },
       "SUCCESS_MESSAGE": "Kontakt erfolgreich zusammengeführt",
-      "ERROR_MESSAGE": "Kontakte konnten nicht zusammengeführt werden, bitte erneut versuchen!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }
