@@ -6,7 +6,7 @@
         {{ pageTitle }}
       </h1>
       <button class="btn-filter" @click="onToggleAdvanceFiltersModal">
-        <i class="icon ion-funnel" />
+        <i class="icon ion-ios-settings-strong" />
       </button>
     </div>
 
@@ -61,6 +61,7 @@
     >
       <chat-advanced-filter
         v-if="showAdvancedFilters"
+        :filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
       />
     </woot-modal>
@@ -77,6 +78,7 @@ import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
+import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
@@ -108,6 +110,7 @@ export default {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       showAdvancedFilters: false,
+      advancedFilterTypes,
     };
   },
   computed: {

@@ -8,113 +8,16 @@
       </woot-modal-header>
       <div class="row modal-content">
         <div class="medium-12 columns filter-modal-content">
-          <div v-for="(filter, i) in appliedFilters" :key="i" class="filters">
-            <div class="filter--attributes">
-              <select
-                v-model="filter.attribute_key"
-                class="filter--attributes_select"
-              >
-                <option
-                  v-for="attribute in filterAttributes"
-                  :key="attribute.key"
-                  :value="attribute.key"
-                >
-                  {{ attribute.name }}
-                </option>
-              </select>
-              <button
-                class="filter--attribute_clearbtn"
-                @click="removeFilter(i)"
-              >
-                <i class="icon ion-close-circled" />
-              </button>
-            </div>
-            <div class="filter-values">
-              <div class="row">
-                <div class="small-4 columns padding-right-small">
-                  <select
-                    v-model="filter.filter_operator"
-                    class="filter--values_select"
-                  >
-                    <option
-                      v-for="(operator, o) in getOperators(
-                        filter.attribute_key
-                      )"
-                      :key="o"
-                      :value="operator.key"
-                    >
-                      {{ operator.value }}
-                    </option>
-                  </select>
-                </div>
-                <div class="small-8 columns">
-                  <input
-                    v-if="getInputType(filter.attribute_key) === 'plain_text'"
-                    v-model="filter.values"
-                    type="text"
-                    class="filter--attributes_input"
-                    placeholder="Enter value"
-                  />
-                  <div class="multiselect-wrap--small">
-                    <multiselect
-                      v-if="
-                        getInputType(filter.attribute_key) === 'multi_select'
-                      "
-                      v-model="filter.values"
-                      track-by="id"
-                      label="name"
-                      :placeholder="'Select'"
-                      :multiple="true"
-                      selected-label
-                      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                      deselect-label=""
-                      :options="getDropdownValues(filter.attribute_key)"
-                      :allow-empty="false"
-                    />
-                  </div>
-                  <div class="multiselect-wrap--small">
-                    <multiselect
-                      v-if="
-                        getInputType(filter.attribute_key) === 'search_select'
-                      "
-                      v-model="filter.values"
-                      track-by="id"
-                      label="name"
-                      :placeholder="'Select'"
-                      selected-label
-                      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                      deselect-label=""
-                      :options="getDropdownValues(filter.attribute_key)"
-                      :allow-empty="false"
-                      :option-height="104"
-                    />
-                  </div>
-                  <!-- <div v-if="!v.filter.values.required" class="error">
-                    Value is required.
-                  </div> -->
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="i !== appliedFilters.length - 1"
-              class="filter--query_operator"
-            >
-              <hr class="filter--query_operator_line" />
-              <div class="filter--query_operator_container">
-                <select
-                  v-model="filter.query_operator"
-                  class="filter--query_operator_select"
-                >
-                  <option value="and">
-                    AND
-                  </option>
-                  <option value="or">
-                    OR
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <filter-input-box
+            v-for="(filter, i) in appliedFilters"
+            :key="i"
+            v-model="filter"
+            :filter-data="filter"
+            :filter-attributes="filterAttributes"
+            :input-type="getInputType(filter.attribute_key)"
+            :operators="getOperators(filter.attribute_key)"
+            :dropdown-values="getDropdownValues(filter.attribute_key)"
+          />
           <div class="filter-actions">
             <button class="append-filter-btn" @click="appendNewFilter">
               <i class="icon ion-plus-circled margin-right-small" />
@@ -138,18 +41,23 @@
 <script>
 import Modal from '../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
-import advancedFilterTypes from './advancedFilterItems';
 import { required } from 'vuelidate/lib/validators';
+import filterInputBox from './components/FilterInput.vue';
 
 export default {
   components: {
     Modal,
+    filterInputBox,
   },
   mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
+    },
+    filterTypes: {
+      type: Array,
+      default: () => [],
     },
   },
   validations: {
@@ -172,7 +80,6 @@ export default {
           query_operator: 'and',
         },
       ],
-      filterTypes: advancedFilterTypes,
       mockOptions: [
         {
           id: 1,
