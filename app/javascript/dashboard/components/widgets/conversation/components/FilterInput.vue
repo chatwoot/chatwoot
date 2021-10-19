@@ -4,7 +4,7 @@
       <select
         v-model="attribute_key"
         class="filter--attributes_select"
-        @change="values = ''"
+        @change="clearPreviousValues()"
       >
         <option
           v-for="attribute in filterAttributes"
@@ -14,7 +14,7 @@
           {{ attribute.name }}
         </option>
       </select>
-      <button class="filter--attribute_clearbtn" @click="removeFilter(i)">
+      <button class="filter--attribute_clearbtn" @click="removeFilter">
         <i class="icon ion-close-circled" />
       </button>
     </div>
@@ -75,13 +75,10 @@
         </div>
       </div>
     </div>
-    <!-- <div v-if="i !== appliedFilters.length - 1" class="filter--query_operator">
+    <div v-if="showQueryOperator" class="filter--query_operator">
       <hr class="filter--query_operator_line" />
       <div class="filter--query_operator_container">
-        <select
-          v-model="filter.query_operator"
-          class="filter--query_operator_select"
-        >
+        <select v-model="query_operator" class="filter--query_operator_select">
           <option value="and">
             AND
           </option>
@@ -90,16 +87,16 @@
           </option>
         </select>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    filterData: {
+    value: {
       type: Object,
-      default: () => {},
+      default: () => null,
     },
     filterAttributes: {
       type: Array,
@@ -117,11 +114,10 @@ export default {
       type: Array,
       default: () => ['op1', 'op2', 'op3'],
     },
-  },
-  data() {
-    return {
-      filter: this.filterData,
-    };
+    showQueryOperator: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     attribute_key: {
@@ -167,10 +163,11 @@ export default {
   },
   methods: {
     removeFilter() {
-      this.$emit('remove-filter');
+      this.$emit('removeFilter');
+    },
+    clearPreviousValues() {
+      this.$emit('clearPreviousValues');
     },
   },
 };
 </script>
-
-<style></style>

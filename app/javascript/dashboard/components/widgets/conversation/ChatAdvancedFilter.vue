@@ -11,12 +11,17 @@
           <filter-input-box
             v-for="(filter, i) in appliedFilters"
             :key="i"
-            v-model="filter"
+            v-model="appliedFilters[i]"
             :filter-data="filter"
             :filter-attributes="filterAttributes"
-            :input-type="getInputType(filter.attribute_key)"
-            :operators="getOperators(filter.attribute_key)"
-            :dropdown-values="getDropdownValues(filter.attribute_key)"
+            :input-type="getInputType(appliedFilters[i].attribute_key)"
+            :operators="getOperators(appliedFilters[i].attribute_key)"
+            :dropdown-values="
+              getDropdownValues(appliedFilters[i].attribute_key)
+            "
+            :show-query-operator="i !== appliedFilters.length - 1"
+            @clearPreviousValues="clearPreviousValues(i)"
+            @removeFilter="removeFilter(i)"
           />
           <div class="filter-actions">
             <button class="append-filter-btn" @click="appendNewFilter">
@@ -301,12 +306,23 @@ export default {
       //     body: JSON.stringify(this.appliedFilters),
       //   });
       // }
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator =
-        'nil';
-      fetch('https://enogvpwj2uxd.x.pipedream.net/', {
-        method: 'POST',
-        body: JSON.stringify(this.appliedFilters),
+      let check = this.appliedFilters.every(item => {
+        return item.values;
       });
+      if (check) {
+        this.appliedFilters[this.appliedFilters.length - 1].query_operator =
+          'nil';
+        fetch('https://enogvpwj2uxd.x.pipedream.net/', {
+          method: 'POST',
+          body: JSON.stringify(this.appliedFilters),
+        });
+        alert('filter succesfully applied');
+      } else {
+        alert('You have left some filters blank');
+      }
+    },
+    clearPreviousValues(index) {
+      this.appliedFilters[index].values = '';
     },
   },
 };
