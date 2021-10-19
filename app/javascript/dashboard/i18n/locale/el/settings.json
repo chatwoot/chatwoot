@@ -150,7 +150,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
-    "ONE_OFF": "Ένα/μία από"
+    "ONE_OFF": "Ένα/μία από",
+    "REPORTS_AGENT": "Πράκτορες",
+    "REPORTS_LABEL": "Ετικέτες",
+    "REPORTS_INBOX": "Εισερχόμενα",
+    "REPORTS_TEAM": "Ομάδα"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",

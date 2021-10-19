@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Al momento non è disponibile nessun operatore"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "In genere le risposte in un giorno"
   },
   "START_CONVERSATION": "Avvia Conversazione",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "Avvia una nuova conversazione",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
     "CLOSE_MESSAGES_BUTTON": "Chiudi",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "da",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -52,20 +52,20 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Campo non valido"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Valuta la conversazione",
+    "SUBMITTED_TITLE": "Grazie per aver inviato la valutazione",
+    "PLACEHOLDER": "Dicci di più..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
+    "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
+    "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova"
   }
 }

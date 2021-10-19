@@ -222,8 +222,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -247,10 +248,8 @@ export default {
       return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
+      const { platform_name: platformName, platform_version: platformVersion } =
+        this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     channelType() {
@@ -421,10 +420,11 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-normal;
-  top: $space-slab;
+  right: $space-two;
+  top: $space-slab + $space-two;
   font-size: $font-size-default;
   color: $color-heading;
+  z-index: 9999;
 }
 
 .conversation--labels {

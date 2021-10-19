@@ -150,7 +150,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
-    "ONE_OFF": "Única"
+    "ONE_OFF": "Única",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Marcadores",
+    "REPORTS_INBOX": "Caixa de Entrada",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
