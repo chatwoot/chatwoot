@@ -7,6 +7,7 @@ import store from '../widget/store';
 import router from '../widget/router';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
+import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
 import i18n from '../widget/i18n';
 
 Vue.use(VueI18n);
@@ -35,4 +36,5 @@ window.onload = () => {
     window.WOOT_WIDGET,
     window.chatwootPubsubToken
   );
+  getAlertAudio();
 };

@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Gambaran",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
@@ -53,37 +53,289 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rentang tanggal kustom"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Gambaran Agen",
+    "LOADING_CHART": "Memuat data grafik...",
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
+    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
+    "FILTER_DROPDOWN_LABEL": "Pilih Agen",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Percakapan",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Pesan Masuk",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Pesan Keluar",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Waktu respons pertama",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Waktu Penyelesaian",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Jumlah Terselesaikan",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Gambaran Label",
+    "LOADING_CHART": "Memuat data grafik...",
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
+    "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
+    "FILTER_DROPDOWN_LABEL": "Pilih label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Percakapan",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Pesan Masuk",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Pesan Keluar",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Waktu respons pertama",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Waktu Penyelesaian",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Jumlah Terselesaikan",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Gambaran kontak masuk",
+    "LOADING_CHART": "Memuat data grafik...",
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
+    "DOWNLOAD_INBOX_REPORTS": "Unduh laporan kotak masuk",
+    "FILTER_DROPDOWN_LABEL": "Pilih kotak masuk",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Percakapan",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Pesan Masuk",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Pesan Keluar",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Waktu respons pertama",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Waktu Penyelesaian",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Jumlah Terselesaikan",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Gambaran Tim",
+    "LOADING_CHART": "Memuat data grafik...",
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
+    "DOWNLOAD_TEAM_REPORTS": "Unduh laporan tim",
+    "FILTER_DROPDOWN_LABEL": "Pilih Tim",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Percakapan",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Pesan Masuk",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Pesan Keluar",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Waktu respons pertama",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Waktu Penyelesaian",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Jumlah Terselesaikan",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      },
+      {
+        "id": 2,
+        "name": "3 bulan terakhir"
+      },
+      {
+        "id": 3,
+        "name": "6 bulan terakhir"
+      },
+      {
+        "id": 4,
+        "name": "Tahun terakhir"
+      },
+      {
+        "id": 5,
+        "name": "Rentang tanggal kustom"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Terapkan",
+      "PLACEHOLDER": "Pilih rentang tanggal"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Laporan CSAT",
+    "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Kontak",
+        "AGENT_NAME": "Agen yang ditugaskan",
+        "RATING": "Peringkat",
+        "FEEDBACK_TEXT": "Komentar umpan balik"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Total respons",
+        "TOOLTIP": "Total jumlah respons yang terkumpul"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Nilai kepuasan",
+        "TOOLTIP": "Total jumlah respons positif / Total jumlah respons * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Peringkat respons",
+        "TOOLTIP": "Total jumlah respons / Total jumlah pesan survey CSAT yang terkirim * 100"
       }
     }
   }

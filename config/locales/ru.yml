@@ -27,10 +27,18 @@ ru:
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       failed: Ошибка регистрации
+    contacts:
+      import:
+        failed: Пустой файл
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:
       agent_name: Имя оператора
+      conversations_count: Количество бесед
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
+    team_csv:
+      team_name: Название команды
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
@@ -73,6 +81,9 @@ ru:
       transcript_subject: "Субтитры общения"
     survey:
       response: "Пожалуйста, оцените этот разговор, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} в сети, повторите попытку позже"
   integration_apps:
     slack:
       name: "Slack"

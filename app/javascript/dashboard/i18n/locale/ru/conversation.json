@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Открыть",
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
-      "DETAILS": "подробности"
+      "DETAILS": "подробности",
+      "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Отметить как ожидающие",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Назначенный оператор изменен",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
     "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Выбрать Агента",
