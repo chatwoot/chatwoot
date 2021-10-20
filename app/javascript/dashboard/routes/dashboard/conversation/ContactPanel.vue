@@ -12,12 +12,11 @@
       "
     >
       <div class="conversation--details">
-        <custom-attribute-selector attribute-type="conversation_attribute" />
-
         <custom-attributes
           attribute-type="conversation_attribute"
           :custom-attributes="conversationCustomAttributes"
         />
+        <custom-attribute-selector attribute-type="conversation_attribute" />
       </div>
     </accordion-item>
     <div class="conversation--actions">

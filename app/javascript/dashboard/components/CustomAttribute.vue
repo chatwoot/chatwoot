@@ -43,7 +43,9 @@
       </p>
       <woot-button
         v-if="showActions"
-        variant="clear link"
+        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+        title="$t('CONTACT_PANEL.NEW_MESSAGE')"
+        variant="link"
         size="small"
         color-scheme="secondary"
         icon="ion-clipboard"
@@ -52,7 +54,8 @@
       />
       <woot-button
         v-if="showActions"
-        variant="clear link"
+        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+        variant="link"
         size="small"
         color-scheme="secondary"
         icon="ion-compose"
@@ -61,7 +64,8 @@
       />
       <woot-button
         v-if="showActions"
-        variant="clear link"
+        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
+        variant="link"
         size="small"
         color-scheme="secondary"
         icon="ion-trash-a"
