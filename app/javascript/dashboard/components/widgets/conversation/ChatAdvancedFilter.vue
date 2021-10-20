@@ -85,24 +85,6 @@ export default {
           query_operator: 'and',
         },
       ],
-      mockOptions: [
-        {
-          id: 1,
-          name: 'Option 1',
-        },
-        {
-          id: 2,
-          name: 'Option 2',
-        },
-        {
-          id: 3,
-          name: 'Option 3',
-        },
-        {
-          id: 4,
-          name: 'Option 4',
-        },
-      ],
     };
   },
   computed: {
@@ -148,131 +130,53 @@ export default {
             },
           ];
         case 'assignee':
-          return [
-            {
-              id: 1,
-              name: 'Fayaz',
-            },
-            {
-              id: 2,
-              name: 'Pranav',
-            },
-            {
-              id: 3,
-              name: 'Nithin',
-            },
-            {
-              id: 4,
-              name: 'Sojan',
-            },
-          ];
+          return this.$store.getters['agents/getAgents'];
         case 'contact':
-          return [
-            {
-              id: 1,
-              name: 'User 1',
-            },
-            {
-              id: 2,
-              name: 'User 2',
-            },
-            {
-              id: 3,
-              name: 'User 3',
-            },
-            {
-              id: 4,
-              name: 'User 4',
-            },
-          ];
+          return this.$store.getters['contacts/getContacts'];
         case 'inbox':
-          return [
-            {
-              id: 1,
-              name: 'Inbox 1',
-            },
-            {
-              id: 2,
-              name: 'Inbox 2',
-            },
-            {
-              id: 3,
-              name: 'Inbox 3',
-            },
-          ];
+          return this.$store.getters['inboxes/getInboxes'];
         case 'team_id':
-          return [
-            {
-              id: 1,
-              name: 'Team 1',
-            },
-            {
-              id: 2,
-              name: 'Team 2',
-            },
-            {
-              id: 3,
-              name: 'Team 3',
-            },
-          ];
+          return this.$store.getters['teams/getTeams'];
         case 'campaign_id':
-          return [
-            {
-              id: 1,
-              name: 'Campaign 1',
-            },
-            {
-              id: 2,
-              name: 'Campaign 2',
-            },
-            {
-              id: 3,
-              name: 'Campaign 3',
-            },
-          ];
+          return this.$store.getters['campaign/getCampaigns'];
         case 'labels':
-          return [
-            {
-              id: 1,
-              name: 'Label 1',
-            },
-            {
-              id: 2,
-              name: 'Label 2',
-            },
-            {
-              id: 3,
-              name: 'Label 3',
-            },
-          ];
+          return this.$store.getters['labels/getLabels'];
         case 'browser':
           return [
             {
               id: 1,
-              name: 'Browser 1',
+              name: 'Google Chrome',
             },
             {
               id: 2,
-              name: 'Browser 2',
+              name: 'Mozilla Firefox',
             },
             {
               id: 3,
-              name: 'Browser 3',
+              name: 'Safari',
             },
           ];
         case 'country_code':
           return [
             {
               id: 1,
-              name: 'Country 1',
+              name: 'India',
             },
             {
               id: 2,
-              name: 'Country 2',
+              name: 'USA',
             },
             {
               id: 3,
-              name: 'Country 3',
+              name: 'United Kingdom',
+            },
+            {
+              id: 4,
+              name: 'Germany',
+            },
+            {
+              id: 5,
+              name: 'Canada',
             },
           ];
         default:
@@ -369,6 +273,7 @@ export default {
   font-size: 1.5rem;
   padding: 1rem;
   height: 38px;
+  cursor: pointer;
 }
 .filter-actions {
   margin: 2rem 0 1rem 0;
