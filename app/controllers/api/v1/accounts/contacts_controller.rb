@@ -50,6 +50,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def show; end
 
+  def filter
+    @contacts = Current.account.contacts.limit(10)
+  end
+
   def contactable_inboxes
     @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
     @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
