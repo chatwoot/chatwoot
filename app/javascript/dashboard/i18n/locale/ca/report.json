@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
+    "FILTER_DROPDOWN_LABEL": "Seleccionar Agent",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer temps de resposta",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer temps de resposta",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer temps de resposta",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer temps de resposta",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

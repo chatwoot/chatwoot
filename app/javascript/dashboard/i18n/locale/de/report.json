@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Zeitraum auswählen"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
+    "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Agent auswählen",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Gespräche",
+        "DESC": "(Gesamt)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Eingehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Ausgehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Erste Antwortzeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Lösungszeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Auflösungsanzahl",
+        "DESC": "(Gesamt)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzten 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Die letzten 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Die letzten 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Gespräche",
+        "DESC": "(Gesamt)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Eingehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Ausgehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Erste Antwortzeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Lösungszeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Auflösungsanzahl",
+        "DESC": "(Gesamt)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzten 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Die letzten 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Die letzten 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Gespräche",
+        "DESC": "(Gesamt)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Eingehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Ausgehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Erste Antwortzeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Lösungszeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Auflösungsanzahl",
+        "DESC": "(Gesamt)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzten 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Die letzten 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Die letzten 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Diagrammdaten laden ...",
+    "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Gespräche",
+        "DESC": "(Gesamt)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Eingehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Ausgehende Nachrichten",
+        "DESC": "(Gesamt)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Erste Antwortzeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Lösungszeit",
+        "DESC": "(Durchschnitt)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Auflösungsanzahl",
+        "DESC": "(Gesamt)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Letzten 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      },
+      {
+        "id": 2,
+        "name": "Die letzten 3 Monate"
+      },
+      {
+        "id": 3,
+        "name": "Die letzten 6 Monate"
+      },
+      {
+        "id": 4,
+        "name": "Letztes Jahr"
+      },
+      {
+        "id": 5,
+        "name": "Benutzerdefinierter Zeitraum"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Übernehmen",
+      "PLACEHOLDER": "Zeitraum auswählen"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT-Berichte",
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",

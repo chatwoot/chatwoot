@@ -27,10 +27,18 @@ pt:
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se inscreveu para uma conta com %{email}"
       failed: Falha na inscrição
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Período do relatório de %{since} a %{until}
     agent_csv:
       agent_name: Nome do agente
+      conversations_count: Número de conversas
+      avg_first_response_time: Média do tempo de resposta (minutos)
+      avg_resolution_time: Média do tempo de resolução (minutos)
+    team_csv:
+      team_name: Nome da equipa
       conversations_count: Número de conversas
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
@@ -73,6 +81,9 @@ pt:
       transcript_subject: "Transcrição da conversa"
     survey:
       response: "Por favor, avalie esta conversa, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

@@ -22,7 +22,7 @@
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "Voila!",
+        "title": "瞧！",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
@@ -55,6 +55,11 @@
         "LOADING_MESSAGE": "建立網站支持頻道",
         "CHANNEL_AVATAR": {
           "LABEL": "頻道頭像"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 網址",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "請輸入一個有效的 URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站域名",
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "建立收件匣"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp 頻道",
-        "DESC": "整合 Twilio 並開始通過短信或Whatsap支持您的客户。",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "帳戶 SID",
           "PLACEHOLDER": "請輸入您的 Twilio 帳戶 SID",
@@ -109,8 +114,8 @@
           "ERROR": "此欄位是必填項目"
         },
         "CHANNEL_NAME": {
-          "LABEL": "頻道類型",
-          "PLACEHOLDER": "請輸入頻道名稱",
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "此欄位是必填項目"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "電話號碼",
+          "PLACEHOLDER": "請輸入發送消息的電話號碼。",
+          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API 頻道",
@@ -192,9 +223,13 @@
           "LABEL": "LINE Channel Token",
           "PLACEHOLDER": "LINE Channel Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "建立 LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回呼地址",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -205,14 +240,14 @@
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "建立 Telegram Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服",
@@ -266,11 +301,14 @@
       "ENABLE_CSAT": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "刪除頭貼",
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除吗？ ",
@@ -315,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
       "HMAC_VERIFICATION": "使用者身份驗證",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
@@ -331,8 +371,8 @@
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "是",
+          "DISABLED": "否"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -350,13 +390,13 @@
       "TIMEZONE_LABEL": "選擇時區",
       "UPDATE": "更新服務時間設定",
       "TOGGLE_AVAILABILITY": "啟用收件匣可用服務時間",
-      "UNAVAILABLE_MESSAGE_LABEL": "非服務時間給訪客的訊息",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "我們現在無法回覆您的訊息。請留言，我們會盡快聯絡您。",
       "TOGGLE_HELP": "啟用服務時間將會在 live chat 小工具上顯示你的服務時間，就算所有客服都不在線上。若不在服務時間內，訪客將會被提醒及傳送 pre-chat 表單",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "無法使用",
-        "HOURS": "hours",
+        "HOURS": "小時",
         "VALIDATION_ERROR": "開始時間必須在關閉時間之前",
         "CHOOSE": "選擇"
       }
