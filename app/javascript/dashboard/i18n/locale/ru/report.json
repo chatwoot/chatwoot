@@ -254,7 +254,7 @@
     "HEADER": "Обзор команды",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
-    "DOWNLOAD_TEAM_REPORTS": "Скачать отчеты по команде",
+    "DOWNLOAD_TEAM_REPORTS": "Скачать отчет по команде",
     "FILTER_DROPDOWN_LABEL": "Выберите команду",
     "METRICS": {
       "CONVERSATIONS": {
