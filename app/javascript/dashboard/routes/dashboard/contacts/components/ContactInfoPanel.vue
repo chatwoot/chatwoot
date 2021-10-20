@@ -94,6 +94,7 @@ export default {
   top: 3.6rem;
   font-size: var(--font-size-big);
   color: var(--s-500);
+  z-index: 1;
 
   .close-icon {
     margin-right: var(--space-smaller);
