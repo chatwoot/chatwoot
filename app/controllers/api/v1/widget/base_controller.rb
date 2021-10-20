@@ -15,10 +15,6 @@ class Api::V1::Widget::BaseController < ApplicationController
     end
   end
 
-  def conversation
-    @conversation ||= conversations.last
-  end
-
   def auth_token_params
     @auth_token_params ||= ::Widget::TokenService.new(token: request.headers['X-Auth-Token']).decode_token
   end

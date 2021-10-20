@@ -1,30 +1,34 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :set_conversation, except: [:index, :create]
 
   def index
-    @conversation = conversation
+    @conversations = conversations
   end
 
   def create
     ActiveRecord::Base.transaction do
       update_contact(contact_email) if @contact.email.blank? && contact_email.present?
       @conversation = create_conversation
-      conversation.messages.create(message_params)
+      @conversation.messages.create(message_params)
     end
   end
 
-  def update_last_seen
-    head :ok && return if conversation.nil?
+  def show
+  end
 
-    conversation.contact_last_seen_at = DateTime.now.utc
-    conversation.save!
+  def update_last_seen
+    head :ok && return if @conversation.nil?
+
+    @conversation.contact_last_seen_at = DateTime.now.utc
+    @conversation.save!
     head :ok
   end
 
   def transcript
-    if permitted_params[:email].present? && conversation.present?
-      ConversationReplyMailer.with(account: conversation.account).conversation_transcript(
-        conversation,
+    if permitted_params[:email].present? && @conversation.present?
+      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(
+        @conversation,
         permitted_params[:email]
       )&.deliver_later
     end
@@ -32,7 +36,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_typing
-    head :ok && return if conversation.nil?
+    head :ok && return if @conversation.nil?
 
     case permitted_params[:typing_status]
     when 'on'
@@ -46,8 +50,12 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   private
 
+  def set_conversation
+    @conversation = @conversations.find_by(display_id: params[:id])
+  end
+
   def trigger_typing_event(event)
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: @contact)
   end
 
   def permitted_params

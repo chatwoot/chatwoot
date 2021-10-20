@@ -174,9 +174,9 @@ Rails.application.routes.draw do
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
-        resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index, :create] do
-          collection do
+        resources :conversations, only: [:index, :create, :show] do
+          resources :messages, only: [:index, :create, :update]
+          member do
             post :update_last_seen
             post :toggle_typing
             post :transcript

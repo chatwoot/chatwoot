@@ -1,5 +1,5 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
-  before_action :set_conversation, only: [:create]
+  before_action :set_conversation
   before_action :set_message, only: [:update]
 
   def index
@@ -38,7 +38,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    @conversation = create_conversation if conversation.nil?
+    @conversation = @conversations.find_by(display_id: params[:conversation_id])
   end
 
   def message_finder_params

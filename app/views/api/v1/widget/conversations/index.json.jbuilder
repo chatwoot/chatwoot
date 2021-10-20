@@ -1,6 +1,3 @@
-if @conversation
-  json.id @conversation.display_id
-  json.inbox_id @conversation.inbox_id
-  json.contact_last_seen_at @conversation.contact_last_seen_at.to_i
-  json.status @conversation.status
+json.array! @conversations do |conversation|
+  json.partial! 'api/v1/widget/models/_conversation.json.jbuilder', resource: conversation
 end
