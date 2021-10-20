@@ -87,6 +87,15 @@
           />
           {{ $t('CAMPAIGN.ADD.FORM.ENABLED') }}
         </label>
+        <label v-if="isOngoingType">
+          <input
+            v-model="triggerOnlyDuringBusinessHours"
+            type="checkbox"
+            value="triggerOnlyDuringBusinessHours"
+            name="triggerOnlyDuringBusinessHours"
+          />
+          {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
+        </label>
       </div>
       <div class="modal-footer">
         <woot-button :is-loading="uiFlags.isCreating">
@@ -125,6 +134,7 @@ export default {
       selectedInbox: null,
       endPoint: '',
       timeOnPage: 10,
+      triggerOnlyDuringBusinessHours: false,
       show: true,
       enabled: true,
       senderList: [],
@@ -209,6 +219,7 @@ export default {
         title,
         message,
         enabled,
+        trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
         inbox: { id: inboxId },
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
         sender,
@@ -218,6 +229,7 @@ export default {
       this.endPoint = endPoint;
       this.timeOnPage = timeOnPage;
       this.selectedInbox = inboxId;
+      this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
       this.loadInboxMembers();
@@ -233,6 +245,9 @@ export default {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
+          trigger_only_during_business_hours:
+            // eslint-disable-next-line prettier/prettier
+            this.triggerOnlyDuringBusinessHours,
           sender_id: this.selectedSender || null,
           enabled: this.enabled,
           trigger_rules: {

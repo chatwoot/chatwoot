@@ -47,27 +47,34 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
     },
+    chatAdditionalAttributes() {
+      const { additional_attributes: additionalAttributes } = this.chat || {};
+      return additionalAttributes || {};
+    },
     isTwitterInboxTweet() {
-      return (
-        this.chat &&
-        this.chat.additional_attributes &&
-        this.chat.additional_attributes.type === 'tweet'
-      );
+      return this.chatAdditionalAttributes.type === 'tweet';
     },
     twilioBadge() {
       return `${this.isATwilioSMSChannel ? 'sms' : 'whatsapp'}`;
     },
     twitterBadge() {
-      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-chat'}`;
+      return `${this.isTwitterInboxTweet ? 'twitter-tweet' : 'twitter-dm'}`;
+    },
+    facebookBadge() {
+      return this.chatAdditionalAttributes.type || 'facebook';
     },
     inboxBadge() {
+      let badgeKey = '';
       if (this.isATwitterInbox) {
-        return this.twitterBadge;
+        badgeKey = this.twitterBadge;
+      } else if (this.isAFacebookInbox) {
+        badgeKey = this.facebookBadge;
+      } else if (this.isATwilioChannel) {
+        badgeKey = this.twilioBadge;
+      } else if (this.isAWhatsappChannel) {
+        badgeKey = 'whatsapp';
       }
-      if (this.isATwilioChannel) {
-        return this.twilioBadge;
-      }
-      return this.channelType;
+      return badgeKey || this.channelType;
     },
     isAWhatsappChannel() {
       return (

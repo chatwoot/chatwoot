@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "உரையாடல்கள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "உள்வரும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "வெளிச்செல்லும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "தீர்மான எண்ணிக்கை",
+        "DESC": "( மொத்தம் )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "உரையாடல்கள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "உள்வரும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "வெளிச்செல்லும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "தீர்மான எண்ணிக்கை",
+        "DESC": "( மொத்தம் )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "உரையாடல்கள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "உள்வரும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "வெளிச்செல்லும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "தீர்மான எண்ணிக்கை",
+        "DESC": "( மொத்தம் )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
+    "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "உரையாடல்கள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "உள்வரும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "வெளிச்செல்லும் செய்திகள்",
+        "DESC": "( மொத்தம் )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
+        "DESC": "(சராசரி)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "தீர்மான எண்ணிக்கை",
+        "DESC": "( மொத்தம் )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "கடந்த 7 நாட்கள்"
+      },
+      {
+        "id": 1,
+        "name": "கடந்த 30 நாட்கள்"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

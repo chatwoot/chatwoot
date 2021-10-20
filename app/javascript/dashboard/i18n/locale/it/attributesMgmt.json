@@ -1,84 +1,84 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Attributi",
+    "HEADER_BTN_TXT": "Aggiungi Attributo",
+    "LOADING": "Recupero attributi",
+    "SIDEBAR_TXT": "<p><b>Attributi</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un Attributo, basta cliccare sul<b>Aggiungi Attributo.</b> Puoi anche modificare o eliminare un Attributo esistente facendo clic sul pulsante Modifica o Elimina.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
-      "SUBMIT": "Create",
+      "TITLE": "Aggiungi Attributo",
+      "SUBMIT": "Crea",
       "CANCEL_BUTTON_TEXT": "annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nome Visualizzato",
+          "PLACEHOLDER": "Inserisci il nome da visualizzare",
+          "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Inserire descrizione",
+          "ERROR": "Descrizione obbligatoria"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "Modello",
+          "PLACEHOLDER": "Seleziona un modello",
+          "ERROR": "Il modello è obbligatorio"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "LABEL": "Tipo",
+          "PLACEHOLDER": "Seleziona un tipo",
+          "ERROR": "Il tipo è obbligatorio"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Chiave"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Attributo aggiunto con successo",
+        "ERROR_MESSAGE": "Impossibile creare un attributo, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Cancellare",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Attributo eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile eliminare l'attributo. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "PLACE_HOLDER": "Digita {attributeName} per confermare",
+        "MESSAGE": "L'eliminazione rimuoverà l'attributo",
         "YES": "Cancellare ",
         "NO": "annulla"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Modifica attributo",
       "UPDATE_BUTTON_TEXT": "Aggiornamento",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Attributo aggiornato con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore durante l'aggiornamento dell'attributo, per favore riprova"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Attributi Personalizzati",
+      "CONVERSATION": "Conversazioni",
+      "CONTACT": "Contatto"
     },
     "LIST": {
       "TABLE_HEADER": [
         "nome",
-        "Description",
-        "Type",
-        "Key"
+        "Descrizione",
+        "Tipo",
+        "Chiave"
       ],
       "BUTTONS": {
         "EDIT": "Modifica",
         "DELETE": "Cancellare"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Non ci sono attributi creati",
+        "NOT_FOUND": "Non ci sono attributi configurati"
       }
     }
   }
