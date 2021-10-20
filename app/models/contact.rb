@@ -38,12 +38,12 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: 'should be in e164 format' }
 
   belongs_to :account
-  has_many :conversations, dependent: :destroy
-  has_many :contact_inboxes, dependent: :destroy
-  has_many :csat_survey_responses, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
+  has_many :contact_inboxes, dependent: :destroy_async
+  has_many :csat_survey_responses, dependent: :destroy_async
   has_many :inboxes, through: :contact_inboxes
-  has_many :messages, as: :sender, dependent: :destroy
-  has_many :notes, dependent: :destroy
+  has_many :messages, as: :sender, dependent: :destroy_async
+  has_many :notes, dependent: :destroy_async
 
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event, :ip_lookup
