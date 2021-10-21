@@ -30,6 +30,14 @@
           : ''
       "
     />
+    <form-input
+      v-model="phoneNumber"
+      class="mt-5"
+      :label="$t('Phone Number')"
+      :placeholder="$t('ex: +62821234567890')"
+      type="text"
+      :error="$v.emailAddress.$error ? $t('Please input with +62 format.') : ''"
+    />
     <form-text-area
       v-model="message"
       class="my-5"
@@ -100,6 +108,7 @@ export default {
     return {
       fullName: '',
       emailAddress: '',
+      phoneNumber: '',
       message: '',
     };
   },
@@ -118,9 +127,13 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
+      if (this.phoneNumber.charAt(0) === '0') {
+        this.phoneNumber = this.phoneNumber.replace('0', '+62');
+      }
       this.$store.dispatch('conversation/createConversation', {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
+        phoneNumber: this.phoneNumber,
         message: this.message,
       });
     },
