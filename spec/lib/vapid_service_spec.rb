@@ -22,6 +22,7 @@ describe VapidService do
         # subsequent calls should not hit DB
         expect(InstallationConfig).not_to receive(:find_by)
         described_class.public_key
+        ENV['VAPID_PUBLIC_KEY'] = nil
       end
 
       it 'get private key from env' do
@@ -32,6 +33,7 @@ describe VapidService do
         # subsequent calls should not hit DB
         expect(InstallationConfig).not_to receive(:find_by)
         described_class.private_key
+        ENV['VAPID_PRIVATE_KEY'] = nil
       end
 
       it 'clears cache and fetch from DB next time, when clear_cache is called' do
