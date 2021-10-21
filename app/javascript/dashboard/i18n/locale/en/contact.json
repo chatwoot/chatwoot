@@ -265,6 +265,10 @@
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Please enter a valid url"
     }
   },
   "MERGE_CONTACTS": {

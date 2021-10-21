@@ -1,12 +1,10 @@
 <template>
   <div class="contact-attribute">
     <div class="title-wrap">
-      <h4 class="text-block-title title">
-        <div class="title--icon">
-          <emoji-or-icon :icon="icon" :emoji="emoji" />
-        </div>
-
-        {{ label }}
+      <h4 class="text-block-title title error">
+        <span class="attribute-name" :class="{ error: $v.editedValue.$error }">
+          {{ label }}
+        </span>
       </h4>
     </div>
     <div v-show="isEditing">
@@ -17,12 +15,17 @@
           :type="inputType"
           class="input-group-field"
           autofocus="true"
+          :class="{ error: $v.editedValue.$error }"
+          @blur="$v.editedValue.$touch"
           @keyup.enter="onUpdate"
         />
         <div class="input-group-button">
           <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
         </div>
       </div>
+      <span v-if="shouldShowErrorMessage" class="error-message">
+        {{ errorMessage }}
+      </span>
     </div>
     <div
       v-show="!isEditing"
@@ -77,13 +80,10 @@
 </template>
 
 <script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
-  components: {
-    EmojiOrIcon,
-  },
   props: {
     label: { type: String, required: true },
     icon: { type: String, default: '' },
@@ -99,12 +99,32 @@ export default {
       editedValue: this.value,
     };
   },
+  validations() {
+    if (this.attributeType === 'link') {
+      return {
+        editedValue: { required, url },
+      };
+    }
+    return {
+      editedValue: { required },
+    };
+  },
+
   computed: {
     isAttributeTypeLink() {
       return this.attributeType === 'link';
     },
     inputType() {
       return this.attributeType === 'link' ? 'url' : this.attributeType;
+    },
+    shouldShowErrorMessage() {
+      return this.$v.editedValue.$error;
+    },
+    errorMessage() {
+      if (this.$v.editedValue.url) {
+        return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
+      }
+      return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
   },
   mounted() {
@@ -116,7 +136,9 @@ export default {
   },
   methods: {
     focusInput() {
-      this.$refs.inputfield.focus();
+      if (this.$refs.inputfield) {
+        this.$refs.inputfield.focus();
+      }
     },
     onEdit() {
       this.isEditing = true;
@@ -125,6 +147,10 @@ export default {
       });
     },
     onUpdate() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       this.isEditing = false;
       this.$emit('update', this.attributeKey, this.editedValue);
     },
@@ -153,6 +179,11 @@ export default {
   align-items: center;
   margin: 0;
 }
+.attribute-name {
+  &.error {
+    color: var(--r-400);
+  }
+}
 .title--icon {
   width: var(--space-two);
 }
@@ -176,7 +207,16 @@ export default {
   min-width: var(--space-mega);
   border-radius: var(--border-radius-small);
   word-break: break-all;
-  margin: 0 var(--space-smaller) 0 var(--space-normal);
   padding: var(--space-micro) var(--space-smaller);
+}
+.error-message {
+  color: var(--r-400);
+  display: block;
+  font-size: 1.4rem;
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  margin-bottom: 1rem;
+  margin-top: -1.6rem;
+  width: 100%;
 }
 </style>

@@ -4,12 +4,6 @@
       <woot-button variant="clear" @click="onClick">
         <div class="button-wrap">
           <div class="name-label-wrap">
-            <emoji-or-icon
-              v-if="icon || emoji"
-              class="icon"
-              :emoji="emoji"
-              :icon="icon"
-            />
             <span class="label-text" :title="title">{{ title }}</span>
           </div>
         </div>
@@ -19,10 +13,8 @@
 </template>
 
 <script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 export default {
   name: 'AttributeDropDownItem',
-  components: { EmojiOrIcon },
   props: {
     title: {
       type: String,
