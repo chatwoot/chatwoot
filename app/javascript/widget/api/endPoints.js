@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 import { generateEventParams } from './events';
 
@@ -10,6 +11,7 @@ const createConversation = params => {
       contact: {
         name: params.fullName,
         email: params.emailAddress,
+        phone_number: params.phoneNumber
       },
       message: {
         content: params.message,

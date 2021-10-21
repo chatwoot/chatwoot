@@ -20,6 +20,10 @@ export const actions = {
         messages,
       } = data;
       const [message = {}] = messages;
+      if (window) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ 'event': "chatwoot", 'eventAction': "Chat Started" });
+      }
       commit('pushMessageToConversation', message);
       refreshActionCableConnector(pubsubToken);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
