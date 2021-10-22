@@ -3,7 +3,7 @@
     <div class="column">
       <woot-modal-header header-title="Filter Conversations">
         <p>
-          Add filters below and hit "Submit" to filter conversations.
+          {{ $t('FILTER.SUBTITLE') }}
         </p>
       </woot-modal-header>
       <div class="row modal-content">
@@ -27,7 +27,7 @@
           <div class="filter-actions">
             <button class="append-filter-btn" @click="appendNewFilter">
               <i class="icon ion-plus-circled margin-right-small" />
-              <span>Add Filter</span>
+              <span>{{ $t('FILTER.ADD_NEW_FILTER') }}</span>
             </button>
           </div>
           <div class="modal-footer justify-content-end">
@@ -99,6 +99,9 @@ export default {
       });
     },
   },
+  mounted() {
+    this.$store.dispatch('campaigns/get');
+  },
   methods: {
     getInputType(key) {
       const type = this.filterTypes.find(
@@ -119,16 +122,24 @@ export default {
         case 'status':
           return [
             {
-              id: 1,
+              id: 'open',
               name: 'Open',
             },
             {
-              id: 2,
-              name: 'Closed',
+              id: 'resolved',
+              name: 'Resolved',
             },
             {
-              id: 3,
+              id: 'pending',
               name: 'Pending',
+            },
+            {
+              id: 'snoozed',
+              name: 'Snoozed',
+            },
+            {
+              id: 'all',
+              name: 'All',
             },
           ];
         case 'assignee':
@@ -140,7 +151,12 @@ export default {
         case 'team_id':
           return this.$store.getters['teams/getTeams'];
         case 'campaign_id':
-          return this.$store.getters['campaign/getCampaigns'];
+          return this.$store.getters['campaigns/getAllCampaigns'].map(i => {
+            return {
+              id: i.id,
+              name: i.title,
+            };
+          });
         case 'labels':
           return this.$store.getters['labels/getLabels'];
         case 'browser':
@@ -195,7 +211,7 @@ export default {
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
-        this.showAlert('You should have atleast 1 filter to save');
+        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
       } else {
         this.appliedFilters.splice(index, 1);
       }
@@ -205,6 +221,7 @@ export default {
       if (this.$v.$invalid) return;
       this.appliedFilters[this.appliedFilters.length - 1].query_operator =
         'nil';
+      // Test api to simulate filter post request
       fetch('https://enogvpwj2uxd.x.pipedream.net/', {
         method: 'POST',
         body: JSON.stringify(this.appliedFilters),
@@ -218,87 +235,78 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import '~widget/assets/scss/variables.scss';
 .filter-modal-content {
-  border: 1px solid #d9d7d7;
-  border-radius: 0.35rem;
-  padding: 1rem;
+  border: 1px solid $color-border;
+  border-radius: $space-small;
+  padding: $space-normal;
 }
 .filter--attributes {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: $space-normal;
 }
 .filter--attribute_clearbtn {
-  font-size: 2rem;
-  margin-left: 1rem;
+  font-size: $font-size-bigger;
+  margin-left: $space-normal;
   cursor: pointer;
 }
 .filter--attributes_select {
-  margin-bottom: 0 !important;
+  margin-bottom: $zero !important;
 }
 
 .filter--values_select {
-  margin-bottom: 0 !important;
+  margin-bottom: $zero !important;
 }
 
 .padding-right-small {
-  padding-right: 1rem;
+  padding-right: $space-normal;
 }
 .margin-right-small {
-  margin-right: 0.75rem;
+  margin-right: $space-slab;
 }
 .append-filter-btn {
   width: 100%;
-  border: 1px solid #d9d7d7;
-  border-radius: 0.35rem;
+  border: 1px solid $color-border;
+  border-radius: $space-small;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1f93ff;
-  font-size: 1.5rem;
-  padding: 1rem;
+  color: $color-woot;
+  font-size: $font-size-big;
+  padding: $space-normal;
   height: 38px;
   cursor: pointer;
 }
 .filter-actions {
-  margin: 2rem 0 1rem 0;
+  margin: $space-large $zero $space-normal $zero;
 }
 .filter--attributes_input {
-  margin-bottom: 0 !important;
+  margin-bottom: $zero !important;
 }
 .filter--query_operator {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 1rem 0;
+  margin: $space-normal $zero;
 }
 .filter--query_operator_line {
   position: absolute;
   z-index: 10;
   width: 100%;
-  border-bottom: 1px solid #e4e9ef;
+  border-bottom: 1px solid $color-border;
 }
 .filter--query_operator_container {
   position: relative;
   z-index: 20;
-  margin: 0 0rem;
+  margin: $zero;
 }
 .filter--query_operator_select {
   width: 100%;
-  margin-bottom: 0 !important;
+  margin-bottom: $zero !important;
   border: none;
-  padding: 0 3rem;
-}
-
-.multiselect__tags {
-  min-height: 32px;
-  display: block;
-  padding: 3px 40px 0 8px;
-  border-radius: 5px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
-  font-size: 14px;
+  padding: $zero $space-larger;
 }
 </style>
