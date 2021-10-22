@@ -32,10 +32,10 @@
           </div>
           <div class="modal-footer justify-content-end">
             <button class="button clear" @click.prevent="onClose">
-              Cancel
+              {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
             </button>
             <woot-button @click="submitFilterQuery">
-              Submit
+              {{ $t('FILTER.SUBMIT_BUTTON_LABEL') }}
             </woot-button>
           </div>
         </div>
@@ -115,7 +115,6 @@ export default {
       );
       return type.filter_operators;
     },
-    // Replace getDropdownValues this with actual getters
     // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
       switch (type) {

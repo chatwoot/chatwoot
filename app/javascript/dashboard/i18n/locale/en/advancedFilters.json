@@ -2,6 +2,8 @@
     "FILTER": {
         "SUBTITLE": "Add filters below and hit 'Submit' to filter conversations.",
         "ADD_NEW_FILTER": "Add Filter",
-        "FILTER_DELETE_ERROR": "You should have atleast 1 filter to save"
+        "FILTER_DELETE_ERROR": "You should have atleast 1 filter to save",
+        "SUBMIT_BUTTON_LABEL": "Submit",
+        "CANCEL_BUTTON_LABEL": "Cancel"
     }
 }
