@@ -133,13 +133,16 @@ export default {
     }),
     currentView() {
       const { email: currentUserEmail = '' } = this.currentUser;
+
       if (this.isHeaderCollapsed) {
         if (this.conversationSize) {
           return 'messageView';
         }
         if (
           !this.getCampaignHasExecuted &&
-          ((this.preChatFormEnabled && !isEmptyObject(this.activeCampaign)) ||
+          ((this.preChatFormEnabled &&
+            !isEmptyObject(this.activeCampaign) &&
+            this.preChatFormOptions.requireEmail) ||
             this.isOnNewConversation ||
             (this.preChatFormEnabled && !currentUserEmail))
         ) {
