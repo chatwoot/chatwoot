@@ -250,7 +250,7 @@
       "ADD": {
         "TITLE": "Add",
         "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Unable to add attribute. Please try again later"
       },
       "UPDATE": {
         "SUCCESS": "Attribute updated successfully",

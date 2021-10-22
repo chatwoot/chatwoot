@@ -20,7 +20,6 @@
             v-for="attribute in filteredAttributes"
             :key="attribute.attribute_display_name"
             :title="attribute.attribute_display_name"
-            :icon="attributeIcon(attribute.attribute_display_type)"
             @click="onAddAttribute(attribute)"
           />
         </woot-dropdown-menu>

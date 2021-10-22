@@ -20,14 +20,6 @@ export default {
       type: String,
       default: '',
     },
-    icon: {
-      type: String,
-      default: '',
-    },
-    emoji: {
-      type: String,
-      default: '',
-    },
   },
 
   methods: {

@@ -47,7 +47,6 @@
       <woot-button
         v-if="showActions"
         v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-        title="$t('CONTACT_PANEL.NEW_MESSAGE')"
         variant="link"
         size="small"
         color-scheme="secondary"
@@ -86,8 +85,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 export default {
   props: {
     label: { type: String, required: true },
-    icon: { type: String, default: '' },
-    emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
@@ -100,7 +97,7 @@ export default {
     };
   },
   validations() {
-    if (this.attributeType === 'link') {
+    if (this.isAttributeTypeLink) {
       return {
         editedValue: { required, url },
       };
@@ -115,7 +112,7 @@ export default {
       return this.attributeType === 'link';
     },
     inputType() {
-      return this.attributeType === 'link' ? 'url' : this.attributeType;
+      return this.isAttributeTypeLink ? 'url' : this.attributeType;
     },
     shouldShowErrorMessage() {
       return this.$v.editedValue.$error;
