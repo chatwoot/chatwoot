@@ -35,7 +35,11 @@ export default {
   },
   methods: {
     openLink() {
-      const win = window.open(this.url, '_blank', 'noopener');
+      const win = window.open(
+        URL,
+        '_blank',
+        'toolbar=no,resizable=yes,location=yes,menubar=yes'
+      );
       if (win) win.focus();
     },
   },
