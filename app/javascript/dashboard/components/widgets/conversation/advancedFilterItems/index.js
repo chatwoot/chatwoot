@@ -36,7 +36,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -69,7 +69,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -102,7 +102,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -135,7 +135,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -168,15 +168,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
+        value: 'Does not contain',
       },
     ],
     attribute_type: 'standard',
@@ -201,7 +193,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -234,7 +226,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
       {
         key: 'is_present',
@@ -267,7 +259,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
+        value: 'Does not contain',
       },
     ],
     attribute_type: 'additional_attributes',
@@ -285,22 +277,6 @@ const filterTypes = [
       {
         key: 'not_equal_to',
         value: 'Not Equal to',
-      },
-      {
-        key: 'contains',
-        value: 'Contains',
-      },
-      {
-        key: 'does_not_contain',
-        value: 'Does no contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
       },
     ],
     attribute_type: 'additional_attributes',
@@ -325,15 +301,7 @@ const filterTypes = [
       },
       {
         key: 'does_not_contain',
-        value: 'Does no contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
+        value: 'Does not contain',
       },
     ],
     attribute_type: 'additional_attributes',
