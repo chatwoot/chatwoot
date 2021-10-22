@@ -268,7 +268,7 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Please enter a valid url"
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
