@@ -171,4 +171,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'webmock'
+  gem 'climate_control'
 end
