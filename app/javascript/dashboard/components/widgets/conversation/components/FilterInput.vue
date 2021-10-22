@@ -32,16 +32,11 @@
           </select>
         </div>
         <div class="small-8 columns">
-          <input
-            v-if="inputType === 'plain_text'"
-            v-model="values"
-            type="text"
-            class="filter--attributes_input"
-            placeholder="Enter value"
-          />
-          <div class="multiselect-wrap--small">
+          <div
+            v-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
             <multiselect
-              v-if="inputType === 'multi_select'"
               v-model="values"
               track-by="id"
               label="name"
@@ -54,9 +49,11 @@
               :allow-empty="false"
             />
           </div>
-          <div class="multiselect-wrap--small">
+          <div
+            v-else-if="inputType === 'search_select'"
+            class="multiselect-wrap--small"
+          >
             <multiselect
-              v-if="inputType === 'search_select'"
               v-model="values"
               track-by="id"
               label="name"
@@ -69,6 +66,13 @@
               :option-height="104"
             />
           </div>
+          <input
+            v-else
+            v-model="values"
+            type="text"
+            class="filter--attributes_input"
+            placeholder="Enter value"
+          />
           <div v-if="v.values.$dirty && v.values.$error" class="filter-error">
             Value is required.
           </div>
