@@ -49,7 +49,7 @@ RSpec.describe 'Notes API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/{account.id}/contacts/#{contact.id}/notes' do
+  describe "POST /api/v1/accounts/{account.id}/contacts/#{contact.id}/notes" do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/notes",
@@ -73,7 +73,7 @@ RSpec.describe 'Notes API', type: :request do
     end
   end
 
-  describe 'PATCH /api/v1/accounts/{account.id}/contacts/#{contact.id}/notes/:id' do
+  describe "PATCH /api/v1/accounts/{account.id}/contacts/#{contact.id}/notes/:id" do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/notes/#{note.id}",

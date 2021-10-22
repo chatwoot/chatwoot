@@ -28,7 +28,6 @@ class Note < ApplicationRecord
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :user_id, presence: true
-  
 
   belongs_to :account
   belongs_to :contact

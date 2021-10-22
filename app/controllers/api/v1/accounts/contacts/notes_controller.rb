@@ -27,6 +27,6 @@ class Api::V1::Accounts::Contacts::NotesController < Api::V1::Accounts::Contacts
   end
 
   def note_params
-    params.require(:note).permit(:content).merge({contact_id: @contact.id, user_id: Current.user.id})
+    params.require(:note).permit(:content).merge({ contact_id: @contact.id, user_id: Current.user.id })
   end
 end
