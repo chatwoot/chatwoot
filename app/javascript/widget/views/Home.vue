@@ -129,6 +129,7 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       currentUser: 'contacts/getCurrentUser',
       activeCampaign: 'campaign/getActiveCampaign',
+      getCampaignHasExecuted: 'campaign/getCampaignHasExecuted',
     }),
     currentView() {
       const { email: currentUserEmail = '' } = this.currentUser;
@@ -137,9 +138,10 @@ export default {
           return 'messageView';
         }
         if (
-          (this.preChatFormEnabled && !isEmptyObject(this.activeCampaign)) ||
-          this.isOnNewConversation ||
-          (this.preChatFormEnabled && !currentUserEmail)
+          !this.getCampaignHasExecuted &&
+          ((this.preChatFormEnabled && !isEmptyObject(this.activeCampaign)) ||
+            this.isOnNewConversation ||
+            (this.preChatFormEnabled && !currentUserEmail))
         ) {
           return 'preChatFormView';
         }

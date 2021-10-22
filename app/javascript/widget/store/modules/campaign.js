@@ -12,6 +12,7 @@ const state = {
     hasFetched: false,
   },
   activeCampaign: {},
+  campaignHasExecuted: false,
 };
 
 const resetCampaignTimers = (
@@ -34,6 +35,7 @@ export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
   getActiveCampaign: $state => $state.activeCampaign,
+  getCampaignHasExecuted: $state => $state.campaignHasExecuted,
 };
 
 export const actions = {
@@ -99,6 +101,7 @@ export const actions = {
   executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
     try {
       await triggerCampaign({ campaignId, websiteToken });
+      commit('setCampaignExecuted');
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -118,6 +121,9 @@ export const mutations = {
   },
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
+  },
+  setCampaignExecuted($state) {
+    Vue.set($state, 'campaignHasExecuted', true);
   },
 };
 

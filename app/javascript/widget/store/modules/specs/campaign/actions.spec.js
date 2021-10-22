@@ -126,7 +126,10 @@ describe('#actions', () => {
       const params = { campaignId: 12, websiteToken: 'XDsafmADasd' };
       API.post.mockResolvedValue({});
       await actions.executeCampaign({ commit }, params);
-      expect(commit.mock.calls).toEqual([['setActiveCampaign', {}]]);
+      expect(commit.mock.calls).toEqual([
+        ['setCampaignExecuted'],
+        ['setActiveCampaign', {}],
+      ]);
     });
     it('sends correct actions if  execute campaign API is failed', async () => {
       const params = { campaignId: 12, websiteToken: 'XDsafmADasd' };
