@@ -20,6 +20,7 @@
               getDropdownValues(appliedFilters[i].attribute_key)
             "
             :show-query-operator="i !== appliedFilters.length - 1"
+            :v="$v.appliedFilters.$each[i]"
             @clearPreviousValues="clearPreviousValues(i)"
             @removeFilter="removeFilter(i)"
           />
@@ -67,6 +68,7 @@ export default {
   },
   validations: {
     appliedFilters: {
+      required,
       $each: {
         values: {
           required,
@@ -199,31 +201,15 @@ export default {
       }
     },
     submitFilterQuery() {
-      // this.$v.$touch();
-      // if (this.$v.$invalid) {
-      //   alert('Error');
-      // } else {
-      //   this.appliedFilters[this.appliedFilters.length - 1].query_operator =
-      //     'nil';
-      //   fetch('https://enogvpwj2uxd.x.pipedream.net/', {
-      //     method: 'POST',
-      //     body: JSON.stringify(this.appliedFilters),
-      //   });
-      // }
-      let check = this.appliedFilters.every(item => {
-        return item.values;
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
+      this.appliedFilters[this.appliedFilters.length - 1].query_operator =
+        'nil';
+      fetch('https://enogvpwj2uxd.x.pipedream.net/', {
+        method: 'POST',
+        body: JSON.stringify(this.appliedFilters),
       });
-      if (check) {
-        this.appliedFilters[this.appliedFilters.length - 1].query_operator =
-          'nil';
-        fetch('https://enogvpwj2uxd.x.pipedream.net/', {
-          method: 'POST',
-          body: JSON.stringify(this.appliedFilters),
-        });
-        alert('filter succesfully applied');
-      } else {
-        alert('You have left some filters blank');
-      }
+      alert('filter succesfully applied');
     },
     clearPreviousValues(index) {
       this.appliedFilters[index].values = '';

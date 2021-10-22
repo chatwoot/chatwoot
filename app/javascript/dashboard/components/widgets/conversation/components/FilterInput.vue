@@ -69,9 +69,9 @@
               :option-height="104"
             />
           </div>
-          <!-- <div v-if="!v.filter.values.required" class="error">
-                    Value is required.
-                  </div> -->
+          <div v-if="v.values.$dirty && v.values.$error" class="filter-error">
+            Value is required.
+          </div>
         </div>
       </div>
     </div>
@@ -117,6 +117,10 @@ export default {
     showQueryOperator: {
       type: Boolean,
       default: false,
+    },
+    v: {
+      type: Object,
+      default: () => null,
     },
   },
   computed: {
@@ -171,3 +175,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.multiselect {
+  margin-bottom: 0 !important;
+}
+.filter-error {
+  color: tomato;
+}
+</style>
