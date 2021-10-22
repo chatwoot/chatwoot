@@ -23,12 +23,20 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Note < ApplicationRecord
+  before_validation :ensure_account_id
   validates :content, presence: true
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :user_id, presence: true
+  
 
   belongs_to :account
   belongs_to :contact
   belongs_to :user
+
+  private
+
+  def ensure_account_id
+    self.account_id = contact&.account_id
+  end
 end
