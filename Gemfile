@@ -155,6 +155,7 @@ group :development, :test do
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
+  gem 'climate_control'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
@@ -171,5 +172,4 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'webmock'
-  gem 'climate_control'
 end

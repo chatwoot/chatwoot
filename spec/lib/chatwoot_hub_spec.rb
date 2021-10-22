@@ -63,8 +63,9 @@ describe ChatwootHub do
         info = { event_name: event_name, event_data: event_data }
         allow(RestClient).to receive(:post)
         described_class.emit_event(event_name, event_data)
-        expect(RestClient).not_to have_received(:post).with(described_class::EVENTS_URL,
-                                                            info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
+        expect(RestClient).not_to have_received(:post)
+          .with(described_class::EVENTS_URL,
+                info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
       end
     end
   end

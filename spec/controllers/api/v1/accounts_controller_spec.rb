@@ -21,8 +21,8 @@ RSpec.describe 'Accounts API', type: :request do
           params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
 
           post api_v1_accounts_url,
-              params: params,
-              as: :json
+               params: params,
+               as: :json
 
           expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
@@ -37,8 +37,8 @@ RSpec.describe 'Accounts API', type: :request do
           params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
 
           post api_v1_accounts_url,
-              params: params,
-              as: :json
+               params: params,
+               as: :json
 
           expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
@@ -52,10 +52,9 @@ RSpec.describe 'Accounts API', type: :request do
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
-
           post api_v1_accounts_url,
-              params: params,
-              as: :json
+               params: params,
+               as: :json
 
           expect(response).to have_http_status(:not_found)
         end
@@ -66,10 +65,9 @@ RSpec.describe 'Accounts API', type: :request do
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
-
           post api_v1_accounts_url,
-              params: params,
-              as: :json
+               params: params,
+               as: :json
 
           expect(response).to have_http_status(:success)
         end
