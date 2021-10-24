@@ -1,7 +1,6 @@
 <template>
   <div class="card note-wrap">
-    <p class="note__content" v-html="formatMessage(note || '')" />
-    <div class="footer">
+    <div class="header">
       <div class="meta">
         <thumbnail
           :title="userName"
@@ -10,18 +9,14 @@
           size="20px"
         />
         <div class="date-wrap">
-          <span>{{ readableTime }}</span>
+          <span class="fw-medium"> {{ userName }} </span>
+          <span> {{ $t('NOTES.LIST.LABEL') }} </span>
+          <span class="fw-medium"> {{ readableTime }} </span>
         </div>
       </div>
       <div class="actions">
-        <!-- <woot-button
-          variant="smooth"
-          size="tiny"
-          icon="ion-compose"
-          color-scheme="secondary"
-          @click="onEdit"
-        /> -->
         <woot-button
+          v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
           variant="smooth"
           size="tiny"
           icon="ion-trash-b"
@@ -30,6 +25,7 @@
         />
       </div>
     </div>
+    <p class="note__content" v-html="formatMessage(note || '')" />
   </div>
 </template>
 
@@ -79,9 +75,6 @@ export default {
   },
 
   methods: {
-    onEdit() {
-      this.$emit('edit', this.id);
-    },
     onDelete() {
       this.$emit('delete', this.id);
     },
@@ -91,10 +84,10 @@ export default {
 
 <style lang="scss" scoped>
 .note__content {
-  margin-bottom: var(--space-smaller);
+  margin-top: var(--space-normal);
 }
 
-.footer {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;

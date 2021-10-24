@@ -2,8 +2,16 @@
   margin-right: var(--space-small);
 }
 
+.fs-small {
+  font-size: var(--font-size-small);
+}
+
 .fs-default {
   font-size: var(--font-size-default);
+}
+
+.fw-medium {
+  font-weight: var(--font-weight-medium);
 }
 
 .p-normal {

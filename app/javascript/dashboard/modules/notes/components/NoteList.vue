@@ -12,23 +12,37 @@
       @edit="onEditNote"
       @delete="onDeleteNote"
     />
+
+    <div v-if="isFetching" class="text-center p-normal fs-default">
+      <spinner size="" />
+      <span>{{ $t('NOTES.FETCHING_NOTES') }}</span>
+    </div>
+    <div v-else-if="!notes.length" class="text-center p-normal fs-default">
+      <span>{{ $t('NOTES.NOT_AVAILABLE') }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-import ContactNote from './ContactNote';
 import AddNote from './AddNote';
+import ContactNote from './ContactNote';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
-    ContactNote,
     AddNote,
+    ContactNote,
+    Spinner,
   },
 
   props: {
     notes: {
       type: Array,
       default: () => [],
+    },
+    isFetching: {
+      type: Boolean,
+      default: false,
     },
   },
 
