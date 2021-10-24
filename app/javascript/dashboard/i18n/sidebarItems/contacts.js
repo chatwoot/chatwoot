@@ -3,7 +3,7 @@ import { frontendURL } from '../../helper/URLHelper';
 const contacts = accountId => ({
   routes: [
     'contacts_dashboard',
-    'contacts_dashboard_manage',
+    'contact_profile_dashboard',
     'contacts_labels_dashboard',
   ],
   menuItems: {

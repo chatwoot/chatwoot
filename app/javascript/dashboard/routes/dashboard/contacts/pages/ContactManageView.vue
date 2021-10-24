@@ -1,26 +1,17 @@
 <template>
   <div class="contact-manage-view">
-    <contacts-header
-      :search-query="searchQuery"
-      :on-search-submit="onSearchSubmit"
-      :on-input-search="onInputSearch"
-      :on-toggle-create="onToggleCreate"
-    />
     <manage-layout :contact-id="contactId" />
-
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import ContactsHeader from '../components/Header';
 import ManageLayout from 'dashboard/modules/contact/components/ManageLayout';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 
 export default {
   components: {
-    ContactsHeader,
     CreateContact,
     ManageLayout,
   },

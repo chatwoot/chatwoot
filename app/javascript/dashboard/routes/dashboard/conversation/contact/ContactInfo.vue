@@ -2,6 +2,7 @@
   <div class="contact--profile">
     <div class="contact--info">
       <thumbnail
+        v-if="showAvatar"
         :src="contact.thumbnail"
         size="56px"
         :username="contact.name"
@@ -9,7 +10,7 @@
       />
 
       <div class="contact--details">
-        <h3 class="sub-block-title contact--name">
+        <h3 v-if="showAvatar" class="sub-block-title contact--name">
           {{ contact.name }}
         </h3>
         <p v-if="additionalAttributes.description" class="contact--bio">
@@ -25,7 +26,6 @@
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -49,6 +49,15 @@
         </div>
       </div>
       <div class="contact-actions">
+        <woot-button
+          v-if="showAvatar"
+          v-tooltip="$t('CONTACT_PANEL.VIEW_PROFILE')"
+          title="$t('CONTACT_PANEL.VIEW_PROFILE')"
+          class="merge-contact"
+          icon="ion-arrow-expand"
+          size="small expanded"
+          @click="openContactProfile"
+        />
         <woot-button
           v-if="showNewMessage"
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
@@ -161,6 +170,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -207,6 +220,15 @@ export default {
     },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
+    },
+    openContactProfile() {
+      this.$router.push({
+        name: 'contact_profile_dashboard',
+        params: {
+          accountId: this.$route.params.accountId,
+          contactId: this.contact.id,
+        },
+      });
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;

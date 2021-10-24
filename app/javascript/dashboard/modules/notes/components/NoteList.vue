@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="notelist-wrap">
-      <h3 class="block-title">
-        {{ $t('NOTES.HEADER.TITLE') }}
-      </h3>
       <add-note @add="onAddNote" />
       <contact-note
         v-for="note in notes"

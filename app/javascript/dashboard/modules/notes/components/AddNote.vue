@@ -8,7 +8,6 @@
     />
     <div class="footer">
       <woot-button
-        size="tiny"
         color-scheme="warning"
         :title="$t('NOTES.ADD.TITLE')"
         :is-disabled="buttonDisabled"
@@ -47,7 +46,6 @@ export default {
 
 <style lang="scss" scoped>
 .input--note {
-  font-size: var(--font-size-mini);
   border-color: transparent;
   margin-bottom: var(--space-small);
   padding: 0;
