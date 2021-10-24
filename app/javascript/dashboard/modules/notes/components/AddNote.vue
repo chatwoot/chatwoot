@@ -4,7 +4,7 @@
       v-model="noteContent"
       class="input--note"
       :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
-      @keydown.enter.shift.exact="onAdd"
+      :enable-suggestions="false"
     />
     <div class="footer">
       <woot-button
@@ -13,7 +13,7 @@
         :is-disabled="buttonDisabled"
         @click="onAdd"
       >
-        {{ $t('NOTES.ADD.BUTTON') }}
+        {{ $t('NOTES.ADD.BUTTON') }} (⌘⏎)
       </woot-button>
     </div>
   </div>
@@ -21,7 +21,7 @@
 
 <script>
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-
+import { hasPressedCommandAndEnter } from 'shared/helpers/KeyboardHelpers';
 export default {
   components: {
     WootMessageEditor,
@@ -39,7 +39,21 @@ export default {
     },
   },
 
+  mounted() {
+    document.addEventListener('keydown', this.onMetaEnter);
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.onMetaEnter);
+  },
+
   methods: {
+    onMetaEnter(e) {
+      if (hasPressedCommandAndEnter(e)) {
+        e.preventDefault();
+        this.onAdd();
+      }
+    },
     onAdd() {
       if (this.noteContent !== '') {
         this.$emit('add', this.noteContent);
@@ -55,6 +69,10 @@ export default {
   &::v-deep .ProseMirror-menubar {
     padding: 0;
     margin-top: var(--space-minus-small);
+  }
+
+  &::v-deep .ProseMirror-woot-style {
+    max-height: 36rem;
   }
 }
 

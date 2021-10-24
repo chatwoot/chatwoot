@@ -13,7 +13,8 @@ export const state = {
 
 export const getters = {
   getAllNotesByContact: _state => contactId => {
-    return _state.records[contactId] || [];
+    const records = _state.records[contactId] || [];
+    return records.sort((r1, r2) => r2.id - r1.id);
   },
   getUIFlags(_state) {
     return _state.uiFlags;

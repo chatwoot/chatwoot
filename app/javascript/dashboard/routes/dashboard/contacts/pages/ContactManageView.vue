@@ -1,9 +1,10 @@
 <template>
-  <div class="view-box columns bg-light">
+  <div class="view-box columns bg-white">
     <settings-header
       button-route="new"
       :header-title="contact.name"
       show-back-button
+      :back-button-label="$t('CONTACT_PROFILE.BACK_BUTTON')"
       :back-url="backUrl"
       :show-new-button="false"
     >
@@ -16,9 +17,12 @@
       />
     </settings-header>
 
-    <div v-if="uiFlags.isFetchingItem" class="text-center p-normal fs-default">
+    <div
+      v-if="uiFlags.isFetchingItem"
+      class="text-center p-normal fs-default h-full"
+    >
       <spinner size="" />
-      <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
+      <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
     </div>
     <div
       v-else-if="contact.id"
@@ -26,7 +30,7 @@
     >
       <div class="row h-full">
         <contact-info-panel :show-avatar="false" :contact="contact" />
-        <div class="medium-9 h-full">
+        <div class="small-12 medium-9 h-full">
           <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
             <woot-tabs-item
               v-for="tab in tabs"

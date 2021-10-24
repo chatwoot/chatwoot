@@ -2,7 +2,11 @@
   <div class="settings-header">
     <h1 class="page-title">
       <woot-sidemenu-icon></woot-sidemenu-icon>
-      <back-button v-if="showBackButton" :back-url="backUrl"></back-button>
+      <back-button
+        v-if="showBackButton"
+        :button-label="backButtonLabel"
+        :back-url="backUrl"
+      />
       <i v-if="icon" :class="iconClass"></i>
       <slot></slot>
       <span>{{ headerTitle }}</span>
@@ -50,6 +54,10 @@ export default {
     showNewButton: { type: Boolean, default: false },
     backUrl: {
       type: [String, Object],
+      default: '',
+    },
+    backButtonLabel: {
+      type: String,
       default: '',
     },
   },

@@ -11,7 +11,15 @@
 
       <div class="contact--details">
         <h3 v-if="showAvatar" class="sub-block-title contact--name">
-          {{ contact.name }}
+          <a
+            :href="contactProfileLink"
+            class="fs-default"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            {{ contact.name }}
+            <i class="ion-android-open open-link--icon" />
+          </a>
         </h3>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
@@ -49,15 +57,6 @@
         </div>
       </div>
       <div class="contact-actions">
-        <woot-button
-          v-if="showAvatar"
-          v-tooltip="$t('CONTACT_PANEL.VIEW_PROFILE')"
-          title="$t('CONTACT_PANEL.VIEW_PROFILE')"
-          class="merge-contact"
-          icon="ion-arrow-expand"
-          size="small expanded"
-          @click="openContactProfile"
-        />
         <woot-button
           v-if="showNewMessage"
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
@@ -185,6 +184,9 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
@@ -220,15 +222,6 @@ export default {
     },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
-    },
-    openContactProfile() {
-      this.$router.push({
-        name: 'contact_profile_dashboard',
-        params: {
-          accountId: this.$route.params.accountId,
-          contactId: this.contact.id,
-        },
-      });
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
@@ -288,6 +281,16 @@ export default {
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+
+  a {
+    color: var(--color-body);
+  }
+
+  .open-link--icon {
+    color: var(--color-body);
+    font-size: var(--font-size-small);
+    margin-left: var(--space-smaller);
+  }
 }
 
 .contact--metadata {

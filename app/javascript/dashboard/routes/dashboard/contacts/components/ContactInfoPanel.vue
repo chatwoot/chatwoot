@@ -1,6 +1,6 @@
 <template>
   <div
-    class="medium-3 bg-white contact--panel"
+    class="small-12 medium-3 bg-white contact--panel"
     :class="{ 'border-left': showAvatar }"
   >
     <span v-if="showAvatar" class="close-button" @click="onClose">

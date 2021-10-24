@@ -222,9 +222,8 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${
-        this.browser.browser_version || ''
-      }`;
+      return `${this.browser.browser_name || ''} ${this.browser
+        .browser_version || ''}`;
     },
     contactAdditionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -248,8 +247,10 @@ export default {
       return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
-      const { platform_name: platformName, platform_version: platformVersion } =
-        this.browser;
+      const {
+        platform_name: platformName,
+        platform_version: platformVersion,
+      } = this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     channelType() {
@@ -403,7 +404,7 @@ export default {
 ::v-deep {
   .contact--profile {
     padding-bottom: var(--space-slab);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border);
   }
   .conversation--actions .multiselect-wrap--small {
     .multiselect {
