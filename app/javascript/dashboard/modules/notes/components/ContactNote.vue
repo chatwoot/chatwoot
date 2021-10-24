@@ -1,25 +1,26 @@
 <template>
   <div class="card note-wrap">
-    <p class="note__content">
-      {{ note }}
-    </p>
+    <p class="note__content" v-html="formatMessage(note || '')" />
     <div class="footer">
       <div class="meta">
-        <div :title="userName">
-          <thumbnail :src="thumbnail" :username="userName" size="16px" />
-        </div>
+        <thumbnail
+          :title="userName"
+          :src="thumbnail"
+          :username="userName"
+          size="20px"
+        />
         <div class="date-wrap">
           <span>{{ readableTime }}</span>
         </div>
       </div>
       <div class="actions">
-        <woot-button
+        <!-- <woot-button
           variant="smooth"
           size="tiny"
           icon="ion-compose"
           color-scheme="secondary"
           @click="onEdit"
-        />
+        /> -->
         <woot-button
           variant="smooth"
           size="tiny"
@@ -35,13 +36,14 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import timeMixin from 'dashboard/mixins/time';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
     Thumbnail,
   },
 
-  mixins: [timeMixin],
+  mixins: [timeMixin, messageFormatterMixin],
 
   props: {
     id: {
@@ -52,11 +54,11 @@ export default {
       type: String,
       default: '',
     },
-    userName: {
-      type: String,
-      default: '',
+    user: {
+      type: Object,
+      default: () => {},
     },
-    timeStamp: {
+    createdAt: {
       type: Number,
       default: 0,
     },
@@ -68,7 +70,11 @@ export default {
 
   computed: {
     readableTime() {
-      return this.dynamicTime(this.timeStamp);
+      return this.dynamicTime(this.createdAt);
+    },
+    userName() {
+      const user = this.user || {};
+      return user.name;
     },
   },
 
@@ -85,7 +91,6 @@ export default {
 
 <style lang="scss" scoped>
 .note__content {
-  font-size: var(--font-size-mini);
   margin-bottom: var(--space-smaller);
 }
 
@@ -93,16 +98,16 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  font-size: var(--font-size-mini);
 
   .meta {
     display: flex;
-    padding: var(--space-smaller) 0;
+    align-items: center;
 
     .date-wrap {
       margin-left: var(--space-smaller);
       padding: var(--space-micro);
       color: var(--color-body);
-      font-size: var(--font-size-micro);
     }
   }
   .actions {

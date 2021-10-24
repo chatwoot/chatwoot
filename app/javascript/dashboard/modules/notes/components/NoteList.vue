@@ -1,25 +1,17 @@
 <template>
   <div>
-    <div class="notelist-wrap">
-      <add-note @add="onAddNote" />
-      <contact-note
-        v-for="note in notes"
-        :id="note.id"
-        :key="note.id"
-        :note="note.content"
-        :user-name="note.user.name"
-        :time-stamp="note.created_at"
-        :thumbnail="note.user.thumbnail"
-        @edit="onEditNote"
-        @delete="onDeleteNote"
-      />
-      <div class="button-wrap">
-        <woot-button variant="link" @click="onclick">
-          {{ $t('NOTES.FOOTER.BUTTON') }}
-          <i class="ion-arrow-right-c" />
-        </woot-button>
-      </div>
-    </div>
+    <add-note @add="onAddNote" />
+    <contact-note
+      v-for="note in notes"
+      :id="note.id"
+      :key="note.id"
+      :note="note.content"
+      :user="note.user"
+      :created-at="note.created_at"
+      :thumbnail="note.user.thumbnail"
+      @edit="onEditNote"
+      @delete="onDeleteNote"
+    />
   </div>
 </template>
 
@@ -41,9 +33,6 @@ export default {
   },
 
   methods: {
-    onclick() {
-      this.$emit('show');
-    },
     onAddNote(value) {
       this.$emit('add', value);
     },
@@ -56,9 +45,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.button-wrap {
-  margin-top: var(--space-one);
-}
-</style>

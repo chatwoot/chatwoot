@@ -33,6 +33,8 @@ class Note < ApplicationRecord
   belongs_to :contact
   belongs_to :user
 
+  scope :latest, -> { order(created_at: :desc) }
+
   private
 
   def ensure_account_id

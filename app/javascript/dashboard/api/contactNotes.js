@@ -14,6 +14,16 @@ class ContactNotes extends ApiClient {
     this.contactId = contactId;
     return super.get();
   }
+
+  create(contactId, content) {
+    this.contactId = contactId;
+    return super.create({ content });
+  }
+
+  delete(contactId, id) {
+    this.contactId = contactId;
+    return super.delete(id);
+  }
 }
 
 export default new ContactNotes();

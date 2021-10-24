@@ -1,5 +1,8 @@
 <template>
-  <div class="medium-3 bg-white contact--panel">
+  <div
+    class="medium-3 bg-white contact--panel"
+    :class="{ 'border-left': showAvatar }"
+  >
     <span v-if="showAvatar" class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
@@ -94,7 +97,6 @@ export default {
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  border-left: 1px solid var(--color-border);
   border-right: 1px solid var(--color-border);
 }
 

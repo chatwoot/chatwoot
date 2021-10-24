@@ -1,9 +1,9 @@
 <template>
   <div class="card">
-    <textarea
-      v-model="inputText"
-      :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
+    <woot-message-editor
+      v-model="noteContent"
       class="input--note"
+      :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
       @keydown.enter.shift.exact="onAdd"
     />
     <div class="footer">
@@ -20,25 +20,31 @@
 </template>
 
 <script>
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+
 export default {
+  components: {
+    WootMessageEditor,
+  },
+
   data() {
     return {
-      inputText: '',
+      noteContent: '',
     };
   },
 
   computed: {
     buttonDisabled() {
-      return this.inputText === '';
+      return this.noteContent === '';
     },
   },
 
   methods: {
     onAdd() {
-      if (this.inputText !== '') {
-        this.$emit('add', this.inputText);
+      if (this.noteContent !== '') {
+        this.$emit('add', this.noteContent);
       }
-      this.inputText = '';
+      this.noteContent = '';
     },
   },
 };
@@ -46,11 +52,10 @@ export default {
 
 <style lang="scss" scoped>
 .input--note {
-  border-color: transparent;
-  margin-bottom: var(--space-small);
-  padding: 0;
-  resize: none;
-  min-height: var(--space-larger);
+  &::v-deep .ProseMirror-menubar {
+    padding: 0;
+    margin-top: var(--space-minus-small);
+  }
 }
 
 .footer {

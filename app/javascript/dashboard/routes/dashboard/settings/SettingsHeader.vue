@@ -3,7 +3,8 @@
     <h1 class="page-title">
       <woot-sidemenu-icon></woot-sidemenu-icon>
       <back-button v-if="showBackButton" :back-url="backUrl"></back-button>
-      <i :class="iconClass"></i>
+      <i v-if="icon" :class="iconClass"></i>
+      <slot></slot>
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link
