@@ -8,7 +8,6 @@
       :note="note.content"
       :user="note.user"
       :created-at="note.created_at"
-      :thumbnail="note.user.thumbnail"
       @edit="onEditNote"
       @delete="onDeleteNote"
     />

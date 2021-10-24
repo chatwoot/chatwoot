@@ -3,13 +3,13 @@
     <div class="header">
       <div class="meta">
         <thumbnail
-          :title="userName"
-          :src="thumbnail"
-          :username="userName"
+          :title="noteAuthorName"
+          :src="noteAuthor.thumbnail"
+          :username="noteAuthorName"
           size="20px"
         />
         <div class="date-wrap">
-          <span class="fw-medium"> {{ userName }} </span>
+          <span class="fw-medium"> {{ noteAuthorName }} </span>
           <span> {{ $t('NOTES.LIST.LABEL') }} </span>
           <span class="fw-medium"> {{ readableTime }} </span>
         </div>
@@ -58,19 +58,17 @@ export default {
       type: Number,
       default: 0,
     },
-    thumbnail: {
-      type: String,
-      default: '',
-    },
   },
 
   computed: {
     readableTime() {
       return this.dynamicTime(this.createdAt);
     },
-    userName() {
-      const user = this.user || {};
-      return user.name;
+    noteAuthor() {
+      return this.user || {};
+    },
+    noteAuthorName() {
+      return this.noteAuthor.name || this.$t('APP_GLOBAL.DELETED_USER');
     },
   },
 
