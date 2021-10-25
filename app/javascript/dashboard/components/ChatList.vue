@@ -63,6 +63,7 @@
         v-if="showAdvancedFilters"
         :filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
+        @applyFilter="fetchFilteredConversations"
       />
     </woot-modal>
   </div>
@@ -269,6 +270,14 @@ export default {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
         .then(() => this.$emit('conversation-load'));
+    },
+    fetchFilteredConversations(payload) {
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('emptyAllConversations');
+      this.$store
+        .dispatch('fetchFilteredConversations', payload)
+        .then(() => this.$emit('conversation-load'));
+      this.onToggleAdvanceFiltersModal();
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {

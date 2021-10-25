@@ -1,4 +1,5 @@
 /* global axios */
+import actions from '../../store/modules/conversations/actions';
 import ApiClient from '../ApiClient';
 
 class ConversationApi extends ApiClient {
@@ -17,6 +18,10 @@ class ConversationApi extends ApiClient {
         labels,
       },
     });
+  }
+
+  filter(payload) {
+    return axios.post(`${this.url}/filter`, payload);
   }
 
   search({ q }) {

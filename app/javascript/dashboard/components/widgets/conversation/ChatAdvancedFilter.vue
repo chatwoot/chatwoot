@@ -184,12 +184,7 @@ export default {
       if (this.$v.$invalid) return;
       this.appliedFilters[this.appliedFilters.length - 1].query_operator =
         'nil';
-      // Test api to simulate filter post request
-      fetch('https://enogvpwj2uxd.x.pipedream.net/', {
-        method: 'POST',
-        body: JSON.stringify(this.appliedFilters),
-      });
-      alert('filter succesfully applied');
+      this.$emit('applyFilter', this.appliedFilters);
     },
     clearPreviousValues(index) {
       this.appliedFilters[index].values = '';

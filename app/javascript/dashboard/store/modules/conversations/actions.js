@@ -52,6 +52,38 @@ const actions = {
     }
   },
 
+  fetchFilteredConversations: async ({ commit, dispatch }, payload) => {
+    commit(types.default.SET_LIST_LOADING_STATUS);
+    try {
+      const response = await ConversationApi.filter(payload);
+      const {
+        data: { payload: chatList, meta: metaData },
+      } = response.data;
+      commit(types.default.SET_ALL_CONVERSATION, chatList);
+      dispatch('conversationStats/set', metaData);
+      dispatch('conversationLabels/setBulkConversationLabels', chatList);
+      commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      commit(
+        `contacts/${types.default.SET_CONTACTS}`,
+        chatList.map(chat => chat.meta.sender)
+      );
+      dispatch(
+        'conversationPage/setCurrentPage',
+        { filter: params.assigneeType, page: params.page },
+        { root: true }
+      );
+      if (!chatList.length) {
+        dispatch(
+          'conversationPage/setEndReached',
+          { filter: params.assigneeType },
+          { root: true }
+        );
+      }
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   emptyAllConversations({ commit }) {
     commit(types.default.EMPTY_ALL_CONVERSATION);
   },
