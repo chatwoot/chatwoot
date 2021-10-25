@@ -1,5 +1,5 @@
 <template>
-  <div class="file message-text__wrap" @click="openLink">
+  <div class="file message-text__wrap">
     <div class="icon-wrap">
       <i class="ion-document-text"></i>
     </div>

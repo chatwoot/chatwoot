@@ -1,13 +1,13 @@
-class Api::V1::Accounts::Contacts::LabelsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Contacts::LabelsController < Api::V1::Accounts::Contacts::BaseController
   include LabelConcern
 
   private
 
   def model
-    @model ||= Current.account.contacts.find(permitted_params[:contact_id])
+    @model ||= @contact
   end
 
   def permitted_params
-    params.permit(:contact_id, labels: [])
+    params.permit(labels: [])
   end
 end
