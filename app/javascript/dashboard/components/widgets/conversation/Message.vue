@@ -31,6 +31,11 @@
             <audio v-else-if="attachment.file_type === 'audio'" controls>
               <source :src="attachment.data_url" />
             </audio>
+            <bubble-video
+              v-else-if="attachment.file_type === 'video'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
             <bubble-file
               v-else
               :url="attachment.data_url"
@@ -91,6 +96,7 @@ import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import BubbleVideo from './bubble/Video.vue';
 import BubbleActions from './bubble/Actions';
 
 import Spinner from 'shared/components/Spinner';
@@ -108,6 +114,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    BubbleVideo,
     BubbleMailHead,
     ContextMenu,
     Spinner,
@@ -236,14 +243,6 @@ export default {
     isMessageDeleted() {
       return this.contentAttributes.deleted;
     },
-    hasImageAttachment() {
-      if (this.hasAttachments && this.data.attachments.length > 0) {
-        const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === 'image';
-      }
-      return false;
-    },
     hasText() {
       return !!this.data.content;
     },
@@ -270,7 +269,8 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
-        'is-image': this.hasImageAttachment,
+        'is-image': this.hasMediaAttachment('image'),
+        'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
       };
@@ -288,6 +288,14 @@ export default {
     },
   },
   methods: {
+    hasMediaAttachment(type) {
+      if (this.hasAttachments && this.data.attachments.length > 0) {
+        const { attachments = [{}] } = this.data;
+        const { file_type: fileType } = attachments[0];
+        return fileType === type;
+      }
+      return false;
+    },
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
     },
@@ -315,17 +323,28 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
-    &.is-image {
+    &.is-image,
+    &.is-video {
       padding: 0;
       overflow: hidden;
 
-      .image {
+      .image,
+      .video {
         max-width: 32rem;
         padding: var(--space-micro);
 
-        > img {
+        > img,
+        > video {
           border-radius: var(--border-radius-medium);
         }
+        > video {
+          height: 100%;
+          object-fit: cover;
+          width: 100%;
+        }
+      }
+      .video {
+        height: 18rem;
       }
     }
 
