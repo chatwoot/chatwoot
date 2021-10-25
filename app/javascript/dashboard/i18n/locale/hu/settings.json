@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
-    "TRAIL_BUTTON": "Előfizetés"
+    "TRAIL_BUTTON": "Előfizetés",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
