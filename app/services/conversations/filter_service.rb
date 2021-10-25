@@ -18,7 +18,8 @@ class Conversations::FilterService < FilterService
   def conversation_query_builder
     conversation_filters = @filters['conversations']
     @params.each_with_index do |query_hash, current_index|
-      query_hash = query_hash.with_indifferent_access
+      # query_hash = query_hash.with_indifferent_access
+
       current_filter = conversation_filters[query_hash['attribute_key']]
       @query_string += conversation_query_string(current_filter, query_hash, current_index)
     end

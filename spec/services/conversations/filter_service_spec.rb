@@ -42,11 +42,11 @@ describe ::Conversations::FilterService do
             filter_operator: 'equal_to',
             values: [
               {
-                id: 0,
+                id: 'open',
                 name: 'open'
               },
               {
-                id: 2,
+                id: 'pending',
                 name: 'pending'
               }
             ],

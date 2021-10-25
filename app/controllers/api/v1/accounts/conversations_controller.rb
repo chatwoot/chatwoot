@@ -32,15 +32,16 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def filter
-    @conversations = ::Conversations::FilterService.new(JSON.parse(params[:body]), current_user).perform
-    @conversations_count =  @conversations.count
+    result = ::Conversations::FilterService.new(params.permit![:payload], current_user).perform
+    @conversations = result[:conversations]
+    @conversations_count = result[:count]
   end
 
   def mute
     @conversation.mute!
     head :ok
   end
-F
+
   def unmute
     @conversation.unmute!
     head :ok

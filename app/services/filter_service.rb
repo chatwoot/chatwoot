@@ -33,8 +33,11 @@ class FilterService
   end
 
   def filter_values(query_hash)
+    # query_hash = query_hash.with_indifferent_access
     if query_hash['attribute_key'] == 'labels' ||  query_hash['attribute_key'] == 'browser_language'
      query_hash['values'].map { |x| x['name'] }
+    elsif query_hash['attribute_key'] == 'status'
+       query_hash['values'].map { |x| Conversation.statuses[x['id'].to_sym] }
     else
       query_hash['values'].map { |x| x['id'] }
     end
