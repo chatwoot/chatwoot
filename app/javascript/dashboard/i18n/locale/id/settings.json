@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
-    "TRAIL_BUTTON": "Beli Sekarang"
+    "TRAIL_BUTTON": "Beli Sekarang",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
