@@ -53,6 +53,7 @@ class Account < ApplicationRecord
   has_many :api_channels, dependent: :destroy, class_name: '::Channel::Api'
   has_many :line_channels, dependent: :destroy, class_name: '::Channel::Line'
   has_many :telegram_channels, dependent: :destroy, class_name: '::Channel::Telegram'
+  has_many :whatsapp_channels, dependent: :destroy, class_name: '::Channel::Whatsapp'
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_many :labels, dependent: :destroy

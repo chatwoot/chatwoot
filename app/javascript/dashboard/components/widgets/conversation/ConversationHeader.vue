@@ -73,9 +73,11 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
+
     chatMetadata() {
       return this.chat.meta;
     },
+
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id

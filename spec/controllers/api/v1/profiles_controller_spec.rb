@@ -89,16 +89,6 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.avatar.attached?).to eq(true)
       end
 
-      it 'updates the availability status' do
-        put '/api/v1/profile',
-            params: { profile: { availability: 'offline' } },
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('offline')
-      end
-
       it 'updates the ui settings' do
         put '/api/v1/profile',
             params: { profile: { ui_settings: { is_contact_sidebar_open: false } } },
@@ -108,6 +98,30 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['ui_settings']['is_contact_sidebar_open']).to eq(false)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/availability' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/availability'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the availability status' do
+        post '/api/v1/profile/availability',
+             params: { profile: { availability: 'busy', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')
       end
     end
   end

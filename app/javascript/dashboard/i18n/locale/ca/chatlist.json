@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
+    "FILTER_ALL": "Totes",
     "STATUS_TABS": [
       {
         "NAME": "Obrir",
@@ -85,6 +86,8 @@
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
     "NO_MESSAGES": "Cap Missatge",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text"
   }
 }

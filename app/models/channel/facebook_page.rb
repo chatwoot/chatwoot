@@ -8,6 +8,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :integer          not null
+#  instagram_id      :string
 #  page_id           :string           not null
 #
 # Indexes
@@ -33,6 +34,19 @@ class Channel::FacebookPage < ApplicationRecord
 
   def has_24_hour_messaging_window?
     true
+  end
+
+  def create_contact_inbox(instagram_id, name)
+    ActiveRecord::Base.transaction do
+      contact = inbox.account.contacts.create!(name: name)
+      ::ContactInbox.create(
+        contact_id: contact.id,
+        inbox_id: inbox.id,
+        source_id: instagram_id
+      )
+    rescue StandardError => e
+      Rails.logger.info e
+    end
   end
 
   def subscribe

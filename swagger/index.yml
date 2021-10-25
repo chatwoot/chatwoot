@@ -53,6 +53,7 @@ x-tagGroups:
   - name: Application
     tags:
       - Account AgentBots
+      - Agent
       - Contact
       - Conversation
       - Conversation Assignment

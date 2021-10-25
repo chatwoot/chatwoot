@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Otevřít",
       "OPEN": "Více",
       "CLOSE": "Zavřít",
-      "DETAILS": "Podrobnosti"
+      "DETAILS": "Podrobnosti",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
     "CHANGE_TEAM": "Tým konverzace se změnil",
     "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",

@@ -150,7 +150,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
-    "ONE_OFF": "إيقاف واحد"
+    "ONE_OFF": "إيقاف واحد",
+    "REPORTS_AGENT": "موظف الدعم",
+    "REPORTS_LABEL": "الوسوم",
+    "REPORTS_INBOX": "صندوق الوارد",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

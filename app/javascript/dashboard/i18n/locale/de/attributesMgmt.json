@@ -1,7 +1,7 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
+    "HEADER_BTN_TXT": "Attribut hinzufügen",
     "LOADING": "Fetching attributes",
     "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
@@ -10,7 +10,7 @@
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
+          "LABEL": "Anzeigename",
           "PLACEHOLDER": "Enter attribute display name",
           "ERROR": "Name is required"
         },
@@ -20,17 +20,17 @@
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
+          "LABEL": "Modell",
+          "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Model is required"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "Typ",
           "PLACEHOLDER": "Please select a type",
           "ERROR": "Type is required"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Schlüssel"
         }
       },
       "API": {
@@ -53,7 +53,7 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Attribut hinzufügen",
       "UPDATE_BUTTON_TEXT": "Aktualisieren",
       "API": {
         "SUCCESS_MESSAGE": "Attribute updated successfully",
@@ -69,8 +69,8 @@
       "TABLE_HEADER": [
         "Name",
         "Beschreibung",
-        "Type",
-        "Key"
+        "Typ",
+        "Schlüssel"
       ],
       "BUTTONS": {
         "EDIT": "Bearbeiten",

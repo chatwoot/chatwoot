@@ -54,6 +54,7 @@
           "ERROR": "זמן על הדף שדה חובה"
         },
         "ENABLED": "הפעל קמפיין",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "הוסף קמפיין"
       },
       "API": {

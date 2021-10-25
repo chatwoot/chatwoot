@@ -14,20 +14,63 @@ class Line::IncomingMessageService
 
     set_contact
     set_conversation
-    # TODO: iterate over the events and handle the attachments in future
-    # https://github.com/line/line-bot-sdk-ruby#synopsis
+    parse_events
+  end
+
+  private
+
+  def parse_events
+    params[:events].each do |event|
+      next unless message_created? event
+
+      attach_files event['message']
+    end
+  end
+
+  def message_created?(event)
+    return unless event_type_message?(event)
+
     @message = @conversation.messages.create(
-      content: params[:events].first['message']['text'],
+      content: event['message']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: (params[:events].first['message']['id']).to_s
+      source_id: event['message']['id'].to_s
+    )
+    @message
+  end
+
+  def attach_files(message)
+    return unless message_type_non_text?(message['type'])
+
+    response = inbox.channel.client.get_message_content(message['id'])
+
+    file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
+    temp_file = Tempfile.new(file_name)
+    temp_file.binmode
+    temp_file << response.body
+    temp_file.rewind
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(response),
+      file: {
+        io: temp_file,
+        filename: file_name,
+        content_type: response.content_type
+      }
     )
     @message.save!
   end
 
-  private
+  def event_type_message?(event)
+    event['type'] == 'message'
+  end
+
+  def message_type_non_text?(type)
+    [Line::Bot::Event::MessageType::Video, Line::Bot::Event::MessageType::Audio, Line::Bot::Event::MessageType::Image].include?(type)
+  end
 
   def account
     @account ||= inbox.account
@@ -69,5 +112,9 @@ class Line::IncomingMessageService
       name: line_contact_info['displayName'],
       avatar_url: line_contact_info['pictureUrl']
     }
+  end
+
+  def file_content_type(file_content)
+    file_type(file_content.content_type)
   end
 end

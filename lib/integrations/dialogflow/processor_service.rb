@@ -18,7 +18,7 @@ class Integrations::Dialogflow::ProcessorService
     # TODO: might needs to change this to a way that we fetch the updated value from event data instead
     # cause the message.updated event could be that that the message was deleted
 
-    return message.content_attributes['submitted_values']&.dig 'value' if event_name == 'message.updated'
+    return message.content_attributes['submitted_values']&.first&.dig('value') if event_name == 'message.updated'
 
     message.content
   end

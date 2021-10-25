@@ -20,7 +20,7 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "聯絡人標籤",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "無法更新標籤"
       },
       "CONVERSATION": {
         "TITLE": "對話標記",
@@ -32,6 +32,8 @@
         "NO_RESULT": "查無標籤"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "將對話靜音",
     "UNMUTE_CONTACT": "將對話解除靜音",
     "MUTED_SUCCESS": "將對話靜音 6 小時",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "新聯絡人",
     "TITLE": "新增聯絡人",
     "DESC": "為聯絡人增加基本資訊"
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "匯入",
+    "TITLE": "匯入聯絡人",
+    "DESC": "透過 CSV 匯入聯絡人",
+    "DOWNLOAD_LABEL": "下載 CSV 範例",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "匯入",
+      "CANCEL": "取消"
+    },
+    "SUCCESS_MESSAGE": "聯絡人儲存成功",
+    "ERROR_MESSAGE": "出現錯誤，請重試"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "刪除聯絡人",
+    "TITLE": "刪除聯絡人",
+    "DESC": "刪除聯絡人資訊",
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "您確定要刪除嗎？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "是，刪除 ",
+      "NO": "不，保留 "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "聯絡人刪除成功",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "合併聯絡人",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "選擇一個聯絡人"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Select a child contact to merge"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

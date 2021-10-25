@@ -32,6 +32,8 @@
         "NO_RESULT": "Nenhum rótulo encontrado"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Silenciar Conversa",
     "UNMUTE_CONTACT": "Reativar Conversa",
     "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "Novo contato",
     "TITLE": "Criar novo contato",
     "DESC": "Adicione informações básicas sobre o contato."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Cancelar"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Confirmar exclusão",
+      "MESSAGE": "Você tem certeza que deseja excluir ",
+      "PLACE_HOLDER": "Digite {contactName} para confirmar",
+      "YES": "Sim, excluir ",
+      "NO": "Não, Mantenha "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Mesclar contatos",
-    "DESCRIPTION": "Mesclar contatos é útil quando se tem entradas duplicadas de um mesmo contato. Essa ação trata um contato como primário e outro como derivado/secundário/filho. Após mesclar, todos os detalhes do contato primário serão preservados. Se o contato primário não tiver um dos campo listados, será utilizado o valor do campo do contato derivado. Se ocorrem conflitos, os campos do contato primário serão mantidos, e a as diferenças serão copiadas para campos personalizados.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Contato principal"
+      "TITLE": "Contato principal",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contato para mesclar",
-      "PLACEHOLDER": "Selecione um contato"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Sumário",
-      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong>será excluído.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "Selecione um contato filho para mesclar"
       },
       "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
-      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

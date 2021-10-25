@@ -32,6 +32,8 @@
         "NO_RESULT": "هیچ برچسبی یافت نشد"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
     "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "تماس جدید",
     "TITLE": "ایجاد مخاطب جدید",
     "DESC": "اطلاعات اولیه درباره مخاطب را اضافه کنید."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "وارد كردن",
+    "TITLE": "وارد کردن مخاطبین",
+    "DESC": "مخاطبین را از طریق یک فایل CSV وارد کنید.",
+    "DOWNLOAD_LABEL": "نمونه csv را بارگیری کنید.",
+    "FORM": {
+      "LABEL": "فایل CSV",
+      "SUBMIT": "وارد كردن",
+      "CANCEL": "انصراف"
+    },
+    "SUCCESS_MESSAGE": "مخاطبین با موفقیت ذخیره شدند",
+    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "حذف مخاطب",
+    "TITLE": "حذف مخاطب",
+    "DESC": "حذف اطلاعات تماس",
+    "CONFIRM": {
+      "TITLE": "تاییدیه حذف",
+      "MESSAGE": "مطمئن هستید که حذف شود ",
+      "PLACE_HOLDER": "برای تایید لطفا {contactName} را تایپ کنید",
+      "YES": "بله، حذف شود ",
+      "NO": "نه، بماند "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "مخاطب با موفقیت حذف شد",
+      "ERROR_MESSAGE": "مخاطب حذف نشد. لطفاً بعداً دوباره امتحان کنید."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -192,7 +223,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "اضافه کردن ویژگی سفارشی",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
     "ADD": {
       "TITLE": "ساخت ویژگی سفارشی",
       "DESC": "اطلاعات سفارشی مخاطب را اضافه کنید."
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "ادغام مخاطبین",
-    "DESCRIPTION": "ادغام مخاطب زمانی مفید است که نوشته های یک مخاطب تکراری داشته باشید. ادغام مستلزم یک تماس اولیه و یک تماس ثانویه است. پس از ادغام ، تمام جزئیات در مخاطب اصلی یکسان می مانند. اگر مخاطب اصلی فیلدی ندارد ، پس از ادغام از مقدار مخاطب ثانویه استفاده می شود، در صورت بروز ناسازگاری فیلدهای موجود در مخاطب اصلی بدون تغییر باقی می مانند ، اما زمینه های ثانویه در ویژگی های سفارشی در مخاطب اصلی کپی می شوند.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "مخاطب اصلی"
+      "TITLE": "مخاطب اصلی",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "ادغام مخاطب",
-      "PLACEHOLDER": "انتخاب مخاطب"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "خلاصه",
-      "DELETE_WARNING": "مخاطب <strong>%{childContactName}</strong> پاک خواهد شد.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> کپی شود به <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "برای ادغام مخاطب ثانویه را انتخاب کنید"
       },
       "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
-      "ERROR_MESSAGE": "مخاطب ادغام نشد، دوباره امتحان کنید!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

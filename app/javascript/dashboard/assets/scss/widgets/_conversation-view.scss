@@ -93,7 +93,7 @@
 
 .conversation-panel {
   @include flex;
-  @include flex-weight(1);
+  @include flex-weight(1 1 1px);
   @include margin($zero);
   flex-direction: column;
   height: 100%;

@@ -21,7 +21,7 @@
       <div class="conversation--metadata">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
         <span
-          v-if="showAssignee && assignee"
+          v-if="showAssignee && assignee.name"
           class="label assignee-label text-truncate"
         >
           <i class="ion-person" />

@@ -1,6 +1,12 @@
 <template>
   <div class="message-text--metadata">
     <span class="time">{{ readableTime }}</span>
+    <span v-if="showSentIndicator" class="time">
+      <i
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        class="icon ion-checkmark"
+      />
+    </span>
     <i
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
@@ -36,8 +42,10 @@
 <script>
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
+  mixins: [inboxMixin],
   props: {
     sender: {
       type: Object,
@@ -99,6 +107,9 @@ export default {
       return `https://twitter.com/${screenName ||
         this.inbox.name}/status/${sourceId}`;
     },
+    showSentIndicator() {
+      return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
+    },
   },
   methods: {
     onTweetReply() {
@@ -117,6 +128,10 @@ export default {
       color: var(--w-100);
     }
   }
+
+  .icon {
+    color: var(--white);
+  }
 }
 
 .left {
@@ -124,13 +139,6 @@ export default {
     .time {
       color: var(--s-400);
     }
-  }
-}
-
-.right {
-  .ion-reply,
-  .ion-android-open {
-    color: var(--white);
   }
 }
 
@@ -192,6 +200,10 @@ export default {
     .time {
       color: var(--s-400);
     }
+
+    .icon {
+      color: var(--s-400);
+    }
   }
 
   &.is-image {
@@ -200,5 +212,9 @@ export default {
       padding-left: var(--space-one);
     }
   }
+}
+
+.delivered-icon {
+  margin-left: -var(--space-normal);
 }
 </style>

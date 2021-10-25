@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "搜尋人、聊天室、保存回覆"
     },
+    "FILTER_ALL": "所有的",
     "STATUS_TABS": [
       {
         "NAME": "打開",
@@ -48,7 +49,7 @@
       },
       {
         "TEXT": "待處理",
-        "VALUE": "pending"
+        "VALUE": "待處理"
       },
       {
         "TEXT": "Snoozed",
@@ -85,6 +86,8 @@
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
     "REPLY_TO_TWEET": "Reply to this tweet",
     "NO_MESSAGES": "沒有訊息",
-    "NO_CONTENT": "沒有可用內容"
+    "NO_CONTENT": "沒有可用內容",
+    "HIDE_QUOTED_TEXT": "隱藏引用文字",
+    "SHOW_QUOTED_TEXT": "顯示引用文字"
   }
 }
