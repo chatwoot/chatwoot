@@ -182,8 +182,7 @@ export default {
     submitFilterQuery() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator =
-        'nil';
+      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },
     clearPreviousValues(index) {
