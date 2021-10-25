@@ -25,9 +25,9 @@
             <option
               v-for="(operator, o) in operators"
               :key="o"
-              :value="operator.key"
+              :value="operator.value"
             >
-              {{ operator.value }}
+              {{ $t(`FILTER.OPERATOR_LABELS.${operator.value}`) }}
             </option>
           </select>
         </div>
@@ -84,10 +84,10 @@
       <div class="filter--query_operator_container">
         <select v-model="query_operator" class="filter--query_operator_select">
           <option value="and">
-            AND
+            {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
           </option>
           <option value="or">
-            OR
+            {{ $t('FILTER.QUERY_DROPDOWN_LABELS.OR') }}
           </option>
         </select>
       </div>
