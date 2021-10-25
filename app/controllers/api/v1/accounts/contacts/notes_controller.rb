@@ -2,7 +2,7 @@ class Api::V1::Accounts::Contacts::NotesController < Api::V1::Accounts::Contacts
   before_action :note, except: [:index, :create]
 
   def index
-    @notes = @contact.notes.includes(:user)
+    @notes = @contact.notes.latest.includes(:user)
   end
 
   def create
