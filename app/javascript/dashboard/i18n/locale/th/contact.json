@@ -7,6 +7,7 @@
     "COMPANY": "บริษัท",
     "LOCATION": "สถานที่",
     "CONVERSATION_TITLE": "รายละเอียดการสนทนา",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "บราวเซอร์",
     "OS": "ระบบปฏิบัติการ",
     "INITIATED_FROM": "Initiated from",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "ดูรายละเอียด"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "ผู้ติดต่อ",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "เพิ่ม",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "โน้ต"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "เพิ่ม",
       "PLACEHOLDER": "เพิ่มโน็ต",
       "TITLE": "Shift + Enter เพื่อสร้างโน็ต"
     },
-    "FOOTER": {
-      "BUTTON": "ดูโน็ตทั้งหมด"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
