@@ -101,7 +101,11 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
+    ...mapActions('campaign', [
+      'initCampaigns',
+      'executeCampaign',
+      'resetCampaign',
+    ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
     ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
@@ -156,7 +160,9 @@ export default {
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
-        if (!this.preChatFormEnabled) {
+        if (
+          !(this.preChatFormEnabled && this.preChatFormOptions.requireEmail)
+        ) {
           bus.$emit('execute-campaign', this.activeCampaign.id);
         }
       });
@@ -219,6 +225,8 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+        // console.log('message', message);
+
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
@@ -265,6 +273,9 @@ export default {
           this.showUnreadView = true;
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
+          if (!this.isCampaignViewClicked) {
+            this.resetCampaign();
+          }
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {

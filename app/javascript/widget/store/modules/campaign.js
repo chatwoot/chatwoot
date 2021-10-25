@@ -87,7 +87,7 @@ export const actions = {
     },
     { websiteToken, campaignId }
   ) => {
-    // Disable starting the campaign if widget is opened
+    // Disable campaign execution if widget is opened
     if (!isOpen) {
       const { data: campaigns } = await getCampaigns(websiteToken);
       // Check campaign is disabled or not
@@ -102,6 +102,13 @@ export const actions = {
     try {
       await triggerCampaign({ campaignId, websiteToken });
       commit('setCampaignExecuted');
+      commit('setActiveCampaign', {});
+    } catch (error) {
+      commit('setError', true);
+    }
+  },
+  resetCampaign: async ({ commit }) => {
+    try {
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);

@@ -117,7 +117,6 @@ export default {
     return {
       isOnCollapsedView: false,
       isOnNewConversation: false,
-      isAboutToStart: false,
     };
   },
   computed: {
@@ -138,6 +137,7 @@ export default {
         if (this.conversationSize) {
           return 'messageView';
         }
+
         if (
           !this.getCampaignHasExecuted &&
           ((this.preChatFormEnabled &&
