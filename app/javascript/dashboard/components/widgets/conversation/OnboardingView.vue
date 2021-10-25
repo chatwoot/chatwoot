@@ -17,7 +17,7 @@
               })
             }}
           </p>
-          <p>
+          <p v-if="globalConfig.installationName === 'Chatwoot'">
             <a
               href="https://www.chatwoot.com/changelog"
               target="_blank"
@@ -42,8 +42,7 @@
         </div>
         <div class="features-item">
           <h2 class="block-title">
-            <span class="emoji">👥</span
-            >{{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
+            <span class="emoji">👥</span>{{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
           </h2>
           <p class="intro-body">
             {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
