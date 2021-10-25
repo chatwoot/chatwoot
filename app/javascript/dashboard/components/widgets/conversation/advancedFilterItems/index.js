@@ -1,307 +1,299 @@
 const filterTypes = [
   {
-    attribute_key: 'status',
-    attribute_name: 'Status',
-    input_type: 'multi_select',
-    data_type: 'text',
-    filter_operators: [
+    attributeKey: 'status',
+    attributeName: 'Status',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
-      },
-    ],
-    attribute_type: 'standard',
-  },
-  {
-    attribute_key: 'assignee',
-    attribute_name: 'Assignee Name',
-    input_type: 'search_select',
-    data_type: 'text',
-    filter_operators: [
-      {
-        key: 'equal_to',
-        value: 'Equal to',
-      },
-      {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
-      },
-      {
-        key: 'contains',
-        value: 'Contains',
-      },
-      {
-        key: 'does_not_contain',
-        value: 'Does not contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
     ],
     attribute_type: 'standard',
   },
   {
-    attribute_key: 'contact',
-    attribute_name: 'Contact Name',
-    input_type: 'search_select',
-    data_type: 'text',
-    filter_operators: [
+    attributeKey: 'assignee',
+    attributeName: 'Assignee Name',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
       {
-        key: 'contains',
-        value: 'Contains',
+        value: 'contains',
+        label: 'Contains',
       },
       {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'does_not_contain',
+        label: 'Does not contain',
       },
       {
-        key: 'is_present',
-        value: 'Is present',
+        value: 'is_present',
+        label: 'Is present',
       },
       {
-        key: 'is_not_present',
-        value: 'Is not present',
-      },
-    ],
-    attribute_type: 'standard',
-  },
-  {
-    attribute_key: 'inbox',
-    attribute_name: 'Inbox Name',
-    input_type: 'search_select',
-    data_type: 'text',
-    filter_operators: [
-      {
-        key: 'equal_to',
-        value: 'Equal to',
-      },
-      {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
-      },
-      {
-        key: 'contains',
-        value: 'Contains',
-      },
-      {
-        key: 'does_not_contain',
-        value: 'Does not contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
+        value: 'is_not_present',
+        label: 'Is not present',
       },
     ],
     attribute_type: 'standard',
   },
   {
-    attribute_key: 'team_id',
-    attribute_name: 'Team Name',
-    input_type: 'search_select',
-    data_type: 'number',
-    filter_operators: [
+    attributeKey: 'contact',
+    attributeName: 'Contact Name',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
       {
-        key: 'contains',
-        value: 'Contains',
+        value: 'contains',
+        label: 'Contains',
       },
       {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'does_not_contain',
+        label: 'Does not contain',
       },
       {
-        key: 'is_present',
-        value: 'Is present',
+        value: 'is_present',
+        label: 'Is present',
       },
       {
-        key: 'is_not_present',
-        value: 'Is not present',
-      },
-    ],
-    attribute_type: 'standard',
-  },
-  {
-    attribute_key: 'id',
-    attribute_name: 'Conversation Identifier',
-    input_type: 'plain_text',
-    data_type: 'Number',
-    filter_operators: [
-      {
-        key: 'equal_to',
-        value: 'Equal to',
-      },
-      {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
-      },
-      {
-        key: 'contains',
-        value: 'Contains',
-      },
-      {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'is_not_present',
+        label: 'Is not present',
       },
     ],
     attribute_type: 'standard',
   },
   {
-    attribute_key: 'campaign_id',
-    attribute_name: 'Campaign Name',
-    input_type: 'search_select',
-    data_type: 'Number',
-    filter_operators: [
+    attributeKey: 'inbox',
+    attributeName: 'Inbox Name',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
       {
-        key: 'contains',
-        value: 'Contains',
+        value: 'contains',
+        label: 'Contains',
       },
       {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'does_not_contain',
+        label: 'Does not contain',
       },
       {
-        key: 'is_present',
-        value: 'Is present',
+        value: 'is_present',
+        label: 'Is present',
       },
       {
-        key: 'is_not_present',
-        value: 'Is not present',
-      },
-    ],
-    attribute_type: 'standard',
-  },
-  {
-    attribute_key: 'labels',
-    attribute_name: 'Labels',
-    input_type: 'multi_select',
-    data_type: 'text',
-    filter_operators: [
-      {
-        key: 'equal_to',
-        value: 'Equal to',
-      },
-      {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
-      },
-      {
-        key: 'contains',
-        value: 'Contains',
-      },
-      {
-        key: 'does_not_contain',
-        value: 'Does not contain',
-      },
-      {
-        key: 'is_present',
-        value: 'Is present',
-      },
-      {
-        key: 'is_not_present',
-        value: 'Is not present',
+        value: 'is_not_present',
+        label: 'Is not present',
       },
     ],
     attribute_type: 'standard',
   },
   {
-    attribute_key: 'browser',
-    attribute_name: 'Browser',
-    input_type: 'search_select',
-    data_type: 'text',
-    filter_operators: [
+    attributeKey: 'team_id',
+    attributeName: 'Team Name',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
       {
-        key: 'contains',
-        value: 'Contains',
+        value: 'contains',
+        label: 'Contains',
       },
       {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'does_not_contain',
+        label: 'Does not contain',
+      },
+      {
+        value: 'is_present',
+        label: 'Is present',
+      },
+      {
+        value: 'is_not_present',
+        label: 'Is not present',
+      },
+    ],
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'id',
+    attributeName: 'Conversation Identifier',
+    inputType: 'plain_text',
+    dataType: 'Number',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
+      },
+      {
+        value: 'contains',
+        label: 'Contains',
+      },
+      {
+        value: 'does_not_contain',
+        label: 'Does not contain',
+      },
+    ],
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'campaign_id',
+    attributeName: 'Campaign Name',
+    inputType: 'search_select',
+    dataType: 'Number',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
+      },
+      {
+        value: 'contains',
+        label: 'Contains',
+      },
+      {
+        value: 'does_not_contain',
+        label: 'Does not contain',
+      },
+      {
+        value: 'is_present',
+        label: 'Is present',
+      },
+      {
+        value: 'is_not_present',
+        label: 'Is not present',
+      },
+    ],
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'labels',
+    attributeName: 'Labels',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
+      },
+      {
+        value: 'contains',
+        label: 'Contains',
+      },
+      {
+        value: 'does_not_contain',
+        label: 'Does not contain',
+      },
+      {
+        value: 'is_present',
+        label: 'Is present',
+      },
+      {
+        value: 'is_not_present',
+        label: 'Is not present',
+      },
+    ],
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'browser_language',
+    attributeName: 'Browser',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
     ],
     attribute_type: 'additional_attributes',
   },
   {
-    attribute_key: 'country_code',
-    attribute_name: 'Country Name',
-    input_type: 'search_select',
-    data_type: 'text',
-    filter_operators: [
+    attributeKey: 'country_code',
+    attributeName: 'Country Name',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
     ],
     attribute_type: 'additional_attributes',
   },
   {
-    attribute_key: 'referer',
-    attribute_name: 'Referer link',
-    input_type: 'plain_text',
-    data_type: 'text',
-    filter_operators: [
+    attributeKey: 'referer',
+    attributeName: 'Referer link',
+    inputType: 'plain_text',
+    dataType: 'text',
+    filterOperators: [
       {
-        key: 'equal_to',
-        value: 'Equal to',
+        value: 'equal_to',
+        label: 'Equal to',
       },
       {
-        key: 'not_equal_to',
-        value: 'Not Equal to',
+        value: 'not_equal_to',
+        label: 'Not equal to',
       },
       {
-        key: 'contains',
-        value: 'Contains',
+        value: 'contains',
+        label: 'Contains',
       },
       {
-        key: 'does_not_contain',
-        value: 'Does not contain',
+        value: 'does_not_contain',
+        label: 'Does not contain',
       },
     ],
     attribute_type: 'additional_attributes',

@@ -31,9 +31,9 @@
             </button>
           </div>
           <div class="modal-footer justify-content-end">
-            <button class="button clear" @click.prevent="onClose">
+            <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
-            </button>
+            </woot-button>
             <woot-button @click="submitFilterQuery">
               {{ $t('FILTER.SUBMIT_BUTTON_LABEL') }}
             </woot-button>
@@ -49,6 +49,8 @@ import Modal from '../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import filterInputBox from './components/FilterInput.vue';
+import languages from './advancedFilterItems/languages';
+import countries from './advancedFilterItems/countries';
 
 export default {
   components: {
@@ -93,8 +95,8 @@ export default {
     filterAttributes() {
       return this.filterTypes.map(type => {
         return {
-          key: type.attribute_key,
-          name: type.attribute_name,
+          key: type.attributeKey,
+          name: type.attributeName,
         };
       });
     },
@@ -104,16 +106,12 @@ export default {
   },
   methods: {
     getInputType(key) {
-      const type = this.filterTypes.find(
-        filter => filter.attribute_key === key
-      );
-      return type.input_type;
+      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      return type.inputType;
     },
     getOperators(key) {
-      const type = this.filterTypes.find(
-        filter => filter.attribute_key === key
-      );
-      return type.filter_operators;
+      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      return type.filterOperators;
     },
     // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
@@ -158,44 +156,10 @@ export default {
           });
         case 'labels':
           return this.$store.getters['labels/getLabels'];
-        case 'browser':
-          return [
-            {
-              id: 1,
-              name: 'Google Chrome',
-            },
-            {
-              id: 2,
-              name: 'Mozilla Firefox',
-            },
-            {
-              id: 3,
-              name: 'Safari',
-            },
-          ];
+        case 'browser_language':
+          return languages;
         case 'country_code':
-          return [
-            {
-              id: 1,
-              name: 'India',
-            },
-            {
-              id: 2,
-              name: 'USA',
-            },
-            {
-              id: 3,
-              name: 'United Kingdom',
-            },
-            {
-              id: 4,
-              name: 'Germany',
-            },
-            {
-              id: 5,
-              name: 'Canada',
-            },
-          ];
+          return countries;
         default:
           break;
       }
