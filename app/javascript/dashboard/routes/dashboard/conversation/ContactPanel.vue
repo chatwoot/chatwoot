@@ -425,7 +425,7 @@ export default {
   top: $space-slab + $space-two;
   font-size: $font-size-default;
   color: $color-heading;
-  z-index: 9999;
+  z-index: 9989;
 }
 
 .conversation--labels {
