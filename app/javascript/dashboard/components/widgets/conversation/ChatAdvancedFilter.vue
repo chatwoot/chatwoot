@@ -260,6 +260,6 @@ export default {
   width: 100%;
   margin-bottom: $zero !important;
   border: none;
-  padding: $zero $space-larger;
+  padding: $zero $space-larger $zero $space-two;
 }
 </style>
