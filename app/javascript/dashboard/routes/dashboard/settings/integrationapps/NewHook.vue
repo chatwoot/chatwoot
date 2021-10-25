@@ -59,9 +59,10 @@ export default {
     ...mapGetters({
       uiFlags: 'integrations/getUIFlags',
       websiteInboxes: 'inboxes/getWebsiteInboxes',
+      inboxesExceptEmail: 'inboxes/getInboxesExceptEmail',
     }),
     inboxes() {
-      return this.websiteInboxes
+      return this.inboxesExceptEmail
         .filter(inbox => {
           if (!this.isIntegrationDialogflow) {
             return true;
