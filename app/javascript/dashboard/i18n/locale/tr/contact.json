@@ -7,6 +7,7 @@
     "COMPANY": "Şirket",
     "LOCATION": "Yer",
     "CONVERSATION_TITLE": "Sohbet Ayrıntıları",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Tarayıcı",
     "OS": "İşletim sistemi",
     "INITIATED_FROM": "Başlatıldı",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Detayları göster"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kişiler",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Ekle",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notlar"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Ekle",
       "PLACEHOLDER": "Not ekle",
       "TITLE": "Yeni not oluşturmak için shift + enter ' a basınız"
     },
-    "FOOTER": {
-      "BUTTON": "Tüm notları görüntüle"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
