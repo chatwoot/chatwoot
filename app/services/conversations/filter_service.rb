@@ -1,6 +1,18 @@
 class Conversations::FilterService < FilterService
   def perform
-    conversation_query_builder
+    @conversations = conversation_query_builder
+    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    assigned_count = all_count - unassigned_count
+
+    {
+      conversations: @conversations,
+      count: {
+        mine_count: mine_count,
+        assigned_count: assigned_count,
+        unassigned_count: unassigned_count,
+        all_count: all_count
+      }
+    }
   end
 
   def conversation_query_builder

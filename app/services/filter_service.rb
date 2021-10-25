@@ -33,12 +33,18 @@ class FilterService
   end
 
   def filter_values(query_hash)
-    values = query_hash['values'].map { |x| x['name'].downcase }
-
-    if query_hash['attribute_key'] == 'status'
-      values.collect { |v| Conversation.statuses[v] }
+    if query_hash['attribute_key'] == 'labels' ||  query_hash['attribute_key'] == 'browser_language'
+     query_hash['values'].map { |x| x['name'] }
     else
-      values
+      query_hash['values'].map { |x| x['id'] }
     end
+  end
+
+  def set_count_for_all_conversations
+    [
+      @conversations.assigned_to(@user).count,
+      @conversations.unassigned.count,
+      @conversations.count
+    ]
   end
 end

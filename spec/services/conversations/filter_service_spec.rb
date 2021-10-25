@@ -29,13 +29,27 @@ describe ::Conversations::FilterService do
           {
             attribute_key: 'browser_language',
             filter_operator: 'equal_to',
-            values: ['en'],
+            values: [
+              {
+                id: 0,
+                name: 'en'
+              }
+            ],
             query_operator: 'AND'
           },
           {
             attribute_key: 'status',
             filter_operator: 'equal_to',
-            values: [1, 2],
+            values: [
+              {
+                id: 0,
+                name: 'open'
+              },
+              {
+                id: 2,
+                name: 'pending'
+              }
+            ],
             query_operator: nil
           }
         ]
@@ -48,23 +62,37 @@ describe ::Conversations::FilterService do
       end
 
       it 'filter conversations by tags' do
-        conversations.last.labels << 'support'
+        Conversation.last.update_labels('support')
         params = [
           {
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
-            values: [user_1.id, user_2.id],
+            values: [
+              {
+                id: user_1.id,
+                name: user_1.name
+              },
+              {
+                id: user_2.id,
+                name: user_2.name
+              }
+            ],
             query_operator: 'AND'
           },
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
-            values: ['support'],
+            values: [
+              {
+                id: 1,
+                name: 'support'
+              }
+            ],
             query_operator: nil
           }
         ]
         result = filter_service.new(params, user_1).perform
-        expect(result.length).to be 5
+        expect(result.length).to be 2
       end
     end
   end
