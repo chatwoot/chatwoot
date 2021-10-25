@@ -8,7 +8,12 @@
         {{ integrationName }}
       </h3>
       <p class="integration--description">
-        {{ integrationDescription }}
+        {{
+          useInstallationName(
+            integrationDescription,
+            globalConfig.installationName
+          )
+        }}
       </p>
     </div>
     <div class="small-2 column button-wrap">
@@ -59,9 +64,10 @@
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import alertMixin from 'shared/mixins/alertMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: [
     'integrationId',
     'integrationLogo',
@@ -79,6 +85,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
   },
   methods: {
