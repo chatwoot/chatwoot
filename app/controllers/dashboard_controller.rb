@@ -28,6 +28,7 @@ class DashboardController < ActionController::Base
       'ANALYTICS_HOST'
     ).merge(
       APP_VERSION: Chatwoot.config[:version]
+      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
     )
   end
 
