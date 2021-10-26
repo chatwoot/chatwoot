@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dagen proefperiode resterend.",
-    "TRAIL_BUTTON": "Nu kopen"
+    "TRAIL_BUTTON": "Nu kopen",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
