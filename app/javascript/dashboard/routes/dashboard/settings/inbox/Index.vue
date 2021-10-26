@@ -54,7 +54,7 @@
                 <span v-if="item.channel_type === 'Channel::Telegram'">
                   Telegram
                 </span>
-                <span v-if="item.channel_type === 'Channel::Line'"> Line </span>
+                <span v-if="item.channel_type === 'Channel::Line'">Line</span>
                 <span v-if="item.channel_type === 'Channel::Api'">
                   {{ globalConfig.apiChannelName || 'API' }}
                 </span>
