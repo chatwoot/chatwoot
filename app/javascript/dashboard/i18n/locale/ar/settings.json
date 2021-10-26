@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
-    "TRAIL_BUTTON": "اشترك الآن"
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
