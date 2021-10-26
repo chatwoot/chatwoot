@@ -1,6 +1,13 @@
 class Contacts::FilterService < FilterService
   def perform
-    contact_query_builder
+    @contacts = contact_query_builder
+
+    {
+      contacts: @contacts,
+      count: {
+        all_count: @contacts.count
+      }
+    }
   end
 
   def contact_query_builder
@@ -11,7 +18,7 @@ class Contacts::FilterService < FilterService
       @query_string += contact_query_string(current_filter, query_hash, current_index)
     end
 
-    Contact.where(@query_string, @filter_values.with_indifferent_access)
+    base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
 
   def contact_query_string(current_filter, query_hash, current_index)
@@ -25,5 +32,9 @@ class Contacts::FilterService < FilterService
     when 'standard'
       " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
     end
+  end
+
+  def base_relation
+    Current.account.contacts
   end
 end

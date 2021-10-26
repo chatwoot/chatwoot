@@ -18,8 +18,6 @@ class Conversations::FilterService < FilterService
   def conversation_query_builder
     conversation_filters = @filters['conversations']
     @params.each_with_index do |query_hash, current_index|
-      # query_hash = query_hash.with_indifferent_access
-
       current_filter = conversation_filters[query_hash['attribute_key']]
       @query_string += conversation_query_string(current_filter, query_hash, current_index)
     end
@@ -37,7 +35,7 @@ class Conversations::FilterService < FilterService
       " conversations.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.name #{filter_operator_value} #{query_operator} "
+        " tags.id #{filter_operator_value} #{query_operator} "
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -45,6 +43,6 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    Conversation.left_outer_joins(:labels)
+    Current.account.conversations.left_outer_joins(:labels)
   end
 end

@@ -29,29 +29,15 @@ describe ::Conversations::FilterService do
           {
             attribute_key: 'browser_language',
             filter_operator: 'equal_to',
-            values: [
-              {
-                id: 0,
-                name: 'en'
-              }
-            ],
+            values: ['en'],
             query_operator: 'AND'
-          },
+          }.with_indifferent_access,
           {
             attribute_key: 'status',
             filter_operator: 'equal_to',
-            values: [
-              {
-                id: 'open',
-                name: 'open'
-              },
-              {
-                id: 'pending',
-                name: 'pending'
-              }
-            ],
+            values: ['open', 'pending'],
             query_operator: nil
-          }
+          }.with_indifferent_access
         ]
       end
 
@@ -68,28 +54,17 @@ describe ::Conversations::FilterService do
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
             values: [
-              {
-                id: user_1.id,
-                name: user_1.name
-              },
-              {
-                id: user_2.id,
-                name: user_2.name
-              }
+              user_1.id,
+              user_2.id
             ],
             query_operator: 'AND'
-          },
+          }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
-            values: [
-              {
-                id: 1,
-                name: 'support'
-              }
-            ],
+            values: [1],
             query_operator: nil
-          }
+          }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
         expect(result.length).to be 2
