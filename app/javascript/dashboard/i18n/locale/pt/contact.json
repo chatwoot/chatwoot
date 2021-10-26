@@ -7,6 +7,7 @@
     "COMPANY": "Empresa",
     "LOCATION": "Local:",
     "CONVERSATION_TITLE": "Detalhes da conversa",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Navegador",
     "OS": "Sistema operacional",
     "INITIATED_FROM": "Iniciado de",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Mostrar detalhes"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contatos",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Adicionar",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Observações"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Adicionar",
       "PLACEHOLDER": "Adicionar observação",
       "TITLE": "Shift + Enter para criar uma observação"
     },
-    "FOOTER": {
-      "BUTTON": "Ver todas as observaçoes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
