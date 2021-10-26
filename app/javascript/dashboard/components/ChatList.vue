@@ -80,6 +80,8 @@ import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
+import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+
 import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
@@ -275,16 +277,9 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store
-        .dispatch('fetchFilteredConversations', this.generatePayload(payload))
+        .dispatch('fetchFilteredConversations', filterQueryGenerator(payload))
         .then(() => this.$emit('conversation-load'));
       this.onToggleAdvanceFiltersModal();
-    },
-    generatePayload(payload) {
-      return payload.map(item => {
-        if (Array.isArray(item.values)) return item;
-        item.values = [item.values];
-        return item;
-      });
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
