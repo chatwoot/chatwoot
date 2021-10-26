@@ -45,10 +45,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
     # Inbox update doesn't necessarily need channel attributes
-    if permitted_params(channel_attributes)[:channel].present?
-      @inbox.channel.update!(permitted_params(channel_attributes)[:channel]) 
-      update_channel_feature_flags
-    end
+    return if permitted_params(channel_attributes)[:channel].blank?
+      
+    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
+    update_channel_feature_flags
   end
 
   def agent_bot

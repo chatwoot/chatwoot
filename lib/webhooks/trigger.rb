@@ -6,7 +6,7 @@ class Webhooks::Trigger
       headers: { content_type: :json, accept: :json },
       timeout: 5
     )
-    Rails.logger.info "Performed Request:  Code - #{response.code}" 
+    Rails.logger.info "Performed Request:  Code - #{response.code}"
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
   rescue StandardError => e
