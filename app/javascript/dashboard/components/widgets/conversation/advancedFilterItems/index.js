@@ -241,7 +241,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'browser_language',
-    attributeName: 'Browser',
+    attributeName: 'Browser Language',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: [
