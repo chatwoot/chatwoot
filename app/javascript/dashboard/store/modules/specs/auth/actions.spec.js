@@ -115,9 +115,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setCurrentUserAvailabilityStatus', () => {
+  describe('#setCurrentUserAvailability', () => {
     it('sends correct mutations if user id is available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },
@@ -130,7 +130,7 @@ describe('#actions', () => {
     });
 
     it('does not send correct mutations if user id is not available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },

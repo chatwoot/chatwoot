@@ -29,8 +29,8 @@
         "TITLE": "Pemberitahuan Audio",
         "NOTE": "Aktifkan notifikasi audio di dasbor untuk pesan dan percakapan baru.",
         "NONE": "Tidak ada",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ASSIGNED": "Percakapan yang ditetapkan",
+        "ALL_CONVERSATIONS": "Semua Percakapan"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Silakan masukkan alamat email Anda, ini akan ditampilkan dalam percakapan"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Kata sandi saat ini",
+        "ERROR": "Silakan masukkan kata sandi saat ini",
+        "PLACEHOLDER": "Silakan masukkan kata sandi saat ini"
       },
       "PASSWORD": {
         "LABEL": "Kata Sandi",
@@ -102,7 +102,7 @@
     "CHANGE_ACCOUNTS": "Ganti Akun",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
     "PROFILE_SETTINGS": "Pengaturan Profil",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Shortcut Keyboard",
     "LOGOUT": "Keluar"
   },
   "APP_GLOBAL": {
@@ -140,17 +140,21 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Aplikasi",
     "LABELS": "Label",
-    "ATTRIBUTES": "Attributes",
+    "ATTRIBUTES": "Atribut",
     "TEAMS": "Tim",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "ALL_CONTACTS": "Semua Kontak",
+    "TAGGED_WITH": "Tandai dengan",
+    "REPORTS_OVERVIEW": "Gambaran",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONGOING": "Sedang berlangsung",
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "Agen",
+    "REPORTS_LABEL": "Label",
+    "REPORTS_INBOX": "Kotak masuk",
+    "REPORTS_TEAM": "Tim"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
@@ -171,21 +175,21 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
+      "OPEN_CONVERSATION": "Buka percakapan",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_CONVERSATION_DASHBOARD": "Menuju ke Dasbor Percakapan",
+      "ADD_ATTACHMENT": "Tambahkan Lampiran",
+      "GO_TO_CONTACTS_DASHBOARD": "Menuju ke Dasbor Kontak",
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "GO_TO_REPORTS_SIDEBAR": "Menuju ke sidebar Laporan",
+      "MOVE_TO_NEXT_TAB": "Menuju ke tab berikutnya dalam daftar percakapan",
+      "GO_TO_SETTINGS": "Menuju ke Settings",
+      "SWITCH_CONVERSATION_STATUS": "Beralih ke status percakapan selanjutnya",
+      "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
       "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
+      "SWITCH_TO_REPLY": "Ganti ke Balasan",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },
     "KEYS": {

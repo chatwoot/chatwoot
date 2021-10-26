@@ -73,7 +73,14 @@
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
+        <p>
+          {{
+            useInstallationName(
+              $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
+              globalConfig.installationName
+            )
+          }}
+        </p>
       </div>
       <div class="columns small-9 medium-5">
         <woot-code :script="currentUser.access_token"></woot-code>
@@ -89,13 +96,14 @@ import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       avatarFile: '',
@@ -122,6 +130,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
+      globalConfig: 'globalConfig/get',
     }),
   },
   watch: {

@@ -32,6 +32,8 @@
         "NO_RESULT": "ไม่พบหัวข้อ"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "ระงับการสนทนา",
     "UNMUTE_CONTACT": "เลิกใบ้การสนทนา",
     "MUTED_SUCCESS": "การสนทนานี้ถูกระงับ 6 ชั่วโมง",
@@ -53,6 +55,35 @@
     "BUTTON_LABEL": "การติดต่อใหม่",
     "TITLE": "สร้างการติดต่อใหม่",
     "DESC": "เพิ่าข้อความพื้นฐานเกี่ยวกับการติดต่อนี้"
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "ยกเลิก"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "ยืนยันการลบ",
+      "MESSAGE": "คุณต้องการที่จะลบไหม ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "เอาเลย ",
+      "NO": "ไม่อะเก็บไว้ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -213,17 +244,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "รวมผู้ติดต่อเข้าด้วยกัน",
-    "DESCRIPTION": "รวมผู้ติดต่อจะมีประโยชน์เมื่อคุณมีรายการที่ซ้ำกันของผู้ติดต่อเดียวกัน การดำเนินการผสานใช้ผู้ติดต่อหลักและผู้ติดต่อย่อย หลังจากรวมแล้ว รายละเอียดทั้งหมดในผู้ติดต่อหลักจะยังเหมือนเดิม หากผู้ติดต่อหลักไม่มีฟิลด์ ค่าจากผู้ติดต่อย่อยจะถูกใช้หลังจากการรวม หากเกิดข้อขัดแย้ง ฟิลด์ในผู้ติดต่อหลักจะไม่ได้รับผลกระทบ แต่ฟิลด์จากผู้ติดต่อหลักจะถูกคัดลอกไปยังแอตทริบิวต์ที่กำหนดเองในผู้ติดต่อหลัก",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "ผู้ติดต่อหลัก"
+      "TITLE": "ผู้ติดต่อหลัก",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "ผู้ติดต่อที่จะรวมเข้าด้วยกัน",
-      "PLACEHOLDER": "เลือกผู้ติดต่อ"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "สรุปผล",
-      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{childContactName}</strong>จะถูกลบออก",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{childContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{primaryContactName}</strong>"
     },
     "SEARCH": {
@@ -236,7 +269,7 @@
         "ERROR": "เลือกผู้ติดต่อที่จะรวมเข้าด้วยกัน"
       },
       "SUCCESS_MESSAGE": "รวมผู้ติดต่อเข้าด้วยกันเรียบร้อยเเล้ว",
-      "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ ลองใหม่อีกครั้งด้วยนะ!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

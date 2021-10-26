@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
+    "FILTER_ALL": "Alle",
     "STATUS_TABS": [
       {
         "NAME": "Offen",
@@ -84,7 +85,10 @@
     "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
     "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen",
     "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
+    "SENT": "Erfolgreich gesendet",
     "NO_MESSAGES": "Keine Nachrichten",
-    "NO_CONTENT": "Kein Inhalt verfügbar"
+    "NO_CONTENT": "Kein Inhalt verfügbar",
+    "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
+    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen"
   }
 }

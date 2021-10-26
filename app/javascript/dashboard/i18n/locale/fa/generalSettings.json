@@ -71,5 +71,13 @@
       "assigned_conversation_new_message": "پیام جدید",
       "conversation_mention": "اشاره"
     }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "قطع کردن Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "تازه کردن"
+    }
   }
 }

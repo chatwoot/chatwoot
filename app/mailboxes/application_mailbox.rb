@@ -40,7 +40,7 @@ class ApplicationMailbox < ActionMailbox::Base
   def self.in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
     return if is_a_reply_email
 
-    in_reply_to = inbound_mail_obj.mail['In-Reply-To'].value
+    in_reply_to = inbound_mail_obj.mail.in_reply_to
 
     return false if in_reply_to.blank?
 

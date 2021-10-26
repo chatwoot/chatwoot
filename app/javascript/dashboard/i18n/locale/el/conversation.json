@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Ανοιχτές",
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
-      "DETAILS": "Λεπτομέρειες"
+      "DETAILS": "Λεπτομέρειες",
+      "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
     "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Επιλογή πράκτορα",

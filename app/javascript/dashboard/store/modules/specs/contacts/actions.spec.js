@@ -168,6 +168,30 @@ describe('#actions', () => {
     });
   });
 
+  describe('#merge', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: contactList[0],
+      });
+      await actions.merge({ commit }, { childId: 0, parentId: 1 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isMerging: true }],
+        [types.SET_CONTACT_ITEM, contactList[0]],
+        [types.SET_CONTACT_UI_FLAG, { isMerging: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.merge({ commit }, { childId: 0, parentId: 1 })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isMerging: true }],
+        [types.SET_CONTACT_UI_FLAG, { isMerging: false }],
+      ]);
+    });
+  });
+
   describe('#deleteContactThroughConversations', () => {
     it('returns correct mutations', () => {
       actions.deleteContactThroughConversations({ commit }, contactList[0].id);

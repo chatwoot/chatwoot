@@ -8,7 +8,12 @@
         {{ integrationName }}
       </h3>
       <p class="integration--description">
-        {{ integrationDescription }}
+        {{
+          useInstallationName(
+            integrationDescription,
+            globalConfig.installationName
+          )
+        }}
       </p>
     </div>
     <div class="small-2 column button-wrap">
@@ -33,11 +38,13 @@
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import WootLabel from 'dashboard/components/ui/Label';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     WootLabel,
   },
+  mixins: [globalConfigMixin],
   props: {
     integrationId: {
       type: String,
@@ -61,7 +68,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ accountId: 'getCurrentAccountId' }),
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
+    }),
     labelText() {
       return this.integrationEnabled
         ? this.$t('INTEGRATION_APPS.STATUS.ENABLED')

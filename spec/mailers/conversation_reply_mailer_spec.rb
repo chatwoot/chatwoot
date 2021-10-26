@@ -7,6 +7,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
+    let(:email_channel) { create(:channel_email, account: account) }
 
     before do
       allow(described_class).to receive(:new).and_return(class_instance)
@@ -35,8 +36,8 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
                })
       end
       let(:private_message) { create(:message, account: account, content: 'This is a private message', conversation: conversation) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
-      let(:cc_mail) { described_class.reply_with_summary(cc_message.conversation, Time.zone.now).deliver_now }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+      let(:cc_mail) { described_class.reply_with_summary(cc_message.conversation, message.id).deliver_now }
 
       it 'renders the subject' do
         expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
@@ -66,7 +67,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     context 'without assignee' do
       let(:conversation) { create(:conversation, assignee: nil) }
       let(:message) { create(:message, conversation: conversation) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       it 'has correct name' do
         expect(mail[:from].display_names).to eq(['Notifications from Inbox'])
@@ -84,7 +85,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
                account: account,
                message_type: 'outgoing').reload
       end
-      let(:mail) { described_class.reply_without_summary(message_1.conversation, Time.zone.now - 1.minute).deliver_now }
+      let(:mail) { described_class.reply_without_summary(message_2.conversation, message_2.id).deliver_now }
 
       before do
         message_2.save
@@ -113,12 +114,30 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
+    context 'with email reply' do
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+      let(:mail) { described_class.email_reply(message).deliver_now }
+
+      it 'renders the subject' do
+        expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the body' do
+        expect(mail.decoded).to include message.content
+      end
+
+      it 'updates the source_id' do
+        expect(mail.message_id).to eq message.source_id
+      end
+    end
+
     context 'when custom domain and email is not enabled' do
       let(:inbox) { create(:inbox, account: account) }
       let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
       let(:domain) { account.inbound_email_domain }
 
       it 'renders the receiver email' do
@@ -142,7 +161,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:inbox) { create(:inbox, account: account, email_address: 'noreply@chatwoot.com') }
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       it 'set reply to email address as inbox email address' do
         expect(mail.from).to eq([inbox.email_address])
@@ -154,7 +173,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:account) { create(:account) }
       let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, inbox: conversation.inbox) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       before do
         account = conversation.account
@@ -166,7 +185,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets reply to email to be based on the domain' do
         reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
-        reply_to = "#{agent.available_name} <#{reply_to_email}>"
+        reply_to = "#{agent.available_name} from #{conversation.inbox.name} <#{reply_to_email}>"
         expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end
