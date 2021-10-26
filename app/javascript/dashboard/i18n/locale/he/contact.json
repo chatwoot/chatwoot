@@ -1,88 +1,89 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "לא זמין",
     "EMAIL_ADDRESS": "כתובת מייל",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
+    "PHONE_NUMBER": "מספר טלפון",
+    "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
+    "COMPANY": "חברה",
+    "LOCATION": "מיקום",
+    "CONVERSATION_TITLE": "פרטי שיחה",
+    "VIEW_PROFILE": "צפה בפרופיל",
     "BROWSER": "דפדפן",
     "OS": "מערכת הפעלה",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "INITIATED_FROM": "יזום מי",
+    "INITIATED_AT": "יזם ב",
+    "IP_ADDRESS": "כתובת IP",
+    "NEW_MESSAGE": "הודעה חדשה",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "לא היו שיחות קודמות המשויכות לאיש קשר זה.",
+      "TITLE": "שיחות קודמות"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "תגיות אנשי קשר",
+        "ERROR": "לא ניתן לעדכן תוויות"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "תוויות שיחה",
+        "ADD_BUTTON": "הוסף תוויות"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "הוסף תוויות",
+        "PLACEHOLDER": "חפש תוויות",
+        "NO_RESULT": "לא נמצאו תוויות"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MERGE_CONTACT": "מזג אנשי קשר",
+    "CONTACT_ACTIONS": "פעולות אנשי קשר",
+    "MUTE_CONTACT": "השתק שיחה",
+    "UNMUTE_CONTACT": "הסר השתקת שיחה",
+    "MUTED_SUCCESS": "שיחה זו מושתקת למשך 6 שעות",
+    "UNMUTED_SUCCESS": "השיחה הזו אינה מושתקת",
+    "SEND_TRANSCRIPT": "שלח תמלול",
     "EDIT_LABEL": "ערוך",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Previous Conversations"
+      "CUSTOM_ATTRIBUTES": "תכונות מותאמות אישית",
+      "CONTACT_LABELS": "תגיות אנשי קשר",
+      "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "BUTTON_LABEL": "ערוך איש קשר",
+    "TITLE": "ערוך איש קשר",
+    "DESC": "ערוך את פרטי הקשר"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "איש קשר חדש",
+    "TITLE": "צור איש קשר חדש",
+    "DESC": "הוסף פרטי מידע בסיסיים על איש הקשר."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "יבא",
+    "TITLE": "ייבא אנשי קשר",
+    "DESC": "ייבא אנשי קשר באמצעות קובץ CSV.",
+    "DOWNLOAD_LABEL": "הורד קובץ csv לדוגמה.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "קובץ CSV",
+      "SUBMIT": "יבא",
       "CANCEL": "ביטול"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "מחק איש קשר",
+    "TITLE": "מחק איש קשר",
+    "DESC": "מחק את פרטים של איש הקשר",
     "CONFIRM": {
       "TITLE": "אשר מחיקה",
       "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "הקלד {contactName} כדי לאשר",
       "YES": "כן, מחק ",
       "NO": "לא, השאר "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "איש הקשר נמחק בהצלחה",
+      "ERROR_MESSAGE": "לא ניתן היה למחוק איש קשר. בבקשה נסה שוב מאוחר יותר."
     }
   },
   "CONTACT_FORM": {
@@ -90,10 +91,10 @@
       "SUBMIT": "שלח",
       "CANCEL": "ביטול",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "צור קשר עם אווטאר"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
+        "PLACEHOLDER": "הזן את שמו המלא של איש הקשר",
         "LABEL": "שם מלא"
       },
       "BIO": {
@@ -112,7 +113,7 @@
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "LABEL": "מיקום"
       },
       "COMPANY_NAME": {
         "PLACEHOLDER": "Enter the company name",
@@ -182,11 +183,15 @@
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
+        "COMPANY": "חברה",
         "EMAIL_ADDRESS": "כתובת מייל"
       },
       "VIEW_DETAILS": "View details"
     }
+  },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "הוסף",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "நாட்கள் சோதனை மீதமுள்ளது.",
-    "TRAIL_BUTTON": "இப்போது வாங்க"
+    "TRAIL_BUTTON": "இப்போது வாங்க",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

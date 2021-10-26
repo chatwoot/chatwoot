@@ -7,6 +7,7 @@
     "COMPANY": "Firma",
     "LOCATION": "Ort",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
+    "VIEW_PROFILE": "Profil anzeigen",
     "BROWSER": "Browser",
     "OS": "Betriebssystem",
     "INITIATED_FROM": "Initiiert von",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Details anzeigen"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontakte",
+    "LOADING": "Kontaktprofil wird geladen..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Hinzufügen",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Notizen werden geladen...",
+    "NOT_AVAILABLE": "Für diesen Kontakt wurden keine Notizen erstellt",
     "HEADER": {
       "TITLE": "Notizen"
+    },
+    "LIST": {
+      "LABEL": "Notiz hinzugefügt"
     },
     "ADD": {
       "BUTTON": "Hinzufügen",
       "PLACEHOLDER": "Notiz hinzufügen",
       "TITLE": "Shift + Enter um eine Notiz zu erstellen"
     },
-    "FOOTER": {
-      "BUTTON": "Alle Notizen anzeigen"
+    "CONTENT_HEADER": {
+      "DELETE": "Notiz löschen"
     }
   },
   "EVENTS": {
