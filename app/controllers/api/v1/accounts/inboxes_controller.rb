@@ -43,8 +43,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
 
     channel_attributes = get_channel_attributes(@inbox.channel_type)
-    @inbox.channel.update!(permitted_params(channel_attributes)[:channel]) if permitted_params(channel_attributes)[:channel].present?
-    update_channel_feature_flags
+
+    # Inbox update doesn't necessarily need channel attributes
+    if permitted_params(channel_attributes)[:channel].present?
+      @inbox.channel.update!(permitted_params(channel_attributes)[:channel]) 
+      update_channel_feature_flags
+    end
   end
 
   def agent_bot
