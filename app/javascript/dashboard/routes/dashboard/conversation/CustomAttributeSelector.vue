@@ -90,9 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar-labels-wrap {
-  margin-bottom: var(--space-normal);
-}
 .contact-conversation--list {
   width: 100%;
 

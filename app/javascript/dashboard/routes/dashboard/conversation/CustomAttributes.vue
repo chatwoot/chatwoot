@@ -73,10 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.custom-attributes--panel {
-  margin-bottom: var(--space-normal);
-}
-
 .conv-details--item {
   padding-bottom: 0;
 }
