@@ -59,6 +59,8 @@ const finalResult = [
 describe('#filterQueryGenerator', () => {
   it('returns the correct format of filter query', () => {
     expect(filterQueryGenerator(payload)).toMatchObject(finalResult);
-    expect(finalResult.every(i => Array.isArray(i.values))).toBe(true);
+    expect(
+      filterQueryGenerator(payload).every(i => Array.isArray(i.values))
+    ).toBe(true);
   });
 });
