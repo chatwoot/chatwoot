@@ -10,7 +10,7 @@
         />
       </woot-tabs>
 
-      <div class="columns with-right-space ">
+      <div class="columns with-right-space">
         <p
           v-if="!uiFlags.isFetching && !attributes.length"
           class="no-items-error-message"
@@ -134,10 +134,6 @@ export default {
         {
           key: 0,
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
-        },
-        {
-          key: 1,
-          name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
         },
       ];
     },
