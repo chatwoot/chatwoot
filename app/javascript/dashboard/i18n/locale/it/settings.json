@@ -3,8 +3,8 @@
     "LINK": "Impostazioni profilo",
     "TITLE": "Impostazioni profilo",
     "BTN_TEXT": "Aggiorna Profilo",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "UPDATE_SUCCESS": "Il tuo profilo è stato aggiornato con successo",
+    "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
     "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente il login quando le tue credenziali di accesso sono state modificate",
     "FORM": {
       "AVATAR": "Immagine del profilo",
@@ -19,25 +19,25 @@
       "PASSWORD_SECTION": {
         "TITLE": "password",
         "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Cambia password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Notifiche Audio",
+        "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
+        "NONE": "Nessuno",
+        "ASSIGNED": "Conversazioni Assegnate",
+        "ALL_CONVERSATIONS": "Tutte Le Conversazioni"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
         "NOTE": "Aggiorna qui le tue preferenze di notifica email",
         "CONVERSATION_ASSIGNMENT": "Invia notifiche via email quando viene assegnata una conversazione a me",
         "CONVERSATION_CREATION": "Invia notifiche via email quando viene creata una nuova conversazione",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche via e-mail quando viene creato un nuovo messaggio in una conversazione assegnata"
       },
       "API": {
@@ -49,7 +49,7 @@
         "NOTE": "Aggiorna qui le tue preferenze di notifiche push",
         "CONVERSATION_ASSIGNMENT": "Invia notifiche push quando una conversazione mi viene assegnata",
         "CONVERSATION_CREATION": "Invia notifiche push quando una conversazione mi viene assegnata",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Invia notifiche push quando sei menzionato in una conversazione",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche push quando viene creato un nuovo messaggio in una conversazione assegnata",
         "HAS_ENABLED_PUSH": "Hai abilitato notifiche push per questo browser.",
         "REQUEST_PUSH": "Abilita notifiche push"
@@ -58,14 +58,14 @@
         "LABEL": "Immagine del profilo"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
+        "LABEL": "Il tuo nome completo",
+        "ERROR": "Per favore inserisci il nome completo",
         "PLACEHOLDER": "Per favore inserisci il nome completo"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Nome Visualizzato",
+        "ERROR": "Inserisci un nome di visualizzazione valido",
+        "PLACEHOLDER": "Inserisci un nome di visualizzazione, questo verrà visualizzato nelle conversazioni"
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilità",
@@ -81,9 +81,9 @@
         "PLACEHOLDER": "Inserisci il tuo indirizzo email, che verrà visualizzato nelle conversazioni"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Password attuale",
+        "ERROR": "Inserisci la password attuale",
+        "PLACEHOLDER": "Inserisci la password attuale"
       },
       "PASSWORD": {
         "LABEL": "password",
@@ -102,7 +102,7 @@
     "CHANGE_ACCOUNTS": "Cambia Profilo/Account",
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Tasti Scorciatoie",
     "LOGOUT": "Disconnetti"
   },
   "APP_GLOBAL": {
@@ -132,7 +132,7 @@
     "CONVERSATIONS": "Conversazioni",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Contatti",
     "HOME": "Home",
     "AGENTS": "Agenti",
     "INBOXES": "Posta",
@@ -140,25 +140,29 @@
     "CANNED_RESPONSES": "Risposte predefinite",
     "INTEGRATIONS": "Integrazioni",
     "ACCOUNT_SETTINGS": "Impostazioni Account",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "APPLICATIONS": "Applicazioni",
+    "LABELS": "Etichette",
+    "ATTRIBUTES": "Attributi",
     "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "ALL_CONTACTS": "Tutti I Contatti",
+    "TAGGED_WITH": "Etichettato con",
+    "REPORTS_OVERVIEW": "Panoramica",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "CAMPAIGNS": "Campagne",
+    "ONGOING": "In Corso",
+    "ONE_OFF": "Uno fuori",
+    "REPORTS_AGENT": "Agenti",
+    "REPORTS_LABEL": "Etichette",
+    "REPORTS_INBOX": "Posta",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
+    "NEW_ACCOUNT": "Nuovo Account",
+    "SELECTOR_SUBTITLE": "Crea un nuovo account",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Account creato con successo",
+      "EXIST_MESSAGE": "Account già esistente",
       "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
     },
     "FORM": {
@@ -171,22 +175,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Apri conversazione",
+      "RESOLVE_AND_NEXT": "Risolvi e vai alla prossima",
+      "NAVIGATE_DROPDOWN": "Naviga con gli elementi a discesa",
+      "RESOLVE_CONVERSATION": "Risolvi la conversazione",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla Dashboard di conversazione",
+      "ADD_ATTACHMENT": "File Allegato",
+      "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
+      "TOGGLE_SIDEBAR": "Attiva/Disattiva Barra Laterale",
+      "GO_TO_REPORTS_SIDEBAR": "Vai alla barra laterale dei rapporti",
+      "MOVE_TO_NEXT_TAB": "Sposta nella scheda successiva nell'elenco delle conversazioni",
+      "GO_TO_SETTINGS": "Vai alle impostazioni",
+      "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
+      "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Attiva/Disattiva editor di contenuti esteso",
+      "SWITCH_TO_REPLY": "Passa a Risposta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

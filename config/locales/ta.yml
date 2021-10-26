@@ -27,10 +27,18 @@ ta:
       invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
       email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -73,6 +81,9 @@ ta:
       transcript_subject: "Conversation Transcript"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

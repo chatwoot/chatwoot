@@ -27,10 +27,18 @@ hu:
       invalid_email: Hibás e-mailcímet adtál meg
       email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
       failed: Feliratkozás sikertelen
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
     agent_csv:
       agent_name: Ügynök neve
+      conversations_count: Beszélgetésszám
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
+    team_csv:
+      team_name: Csapatnév
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
@@ -73,6 +81,9 @@ hu:
       transcript_subject: "Beszélgetés kivonat"
     survey:
       response: "Kérlek értékeld a beszélgetést, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

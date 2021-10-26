@@ -58,8 +58,11 @@ Rails.application.routes.draw do
             resource :twilio_channel, only: [:create]
           end
           resources :conversations, only: [:index, :create, :show] do
-            get 'meta', on: :collection
-            get 'search', on: :collection
+            collection do
+              get :meta
+              get :search
+              get :filter
+            end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
@@ -80,6 +83,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              get :filter
               post :import
             end
             member do
@@ -89,6 +93,7 @@ Rails.application.routes.draw do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
+              resources :notes
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -256,8 +261,8 @@ Rails.application.routes.draw do
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
-  get 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#verify'
-  post 'instagram_callbacks/event', to: 'api/v1/instagram_callbacks#events'
+  get 'webhooks/instagram', to: 'webhooks/instagram#verify'
+  post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
   namespace :twitter do
     resource :callback, only: [:show]

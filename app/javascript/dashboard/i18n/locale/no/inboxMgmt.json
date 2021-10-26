@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal profilbilde"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Vennligst skriv inn en gyldig URL"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Nettstedets domene",
           "PLACEHOLDER": "Angi URL på nettsiden (f. eks.: acme.no)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "Opprett innboks"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp kanal",
-        "DESC": "Integrer Twilio for å støtte kundene dine via SMS eller Whatsapp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Konto-SID",
           "PLACEHOLDER": "Skriv inn din Twilio konto-SID",
@@ -109,8 +114,8 @@
           "ERROR": "Dette feltet er obligatorisk"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Kanalnavn",
-          "PLACEHOLDER": "Vennligst skriv inn et kanalnavn",
+          "LABEL": "Navn på innboks",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Dette feltet er obligatorisk"
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Navn på innboks",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Vennligst angi telefonnummeret som meldinger skal sendes fra.",
+          "ERROR": "Skriv inn en gyldig verdi. Telefonnummeret skal starte med `+`-tegn."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API Kanal",
@@ -195,6 +226,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -266,6 +301,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "Aktivert",
         "DISABLED": "Deaktivert"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -315,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling av nye samtaler til agenter som er lagt til i denne innboksen.",
       "HMAC_VERIFICATION": "Brukeridentitetsvalidering",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",

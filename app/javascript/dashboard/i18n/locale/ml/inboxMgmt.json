@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "ചാനൽ അവതാർ"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "വെബ്സൈറ്റ് ഡൊമെയ്ൻ",
           "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റ് ഡൊമെയ്ൻ നൽകുക (ഉദാ: punnyalan.com)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "ഇൻ‌ബോക്സ് സൃഷ്ടിക്കുക"
       },
       "TWILIO": {
-        "TITLE": "ട്വിലിയോ എസ്.എം.എസ് ചാനൽ",
-        "DESC": "ട്വിലിയോ സംയോജിപ്പിച്ച് എസ്.എം.എസ് വഴി നിങ്ങളുടെ ഉപഭോക്താക്കളെ പിന്തുണയ്ക്കാൻ ആരംഭിക്കുക.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "അക്കൗണ്ട് എസ്ഐഡി",
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ട്വിലിയോ അക്കൗണ്ട് എസ്ഐഡി നൽകുക",
@@ -109,8 +114,8 @@
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
         "CHANNEL_NAME": {
-          "LABEL": "ചാനലിന്റെ പേര്",
-          "PLACEHOLDER": "ഈ ചാനലിനു ദയവായി ഒരു പേര് നൽകുക",
+          "LABEL": "ഇൻ‌ബോക്സ് നാമം",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "Start supporting your customers via SMS with Twilio integration."
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "ഇൻ‌ബോക്സ് നാമം",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "ഫോൺ നമ്പർ",
+          "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
+          "ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക. ഫോൺ നമ്പർ `+`ചിഹ്നത്തിൽ ആരംഭിക്കണം."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API Channel",
@@ -195,6 +226,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "ഏജന്റുമാർ",
@@ -266,6 +301,9 @@
       "ENABLE_CSAT": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -315,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "പുതിയ സംഭാഷണങ്ങളിൽ ലഭ്യമായ ഏജന്റുമാരുടെ ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് പ്രാപ്തമാക്കുകയോ അപ്രാപ്തമാക്കുകയോ ചെയ്യുക",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",

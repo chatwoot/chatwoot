@@ -3,8 +3,8 @@
     "HEADER": "Campagnes",
     "SIDEBAR_TXT": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, qui déclenchent plus de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "Créer une campagne isolée",
+      "ONGOING": "Créer une campagne en cours"
     },
     "ADD": {
       "TITLE": "Créer une campagne",
@@ -18,20 +18,20 @@
           "ERROR": "Le titre est requis"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Horaire programmée",
+          "PLACEHOLDER": "Veuillez sélectionner l'heure",
+          "CONFIRM": "Confirmer",
+          "ERROR": "L'heure programmée est requise"
         },
         "AUDIENCE": {
           "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "PLACEHOLDER": "Sélectionnez les étiquettes des clients",
+          "ERROR": "L'audience est requise"
         },
         "INBOX": {
           "LABEL": "Sélectionner la boîte de réception",
           "PLACEHOLDER": "Sélectionner la boîte de réception",
-          "ERROR": "Inbox is required"
+          "ERROR": "La boîte de réception est requise"
         },
         "MESSAGE": {
           "LABEL": "Message",
@@ -54,6 +54,7 @@
           "ERROR": "Le temps sur la page est requis"
         },
         "ENABLED": "Activer la campagne",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Ajouter une campagne"
       },
       "API": {
@@ -92,7 +93,7 @@
         "STATUS": "État",
         "SENDER": "Expéditeur",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "Horaire programmée",
         "TIME_ON_PAGE": "Temps(secondes)",
         "CREATED_AT": "Créé le"
       },
@@ -104,22 +105,22 @@
       "STATUS": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Terminé",
+        "ACTIVE": "Actif"
       },
       "SENDER": {
         "BOT": "Bot"
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "HEADER": "Campagnes isolées",
+      "404": "Il n'y a pas de campagnes isolées créées",
+      "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception SMS et commencez à ajouter des campagnes"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "HEADER": "Campagnes en cours",
+      "404": "Il n'y a pas de campagnes en cours créées",
+      "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception de site Web et commencez à ajouter des campagnes"
     }
   }
 }

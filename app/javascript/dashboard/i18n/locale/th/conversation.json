@@ -39,7 +39,10 @@
       "OPEN_ACTION": "เปิด",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
-      "DETAILS": "รายละเอียด"
+      "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างการรอ",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "ส่งโดย:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",

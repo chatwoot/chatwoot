@@ -404,7 +404,7 @@ export default {
 ::v-deep {
   .contact--profile {
     padding-bottom: var(--space-slab);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border);
   }
   .conversation--actions .multiselect-wrap--small {
     .multiselect {
@@ -421,10 +421,11 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-normal;
-  top: $space-slab;
+  right: $space-two;
+  top: $space-slab + $space-two;
   font-size: $font-size-default;
   color: $color-heading;
+  z-index: 9989;
 }
 
 .conversation--labels {

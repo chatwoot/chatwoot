@@ -27,10 +27,18 @@ el:
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
+    contacts:
+      import:
+        failed: Το αρχείο είναι κενό
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     agent_csv:
       agent_name: Όνομα Πράκτορα
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    team_csv:
+      team_name: Όνομα ομάδας
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
@@ -73,6 +81,9 @@ el:
       transcript_subject: "Μεταγραφή Συνομιλίας"
     survey:
       response: "Παρακαλώ αξιολογήστε αυτήν την συνομιλία, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
   integration_apps:
     slack:
       name: "Slack"

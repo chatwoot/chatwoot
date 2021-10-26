@@ -486,6 +486,9 @@ export default {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
+      if (this.isAnEmailChannel) {
+        return `${this.inbox.name} (${this.inbox.email})`;
+      }
       return this.inbox.name;
     },
     messengerScript() {

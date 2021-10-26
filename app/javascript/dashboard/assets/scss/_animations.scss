@@ -93,3 +93,17 @@
 /* .slide-fade-leave-active for <2.1.8 */ {
   opacity: 0;
 }
+
+.network-notification-fade-enter-active {
+  transition: all .1s $ease-in-sine;
+}
+
+.network-notification-fade-leave-active {
+  transition: all .1s $ease-out-sine;
+}
+
+.network-notification-fade-enter,
+.network-notification-fade-leave-to {
+  transform: translateY(-$space-small);
+  opacity: 0;
+}

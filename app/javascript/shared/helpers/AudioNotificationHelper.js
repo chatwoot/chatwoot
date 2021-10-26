@@ -94,3 +94,7 @@ export const newMessageNotification = data => {
     showBadgeOnFavicon();
   }
 };
+
+export const playNewMessageNotificationInWidget = () => {
+  window.playAudioAlert();
+};
