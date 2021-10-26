@@ -164,8 +164,9 @@ export default {
 
 <style lang="scss" scoped>
 .contact-attribute {
-  margin-bottom: var(--space-small);
+  padding: var(--space-slab) var(--space-normal);
 }
+
 .title-wrap {
   display: flex;
   align-items: center;

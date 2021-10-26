@@ -153,8 +153,7 @@
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "CUSTOM_ATTRIBUTES": "Conversation Attributes"
+      "PREVIOUS_CONVERSATION": "Previous Conversations"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

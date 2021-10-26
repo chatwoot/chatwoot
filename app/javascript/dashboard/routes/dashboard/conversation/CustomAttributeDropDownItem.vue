@@ -1,14 +1,8 @@
 <template>
   <woot-dropdown-item>
-    <div class="item-wrap">
-      <woot-button variant="clear" @click="onClick">
-        <div class="button-wrap">
-          <div class="name-label-wrap">
-            <span class="label-text" :title="title">{{ title }}</span>
-          </div>
-        </div>
-      </woot-button>
-    </div>
+    <woot-button variant="clear" @click="onClick">
+      <span class="label-text" :title="title">{{ title }}</span>
+    </woot-button>
   </woot-dropdown-item>
 </template>
 

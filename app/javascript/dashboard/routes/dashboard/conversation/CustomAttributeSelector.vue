@@ -1,31 +1,29 @@
 <template>
-  <div class="sidebar-labels-wrap">
-    <div class="contact-conversation--list">
-      <div
-        v-on-clickaway="closeDropdown"
-        class="label-wrap"
-        @keyup.esc="closeDropdown"
+  <div class="contact-conversation--list">
+    <div
+      v-on-clickaway="closeDropdown"
+      class="label-wrap"
+      @keyup.esc="closeDropdown"
+    >
+      <woot-button
+        size="small"
+        variant="link"
+        icon="ion-plus"
+        @click="toggleAttributeDropDown"
       >
-        <woot-button
-          size="small"
-          variant="link"
-          icon="ion-plus"
-          @click="toggleAttributeDropDown"
-        >
-          {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
-        </woot-button>
+        {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}
+      </woot-button>
 
-        <div class="dropdown-wrap">
-          <div
-            :class="{ 'dropdown-pane--open': showAttributeDropDown }"
-            class="dropdown-pane"
-          >
-            <custom-attribute-drop-down
-              v-if="showAttributeDropDown"
-              :attribute-type="attributeType"
-              @add-attribute="addAttribute"
-            />
-          </div>
+      <div class="dropdown-wrap">
+        <div
+          :class="{ 'dropdown-pane--open': showAttributeDropDown }"
+          class="dropdown-pane"
+        >
+          <custom-attribute-drop-down
+            v-if="showAttributeDropDown"
+            :attribute-type="attributeType"
+            @add-attribute="addAttribute"
+          />
         </div>
       </div>
     </div>
@@ -62,8 +60,8 @@ export default {
         await this.$store.dispatch('updateCustomAttributes', {
           conversationId: this.conversationId,
           customAttributes: {
-            [attribute_key]: null,
             ...this.customAttributes,
+            [attribute_key]: null,
           },
         });
         bus.$emit(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, attribute_key);
@@ -92,6 +90,7 @@ export default {
 <style lang="scss" scoped>
 .contact-conversation--list {
   width: 100%;
+  padding: var(--space-normal);
 
   .label-wrap {
     line-height: var(--space-medium);

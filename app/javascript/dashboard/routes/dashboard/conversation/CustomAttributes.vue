@@ -10,6 +10,7 @@
       emoji=""
       :value="attribute.value"
       :show-actions="true"
+      :class="attributeClass"
       @update="onUpdate"
       @delete="onDelete"
       @copy="onCopy"
@@ -31,6 +32,10 @@ export default {
     attributeType: {
       type: String,
       default: 'conversation_attribute',
+    },
+    attributeClass: {
+      type: String,
+      default: '',
     },
   },
   methods: {
@@ -71,13 +76,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.conv-details--item {
-  padding-bottom: 0;
-}
-
-.custom-attribute--row__attribute {
-  font-weight: 500;
-}
-</style>

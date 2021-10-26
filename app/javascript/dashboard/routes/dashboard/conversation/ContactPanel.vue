@@ -5,16 +5,49 @@
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
     <accordion-item
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CUSTOM_ATTRIBUTES')"
-      :is-open="isContactSidebarItemOpen('is_conv_custom_attributes_open')"
-      @click="
-        value => toggleSidebarUIState('is_conv_custom_attributes_open', value)
-      "
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
+      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
+      compact
+      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
     >
       <div class="conversation--details">
+        <contact-details-item
+          v-if="initiatedAt"
+          :title="$t('CONTACT_PANEL.INITIATED_AT')"
+          :value="initiatedAt.timestamp"
+          class="conversation--attribute"
+        />
+        <contact-details-item
+          v-if="referer"
+          :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+          :value="referer"
+          class="conversation--attribute"
+        >
+          <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+            {{ referer }}
+          </a>
+        </contact-details-item>
+        <contact-details-item
+          v-if="browser && browser.browser_name"
+          :title="$t('CONTACT_PANEL.BROWSER')"
+          :value="browserName"
+          class="conversation--attribute"
+        />
+        <contact-details-item
+          v-if="browser && browser.platform_name"
+          :title="$t('CONTACT_PANEL.OS')"
+          :value="platformName"
+          class="conversation--attribute"
+        />
+        <contact-details-item
+          v-if="ipAddress"
+          :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+          :value="ipAddress"
+          class="conversation--attribute"
+        />
         <custom-attributes
           attribute-type="conversation_attribute"
-          :custom-attributes="conversationCustomAttributes"
+          attribute-class="conversation--attribute"
         />
         <custom-attribute-selector attribute-type="conversation_attribute" />
       </div>
@@ -28,6 +61,7 @@
         <div>
           <div class="multiselect-wrap--small">
             <contact-details-item
+              compact
               :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
             >
               <template v-slot:button>
@@ -60,6 +94,7 @@
           </div>
           <div class="multiselect-wrap--small">
             <contact-details-item
+              compact
               :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
             />
             <multiselect-dropdown
@@ -79,68 +114,13 @@
             />
           </div>
           <contact-details-item
+            compact
             :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
           />
           <conversation-labels :conversation-id="conversationId" />
         </div>
       </accordion-item>
     </div>
-
-    <accordion-item
-      v-if="browser.browser_name"
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
-      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
-      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
-    >
-      <div class="conversation--details">
-        <contact-details-item
-          v-if="location"
-          :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
-          :value="location"
-          icon="ion-map"
-          emoji="📍"
-        />
-        <contact-details-item
-          v-if="ipAddress"
-          :title="$t('CONTACT_PANEL.IP_ADDRESS')"
-          :value="ipAddress"
-          icon="ion-android-locate"
-          emoji="🧭"
-        />
-        <contact-details-item
-          v-if="browser.browser_name"
-          :title="$t('CONTACT_PANEL.BROWSER')"
-          :value="browserName"
-          icon="ion-ios-world-outline"
-          emoji="🌐"
-        />
-        <contact-details-item
-          v-if="browser.platform_name"
-          :title="$t('CONTACT_PANEL.OS')"
-          :value="platformName"
-          icon="ion-laptop"
-          emoji="💻"
-        />
-        <contact-details-item
-          v-if="referer"
-          :title="$t('CONTACT_PANEL.INITIATED_FROM')"
-          :value="referer"
-          icon="ion-link"
-          emoji="🔗"
-        >
-          <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
-            {{ referer }}
-          </a>
-        </contact-details-item>
-        <contact-details-item
-          v-if="initiatedAt"
-          :title="$t('CONTACT_PANEL.INITIATED_AT')"
-          :value="initiatedAt.timestamp"
-          icon="ion-clock"
-          emoji="🕰"
-        />
-      </div>
-    </accordion-item>
     <accordion-item
       v-if="hasContactAttributes"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
@@ -182,8 +162,6 @@ import CustomAttributeSelector from './CustomAttributeSelector.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import CustomAttributes from './CustomAttributes.vue';
-
-import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -251,20 +229,7 @@ export default {
       const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
       return createdAtIp;
     },
-    location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.contactAdditionalAttributes;
-      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
-      if (!cityAndCountry) {
-        return '';
-      }
-      const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${cityAndCountry} ${countryFlag}`;
-    },
     platformName() {
       const {
         platform_name: platformName,
@@ -427,6 +392,10 @@ export default {
   i {
     margin-right: $space-smaller;
   }
+
+  .conversation--attribute:nth-child(2n) {
+    background: var(--b-50);
+  }
 }
 
 ::v-deep {
@@ -469,12 +438,6 @@ export default {
     color: #fff;
     padding: 0.2rem;
   }
-}
-
-.custom--attributes--header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--space-one);
 }
 
 .contact--mute {
