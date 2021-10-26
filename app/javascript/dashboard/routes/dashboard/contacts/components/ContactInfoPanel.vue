@@ -1,9 +1,17 @@
 <template>
-  <div class="medium-3 bg-white contact--panel">
-    <span class="close-button" @click="onClose">
+  <div
+    class="small-12 medium-3 bg-white contact--panel"
+    :class="{ 'border-left': showAvatar }"
+  >
+    <span v-if="showAvatar" class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
-    <contact-info show-new-message :contact="contact" @panel-close="onClose" />
+    <contact-info
+      :show-avatar="showAvatar"
+      show-new-message
+      :contact="contact"
+      @panel-close="onClose"
+    />
     <accordion-item
       :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CUSTOM_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
@@ -61,6 +69,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     hasContactAttributes() {
@@ -85,7 +97,7 @@ export default {
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
 }
 
 .close-button {
@@ -94,6 +106,7 @@ export default {
   top: 3.6rem;
   font-size: var(--font-size-big);
   color: var(--s-500);
+  z-index: 1;
 
   .close-icon {
     margin-right: var(--space-smaller);
