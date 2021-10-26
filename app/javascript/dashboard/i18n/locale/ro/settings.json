@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "zile de încercare rămase.",
-    "TRAIL_BUTTON": "Cumpara acum"
+    "TRAIL_BUTTON": "Cumpara acum",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
