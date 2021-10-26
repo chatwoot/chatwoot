@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     twilioChannelName(item) {
-      const { medium: medium = '' } = item;
+      const { medium = '' } = item;
       if (medium === 'whatsapp') return 'WhatsApp';
       return 'Twilio SMS';
     },
