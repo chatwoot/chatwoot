@@ -169,7 +169,7 @@
       "ERROR": "Unable to add attribute. Please try again later"
     },
     "DELETE": {
-      "SUCCESS": "Attribute delete successfully",
+      "SUCCESS": "Attribute deleted successfully",
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
