@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dager gjenværende av prøveperioden.",
-    "TRAIL_BUTTON": "Kjøp nå"
+    "TRAIL_BUTTON": "Kjøp nå",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

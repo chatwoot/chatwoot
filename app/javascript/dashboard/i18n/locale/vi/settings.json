@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
-    "TRAIL_BUTTON": "Mua Ngay"
+    "TRAIL_BUTTON": "Mua Ngay",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

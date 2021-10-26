@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
-    "TRAIL_BUTTON": "Купить"
+    "TRAIL_BUTTON": "Купить",
+    "DELETED_USER": "Удаленный пользователь"
   },
   "COMPONENTS": {
     "CODE": {
