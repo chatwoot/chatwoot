@@ -4,6 +4,7 @@
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
       class="preview-item"
+      @paste="onPaste"
     >
       <div class="thumb-wrap">
         <img

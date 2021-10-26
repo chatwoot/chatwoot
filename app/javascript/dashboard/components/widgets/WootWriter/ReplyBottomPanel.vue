@@ -163,6 +163,15 @@ export default {
     },
   },
   methods: {
+    onPaste(e) {
+      // console.log('onPaste', e, this.$refs.upload);
+      const data = e.clipboardData;
+      // debugger;
+      if (!data) {
+        return;
+      }
+      this.$refs.upload.addDataTransfer(data);
+    },
     handleKeyEvents(e) {
       if (hasPressedAltAndWKey(e)) {
         this.toggleFormatMode();
