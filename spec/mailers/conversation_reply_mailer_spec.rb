@@ -25,6 +25,15 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
                  bcc_emails: 'agent_bcc1@example.com'
                })
       end
+      let(:new_message) do
+        create(:message,
+               account: account,
+               conversation: conversation,
+               content_attributes: {
+                 cc_emails: 'agent_cc2@example.com',
+                 bcc_emails: 'agent_bcc2@example.com'
+               })
+      end
       let(:cc_message) do
         create(:message,
                account: account,
@@ -43,10 +52,11 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
       end
 
-      it 'renders the subject in conversation' do
+      it 'renders the subject in conversation as reply' do
         conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
         conversation.save
-        expect(mail.subject).to eq('Mail Subject')
+        new_message.save
+        expect(mail.subject).to eq('Re: Mail Subject')
       end
 
       it 'not have private notes' do
@@ -101,10 +111,10 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         expect(mail.subject).to eq("[##{message_2.conversation.display_id}] New messages on this conversation")
       end
 
-      it 'renders the subject in conversation as reply' do
+      it 'renders the subject in conversation' do
         conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
         conversation.save
-        expect(mail.subject).to eq('Re: Mail Subject')
+        expect(mail.subject).to eq('Mail Subject')
       end
 
       it 'not have private notes' do
