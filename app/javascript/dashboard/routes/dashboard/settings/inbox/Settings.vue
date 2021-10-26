@@ -353,6 +353,7 @@
             <woot-code :script="inbox.forward_to_email"></woot-code>
           </settings-section>
         </div>
+        <imap-settings :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -378,6 +379,7 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
+import ImapSettings from './ImapSettings';
 
 export default {
   components: {
@@ -387,6 +389,7 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     GreetingsEditor,
+    ImapSettings,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {

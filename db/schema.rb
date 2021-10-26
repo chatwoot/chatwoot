@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_150415) do
+ActiveRecord::Schema.define(version: 2021_10_20_073625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -181,6 +181,11 @@ ActiveRecord::Schema.define(version: 2021_09_29_150415) do
     t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "imap_enabled", default: false
+    t.string "host", default: ""
+    t.integer "port", default: 0
+    t.string "user_email", default: ""
+    t.string "user_password", default: ""
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end

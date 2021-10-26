@@ -44,6 +44,11 @@ json.medium resource.channel.try(:medium) if resource.twilio?
 ## Email Channel Attributes
 json.forward_to_email resource.channel.try(:forward_to_email)
 json.email resource.channel.try(:email) if resource.email?
+json.user_email resource.channel.try(:user_email) if resource.email?
+json.user_password resource.channel.try(:user_password) if resource.email?
+json.host resource.channel.try(:host) if resource.email?
+json.port resource.channel.try(:port) if resource.email?
+json.imap_enabled resource.channel.try(:imap_enabled) if resource.email?
 
 ## API Channel Attributes
 json.webhook_url resource.channel.try(:webhook_url) if resource.api?

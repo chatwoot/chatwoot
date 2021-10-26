@@ -5,6 +5,11 @@
 #  id               :bigint           not null, primary key
 #  email            :string           not null
 #  forward_to_email :string           not null
+#  host             :string           default("")
+#  imap_enabled     :boolean          default(FALSE)
+#  port             :integer          default(0)
+#  user_email       :string           default("")
+#  user_password    :string           default("")
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :integer          not null
@@ -19,7 +24,7 @@ class Channel::Email < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_email'
-  EDITABLE_ATTRS = [:email].freeze
+  EDITABLE_ATTRS = [:email, :imap_enabled, :user_email, :user_password, :host, :port ].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true
