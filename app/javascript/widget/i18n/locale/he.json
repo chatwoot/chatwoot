@@ -18,7 +18,7 @@
     "IN_A_DAY": "מענה ממוצע לאחר יום"
   },
   "START_CONVERSATION": "התחל שיחה",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "התחל שיחה חדשה",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
     "CLOSE_MESSAGES_BUTTON": "סגור",
@@ -55,17 +55,17 @@
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "שדה לא חוקי"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "דרג את השיחה שלך",
+    "SUBMITTED_TITLE": "תודה על שליחת הדירוג",
+    "PLACEHOLDER": "ספר לנו עוד..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "BUTTON_TEXT": "בקש תמליל שיחה",
+    "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה",
     "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב"
   }
 }

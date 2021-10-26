@@ -64,6 +64,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     isFormatMode: { type: Boolean, default: false },
+    enableSuggestions: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -78,6 +79,10 @@ export default {
   },
   computed: {
     plugins() {
+      if (!this.enableSuggestions) {
+        return [];
+      }
+
       return [
         suggestionsPlugin({
           matcher: triggerCharacters('@'),

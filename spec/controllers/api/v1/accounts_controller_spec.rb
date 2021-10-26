@@ -12,64 +12,65 @@ RSpec.describe 'Accounts API', type: :request do
 
       before do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
       end
 
       it 'calls account builder' do
-        allow(account_builder).to receive(:perform).and_return([user, account])
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: nil do
+          allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
+          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
-        expect(account_builder).to have_received(:perform)
-        expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
+          expect(account_builder).to have_received(:perform)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
       end
 
       it 'renders error response on invalid params' do
-        allow(account_builder).to receive(:perform).and_return(nil)
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: nil do
+          allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
+          params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
-        expect(account_builder).to have_received(:perform)
-        expect(response).to have_http_status(:forbidden)
-        expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
+          expect(account_builder).to have_received(:perform)
+          expect(response).to have_http_status(:forbidden)
+          expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+        end
       end
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name }
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = 'false'
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
-
-        expect(response).to have_http_status(:not_found)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
+          expect(response).to have_http_status(:not_found)
+        end
       end
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = 'api_only'
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
+          expect(response).to have_http_status(:success)
+        end
       end
     end
   end
