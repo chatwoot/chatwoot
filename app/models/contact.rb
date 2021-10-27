@@ -50,6 +50,8 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
 
+  scope :order_on_last_activity_at, ->(direction) { order("last_activity_at #{direction} NULLS LAST") }
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
