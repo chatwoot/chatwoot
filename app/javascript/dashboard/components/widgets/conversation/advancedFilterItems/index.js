@@ -17,7 +17,7 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'assignee',
+    attributeKey: 'assignee_id',
     attributeName: 'Assignee Name',
     inputType: 'search_select',
     dataType: 'text',
