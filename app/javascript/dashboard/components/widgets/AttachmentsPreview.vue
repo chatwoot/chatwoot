@@ -4,11 +4,12 @@
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
       class="preview-item"
-      @paste="onPaste"
     >
       <div class="thumb-wrap">
         <img
-          v-if="isTypeImage(attachment.resource.type)"
+          v-if="
+            isTypeImage(attachment.resource.type || attachment.resource[0].type)
+          "
           class="image-thumb"
           :src="attachment.thumb"
         />
@@ -16,12 +17,16 @@
       </div>
       <div class="file-name-wrap">
         <span class="item">
-          {{ attachment.resource.name }}
+          {{ attachment.resource.name || attachment.resource[0].name }}
         </span>
       </div>
       <div class="file-size-wrap">
         <span class="item">
-          {{ formatFileSize(attachment.resource.size) }}
+          {{
+            formatFileSize(
+              attachment.resource.size || attachment.resource[0].size
+            )
+          }}
         </span>
       </div>
       <div class="remove-file-wrap">

@@ -52,7 +52,7 @@
         @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box">
+    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
@@ -314,11 +314,20 @@ export default {
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
+    document.addEventListener('paste', this.onPaste);
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
+    document.removeEventListener('paste', this.onPaste);
   },
   methods: {
+    onPaste(e) {
+      const data = e.clipboardData.files;
+      if (!data) {
+        return;
+      }
+      this.onFileUpload(data);
+    },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
     },
@@ -421,13 +430,13 @@ export default {
       });
     },
     onFileUpload(file) {
-      if (!file) {
+      if (!file || !file.length) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         this.attachedFiles = [];
         const reader = new FileReader();
-        reader.readAsDataURL(file.file);
+        reader.readAsDataURL(file.file || file[0]);
         reader.onloadend = () => {
           this.attachedFiles.push({
             currentChatId: this.currentChat.id,
