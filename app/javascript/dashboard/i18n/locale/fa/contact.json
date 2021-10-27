@@ -155,6 +155,11 @@
         "LABEL": "صندوق ورودی",
         "ERROR": "انتخاب صندوق ورودی"
       },
+      "SUBJECT": {
+        "LABEL": "موضوع",
+        "PLACEHOLDER": "موضوع",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "پیام",
         "PLACEHOLDER": "پیام خود را اینجا بنویسید",
