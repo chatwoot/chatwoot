@@ -155,6 +155,11 @@
         "LABEL": "Posteingang",
         "ERROR": "Posteingang auswählen"
       },
+      "SUBJECT": {
+        "LABEL": "Betreff",
+        "PLACEHOLDER": "Betreff",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Nachricht",
         "PLACEHOLDER": "Schreiben Sie Ihre Nachricht hier",
