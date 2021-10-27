@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dní zbývá zkušební verze.",
-    "TRAIL_BUTTON": "Koupit nyní"
+    "TRAIL_BUTTON": "Koupit nyní",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

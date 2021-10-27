@@ -7,6 +7,7 @@
     "COMPANY": "Firma",
     "LOCATION": "Ort",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
+    "VIEW_PROFILE": "Profil anzeigen",
     "BROWSER": "Browser",
     "OS": "Betriebssystem",
     "INITIATED_FROM": "Initiiert von",
@@ -32,8 +33,8 @@
         "NO_RESULT": "Keine Labels gefunden"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Kontakte zusammenführen",
+    "CONTACT_ACTIONS": "Kontakt-Aktionen",
     "MUTE_CONTACT": "Unterhaltung stummschalten",
     "UNMUTE_CONTACT": "Unterhaltung entmuten",
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
@@ -57,22 +58,22 @@
     "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importieren",
+    "TITLE": "Kontakte importieren",
+    "DESC": "Kontakte über CSV-Datei importieren.",
+    "DOWNLOAD_LABEL": "Ein CSV-Beispiel herunterladen.",
     "FORM": {
       "LABEL": "CSV-Datei",
-      "SUBMIT": "Import",
+      "SUBMIT": "Importieren",
       "CANCEL": "Stornieren"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
+    "BUTTON_LABEL": "Kontakt löschen",
     "TITLE": "Kontakt löschen",
-    "DESC": "Delete contact details",
+    "DESC": "Kontakt-Details bearbeiten",
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
       "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
@@ -81,8 +82,8 @@
       "NO": "Nein, behalten "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
+      "ERROR_MESSAGE": "Kontakt konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
     }
   },
   "CONTACT_FORM": {
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Details anzeigen"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontakte",
+    "LOADING": "Kontaktprofil wird geladen..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Hinzufügen",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Notizen werden geladen...",
+    "NOT_AVAILABLE": "Für diesen Kontakt wurden keine Notizen erstellt",
     "HEADER": {
       "TITLE": "Notizen"
+    },
+    "LIST": {
+      "LABEL": "Notiz hinzugefügt"
     },
     "ADD": {
       "BUTTON": "Hinzufügen",
       "PLACEHOLDER": "Notiz hinzufügen",
       "TITLE": "Shift + Enter um eine Notiz zu erstellen"
     },
-    "FOOTER": {
-      "BUTTON": "Alle Notizen anzeigen"
+    "CONTENT_HEADER": {
+      "DELETE": "Notiz löschen"
     }
   },
   "EVENTS": {
@@ -223,7 +233,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Eigenes Attribut hinzufügen",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
     "ADD": {
       "TITLE": "Eigenes Attribut erstellen",
       "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."
@@ -244,19 +254,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Kontakte zusammenführen",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Kontakte zusammenführen, um zwei Profile zu einem zu kombinieren, einschließlich aller Attribute und Gespräche. Im Falle eines Konflikts haben die Attribute des Hauptkontakts Vorrang.",
     "PRIMARY": {
       "TITLE": "Hauptkontakt",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Zu erhalten"
     },
     "CHILD": {
       "TITLE": "Kontakt zum Zusammenführen",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Nach Kontakt suchen",
+      "HELP_LABEL": "Zu löschen"
     },
     "SUMMARY": {
       "TITLE": "Zusammenfassung",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "Der Kontakt von <strong>%{childContactName}</strong> wird gelöscht.",
       "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{childContactName}</strong> wird zu <strong>%{primaryContactName}</strong> kopiert."
     },
     "SEARCH": {
@@ -269,7 +279,7 @@
         "ERROR": "Wählen Sie einen Kontakt zum Zusammenführen"
       },
       "SUCCESS_MESSAGE": "Kontakt erfolgreich zusammengeführt",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Kontakte konnten nicht zusammengeführt werden, bitte erneut versuchen!"
     }
   }
 }

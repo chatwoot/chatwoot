@@ -58,7 +58,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Digite sua URL de Webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -115,7 +115,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nome da Caixa de Entrada",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Por favor, digite um nome para caixa de entrada",
           "ERROR": "Este campo é obrigatório"
         },
         "PHONE_NUMBER": {
@@ -137,16 +137,16 @@
         "DESC": "Comece a apoiar seus clientes através de SMS com integração Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
+        "TITLE": "Canal do WhatsApp",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Diálogo"
         },
         "INBOX_NAME": {
           "LABEL": "Nome da Caixa de Entrada",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "Por favor, digite um nome para caixa de entrada",
           "ERROR": "Este campo é obrigatório"
         },
         "PHONE_NUMBER": {
@@ -155,9 +155,9 @@
           "ERROR": "Por favor, insira um valor válido. O número de telefone deve começar com o sinal `+`."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "Chave da API",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "Chave da API",
           "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
           "ERROR": "Please enter a valid value."
         },
@@ -246,7 +246,7 @@
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Escolha um canal",
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
@@ -303,12 +303,12 @@
         "DISABLED": "Desativado"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Habilitado"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Apagar Avatar",
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
@@ -390,7 +390,7 @@
       "TIMEZONE_LABEL": "Selecionar fuso horário",
       "UPDATE": "Atualizar configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {

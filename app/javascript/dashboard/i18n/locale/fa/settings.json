@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
-    "TRAIL_BUTTON": "الان بخرید"
+    "TRAIL_BUTTON": "الان بخرید",
+    "DELETED_USER": "کاربر حذف شده"
   },
   "COMPONENTS": {
     "CODE": {
