@@ -155,6 +155,11 @@
         "LABEL": "Caixa de Entrada",
         "ERROR": "Selecione uma caixa de entrada"
       },
+      "SUBJECT": {
+        "LABEL": "Assunto",
+        "PLACEHOLDER": "Assunto",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Messagem",
         "PLACEHOLDER": "Escreva sua mensagem aqui",
