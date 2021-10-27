@@ -135,7 +135,7 @@ export default {
               name: 'All',
             },
           ];
-        case 'assignee':
+        case 'assignee_id':
           return this.$store.getters['agents/getAgents'];
         case 'contact':
           return this.$store.getters['contacts/getContacts'];
@@ -151,7 +151,12 @@ export default {
             };
           });
         case 'labels':
-          return this.$store.getters['labels/getLabels'];
+          return this.$store.getters['labels/getLabels'].map(i => {
+            return {
+              id: i.id,
+              name: i.title,
+            };
+          });
         case 'browser_language':
           return languages;
         case 'country_code':
