@@ -116,7 +116,7 @@ export default {
     },
     dropdownValues: {
       type: Array,
-      default: () => ['op1', 'op2', 'op3'],
+      default: () => [],
     },
     showQueryOperator: {
       type: Boolean,
