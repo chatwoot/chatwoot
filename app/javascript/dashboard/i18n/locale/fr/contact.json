@@ -155,6 +155,11 @@
         "LABEL": "Boîte de réception",
         "ERROR": "Sélectionner une boîte de réception"
       },
+      "SUBJECT": {
+        "LABEL": "Objet",
+        "PLACEHOLDER": "Objet",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Message",
         "PLACEHOLDER": "Ecrivez votre message ici",
