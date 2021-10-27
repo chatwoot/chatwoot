@@ -12,7 +12,6 @@ class ConversationReplyMailer < ApplicationMailer
     new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
-
     mail({
            to: @contact&.email,
            from: from_email_with_name,
@@ -110,14 +109,15 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def mail_subject
-    return "Re: #{incoming_mail_subject}" if incoming_mail_subject
+    subject = @conversation.additional_attributes['mail_subject']
+    return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
 
-    subject_line = I18n.t('conversations.reply.email_subject')
-    "[##{@conversation.display_id}] #{subject_line}"
-  end
-
-  def incoming_mail_subject
-    @incoming_mail_subject ||= @conversation.additional_attributes['mail_subject']
+    chat_count = @conversation.messages.chat.count
+    if chat_count > 1
+      "Re: #{subject}"
+    else
+      subject
+    end
   end
 
   def reply_email
