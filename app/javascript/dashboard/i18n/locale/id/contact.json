@@ -155,6 +155,11 @@
         "LABEL": "Kotak masuk",
         "ERROR": "Pilih kotak masuk"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Pesan",
         "PLACEHOLDER": "Tulis pesan Anda disini",
