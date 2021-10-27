@@ -155,6 +155,11 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
+      "SUBJECT": {
+        "LABEL": "Předmět",
+        "PLACEHOLDER": "Předmět",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Zpráva",
         "PLACEHOLDER": "Write your message here",
