@@ -155,6 +155,11 @@
         "LABEL": "Εισερχόμενα",
         "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
+      "SUBJECT": {
+        "LABEL": "Θέμα",
+        "PLACEHOLDER": "Θέμα",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Μήνυμα",
         "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
