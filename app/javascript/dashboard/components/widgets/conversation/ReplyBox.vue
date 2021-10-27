@@ -430,7 +430,7 @@ export default {
       });
     },
     onFileUpload(file) {
-      if (!file || !file.length) {
+      if (!file || file.length === 0) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
@@ -471,7 +471,8 @@ export default {
       }
 
       if (attachment) {
-        messagePayload.file = attachment.resource.file;
+        messagePayload.file =
+          attachment.resource.file || attachment.resource[0];
       }
 
       if (this.ccEmails) {
