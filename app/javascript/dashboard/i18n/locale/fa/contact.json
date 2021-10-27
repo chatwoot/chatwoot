@@ -158,7 +158,7 @@
       "SUBJECT": {
         "LABEL": "موضوع",
         "PLACEHOLDER": "موضوع",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "موضوع نمی تواند خالی باشد"
       },
       "MESSAGE": {
         "LABEL": "پیام",
