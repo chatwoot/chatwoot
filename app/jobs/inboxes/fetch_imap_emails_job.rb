@@ -4,14 +4,14 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     def perform(channel)
       puts "Fetch Imap Emails"
       Mail.defaults do
-        retriever_method :imap, :address    => channel.host,
-                                :port       => channel.port,
-                                :user_name  => channel.user_email,
-                                :password   => channel.user_password,
-                                :enable_ssl => true
+        retriever_method :imap, :address    => channel.imap_address,
+                                :port       => channel.imap_port,
+                                :user_name  => channel.imap_email,
+                                :password   => channel.imap_password,
+                                :enable_ssl => channel.imap_enable_ssl
       end
 
-      Mail.find(:what => :last, :count => 5, :order => :asc).each do |mail|
+      Mail.find(:what => :last, :count => 10, :order => :desc).each do |mail|
         Imap::ImapMailbox.new.process(mail) if mail.date >= channel.updated_at
       end
 

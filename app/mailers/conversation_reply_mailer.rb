@@ -13,16 +13,33 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
 
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email,
-           cc: cc_bcc_emails[0],
-           bcc: cc_bcc_emails[1]
-         })
+    data = {
+      to: @contact&.email,
+      from: @inbox.inbox_type == 'Email' && @channel.imap_enabled ? @channel.imap_email : from_email_with_name,
+      reply_to: reply_email,
+      subject: mail_subject,
+      message_id: custom_message_id,
+      in_reply_to: in_reply_to_email,
+      cc: cc_bcc_emails[0],
+      bcc: cc_bcc_emails[1]
+    }
+
+    if @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+      smtp_settings = {
+        address: @channel.smtp_address,
+        port: @channel.smtp_port,
+        user_name: @channel.smtp_email,
+        password: @channel.smtp_password,
+        domain: @channel.smtp_domain,
+        enable_starttls_auto: @channel.smtp_enable_starttls_auto,
+        authentication: @channel.smtp_authentication
+      }
+
+      data[:delivery_method] = :smtp
+      data[:delivery_method_options] = smtp_settings
+    end
+
+    mail(data)
   end
 
   def reply_without_summary(conversation, message_queued_time)
@@ -35,16 +52,33 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email,
-           cc: cc_bcc_emails[0],
-           bcc: cc_bcc_emails[1]
-         })
+    data = {
+      to: @contact&.email,
+      from: @inbox.inbox_type == 'Email' && @channel.imap_enabled ? @channel.imap_email : from_email_with_name,
+      reply_to: reply_email,
+      subject: mail_subject,
+      message_id: custom_message_id,
+      in_reply_to: in_reply_to_email,
+      cc: cc_bcc_emails[0],
+      bcc: cc_bcc_emails[1]
+    }
+
+    if @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+      smtp_settings = {
+        address: @channel.smtp_address,
+        port: @channel.smtp_port,
+        user_name: @channel.smtp_email,
+        password: @channel.smtp_password,
+        domain: @channel.smtp_domain,
+        enable_starttls_auto: @channel.smtp_enable_starttls_auto,
+        authentication: @channel.smtp_authentication
+      }
+
+      data[:delivery_method] = :smtp
+      data[:delivery_method_options] = smtp_settings
+    end
+
+    mail(data)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -69,6 +103,7 @@ class ConversationReplyMailer < ApplicationMailer
     @contact = @conversation.contact
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
+    @channel = @inbox.channel
   end
 
   def should_use_conversation_email_address?

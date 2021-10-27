@@ -354,6 +354,7 @@
           </settings-section>
         </div>
         <imap-settings :inbox="inbox" />
+        <smtp-settings :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -380,6 +381,7 @@ import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
 import ImapSettings from './ImapSettings';
+import SmtpSettings from './SmtpSettings';
 
 export default {
   components: {
@@ -390,6 +392,7 @@ export default {
     WeeklyAvailability,
     GreetingsEditor,
     ImapSettings,
+    SmtpSettings,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {

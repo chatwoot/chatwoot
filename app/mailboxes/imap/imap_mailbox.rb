@@ -27,7 +27,7 @@ class Imap::ImapMailbox
   private
 
   def find_channel
-    @channel = Channel::Email.find_by('lower(user_email) = ? ', @inbound_mail.to)
+    @channel = Channel::Email.find_by('lower(imap_email) = ? ', @inbound_mail.to)
     raise 'Email channel/inbox not found' if @channel.nil?
 
     @channel
