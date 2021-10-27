@@ -7,6 +7,7 @@
     "COMPANY": "Компания",
     "LOCATION": "Местоположение",
     "CONVERSATION_TITLE": "Детали диалога",
+    "VIEW_PROFILE": "Просмотр профиля",
     "BROWSER": "Браузер",
     "OS": "Операционная система",
     "INITIATED_FROM": "Начат из",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Просмотреть подробности"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Контакты",
+    "LOADING": "Загрузка профиля контакта..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Добавить",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Получение заметок...",
+    "NOT_AVAILABLE": "Нет заметок для этого контакта",
     "HEADER": {
       "TITLE": "Заметки"
+    },
+    "LIST": {
+      "LABEL": "добавлена заметка"
     },
     "ADD": {
       "BUTTON": "Добавить",
       "PLACEHOLDER": "Добавить заметку",
       "TITLE": "Shift + Enter для создания заметки"
     },
-    "FOOTER": {
-      "BUTTON": "Показать все заметки"
+    "CONTENT_HEADER": {
+      "DELETE": "Удалить заметку"
     }
   },
   "EVENTS": {
