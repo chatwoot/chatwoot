@@ -155,6 +155,11 @@
         "LABEL": "صندوق الوارد",
         "ERROR": "حدد صندوق الوارد"
       },
+      "SUBJECT": {
+        "LABEL": "الموضوع",
+        "PLACEHOLDER": "الموضوع",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "رسالة",
         "PLACEHOLDER": "اكتب رسالتك هنا",
