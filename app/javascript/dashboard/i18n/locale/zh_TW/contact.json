@@ -155,6 +155,11 @@
         "LABEL": "收件匣",
         "ERROR": "選擇一個收件匣"
       },
+      "SUBJECT": {
+        "LABEL": "主旨",
+        "PLACEHOLDER": "主旨",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "訊息",
         "PLACEHOLDER": "在此填寫你的訊息",
