@@ -155,6 +155,11 @@
         "LABEL": "Skrzynka odbiorcza",
         "ERROR": "Wybierz skrzynkę odbiorczą"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Wiadomość",
         "PLACEHOLDER": "Wpisz swoją wiadomość tutaj",
