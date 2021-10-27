@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩余试用期天数",
-    "TRAIL_BUTTON": "立即购买"
+    "TRAIL_BUTTON": "立即购买",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
