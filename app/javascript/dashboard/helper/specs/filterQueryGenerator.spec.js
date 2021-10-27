@@ -1,6 +1,6 @@
 import filterQueryGenerator from '../filterQueryGenerator';
 
-const payload = [
+const testData = [
   {
     attribute_key: 'status',
     filter_operator: 'equal_to',
@@ -35,32 +35,34 @@ const payload = [
   },
 ];
 
-const finalResult = [
-  {
-    attribute_key: 'status',
-    filter_operator: 'equal_to',
-    values: ['pending', 'resolved'],
-    query_operator: 'and',
-  },
-  {
-    attribute_key: 'assignee',
-    filter_operator: 'equal_to',
-    values: [3],
-    query_operator: 'and',
-  },
-  {
-    attribute_key: 'id',
-    filter_operator: 'equal_to',
-    values: ['This is a test'],
-    query_operator: null,
-  },
-];
+const finalResult = {
+  payload: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: ['pending', 'resolved'],
+      query_operator: 'and',
+    },
+    {
+      attribute_key: 'assignee',
+      filter_operator: 'equal_to',
+      values: [3],
+      query_operator: 'and',
+    },
+    {
+      attribute_key: 'id',
+      filter_operator: 'equal_to',
+      values: ['This is a test'],
+      query_operator: null,
+    },
+  ],
+};
 
 describe('#filterQueryGenerator', () => {
   it('returns the correct format of filter query', () => {
-    expect(filterQueryGenerator(payload)).toMatchObject(finalResult);
+    expect(filterQueryGenerator(testData)).toMatchObject(finalResult);
     expect(
-      filterQueryGenerator(payload).every(i => Array.isArray(i.values))
+      filterQueryGenerator(testData).payload.every(i => Array.isArray(i.values))
     ).toBe(true);
   });
 });

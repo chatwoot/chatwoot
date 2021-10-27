@@ -1,5 +1,5 @@
 const generatePayload = data => {
-  return data.map(item => {
+  let payload = data.map(item => {
     if (Array.isArray(item.values)) {
       item.values = item.values.map(val => val.id);
     } else if (typeof item.values === 'object') {
@@ -9,6 +9,8 @@ const generatePayload = data => {
     }
     return item;
   });
+
+  return { payload };
 };
 
 export default generatePayload;
