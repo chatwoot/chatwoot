@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.",
-    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക"
+    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

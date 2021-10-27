@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "jours d'essai restants.",
-    "TRAIL_BUTTON": "Acheter Maintenant"
+    "TRAIL_BUTTON": "Acheter Maintenant",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
