@@ -6,6 +6,6 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def perform_reply
-    channel.send_message(message.conversation.contact_inbox.source_id, message.content)
+    channel.send_message(message.conversation.contact_inbox.source_id, message)
   end
 end
