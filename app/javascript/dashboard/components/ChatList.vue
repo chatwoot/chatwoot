@@ -5,12 +5,22 @@
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
-      <button class="btn-filter" @click="onToggleAdvanceFiltersModal">
-        <i class="icon ion-ios-settings-strong" />
-      </button>
+      <div class="filter--actions">
+        <button
+          v-if="filtersApplied"
+          class="btn-clear-filters"
+          @click="resetAndFetchData"
+        >
+          {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
+        </button>
+        <button class="btn-filter" @click="onToggleAdvanceFiltersModal">
+          <i class="icon ion-ios-settings-strong" />
+        </button>
+      </div>
     </div>
 
     <chat-type-tabs
+      v-if="!filtersApplied"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -114,6 +124,7 @@ export default {
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       showAdvancedFilters: false,
       advancedFilterTypes,
+      filtersApplied: false,
     };
   },
   computed: {
@@ -178,13 +189,17 @@ export default {
     },
     conversationList() {
       let conversationList = [];
-      const filters = this.conversationFilters;
-      if (this.activeAssigneeTab === 'me') {
-        conversationList = [...this.mineChatsList(filters)];
-      } else if (this.activeAssigneeTab === 'unassigned') {
-        conversationList = [...this.unAssignedChatsList(filters)];
+      if (!this.filtersApplied) {
+        const filters = this.conversationFilters;
+        if (this.activeAssigneeTab === 'me') {
+          conversationList = [...this.mineChatsList(filters)];
+        } else if (this.activeAssigneeTab === 'unassigned') {
+          conversationList = [...this.unAssignedChatsList(filters)];
+        } else {
+          conversationList = [...this.allChatList(filters)];
+        }
       } else {
-        conversationList = [...this.allChatList(filters)];
+        conversationList = [...this.chatLists];
       }
 
       return conversationList;
@@ -272,8 +287,10 @@ export default {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
         .then(() => this.$emit('conversation-load'));
+      this.filtersApplied = false;
     },
     fetchFilteredConversations(payload) {
+      this.filtersApplied = true;
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store
@@ -324,12 +341,19 @@ export default {
     flex-basis: 46rem;
   }
 }
-.btn-filter {
-  margin-right: var(--space-normal);
-  cursor: pointer;
-
-  i {
-    font-size: 2rem;
+.filter--actions {
+  display: flex;
+  align-items: center;
+  .btn-filter {
+    margin: 0 var(--space-normal);
+    cursor: pointer;
+    i {
+      font-size: 2rem;
+    }
+  }
+  .btn-clear-filters {
+    color: tomato;
+    cursor: pointer;
   }
 }
 </style>

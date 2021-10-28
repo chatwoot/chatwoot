@@ -5,6 +5,7 @@
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Submit",
         "CANCEL_BUTTON_LABEL": "Cancel",
+        "CLEAR_BUTTON_LABEL": "Clear Filters",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "AND",
             "OR": "OR"
