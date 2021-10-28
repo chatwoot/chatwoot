@@ -410,7 +410,19 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent })
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, private: nil })
+      end
+
+      it 'toggles the conversation status for private notes' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: agent.create_new_auth_token,
+             params: { typing_status: 'on', private: true },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, private: true })
       end
     end
   end
