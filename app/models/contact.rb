@@ -51,6 +51,33 @@ class Contact < ApplicationRecord
   after_destroy_commit :dispatch_destroy_event
 
   scope :order_on_last_activity_at, ->(direction) { order("last_activity_at #{direction} NULLS LAST") }
+  scope :order_on_company_name, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'company_name' #{direction} NULLS LAST")
+    )
+  }
+  scope :order_on_city, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'city' #{direction} NULLS LAST")
+    )
+  }
+  scope :order_on_country_code, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'country_code' #{direction} NULLS LAST")
+    )
+  }
+
+  scope :order_on_name, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        "CASE
+         WHEN \"contacts\".\"name\" ~~* '^+\d*' THEN 'z'
+         WHEN \"contacts\".\"name\"  ~~*  '^\b*' THEN 'z'
+         ELSE LOWER(\"contacts\".\"name\")
+         END #{direction}"
+      )
+    )
+  }
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id

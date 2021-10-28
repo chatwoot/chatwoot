@@ -178,12 +178,14 @@ export default {
         {
           field: 'company',
           key: 'company',
+          sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: 'left',
         },
         {
           field: 'city',
           key: 'city',
+          sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
           align: 'left',
         },
@@ -192,6 +194,7 @@ export default {
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: 'left',
+          sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (
