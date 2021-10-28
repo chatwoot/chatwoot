@@ -52,8 +52,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def filter
     result = ::Contacts::FilterService.new(params.permit!, current_user).perform
-    @contacts = result[:contacts]
+    contacts = result[:contacts]
     @contacts_count = result[:count]
+    @contacts = fetch_contacts_with_conversation_count(contacts)
   end
 
   def contactable_inboxes

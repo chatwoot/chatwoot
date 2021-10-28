@@ -11,10 +11,10 @@ class Contacts::FilterService < FilterService
   end
 
   def contact_query_builder
-    conversation_filters = @filters['contacts']
+    contact_filters = @filters['contacts']
+
     @params[:payload].each_with_index do |query_hash, current_index|
-      query_hash = query_hash.with_indifferent_access
-      current_filter = conversation_filters[query_hash['attribute_key']]
+      current_filter = contact_filters[query_hash['attribute_key']]
       @query_string += contact_query_string(current_filter, query_hash, current_index)
     end
 
@@ -30,11 +30,15 @@ class Contacts::FilterService < FilterService
     when 'additional_attributes'
       " contacts.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
-      " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
+      if attribute_key == 'labels'
+        " tags.id #{filter_operator_value} #{query_operator} "
+      else
+        " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
+      end
     end
   end
 
   def base_relation
-    Current.account.contacts
+    Current.account.contacts.left_outer_joins(:labels)
   end
 end

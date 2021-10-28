@@ -24,7 +24,8 @@ describe ::Conversations::FilterService do
 
   describe '#perform' do
     context 'with query present' do
-      let(:params) do
+      let!(:params) { { payload: [], page: 1 } }
+      let(:payload) do
         [
           {
             attribute_key: 'browser_language',
@@ -42,6 +43,7 @@ describe ::Conversations::FilterService do
       end
 
       it 'filter conversations by custom_attributes and status' do
+        params[:payload] = payload
         result = filter_service.new(params, user_1).perform
         conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
         expect(result.length).to be conversations.count
@@ -49,7 +51,7 @@ describe ::Conversations::FilterService do
 
       it 'filter conversations by tags' do
         Conversation.last.update_labels('support')
-        params = [
+        params[:payload] = [
           {
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
