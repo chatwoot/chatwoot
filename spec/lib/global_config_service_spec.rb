@@ -19,6 +19,7 @@ describe GlobalConfigService do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
           GlobalConfig.clear_cache
           described_class.load('ENABLE_ACCOUNT_SIGNUP', 'true')
+          value = GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
           expect(value).to be 'false'
         end
       end
@@ -27,6 +28,7 @@ describe GlobalConfigService do
         # Not clearing the GlobalConfig and as such its value should
         # be `false` in the DB from the test above
         described_class.load('ENABLE_ACCOUNT_SIGNUP', 'true')
+        value = GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
         expect(value).to be 'false'
       end
     end
