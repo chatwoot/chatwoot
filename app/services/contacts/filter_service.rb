@@ -12,7 +12,7 @@ class Contacts::FilterService < FilterService
 
   def contact_query_builder
     conversation_filters = @filters['contacts']
-    @params.each_with_index do |query_hash, current_index|
+    @params[:payload].each_with_index do |query_hash, current_index|
       query_hash = query_hash.with_indifferent_access
       current_filter = conversation_filters[query_hash['attribute_key']]
       @query_string += contact_query_string(current_filter, query_hash, current_index)

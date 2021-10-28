@@ -32,7 +32,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def filter
-    result = ::Conversations::FilterService.new(params.permit![:payload], current_user).perform
+    result = ::Conversations::FilterService.new(params.permit!, current_user).perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   end

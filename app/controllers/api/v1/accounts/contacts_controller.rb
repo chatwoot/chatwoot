@@ -51,7 +51,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def filter
-    result = ::Contacts::FilterService.new(params.permit![:payload], current_user).perform
+    result = ::Contacts::FilterService.new(params.permit!, current_user).perform
     @contacts = result[:contacts]
     @contacts_count = result[:count]
   end

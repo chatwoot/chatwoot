@@ -5,7 +5,7 @@ class Conversations::FilterService < FilterService
     assigned_count = all_count - unassigned_count
 
     {
-      conversations: @conversations,
+      conversations: conversations,
       count: {
         mine_count: mine_count,
         assigned_count: assigned_count,
@@ -17,7 +17,7 @@ class Conversations::FilterService < FilterService
 
   def conversation_query_builder
     conversation_filters = @filters['conversations']
-    @params.each_with_index do |query_hash, current_index|
+    @params[:payload].each_with_index do |query_hash, current_index|
       current_filter = conversation_filters[query_hash['attribute_key']]
       @query_string += conversation_query_string(current_filter, query_hash, current_index)
     end
@@ -44,5 +44,16 @@ class Conversations::FilterService < FilterService
 
   def base_relation
     Current.account.conversations.left_outer_joins(:labels)
+  end
+
+  def current_page
+    @params[:page] || 1
+  end
+
+  def conversations
+    @conversations = @conversations.includes(
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
+    )
+    @conversations.latest.page(current_page)
   end
 end
