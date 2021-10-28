@@ -5,16 +5,16 @@
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
     >
       <form @submit.prevent="updateInbox">
-        <label for="toggle-business-hours" class="toggle-input-wrap">
+        <label for="toggle-imap-enable">
           <input
             v-model="isIMAPEnabled"
             type="checkbox"
-            name="toggle-business-hours"
+            name="toggle-imap-enable"
           />
           {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
-        <div v-if="isIMAPEnabled" class="business-hours-wrap">
+        <div v-if="isIMAPEnabled" class="imap-details-wrap">
           <woot-input
             v-model.trim="address"
             class="medium-9 columns"
@@ -40,11 +40,11 @@
             placeholder="Password"
             type="password"
           />
-          <label for="toggle-business-hours" class="toggle-input-wrap">
+          <label for="toggle-enable-ssl">
             <input
               v-model="isSSLEnabled"
               type="checkbox"
-              name="toggle-business-hours"
+              name="toggle-enable-ssl"
             />
             Enable SSL
           </label>
@@ -95,7 +95,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.inbox);
     this.setDefaults();
   },
   methods: {
@@ -127,6 +126,9 @@ export default {
             imap_email: this.email,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
+            imap_inbox_synced_at: this.isIMAPEnabled
+              ? new Date().toISOString()
+              : undefined,
           },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
@@ -139,24 +141,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.timezone-input-wrap {
-  max-width: 60rem;
-
-  &::v-deep .multiselect {
-    margin-top: var(--space-small);
-  }
-}
-
-.unavailable-input-wrap {
-  max-width: 60rem;
-
-  textarea {
-    min-height: var(--space-jumbo);
-    margin-top: var(--space-small);
-  }
-}
-
-.business-hours-wrap {
+.imap-details-wrap {
   margin-bottom: var(--space-medium);
 }
 </style>

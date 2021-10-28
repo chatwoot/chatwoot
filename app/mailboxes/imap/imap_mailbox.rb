@@ -3,9 +3,9 @@ class Imap::ImapMailbox
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   # before :find_channel
-                    # :load_account,
-                    # :load_inbox,
-                    # :decorate_mail
+  # :load_account,
+  # :load_inbox,
+  # :decorate_mail
 
   def process(mail)
     @inbound_mail = mail
@@ -21,8 +21,6 @@ class Imap::ImapMailbox
       # add_attachments_to_message
     end
   end
-
-
 
   private
 
@@ -51,19 +49,19 @@ class Imap::ImapMailbox
 
   def find_or_create_conversation
     @conversation = find_conversation_by_message_id || ::Conversation.create!({
-                                                                                 account_id: @account.id,
-                                                                                 inbox_id: @inbox.id,
-                                                                                 contact_id: @contact.id,
-                                                                                 contact_inbox_id: @contact_inbox.id,
-                                                                                 additional_attributes: {
-                                                                                   source: 'email',
-                                                                                   mail_subject: @processed_mail.subject,
-                                                                                   message_id: @processed_mail.message_id,
-                                                                                   initiated_at: {
-                                                                                     timestamp: Time.now.utc
-                                                                                   }
-                                                                                 }
-                                                                               })
+                                                                                account_id: @account.id,
+                                                                                inbox_id: @inbox.id,
+                                                                                contact_id: @contact.id,
+                                                                                contact_inbox_id: @contact_inbox.id,
+                                                                                additional_attributes: {
+                                                                                  source: 'email',
+                                                                                  mail_subject: @processed_mail.subject,
+                                                                                  message_id: @processed_mail.message_id,
+                                                                                  initiated_at: {
+                                                                                    timestamp: Time.now.utc
+                                                                                  }
+                                                                                }
+                                                                              })
   end
 
   def find_or_create_contact

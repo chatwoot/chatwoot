@@ -9,6 +9,7 @@
 #  imap_email                :string           default("")
 #  imap_enable_ssl           :boolean          default(TRUE)
 #  imap_enabled              :boolean          default(FALSE)
+#  imap_inbox_synced_at      :datetime
 #  imap_password             :string           default("")
 #  imap_port                 :integer          default(0)
 #  smtp_address              :string           default("")
@@ -33,8 +34,8 @@ class Channel::Email < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_email'
-  EDITABLE_ATTRS = [:email, :imap_enabled, :imap_email, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, 
-  :smtp_enabled, :smtp_email, :smtp_password, :smtp_address, :smtp_port, :smtp_domain ].freeze
+  EDITABLE_ATTRS = [:email, :imap_enabled, :imap_email, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_inbox_synced_at,
+                    :smtp_enabled, :smtp_email, :smtp_password, :smtp_address, :smtp_port, :smtp_domain].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true

@@ -5,16 +5,16 @@
       :sub-title="$t('INBOX_MGMT.SMTP.SUBTITLE')"
     >
       <form @submit.prevent="updateInbox">
-        <label for="toggle-business-hours" class="toggle-input-wrap">
+        <label for="toggle-enable-smtp">
           <input
             v-model="isSMTPEnabled"
             type="checkbox"
-            name="toggle-business-hours"
+            name="toggle-enable-smtp"
           />
           {{ $t('INBOX_MGMT.SMTP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>
-        <div v-if="isSMTPEnabled" class="business-hours-wrap">
+        <div v-if="isSMTPEnabled" class="smtp-details-wrap">
           <woot-input
             v-model.trim="address"
             class="medium-9 columns"
@@ -83,11 +83,7 @@ export default {
       domain: '',
     };
   },
-  validations: {
-    host: {
-      required,
-    },
-  },
+  validations: {},
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
   },
@@ -97,7 +93,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.inbox);
     this.setDefaults();
   },
   methods: {
@@ -141,24 +136,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.timezone-input-wrap {
-  max-width: 60rem;
-
-  &::v-deep .multiselect {
-    margin-top: var(--space-small);
-  }
-}
-
-.unavailable-input-wrap {
-  max-width: 60rem;
-
-  textarea {
-    min-height: var(--space-jumbo);
-    margin-top: var(--space-small);
-  }
-}
-
-.business-hours-wrap {
+.smtp-details-wrap {
   margin-bottom: var(--space-medium);
 }
 </style>

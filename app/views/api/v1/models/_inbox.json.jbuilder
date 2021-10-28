@@ -61,7 +61,6 @@ json.smtp_port resource.channel.try(:smtp_port) if resource.email?
 json.smtp_enabled resource.channel.try(:smtp_enabled) if resource.email?
 json.smtp_domain resource.channel.try(:smtp_domain) if resource.email?
 
-
 ## API Channel Attributes
 json.webhook_url resource.channel.try(:webhook_url) if resource.api?
 json.inbox_identifier resource.channel.try(:identifier) if resource.api?

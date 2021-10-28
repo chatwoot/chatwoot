@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_073553) do
     t.string "imap_email", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
+    t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
