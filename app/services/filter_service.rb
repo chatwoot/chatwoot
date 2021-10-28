@@ -32,10 +32,9 @@ class FilterService
     end
   end
 
-
   def filter_values(query_hash)
     if query_hash['attribute_key'] == 'status'
-       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
+      query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
     else
       query_hash['values']
     end

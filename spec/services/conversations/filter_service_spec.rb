@@ -36,7 +36,7 @@ describe ::Conversations::FilterService do
           {
             attribute_key: 'status',
             filter_operator: 'equal_to',
-            values: ['open', 'pending'],
+            values: %w[open pending],
             query_operator: nil
           }.with_indifferent_access
         ]

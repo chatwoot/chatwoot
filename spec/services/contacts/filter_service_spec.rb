@@ -9,7 +9,6 @@ describe ::Contacts::FilterService do
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let!(:contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
 
-
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
     create(:inbox_member, user: user_2, inbox: inbox)
@@ -28,14 +27,13 @@ describe ::Contacts::FilterService do
             filter_operator: 'equal_to',
             values: ['en'],
             query_operator: nil
-          }.with_indifferent_access,
+          }.with_indifferent_access
         ]
       end
 
       it 'filter contacts by additional_attributes' do
         params[:payload] = payload
         result = filter_service.new(params, user_1).perform
-        conversations = Contact.where("additional_attributes ->> 'browser_language' IN (?)", ['en'])
         expect(result.length).to be 2
       end
 

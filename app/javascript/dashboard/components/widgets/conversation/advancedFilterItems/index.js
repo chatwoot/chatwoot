@@ -1,6 +1,5 @@
 const filterTypes = [
-  {
-    attributeKey: 'status',
+  { attributeKey: 'status',
     attributeName: 'Status',
     inputType: 'multi_select',
     dataType: 'text',
@@ -16,8 +15,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'assignee_id',
+  { attributeKey: 'assignee_id',
     attributeName: 'Assignee Name',
     inputType: 'search_select',
     dataType: 'text',
@@ -49,8 +47,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'contact_id',
+  { attributeKey: 'contact_id',
     attributeName: 'Contact Name',
     inputType: 'search_select',
     dataType: 'text',
@@ -82,8 +79,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'inbox_id',
+  { attributeKey: 'inbox_id',
     attributeName: 'Inbox Name',
     inputType: 'search_select',
     dataType: 'text',
@@ -115,8 +111,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'team_id',
+  { attributeKey: 'team_id',
     attributeName: 'Team Name',
     inputType: 'search_select',
     dataType: 'number',
@@ -148,8 +143,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'id',
+  { attributeKey: 'id',
     attributeName: 'Conversation Identifier',
     inputType: 'plain_text',
     dataType: 'Number',
@@ -173,8 +167,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'campaign_id',
+  { attributeKey: 'campaign_id',
     attributeName: 'Campaign Name',
     inputType: 'search_select',
     dataType: 'Number',
@@ -206,8 +199,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'labels',
+  { attributeKey: 'labels',
     attributeName: 'Labels',
     inputType: 'multi_select',
     dataType: 'text',
@@ -239,8 +231,7 @@ const filterTypes = [
     ],
     attribute_type: 'standard',
   },
-  {
-    attributeKey: 'browser_language',
+  { attributeKey: 'browser_language',
     attributeName: 'Browser Language',
     inputType: 'search_select',
     dataType: 'text',
@@ -256,8 +247,7 @@ const filterTypes = [
     ],
     attribute_type: 'additional_attributes',
   },
-  {
-    attributeKey: 'country_code',
+  { attributeKey: 'country_code',
     attributeName: 'Country Name',
     inputType: 'search_select',
     dataType: 'text',
@@ -273,8 +263,7 @@ const filterTypes = [
     ],
     attribute_type: 'additional_attributes',
   },
-  {
-    attributeKey: 'referer',
+  { attributeKey: 'referer',
     attributeName: 'Referer link',
     inputType: 'plain_text',
     dataType: 'text',

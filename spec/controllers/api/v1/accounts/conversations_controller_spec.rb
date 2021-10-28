@@ -112,7 +112,7 @@ RSpec.describe 'Conversations API', type: :request do
   describe 'GET /api/v1/accounts/{account.id}/conversations/filter' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/conversations/filter", params: { q: 'test' }
+        post "/api/v1/accounts/#{account.id}/conversations/filter", params: { q: 'test' }
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -129,16 +129,15 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'returns all conversations with empty query' do
-        get "/api/v1/accounts/#{account.id}/conversations/filter",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test1' },
-            as: :json
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: { payload: [] },
+             as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
 
-        expect(response_data.count).to eq(1)
-        expect(response_data[0][:messages][0][:content]).to include(Message.first.content)
+        expect(response_data.count).to eq(2)
       end
     end
   end
