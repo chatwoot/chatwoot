@@ -2,11 +2,6 @@ class Imap::ImapMailbox
   include MailboxHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
-  # before :find_channel
-  # :load_account,
-  # :load_inbox,
-  # :decorate_mail
-
   def process(mail)
     @inbound_mail = mail
     find_channel
@@ -18,7 +13,7 @@ class Imap::ImapMailbox
       find_or_create_contact
       find_or_create_conversation
       create_message
-      # add_attachments_to_message
+      add_attachments_to_message
     end
   end
 
