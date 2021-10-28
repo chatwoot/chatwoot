@@ -53,11 +53,11 @@ export const mutations = {
       isFetching: false,
     };
     const flags = $state.conversations.uiFlags.byId[conversationId];
-    $state.conversations.uiFlags.byId[conversationId] = {
+    Vue.set($state.conversations.uiFlags.byId, conversationId, {
       ...defaultFlags,
       ...flags,
       ...uiFlags,
-    };
+    });
   },
 
   prependMessageIdsToConversation($state, { conversationId, messages }) {

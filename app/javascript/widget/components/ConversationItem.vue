@@ -3,11 +3,7 @@
     <button @click="onItemClick">
       <div class="flex items-center space-x-2">
         <div class="h-10 w-10 rounded-full border-2 border-woot-100">
-          <thumbnail
-            src="https://randomuser.me/api/portraits/women/11.jpg"
-            size="40px"
-            username="Erin Lindford"
-          />
+          <thumbnail :src="agentAvatar" size="40px" :username="agentName" />
         </div>
         <div class="text-left">
           <div class="flex items-center">
@@ -57,7 +53,6 @@ export default {
       const { content, attachments } = lastMessage.value;
 
       if (attachments) {
-        debugger;
         return imageAttachmnetText;
       }
 
@@ -66,8 +61,23 @@ export default {
 
     const agentName = computed(() => {
       const { websiteName = '' } = window.chatwootWebChannel;
+      const { conversation } = props;
+      const { assignee } = conversation;
 
+      if (assignee) return assignee.name;
       return websiteName;
+    });
+
+    const agentAvatar = computed(() => {
+      const { avatarUrl: websiteAvatarUrl = '' } = window.chatwootWebChannel;
+      const { conversation } = props;
+      const { assignee } = conversation;
+
+      if (assignee) {
+        const { avatar_url: avatarUrl } = conversation;
+        return avatarUrl;
+      }
+      return websiteAvatarUrl;
     });
 
     const onItemClick = () => {
@@ -83,6 +93,7 @@ export default {
 
     return {
       agentName,
+      agentAvatar,
       lastMessage,
       lastMessageContent,
       onItemClick,

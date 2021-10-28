@@ -8,8 +8,9 @@ export const getters = {
     return _state.conversations.uiFlags.byId[conversationId].allFetched;
   },
   isCreating: _state => _state.uiFlags.conversations.isCreating,
-  isAgentTypingIn: _state => conversationId =>
-    _state.conversations.uiFlags.byId[conversationId].isAgentTyping,
+  isAgentTypingIn: _state => conversationId => {
+    return _state.conversations.uiFlags.byId[conversationId].isAgentTyping;
+  },
   isFetchingConversationsList: _state =>
     _state.conversations.uiFlags.isFetching,
   allConversations: (...getterArguments) => {
@@ -25,6 +26,18 @@ export const getters = {
         messages: messagesInConversation,
       };
     });
+    return conversations;
+  },
+  allActiveConversations: (...getterArguments) => {
+    const [, _getters] = getterArguments;
+
+    const conversations = _getters.allConversations
+      .filter(conversation => conversation.status === 'open')
+      .sort((a, b) => {
+        const lastMessageOnA = a.messages[a.messages.length - 1];
+        const lastMessageOnB = b.messages[b.messages.length - 1];
+        return lastMessageOnA.created_at - lastMessageOnB.created_at;
+      });
     return conversations;
   },
   totalConversationsLength: _state => _state.conversations.allIds.length || 0,

@@ -10,7 +10,7 @@
       <banner />
       <active-conversations
         v-if="lastActiveConversationId"
-        :conversations="[lastActiveConversation]"
+        :conversations="allActiveConversations"
       />
       <team-availability
         :available-agents="availableAgents"
@@ -74,6 +74,7 @@ export default {
       getGroupedMessages: 'conversationV2/groupByMessagesIn',
       getIsFetchingList: 'conversationV2/isFetchingConversationsList',
       lastActiveConversationId: 'conversationV2/lastActiveConversationId',
+      allActiveConversations: 'conversationV2/allActiveConversations',
       getConversationById: 'conversationV2/getConversationById',
       getCurrentUser: 'contactV2/getCurrentUser',
     }),

@@ -51,7 +51,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   private
 
   def set_conversation
-    @conversation = @conversations.find_by(display_id: params[:id])
+    @conversation = conversations.find_by(display_id: params[:id])
   end
 
   def trigger_typing_event(event)

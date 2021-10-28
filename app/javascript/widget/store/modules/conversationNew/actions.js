@@ -140,6 +140,7 @@ export const actions = {
   toggleAgentTypingIn({ commit }, data) {
     const { status, conversationId } = data;
     const isAgentTyping = status === 'on';
+
     commit('setConversationUIFlag', {
       uiFlags: { isAgentTyping },
       conversationId,

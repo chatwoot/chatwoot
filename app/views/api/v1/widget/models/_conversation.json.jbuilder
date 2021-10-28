@@ -8,3 +8,6 @@ json.messages do
   end
 end
 json.contact resource.contact
+json.assignee do 
+  json.partial! 'api/v1/widget/models/agent.json.jbuilder', resource: resource.assignee
+end
