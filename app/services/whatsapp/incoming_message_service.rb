@@ -60,20 +60,19 @@ class Whatsapp::IncomingMessageService
     @conversation = ::Conversation.create!(conversation_params)
   end
 
-
   def file_content_type(file_type)
-    return :image if ['image', 'sticker'].include?(file_type)
-    return :audio if ['audio', 'voice'].include?(file_type)
+    return :image if %w[image sticker].include?(file_type)
+    return :audio if %w[audio voice].include?(file_type)
     return :video if ['video'].include?(file_type)
 
-    "document"
+    'document'
   end
 
   def attach_files
-    message_type = params[:messages].first.dig(:type)
-    return if  message_type == "text"
-    
-    attachment_payload = params[:messages].first.dig(message_type.to_sym)
+    message_type = params[:messages].first[:type]
+    return if message_type == 'text'
+
+    attachment_payload = params[:messages].first[message_type.to_sym]
     attachment_file = Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
 
     @message.content ||= attachment_payload[:caption]

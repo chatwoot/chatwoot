@@ -71,17 +71,17 @@ class Channel::Whatsapp < ApplicationRecord
 
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
-    type =  ['image', 'audio', 'video'].include?(attachment.file_type) ? attachment.file_type : 'document'
+    type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
     attachment_url = attachment.file_url
     HTTParty.post(
       "#{api_base_path}/messages",
       headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },
       body: {
-        "to" => phone_number,
-        "type" => type,
-        "#{type}" => {
-          "link": attachment.file_url,
-          "caption": message.content
+        'to' => phone_number,
+        'type' => type,
+        type.to_s => {
+          'link': attachment_url,
+          'caption': message.content
         }
       }.to_json
     )
