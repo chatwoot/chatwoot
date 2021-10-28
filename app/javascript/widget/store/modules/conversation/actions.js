@@ -98,7 +98,7 @@ export const actions = {
     }
   },
 
-  setUserLastSeen: async ({ commit, getters: appGetters }) => {
+  setUserLastSeenIn: async ({ commit, getters: appGetters }) => {
     if (!appGetters.getConversationSize) {
       return;
     }

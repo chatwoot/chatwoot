@@ -4,11 +4,12 @@ import { groupConversationBySender } from './helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
-  isAllMessagesFetched: _state => conversationId =>
-    _state.conversations[conversationId].uiFlags.allFetched,
-  isCreating: _state => _state.uiFlags.isCreating,
+  isAllMessagesFetchedIn: _state => conversationId => {
+    return _state.conversations.uiFlags.byId[conversationId].allFetched;
+  },
+  isCreating: _state => _state.uiFlags.conversations.isCreating,
   isAgentTypingIn: _state => conversationId =>
-    _state.conversations[conversationId].uiFlags.isAgentTyping,
+    _state.conversations.uiFlags.byId[conversationId].isAgentTyping,
   isFetchingConversationsList: _state =>
     _state.conversations.uiFlags.isFetching,
   allConversations: (...getterArguments) => {
@@ -52,7 +53,7 @@ export const getters = {
       messages: groupConversationBySender(messagesGroupedByDate[date]),
     }));
   },
-  isFetchingMessages: _state => conversationId => {
+  isFetchingMessagesIn: _state => conversationId => {
     const hasConversation = _state.conversations.uiFlags.byId[conversationId];
     return hasConversation ? hasConversation.isFetching : false;
   },
@@ -83,7 +84,6 @@ export const getters = {
   getConversationById: (...getterArguments) => conversationId => {
     const [_state, , , _rootGetters] = getterArguments;
     const conversation = _state.conversations.byId[conversationId];
-
     if (!conversation) return undefined;
 
     const messageIds = conversation.messages;

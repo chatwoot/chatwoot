@@ -3,11 +3,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :set_message, only: [:update]
 
   def index
-    @messages = conversation.nil? ? [] : message_finder.perform
+    @messages = @conversation.nil? ? [] : message_finder.perform
   end
 
   def create
-    @message = conversation.messages.new(message_params)
+    @message = @conversation.messages.new(message_params)
     build_attachment
     @message.save!
   end
@@ -38,7 +38,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    @conversation = @conversations.find_by(display_id: params[:conversation_id])
+    @conversation = conversations.find_by(display_id: params[:conversation_id])
   end
 
   def message_finder_params
@@ -49,7 +49,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_finder
-    @message_finder ||= MessageFinder.new(conversation, message_finder_params)
+    @message_finder ||= MessageFinder.new(@conversation, message_finder_params)
   end
 
   def message_update_params

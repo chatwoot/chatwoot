@@ -38,7 +38,7 @@ export const actions = {
       dispatch('get');
       if (userObject.identifier_hash) {
         dispatch('conversation/clearConversations', {}, { root: true });
-        dispatch('conversation/fetchOldConversations', {}, { root: true });
+        dispatch('conversation/fetchOldMessagesIn', {}, { root: true });
       }
 
       refreshActionCableConnector(pubsubToken);

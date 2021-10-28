@@ -1,9 +1,10 @@
 <template>
   <div>
     <footer v-if="!hideReplyBox" class="footer">
-      <ChatInputWrap
+      <chat-input-wrap
         :on-send-message="handleSendMessage"
         :on-send-attachment="handleSendAttachment"
+        @toggle-typing="toggleTyping"
       />
     </footer>
     <div v-else>
@@ -55,9 +56,12 @@ export default {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
-      getConversationSize: 'conversation/getConversationSize',
+      totalMessagesSizeIn: 'conversationV2/allMessagesCountIn',
       currentUser: 'contacts/getCurrentUser',
     }),
+    totalMessagesSize() {
+      return this.totalMessagesSizeIn(this.conversationId);
+    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -81,24 +85,42 @@ export default {
       'clearConversationAttributes',
     ]),
     async handleSendMessage(content) {
-      const conversationSize = this.getConversationSize;
-      await this.sendMessage({
-        content,
-        inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-        contactIdentifier: window.contactIdentifier,
-        conversationId: this.conversationId,
-      });
+      const conversationSize = this.totalMessagesSize;
+      let conversationId = this.conversationId;
+      if (conversationId) {
+        await this.sendMessage({
+          content,
+          conversationId,
+        });
+      } else {
+        const newConversationId = await this.handleCreateConversation(content);
+
+        bus.$emit('update-conversation-id', newConversationId);
+      }
+
       // Update conversation attributes on new conversation
       if (conversationSize === 0) {
         this.getAttributes();
       }
     },
+    async handleCreateConversation(content) {
+      const conversationId = await this.$store.dispatch(
+        'conversationV2/createConversationWithMessage',
+        {
+          content,
+          contact: {
+            emailAddress: '',
+          },
+        }
+      );
+
+      return conversationId;
+    },
     handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+      const conversationId = this.conversationId;
+      this.sendAttachment({ attachment, conversationId });
     },
     startNewConversation() {
-      this.clearConversations();
-      this.clearConversationAttributes();
       window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
     },
     async sendTranscript() {
@@ -118,6 +140,12 @@ export default {
           });
         }
       }
+    },
+    toggleTyping(typingStatus) {
+      this.$store.dispatch('conversationV2/toggleUserTypingIn', {
+        conversationId: this.conversationId,
+        typingStatus,
+      });
     },
   },
 };

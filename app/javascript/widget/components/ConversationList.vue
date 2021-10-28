@@ -11,9 +11,9 @@
     </div>
     <custom-button
       class="font-medium rounded-full mt-8"
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startConversation"
+      :bg-color="widgetColor.value"
+      :text-color="textColor.value"
+      @click="startConversationClick"
     >
       <i class="ion-send" />
       {{ $t('START_CONVERSATION') }}
@@ -21,6 +21,9 @@
   </div>
 </template>
 <script>
+import { computed } from '@vue/composition-api';
+import { getContrastingTextColor } from '@chatwoot/utils';
+
 import CustomButton from 'shared/components/Button';
 import ConversationItem from './ConversationItem';
 
@@ -32,8 +35,34 @@ export default {
       default: () => [],
     },
   },
-  setup(props) {
-    console.log(props);
+  setup(props, context) {
+    const router = context.root.$router;
+    const store = context.root.$store;
+    const widgetColor = computed(() => {
+      return store.getters['appConfig/getWidgetColor'];
+    });
+    const textColor = computed(() =>
+      getContrastingTextColor(widgetColor.value)
+    );
+
+    const startConversationClick = async () => {
+      const conversationId = await context.root.$store.dispatch(
+        'conversationV2/createConversation'
+      );
+
+      router.push({
+        name: 'chat',
+        params: {
+          conversationId: conversationId,
+        },
+      });
+    };
+
+    return {
+      textColor,
+      widgetColor,
+      startConversationClick,
+    };
   },
 };
 </script>

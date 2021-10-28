@@ -1,11 +1,5 @@
 <template>
-  <div
-    v-if="!conversationSize && isFetchingList"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
-  >
-    <spinner size="" />
-  </div>
-  <div v-else class="home" @keydown.esc="closeChat">
+  <div class="home" @keydown.esc="closeChat">
     <div class="header-wrap bg-white  collapsed">
       <chat-header
         :title="channelConfig.websiteName"
@@ -18,6 +12,7 @@
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap
         v-if="currentView === 'messageView'"
+        :conversation-id="conversationId"
         :grouped-messages="groupedMessages"
       />
     </div>
@@ -37,12 +32,10 @@ import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
-import Spinner from 'shared/components/Spinner.vue';
+
 import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import PreChatForm from '../components/PreChat/Form';
 
 export default {
   name: 'Home',
@@ -50,10 +43,8 @@ export default {
     Branding,
     ChatFooter,
     ChatHeader,
-
     ConversationWrap,
-    PreChatForm,
-    Spinner,
+
     Banner,
   },
   mixins: [configMixin],
@@ -67,6 +58,8 @@ export default {
     return {
       isOnCollapsedView: false,
       isOnNewConversation: false,
+      // Bad hack??
+      newConversationId: undefined,
     };
   },
   computed: {
@@ -76,11 +69,11 @@ export default {
       currentUser: 'contactV2/getCurrentUser',
       getTotalMessageCount: 'conversationV2/allMessagesCountIn',
       getGroupedMessages: 'conversationV2/groupByMessagesIn',
-      getIsFetchingList: 'conversationV2/isFetchingMessages',
     }),
     conversationId() {
       const { conversationId } = this.$route.params;
-      return conversationId;
+
+      return this.newConversationId || conversationId;
     },
     conversationSize() {
       return this.getTotalMessageCount(this.conversationId);
@@ -111,25 +104,11 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
-      this.isOnCollapsedView = true;
-      this.isOnNewConversation = true;
-    });
-
-    this.$store.dispatch('conversationV2/fetchConversationById', {
-      conversationId: this.conversationId,
-      inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-      contactIdentifier: window.contactIdentifier,
+    bus.$on('update-conversation-id', id => {
+      this.newConversationId = id;
     });
   },
   methods: {
-    startConversation() {
-      this.isOnCollapsedView = !this.isOnCollapsedView;
-      this.$store.dispatch('conversationV2/createConversation', {
-        inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-        contactIdentifier: window.contactIdentifier,
-      });
-    },
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });
     },

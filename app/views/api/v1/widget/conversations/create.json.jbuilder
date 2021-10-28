@@ -1,1 +1,1 @@
-json.partial! 'api/v1/widget/models/_conversation.json.jbuilder', resource: conversation
+json.partial! 'api/v1/widget/models/conversation.json.jbuilder', resource: @conversation

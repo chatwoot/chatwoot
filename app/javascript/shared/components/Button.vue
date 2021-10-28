@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     buttonClassName() {
-      let className = 'text-white py-3 px-4 rounded shadow-sm';
+      let className = 'text-white py-2 px-4 rounded shadow-sm';
       if (this.type === 'clear') {
         className = 'flex mx-auto mt-4 text-xs w-auto text-black-600';
       }
@@ -49,7 +49,7 @@ export default {
       if (this.block) {
         className = `${className} w-full`;
       }
-      return this.classNames + className;
+      return className + this.classNames;
     },
     buttonStyles() {
       const styles = {};

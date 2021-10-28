@@ -47,11 +47,39 @@ export const mutations = {
   },
 
   setConversationUIFlag($state, { conversationId, uiFlags }) {
+    const defaultFlags = {
+      allFetched: false,
+      isAgentTyping: false,
+      isFetching: false,
+    };
     const flags = $state.conversations.uiFlags.byId[conversationId];
     $state.conversations.uiFlags.byId[conversationId] = {
+      ...defaultFlags,
       ...flags,
       ...uiFlags,
     };
+  },
+
+  prependMessageIdsToConversation($state, { conversationId, messages }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    const messageIds = messages.map(message => message.id);
+    const updatedMessageIds = [...messageIds, ...conversationById.messages];
+    const uniqIds = Array.from(new Set(updatedMessageIds));
+
+    Vue.set(conversationById, 'messages', uniqIds);
+  },
+
+  appendMessageIdsToConversation($state, { conversationId, messages }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    const messageIds = messages.map(message => message.id);
+    const updatedMessageIds = [...conversationById.messages, ...messageIds];
+    const uniqIds = Array.from(new Set(updatedMessageIds));
+
+    Vue.set(conversationById, 'messages', uniqIds);
   },
 
   addMessageIdsToConversation($state, { conversationId, messages }) {
@@ -59,8 +87,7 @@ export const mutations = {
     if (!conversationById) return;
 
     const messageIds = messages.map(message => message.id);
-    const updatedMessageIds = [...conversationById.messages, ...messageIds];
-    Vue.set(conversationById, 'messages', updatedMessageIds);
+    Vue.set(conversationById, 'messages', messageIds);
   },
 
   removeMessageIdFromConversation($state, { conversationId, messageId }) {

@@ -49,8 +49,9 @@ class Api::V1::Widget::BaseController < ApplicationController
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: {
         browser: browser_params,
-        referer: permitted_params[:message][:referer_url],
-        initiated_at: timestamp_params
+        # @TODO
+        # referer: permitted_params[:message][:referer_url],
+        # initiated_at: timestamp_params
       }
     }
   end
@@ -96,10 +97,10 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def message_params
     {
-      account_id: conversation.account_id,
+      account_id: @conversation.account_id,
       sender: @contact,
       content: permitted_params[:message][:content],
-      inbox_id: conversation.inbox_id,
+      inbox_id: @conversation.inbox_id,
       echo_id: permitted_params[:message][:echo_id],
       message_type: :incoming
     }

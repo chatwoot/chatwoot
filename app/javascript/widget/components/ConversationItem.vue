@@ -10,8 +10,13 @@
           />
         </div>
         <div class="text-left">
-          <p class="text-sm font-medium text-black-900">Nithin David</p>
-          <p class="text-sm text-black-500">
+          <div class="flex items-center">
+            <h4 class="text-sm font-medium text-slate-900">{{ agentName }}</h4>
+            <span class="text-xs text-slate-500 ml-2">
+              {{ dynamicTime(lastMessage.created_at) }}
+            </span>
+          </div>
+          <p class="text-sm text-black-700">
             {{ lastMessageContent }}
           </p>
         </div>
@@ -21,10 +26,12 @@
 </template>
 <script>
 import { computed } from '@vue/composition-api';
+import timeMixin from 'dashboard/mixins/time';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
 export default {
   components: { Thumbnail },
+  mixins: [timeMixin],
   props: {
     conversation: {
       type: Object,
@@ -33,14 +40,34 @@ export default {
   },
   setup(props, context) {
     const router = context.root.$router;
+    const imageAttachmnetText = context.root.$t(
+      'COMPONENTS.CONVERSATION_ITEM.IMAGE_ATTACHMENT'
+    );
 
-    const lastMessageContent = computed(() => {
+    const lastMessage = computed(() => {
       const { conversation } = props;
       const { messages = [] } = conversation;
-      const lastMessage = messages[messages.length - 1];
+      const message = messages[messages.length - 1];
 
-      if (lastMessage) return lastMessage.content;
-      return '';
+      if (!message) return {};
+      return message;
+    });
+
+    const lastMessageContent = computed(() => {
+      const { content, attachments } = lastMessage.value;
+
+      if (attachments) {
+        debugger;
+        return imageAttachmnetText;
+      }
+
+      return content;
+    });
+
+    const agentName = computed(() => {
+      const { websiteName = '' } = window.chatwootWebChannel;
+
+      return websiteName;
     });
 
     const onItemClick = () => {
@@ -55,6 +82,8 @@ export default {
     };
 
     return {
+      agentName,
+      lastMessage,
       lastMessageContent,
       onItemClick,
     };
@@ -65,7 +94,6 @@ export default {
 .item--wrap {
   @apply flex;
   @apply py-3;
-  @apply px-2;
   border: 1px solid transparent;
 }
 </style>

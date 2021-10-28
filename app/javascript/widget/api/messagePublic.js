@@ -1,36 +1,37 @@
 import { API } from 'widget/helpers/axios';
 
 const buildUrl = endPoint =>
-  `/public/api/v1/${endPoint}${window.location.search}`;
+  `/api/v1/widget/${endPoint}${window.location.search}`;
 
 /*
  *  Refer: https://www.chatwoot.com/developers/api#tag/Messages-API
  */
 
 export default {
-  create(inboxIdentifier, contactIdentifier, conversationId, content, echoId) {
+  create(conversationId, content, echoId) {
+    return API.post(buildUrl(`conversations/${conversationId}/messages`), {
+      content,
+      echo_id: echoId,
+    });
+  },
+
+  createAttachment(conversationId, attachmentParams) {
     return API.post(
-      buildUrl(
-        `inboxes/${inboxIdentifier}/contacts/${contactIdentifier}/conversations/${conversationId}/messages`
-      ),
-      { content, echo_id: echoId }
+      buildUrl(`conversations/${conversationId}/messages`),
+      attachmentParams
     );
   },
 
-  get(inboxIdentifier, contactIdentifier, conversationId) {
-    return API.get(
-      buildUrl(
-        `inboxes/${inboxIdentifier}/contacts/${contactIdentifier}/conversations/${conversationId}/messages`
-      )
-    );
+  get(conversationId, beforeId) {
+    return API.get(buildUrl(`conversations/${conversationId}/messages`), {
+      params: { before: beforeId },
+    });
   },
 
-  update(inboxIdentifier, contactIdentifier, conversationId, messageObject) {
+  update(conversationId, messageObject) {
     const { id: messageId } = messageObject;
     return API.patch(
-      buildUrl(
-        `inboxes/${inboxIdentifier}/contacts/${contactIdentifier}/conversations/${conversationId}/messages/${messageId}`
-      ),
+      buildUrl(`conversations/${conversationId}/messages/${messageId}`),
       {
         ...messageObject,
       }

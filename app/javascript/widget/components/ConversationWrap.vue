@@ -1,8 +1,8 @@
 <template>
   <div class="conversation--container">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
-      <div v-if="isFetchingList" class="message--loader">
-        <spinner></spinner>
+      <div v-if="isFetchingMessages" class="message--loader">
+        <spinner />
       </div>
       <div
         v-for="groupedMessage in groupedMessages"
@@ -41,6 +41,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -50,25 +54,41 @@ export default {
   },
   computed: {
     ...mapGetters({
-      earliestMessage: 'conversation/getEarliestMessage',
-      allMessagesLoaded: 'conversation/getAllMessagesLoaded',
-      isFetchingList: 'conversation/getIsFetchingList',
-      conversationSize: 'conversation/getConversationSize',
-      isAgentTyping: 'conversation/getIsAgentTyping',
+      isFetchingMessagesIn: 'conversationV2/isFetchingMessagesIn',
+      firstMessageIn: 'conversationV2/firstMessageIn',
+      isAllMessagesFetchedIn: 'conversationV2/isAllMessagesFetchedIn',
+      totalMessagesSizeIn: 'conversationV2/allMessagesCountIn',
+      isAgentTypingIn: 'conversationV2/isAgentTypingIn',
     }),
+    firstMessage() {
+      return this.firstMessageIn(this.conversationId);
+    },
+    isAgentTyping() {
+      return this.isAgentTypingIn(this.conversationId);
+    },
+    totalMessagesSize() {
+      return this.totalMessagesSizeIn(this.conversationId);
+    },
+    isAllMessagesFetched() {
+      return this.isAllMessagesFetchedIn(this.conversationId);
+    },
+    isFetchingMessages() {
+      return this.isFetchingMessagesIn(this.conversationId);
+    },
   },
   watch: {
-    allMessagesLoaded() {
+    isAllMessagesFetched() {
       this.previousScrollHeight = 0;
     },
   },
   mounted() {
     this.$el.addEventListener('scroll', this.handleScroll);
+    this.handleScroll();
     this.scrollToBottom();
   },
   updated() {
-    if (this.previousConversationSize !== this.conversationSize) {
-      this.previousConversationSize = this.conversationSize;
+    if (this.previousConversationSize !== this.totalMessagesSize) {
+      this.previousConversationSize = this.totalMessagesSize;
       this.scrollToBottom();
     }
   },
@@ -76,7 +96,7 @@ export default {
     this.$el.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversationV2', ['fetchOldMessagesIn']),
     scrollToBottom() {
       const container = this.$el;
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;
@@ -84,15 +104,19 @@ export default {
     },
     handleScroll() {
       if (
-        this.isFetchingList ||
-        this.allMessagesLoaded ||
-        !this.conversationSize
+        this.isFetchingMessages ||
+        this.isAllMessagesFetched ||
+        !this.totalMessagesSize
       ) {
         return;
       }
 
       if (this.$el.scrollTop < 100) {
-        this.fetchOldConversations({ before: this.earliestMessage.id });
+        const [conversationId, beforeId] = [
+          this.conversationId,
+          this.firstMessage.id,
+        ];
+        this.fetchOldMessagesIn({ conversationId, beforeId });
         this.previousScrollHeight = this.$el.scrollHeight;
       }
     },
@@ -112,12 +136,26 @@ export default {
 }
 
 .conversation-wrap {
+  @apply relative;
   flex: 1;
   padding: $space-large $space-small $space-small $space-small;
 }
 
 .message--loader {
-  text-align: center;
+  @apply sticky;
+  @apply top-2;
+  @apply left-0 right-0;
+  @apply text-center;
+  @apply z-10;
+
+  &::v-deep .spinner {
+    @apply w-8;
+    @apply h-8;
+    @apply p-0;
+    @apply rounded-full;
+    @apply bg-white;
+    @apply shadow-md;
+  }
 }
 </style>
 <style lang="scss">

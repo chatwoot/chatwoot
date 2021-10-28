@@ -10,7 +10,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     ActiveRecord::Base.transaction do
       update_contact(contact_email) if @contact.email.blank? && contact_email.present?
       @conversation = create_conversation
-      @conversation.messages.create(message_params)
+       @conversation.messages.create(message_params) if permitted_params[:message].present?
     end
   end
 

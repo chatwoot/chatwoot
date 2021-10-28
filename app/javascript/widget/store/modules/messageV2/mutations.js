@@ -9,8 +9,11 @@ export const mutations = {
 
   addMessageIds($state, { messages }) {
     const messageIds = messages.map(message => message.id);
+    const allIds = $state.messages.allIds;
+    const newIds = [allIds, messageIds];
+    const uniqIds = Array.from(new Set(newIds));
 
-    $state.messages.allIds.push(...messageIds);
+    Vue.set($state.messages, 'allIds', uniqIds);
   },
 
   updateMessageEntry($state, message) {

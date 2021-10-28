@@ -3,6 +3,7 @@ import { refreshActionCableConnector } from 'widget/helpers/actionCable';
 import {
   createTemporaryMessage,
   createTemporaryAttachmentMessage,
+  createAttachmentParams,
 } from './helpers';
 
 export const actions = {
@@ -29,91 +30,91 @@ export const actions = {
     commit('addMessagesEntry', { conversationId, messages });
     commit('addMessageIds', { messages });
     commit(
-      'conversationV2/addMessageIdsToConversation',
+      'conversationV2/appendMessageIdsToConversation',
       { conversationId, messages },
       { root: true }
     );
   },
-  sendMessage: async ({ commit }, params) => {
+  sendMessage: async ({ commit, dispatch }, params) => {
+    const { content, conversationId } = params;
     try {
       commit(
         'conversationV2/setConversationUIFlag',
-        { isCreating: true },
+        { uiFlags: { isCreating: true }, conversationId },
         { root: true }
       );
 
-      const {
-        content,
-        conversationId,
-        inboxIdentifier,
-        contactIdentifier,
-      } = params;
       const message = createTemporaryMessage({ content });
       const { id: echoId } = message;
       const messages = [message];
       commit('addMessagesEntry', { messages });
       commit('addMessageIds', { messages });
       commit(
-        'conversationV2/addMessageIdsToConversation',
+        'conversationV2/appendMessageIdsToConversation',
         { conversationId, messages },
         { root: true }
       );
-      await MessagePublicAPI.create(
-        inboxIdentifier,
-        contactIdentifier,
+      const { data: newMessage } = await MessagePublicAPI.create(
         conversationId,
         content,
         echoId
       );
+
+      dispatch('addOrUpdate', {
+        ...newMessage,
+        echo_id: echoId,
+      });
     } catch (error) {
       throw new Error(error);
     } finally {
       commit(
         'conversationV2/setConversationUIFlag',
-        { isCreating: false },
+        { uiFlags: { isCreating: false }, conversationId },
         { root: true }
       );
     }
   },
 
-  sendAttachment: async ({ commit }, params) => {
+  sendAttachment: async ({ commit, dispatch }, params) => {
+    const {
+      attachment: { thumbUrl, fileType },
+      conversationId,
+    } = params;
     try {
       commit(
         'conversationV2/setConversationUIFlag',
-        { isCreating: true },
+        { uiFlags: { isCreating: true }, conversationId },
         { root: true }
       );
-      const {
-        attachment: { thumbUrl, fileType },
-        conversationId,
-      } = params;
-      const message = createTemporaryAttachmentMessage({
+
+      const tempMessage = createTemporaryAttachmentMessage({
         thumbUrl,
         fileType,
       });
-      const messages = [message];
-      const { id: echoId, ...rest } = message;
+
+      const { id: echoId } = tempMessage;
+      const messages = [tempMessage];
+      const attachmentParams = createAttachmentParams(params);
+
       commit('addMessagesEntry', { conversationId, messages });
       commit('addMessageIds', { conversationId, messages });
       commit(
-        'conversationV2/addMessageIdsToConversation',
+        'conversationV2/appendMessageIdsToConversation',
         { conversationId, messages },
         { root: true }
       );
-      const { data } = await MessagePublicAPI.create({
-        echo_id: echoId,
-        ...rest,
-      });
-      commit('updateAttachmentMessageStatus', {
-        message: data,
-        tempId: message.id,
-      });
+
+      const { data } = await MessagePublicAPI.createAttachment(
+        conversationId,
+        attachmentParams
+      );
+      dispatch('addOrUpdate', { ...data, echo_id: echoId });
     } catch (error) {
       throw new Error(error);
     } finally {
       commit(
         'conversationV2/setConversationUIFlag',
-        { isCreating: false },
+        { uiFlags: { isCreating: false }, conversationId },
         { root: true }
       );
     }

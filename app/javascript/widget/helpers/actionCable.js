@@ -32,11 +32,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageCreated = data => {
-    this.app.$store
-      .dispatch('conversation/addOrUpdateMessage', data)
-      .then(() => {
-        window.bus.$emit('on-agent-message-received');
-      });
+    this.app.$store.dispatch('messageV2/addOrUpdate', data).then(() => {
+      window.bus.$emit('on-agent-message-received');
+    });
     if (data.sender_type === 'User') {
       playNewMessageNotificationInWidget();
     }
@@ -57,18 +55,26 @@ class ActionCableConnector extends BaseActionCableConnector {
     ActionCableConnector.refreshConnector(pubsubToken);
   };
 
-  onTypingOn = () => {
+  onTypingOn = data => {
     this.clearTimer();
-    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+    const {
+      conversation: { id: conversationId },
+    } = data;
+    this.app.$store.dispatch('conversationV2/toggleAgentTypingIn', {
       status: 'on',
+      conversationId,
     });
     this.initTimer();
   };
 
-  onTypingOff = () => {
+  onTypingOff = data => {
     this.clearTimer();
-    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+    const {
+      conversation: { id: conversationId },
+    } = data;
+    this.app.$store.dispatch('conversationV2/toggleAgentTypingIn', {
       status: 'off',
+      conversationId,
     });
   };
 

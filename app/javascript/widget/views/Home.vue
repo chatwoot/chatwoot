@@ -1,54 +1,21 @@
 <template>
   <div class="home" @keydown.esc="closeChat">
     <div class="flex flex-col flex-1 overflow-auto">
-      <div class="header-wrap bg-white expanded">
-        <chat-header-expanded
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="showPopoutButton"
-        />
-      </div>
+      <chat-header-expanded
+        :intro-heading="channelConfig.welcomeTitle"
+        :intro-body="channelConfig.welcomeTagline"
+        :avatar-url="channelConfig.avatarUrl"
+        :show-popout-button="showPopoutButton"
+      />
       <banner />
-
+      <active-conversations
+        v-if="lastActiveConversationId"
+        :conversations="[lastActiveConversation]"
+      />
       <team-availability
         :available-agents="availableAgents"
         @start-conversation="startConversation"
       />
-
-      <div class="px-6 mt-8">
-        <h3 class="text-xl font-medium text-gray-900">
-          Last conversation
-        </h3>
-        <conversation-item :conversation="lastActiveConversation" />
-        <chat-footer :conversation-id="lastActiveConversationId" />
-        <button
-          class="mt-2 font-medium text-woot-600 hover:text-woot-500 transition
-          ease-in-out duration-150"
-          @click="clickAllConversations"
-        >
-          See all conversations
-          <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
-
-      <div class="px-6 mt-8">
-        <h3 class="text-xl font-medium text-gray-900">
-          FAQ
-        </h3>
-        <div>
-          <h4></h4>
-        </div>
-
-        <button
-          class="font-medium text-woot-600 hover:text-woot-500 transition
-          ease-in-out duration-150"
-          @click="clickAllConversations"
-        >
-          See all conversations
-          <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
 
       <div class="footer-wrap">
         <branding></branding>
@@ -58,10 +25,10 @@
 </template>
 
 <script>
-import Branding from 'shared/components/Branding.vue';
-import ChatFooter from 'widget/components/ChatFooter.vue';
-import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
-import ConversationItem from 'widget/components/ConversationItem';
+import Branding from 'shared/components/Branding';
+import ChatFooter from 'widget/components/ChatFooter';
+import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded';
+import ActiveConversations from 'widget/components/ActiveConversations';
 
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
@@ -78,8 +45,9 @@ export default {
     ChatFooter,
     ChatHeaderExpanded,
     Spinner,
+
     TeamAvailability,
-    ConversationItem,
+    ActiveConversations,
     Banner,
   },
   mixins: [configMixin],
@@ -95,7 +63,6 @@ export default {
   },
   data() {
     return {
-      isOnCollapsedView: false,
       isOnNewConversation: false,
     };
   },
@@ -129,35 +96,20 @@ export default {
   },
   mounted() {
     bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
-      this.isOnCollapsedView = true;
       this.isOnNewConversation = true;
     });
   },
   methods: {
     async startConversation() {
-      this.isOnCollapsedView = !this.isOnCollapsedView;
-      const conversationId = await this.$store.dispatch(
-        'conversationV2/createConversation',
-        {
-          inboxIdentifier: window.chatwootWebChannel.inboxIdentifier,
-          contactIdentifier: window.contactIdentifier,
-        }
-      );
-
       this.$router.push({
         name: 'chat',
         params: {
-          conversationId: conversationId,
+          conversationId: 0,
         },
       });
     },
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });
-    },
-    clickAllConversations() {
-      this.$router.push({
-        name: 'conversations',
-      });
     },
   },
 };
