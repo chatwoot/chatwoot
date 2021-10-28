@@ -324,7 +324,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { {  enable_auto_assignment: false, channel: { website_url: 'test.com' } } }
+      let(:valid_params) { { name: 'new test inbox', enable_auto_assignment: false } }
 
       it 'will not update inbox for agent' do
         agent = create(:user, account: account, role: :agent)
@@ -345,6 +345,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
+        expect(JSON.parse(response.body)['name']).to eq 'new test inbox'
       end
 
       it 'updates api inbox when administrator' do
@@ -384,7 +385,6 @@ RSpec.describe 'Inboxes API', type: :request do
               headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('test.com')
         inbox.reload
         expect(inbox.avatar.attached?).to eq(true)
       end
