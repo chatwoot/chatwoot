@@ -50,31 +50,55 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
 
-  scope :order_on_last_activity_at, ->(direction) { order("last_activity_at #{direction} NULLS LAST") }
+  scope :order_on_last_activity_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
   scope :order_on_company_name, lambda { |direction|
     order(
-      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'company_name' #{direction} NULLS LAST")
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
+          NULLS LAST"
+        )
+      )
     )
   }
   scope :order_on_city, lambda { |direction|
     order(
-      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'city' #{direction} NULLS LAST")
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'city' #{direction}
+          NULLS LAST"
+        )
+      )
     )
   }
   scope :order_on_country_code, lambda { |direction|
     order(
-      Arel::Nodes::SqlLiteral.new("\"contacts\".\"additional_attributes\"->>'country_code' #{direction} NULLS LAST")
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'country_code' #{direction}
+          NULLS LAST"
+        )
+      )
     )
   }
 
   scope :order_on_name, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
-        "CASE
-         WHEN \"contacts\".\"name\" ~~* '^+\d*' THEN 'z'
-         WHEN \"contacts\".\"name\"  ~~*  '^\b*' THEN 'z'
-         ELSE LOWER(\"contacts\".\"name\")
-         END #{direction}"
+        sanitize_sql_for_order(
+          "CASE
+           WHEN \"contacts\".\"name\" ~~* '^+\d*' THEN 'z'
+           WHEN \"contacts\".\"name\"  ~~*  '^\b*' THEN 'z'
+           ELSE LOWER(\"contacts\".\"name\")
+           END #{direction}"
+        )
       )
     )
   }
