@@ -4,101 +4,44 @@
       <chat-header
         :title="channelConfig.websiteName"
         :avatar-url="channelConfig.avatarUrl"
-        :show-popout-button="showPopoutButton"
+        :show-popout-button="false"
         :available-agents="availableAgents"
       />
     </div>
     <banner />
     <div class="flex flex-1 overflow-auto">
-      <conversation-wrap
-        :conversation-id="conversationId"
-        :grouped-messages="groupedMessages"
-      />
+      <pre-chat-form :options="preChatFormOptions" />
     </div>
     <div class="footer-wrap">
-      <div class="input-wrap">
-        <chat-footer :conversation-id="conversationId" />
-      </div>
       <branding></branding>
     </div>
   </div>
 </template>
 
 <script>
-import Branding from 'shared/components/Branding';
-import ChatFooter from 'widget/components/ChatFooter';
-import ChatHeader from 'widget/components/ChatHeader';
-import ConversationWrap from 'widget/components/ConversationWrap';
-import { IFrameHelper } from 'widget/helpers/utils';
-import configMixin from '../mixins/configMixin';
-
-import Banner from 'widget/components/Banner';
 import { mapGetters } from 'vuex';
-import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+
+import Branding from 'shared/components/Branding';
+import ChatHeader from 'widget/components/ChatHeader';
+import PreChatForm from 'widget/components/PreChat/Form';
+import Banner from 'widget/components/Banner';
+
+import configMixin from '../mixins/configMixin';
 
 export default {
   name: 'Home',
   components: {
     Branding,
-    ChatFooter,
     ChatHeader,
-    ConversationWrap,
-
+    PreChatForm,
     Banner,
   },
   mixins: [configMixin],
-  props: {
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      isOnCollapsedView: false,
-      isOnNewConversation: false,
-      // Bad hack??
-      newConversationId: undefined,
-    };
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       currentUser: 'contactV2/getCurrentUser',
-      getTotalMessageCount: 'conversationV2/allMessagesCountIn',
-      getGroupedMessages: 'conversationV2/groupByMessagesIn',
     }),
-    conversationId() {
-      const { conversationId } = this.$route.params;
-
-      return this.newConversationId || conversationId;
-    },
-    conversationSize() {
-      return this.getTotalMessageCount(this.conversationId);
-    },
-    groupedMessages() {
-      return this.getGroupedMessages(this.conversationId);
-    },
-    isFetchingList() {
-      return this.getIsFetchingList(this.conversationId);
-    },
-    isOpen() {
-      return this.conversationAttributes.status === 'open';
-    },
-    fileUploadSizeLimit() {
-      return MAXIMUM_FILE_UPLOAD_SIZE;
-    },
-  },
-  mounted() {
-    bus.$on('update-conversation-id', id => {
-      this.newConversationId = id;
-    });
-  },
-  methods: {
-    closeChat() {
-      IFrameHelper.sendMessage({ event: 'closeChat' });
-    },
   },
 };
 </script>

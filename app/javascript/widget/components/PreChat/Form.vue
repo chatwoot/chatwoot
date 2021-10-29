@@ -113,15 +113,32 @@ export default {
     },
   },
   methods: {
-    onSubmit() {
+    async handleCreateConversation() {
+      const conversationId = await this.$store.dispatch(
+        'conversationV2/createConversationWithMessage',
+        {
+          content: this.message,
+          contact: {
+            fullName: this.fullName,
+            emailAddress: this.emailAddress,
+          },
+        }
+      );
+
+      return conversationId;
+    },
+    async onSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
-      this.$store.dispatch('conversation/createConversation', {
-        fullName: this.fullName,
-        emailAddress: this.emailAddress,
-        message: this.message,
+
+      const conversationId = await this.handleCreateConversation();
+      this.$router.replace({
+        name: 'chat',
+        params: {
+          conversationId,
+        },
       });
     },
   },

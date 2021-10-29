@@ -18,15 +18,7 @@
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
     <div class="flex items-center justify-center w-full mt-1">
-      <custom-button
-        class-names="text-sm w-full mt-2 font-medium px-8"
-        :bg-color="widgetColor"
-        :text-color="textColor"
-        @click="startConversation"
-      >
-        <i class="ion-send" />
-        {{ $t('START_CONVERSATION') }}
-      </custom-button>
+      <start-conversation-button />
     </div>
   </div>
 </template>
@@ -34,8 +26,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
+import StartConversationButton from 'widget/components/StartConversationButton';
+
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 
@@ -43,7 +37,7 @@ export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
-    CustomButton,
+    StartConversationButton,
   },
   mixins: [configMixin, availabilityMixin],
   props: {

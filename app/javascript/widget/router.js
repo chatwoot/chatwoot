@@ -3,7 +3,8 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Unread from './views/Unread';
 import Conversations from './views/Conversations';
-import Chat from './views/Chat.vue';
+import Chat from './views/Chat';
+import PreChat from './views/PreChat';
 
 Vue.use(Router);
 
@@ -38,6 +39,14 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: Conversations,
+    },
+    {
+      path: '/conversations/prechat',
+      name: 'prechat',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: PreChat,
     },
     {
       path: '/conversations/:conversationId',

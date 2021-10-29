@@ -54,7 +54,8 @@ export const getters = {
   },
   groupByMessagesIn: (...getterArguments) => conversationId => {
     const [_state, , , _rootGetters] = getterArguments;
-    const messageIds = _state.conversations.byId[conversationId].messages;
+    const conversation = _state.conversations.byId[conversationId];
+    const messageIds = conversation ? conversation.messages : [];
     const messagesInConversation = messageIds.map(messageId =>
       _rootGetters['messageV2/messageById'](messageId)
     );

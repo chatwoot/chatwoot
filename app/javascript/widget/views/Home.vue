@@ -26,14 +26,12 @@
 
 <script>
 import Branding from 'shared/components/Branding';
-import ChatFooter from 'widget/components/ChatFooter';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded';
 import ActiveConversations from 'widget/components/ActiveConversations';
 
 import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
-import Spinner from 'shared/components/Spinner.vue';
 import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -41,14 +39,11 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 export default {
   name: 'Home',
   components: {
-    Branding,
-    ChatFooter,
-    ChatHeaderExpanded,
-    Spinner,
-
-    TeamAvailability,
-    ActiveConversations,
     Banner,
+    Branding,
+    TeamAvailability,
+    ChatHeaderExpanded,
+    ActiveConversations,
   },
   mixins: [configMixin],
   props: {
@@ -71,7 +66,6 @@ export default {
       availableAgents: 'agent/availableAgents',
       conversationAttributes: 'conversationAttributes/getConversationParams',
       getTotalMessageCount: 'conversationV2/allMessagesCountIn',
-      getGroupedMessages: 'conversationV2/groupByMessagesIn',
       getIsFetchingList: 'conversationV2/isFetchingConversationsList',
       lastActiveConversationId: 'conversationV2/lastActiveConversationId',
       allActiveConversations: 'conversationV2/allActiveConversations',
@@ -80,9 +74,6 @@ export default {
     }),
     conversationSize() {
       return this.getTotalMessageCount(this.conversationId);
-    },
-    groupedMessages() {
-      return this.getGroupedMessages(this.conversationId);
     },
     isFetchingList() {
       return this.getIsFetchingList(this.conversationId);
