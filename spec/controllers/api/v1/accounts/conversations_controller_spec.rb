@@ -405,7 +405,7 @@ RSpec.describe 'Conversations API', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
              headers: agent.create_new_auth_token,
-             params: { typing_status: 'on' },
+             params: { typing_status: 'on', is_private: false },
              as: :json
 
         expect(response).to have_http_status(:success)
