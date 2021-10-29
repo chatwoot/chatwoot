@@ -149,8 +149,4 @@ class ConversationReplyMailer < ApplicationMailer
 
     'mailer/base'
   end
-
-  def email_imap_enabled
-    @inbox.inbox_type == 'Email' && @channel.imap_enabled
-  end
 end
