@@ -25,6 +25,7 @@
           />
           <woot-input
             v-model="port"
+            type="number"
             :class="{ error: $v.port.$error }"
             class="medium-9 columns"
             :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"

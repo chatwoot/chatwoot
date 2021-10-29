@@ -19,32 +19,33 @@
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
+            :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.ADDRESS.PLACE_HOLDER')"
             @blur="$v.address.$touch"
           />
           <woot-input
             v-model="port"
+            type="number"
             :class="{ error: $v.port.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
+            :label="$t('INBOX_MGMT.SMTP.PORT.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.PORT.PLACE_HOLDER')"
             @blur="$v.port.$touch"
           />
           <woot-input
             v-model="email"
             :class="{ error: $v.email.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.EMAIL.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.EMAIL.PLACE_HOLDER')"
+            :label="$t('INBOX_MGMT.SMTP.EMAIL.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.EMAIL.PLACE_HOLDER')"
             @blur="$v.email.$touch"
           />
           <woot-input
             v-model="password"
             :class="{ error: $v.password.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
+            :label="$t('INBOX_MGMT.SMTP.PASSWORD.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.PASSWORD.PLACE_HOLDER')"
             type="password"
             @blur="$v.password.$touch"
           />
@@ -52,8 +53,8 @@
             v-model.trim="domain"
             :class="{ error: $v.domain.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.DOMAIN.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.DOMAIN.PLACE_HOLDER')"
+            :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
             @blur="$v.domain.$touch"
           />
         </div>
@@ -96,7 +97,10 @@ export default {
   },
   validations: {
     address: { required },
-    port: { required, minLength: minLength(2) },
+    port: {
+      required,
+      minLength: minLength(2),
+    },
     email: { required, email },
     password: { required },
     domain: { required },
