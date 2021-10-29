@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-conversation--list">
+  <div class="custom-attribute--selector">
     <div
       v-on-clickaway="closeDropdown"
       class="label-wrap"
@@ -88,9 +88,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact-conversation--list {
+.custom-attribute--selector {
   width: 100%;
-  padding: var(--space-normal);
+  padding: var(--space-slab) var(--space-normal);
 
   .label-wrap {
     line-height: var(--space-medium);

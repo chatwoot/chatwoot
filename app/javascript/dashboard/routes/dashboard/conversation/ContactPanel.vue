@@ -10,47 +10,11 @@
       compact
       @click="value => toggleSidebarUIState('is_conv_details_open', value)"
     >
-      <div class="conversation--details">
-        <contact-details-item
-          v-if="initiatedAt"
-          :title="$t('CONTACT_PANEL.INITIATED_AT')"
-          :value="initiatedAt.timestamp"
-          class="conversation--attribute"
-        />
-        <contact-details-item
-          v-if="referer"
-          :title="$t('CONTACT_PANEL.INITIATED_FROM')"
-          :value="referer"
-          class="conversation--attribute"
-        >
-          <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
-            {{ referer }}
-          </a>
-        </contact-details-item>
-        <contact-details-item
-          v-if="browser && browser.browser_name"
-          :title="$t('CONTACT_PANEL.BROWSER')"
-          :value="browserName"
-          class="conversation--attribute"
-        />
-        <contact-details-item
-          v-if="browser && browser.platform_name"
-          :title="$t('CONTACT_PANEL.OS')"
-          :value="platformName"
-          class="conversation--attribute"
-        />
-        <contact-details-item
-          v-if="ipAddress"
-          :title="$t('CONTACT_PANEL.IP_ADDRESS')"
-          :value="ipAddress"
-          class="conversation--attribute"
-        />
-        <custom-attributes
-          attribute-type="conversation_attribute"
-          attribute-class="conversation--attribute"
-        />
-        <custom-attribute-selector attribute-type="conversation_attribute" />
-      </div>
+      <conversation-info
+        :conversation-attributes="conversationAdditionalAttributes"
+        :contact-attributes="contactAdditionalAttributes"
+      >
+      </conversation-info>
     </accordion-item>
     <div class="conversation--actions">
       <accordion-item
@@ -157,23 +121,21 @@ import ContactConversations from './ContactConversations.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
+import ConversationInfo from './ConversationInfo';
 import ConversationLabels from './labels/LabelBox.vue';
-import CustomAttributeSelector from './CustomAttributeSelector.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import CustomAttributes from './CustomAttributes.vue';
 
 export default {
   components: {
-    ContactCustomAttributes,
+    AccordionItem,
     ContactConversations,
+    ContactCustomAttributes,
     ContactDetailsItem,
     ContactInfo,
+    ConversationInfo,
     ConversationLabels,
     MultiselectDropdown,
-    AccordionItem,
-    CustomAttributeSelector,
-    CustomAttributes,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -197,54 +159,29 @@ export default {
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
+    conversationAdditionalAttributes() {
+      return this.currentConversationMetaData.additional_attributes || {};
+    },
+    channelType() {
+      return this.currentChat.meta?.channel;
+    },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+    contactAdditionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    contactId() {
+      return this.currentChat.meta?.sender?.id;
+    },
     currentConversationMetaData() {
       return this.$store.getters[
         'conversationMetadata/getConversationMetadata'
       ](this.conversationId);
     },
-    additionalAttributes() {
-      return this.currentConversationMetaData.additional_attributes || {};
-    },
     hasContactAttributes() {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
-    },
-    browser() {
-      return this.additionalAttributes.browser || {};
-    },
-    referer() {
-      return this.additionalAttributes.referer;
-    },
-    initiatedAt() {
-      return this.additionalAttributes.initiated_at;
-    },
-    browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
-    },
-    contactAdditionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    ipAddress() {
-      const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
-      return createdAtIp;
-    },
-
-    platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
-      return `${platformName || ''} ${platformVersion || ''}`;
-    },
-    channelType() {
-      return this.currentChat.meta?.channel;
-    },
-    contactId() {
-      return this.currentChat.meta?.sender?.id;
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactId);
     },
     teamsList() {
       if (this.assignedTeam) {
@@ -300,9 +237,6 @@ export default {
         return true;
       }
       return false;
-    },
-    conversationCustomAttributes() {
-      return this.currentChat.custom_attributes || {};
     },
   },
   watch: {
@@ -391,10 +325,6 @@ export default {
 
   i {
     margin-right: $space-smaller;
-  }
-
-  .conversation--attribute:nth-child(2n) {
-    background: var(--b-50);
   }
 }
 

@@ -76,3 +76,26 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.custom-attributes--panel {
+  .conversation--attribute {
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  &.odd {
+    .conversation--attribute {
+      &:nth-child(2n + 1) {
+        background: var(--b-50);
+      }
+    }
+  }
+
+  &.even {
+    .conversation--attribute {
+      &:nth-child(2n) {
+        background: var(--b-50);
+      }
+    }
+  }
+}
+</style>
