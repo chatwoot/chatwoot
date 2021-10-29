@@ -64,9 +64,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def toggle_typing_status
     case params[:typing_status]
     when 'on'
-      trigger_typing_event(CONVERSATION_TYPING_ON, params[:private])
+      trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
     when 'off'
-      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:private])
+      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
     end
     head :ok
   end
@@ -92,7 +92,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def trigger_typing_event(event, is_private)
     user = current_user.presence || @resource
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, private: is_private)
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, is_private: is_private)
   end
 
   def conversation

@@ -34,7 +34,7 @@ describe ActionCableListener do
 
   describe '#typing_on' do
     let(:event_name) { :'conversation.typing_on' }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, private: false) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
 
     it 'sends message to account admins, inbox agents and the contact' do
       # HACK: to reload conversation inbox members
@@ -44,7 +44,7 @@ describe ActionCableListener do
         'conversation.typing_on', conversation: conversation.push_event_data,
                                   user: agent.push_event_data,
                                   account_id: account.id,
-                                  private: false
+                                  is_private: false
       )
       listener.conversation_typing_on(event)
     end
@@ -52,7 +52,7 @@ describe ActionCableListener do
 
   describe '#typing_off' do
     let(:event_name) { :'conversation.typing_off' }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, private: false) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
 
     it 'sends message to account admins, inbox agents and the contact' do
       # HACK: to reload conversation inbox members
@@ -62,7 +62,7 @@ describe ActionCableListener do
         'conversation.typing_off', conversation: conversation.push_event_data,
                                    user: agent.push_event_data,
                                    account_id: account.id,
-                                   private: false
+                                   is_private: false
       )
       listener.conversation_typing_off(event)
     end

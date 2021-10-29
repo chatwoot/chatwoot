@@ -78,7 +78,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: contact })
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: contact, is_private: false })
       end
     end
   end

@@ -56,7 +56,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onTypingOn = data => {
-    if (data.private) {
+    if (data.is_private) {
       return
     }
     this.clearTimer();

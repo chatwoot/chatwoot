@@ -54,7 +54,7 @@ class ConversationApi extends ApiClient {
   toggleTyping({ conversationId, status, isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,
-      private: isPrivate
+      is_private: isPrivate
     });
   }
 
