@@ -19,32 +19,32 @@
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
             class="medium-9 columns"
-            label="Address"
-            placeholder="Address (Eg: smtp.gmail.com)"
+            :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
             @blur="$v.address.$touch"
           />
           <woot-input
             v-model="port"
             :class="{ error: $v.port.$error }"
             class="medium-9 columns"
-            label="Port"
-            placeholder="Port"
+            :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
             @blur="$v.port.$touch"
           />
           <woot-input
             v-model="email"
             :class="{ error: $v.email.$error }"
             class="medium-9 columns"
-            label="Email"
-            placeholder="Email"
+            :label="$t('INBOX_MGMT.IMAP.EMAIL.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.EMAIL.PLACE_HOLDER')"
             @blur="$v.email.$touch"
           />
           <woot-input
             v-model="password"
             :class="{ error: $v.password.$error }"
             class="medium-9 columns"
-            label="Password"
-            placeholder="Password"
+            :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
             type="password"
             @blur="$v.password.$touch"
           />
@@ -52,8 +52,8 @@
             v-model.trim="domain"
             :class="{ error: $v.domain.$error }"
             class="medium-9 columns"
-            label="Domain"
-            placeholder="Domain"
+            :label="$t('INBOX_MGMT.IMAP.DOMAIN.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.DOMAIN.PLACE_HOLDER')"
             @blur="$v.domain.$touch"
           />
         </div>

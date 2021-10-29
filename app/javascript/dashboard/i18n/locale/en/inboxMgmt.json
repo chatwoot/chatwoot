@@ -407,14 +407,51 @@
       "SUBTITLE": "Set your IMAP details",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email"
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
+      },
+      "ENABLE_SSL": "Enable SSL" 
     },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",
       "UPDATE": "Update SMTP settings",
       "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email"
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
+      }
     }
   }
 }
