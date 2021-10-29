@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "תכונות",
+    "HEADER_BTN_TXT": "הוסף תכונה",
+    "LOADING": "שולף תכונות",
+    "SIDEBAR_TXT": "<p><b>מאפיינים</b> <p>תכונה מותאמת אישית עוקבת אחר עובדות על אנשי הקשר/השיחה שלך - כמו תוכנית המנוי, או מתי הם הזמינו את הפריט הראשון וכו'. <br /><br />ליצירת מאפיינים, פשוט לחץ על <b>הוסף תכונה.</b> תוכל גם לערוך או למחוק תכונה קיימת על ידי לחיצה על הלחצן ערוך או מחק.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
+      "TITLE": "הוסף תכונה",
       "SUBMIT": "צור",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
