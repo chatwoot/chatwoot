@@ -326,7 +326,7 @@ export default {
       if (!data) {
         return;
       }
-      this.onFileUpload(data);
+      this.onFileUpload(data[0]);
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -436,7 +436,7 @@ export default {
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         this.attachedFiles = [];
         const reader = new FileReader();
-        reader.readAsDataURL(file.file || file[0]);
+        reader.readAsDataURL(file.file || file);
         reader.onloadend = () => {
           this.attachedFiles.push({
             currentChatId: this.currentChat.id,
@@ -471,8 +471,7 @@ export default {
       }
 
       if (attachment) {
-        messagePayload.file =
-          attachment.resource.file || attachment.resource[0];
+        messagePayload.file = attachment.resource.file || attachment.resource;
       }
 
       if (this.ccEmails) {
