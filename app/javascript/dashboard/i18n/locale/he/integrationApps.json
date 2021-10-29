@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "תיבת הדואר הנכנס",
       "DELETE": {
         "BUTTON_TEXT": "מחק"
       }
