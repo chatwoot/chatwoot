@@ -1,84 +1,84 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "תיבות דואר נכנס",
+    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-Chatwoot, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון Chatwoot שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "אין תיבות דואר נכנס מצורפות לחשבון זה."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "בחר ערוץ",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "בחר את הספק שברצונך לשלב עם Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "צור תיבת דואר נכנס",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "אמת את חשבונך וצור תיבת דואר נכנס."
       },
       {
-        "title": "Add Agents",
+        "title": "הוסף נציג",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
       },
       {
-        "title": "Voila!",
+        "title": "וואלה!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "אתם מוכנים לצאת לדרך!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "LABEL": "שם תיבת הדואר הנכנס",
+        "PLACEHOLDER": "הזן את שם תיבת הדואר הנכנס שלך (למשל: Acme Inc)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "שם האתר",
+        "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "נ. ב: על ידי כניסה, אנו מקבלים גישה רק להודעות של הדף שלך. לעולם לא ניתן לגשת להודעות הפרטיות שלך על ידי Chatwoot.",
+        "CHOOSE_PAGE": "בחר עמוד",
+        "CHOOSE_PLACEHOLDER": "בחר עמוד מהרשימה",
+        "INBOX_NAME": "שם תיבת הדואר הנכנס",
+        "ADD_NAME": "הוסף שם לתיבת הדואר הנכנס שלך",
+        "PICK_NAME": "בחר שם בתיבת הדואר הנכנס שלך",
+        "PICK_A_VALUE": "בחר ערך"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "HELP": "כדי להוסיף את פרופיל הטוויטר שלך כערוץ, עליך לאמת את פרופיל הטוויטר שלך על ידי לחיצה על 'היכנס באמצעות טוויטר' ",
+        "ERROR_MESSAGE": "אירעה שגיאה בחיבור לטוויטר, אנא נסה שוב"
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "ערוץ האתר",
+        "DESC": "צור ערוץ לאתר שלך והתחל לתמוך בלקוחות שלך באמצעות ווידג'ט האתר שלנו.",
+        "LOADING_MESSAGE": "יצירת ערוץ תמיכה באתר",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "אוואטר הערוץ"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "LABEL": "URL של Webhook",
+          "PLACEHOLDER": "הזן את כתובת האתר שלך ל-Webhook",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "דומיין אתר",
+          "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "כותרת ברוכים הבאים",
+          "PLACEHOLDER": "שלום שם !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "ברוך הבא לתיוג",
+          "PLACEHOLDER": "אנחנו עושים את זה פשוט להתחבר אלינו. שאל אותנו כל דבר, או שתף את המשוב שלך."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "הודעת ברכה בערוץ",
+          "PLACEHOLDER": "Acme Inc עונה בדרך כלל תוך מספר שעות."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "אפשר ברכה בערוץ",
           "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
           "ENABLED": "מופעל",
           "DISABLED": "כבוי"
@@ -114,7 +114,7 @@
           "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "שם תיבת הדואר הנכנס",
           "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "This field is required"
         },
@@ -145,7 +145,7 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "שם תיבת הדואר הנכנס",
           "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "This field is required"
         },
