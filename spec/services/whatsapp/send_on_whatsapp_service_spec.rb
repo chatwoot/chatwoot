@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Whatsapp::SendOnWhatsappService do
   describe '#perform' do
     before do
-      stub_request(:post, "https://waba.360dialog.io/v1/configs/webhook")
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     end
 
     context 'when a valid message' do

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Callbacks API', type: :request do
   let(:account) { create(:account) }
+  let!(:facebook_page) { create(:channel_facebook_page, inbox: inbox, account: account) }
   let(:valid_params) { attributes_for(:channel_facebook_page).merge(inbox_name: 'Test Inbox') }
   let(:inbox) { create(:inbox, account: account) }
-  
+
   # Doubles
   let(:koala_api) { instance_double(Koala::Facebook::API) }
   let(:koala_oauth) { instance_double(Koala::Facebook::OAuth) }
@@ -21,8 +22,6 @@ RSpec.describe 'Callbacks API', type: :request do
     )
     allow(koala_oauth).to receive(:exchange_access_token_info).and_return('access_token' => SecureRandom.hex(10))
   end
-
-  let!(:facebook_page) { create(:channel_facebook_page, inbox: inbox, account: account) }
 
   describe 'POST /api/v1/accounts/{account.id}/callbacks/register_facebook_page' do
     context 'when it is an unauthenticated user' do

@@ -2,31 +2,31 @@ require 'rails_helper'
 
 describe Telegram::IncomingMessageService do
   before do
-    stub_request(:any, /api.telegram.org/).to_return(headers: {content_type: 'application/json'}, body: {}.to_json, status: 200)
-    stub_request(:get, "https://chatwoot-assets.local/sample.png").to_return(
-      :status => 200,
-      :body => File.read('spec/assets/sample.png'),
-      :headers => {}
+    stub_request(:any, /api.telegram.org/).to_return(headers: { content_type: 'application/json' }, body: {}.to_json, status: 200)
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png'),
+      headers: {}
     )
-    stub_request(:get, "https://chatwoot-assets.local/sample.mov").to_return(
-      :status => 200,
-      :body => File.read('spec/assets/sample.mov'),
-      :headers => {}
+    stub_request(:get, 'https://chatwoot-assets.local/sample.mov').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.mov'),
+      headers: {}
     )
-    stub_request(:get, "https://chatwoot-assets.local/sample.mp3").to_return(
-      :status => 200,
-      :body => File.read('spec/assets/sample.mp3'),
-      :headers => {}
+    stub_request(:get, 'https://chatwoot-assets.local/sample.mp3').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.mp3'),
+      headers: {}
     )
-    stub_request(:get, "https://chatwoot-assets.local/sample.ogg").to_return(
-      :status => 200,
-      :body => File.read('spec/assets/sample.ogg'),
-      :headers => {}
+    stub_request(:get, 'https://chatwoot-assets.local/sample.ogg').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.ogg'),
+      headers: {}
     )
-    stub_request(:get, "https://chatwoot-assets.local/sample.pdf").to_return(
-      :status => 200,
-      :body => File.read('spec/assets/sample.pdf'),
-      :headers => {}
+    stub_request(:get, 'https://chatwoot-assets.local/sample.pdf').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.pdf'),
+      headers: {}
     )
   end
 

@@ -3,8 +3,9 @@ require 'rails_helper'
 describe Whatsapp::IncomingMessageService do
   describe '#perform' do
     before do
-      stub_request(:post, "https://waba.360dialog.io/v1/configs/webhook")
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     end
+
     let!(:whatsapp_channel) { create(:channel_whatsapp) }
 
     context 'when valid text message params' do

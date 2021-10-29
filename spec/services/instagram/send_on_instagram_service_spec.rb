@@ -4,6 +4,7 @@ describe Instagram::SendOnInstagramService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   before do
+    stub_request(:post, /graph.facebook.com/)
     create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
   end
 
