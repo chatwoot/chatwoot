@@ -93,6 +93,7 @@ Rails.application.routes.draw do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
+              resources :notes
             end
           end
           resources :csat_survey_responses, only: [:index] do

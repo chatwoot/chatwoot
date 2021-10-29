@@ -7,6 +7,7 @@
     "COMPANY": "Компания",
     "LOCATION": "Местоположение",
     "CONVERSATION_TITLE": "Детали диалога",
+    "VIEW_PROFILE": "Просмотр профиля",
     "BROWSER": "Браузер",
     "OS": "Операционная система",
     "INITIATED_FROM": "Начат из",
@@ -32,8 +33,8 @@
         "NO_RESULT": "Метки не найдены"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Объединить контакты",
+    "CONTACT_ACTIONS": "Действия с контактами",
     "MUTE_CONTACT": "Заглушить диалог",
     "UNMUTE_CONTACT": "Включить звук диалога",
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Просмотреть подробности"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Контакты",
+    "LOADING": "Загрузка профиля контакта..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Добавить",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Получение заметок...",
+    "NOT_AVAILABLE": "Нет заметок для этого контакта",
     "HEADER": {
       "TITLE": "Заметки"
+    },
+    "LIST": {
+      "LABEL": "добавлена заметка"
     },
     "ADD": {
       "BUTTON": "Добавить",
       "PLACEHOLDER": "Добавить заметку",
       "TITLE": "Shift + Enter для создания заметки"
     },
-    "FOOTER": {
-      "BUTTON": "Показать все заметки"
+    "CONTENT_HEADER": {
+      "DELETE": "Удалить заметку"
     }
   },
   "EVENTS": {
@@ -244,19 +254,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Объединить контакты",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Объединение контактов для объединения двух профилей в один, включая все атрибуты и разговоры. В случае конфликта приоритет будет иметь атрибуты первичного контакта.",
     "PRIMARY": {
       "TITLE": "Основной контакт",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Оставлять"
     },
     "CHILD": {
       "TITLE": "Контакт для слияния",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Поиск по контактам",
+      "HELP_LABEL": "Удалять"
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> будет удален.",
       "ATTRIBUTE_WARNING": "Контактная информация <strong>%{childContactName}</strong> будет скопирована в <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +279,7 @@
         "ERROR": "Выберите контакт, для объединения"
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
     }
   }
 }

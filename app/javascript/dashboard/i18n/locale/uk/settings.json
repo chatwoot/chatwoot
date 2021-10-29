@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Придбати зараз"
+    "TRAIL_BUTTON": "Придбати зараз",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {

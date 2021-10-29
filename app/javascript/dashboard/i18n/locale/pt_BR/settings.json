@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
-    "TRAIL_BUTTON": "Comprar agora"
+    "TRAIL_BUTTON": "Comprar agora",
+    "DELETED_USER": "Deletar Usuário"
   },
   "COMPONENTS": {
     "CODE": {
@@ -154,7 +155,7 @@
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Times"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

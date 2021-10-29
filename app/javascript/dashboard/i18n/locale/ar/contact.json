@@ -7,6 +7,7 @@
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "المتصفح",
     "OS": "نظام التشغيل",
     "INITIATED_FROM": "تم البدء من",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "عرض التفاصيل"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "جهات الاتصال",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "إضافة",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "ملاحظات"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "إضافة",
       "PLACEHOLDER": "إضافة ملاحظة",
       "TITLE": "Shift + Enter لإنشاء مهمة"
     },
-    "FOOTER": {
-      "BUTTON": "عرض جميع الملاحظات"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

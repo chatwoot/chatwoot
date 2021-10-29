@@ -7,6 +7,7 @@
     "COMPANY": "Cég",
     "LOCATION": "Hely",
     "CONVERSATION_TITLE": "Beszélgetés részletei",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Böngésző",
     "OS": "Operációs rendszer",
     "INITIATED_FROM": "Kezdeményezve",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Részletek megtekintése"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontaktok",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Add",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
