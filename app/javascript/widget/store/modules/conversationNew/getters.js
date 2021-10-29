@@ -4,12 +4,30 @@ import { groupConversationBySender } from './helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
-  isAllMessagesFetchedIn: _state => conversationId => {
-    return _state.conversations.uiFlags.byId[conversationId].allFetched;
+  uiFlagsIn: _state => conversationId => {
+    const uiFlags = _state.conversations.uiFlags.byId[conversationId];
+
+    if (uiFlags) return uiFlags;
+    return {
+      allFetched: false,
+      isAgentTyping: false,
+      isFetching: false,
+    };
+  },
+  isAllMessagesFetchedIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
+
+    if (uiFlags) return uiFlags.allFetched;
+    return false;
   },
   isCreating: _state => _state.uiFlags.conversations.isCreating,
-  isAgentTypingIn: _state => conversationId => {
-    return _state.conversations.uiFlags.byId[conversationId].isAgentTyping;
+  isAgentTypingIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
+
+    if (uiFlags) return uiFlags.isAgentTyping;
+    return false;
   },
   isFetchingConversationsList: _state =>
     _state.conversations.uiFlags.isFetching,
@@ -75,26 +93,6 @@ export const getters = {
     const conversation = _state.conversations.byId[conversationId];
     return conversation ? conversation.messages.length : 0;
   },
-  unreadMessageCountIn: (...getterArguments) => conversationId => {
-    const [_state, , , _rootGetters] = getterArguments;
-    const conversation = _state.conversations.byId[conversationId];
-    if (conversation) return 0;
-
-    const messageIds = _state.conversations.byId[conversationId].messages;
-    const messagesInConversation = messageIds.map(messageId =>
-      _rootGetters['messageV2/messageById'](messageId)
-    );
-    const { meta: { userLastSeenAt } = {} } = conversation;
-    const count = messagesInConversation.filter(message => {
-      const { created_at: createdAt, message_type: messageType } = message;
-      const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
-      const hasNotSeen = userLastSeenAt
-        ? createdAt * 1000 > userLastSeenAt * 1000
-        : true;
-      return hasNotSeen && isOutGoing;
-    }).length;
-    return count;
-  },
   getConversationById: (...getterArguments) => conversationId => {
     const [_state, , , _rootGetters] = getterArguments;
     const conversation = _state.conversations.byId[conversationId];
@@ -110,32 +108,40 @@ export const getters = {
       messages: messagesInConversation,
     };
   },
-  getUnreadMessagesIn: (...getterArguments) => conversationId => {
-    const [_state, _getters, , _rootGetters] = getterArguments;
-    const unreadCount = _getters.unreadMessageCountIn(conversationId);
+  unreadTextMessagesIn: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
     const conversation = _state.conversations.byId[conversationId];
-    if (conversation) return 0;
+    if (!conversation) return [];
 
     const messageIds = _state.conversations.byId[conversationId].messages;
     const messagesInConversation = messageIds.map(messageId =>
       _rootGetters['messageV2/messageById'](messageId)
     );
-    const unreadAgentMessages = messagesInConversation.filter(message => {
-      const { message_type: messageType } = message;
-      return messageType === MESSAGE_TYPE.OUTGOING;
+    const { meta: { userLastSeenAt } = {} } = conversation;
+    const messages = messagesInConversation.filter(message => {
+      const { created_at: createdAt, message_type: messageType } = message;
+      const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
+      const hasNotSeen = userLastSeenAt
+        ? createdAt * 1000 > userLastSeenAt * 1000
+        : true;
+      return hasNotSeen && isOutGoing;
     });
-    const maxUnreadCount = Math.min(unreadCount, 3);
-    const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
-    return allUnreadMessages;
+    return messages;
+  },
+  unreadTextMessagesCountIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const unreadTextMessages = _getters.unreadTextMessagesIn(conversationId);
+
+    return unreadTextMessages.length;
   },
   lastActiveConversationId: (...getterArguments) => {
-    const [_state, _getters] = getterArguments;
-
-    const size = _getters.totalConversationsLength;
-    const conversation = _state.conversations.allIds[size - 1];
+    const [, _getters] = getterArguments;
+    const conversations = _getters.allActiveConversations;
+    const size = conversations.length;
+    const conversation = conversations[size - 1];
 
     if (conversation) {
-      return conversation;
+      return conversation.id;
     }
     return undefined;
   },

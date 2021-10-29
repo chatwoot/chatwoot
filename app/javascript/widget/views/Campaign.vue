@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessages: 'conversationV2/getUnreadMessagesIn',
+      unreadMessages: 'conversationV2/unreadTextMessagesIn',
       campaign: 'campaign/getActiveCampaign',
       lastConversation: 'conversationV2/lastActiveConversationId',
     }),

@@ -157,14 +157,14 @@ export const actions = {
 
   setUserLastSeenIn: async ({ commit, getters }, params) => {
     const { conversationId } = params;
-    if (!getters.totalMessagesSizeIn(conversationId)) {
+    if (!getters.allMessagesCountIn(conversationId)) {
       return;
     }
 
     const lastSeen = Date.now() / 1000;
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
-      await ConversationAPI.setUserLastSeenIn({ lastSeen });
+      await ConversationAPI.setUserLastSeenIn({ lastSeen, conversationId });
     } catch (error) {
       // IgnoreError
     }

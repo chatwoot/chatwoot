@@ -100,4 +100,11 @@ export const mutations = {
       id => id !== messageId
     );
   },
+
+  setMetaUserLastSeenIn($state, { conversationId, lastSeen }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    Vue.set(conversationById.meta, 'userLastSeenAt', lastSeen);
+  },
 };

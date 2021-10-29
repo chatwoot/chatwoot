@@ -69,33 +69,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessages: 'conversationV2/getUnreadMessagesIn',
+      unreadMessagesIn: 'conversationV2/unreadTextMessagesIn',
       campaign: 'campaign/getActiveCampaign',
-      lastConversation: 'conversationV2/lastActiveConversationId',
+      getConversationById: 'conversationV2/getConversationById',
+      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
     }),
     showCloseButton() {
       return this.unreadMessageCount;
     },
     sender() {
-      const { id: lastConversationId } = this.lastConversation;
-      const [firstMessage] = this.unreadMessages(lastConversationId);
+      const [firstMessage] = this.unreadMessages;
       return firstMessage.sender || {};
     },
+    unreadMessages() {
+      const conversationId = this.lastActiveConversationId;
+      if (!conversationId) return [];
+
+      return this.unreadMessagesIn(conversationId);
+    },
     allMessages() {
-      if (this.lastConversation) return [];
-
-      const { id: lastConversationId } = this.lastConversation;
-
-      return this.unreadMessages(lastConversationId);
-
-      // const { sender, id: campaignId, message: content } = this.campaign;
-      // return [
-      //   {
-      //     content,
-      //     sender,
-      //     campaignId,
-      //   },
-      // ];
+      return this.unreadMessages;
     },
   },
   methods: {
