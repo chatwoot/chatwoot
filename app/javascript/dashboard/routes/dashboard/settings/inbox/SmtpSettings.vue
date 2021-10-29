@@ -17,39 +17,50 @@
         <div v-if="isSMTPEnabled" class="smtp-details-wrap">
           <woot-input
             v-model.trim="address"
+            :class="{ error: $v.address.$error }"
             class="medium-9 columns"
             label="Address"
             placeholder="Address (Eg: smtp.gmail.com)"
+            @blur="$v.address.$touch"
           />
           <woot-input
             v-model="port"
+            :class="{ error: $v.port.$error }"
             class="medium-9 columns"
             label="Port"
             placeholder="Port"
+            @blur="$v.port.$touch"
           />
           <woot-input
             v-model="email"
+            :class="{ error: $v.email.$error }"
             class="medium-9 columns"
             label="Email"
             placeholder="Email"
+            @blur="$v.email.$touch"
           />
           <woot-input
             v-model="password"
+            :class="{ error: $v.password.$error }"
             class="medium-9 columns"
             label="Password"
             placeholder="Password"
             type="password"
+            @blur="$v.password.$touch"
           />
           <woot-input
             v-model.trim="domain"
+            :class="{ error: $v.domain.$error }"
             class="medium-9 columns"
             label="Domain"
             placeholder="Domain"
+            @blur="$v.domain.$touch"
           />
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
+          :disabled="$v.$invalid && isSMTPEnabled"
         />
       </form>
     </settings-section>
@@ -60,7 +71,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
-import { required } from 'vuelidate/lib/validators';
+import { required, minLength, email } from 'vuelidate/lib/validators';
 
 export default {
   components: {
@@ -83,7 +94,13 @@ export default {
       domain: '',
     };
   },
-  validations: {},
+  validations: {
+    address: { required },
+    port: { required, minLength: minLength(2) },
+    email: { required, email },
+    password: { required },
+    domain: { required },
+  },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
   },
