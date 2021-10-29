@@ -4,18 +4,6 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
-    <accordion-item
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
-      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
-      compact
-      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
-    >
-      <conversation-info
-        :conversation-attributes="conversationAdditionalAttributes"
-        :contact-attributes="contactAdditionalAttributes"
-      >
-      </conversation-info>
-    </accordion-item>
     <div class="conversation--actions">
       <accordion-item
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
@@ -85,6 +73,19 @@
         </div>
       </accordion-item>
     </div>
+    <accordion-item
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
+      :is-open="isContactSidebarItemOpen('is_conv_details_open')"
+      compact
+      @click="value => toggleSidebarUIState('is_conv_details_open', value)"
+    >
+      <conversation-info
+        :conversation-attributes="conversationAdditionalAttributes"
+        :contact-attributes="contactAdditionalAttributes"
+      >
+      </conversation-info>
+    </accordion-item>
+
     <accordion-item
       v-if="hasContactAttributes"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
