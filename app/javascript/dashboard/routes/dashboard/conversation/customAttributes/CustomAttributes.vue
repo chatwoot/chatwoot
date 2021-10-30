@@ -40,11 +40,19 @@ export default {
   },
   methods: {
     async onUpdate(key, value) {
+      const updatedAttributes = { ...this.customAttributes, [key]: value };
       try {
-        await this.$store.dispatch('updateCustomAttributes', {
-          conversationId: this.conversationId,
-          customAttributes: { ...this.customAttributes, [key]: value },
-        });
+        if (this.attributeType === 'conversation_attribute') {
+          await this.$store.dispatch('updateCustomAttributes', {
+            conversationId: this.conversationId,
+            customAttributes: updatedAttributes,
+          });
+        } else {
+          this.$store.dispatch('contacts/update', {
+            id: this.contactId,
+            custom_attributes: updatedAttributes,
+          });
+        }
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
       } catch (error) {
         const errorMessage =
@@ -54,13 +62,20 @@ export default {
       }
     },
     async onDelete(key) {
-      const { [key]: remove, ...updatedAttributes } = this.customAttributes;
-
       try {
-        await this.$store.dispatch('updateCustomAttributes', {
-          conversationId: this.conversationId,
-          customAttributes: updatedAttributes,
-        });
+        const { [key]: remove, ...updatedAttributes } = this.customAttributes;
+        if (this.attributeType === 'conversation_attribute') {
+          await this.$store.dispatch('updateCustomAttributes', {
+            conversationId: this.conversationId,
+            customAttributes: updatedAttributes,
+          });
+        } else {
+          this.$store.dispatch('contacts/update', {
+            id: this.contactId,
+            custom_attributes: { ...this.customAttributes, [key]: null },
+          });
+        }
+
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
       } catch (error) {
         const errorMessage =

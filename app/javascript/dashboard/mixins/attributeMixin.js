@@ -8,11 +8,19 @@ export default {
     }),
     attributes() {
       return this.$store.getters['attributes/getAttributesByModel'](
-        'conversation_attribute'
+        this.attributeType
       );
     },
     customAttributes() {
-      return this.currentChat.custom_attributes || {};
+      if (this.attributeType === 'conversation_attribute')
+        return this.currentChat.custom_attributes || {};
+      return this.contact.custom_attributes || {};
+    },
+    contactId() {
+      return this.currentChat.meta?.sender?.id;
+    },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
     },
     conversationId() {
       return this.currentChat.id;
