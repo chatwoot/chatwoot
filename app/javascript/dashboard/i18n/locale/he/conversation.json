@@ -150,10 +150,10 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_LABELS": "תוויות שיחה",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations"
+      "PREVIOUS_CONVERSATION": "שיחות קודמות"
     }
   },
   "EMAIL_HEADER": {

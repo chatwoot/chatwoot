@@ -35,29 +35,29 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Atributo adicionado com sucesso",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "ERROR_MESSAGE": "Não foi possível criar um atributo, por favor, tente novamente mais tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Atributo excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o atributo. Tente novamente."
       },
       "CONFIRM": {
         "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
-        "MESSAGE": "Deleting will remove the attribute",
+        "MESSAGE": "Excluindo irá remover o atributo",
         "YES": "Excluir ",
         "NO": "Cancelar"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Editar atributo",
       "UPDATE_BUTTON_TEXT": "Atualizar",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Atributo atualizado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao atualizar o atributo, por favor, tente novamente"
       }
     },
     "TABS": {

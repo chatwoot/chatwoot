@@ -7,6 +7,7 @@
     "COMPANY": "Εταιρία",
     "LOCATION": "Θέση",
     "CONVERSATION_TITLE": "Λεπτομέρειες συνομιλίας",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Φυλλομετρητής",
     "OS": "Λειτουργικό",
     "INITIATED_FROM": "Αρχικοποίηση από",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Προβολή λεπτομεριών"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Επαφές",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Προσθήκη",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Σημειώσεις"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Προσθήκη",
       "PLACEHOLDER": "Προσθήκη σημείωσης",
       "TITLE": "Shift + Enter για δημιουργία σημείωσης"
     },
-    "FOOTER": {
-      "BUTTON": "Εμφάνιση όλων των σημειώσεων"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

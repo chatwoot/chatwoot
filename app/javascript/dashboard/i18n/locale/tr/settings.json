@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "gün deneme kaldı.",
-    "TRAIL_BUTTON": "Şimdi satın al"
+    "TRAIL_BUTTON": "Şimdi satın al",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
