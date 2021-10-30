@@ -281,4 +281,25 @@ describe('#deleteMessage', () => {
     ).rejects.toThrow(Error);
     expect(commit.mock.calls).toEqual([]);
   });
+
+  describe('#updateCustomAttributes', () => {
+    it('update conversation custom attributes', async () => {
+      axios.post.mockResolvedValue({
+        data: { custom_attributes: { order_d: '1001' } },
+      });
+      await actions.updateCustomAttributes(
+        { commit },
+        {
+          conversationId: 1,
+          customAttributes: { order_d: '1001' },
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES,
+          { order_d: '1001' },
+        ],
+      ]);
+    });
+  });
 });
