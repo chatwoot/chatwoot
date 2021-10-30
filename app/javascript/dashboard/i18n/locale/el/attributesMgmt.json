@@ -20,8 +20,8 @@
           "ERROR": "Η περιγραφή απαιτείται"
         },
         "MODEL": {
-          "LABEL": "Μοντέλο",
-          "PLACEHOLDER": "Παρακαλώ επιλέξτε ένα μοντέλο",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Απαιτείται το μοντέλο"
         },
         "TYPE": {
