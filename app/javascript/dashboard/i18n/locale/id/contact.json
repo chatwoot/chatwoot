@@ -7,6 +7,7 @@
     "COMPANY": "Perusahaan",
     "LOCATION": "Lokasi",
     "CONVERSATION_TITLE": "Detail Percakapan",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
     "OS": "Sistem Operasi",
     "INITIATED_FROM": "Dimulai dari",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Lihat detail"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontak",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Tambah",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Catatan"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Tambah",
       "PLACEHOLDER": "Tambahkan Catatan",
       "TITLE": "Shift + Enter untuk membuat sebuah catatan"
     },
-    "FOOTER": {
-      "BUTTON": "Lihat semua catatan"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

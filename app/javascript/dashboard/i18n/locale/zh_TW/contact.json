@@ -7,6 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "對話詳細資訊",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "瀏覽器",
     "OS": "作業系统",
     "INITIATED_FROM": "發起自：",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "查看詳細資訊"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "聯絡人",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "新增",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "筆記"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "新增",
       "PLACEHOLDER": "新增筆記",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "查看所有筆記"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

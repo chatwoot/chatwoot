@@ -61,10 +61,6 @@ export default {
   margin-bottom: var(--space-normal);
 }
 
-.conv-details--item {
-  padding-bottom: 0;
-}
-
 .custom-attribute--row__attribute {
   font-weight: 500;
 }

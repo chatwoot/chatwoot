@@ -21,11 +21,11 @@
     "PASSWORD": {
       "LABEL": "סיסמה",
       "PLACEHOLDER": "סיסמה",
-      "ERROR": "Password is too short"
+      "ERROR": "הסיסמה קצרה מדי"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
+      "LABEL": "אמת סיסמה",
+      "PLACEHOLDER": "אמת סיסמה",
       "ERROR": "Password doesnot match"
     },
     "API": {

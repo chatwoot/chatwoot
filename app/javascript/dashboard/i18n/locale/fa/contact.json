@@ -7,6 +7,7 @@
     "COMPANY": "شرکت",
     "LOCATION": "مکان",
     "CONVERSATION_TITLE": "جزئیات مکالمه",
+    "VIEW_PROFILE": "نمایش مشخصات",
     "BROWSER": "مرورگر",
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "مشاهده جزئیات"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "مخاطبین",
+    "LOADING": "بارگیری مشخصات مخاطب ..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "افزودن",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "درحال گرفتن یادداشت ها ... ",
+    "NOT_AVAILABLE": "هیچ یادداشت برای این تماس ایجاد نشده است",
     "HEADER": {
       "TITLE": "یادداشت"
+    },
+    "LIST": {
+      "LABEL": "یک یادداشت اضافه شد"
     },
     "ADD": {
       "BUTTON": "افزودن",
       "PLACEHOLDER": "افزودن یادداشت",
       "TITLE": "برای ایجاد یادداشت Shift + Enter را فشار دهید"
     },
-    "FOOTER": {
-      "BUTTON": "مشاهده همه یادداشت ها"
+    "CONTENT_HEADER": {
+      "DELETE": "حذف یادداشت"
     }
   },
   "EVENTS": {
