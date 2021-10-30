@@ -20,8 +20,8 @@
           "ERROR": "Descrição obrigatória"
         },
         "MODEL": {
-          "LABEL": "Modelo",
-          "PLACEHOLDER": "Por favor, selecione um modelo",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "O modelo é necessário"
         },
         "TYPE": {
