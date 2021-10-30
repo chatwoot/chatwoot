@@ -20,8 +20,8 @@
           "ERROR": "توضیحات الزامی است"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "شامل",
+          "PLACEHOLDER": "لطفا یکی را انتخاب کنید",
           "ERROR": "مدل مورد نیاز است"
         },
         "TYPE": {
