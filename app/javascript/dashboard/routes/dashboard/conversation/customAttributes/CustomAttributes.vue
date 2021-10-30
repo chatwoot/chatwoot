@@ -72,7 +72,7 @@ export default {
         } else {
           this.$store.dispatch('contacts/update', {
             id: this.contactId,
-            custom_attributes: { ...this.customAttributes, [key]: null },
+            custom_attributes: updatedAttributes,
           });
         }
 
