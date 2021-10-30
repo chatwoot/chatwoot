@@ -237,58 +237,58 @@
         "DESC": "השתלב עם ערוץ טלגרם והתחיל לתמוך בלקוחות שלך.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "הגדר את אסימון הבוט שקיבלת מ- Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "צור ערוץ טלגרם",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ הטלגרם"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "בחר ערוץ",
+        "DESC": "Chatwoot תומך בווידג'ט של צ'אט חי, עמוד פייסבוק, פרופיל טוויטר, וואטסאפ, דוא\"ל וכו', כערוצים. אם אתה רוצה לבנות ערוץ מותאם אישית, אתה יכול ליצור אותו באמצעות ערוץ ה-API. בחר ערוץ אחד מהאפשרויות למטה כדי להמשיך."
       },
       "AGENTS": {
         "TITLE": "סוכנים",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "DESC": "כאן תוכל להוסיף סוכנים לניהול תיבת הדואר הנכנס החדשה שלך. רק לסוכנים שנבחרו אלה תהיה גישה לתיבת הדואר הנכנס שלך. סוכנים שאינם חלק מתיבת הדואר הנכנס הזו לא יוכלו לראות או להגיב להודעות בתיבת הדואר הנכנס הזו כאשר הם נכנסים. <br> <b>נ. ב.:</b> כמנהל מערכת, אם אתה זקוק לגישה לכל תיבות הדואר הנכנס, עליך להוסיף את עצמך כסוכן לכל תיבות הדואר הנכנס שאתה יוצר.",
+        "VALIDATION_ERROR": "הוסף לפחות סוכן אחד לתיבת הדואר הנכנס החדשה שלך",
+        "PICK_AGENTS": "בחר סוכנים לתיבת הדואר הנכנס"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "פרטי תיבת דואר נכנס",
+        "DESC": "מהתפריט הנפתח למטה, בחר את דף הפייסבוק שברצונך להתחבר ל-Chatwoot. אתה יכול גם לתת שם מותאם אישית לתיבת הדואר הנכנס שלך לזיהוי טוב יותר."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "הצלחתי!",
+        "DESC": "סיימת בהצלחה לשלב את דף הפייסבוק שלך עם Chatwoot. בפעם הבאה שלקוח ישלח הודעה לדף שלך, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.<br>אנחנו גם מספקים לך סקריפט ווידג'ט שתוכל להוסיף בקלות לאתר שלך. ברגע שזה פעיל באתר שלך, לקוחות יכולים לשלוח לך הודעות ישירות מהאתר שלך ללא עזרה של כל כלי חיצוני והשיחה תופיע ממש כאן, ב-Chatwoot.<br>מגניב, הא? ובכן, אנחנו בטוח מנסים להיות :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "מאמת אותך עם פייסבוק...",
+      "ERROR_FB_AUTH": "משהו השתבש, אנא רענן את הדף...",
+      "CREATING_CHANNEL": "יוצר את תיבת הדואר הנכנס שלך...",
+      "TITLE": "הגדר את פרטי תיבת הדואר הנכנס",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "הוסף נציגים",
+      "ADD_AGENTS": "מוסיף נציגים לתיבת הדואר הנכנס שלך..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "תיבת הדואר הנכנס שלך מוכנה!",
+      "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה ",
+      "BUTTON_TEXT": "קח אותי לשם",
+      "MORE_SETTINGS": "הגדרות נוספות",
+      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "הרשאה מחדש",
+    "VIEW": "צפה",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "הגדרות תיבת הדואר הנכנס עודכנו בהצלחה",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ההקצאה האוטומטית עודכנה בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן היה לעדכן את צבע הווידג'ט. בבקשה נסה שוב מאוחר יותר."
       },
       "AUTO_ASSIGNMENT": {
         "ENABLED": "מופעל",
@@ -303,51 +303,51 @@
         "DISABLED": "כבוי"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "אפשר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "מחק אווטר",
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
         "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "אנא הקלד {inboxName} כדי לאשר",
         "YES": "כן, מחק ",
         "NO": "לא, השאר "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "תיבת הדואר הנכנס נמחקה בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן למחוק את תיבת הדואר הנכנס. בבקשה נסה שוב מאוחר יותר.",
+        "AVATAR_SUCCESS_MESSAGE": "אווטר תיבת הדואר הנכנס נמחקה בהצלחה",
+        "AVATAR_ERROR_MESSAGE": "לא ניתן למחוק את האווטר של תיבת הדואר הנכנס. בבקשה נסה שוב מאוחר יותר."
       }
     },
     "TABS": {
       "SETTINGS": "הגדרות",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "COLLABORATORS": "משתפי פעולה",
+      "CONFIGURATION": "תצורה",
       "CAMPAIGN": "קמפיין",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "טופס צ'אט מקדים",
+      "BUSINESS_HOURS": "שעות פעילות"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "מאפיינים",
+      "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
+      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "סקריפט מסנג'ר",
+      "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
       "INBOX_AGENTS": "סוכנים",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
       "UPDATE": "עדכן",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
+      "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
+      "ENABLE_CSAT": "אפשר CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
