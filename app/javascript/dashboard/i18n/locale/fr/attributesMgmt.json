@@ -20,8 +20,8 @@
           "ERROR": "La description est requise"
         },
         "MODEL": {
-          "LABEL": "Modèle",
-          "PLACEHOLDER": "Veuillez sélectionner un modèle",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Le modèle est requis"
         },
         "TYPE": {
