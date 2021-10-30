@@ -30,6 +30,16 @@ describe('attributeMixin', () => {
       render() {},
       title: 'TestComponent',
       mixins: [attributeMixin],
+      computed: {
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              product_id: 2021,
+            },
+          };
+        },
+      },
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.customAttributes).toEqual({
@@ -55,6 +65,14 @@ describe('attributeMixin', () => {
       computed: {
         attributes() {
           return attributeFixtures;
+        },
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              product_id: 2021,
+            },
+          };
         },
       },
     };
