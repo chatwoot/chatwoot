@@ -20,8 +20,8 @@
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Lütfen model seçin",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Model gerekli"
         },
         "TYPE": {
