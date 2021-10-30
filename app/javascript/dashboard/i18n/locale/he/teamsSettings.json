@@ -70,7 +70,7 @@
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "מייל",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "הוסף נציגים",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
@@ -82,7 +82,7 @@
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "הוסף נציגים",
       "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
     },
     "FINISH": {
