@@ -27,7 +27,6 @@ describe('attributeMixin', () => {
       }),
       getCurrentAccountId: () => 1,
       attributeType: () => 'conversation_attribute',
-      // attributeType: 'conversation_attribute',
     };
     store = new Vuex.Store({ actions, getters });
   });
