@@ -20,8 +20,8 @@
           "ERROR": "Необходимо описание"
         },
         "MODEL": {
-          "LABEL": "Модель",
-          "PLACEHOLDER": "Пожалуйста, выберите модель",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Необходимо указать модель"
         },
         "TYPE": {
