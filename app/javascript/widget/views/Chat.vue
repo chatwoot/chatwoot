@@ -30,10 +30,11 @@ import ChatFooter from 'widget/components/ChatFooter';
 import ChatHeader from 'widget/components/ChatHeader';
 import ConversationWrap from 'widget/components/ConversationWrap';
 import { IFrameHelper } from 'widget/helpers/utils';
+
 import configMixin from '../mixins/configMixin';
 
 import Banner from 'widget/components/Banner';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
 export default {
@@ -93,11 +94,19 @@ export default {
   mounted() {
     bus.$on('update-conversation-id', id => {
       this.newConversationId = id;
+      this.setUserLastSeen();
     });
+
+    this.setUserLastSeen();
   },
   methods: {
+    ...mapActions('conversationV2', ['setUserLastSeenIn']),
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });
+    },
+    setUserLastSeen() {
+      const conversationId = this.conversationId;
+      this.setUserLastSeenIn({ conversationId });
     },
   },
 };

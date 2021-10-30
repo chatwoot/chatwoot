@@ -14,6 +14,13 @@ export const getters = {
       isFetching: false,
     };
   },
+  metaIn: _state => conversationId => {
+    const meta = _state.conversations.meta.byId[conversationId];
+    if (meta) return meta;
+    return {
+      userLastSeenAt: undefined,
+    };
+  },
   isAllMessagesFetchedIn: (...getterArguments) => conversationId => {
     const [, _getters] = getterArguments;
     const uiFlags = _getters.uiFlagsIn(conversationId);
@@ -54,7 +61,7 @@ export const getters = {
       .sort((a, b) => {
         const lastMessageOnA = a.messages[a.messages.length - 1];
         const lastMessageOnB = b.messages[b.messages.length - 1];
-        return lastMessageOnA.created_at - lastMessageOnB.created_at;
+        return lastMessageOnB.created_at - lastMessageOnA.created_at;
       });
     return conversations;
   },
@@ -109,7 +116,7 @@ export const getters = {
     };
   },
   unreadTextMessagesIn: (...getterArguments) => conversationId => {
-    const [_state, , , _rootGetters] = getterArguments;
+    const [_state, _getters, , _rootGetters] = getterArguments;
     const conversation = _state.conversations.byId[conversationId];
     if (!conversation) return [];
 
@@ -117,7 +124,8 @@ export const getters = {
     const messagesInConversation = messageIds.map(messageId =>
       _rootGetters['messageV2/messageById'](messageId)
     );
-    const { meta: { userLastSeenAt } = {} } = conversation;
+    const { userLastSeenAt } = _getters.metaIn(conversationId);
+
     const messages = messagesInConversation.filter(message => {
       const { created_at: createdAt, message_type: messageType } = message;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
@@ -137,8 +145,7 @@ export const getters = {
   lastActiveConversationId: (...getterArguments) => {
     const [, _getters] = getterArguments;
     const conversations = _getters.allActiveConversations;
-    const size = conversations.length;
-    const conversation = conversations[size - 1];
+    const conversation = conversations[0];
 
     if (conversation) {
       return conversation.id;

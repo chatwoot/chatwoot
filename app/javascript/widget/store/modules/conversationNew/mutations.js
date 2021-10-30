@@ -60,6 +60,18 @@ export const mutations = {
     });
   },
 
+  setConversationMeta($state, { conversationId, meta = {} }) {
+    const defaultMeta = {
+      userLastSeenAt: undefined,
+    };
+    const currentMeta = $state.conversations.meta.byId[conversationId];
+    Vue.set($state.conversations.meta.byId, conversationId, {
+      ...defaultMeta,
+      ...currentMeta,
+      ...meta,
+    });
+  },
+
   prependMessageIdsToConversation($state, { conversationId, messages }) {
     const conversationById = $state.conversations.byId[conversationId];
     if (!conversationById) return;

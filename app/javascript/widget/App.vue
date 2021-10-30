@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       widgetPosition: 'right',
-      showUnreadView: false,
       showCampaignView: false,
       isMobile: false,
       isChatTriggerHidden: false,
@@ -65,12 +64,6 @@ export default {
   watch: {
     activeCampaign() {
       this.setCampaignView();
-    },
-    showUnreadView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-        this.$router.replace('unread');
-      }
     },
     showCampaignView(newVal) {
       if (newVal) {
@@ -155,7 +148,16 @@ export default {
         // }
         this.setUnreadView();
       });
-      bus.$on('on-unread-view-clicked', () => {
+      bus.$on('on-unread-view-clicked', conversationId => {
+        this.$router.replace({
+          name: 'home',
+        });
+        this.$router.push({
+          name: 'chat',
+          params: {
+            conversationId,
+          },
+        });
         this.unsetUnreadView();
         this.setUserLastSeen();
       });
@@ -165,6 +167,7 @@ export default {
         const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
         this.showUnreadView = false;
+        this.$router.replace({ name: 'chat', conversationId: campaignId });
         this.unsetUnreadView();
         this.executeCampaign({ campaignId, websiteToken });
       });
@@ -189,12 +192,15 @@ export default {
     setUnreadView() {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount > 0) {
-        this.showUnreadView = true;
+        const currentRouteName = this.$route.name;
+        if (currentRouteName !== 'unread') {
+          this.$router.replace({ name: 'unread' });
+          this.setIframeHeight(this.isMobile);
+        }
         IFrameHelper.sendMessage({
           event: 'setUnreadMode',
           unreadMessageCount,
         });
-        this.setIframeHeight(this.isMobile);
       }
     },
     unsetUnreadView() {
@@ -265,10 +271,9 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          this.showUnreadView = true;
+          this.setUnreadView();
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
-          this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;

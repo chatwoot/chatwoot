@@ -20,6 +20,7 @@
         :sender="message.sender"
         :message="getMessageContent(message)"
         :campaign-id="message.campaignId"
+        :conversation-id="message.conversation_id"
       />
     </div>
 
@@ -38,7 +39,7 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import UnreadMessage from 'widget/components/UnreadMessage.vue';
+import UnreadMessage from 'widget/components/UnreadMessage';
 
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';

@@ -34,7 +34,6 @@ import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import Banner from 'widget/components/Banner.vue';
 import { mapGetters } from 'vuex';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'Home',
@@ -55,11 +54,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      isOnNewConversation: false,
-    };
   },
   computed: {
     ...mapGetters({
@@ -85,11 +79,6 @@ export default {
       const conversationId = this.lastActiveConversationId;
       return this.getConversationById(conversationId);
     },
-  },
-  mounted() {
-    bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
-      this.isOnNewConversation = true;
-    });
   },
   methods: {
     async startConversation() {

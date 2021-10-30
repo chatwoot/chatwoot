@@ -9,11 +9,17 @@ export const actions = {
       const { data } = await ConversationAPI.get();
       data.forEach(conversation => {
         const { id: conversationId, messages } = conversation;
+        const { contact_last_seen_at: userLastSeenAt } = conversation;
         const lastMessage = messages[messages.length - 1];
+
         commit('addConversationEntry', conversation);
         commit('addConversationId', conversationId);
         commit('setConversationUIFlag', {
           uiFlags: {},
+          conversationId,
+        });
+        commit('setConversationMeta', {
+          meta: { userLastSeenAt },
           conversationId,
         });
         commit(
@@ -30,39 +36,6 @@ export const actions = {
       throw new Error(error);
     } finally {
       commit('setUIFlag', { isFetching: false });
-    }
-  },
-
-  fetchConversationById: async ({ commit }, params) => {
-    const { conversationId } = params;
-    try {
-      commit('setConversationUIFlag', {
-        uiFlags: {
-          isFetching: true,
-          allFetched: false,
-        },
-        conversationId,
-      });
-      const { data } = await MessageAPI.get(conversationId);
-
-      const { messages } = data;
-      commit('updateConversationEntry', data);
-      commit(
-        'messageV2/addMessagesEntry',
-        { conversationId, messages },
-        { root: true }
-      );
-      commit('addMessageIdsToConversation', {
-        conversationId,
-        messages,
-      });
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit('setConversationUIFlag', {
-        conversationId,
-        uiFlags: { isFetching: false, hasFetchedInitialData: true },
-      });
     }
   },
 
@@ -112,6 +85,7 @@ export const actions = {
         contact
       );
       const { id: conversationId, messages } = data;
+      const { contact_last_seen_at: userLastSeenAt } = data;
 
       commit('addConversationEntry', data);
       commit('addConversationId', conversationId);
@@ -119,7 +93,10 @@ export const actions = {
         uiFlags: { isAgentTyping: false },
         conversationId,
       });
-
+      commit('setConversationMeta', {
+        meta: { userLastSeenAt },
+        conversationId,
+      });
       commit(
         'messageV2/addMessagesEntry',
         { conversationId, messages },
@@ -161,10 +138,16 @@ export const actions = {
       return;
     }
 
-    const lastSeen = Date.now() / 1000;
+    const userLastSeenAt = Date.now() / 1000;
     try {
-      commit('setMetaUserLastSeenAt', lastSeen);
-      await ConversationAPI.setUserLastSeenIn({ lastSeen, conversationId });
+      commit('setConversationMeta', {
+        meta: { userLastSeenAt },
+        conversationId,
+      });
+      await ConversationAPI.setUserLastSeenIn({
+        lastSeen: userLastSeenAt,
+        conversationId,
+      });
     } catch (error) {
       // IgnoreError
     }

@@ -21,6 +21,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
@@ -39,6 +40,10 @@ export default {
       default: () => {},
     },
     campaignId: {
+      type: Number,
+      default: null,
+    },
+    conversationId: {
       type: Number,
       default: null,
     },
@@ -84,7 +89,7 @@ export default {
       if (this.campaignId) {
         bus.$emit('on-campaign-view-clicked', this.campaignId);
       } else {
-        bus.$emit('on-unread-view-clicked');
+        bus.$emit('on-unread-view-clicked', this.conversationId);
       }
     },
   },

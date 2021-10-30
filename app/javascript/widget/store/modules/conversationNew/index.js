@@ -11,6 +11,11 @@ const state = {
         // 1: { allFetched: false, isAgentTyping: false, isFetching: false },
       },
     },
+    meta: {
+      byId: {
+        // 1: { userLastSeenAt: undefined },
+      },
+    },
   },
   uiFlags: {
     allFetched: false,
