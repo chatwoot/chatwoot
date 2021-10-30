@@ -201,119 +201,119 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "הוסף",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter כדי ליצור משימה"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "תאריך להגשה",
+      "LABEL_TITLE": "הגדר סוג"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "מביא הערות...",
+    "NOT_AVAILABLE": "לא נוצרו הערות עבור איש קשר זה",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "הערות"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "נוספה הערה"
     },
     "ADD": {
       "BUTTON": "הוסף",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "PLACEHOLDER": "הוסף הערה",
+      "TITLE": "Shift + Enter כדי ליצור הערה"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "מחק הערה"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "פעילויות"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "הערות",
+      "PILL_BUTTON_EVENTS": "אירועים",
       "PILL_BUTTON_CONVO": "שיחות"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "הוסף מאפיין",
+    "BUTTON": "הוסף מאפיין מותאם אישית",
+    "NOT_AVAILABLE": "אין מאפיינים מותאמים אישית זמינים עבור איש קשר זה.",
     "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "העתק מאפיין",
+      "DELETE": "מחק מאפיין",
       "EDIT": "ערוך מאפיין"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "צור מאפיין מותאם אישית",
+      "DESC": "הוסף מידע מותאם אישית לאיש קשר זה."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "הוסף מאפיין",
       "CANCEL": "ביטול",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "שם מאפיין מותאם אישית",
+        "PLACEHOLDER": "למשל: מזהה shopify",
+        "ERROR": "שם מאפיין מותאם אישית לא חוקי"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "ערך מאפיין",
+        "PLACEHOLDER": "למשל: 11901 "
       },
       "ADD": {
         "TITLE": "הוסף",
         "SUCCESS": "מאפיין נוסף בהצלחה",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
       },
       "UPDATE": {
         "SUCCESS": "המאפיין עודכן בהצלחה",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
       },
       "DELETE": {
         "SUCCESS": "המאפיין נמחק בהצלחה",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "הוסף מאפיין",
+        "PLACEHOLDER": "חפש מאפיין",
+        "NO_RESULT": "לא נמצאו מאפיינים"
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "נדרש ערך חוקי",
+      "INVALID_URL": "כתובת אתר לא חוקית"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "מזג אנשי קשר",
+    "DESCRIPTION": "מיזוג אנשי קשר כדי לשלב שני פרופילים לאחד, כולל כל התכונות והשיחות. במקרה של התנגשות, התכונות של איש הקשר הראשי יקבלו עדיפות.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "איש קשר ראשי",
+      "HELP_LABEL": "להישמר"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "צור קשר למיזוג",
+      "PLACEHOLDER": "חפש איש קשר",
+      "HELP_LABEL": "להימחק"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "סיכום",
+      "DELETE_WARNING": "איש הקשר של <strong>%{childContactName}</strong> יימחק.",
+      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{childContactName}</strong> יועתקו אל <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "הודעת שגיאה"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " מזג אנשי קשר",
       "CANCEL": "ביטול",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "בחר איש קשר צאצא למזג"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
+      "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!"
     }
   }
 }
