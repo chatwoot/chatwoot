@@ -20,8 +20,8 @@
           "ERROR": "נדרש תיאור"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "חל על",
+          "PLACEHOLDER": "בבקשה תבחר אחד",
           "ERROR": "דגם שדה חובה"
         },
         "TYPE": {
