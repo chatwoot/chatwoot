@@ -160,21 +160,21 @@
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
     },
     "ADD": {
       "TITLE": "הוסף",
       "SUCCESS": "מאפיין נוסף בהצלחה",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
     },
     "DELETE": {
       "SUCCESS": "המאפיין נמחק בהצלחה",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "הוסף מאפיין",
+      "PLACEHOLDER": "חפש מאפיין",
+      "NO_RESULT": "לא נמצאו מאפיינים"
     }
   },
   "EMAIL_HEADER": {
