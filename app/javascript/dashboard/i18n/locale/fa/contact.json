@@ -237,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "اضافه کردن ویژگی سفارشی",
     "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
+    "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "ویرایش ویژگی"
+    },
     "ADD": {
       "TITLE": "ساخت ویژگی سفارشی",
       "DESC": "اطلاعات سفارشی مخاطب را اضافه کنید."
@@ -254,7 +261,29 @@
       "VALUE": {
         "LABEL": "مقدار ویژگی",
         "PLACEHOLDER": "مثال: 11901 "
+      },
+      "ADD": {
+        "TITLE": "افزودن",
+        "SUCCESS": "ویژگی با موفقیت اضافه شد",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "ویژگی با موفقیت به روز شد",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "ویژگی با موفقیت حذف شد",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
