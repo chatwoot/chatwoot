@@ -348,57 +348,57 @@
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
+      "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
+      "HMAC_VERIFICATION": "אימות זהות משתמש",
+      "HMAC_DESCRIPTION": "על מנת לאמת את זהות המשתמש, ה-SDK מאפשר לך להעביר `hash מזהה` עבור כל משתמש. אתה יכול ליצור HMAC באמצעות 'sha256' עם המפתח המוצג כאן.",
+      "HMAC_MANDATORY_VERIFICATION": "אכיפת אימות זהות משתמש",
+      "HMAC_MANDATORY_DESCRIPTION": "אם מופעלת, שיטת setUser של Chatwoot SDKs לא תעבוד אלא אם ה-'identifier_hash' מסופק עבור כל משתמש.",
+      "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
+      "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
+      "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
       "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה."
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "TITLE": "הרשאה מחדש",
+      "SUBTITLE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
+      "MESSAGE_SUCCESS": "החיבור מחדש הצליח",
       "MESSAGE_ERROR": "היתה שגיאה, בקשה נסה שוב"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "טפסי טרום צ'אט מאפשרים לך ללכוד מידע על המשתמש לפני שהם מתחילים בשיחה איתך.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "אפשר טופס טרום צ'אט",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "כן",
+          "DISABLED": "לא"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "הודעת צ'אט מקדימה",
+        "PLACEHOLDER": "הודעה זו תהיה גלויה למשתמשים יחד עם הטופס"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "המבקרים צריכים לספק את שמם וכתובת האימייל שלהם לפני תחילת הצ'אט"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "הגדר את הזמינות שלך",
+      "SUBTITLE": "הגדר את הזמינות שלך בווידג'ט הצ'אט החי שלך",
+      "WEEKLY_TITLE": "הגדר את השעות השבועיות שלך",
+      "TIMEZONE_LABEL": "בחר אזור זמן",
+      "UPDATE": "עדכן את הגדרות שעות הפעילות",
+      "TOGGLE_AVAILABILITY": "הפעל זמינות עסקית עבור תיבת הדואר הנכנס הזו",
+      "UNAVAILABLE_MESSAGE_LABEL": "הודעה לא זמינה למבקרים",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "אנחנו לא זמינים כרגע. השאירו הודעה נשיב ברגע שנחזור.",
+      "TOGGLE_HELP": "הפעלת זמינות עסקית תציג את השעות הזמינות בווידג'ט צ'אט חי גם אם כל הסוכנים אינם מקוונים. מחוץ לשעות הזמינות ניתן להזהיר מבקרים באמצעות הודעה וטופס צ'אט מראש.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "אפשר זמינות ליום זה",
+        "UNAVAILABLE": "אינו זמין",
+        "HOURS": "שעות",
+        "VALIDATION_ERROR": "שעת ההתחלה צריכה להיות לפני שעת הסגירה.",
+        "CHOOSE": "בחר"
       }
     }
   }
