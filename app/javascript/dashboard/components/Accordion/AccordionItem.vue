@@ -15,7 +15,11 @@
         </div>
       </div>
     </button>
-    <div v-if="isOpen" class="cw-accordion--content">
+    <div
+      v-if="isOpen"
+      class="cw-accordion--content"
+      :class="{ compact: compact }"
+    >
       <slot />
     </div>
   </div>
@@ -32,6 +36,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    compact: {
+      type: Boolean,
+      default: false,
     },
     icon: {
       type: String,
@@ -106,5 +114,9 @@ export default {
 
 .cw-accordion--content {
   padding: var(--space-normal);
+
+  &.compact {
+    padding: 0;
+  }
 }
 </style>
