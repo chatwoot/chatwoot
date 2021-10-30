@@ -237,13 +237,13 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "Добавить атрибуты",
     "BUTTON": "Добавить пользовательский атрибут",
     "NOT_AVAILABLE": "Для этого контакта нет доступных пользовательских атрибутов.",
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "Копировать атрибут",
+      "DELETE": "Удалить атрибут",
       "EDIT": "Изменить атрибут"
     },
     "ADD": {
@@ -265,25 +265,25 @@
       "ADD": {
         "TITLE": "Добавить",
         "SUCCESS": "Атрибут успешно добавлен",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Невозможно добавить атрибут. Пожалуйста, повторите попытку позже"
       },
       "UPDATE": {
         "SUCCESS": "Атрибут успешно обновлен",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Не удается обновить атрибут. Повторите попытку позже"
       },
       "DELETE": {
         "SUCCESS": "Атрибут успешно удалён",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Невозможно удалить атрибут. Пожалуйста, повторите попытку позже"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Добавить атрибуты",
+        "PLACEHOLDER": "Поиск по атрибутам",
+        "NO_RESULT": "Атрибуты не найдены"
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Требуется корректное значение",
+      "INVALID_URL": "Некорректный URL"
     }
   },
   "MERGE_CONTACTS": {
