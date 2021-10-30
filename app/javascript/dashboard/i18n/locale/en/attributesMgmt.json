@@ -30,7 +30,9 @@
           "ERROR": "Type is required"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {

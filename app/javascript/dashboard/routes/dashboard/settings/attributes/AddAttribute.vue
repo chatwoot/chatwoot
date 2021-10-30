@@ -27,6 +27,7 @@
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
+            @input="onDisplayNameChange"
             @blur="$v.displayName.$touch"
           />
           <label :class="{ error: $v.description.$error }">
@@ -53,21 +54,25 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <div v-if="displayName" class="medium-12 columns">
-            <label>
-              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
-              <i class="ion-help" />
-            </label>
-            <p class="key-value text-truncate">
-              {{ attributeKey }}
-            </p>
-          </div>
+          <woot-input
+            v-model="attributeKey"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+            type="text"
+            :class="{ error: $v.attributeKey.$error }"
+            :error="
+              $v.attributeKey.$error
+                ? $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR')
+                 : ''
+            "
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+            @blur="$v.attributeKey.$touch"
+          />
           <div class="modal-footer">
             <woot-submit-button
               :disabled="
                 $v.displayName.$invalid ||
-                  $v.description.$invalid ||
-                  uiFlags.isCreating
+                $v.description.$invalid ||
+                uiFlags.isCreating
               "
               :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
             />
@@ -103,6 +108,7 @@ export default {
       description: '',
       attributeModel: 0,
       attributeType: 0,
+      attributeKey: '',
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       show: true,
@@ -113,9 +119,6 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
-    attributeKey() {
-      return convertToSlug(this.displayName);
-    },
   },
 
   validations: {
@@ -132,9 +135,15 @@ export default {
     attributeType: {
       required,
     },
+    attributeKey: {
+      required,
+    },
   },
 
   methods: {
+    onDisplayNameChange() {
+      this.attributeKey = convertToSlug(this.displayName);
+    },
     async addAttributes() {
       try {
         await this.$store.dispatch('attributes/create', {
