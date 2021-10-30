@@ -237,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Добавить пользовательский атрибут",
     "NOT_AVAILABLE": "Для этого контакта нет доступных пользовательских атрибутов.",
+    "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Изменить атрибут"
+    },
     "ADD": {
       "TITLE": "Создать пользовательский атрибут",
       "DESC": "Добавить пользовательскую информацию этому контакту."
@@ -254,7 +261,29 @@
       "VALUE": {
         "LABEL": "Значение параметра",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Добавить",
+        "SUCCESS": "Атрибут успешно добавлен",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Атрибут успешно обновлен",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Атрибут успешно удалён",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
