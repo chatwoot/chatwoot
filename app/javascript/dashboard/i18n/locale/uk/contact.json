@@ -42,7 +42,7 @@
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Редагувати",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CUSTOM_ATTRIBUTES": "Свої атрибути",
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Попередні бесіди"
     }
@@ -95,7 +95,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "Повне ім`я"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -161,7 +161,7 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Текст повідомлення",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -244,7 +244,7 @@
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "EDIT": "Редагувати атрибут"
     },
     "ADD": {
       "TITLE": "Create custom attribute",
@@ -264,11 +264,11 @@
       },
       "ADD": {
         "TITLE": "Add",
-        "SUCCESS": "Attribute added successfully",
+        "SUCCESS": "Атрибут додано успішно",
         "ERROR": "Unable to add attribute. Please try again later"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
+        "SUCCESS": "Атрибут успішно оновлено",
         "ERROR": "Unable to update attribute. Please try again later"
       },
       "DELETE": {
