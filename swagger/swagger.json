@@ -1702,8 +1702,7 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
-          },
-          "description": "Access denied"
+          }
         }
       },
       "post": {
@@ -1864,8 +1863,7 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
-          },
-          "description": "Access denied"
+          }
         }
       }
     },
