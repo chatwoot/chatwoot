@@ -2162,7 +2162,8 @@
                   "description": "The name of the inbox"
                 },
                 "avatar": {
-                  "type": "file",
+                  "type": "string",
+                  "format": "binary",
                   "description": "File for avatar image"
                 },
                 "channel": {
@@ -2254,7 +2255,8 @@
                   "description": "Enable Auto Assignment"
                 },
                 "avatar": {
-                  "type": "file",
+                  "type": "string",
+                  "format": "binary",
                   "description": "Image file for avatar"
                 },
                 "channel": {
@@ -2650,7 +2652,8 @@
             "type": "array",
             "description": "The files to be uploaded.",
             "items": {
-              "type": "file"
+              "type": "string",
+              "format": "binary"
             }
           }
         ],
@@ -3767,11 +3770,13 @@
           "description": "A query that needs to be saved as a custom filter"
         },
         "created_at": {
-          "type": "datetime",
+          "type": "string",
+          "format": "date-time",
           "description": "The time at which the custom filter was created"
         },
         "updated_at": {
-          "type": "datetime",
+          "type": "string",
+          "format": "date-time",
           "description": "The time at which the custom filter was updated"
         }
       }
