@@ -159,12 +159,12 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
+      "SUCCESS": "Атрибут успішно оновлено",
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
       "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
+      "SUCCESS": "Атрибут додано успішно",
       "ERROR": "Unable to add attribute. Please try again later"
     },
     "DELETE": {
