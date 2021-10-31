@@ -52,7 +52,7 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"
