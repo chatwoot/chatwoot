@@ -46,8 +46,7 @@
   },
   "security": [
     {
-      "userApiKey": [
-      ]
+      "userApiKey": []
     }
   ],
   "paths": {
@@ -61,8 +60,7 @@
         "description": "Create an Account",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -88,7 +86,7 @@
         }
       }
     },
-    "/platform/api/v1/accounts/{id}": {
+    "/platform/api/v1/accounts/{account_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -103,8 +101,7 @@
         "description": "Get the details of an account",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -131,8 +128,7 @@
         "description": "Update an account's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -166,8 +162,7 @@
         "description": "Delete an Account",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -183,7 +178,7 @@
         }
       }
     },
-    "/platform/api/v1/accounts/{id}/account_users": {
+    "/platform/api/v1/accounts/{account_id}/account_users": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -198,8 +193,7 @@
         "description": "List all account users",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -241,8 +235,7 @@
         "description": "Create an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -252,7 +245,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["user_id", "role"],
+              "required": [
+                "user_id",
+                "role"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
@@ -300,8 +296,7 @@
         "description": "Delete an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -311,7 +306,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["user_id"],
+              "required": [
+                "user_id"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
@@ -344,8 +341,7 @@
         "description": "List all agent bots available",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -373,8 +369,7 @@
         "description": "Create an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -415,8 +410,7 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -443,8 +437,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -478,8 +471,7 @@
         "description": "Delete an AgentBot",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -505,8 +497,7 @@
         "description": "Create a User",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -547,8 +538,7 @@
         "description": "Get the details of an user",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -575,8 +565,7 @@
         "description": "Update a user's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -610,8 +599,7 @@
         "description": "Delete a User",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -628,6 +616,11 @@
       }
     },
     "/platform/api/v1/users/{id}/login": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/platform_user_id"
+        }
+      ],
       "get": {
         "tags": [
           "Users"
@@ -637,8 +630,7 @@
         "description": "Get the sso link of a user",
         "security": [
           {
-            "platformAppApiKey": [
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -1073,6 +1065,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "get": {
         "tags": [
           "Agent"
@@ -1082,8 +1079,7 @@
         "description": "Get Details of Agents in an Account",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1111,8 +1107,7 @@
         "description": "Add a new Agent to Account",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1122,7 +1117,11 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["name", "email", "role"],
+              "required": [
+                "name",
+                "email",
+                "role"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -1171,6 +1170,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "patch": {
         "tags": [
           "Agent"
@@ -1180,8 +1184,7 @@
         "description": "Update an Agent in Account",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1200,7 +1203,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["role"],
+              "required": [
+                "role"
+              ],
               "properties": {
                 "role": {
                   "type": "string",
@@ -1234,11 +1239,11 @@
               "$ref": "#/definitions/agent"
             }
           },
-          "404": {
-            "description": "Agent not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Agent not found"
           }
         }
       },
@@ -1251,8 +1256,7 @@
         "description": "Remove an Agent from Account",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1270,11 +1274,11 @@
           "200": {
             "description": "Success"
           },
-          "404": {
-            "description": "Agent not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Agent not found"
           }
         }
       }
@@ -1350,6 +1354,18 @@
       }
     },
     "/api/v1/accounts/{account_id}/contacts/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the contact",
+          "required": true
+        }
+      ],
       "get": {
         "tags": [
           "Contact"
@@ -1357,18 +1373,6 @@
         "operationId": "contactDetails",
         "summary": "Show Contact",
         "description": "Get a contact belonging to the account using ID",
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1376,11 +1380,11 @@
               "$ref": "#/definitions/extended_contact"
             }
           },
-          "404": {
-            "description": "Contact not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Contact not found"
           }
         }
       },
@@ -1392,16 +1396,6 @@
         "summary": "Update Contact",
         "description": "Update a contact belonging to the account using ID",
         "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -1418,11 +1412,11 @@
               "$ref": "#/definitions/contact_base"
             }
           },
-          "404": {
-            "description": "Contact not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Contact not found"
           }
         }
       },
@@ -1432,15 +1426,6 @@
         ],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1481,11 +1466,11 @@
               "$ref": "#/definitions/contact_conversations"
             }
           },
-          "404": {
-            "description": "Contact not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Contact not found"
           }
         }
       }
@@ -1561,7 +1546,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["inbox_id"],
+              "required": [
+                "inbox_id"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "number",
@@ -1714,12 +1701,10 @@
         "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -1867,7 +1852,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -1890,11 +1875,11 @@
               "$ref": "#/definitions/conversation_show"
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -1917,12 +1902,10 @@
         "description": "Toggles the status of the conversation between open and resolved",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -1932,7 +1915,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["status"],
+              "required": [
+                "status"
+              ],
               "properties": {
                 "status": {
                   "type": "string",
@@ -1954,11 +1939,11 @@
               "$ref": "#/definitions/conversation_status_toggle"
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -2006,11 +1991,11 @@
               "$ref": "#/definitions/user"
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -2038,11 +2023,11 @@
               "$ref": "#/definitions/conversation_labels"
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       },
@@ -2079,11 +2064,11 @@
               "$ref": "#/definitions/conversation_labels"
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -2112,11 +2097,11 @@
               }
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           }
         }
       }
@@ -2148,11 +2133,11 @@
               "$ref": "#/definitions/inbox"
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           }
         }
       }
@@ -2226,11 +2211,11 @@
               "$ref": "#/definitions/inbox"
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           }
         }
       }
@@ -2260,7 +2245,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["enable_auto_assignment"],
+              "required": [
+                "enable_auto_assignment"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -2310,11 +2297,11 @@
               "$ref": "#/definitions/inbox"
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           }
         }
       }
@@ -2346,11 +2333,11 @@
               "$ref": "#/definitions/agent_bot"
             }
           },
-          "404": {
-            "description": "Inbox not found, Agent bot not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found, Agent bot not found"
           }
         }
       }
@@ -2380,7 +2367,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["agent_bot"],
+              "required": [
+                "agent_bot"
+              ],
               "properties": {
                 "agent_bot": {
                   "type": "number",
@@ -2394,16 +2383,24 @@
           "204": {
             "description": "Success"
           },
-          "404": {
-            "description": "Inbox not found, Agent bot not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found, Agent bot not found"
           }
         }
       }
     },
-    "/api/v1/accounts/{account_id}/inbox_members": {
+    "/api/v1/accounts/{account_id}/inbox_members/{inbox_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/inbox_id"
+        }
+      ],
       "get": {
         "tags": [
           "Inbox"
@@ -2413,13 +2410,7 @@
         "description": "Get Details of Agents in an Inbox",
         "security": [
           {
-            "userApiKey": [
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/inbox_id"
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2433,11 +2424,11 @@
               }
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           }
         }
       },
@@ -2450,8 +2441,7 @@
         "description": "Add a new Agent to Inbox",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2461,7 +2451,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["inbox_id", "user_ids"],
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -2486,11 +2479,11 @@
               }
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           },
           "422": {
             "description": "User must exist"
@@ -2506,8 +2499,7 @@
         "description": "All agents execept the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2517,7 +2509,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["inbox_id", "user_ids"],
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -2542,11 +2537,11 @@
               }
             }
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           },
           "422": {
             "description": "User must exist"
@@ -2562,8 +2557,7 @@
         "description": "Remove an Agent from Inbox",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2573,7 +2567,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["inbox_id", "user_ids"],
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -2591,11 +2588,11 @@
           "200": {
             "description": "Success"
           },
-          "404": {
-            "description": "Inbox not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Inbox not found"
           },
           "422": {
             "description": "User must exist"
@@ -2616,12 +2613,10 @@
         ],
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -2677,16 +2672,16 @@
               ]
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}/messages": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -2717,11 +2712,11 @@
               ]
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       },
@@ -2734,12 +2729,10 @@
         "description": "Create a new message in the conversation",
         "security": [
           {
-            "userApiKey": [
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -2766,11 +2759,11 @@
               ]
             }
           },
-          "404": {
-            "description": "Conversation not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -3255,7 +3248,7 @@
         }
       }
     },
-    "/api/v2/accounts/{id}/reports": {
+    "/api/v2/accounts/{account_id}/reports": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3309,16 +3302,16 @@
               }
             }
           },
-          "404": {
-            "description": "reports not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "reports not found"
           }
         }
       }
     },
-    "/api/v2/accounts/{id}/reports/summary": {
+    "/api/v2/accounts/{account_id}/reports/summary": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3369,11 +3362,11 @@
               }
             }
           },
-          "404": {
-            "description": "reports not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "reports not found"
           }
         }
       }
@@ -4052,7 +4045,9 @@
     },
     "contact_create": {
       "type": "object",
-      "required": ["inbox_id"],
+      "required": [
+        "inbox_id"
+      ],
       "properties": {
         "inbox_id": {
           "type": "number"
@@ -4106,7 +4101,9 @@
     },
     "conversation_message_create": {
       "type": "object",
-      "required": ["content"],
+      "required": [
+        "content"
+      ],
       "properties": {
         "content": {
           "type": "string",
