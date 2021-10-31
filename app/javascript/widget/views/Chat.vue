@@ -99,6 +99,9 @@ export default {
 
     this.setUserLastSeen();
   },
+  destroyed() {
+    this.setUserLastSeen();
+  },
   methods: {
     ...mapActions('conversationV2', ['setUserLastSeenIn']),
     closeChat() {

@@ -142,10 +142,6 @@ export default {
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
-        // MOVE TO CHAT VIEW
-        // if (!this.isIFrame || this.isWidgetOpen) {
-        //   this.setUserLastSeen();
-        // }
         this.setUnreadView();
       });
       bus.$on('on-unread-view-clicked', conversationId => {
@@ -169,6 +165,7 @@ export default {
         this.showUnreadView = false;
         this.$router.replace({ name: 'chat', conversationId: campaignId });
         this.unsetUnreadView();
+        debugger;
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
@@ -176,13 +173,17 @@ export default {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      const { messageCount, activeCampaign } = this;
+      const { unreadMessageCount, activeCampaign } = this;
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
-        !messageCount &&
+        !unreadMessageCount &&
         !this.isWebWidgetTriggered;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.showCampaignView = true;
+        const currentRouteName = this.$route.name;
+        if (currentRouteName !== 'campaign') {
+          this.$router.replace({ name: 'campaign' });
+          this.setIframeHeight(this.isMobile);
+        }
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
@@ -323,16 +324,20 @@ export default {
         this.sendLoadedEvent();
       });
     },
-    fetchAllConversations() {
-      this.$store.dispatch('conversationV2/fetchAllConversations').then(() => {
-        return this.fetchOldMessagesIn(this.lastActiveConversationId).then(() =>
-          this.setUnreadView()
-        );
-      });
+    async fetchAllConversations() {
+      const conversationId = this.lastActiveConversationId;
+      await this.$store.dispatch('conversationV2/fetchAllConversations');
+
+      if (conversationId) {
+        await this.fetchOldMessagesIn(this.lastActiveConversationId);
+        this.setUnreadView();
+      }
     },
     setUserLastSeen() {
       const conversationId = this.lastActiveConversationId;
-      this.setUserLastSeenIn({ conversationId });
+      if (conversationId) {
+        this.setUserLastSeenIn({ conversationId });
+      }
     },
   },
 };

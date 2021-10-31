@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Unread from './views/Unread';
+import Campaign from './views/Campaign';
 import Conversations from './views/Conversations';
 import Chat from './views/Chat';
 import PreChat from './views/PreChat';
@@ -25,12 +26,12 @@ export default new Router({
       component: Unread,
     },
     {
-      path: '/campiagn',
-      name: 'campiagn',
+      path: '/campaign',
+      name: 'campaign',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: Unread,
+      component: Campaign,
     },
     {
       path: '/conversations',
