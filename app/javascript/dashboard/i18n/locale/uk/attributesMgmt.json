@@ -1,84 +1,84 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
+    "HEADER": "Атрибути",
+    "HEADER_BTN_TXT": "Додати атрибут",
+    "LOADING": "Отримання атрибутів",
     "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
-      "SUBMIT": "Create",
+      "TITLE": "Додати атрибут",
+      "SUBMIT": "Створити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Ім'я для відображення",
+          "PLACEHOLDER": "Введіть назву атрибута",
+          "ERROR": "Назва обов'язкова"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Введіть опис атрибута",
+          "ERROR": "Необхідний опис"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Застосовується до",
+          "PLACEHOLDER": "Будь ласка, виберіть",
+          "ERROR": "Необхідно вказати модель"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "Тип",
           "PLACEHOLDER": "Будь ласка, оберіть тип",
-          "ERROR": "Type is required"
+          "ERROR": "Потрібен тип"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Ключ"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Атрибут додано успішно",
+        "ERROR_MESSAGE": "Не вдалося створити атрибут, спробуйте пізніше"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Атрибут успішно видалено.",
+        "ERROR_MESSAGE": "Не вдалося видалити атрибут. Спробуйте ще раз."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "TITLE": "Ви дійсно бажаєте видалити - %{attributeName}",
+        "PLACE_HOLDER": "Будь ласка, введіть {attributeName} щоб підтвердити",
+        "MESSAGE": "Ця дія видалить атрибут",
         "YES": "Видалити ",
         "NO": "Скасувати"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Редагувати атрибут",
       "UPDATE_BUTTON_TEXT": "Оновити",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Атрибут успішно оновлено",
+        "ERROR_MESSAGE": "Виникла помилка при оновленні атрибуту, будь ласка, спробуйте ще раз"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Свої атрибути",
+      "CONVERSATION": "Діалог",
+      "CONTACT": "Контакт"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Ім'я",
-        "Description",
-        "Type",
-        "Key"
+        "Опис",
+        "Тип",
+        "Ключ"
       ],
       "BUTTONS": {
         "EDIT": "Редагувати",
         "DELETE": "Видалити"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Не створено жодного атрибуту",
+        "NOT_FOUND": "Немає налаштованих атрибутів"
       }
     }
   }
