@@ -1191,9 +1191,7 @@
           {
             "in": "path",
             "name": "id",
-            "schema": {
-              "type": "integer"
-            },
+            "type": "integer",
             "required": true,
             "description": "The ID of the agent to be updated."
           },
@@ -1263,9 +1261,7 @@
           {
             "in": "path",
             "name": "id",
-            "schema": {
-              "type": "integer"
-            },
+            "type": "integer",
             "required": true,
             "description": "The ID of the agent to be deleted"
           }
@@ -2700,8 +2696,8 @@
         "responses": {
           "200": {
             "description": "Array of messages",
-            "type": "array",
             "schema": {
+              "type": "array",
               "allOf": [
                 {
                   "$ref": "#/definitions/generic_id"
@@ -3476,7 +3472,7 @@
           "type": "string"
         },
         "agent_last_seen_at": {
-          "type": "agent_last_seen_at"
+          "type": "string"
         },
         "unread_count": {
           "type": "number",
