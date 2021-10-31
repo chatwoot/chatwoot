@@ -939,11 +939,9 @@
             "schema": {
               "type": "array",
               "description": "Array of agent bots",
-              "items": [
-                {
-                  "$ref": "#/definitions/agent_bot"
-                }
-              ]
+              "items": {
+                "$ref": "#/definitions/agent_bot"
+              }
             }
           },
           "401": {
@@ -2460,6 +2458,9 @@
                 },
                 "user_ids": {
                   "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
                   "description": "IDs of users to be added to the inbox"
                 }
               }
@@ -2518,6 +2519,9 @@
                 },
                 "user_ids": {
                   "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
                   "description": "IDs of users to be added to the inbox"
                 }
               }
@@ -2576,6 +2580,9 @@
                 },
                 "user_ids": {
                   "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
                   "description": "IDs of users to be deleted from the inbox"
                 }
               }
@@ -2701,14 +2708,16 @@
             "description": "Array of messages",
             "schema": {
               "type": "array",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/generic_id"
+                  },
+                  {
+                    "$ref": "#/definitions/message"
+                  }
+                ]
+              }
             }
           },
           "401": {
@@ -2864,7 +2873,9 @@
             "description": "Unauthorized"
           }
         }
-      },
+      }
+    },
+    "/api/v1/accounts/{account_id}/integrations/hooks/{hook_id}": {
       "patch": {
         "tags": [
           "Integrations"
@@ -3434,7 +3445,10 @@
           "description": "ID of the conversation"
         },
         "messages": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          }
         },
         "account_id": {
           "type": "number",
@@ -3859,6 +3873,9 @@
         },
         "hooks": {
           "type": "array",
+          "items": {
+            "type": "object"
+          },
           "description": "If there are any hooks created for this integration"
         }
       }
@@ -3934,6 +3951,9 @@
         },
         "messages": {
           "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
           "description": "Messages in the conversation"
         },
         "contact": {
@@ -3975,6 +3995,9 @@
         },
         "attachments": {
           "type": "array",
+          "items": {
+            "type": "object"
+          },
           "description": "Attachments if any"
         },
         "sender": {
