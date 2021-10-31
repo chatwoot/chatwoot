@@ -4555,165 +4555,138 @@
     "account_id": {
       "in": "path",
       "name": "account_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the account"
     },
     "agent_bot_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the agentbot to be updated"
     },
     "team_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the team to be updated"
     },
     "inbox_id": {
       "in": "path",
       "name": "inbox_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the Inbox"
     },
     "hook_id": {
       "in": "path",
       "name": "hook_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the integration hook"
     },
     "source_id": {
+      "in": "path",
+      "name": "source_id",
+      "required": true,
       "type": "string",
       "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
     "conversation_id": {
       "in": "path",
       "name": "conversation_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the conversation"
     },
     "message_id": {
       "in": "path",
       "name": "message_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the message"
     },
     "contact_sort_param": {
       "in": "query",
       "name": "sort",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "name",
-          "email",
-          "phone_number",
-          "last_activity_at",
-          "-name",
-          "-email",
-          "-phone_number",
-          "-last_activity_at"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "name",
+        "email",
+        "phone_number",
+        "last_activity_at",
+        "-name",
+        "-email",
+        "-phone_number",
+        "-last_activity_at"
+      ],
       "required": false,
       "description": "The attribute by which list should be sorted"
     },
     "page": {
       "in": "query",
       "name": "page",
-      "schema": {
-        "type": "integer",
-        "default": 1
-      },
+      "type": "integer",
+      "default": 1,
       "required": false,
       "description": "The page parameter"
     },
     "platform_user_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the user on the platform"
     },
     "custom_filter_id": {
       "in": "path",
       "name": "custom_filter_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the custom filter"
     },
     "report_type": {
       "in": "query",
       "name": "report_type",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "account",
-          "agent",
-          "inbox",
-          "label",
-          "team"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "account",
+        "agent",
+        "inbox",
+        "label",
+        "team"
+      ],
       "required": true,
       "description": "Type of report"
     },
     "report_metric": {
       "in": "query",
       "name": "metric",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "conversations_count",
-          "incoming_messages_count",
-          "outgoing_messages_count",
-          "avg_first_response_time",
-          "avg_resolution_time",
-          "resolutions_count"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "conversations_count",
+        "incoming_messages_count",
+        "outgoing_messages_count",
+        "avg_first_response_time",
+        "avg_resolution_time",
+        "resolutions_count"
+      ],
       "required": true,
       "description": "The type of metric"
     },
     "public_inbox_identifier": {
       "in": "path",
       "name": "inbox_identifier",
-      "schema": {
-        "type": "string"
-      },
+      "type": "string",
       "required": true,
       "description": "The identifier obtained from API inbox channel"
     },
     "public_contact_identifier": {
       "in": "path",
       "name": "contact_identifier",
-      "schema": {
-        "type": "string"
-      },
+      "type": "string",
       "required": true,
       "description": "The source id of contact obtained on contact create"
     }
