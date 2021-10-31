@@ -47,7 +47,6 @@
   "security": [
     {
       "userApiKey": [
-
       ]
     }
   ],
@@ -63,7 +62,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -106,7 +104,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -135,7 +132,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -171,7 +167,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -204,7 +199,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -248,7 +242,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -309,7 +302,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -354,7 +346,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -384,7 +375,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -427,7 +417,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -456,7 +445,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -492,7 +480,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -520,7 +507,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -563,7 +549,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -592,7 +577,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -628,7 +612,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -656,7 +639,6 @@
         "security": [
           {
             "platformAppApiKey": [
-
             ]
           }
         ],
@@ -695,9 +677,7 @@
         "operationId": "create-a-contact",
         "summary": "Create a contact",
         "description": "Create a contact",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -737,9 +717,7 @@
         "operationId": "get-details-of-a-contact",
         "summary": "Get a contact",
         "description": "Get the details of a contact",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -762,9 +740,7 @@
         "operationId": "update-a-contact",
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -804,9 +780,7 @@
         "operationId": "create-a-conversation",
         "summary": "Create a conversation",
         "description": "Create a conversation",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -862,9 +836,7 @@
         "operationId": "create-a-message",
         "summary": "Create a message",
         "description": "Create a message",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -933,9 +905,7 @@
         "operationId": "update-a-message",
         "summary": "Update a message",
         "description": "Update a message",
-        "security": [
-          "nil"
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1114,7 +1084,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -1144,7 +1113,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -1216,7 +1184,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -1288,7 +1255,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -1753,12 +1719,10 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           },
           {
             "agentBotApiKey": [
-
             ]
           }
         ],
@@ -1959,12 +1923,10 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           },
           {
             "agentBotApiKey": [
-
             ]
           }
         ],
@@ -2458,7 +2420,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -2496,7 +2457,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -2554,7 +2514,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -2612,7 +2571,6 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           }
         ],
@@ -2668,12 +2626,10 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           },
           {
             "agentBotApiKey": [
-
             ]
           }
         ],
@@ -2788,12 +2744,10 @@
         "security": [
           {
             "userApiKey": [
-
             ]
           },
           {
             "agentBotApiKey": [
-
             ]
           }
         ],
