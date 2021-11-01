@@ -415,9 +415,11 @@ export default {
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
+      const isPrivate = this.isPrivate;
       this.$store.dispatch('conversationTypingStatus/toggleTyping', {
         status,
         conversationId,
+        isPrivate,
       });
     },
     onFileUpload(file) {

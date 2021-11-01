@@ -55,7 +55,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     ActionCableConnector.refreshConnector(pubsubToken);
   };
 
-  onTypingOn = () => {
+  onTypingOn = data => {
+    if (data.is_private) {
+      return
+    }
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'on',
