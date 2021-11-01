@@ -78,11 +78,11 @@ class Contact < ApplicationRecord
       )
     )
   }
-  scope :order_on_country_code, lambda { |direction|
+  scope :order_on_country_name, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order(
-          "\"contacts\".\"additional_attributes\"->>'country_code' #{direction}
+          "\"contacts\".\"additional_attributes\"->>'country' #{direction}
           NULLS LAST"
         )
       )
