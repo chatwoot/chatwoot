@@ -1,19 +1,24 @@
 <template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top">
+    <div class="chat-list__top" :class="{ filter__applied: filtersApplied }">
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
+
       <div class="filter--actions">
-        <button
-          v-if="filtersApplied"
-          class="btn-clear-filters"
-          @click="resetAndFetchData"
-        >
+        <chat-filter
+          v-if="!filtersApplied"
+          @statusFilterChange="updateStatusType"
+        />
+        <button v-else class="btn-clear-filters" @click="resetAndFetchData">
           {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
         </button>
-        <button class="btn-filter" @click="onToggleAdvanceFiltersModal">
+        <button
+          v-tooltip.top-end="'Advanced Filters'"
+          class="btn-filter"
+          @click="onToggleAdvanceFiltersModal"
+        >
           <i class="icon ion-ios-settings-strong" />
         </button>
       </div>
@@ -82,6 +87,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import ChatFilter from './widgets/conversation/ChatFilter';
 import ChatAdvancedFilter from './widgets/conversation/ChatAdvancedFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
@@ -101,6 +107,7 @@ export default {
   components: {
     ChatTypeTabs,
     ConversationCard,
+    ChatFilter,
     ChatAdvancedFilter,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
@@ -356,5 +363,10 @@ export default {
     color: tomato;
     cursor: pointer;
   }
+}
+
+.filter__applied {
+  padding: var(--space-slab) 0 !important;
+  border-bottom: 1px solid $color-border;
 }
 </style>
