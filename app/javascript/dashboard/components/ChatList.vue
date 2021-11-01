@@ -15,7 +15,7 @@
           {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
         </button>
         <button
-          v-tooltip.top-end="'Advanced Filters'"
+          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
