@@ -32,7 +32,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def filter
-    @conversations = Current.account.conversations.limit(10)
+    result = ::Conversations::FilterService.new(params.permit!, current_user).perform
+    @conversations = result[:conversations]
+    @conversations_count = result[:count]
   end
 
   def mute
@@ -64,9 +66,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def toggle_typing_status
     case params[:typing_status]
     when 'on'
-      trigger_typing_event(CONVERSATION_TYPING_ON)
+      trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
     when 'off'
-      trigger_typing_event(CONVERSATION_TYPING_OFF)
+      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
     end
     head :ok
   end
@@ -90,9 +92,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
   end
 
-  def trigger_typing_event(event)
+  def trigger_typing_event(event, is_private)
     user = current_user.presence || @resource
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user)
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, is_private: is_private)
   end
 
   def conversation
