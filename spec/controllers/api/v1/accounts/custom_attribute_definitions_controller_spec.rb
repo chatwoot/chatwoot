@@ -83,7 +83,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/custom_attribute_definitions", headers: user.create_new_auth_token,
                                                                               params: payload
-        end.to change(CustomAttributeDefinition, :count).by(1)
+        end.to change(CustomAttributeDefinition, :count).by(2)
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
