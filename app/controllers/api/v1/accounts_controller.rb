@@ -55,7 +55,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' if @global_config['ENABLE_ACCOUNT_SIGNUP'] == 'false'
+    raise ActionController::RoutingError, 'Not Found' if GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP') == 'false'
   end
 
   def pundit_user
