@@ -32,7 +32,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def filter
-    @conversations = Current.account.conversations.limit(10)
+    result = ::Conversations::FilterService.new(params.permit!, current_user).perform
+    @conversations = result[:conversations]
+    @conversations_count = result[:count]
   end
 
   def mute
