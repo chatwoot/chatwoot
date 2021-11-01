@@ -5,6 +5,13 @@ import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
 
+const setContacts = (commit, chatList) => {
+  commit(
+    `contacts/${types.default.SET_CONTACTS}`,
+    chatList.map(chat => chat.meta.sender)
+  );
+};
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -31,10 +38,7 @@ const actions = {
       dispatch('conversationStats/set', metaData);
       dispatch('conversationLabels/setBulkConversationLabels', chatList);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
-      commit(
-        `contacts/${types.default.SET_CONTACTS}`,
-        chatList.map(chat => chat.meta.sender)
-      );
+      setContacts(commit, chatList);
       dispatch(
         'conversationPage/setCurrentPage',
         { filter: params.assigneeType, page: params.page },
@@ -61,10 +65,7 @@ const actions = {
       dispatch('conversationStats/set', metaData);
       dispatch('conversationLabels/setBulkConversationLabels', chatList);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
-      commit(
-        `contacts/${types.default.SET_CONTACTS}`,
-        chatList.map(chat => chat.meta.sender)
-      );
+      setContacts(commit, chatList);
     } catch (error) {
       // Handle error
     }
@@ -316,7 +317,5 @@ const actions = {
     }
   },
 };
-
-const 
 
 export default actions;

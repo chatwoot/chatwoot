@@ -1,5 +1,4 @@
 /* global axios */
-import actions from '../../store/modules/conversations/actions';
 import ApiClient from '../ApiClient';
 
 class ConversationApi extends ApiClient {
