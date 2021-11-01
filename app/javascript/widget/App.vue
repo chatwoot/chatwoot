@@ -160,6 +160,7 @@ export default {
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
+        // Execute campaign only if pre-chat form (and require email too) is not enabled
         if (
           !(this.preChatFormEnabled && this.preChatFormOptions.requireEmail)
         ) {
@@ -225,8 +226,6 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
-        // console.log('message', message);
-
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
@@ -273,6 +272,7 @@ export default {
           this.showUnreadView = true;
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
+          // Reset campaign, If widget opened via clciking on bubble button
           if (!this.isCampaignViewClicked) {
             this.resetCampaign();
           }

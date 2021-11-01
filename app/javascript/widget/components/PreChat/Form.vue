@@ -129,8 +129,6 @@ export default {
       return this.activeCampaignExist || this.options.preChatMessage;
     },
     headerMessage() {
-      console.log('this.activeCampaign', this.activeCampaign);
-
       if (this.activeCampaignExist) {
         return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
       }
