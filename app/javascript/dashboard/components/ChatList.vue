@@ -290,6 +290,7 @@ export default {
       this.filtersApplied = false;
     },
     fetchFilteredConversations(payload) {
+      this.$router.push({ name: 'home' });
       this.filtersApplied = true;
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
