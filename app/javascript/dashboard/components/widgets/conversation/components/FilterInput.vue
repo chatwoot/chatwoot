@@ -74,7 +74,7 @@
             placeholder="Enter value"
           />
           <div v-if="v.values.$dirty && v.values.$error" class="filter-error">
-            Value is required.
+            {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
           </div>
         </div>
       </div>
