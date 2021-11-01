@@ -323,10 +323,12 @@ export default {
   methods: {
     onPaste(e) {
       const data = e.clipboardData.files;
-      if (!data) {
+      if (!data.length || !data[0]) {
         return;
       }
-      this.onFileUpload(data[0]);
+      const file = data[0];
+      const { name, type, size } = file;
+      this.onFileUpload({ name, type, size, file });
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -432,13 +434,13 @@ export default {
       });
     },
     onFileUpload(file) {
-      if (!file || file.length === 0) {
+      if (!file) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         this.attachedFiles = [];
         const reader = new FileReader();
-        reader.readAsDataURL(file.file || file);
+        reader.readAsDataURL(file.file);
         reader.onloadend = () => {
           this.attachedFiles.push({
             currentChatId: this.currentChat.id,
@@ -473,7 +475,7 @@ export default {
       }
 
       if (attachment) {
-        messagePayload.file = attachment.resource.file || attachment.resource;
+        messagePayload.file = attachment.resource.file;
       }
 
       if (this.ccEmails) {
