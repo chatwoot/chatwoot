@@ -21,7 +21,6 @@ describe GlobalConfigService do
         expect(InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value).to eq 'true'
       end
 
-
       it 'get value from env variable if not found on DB' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
           expect(InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value).to eq nil

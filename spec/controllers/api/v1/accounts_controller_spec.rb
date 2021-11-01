@@ -4,6 +4,7 @@ RSpec.describe 'Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
+
     before do
       # to clear redis cache
       GlobalConfig.clear_cache
@@ -25,8 +26,8 @@ RSpec.describe 'Accounts API', type: :request do
         params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
 
         post api_v1_accounts_url,
-              params: params,
-              as: :json
+             params: params,
+             as: :json
 
         expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
         expect(account_builder).to have_received(:perform)
@@ -40,8 +41,8 @@ RSpec.describe 'Accounts API', type: :request do
         params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
 
         post api_v1_accounts_url,
-              params: params,
-              as: :json
+             params: params,
+             as: :json
 
         expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
         expect(account_builder).to have_received(:perform)
@@ -55,8 +56,8 @@ RSpec.describe 'Accounts API', type: :request do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
         post api_v1_accounts_url,
-              params: params,
-              as: :json
+             params: params,
+             as: :json
         expect(response).to have_http_status(:not_found)
       end
     end
@@ -66,8 +67,8 @@ RSpec.describe 'Accounts API', type: :request do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'api_only')
         post api_v1_accounts_url,
-              params: params,
-              as: :json
+             params: params,
+             as: :json
         expect(response).to have_http_status(:success)
       end
     end
