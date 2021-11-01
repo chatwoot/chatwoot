@@ -14,6 +14,7 @@
               : ''
           "
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
+          readonly
           @blur="$v.displayName.$touch"
         />
         <label :class="{ error: $v.description.$error }">
@@ -31,7 +32,7 @@
         </label>
         <label :class="{ error: $v.attributeType.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
-          <select v-model="attributeType">
+          <select v-model="attributeType" disabled>
             <option v-for="type in types" :key="type.id" :value="type.id">
               {{ type.option }}
             </option>
@@ -53,7 +54,7 @@
       <div class="modal-footer">
         <woot-button
           :is-loading="isUpdating"
-          :disabled="$v.displayName.$invalid || $v.description.$invalid"
+          :disabled="$v.description.$invalid"
         >
           {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
@@ -117,6 +118,13 @@ export default {
     attributeKey() {
       return convertToSlug(this.displayName);
     },
+    selectedAttributeType() {
+      return this.types.find(
+        item =>
+          item.option.toLowerCase() ===
+          this.selectedAttribute.attribute_display_type
+      ).id;
+    },
   },
   mounted() {
     this.setFormValues();
@@ -128,6 +136,7 @@ export default {
     setFormValues() {
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
+      this.attributeType = this.selectedAttributeType;
     },
     async editAttributes() {
       this.$v.$touch();
@@ -137,10 +146,7 @@ export default {
       try {
         await this.$store.dispatch('attributes/update', {
           id: this.selectedAttribute.id,
-          attribute_display_name: this.displayName,
           attribute_description: this.description,
-          attribute_display_type: this.attributeType,
-          attribute_key: this.attributeKey,
         });
         this.showAlert(this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();

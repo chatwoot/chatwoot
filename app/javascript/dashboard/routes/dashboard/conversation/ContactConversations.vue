@@ -74,8 +74,4 @@ export default {
   margin-bottom: var(--space-normal);
   color: var(--b-500);
 }
-
-.conv-details--item {
-  padding-bottom: 0;
-}
 </style>
