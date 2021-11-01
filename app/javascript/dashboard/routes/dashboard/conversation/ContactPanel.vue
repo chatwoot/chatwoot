@@ -13,6 +13,7 @@
         <div>
           <div class="multiselect-wrap--small">
             <contact-details-item
+              compact
               :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
             >
               <template v-slot:button>
@@ -45,6 +46,7 @@
           </div>
           <div class="multiselect-wrap--small">
             <contact-details-item
+              compact
               :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
             />
             <multiselect-dropdown
@@ -64,68 +66,26 @@
             />
           </div>
           <contact-details-item
+            compact
             :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
           />
           <conversation-labels :conversation-id="conversationId" />
         </div>
       </accordion-item>
     </div>
-
     <accordion-item
-      v-if="browser.browser_name"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
       :is-open="isContactSidebarItemOpen('is_conv_details_open')"
+      compact
       @click="value => toggleSidebarUIState('is_conv_details_open', value)"
     >
-      <div class="conversation--details">
-        <contact-details-item
-          v-if="location"
-          :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
-          :value="location"
-          icon="ion-map"
-          emoji="📍"
-        />
-        <contact-details-item
-          v-if="ipAddress"
-          :title="$t('CONTACT_PANEL.IP_ADDRESS')"
-          :value="ipAddress"
-          icon="ion-android-locate"
-          emoji="🧭"
-        />
-        <contact-details-item
-          v-if="browser.browser_name"
-          :title="$t('CONTACT_PANEL.BROWSER')"
-          :value="browserName"
-          icon="ion-ios-world-outline"
-          emoji="🌐"
-        />
-        <contact-details-item
-          v-if="browser.platform_name"
-          :title="$t('CONTACT_PANEL.OS')"
-          :value="platformName"
-          icon="ion-laptop"
-          emoji="💻"
-        />
-        <contact-details-item
-          v-if="referer"
-          :title="$t('CONTACT_PANEL.INITIATED_FROM')"
-          :value="referer"
-          icon="ion-link"
-          emoji="🔗"
-        >
-          <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
-            {{ referer }}
-          </a>
-        </contact-details-item>
-        <contact-details-item
-          v-if="initiatedAt"
-          :title="$t('CONTACT_PANEL.INITIATED_AT')"
-          :value="initiatedAt.timestamp"
-          icon="ion-clock"
-          emoji="🕰"
-        />
-      </div>
+      <conversation-info
+        :conversation-attributes="conversationAdditionalAttributes"
+        :contact-attributes="contactAdditionalAttributes"
+      >
+      </conversation-info>
     </accordion-item>
+
     <accordion-item
       v-if="hasContactAttributes"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
@@ -162,21 +122,21 @@ import ContactConversations from './ContactConversations.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
+import ConversationInfo from './ConversationInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
-import flag from 'country-code-emoji';
-
 export default {
   components: {
-    ContactCustomAttributes,
+    AccordionItem,
     ContactConversations,
+    ContactCustomAttributes,
     ContactDetailsItem,
     ContactInfo,
+    ConversationInfo,
     ConversationLabels,
     MultiselectDropdown,
-    AccordionItem,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {
@@ -200,67 +160,29 @@ export default {
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
+    conversationAdditionalAttributes() {
+      return this.currentConversationMetaData.additional_attributes || {};
+    },
+    channelType() {
+      return this.currentChat.meta?.channel;
+    },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+    contactAdditionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    contactId() {
+      return this.currentChat.meta?.sender?.id;
+    },
     currentConversationMetaData() {
       return this.$store.getters[
         'conversationMetadata/getConversationMetadata'
       ](this.conversationId);
     },
-    additionalAttributes() {
-      return this.currentConversationMetaData.additional_attributes || {};
-    },
     hasContactAttributes() {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
-    },
-    browser() {
-      return this.additionalAttributes.browser || {};
-    },
-    referer() {
-      return this.additionalAttributes.referer;
-    },
-    initiatedAt() {
-      return this.additionalAttributes.initiated_at;
-    },
-    browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
-    },
-    contactAdditionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    ipAddress() {
-      const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
-      return createdAtIp;
-    },
-    location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.contactAdditionalAttributes;
-      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
-
-      if (!cityAndCountry) {
-        return '';
-      }
-      const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${cityAndCountry} ${countryFlag}`;
-    },
-    platformName() {
-      const {
-        platform_name: platformName,
-        platform_version: platformVersion,
-      } = this.browser;
-      return `${platformName || ''} ${platformVersion || ''}`;
-    },
-    channelType() {
-      return this.currentChat.meta?.channel;
-    },
-    contactId() {
-      return this.currentChat.meta?.sender?.id;
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactId);
     },
     teamsList() {
       if (this.assignedTeam) {
@@ -330,12 +252,18 @@ export default {
   },
   mounted() {
     this.getContactDetails();
+    this.$store.dispatch('attributes/get', 0);
   },
   methods: {
     onPanelToggle() {
       this.onToggle();
     },
     getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
+    },
+    getAttributesByModel() {
       if (this.contactId) {
         this.$store.dispatch('contacts/show', { id: this.contactId });
       }
