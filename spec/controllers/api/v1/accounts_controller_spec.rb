@@ -52,7 +52,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
-        params = { account_name: 'test', email: email, user_full_name: user_full_name }
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
         post api_v1_accounts_url,
               params: params,
