@@ -17,7 +17,11 @@ checks:
   method-count:
     enabled: true
     config:
-      threshold: 25
+      threshold: 30
+  file-lines:
+    enabled: true
+    config:
+      threshold: 300
 exclude_patterns:
   - "spec/"
   - "**/specs/"

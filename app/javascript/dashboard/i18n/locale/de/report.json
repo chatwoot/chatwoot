@@ -62,7 +62,7 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Agenten-Übersicht",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
@@ -125,11 +125,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Label-Übersicht",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Label auswählen",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
@@ -188,10 +188,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Posteingangsübersicht",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Agenten-Berichte herunterladen",
     "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
     "METRICS": {
       "CONVERSATIONS": {
@@ -251,11 +251,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Team-Übersicht",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Team-Berichte herunterladen",
+    "FILTER_DROPDOWN_LABEL": "Team auswählen",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",

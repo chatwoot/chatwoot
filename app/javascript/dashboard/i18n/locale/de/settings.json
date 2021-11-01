@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
-    "TRAIL_BUTTON": "Jetzt kaufen"
+    "TRAIL_BUTTON": "Jetzt kaufen",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
     "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "ATTRIBUTES": "Attribute",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "Alle Kontakte",
     "TAGGED_WITH": "Markiert mit",
@@ -178,15 +179,15 @@
       "OPEN_CONVERSATION": "Unterhaltung öffnen",
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
       "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
-      "RESOLVE_CONVERSATION": "Unterhaltung lösen",
-      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
+      "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Gehe zur Konversationsübersicht",
       "ADD_ATTACHMENT": "Anhang hinzufügen",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
       "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
       "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
       "GO_TO_SETTINGS": "Zu den Einstellungen",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_CONVERSATION_STATUS": "Zum nächsten Konversations-Status wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",

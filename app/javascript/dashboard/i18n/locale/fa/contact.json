@@ -7,6 +7,7 @@
     "COMPANY": "شرکت",
     "LOCATION": "مکان",
     "CONVERSATION_TITLE": "جزئیات مکالمه",
+    "VIEW_PROFILE": "نمایش مشخصات",
     "BROWSER": "مرورگر",
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
@@ -32,8 +33,8 @@
         "NO_RESULT": "هیچ برچسبی یافت نشد"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "ادغام مخاطبین",
+    "CONTACT_ACTIONS": "اقدامات مخاطب",
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
     "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "مشاهده جزئیات"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "مخاطبین",
+    "LOADING": "بارگیری مشخصات مخاطب ..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "افزودن",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "درحال گرفتن یادداشت ها ... ",
+    "NOT_AVAILABLE": "هیچ یادداشت برای این تماس ایجاد نشده است",
     "HEADER": {
       "TITLE": "یادداشت"
+    },
+    "LIST": {
+      "LABEL": "یک یادداشت اضافه شد"
     },
     "ADD": {
       "BUTTON": "افزودن",
       "PLACEHOLDER": "افزودن یادداشت",
       "TITLE": "برای ایجاد یادداشت Shift + Enter را فشار دهید"
     },
-    "FOOTER": {
-      "BUTTON": "مشاهده همه یادداشت ها"
+    "CONTENT_HEADER": {
+      "DELETE": "حذف یادداشت"
     }
   },
   "EVENTS": {
@@ -244,19 +254,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "ادغام مخاطبین",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "با ادغام مخاطبین دو پروفایل به همراه تمام ویژگی ها و گفتگوها با هم ادغام می شود. در صورت تعارض، ویژگی های تماس اولیه اولویت دارد.",
     "PRIMARY": {
       "TITLE": "مخاطب اصلی",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "نگه داشتن"
     },
     "CHILD": {
       "TITLE": "ادغام مخاطب",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "جستجو برای یک مخاطب",
+      "HELP_LABEL": "حذف شود"
     },
     "SUMMARY": {
       "TITLE": "خلاصه",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> حذف خواهد شد.",
       "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{childContactName}</strong> کپی شود به <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +279,7 @@
         "ERROR": "برای ادغام مخاطب ثانویه را انتخاب کنید"
       },
       "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "نمی توان مخاطبین را ادغام کرد، دوباره امتحان کنید!"
     }
   }
 }

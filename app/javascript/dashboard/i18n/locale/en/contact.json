@@ -7,6 +7,7 @@
     "COMPANY": "Company",
     "LOCATION": "Location",
     "CONVERSATION_TITLE": "Conversation Details",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
     "OS": "Operating System",
     "INITIATED_FROM": "Initiated from",
@@ -154,6 +155,11 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Message",
         "PLACEHOLDER": "Write your message here",
@@ -188,6 +194,10 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Add",
@@ -199,16 +209,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
@@ -222,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -239,7 +261,29 @@
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Add",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

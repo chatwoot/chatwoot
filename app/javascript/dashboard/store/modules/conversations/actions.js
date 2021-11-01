@@ -297,8 +297,23 @@ const actions = {
     }
   },
 
-  setFilter: ({ commit }, filter) => {
-    commit(types.default.SET_FILTER, filter);
+  updateCustomAttributes: async (
+    { commit },
+    { conversationId, customAttributes }
+  ) => {
+    try {
+      const response = await ConversationApi.updateCustomAttributes({
+        conversationId,
+        customAttributes,
+      });
+      const { custom_attributes } = response.data;
+      commit(
+        types.default.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES,
+        custom_attributes
+      );
+    } catch (error) {
+      // Handle error
+    }
   },
 };
 

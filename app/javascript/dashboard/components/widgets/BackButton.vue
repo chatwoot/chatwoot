@@ -1,6 +1,6 @@
 <template>
   <span class="back-button ion-ios-arrow-left" @click.capture="goBack">
-    {{ $t('GENERAL_SETTINGS.BACK') }}
+    {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
   </span>
 </template>
 <script>
@@ -10,6 +10,10 @@ export default {
   props: {
     backUrl: {
       type: [String, Object],
+      default: '',
+    },
+    buttonLabel: {
+      type: String,
       default: '',
     },
   },

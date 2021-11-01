@@ -21,7 +21,7 @@ export const routes = [
   },
   {
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
-    name: 'contacts_dashboard_manage',
+    name: 'contact_profile_dashboard',
     roles: ['administrator', 'agent'],
     component: ContactManageView,
     props: route => {
