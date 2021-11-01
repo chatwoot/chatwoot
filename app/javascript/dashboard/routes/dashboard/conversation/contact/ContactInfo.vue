@@ -42,17 +42,17 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            v-if="additionalAttributes.location"
-            :value="additionalAttributes.location"
-            icon="ion-map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="ion-briefcase"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
+          />
+          <contact-info-row
+            v-if="location || additionalAttributes.location"
+            :value="location || additionalAttributes.location"
+            icon="ion-map"
+            emoji="🌍"
+            :title="$t('CONTACT_PANEL.LOCATION')"
           />
         </div>
       </div>
@@ -145,6 +145,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -189,6 +190,20 @@ export default {
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.additionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${cityAndCountry} ${countryFlag}`;
     },
     socialProfiles() {
       const {
@@ -294,7 +309,7 @@ export default {
 }
 
 .contact--metadata {
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-slab);
 }
 
 .contact-actions {
