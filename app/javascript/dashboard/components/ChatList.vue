@@ -11,16 +11,24 @@
           v-if="!isFilterApplied"
           @statusFilterChange="updateStatusType"
         />
-        <button v-else class="btn-clear-filters" @click="resetAndFetchData">
+        <woot-button
+          v-else
+          variant="clear"
+          color-scheme="secondary"
+          class="btn-clear-filters"
+          @click="resetAndFetchData"
+        >
           {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
-        </button>
-        <button
+        </woot-button>
+        <woot-button
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          variant="clear"
+          color-scheme="secondary"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
           <i class="icon ion-ios-settings-strong" />
-        </button>
+        </woot-button>
       </div>
     </div>
 
@@ -329,6 +337,8 @@ export default {
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
+@import '~widget/assets/scss/variables.scss';
+
 .spinner {
   margin-top: var(--space-normal);
   margin-bottom: var(--space-normal);
@@ -355,20 +365,19 @@ export default {
   display: flex;
   align-items: center;
   .btn-filter {
-    margin: 0 var(--space-normal);
     cursor: pointer;
     i {
-      font-size: 2rem;
+      font-size: $font-size-bigger;
     }
   }
   .btn-clear-filters {
-    color: tomato;
+    color: $color-error;
     cursor: pointer;
   }
 }
 
 .filter__applied {
   padding: var(--space-slab) 0 !important;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
 }
 </style>

@@ -27,7 +27,7 @@
             <span>{{ $t('FILTER.ADD_NEW_FILTER') }}</span>
           </button>
         </div>
-        <div class="modal-footer justify-content-end">
+        <div class="modal-footer justify-content-end w-full">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
@@ -46,7 +46,6 @@ import { required } from 'vuelidate/lib/validators';
 import filterInputBox from './components/FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from './advancedFilterItems/countries';
-import { mapGetters } from 'vuex';
 
 export default {
   components: {
