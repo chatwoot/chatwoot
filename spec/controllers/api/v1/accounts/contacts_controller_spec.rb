@@ -18,7 +18,7 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact_1) do
         create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Test Company 1', country_code: 'CA' })
       end
-      let!(:contact_2) do
+      let(:contact_2) do
         create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Marvel Company', country_code: 'AL' })
       end
       let(:contact_3) do
@@ -82,8 +82,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = JSON.parse(response.body)
-        expect(response_body['payload'].first['email']).to eq(contact_2.email)
-        expect(response_body['payload'].first['id']).to eq(contact_2.id)
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['id']).to eq(contact.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 

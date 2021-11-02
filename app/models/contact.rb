@@ -132,6 +132,12 @@ class Contact < ApplicationRecord
     }
   end
 
+  def self.resolved_contacts
+    where.not(email: [nil, '']).or(
+      Current.account.contacts.where.not(phone_number: [nil, ''])
+    ).or(Current.account.contacts.where.not(identifier: [nil, '']))
+  end
+
   private
 
   def ip_lookup
