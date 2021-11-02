@@ -113,7 +113,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def already_sent_from_chatwoot?
     cw_message = conversation.messages.where(
       source_id: nil,
-      message_type: 'outgoing',
+      message_type: %w[template outgoing],
       content: message_content,
       private: false,
       status: :sent
