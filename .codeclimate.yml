@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 plugins:
   rubocop:
     enabled: false
@@ -23,23 +23,23 @@ checks:
     config:
       threshold: 300
 exclude_patterns:
-  - 'spec/'
-  - '**/specs/'
-  - 'db/*'
-  - 'bin/**/*'
-  - 'db/**/*'
-  - 'config/**/*'
-  - 'public/**/*'
-  - 'vendor/**/*'
-  - 'node_modules/**/*'
-  - 'lib/tasks/auto_annotate_models.rake'
-  - 'app/test-matchers.js'
-  - 'docs/*'
-  - '**/*.md'
-  - '**/*.yml'
-  - 'app/javascript/dashboard/i18n/locale'
-  - '**/*.stories.js'
-  - 'stories/'
-  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js'
-  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/countries.js'
-  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js'
+  - "spec/"
+  - "**/specs/"
+  - "db/*"
+  - "bin/**/*"
+  - "db/**/*"
+  - "config/**/*"
+  - "public/**/*"
+  - "vendor/**/*"
+  - "node_modules/**/*"
+  - "lib/tasks/auto_annotate_models.rake"
+  - "app/test-matchers.js"
+  - "docs/*"
+  - "**/*.md"
+  - "**/*.yml"
+  - "app/javascript/dashboard/i18n/locale"
+  - "**/*.stories.js"
+  - "stories/"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/countries.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js"
