@@ -1,6 +1,17 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
 import * as types from '../../../mutation-types';
+const dataToSend = {
+  payload: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: ['open'],
+      query_operator: null,
+    },
+  ],
+};
+import { dataReceived } from './testConversationResponse';
 
 const commit = jest.fn();
 const dispatch = jest.fn();
@@ -259,6 +270,20 @@ describe('#actions', () => {
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         ['ASSIGN_TEAM', { id: 1, name: 'Team' }],
+      ]);
+    });
+  });
+
+  describe('#fetchFilteredConversations', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: dataReceived,
+      });
+      await actions.fetchFilteredConversations({ commit }, dataToSend);
+      expect(commit).toHaveBeenCalledTimes(2);
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
       ]);
     });
   });

@@ -14,7 +14,7 @@
         <woot-button
           v-else
           variant="clear"
-          color-scheme="secondary"
+          color-scheme="danger"
           class="btn-clear-filters"
           @click="resetAndFetchData"
         >
