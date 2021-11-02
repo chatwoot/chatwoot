@@ -9,9 +9,8 @@ export const actions = {
       const { data } = await ConversationAPI.get();
       data.forEach(conversation => {
         const { id: conversationId, messages } = conversation;
-        const { contact_last_seen_at: userLastSeenAt } = conversation;
+        const { contact_last_seen_at: userLastSeenAt, status } = conversation;
         const lastMessage = messages[messages.length - 1];
-
         commit('addConversationEntry', conversation);
         commit('addConversationId', conversationId);
         commit('setConversationUIFlag', {
@@ -19,7 +18,7 @@ export const actions = {
           conversationId,
         });
         commit('setConversationMeta', {
-          meta: { userLastSeenAt },
+          meta: { userLastSeenAt, status },
           conversationId,
         });
         commit(
@@ -151,5 +150,14 @@ export const actions = {
     } catch (error) {
       // IgnoreError
     }
+  },
+
+  setConversationStatusIn: async ({ commit }, params) => {
+    const { conversationId, status } = params;
+
+    commit('setConversationMeta', {
+      meta: { status },
+      conversationId,
+    });
   },
 };

@@ -13,7 +13,7 @@ const state = {
     },
     meta: {
       byId: {
-        // 1: { userLastSeenAt: undefined },
+        // 1: { userLastSeenAt: undefined, status: 'open' },
       },
     },
   },

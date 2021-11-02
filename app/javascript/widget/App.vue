@@ -165,7 +165,6 @@ export default {
         this.showUnreadView = false;
         this.$router.replace({ name: 'chat', conversationId: campaignId });
         this.unsetUnreadView();
-        debugger;
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
@@ -192,7 +191,7 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-      if (this.isIFrame && unreadMessageCount > 0) {
+      if (!this.isWidgetOpen && this.isIFrame && unreadMessageCount > 0) {
         const currentRouteName = this.$route.name;
         if (currentRouteName !== 'unread') {
           this.$router.replace({ name: 'unread' });
@@ -275,6 +274,9 @@ export default {
           this.setUnreadView();
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
+          this.$router.replace({
+            name: 'home',
+          });
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;

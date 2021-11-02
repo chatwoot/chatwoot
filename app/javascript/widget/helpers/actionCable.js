@@ -28,7 +28,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onStatusChange = data => {
-    this.app.$store.dispatch('conversationAttributes/update', data);
+    const { status, id: conversationId } = data;
+    this.app.$store.dispatch('conversationV2/setConversationStatusIn', {
+      status,
+      conversationId,
+    });
   };
 
   onMessageCreated = data => {

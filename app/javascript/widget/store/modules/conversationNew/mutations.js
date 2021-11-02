@@ -63,6 +63,7 @@ export const mutations = {
   setConversationMeta($state, { conversationId, meta = {} }) {
     const defaultMeta = {
       userLastSeenAt: undefined,
+      status: 'open',
     };
     const currentMeta = $state.conversations.meta.byId[conversationId];
     Vue.set($state.conversations.meta.byId, conversationId, {

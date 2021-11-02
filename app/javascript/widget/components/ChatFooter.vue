@@ -54,20 +54,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
-      totalMessagesSizeIn: 'conversationV2/allMessagesCountIn',
+      metaIn: 'conversationV2/metaIn',
       currentUser: 'contacts/getCurrentUser',
     }),
-    totalMessagesSize() {
-      return this.totalMessagesSizeIn(this.conversationId);
-    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
     hideReplyBox() {
       const { csatSurveyEnabled } = window.chatwootWebChannel;
-      const { status } = this.conversationAttributes;
+      const { status } = this.metaIn(this.conversationId);
+
       return csatSurveyEnabled && status === 'resolved';
     },
     showEmailTranscriptButton() {
@@ -80,12 +77,7 @@ export default {
       'sendAttachment',
       'clearConversations',
     ]),
-    ...mapActions('conversationAttributes', [
-      'getAttributes',
-      'clearConversationAttributes',
-    ]),
     async handleSendMessage(content) {
-      const conversationSize = this.totalMessagesSize;
       let conversationId = this.conversationId;
       if (conversationId) {
         await this.sendMessage({
@@ -96,11 +88,6 @@ export default {
         const newConversationId = await this.handleCreateConversation(content);
 
         bus.$emit('update-conversation-id', newConversationId);
-      }
-
-      // Update conversation attributes on new conversation
-      if (conversationSize === 0) {
-        this.getAttributes();
       }
     },
     async handleCreateConversation(content) {
