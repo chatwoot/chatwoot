@@ -287,6 +287,32 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#setConversationFilter', () => {
+    it('commits the correct mutation and sets filter state', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      actions.setConversationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONVERSATION_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('#clearConversationFilter', () => {
+    it('commits the correct mutation and clears filter state', () => {
+      actions.clearConversationFilters({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.CLEAR_CONVERSATION_FILTERS],
+      ]);
+    });
+  });
 });
 
 describe('#deleteMessage', () => {
