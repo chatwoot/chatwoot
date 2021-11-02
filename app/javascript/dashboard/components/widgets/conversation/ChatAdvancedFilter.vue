@@ -41,16 +41,15 @@
 </template>
 
 <script>
-import Modal from '../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import filterInputBox from './components/FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from './advancedFilterItems/countries';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    Modal,
     filterInputBox,
   },
   mixins: [alertMixin],
@@ -77,14 +76,7 @@ export default {
   data() {
     return {
       show: true,
-      appliedFilters: [
-        {
-          attribute_key: 'status',
-          filter_operator: 'equal_to',
-          values: '',
-          query_operator: 'and',
-        },
-      ],
+      appliedFilters: [],
     };
   },
   computed: {
@@ -96,9 +88,22 @@ export default {
         };
       });
     },
+    getAppliedFilters() {
+      return this.$store.getters.getAppliedFilters;
+    },
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
+    if (this.getAppliedFilters.length) {
+      this.appliedFilters = this.getAppliedFilters;
+    } else {
+      this.appliedFilters.push({
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+      });
+    }
   },
   methods: {
     getInputType(key) {
@@ -183,6 +188,10 @@ export default {
     submitFilterQuery() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
+      this.$store.dispatch(
+        'setConversationFilters',
+        JSON.parse(JSON.stringify(this.appliedFilters))
+      );
       this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },

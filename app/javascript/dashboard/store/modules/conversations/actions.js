@@ -316,6 +316,14 @@ const actions = {
       // Handle error
     }
   },
+
+  setConversationFilters({ commit }, data) {
+    commit(types.default.SET_CONVERSATION_FILTERS, data);
+  },
+
+  clearConversationFilters({ commit }) {
+    commit(types.default.CLEAR_CONVERSATION_FILTERS);
+  },
 };
 
 export default actions;

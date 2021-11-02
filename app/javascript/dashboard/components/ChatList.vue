@@ -1,14 +1,14 @@
 <template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top" :class="{ filter__applied: filtersApplied }">
+    <div class="chat-list__top" :class="{ filter__applied: isFilterApplied }">
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
       <div class="filter--actions">
         <chat-filter
-          v-if="!filtersApplied"
+          v-if="!isFilterApplied"
           @statusFilterChange="updateStatusType"
         />
         <button v-else class="btn-clear-filters" @click="resetAndFetchData">
@@ -25,7 +25,7 @@
     </div>
 
     <chat-type-tabs
-      v-if="!filtersApplied"
+      v-if="!isFilterApplied"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -131,7 +131,6 @@ export default {
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       showAdvancedFilters: false,
       advancedFilterTypes,
-      filtersApplied: false,
     };
   },
   computed: {
@@ -145,7 +144,11 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
+      filtersApplied: 'getAppliedFilters',
     }),
+    isFilterApplied() {
+      return this.filtersApplied.length;
+    },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
         const count = this.conversationStats[item.COUNT_KEY] || 0;
@@ -196,7 +199,7 @@ export default {
     },
     conversationList() {
       let conversationList = [];
-      if (!this.filtersApplied) {
+      if (!this.isFilterApplied) {
         const filters = this.conversationFilters;
         if (this.activeAssigneeTab === 'me') {
           conversationList = [...this.mineChatsList(filters)];
@@ -288,17 +291,16 @@ export default {
     resetAndFetchData() {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
+      this.$store.dispatch('clearConversationFilters');
       this.fetchConversations();
     },
     fetchConversations() {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
         .then(() => this.$emit('conversation-load'));
-      this.filtersApplied = false;
     },
     fetchFilteredConversations(payload) {
       this.$router.push({ name: 'home' });
-      this.filtersApplied = true;
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store

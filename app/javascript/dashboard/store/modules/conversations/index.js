@@ -13,6 +13,7 @@ const state = {
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
   selectedChatId: null,
+  appliedFilters: [],
 };
 
 // mutations
@@ -76,7 +77,7 @@ export const mutations = {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'custom_attributes', custom_attributes);
   },
-    
+
   [types.default.CHANGE_CONVERSATION_STATUS](
     _state,
     { conversationId, status, snoozedUntil }
@@ -195,6 +196,14 @@ export const mutations = {
       c => c.meta.sender.id !== contactId
     );
     Vue.set(_state, 'allConversations', chats);
+  },
+
+  [types.default.SET_CONVERSATION_FILTERS](_state, data) {
+    _state.appliedFilters = data;
+  },
+
+  [types.default.CLEAR_CONVERSATION_FILTERS](_state) {
+    _state.appliedFilters = [];
   },
 };
 

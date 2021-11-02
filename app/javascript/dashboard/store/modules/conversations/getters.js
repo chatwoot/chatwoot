@@ -31,6 +31,9 @@ const getters = {
       return isChatMine;
     });
   },
+  getAppliedFilters: _state => {
+    return _state.appliedFilters;
+  },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
       const isUnAssigned = !conversation.meta.assignee;
