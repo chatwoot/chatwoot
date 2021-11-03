@@ -39,7 +39,13 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_message_id
-    @account.conversations.where("additional_attributes->>'message_id' = ?", @processed_mail.message_id).first
+    return if @inbound_mail['references'].nil?
+
+    @account.conversations.where("additional_attributes->>'message_id' IN (?)", reply_message_id).first
+  end
+
+  def reply_message_id
+    @inbound_mail['references'].try(:value).split(' ')
   end
 
   def find_or_create_conversation
@@ -51,7 +57,7 @@ class Imap::ImapMailbox
                                                                                 additional_attributes: {
                                                                                   source: 'email',
                                                                                   mail_subject: @processed_mail.subject,
-                                                                                  message_id: @processed_mail.message_id,
+                                                                                  message_id: "<#{@processed_mail.message_id}>",
                                                                                   initiated_at: {
                                                                                     timestamp: Time.now.utc
                                                                                   }

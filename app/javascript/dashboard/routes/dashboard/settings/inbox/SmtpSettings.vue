@@ -61,7 +61,7 @@
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
-          :disabled="$v.$invalid && isSMTPEnabled"
+          :disabled="($v.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>
     </settings-section>
@@ -147,10 +147,10 @@ export default {
             smtp_domain: this.domain,
           },
         };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
+        this.showAlert(this.$t('INBOX_MGMT.SMTP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.SMTP.EDIT.ERROR_MESSAGE'));
       }
     },
   },

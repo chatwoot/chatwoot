@@ -61,7 +61,7 @@
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.IMAP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
-          :disabled="$v.$invalid && isIMAPEnabled"
+          :disabled="($v.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
         />
       </form>
     </settings-section>
@@ -131,6 +131,7 @@ export default {
     },
     async updateInbox() {
       try {
+        this.loading = true;
         const payload = {
           id: this.inbox.id,
           formData: false,
@@ -146,10 +147,10 @@ export default {
               : undefined,
           },
         };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        await this.$store.dispatch('inboxes/updateInboxIMAP', payload);
+        this.showAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.IMAP.EDIT.ERROR_MESSAGE'));
       }
     },
   },

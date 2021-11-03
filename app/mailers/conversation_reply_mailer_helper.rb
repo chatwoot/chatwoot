@@ -9,7 +9,8 @@ module ConversationReplyMailerHelper
       message_id: email_message_id,
       in_reply_to: in_reply_to_email,
       cc: cc_bcc_emails[0],
-      bcc: cc_bcc_emails[1]
+      bcc: cc_bcc_emails[1],
+      references: email_message_id
     }
 
     if @inbox.inbox_type == 'Email' && @channel.smtp_enabled
