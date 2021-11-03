@@ -30,7 +30,6 @@ export default {
   data() {
     return {
       widgetPosition: 'right',
-      showCampaignView: false,
       isMobile: false,
       isChatTriggerHidden: false,
       showPopoutButton: false,
@@ -64,11 +63,6 @@ export default {
   watch: {
     activeCampaign() {
       this.setCampaignView();
-    },
-    showCampaignView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-      }
     },
   },
   mounted() {
@@ -142,7 +136,11 @@ export default {
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
-        this.setUnreadView();
+        this.sendSetUnreadViewEvent();
+        const currentRouteName = this.$route.name;
+        if (!this.isWidgetOpen && currentRouteName !== 'unread') {
+          this.$router.replace({ name: 'unread' });
+        }
       });
       bus.$on('on-unread-view-clicked', conversationId => {
         this.$router.replace({
@@ -154,7 +152,7 @@ export default {
             conversationId,
           },
         });
-        this.unsetUnreadView();
+        this.sendUnsetUnreadView();
         this.setUserLastSeen();
       });
     },
@@ -163,8 +161,12 @@ export default {
         const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
         this.showUnreadView = false;
-        this.$router.replace({ name: 'chat', conversationId: campaignId });
-        this.unsetUnreadView();
+        this.$router.replace({
+          name: 'home',
+        });
+        this.$router.push({ name: 'chat', conversationId: campaignId });
+
+        this.sendUnsetUnreadView();
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
@@ -189,21 +191,17 @@ export default {
         this.setIframeHeight(this.isMobile);
       }
     },
-    setUnreadView() {
+    sendSetUnreadViewEvent() {
       const { unreadMessageCount } = this;
-      if (!this.isWidgetOpen && this.isIFrame && unreadMessageCount > 0) {
-        const currentRouteName = this.$route.name;
-        if (currentRouteName !== 'unread') {
-          this.$router.replace({ name: 'unread' });
-          this.setIframeHeight(this.isMobile);
-        }
+      if (this.isIFrame && unreadMessageCount > 0) {
         IFrameHelper.sendMessage({
           event: 'setUnreadMode',
           unreadMessageCount,
         });
+        this.setIframeHeight(this.isMobile);
       }
     },
-    unsetUnreadView() {
+    sendUnsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight();
@@ -230,6 +228,7 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
@@ -271,16 +270,18 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          this.setUnreadView();
-          this.showCampaignView = false;
+          // this.sendSetUnreadViewEvent();
         } else if (message.event === 'unset-unread-view') {
-          this.$router.replace({
-            name: 'home',
-          });
-          this.showCampaignView = false;
+          // this.sendUnsetUnreadView();
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
+
+          if (!message.isOpen) {
+            this.$router.replace({
+              name: 'home',
+            });
+          }
         }
       });
     },
@@ -332,7 +333,7 @@ export default {
 
       if (conversationId) {
         await this.fetchOldMessagesIn(this.lastActiveConversationId);
-        this.setUnreadView();
+        this.sendSetUnreadViewEvent();
       }
     },
     setUserLastSeen() {

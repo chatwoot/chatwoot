@@ -18,13 +18,13 @@ export const actions = {
     const doesMessageExist = getters.messageById(messageIdInStore);
 
     if (doesMessageExist) {
-      commit('removeMessageEntry', echoId);
-      commit('removeMessageId', echoId);
       commit(
         'conversationV2/removeMessageIdFromConversation',
         { conversationId, messageId: echoId },
         { root: true }
       );
+      commit('removeMessageEntry', echoId);
+      commit('removeMessageId', echoId);
     }
     const messages = [message];
     commit('addMessagesEntry', { conversationId, messages });
