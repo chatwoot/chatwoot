@@ -17,6 +17,7 @@
       v-for="conversation in conversations"
       :key="conversation.id"
       :conversation="conversation"
+      :unread-count="unreadCount(conversation.id)"
     />
   </div>
 </template>
@@ -59,6 +60,14 @@ export default {
     //     },
     //   });
     // };
+    const unreadCount = conversationId => {
+      const count =
+        context.root.$store.getters['conversationV2/unreadTextMessagesCountIn'](
+          conversationId
+        ) || 0;
+      debugger;
+      return count;
+    };
 
     const clickAllConversations = () => {
       router.push({
@@ -66,6 +75,7 @@ export default {
       });
     };
     return {
+      unreadCount,
       clickAllConversations,
     };
   },

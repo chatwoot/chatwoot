@@ -12,8 +12,9 @@
               {{ dynamicTime(lastMessage.created_at) }}
             </span>
           </div>
-          <p class="text-sm text-black-700">
+          <p class="message-content" :class="{ 'has-unread': unreadCount }">
             {{ lastMessageContent }}
+            <span v-if="unreadCount > 0" class="unread-bubble"></span>
           </p>
         </div>
       </div>
@@ -32,6 +33,10 @@ export default {
     conversation: {
       type: Object,
       default: () => ({}),
+    },
+    unreadCount: {
+      type: Number,
+      default: 0,
     },
   },
   setup(props, context) {
@@ -106,5 +111,23 @@ export default {
   @apply flex;
   @apply py-3;
   border: 1px solid transparent;
+}
+
+.message-content {
+  @apply inline-block;
+  @apply text-sm;
+  @apply text-black-700;
+
+  &.has-unread {
+    @apply font-medium;
+  }
+}
+
+.unread-bubble {
+  @apply w-2;
+  @apply h-2;
+  @apply rounded-full;
+  @apply bg-red-300;
+  @apply inline-block;
 }
 </style>
