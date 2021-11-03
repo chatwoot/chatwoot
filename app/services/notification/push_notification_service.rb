@@ -97,12 +97,12 @@ class Notification::PushNotificationService
         body: notification.push_message_title,
         sound: 'default'
       },
-      android:{
-        priority:"high"
+      android: {
+        priority:'high'
       },
-      apns:{
-        headers:{
-          apns-priority:"10"
+      apns: {
+        headers: {
+          apns-priority:'10'
         }
       },
       data: { notification: notification.fcm_push_data.to_json },
