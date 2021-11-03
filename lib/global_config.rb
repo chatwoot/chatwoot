@@ -15,9 +15,9 @@ class GlobalConfig
       config.with_indifferent_access
     end
 
-  def get_value(arg)
-    load_from_cache(arg)
-  end
+    def get_value(arg)
+      load_from_cache(arg)
+    end
 
     def clear_cache
       cached_keys = $alfred.keys("#{VERSION}:#{KEY_PREFIX}:*")
