@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
+    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
+    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konverzace",
+        "DESC": "( celkem)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Příchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Čas první odpovědi",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Čas rozlišení",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Počet rozlišení",
+        "DESC": "( celkem)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konverzace",
+        "DESC": "( celkem)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Příchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Čas první odpovědi",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Čas rozlišení",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Počet rozlišení",
+        "DESC": "( celkem)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konverzace",
+        "DESC": "( celkem)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Příchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Čas první odpovědi",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Čas rozlišení",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Počet rozlišení",
+        "DESC": "( celkem)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konverzace",
+        "DESC": "( celkem)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Příchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odchozí zprávy",
+        "DESC": "( celkem)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Čas první odpovědi",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Čas rozlišení",
+        "DESC": "(Průměrný)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Počet rozlišení",
+        "DESC": "( celkem)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Terbuka",
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
-      "DETAILS": "detail"
+      "DETAILS": "detail",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Petugas Percakapan berubah",
     "CHANGE_TEAM": "Tim percakapan berubah",
     "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Dikirim oleh:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",

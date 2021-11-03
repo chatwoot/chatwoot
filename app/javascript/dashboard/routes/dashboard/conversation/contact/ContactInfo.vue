@@ -2,6 +2,7 @@
   <div class="contact--profile">
     <div class="contact--info">
       <thumbnail
+        v-if="showAvatar"
         :src="contact.thumbnail"
         size="56px"
         :username="contact.name"
@@ -9,8 +10,16 @@
       />
 
       <div class="contact--details">
-        <h3 class="sub-block-title contact--name">
-          {{ contact.name }}
+        <h3 v-if="showAvatar" class="sub-block-title contact--name">
+          <a
+            :href="contactProfileLink"
+            class="fs-default"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            {{ contact.name }}
+            <i class="ion-android-open open-link--icon" />
+          </a>
         </h3>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
@@ -25,7 +34,6 @@
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -34,73 +42,63 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            v-if="additionalAttributes.location"
-            :value="additionalAttributes.location"
-            icon="ion-map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="ion-briefcase"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
+          <contact-info-row
+            v-if="location || additionalAttributes.location"
+            :value="location || additionalAttributes.location"
+            icon="ion-map"
+            emoji="🌍"
+            :title="$t('CONTACT_PANEL.LOCATION')"
+          />
         </div>
       </div>
-      <div v-if="!showNewMessage">
-        <div>
-          <woot-button
-            class="edit-contact"
-            variant="link"
-            size="small"
-            @click="toggleEditModal"
-          >
-            {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-        <div v-if="isAdmin">
-          <woot-button
-            class="delete-contact"
-            variant="link"
-            size="small"
-            color-scheme="alert"
-            @click="toggleDeleteModal"
-            :disabled="uiFlags.isDeleting"
-          >
-            {{ $t('DELETE_CONTACT.BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-      </div>
-      <div v-else>
-        <div class="contact-actions">
-          <woot-button
-            v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
-            class="new-message"
-            icon="ion-chatboxes"
-            size="small expanded"
-            @click="toggleConversationModal"
-          />
-          <woot-button
-            v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
-            class="edit-contact"
-            icon="ion-edit"
-            variant="smooth"
-            size="small expanded"
-            @click="toggleEditModal"
-          />
-          <woot-button
-            v-if="isAdmin"
-            v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
-            class="delete-contact"
-            icon="ion-trash-a"
-            variant="hollow"
-            size="small expanded"
-            color-scheme="alert"
-            @click="toggleDeleteModal"
-            :disabled="uiFlags.isDeleting"
-          />
-        </div>
+      <div class="contact-actions">
+        <woot-button
+          v-if="showNewMessage"
+          v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          title="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          class="new-message"
+          icon="ion-chatboxes"
+          size="small expanded"
+          @click="toggleConversationModal"
+        />
+        <woot-button
+          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          class="edit-contact"
+          icon="ion-edit"
+          variant="smooth"
+          size="small expanded"
+          @click="toggleEditModal"
+        />
+        <woot-button
+          v-if="isAdmin"
+          v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          title="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          class="merge-contact"
+          icon="ion-merge"
+          variant="smooth"
+          size="small expanded"
+          color-scheme="secondary"
+          :disabled="uiFlags.isMerging"
+          @click="openMergeModal"
+        />
+        <woot-button
+          v-if="isAdmin"
+          v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          title="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          class="delete-contact"
+          icon="ion-trash-a"
+          variant="smooth"
+          size="small expanded"
+          color-scheme="alert"
+          :disabled="uiFlags.isDeleting"
+          @click="toggleDeleteModal"
+        />
       </div>
       <edit-contact
         v-if="showEditModal"
@@ -113,6 +111,12 @@
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
+      />
+      <contact-merge-modal
+        v-if="showMergeModal"
+        :primary-contact="contact"
+        :show="showMergeModal"
+        @close="toggleMergeModal"
       />
     </div>
     <woot-confirm-delete-modal
@@ -130,14 +134,18 @@
   </div>
 </template>
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
+import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -146,8 +154,9 @@ export default {
     Thumbnail,
     SocialIcons,
     NewConversation,
+    ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin],
+  mixins: [alertMixin, adminMixin, clickaway],
   props: {
     contact: {
       type: Object,
@@ -161,18 +170,40 @@ export default {
       type: Boolean,
       default: false,
     },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       showEditModal: false,
       showConversationModal: false,
+      showMergeModal: false,
       showDeleteModal: false,
     };
   },
   computed: {
     ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.additionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${cityAndCountry} ${countryFlag}`;
     },
     socialProfiles() {
       const {
@@ -201,6 +232,9 @@ export default {
     },
   },
   methods: {
+    toggleMergeModal() {
+      this.showMergeModal = !this.showMergeModal;
+    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -232,24 +266,26 @@ export default {
         );
       }
     },
+    openMergeModal() {
+      this.toggleMergeModal();
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
 .contact--profile {
+  position: relative;
   align-items: flex-start;
   padding: var(--space-normal);
 
   .user-thumbnail-box {
-    margin-right: $space-normal;
+    margin-right: var(--space-normal);
   }
 }
 
 .contact--details {
-  margin-top: $space-small;
+  margin-top: var(--space-small);
   width: 100%;
 }
 
@@ -260,22 +296,24 @@ export default {
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+
+  a {
+    color: var(--color-body);
+  }
+
+  .open-link--icon {
+    color: var(--color-body);
+    font-size: var(--font-size-small);
+    margin-left: var(--space-smaller);
+  }
 }
 
 .contact--metadata {
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-slab);
 }
 
 .contact-actions {
   margin-top: var(--space-small);
-}
-
-.edit-contact {
-  margin-left: var(--space-medium);
-}
-
-.delete-contact {
-  margin-left: var(--space-medium);
 }
 
 .contact-actions {
@@ -283,18 +321,20 @@ export default {
   align-items: center;
   width: 100%;
 
-  .new-message {
-    font-size: var(--font-size-medium);
-  }
-
-  .edit-contact {
-    margin-left: var(--space-small);
-    font-size: var(--font-size-medium);
-  }
-
+  .new-message,
+  .edit-contact,
+  .merge-contact,
   .delete-contact {
-    margin-left: var(--space-small);
-    font-size: var(--font-size-medium);
+    margin-right: var(--space-small);
   }
+}
+.merege-summary--card {
+  padding: var(--space-normal);
+}
+
+.button--contact-menu {
+  position: absolute;
+  right: var(--space-normal);
+  top: 0;
 }
 </style>

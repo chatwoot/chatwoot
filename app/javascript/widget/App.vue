@@ -36,6 +36,7 @@ export default {
       widgetPosition: 'right',
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+      isWidgetOpen: false,
     };
   },
   computed: {
@@ -134,8 +135,8 @@ export default {
       this.hideMessageBubble = !!hideBubble;
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        if (!this.isIFrame) {
+      bus.$on('on-agent-message-received', () => {
+        if (!this.isIFrame || this.isWidgetOpen) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
@@ -257,6 +258,7 @@ export default {
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
+          this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
         }
       });

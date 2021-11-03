@@ -2,7 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
 
-  before_action :conversation, except: [:index, :meta, :search, :create]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :contact_inbox, only: [:create]
 
   def index
@@ -30,6 +30,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def show; end
+
+  def filter
+    @conversations = Current.account.conversations.limit(10)
+  end
 
   def mute
     @conversation.mute!

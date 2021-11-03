@@ -27,62 +27,73 @@ it:
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
       failed: Iscrizione fallita
+    contacts:
+      import:
+        failed: Il file è vuoto
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Periodo di segnalazione da %{since} a %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Nome dell'agente
+      conversations_count: Conteggio conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
+    team_csv:
+      team_name: Nome del team
+      conversations_count: Conteggio conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nuova conversazione] - #%{display_id} è stato creato in %{inbox_name}"
+      conversation_assignment: "[Assegnato a te] - #%{display_id} ti è stato assegnato"
+      assigned_conversation_new_message: "[Nuovo messaggio] - #%{display_id} %{content}"
+      conversation_mention: "Sei stato menzionato nella conversazione [ID - %{display_id}] da %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Questo messaggio è stato eliminato
     activity:
       status:
         resolved: "Conversazione segnata da %{user_name}"
         open: "La conversazione è stata riaperta da %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        pending: "La conversazione è stata contrassegnata come in attesa da %{user_name}"
+        snoozed: "La conversazione è stata sospesa da %{user_name}"
+        auto_resolved: "La conversazione è stata segnata risolta dal sistema a causa di %{duration} giorni di inattività"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} auto-assegnato a questa conversazione"
         assigned: "Assegnato a %{assignee_name} da %{user_name}"
         removed: "Conversazione non assegnata da %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Assegnato a %{team_name} da %{user_name}"
+        assigned_with_assignee: "Assegnato a %{assignee_name} via %{team_name} da %{user_name}"
+        removed: "Assegnato a %{team_name} da %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} ha aggiunto %{labels}"
+        removed: "%{user_name} rimosso %{labels}"
+      muted: "%{user_name} ha silenziato la conversazione"
+      unmuted: "%{user_name} ha attivato le notifiche alla conversazione"
     templates:
       greeting_message_body: "%{account_name}, in genere, risponde in poche ore."
       ways_to_reach_you_message_body: "Offri alla squadra un modo per raggiungerti."
       email_input_box_message_body: "Ricevi una notifica via email"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Valuta la conversazione"
     reply:
       email_subject: "Nuovi messaggi in questa conversazione"
-      transcript_subject: "Conversation Transcript"
+      transcript_subject: "Trascrizione della Conversazione"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Valuta questa conversazione, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack è uno strumento di chat che porta tutta la vostra comunicazione insieme in un unico posto. Integrando Slack, puoi ricevere una notifica di tutte le nuove conversazioni nel tuo account direttamente all'interno della tua Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account. Puoi utilizzare i webhooks per comunicare gli eventi alle tue app preferite, come Slack o Github. Clicca su Configura per configurare i tuoi webhook."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Costruisci chatbots usando Dialogflow e collegali rapidamente alla tua casella di posta. Lasciate che i bot gestiscano le domande prima di consegnarle a un agente di servizio clienti."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "L'integrazione di FullContact aiuta ad arricchire i profili dei visitatori. Identificare gli utenti non appena condividono il loro indirizzo email e offrono loro un servizio clienti personalizzato. Collega il tuo FullContact al tuo account condividendo la chiave API FullContent."

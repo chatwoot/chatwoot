@@ -22,8 +22,8 @@
       />
       <reply-email-head
         v-if="showReplyHead"
-        @set-emails="setCcEmails"
         :clear-mails="clearMails"
+        @set-emails="setCcEmails"
       />
       <resizable-text-area
         v-if="!showRichContentEditor"
@@ -278,8 +278,8 @@ export default {
       }
       return !this.message.trim().replace(/\n/g, '').length;
     },
-    showReplyHead(){
-      return this.isAnEmailChannel;
+    showReplyHead() {
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
   },
   watch: {
@@ -465,11 +465,11 @@ export default {
         messagePayload.file = attachment.resource.file;
       }
 
-      if(this.ccEmails) {
+      if (this.ccEmails) {
         messagePayload.ccEmails = this.ccEmails;
       }
 
-      if(this.bccEmails) {
+      if (this.bccEmails) {
         messagePayload.bccEmails = this.bccEmails;
       }
 
@@ -480,8 +480,8 @@ export default {
     },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
-      this.ccEmails = value.ccEmails
-    }
+      this.ccEmails = value.ccEmails;
+    },
   },
 };
 </script>

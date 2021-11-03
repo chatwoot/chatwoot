@@ -61,6 +61,258 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
+    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
+    "FILTER_DROPDOWN_LABEL": "Valitse edustaja",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Keskustelut",
+        "DESC": "(yhteensä)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Saapuvat viestit",
+        "DESC": "(yhteensä)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Lähtevät viestit",
+        "DESC": "(yhteensä)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Ensimmäinen vasteaika",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Selviytymisen kesto",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Selvitysmäärä",
+        "DESC": "(yhteensä)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Keskustelut",
+        "DESC": "(yhteensä)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Saapuvat viestit",
+        "DESC": "(yhteensä)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Lähtevät viestit",
+        "DESC": "(yhteensä)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Ensimmäinen vasteaika",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Selviytymisen kesto",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Selvitysmäärä",
+        "DESC": "(yhteensä)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Keskustelut",
+        "DESC": "(yhteensä)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Saapuvat viestit",
+        "DESC": "(yhteensä)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Lähtevät viestit",
+        "DESC": "(yhteensä)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Ensimmäinen vasteaika",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Selviytymisen kesto",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Selvitysmäärä",
+        "DESC": "(yhteensä)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Keskustelut",
+        "DESC": "(yhteensä)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Saapuvat viestit",
+        "DESC": "(yhteensä)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Lähtevät viestit",
+        "DESC": "(yhteensä)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Ensimmäinen vasteaika",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Selviytymisen kesto",
+        "DESC": "(keskiarvo)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Selvitysmäärä",
+        "DESC": "(yhteensä)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Viimeiset 7 päivää"
+      },
+      {
+        "id": 1,
+        "name": "Viimeiset 30 päivää"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

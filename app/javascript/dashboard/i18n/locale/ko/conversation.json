@@ -39,7 +39,10 @@
       "OPEN_ACTION": "열기",
       "OPEN": "더보기",
       "CLOSE": "닫기",
-      "DETAILS": "자세히"
+      "DETAILS": "자세히",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "대화 담당자가 변경됨",
     "CHANGE_TEAM": "대화 담당자가 변경됨",
     "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
