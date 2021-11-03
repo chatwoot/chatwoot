@@ -233,10 +233,12 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
 
       it 'returns all contacts when query is empty' do
-        get "/api/v1/accounts/#{account.id}/contacts/filter",
-            params: { q: [] },
-            headers: admin.create_new_auth_token,
-            as: :json
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: {
+               payload: []
+             },
+             headers: admin.create_new_auth_token,
+             as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact2.email)
