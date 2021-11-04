@@ -96,8 +96,12 @@
         attribute-type="contact_attribute"
         attribute-class="conversation--attribute"
         class="even"
+        :contact-id="contact.id"
       />
-      <custom-attribute-selector attribute-type="contact_attribute" />
+      <custom-attribute-selector
+        attribute-type="contact_attribute"
+        :contact-id="contact.id"
+      />
     </accordion-item>
 
     <accordion-item

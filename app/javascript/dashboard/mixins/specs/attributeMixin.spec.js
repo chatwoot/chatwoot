@@ -27,7 +27,7 @@ describe('attributeMixin', () => {
       }),
       getCurrentAccountId: () => 1,
       attributeType: () => 'conversation_attribute',
-    };
+     };
     store = new Vuex.Store({ actions, getters });
   });
 
@@ -121,7 +121,7 @@ describe('attributeMixin', () => {
       mixins: [attributeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.contactId).toEqual(1212);
+    expect(wrapper.vm.contactIdentifier).toEqual(1212);
   });
 
   it('returns currently selected conversation custom attributes', () => {

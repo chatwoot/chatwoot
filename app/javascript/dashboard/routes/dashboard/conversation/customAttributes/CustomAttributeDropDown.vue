@@ -53,6 +53,7 @@ export default {
       type: String,
       default: 'conversation_attribute',
     },
+    contactId: { type: Number, default: null },
   },
 
   data() {

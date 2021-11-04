@@ -37,6 +37,7 @@ export default {
       type: String,
       default: '',
     },
+    contactId: { type: Number, default: null },
   },
   methods: {
     async onUpdate(key, value) {

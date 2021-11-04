@@ -22,6 +22,7 @@
           <custom-attribute-drop-down
             v-if="showAttributeDropDown"
             :attribute-type="attributeType"
+            :contact-id="contactId"
             @add-attribute="addAttribute"
           />
         </div>
@@ -47,6 +48,7 @@ export default {
       type: String,
       default: 'conversation_attribute',
     },
+    contactId: { type: Number, default: null },
   },
   data() {
     return {

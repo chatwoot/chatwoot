@@ -16,11 +16,15 @@ export default {
         return this.currentChat.custom_attributes || {};
       return this.contact.custom_attributes || {};
     },
-    contactId() {
-      return this.currentChat.meta?.sender?.id;
+    contactIdentifier() {
+      return (
+        this.currentChat.meta?.sender?.id ||
+        this.$route.params.contactId ||
+        this.contactId
+      );
     },
     contact() {
-      return this.$store.getters['contacts/getContact'](this.contactId);
+      return this.$store.getters['contacts/getContact'](this.contactIdentifier);
     },
     conversationId() {
       return this.currentChat.id;
@@ -43,7 +47,7 @@ export default {
           attribute_description: key,
           attribute_display_name: key,
           attribute_display_type: 'text',
-          attribute_key: 'key',
+          attribute_key: key,
           attribute_model: this.attributeType,
           id: Math.random(),
         };

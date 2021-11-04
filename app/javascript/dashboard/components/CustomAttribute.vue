@@ -89,6 +89,7 @@ export default {
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeKey: { type: String, required: true },
+    contactId: { type: Number, default: null },
   },
   data() {
     return {
