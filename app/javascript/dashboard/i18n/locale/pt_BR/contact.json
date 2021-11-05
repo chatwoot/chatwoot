@@ -158,7 +158,7 @@
       "SUBJECT": {
         "LABEL": "Assunto",
         "PLACEHOLDER": "Assunto",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "O assunto não pode estar vazio"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
