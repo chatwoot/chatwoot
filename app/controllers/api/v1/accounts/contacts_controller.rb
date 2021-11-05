@@ -134,15 +134,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
-  def contact_custom_attributes
-    return @contact.custom_attributes.merge(contact_params[:custom_attributes]) if contact_params[:custom_attributes]
-
-    @contact.custom_attributes
-  end
-
   def contact_update_params
     # we want the merged custom attributes not the original one
-    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
+    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_params[:custom_attributes] })
   end
 
   def set_include_contact_inboxes

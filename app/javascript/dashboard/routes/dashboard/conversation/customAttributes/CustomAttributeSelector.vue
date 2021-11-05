@@ -68,7 +68,7 @@ export default {
             },
           });
         } else {
-          this.$store.dispatch('contacts/update', {
+          await this.$store.dispatch('contacts/update', {
             id: this.contactId,
             custom_attributes: {
               ...this.customAttributes,

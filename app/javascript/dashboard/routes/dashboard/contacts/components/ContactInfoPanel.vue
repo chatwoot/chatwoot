@@ -15,6 +15,7 @@
     <accordion-item
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
+      compact
       @click="value => toggleSidebarUIState('is_ct_custom_attr_open', value)"
     >
       <custom-attributes

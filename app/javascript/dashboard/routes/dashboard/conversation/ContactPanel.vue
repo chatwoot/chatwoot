@@ -88,6 +88,7 @@
     <accordion-item
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
+      compact
       @click="
         value => toggleSidebarUIState('is_contact_attributes_open', value)
       "

@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-attribute">
+  <div class="custom-attribute">
     <div class="title-wrap">
       <h4 class="text-block-title title error">
         <span class="attribute-name" :class="{ error: $v.editedValue.$error }">
@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact-attribute {
+.custom-attribute {
   padding: var(--space-slab) var(--space-normal);
 }
 
