@@ -17,4 +17,9 @@ export default {
       custom_attributes: customAttributes,
     });
   },
+  setCustomContactAttributes(customAttributes = {}) {
+    return API.patch(buildUrl('widget/contact'), {
+      custom_attributes: customAttributes,
+    });
+  },
 };

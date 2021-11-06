@@ -248,6 +248,15 @@ export default {
           this.$store.dispatch('contacts/setCustomAttributes', {
             [message.customAttribute]: null,
           });
+        } else if (message.event === 'set-custom-contact-attributes') {
+          this.$store.dispatch(
+            'contacts/setCustomAttributes',
+            message.customAttributes
+          );
+        } else if (message.event === 'delete-custom-contact-attributes') {
+          this.$store.dispatch('contacts/setCustomAttributes', {
+            [message.customAttribute]: null,
+          });
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

@@ -43,14 +43,23 @@ export const actions = {
 
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
-      // Ingore error
+      // Ignore error
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
     try {
       await ContactsAPI.setCustomAttibutes(customAttributes);
     } catch (error) {
-      // Ingore error
+      // Ignore error
+    }
+  },
+  setCustomContactAttributes: async (_, customAttributes = {}) => {
+    console.log('customAttributes', customAttributes);
+
+    try {
+      await ContactsAPI.setCustomContactAttributes(customAttributes);
+    } catch (error) {
+      // Ignore error
     }
   },
 };
