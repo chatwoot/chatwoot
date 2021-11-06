@@ -377,7 +377,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(contact.reload.name).to eq('Test Blub')
         # custom attributes are merged properly without overwriting existing ones
-        expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
+        expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test2' => 'test2' })
       end
 
       it 'prevents the update of contact of another account' do
