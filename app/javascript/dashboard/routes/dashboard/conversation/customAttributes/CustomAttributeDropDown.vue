@@ -91,7 +91,7 @@ export default {
     },
     addNewAttribute() {
       this.$router.push(
-        `/app/accounts/${this.accountId}/settings/attributes/list`
+        `/app/accounts/${this.accountId}/settings/custom-attributes/list`
       );
     },
     async onAddAttribute(attribute) {
