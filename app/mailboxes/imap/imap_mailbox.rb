@@ -38,26 +38,31 @@ class Imap::ImapMailbox
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
   end
 
-  def find_conversation_by_message_id
-    return if @inbound_mail['references'].nil?
+  def find_conversation_by_in_reply_to
+    return if in_reply_to.blank?
 
-    @account.conversations.where("additional_attributes->>'message_id' IN (?)", reply_message_id).first
+    message = Message.find_by(source_id: in_reply_to)
+    if message.nil?
+      @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+    else
+      @account.conversations.find(message.conversation_id)
+    end
   end
 
-  def reply_message_id
-    @inbound_mail['references'].try(:value).split(' ')
+  def in_reply_to
+    @inbound_mail['In-Reply-To'].try(:value)
   end
 
   def find_or_create_conversation
-    @conversation = find_conversation_by_message_id || ::Conversation.create!({
+    @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({
                                                                                 account_id: @account.id,
                                                                                 inbox_id: @inbox.id,
                                                                                 contact_id: @contact.id,
                                                                                 contact_inbox_id: @contact_inbox.id,
                                                                                 additional_attributes: {
                                                                                   source: 'email',
+                                                                                  in_reply_to: in_reply_to,
                                                                                   mail_subject: @processed_mail.subject,
-                                                                                  message_id: "<#{@processed_mail.message_id}>",
                                                                                   initiated_at: {
                                                                                     timestamp: Time.now.utc
                                                                                   }

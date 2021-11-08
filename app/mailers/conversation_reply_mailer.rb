@@ -13,16 +13,7 @@ class ConversationReplyMailer < ApplicationMailer
     new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email,
-           cc: cc_bcc_emails[0],
-           bcc: cc_bcc_emails[1]
-         })
+    mail(create_payload(true))
   end
 
   def reply_without_summary(conversation, last_queued_id)
@@ -35,14 +26,7 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
-         })
+    mail(create_payload(false))
   end
 
   def email_reply(message)
@@ -51,18 +35,9 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(message.conversation)
     @message = message
 
-    reply_mail_object = mail({
-                               to: @contact&.email,
-                               from: from_email_with_name,
-                               reply_to: reply_email,
-                               subject: mail_subject,
-                               message_id: custom_message_id,
-                               in_reply_to: in_reply_to_email,
-                               cc: cc_bcc_emails[0],
-                               bcc: cc_bcc_emails[1]
-                             })
+    reply_mail_object = mail(create_payload(true))
 
-    message.update(source_id: reply_mail_object.message_id)
+    message.update(source_id: "<#{reply_mail_object.message_id}>")
   end
 
   def conversation_transcript(conversation, to_email)
