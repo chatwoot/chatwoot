@@ -8,7 +8,7 @@ RSpec.describe Account do
 
   it { is_expected.to have_many(:users).through(:account_users) }
   it { is_expected.to have_many(:account_users) }
-  it { is_expected.to have_many(:inboxes).dependent(:destroy) }
+  it { is_expected.to have_many(:inboxes).dependent(:destroy_async) }
   it { is_expected.to have_many(:conversations).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
   it { is_expected.to have_many(:telegram_bots).dependent(:destroy) }
@@ -21,4 +21,21 @@ RSpec.describe Account do
   it { is_expected.to have_many(:kbase_portals).dependent(:destroy) }
   it { is_expected.to have_many(:kbase_categories).dependent(:destroy) }
   it { is_expected.to have_many(:teams).dependent(:destroy) }
+
+  context 'when destroy async' do
+    include ActiveJob::TestHelper
+
+    it 'Associated inboxes' do
+      account = FactoryBot.create(:account)
+      FactoryBot.create(:inbox, account: account)
+
+      expect(account.inboxes.count).to be(1)
+
+      account.destroy
+
+      assert_enqueued_jobs 2
+
+      expect(account.inboxes.count).to be(0)
+    end
+  end
 end
