@@ -1,12 +1,10 @@
 <template>
   <div class="column">
-    <woot-modal-header header-title="Filter Conversations">
-      <p>
-        {{ $t('FILTER.SUBTITLE') }}
-      </p>
+    <woot-modal-header :header-title="$t('FILTER.TITLE')">
+      <p>{{ $t('FILTER.SUBTITLE') }}</p>
     </woot-modal-header>
     <div class="row modal-content">
-      <div class="medium-12 columns filter-modal-content">
+      <div class="medium-12 columns">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
           :key="i"
@@ -118,25 +116,15 @@ export default {
       switch (type) {
         case 'status':
           return [
-            {
-              id: 'open',
-              name: 'Open',
-            },
-            {
-              id: 'resolved',
-              name: 'Resolved',
-            },
-            {
-              id: 'pending',
-              name: 'Pending',
-            },
-            {
-              id: 'snoozed',
-              name: 'Snoozed',
-            },
+            ...this.$t('CHAT_LIST.CHAT_STATUS_ITEMS').map(status => {
+              return {
+                id: status.VALUE,
+                name: status.TEXT,
+              };
+            }),
             {
               id: 'all',
-              name: 'All',
+              name: this.$t('CHAT_LIST.FILTER_ALL'),
             },
           ];
         case 'assignee_id':

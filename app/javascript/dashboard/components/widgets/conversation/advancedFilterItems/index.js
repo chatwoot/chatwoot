@@ -1,7 +1,7 @@
 const filterTypes = [
   {
     attributeKey: 'status',
-    attributeName: 'Status',
+    attributeI18nKey: 'STATUS',
     inputType: 'multi_select',
     dataType: 'text',
     filterOperators: [
@@ -18,7 +18,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'assignee_id',
-    attributeName: 'Assignee Name',
+    attributeI18nKey: 'ASSIGNEE_NAME',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: [
@@ -51,7 +51,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'inbox',
-    attributeName: 'Inbox Name',
+    attributeI18nKey: 'INBOX_NAME',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: [
@@ -84,7 +84,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'team_id',
-    attributeName: 'Team Name',
+    attributeI18nKey: 'TEAM_NAME',
     inputType: 'search_select',
     dataType: 'number',
     filterOperators: [
@@ -117,7 +117,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'id',
-    attributeName: 'Conversation Identifier',
+    attributeI18nKey: 'CONVERSATION_IDENTIFIER',
     inputType: 'plain_text',
     dataType: 'Number',
     filterOperators: [
@@ -142,7 +142,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'campaign_id',
-    attributeName: 'Campaign Name',
+    attributeI18nKey: 'CAMPAIGN_NAME',
     inputType: 'search_select',
     dataType: 'Number',
     filterOperators: [
@@ -175,7 +175,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'labels',
-    attributeName: 'Labels',
+    attributeI18nKey: 'LABELS',
     inputType: 'multi_select',
     dataType: 'text',
     filterOperators: [
@@ -208,7 +208,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'browser_language',
-    attributeName: 'Browser Language',
+    attributeI18nKey: 'BROWSER_LANGUAGE',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: [
@@ -225,7 +225,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'country_code',
-    attributeName: 'Country Name',
+    attributeI18nKey: 'COUNTRY_NAME',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: [
@@ -242,7 +242,7 @@ const filterTypes = [
   },
   {
     attributeKey: 'referer',
-    attributeName: 'Referer link',
+    attributeI18nKey: 'REFERER_LINK',
     inputType: 'plain_text',
     dataType: 'text',
     filterOperators: [

@@ -82,7 +82,7 @@
       :show.sync="showAdvancedFilters"
       :on-close="onToggleAdvanceFiltersModal"
     >
-      <chat-advanced-filter
+      <conversation-advanced-filter
         v-if="showAdvancedFilters"
         :filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
@@ -96,7 +96,7 @@
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
-import ChatAdvancedFilter from './widgets/conversation/ChatAdvancedFilter';
+import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -116,7 +116,7 @@ export default {
     ChatTypeTabs,
     ConversationCard,
     ChatFilter,
-    ChatAdvancedFilter,
+    ConversationAdvancedFilter,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -138,7 +138,10 @@ export default {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       showAdvancedFilters: false,
-      advancedFilterTypes,
+      advancedFilterTypes: advancedFilterTypes.map(filter => ({
+        ...filter,
+        attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+      })),
     };
   },
   computed: {
