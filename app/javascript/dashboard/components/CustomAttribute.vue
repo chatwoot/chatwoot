@@ -42,7 +42,7 @@
         {{ value || '---' }}
       </a>
       <p v-else class="value">
-        {{ value || '---' }}
+        {{ formattedValue || '---' }}
       </p>
       <woot-button
         v-if="showActions"
@@ -79,8 +79,11 @@
 </template>
 
 <script>
+import format from 'date-fns/format';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   props: {
@@ -94,7 +97,10 @@ export default {
   data() {
     return {
       isEditing: false,
-      editedValue: this.value,
+      editedValue:
+        this.attributeType === 'date'
+          ? format(new Date(this.value), DATE_FORMAT)
+          : this.value,
     };
   },
   validations() {
@@ -124,6 +130,12 @@ export default {
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
+    formattedValue() {
+      if (this.attributeType === 'date') {
+        return format(new Date(this.value), 'dd-MM-yyyy');
+      }
+      return this.value;
+    },
   },
   mounted() {
     bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, focusAttributeKey => {
@@ -145,12 +157,17 @@ export default {
       });
     },
     onUpdate() {
+      const updatedValue =
+        this.attributeType === 'date'
+          ? format(new Date(this.editedValue), DATE_FORMAT)
+          : this.value;
+
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       this.isEditing = false;
-      this.$emit('update', this.attributeKey, this.editedValue);
+      this.$emit('update', this.attributeKey, updatedValue);
     },
     onDelete() {
       this.isEditing = false;
