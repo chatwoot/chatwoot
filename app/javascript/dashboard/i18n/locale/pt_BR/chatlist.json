@@ -49,11 +49,11 @@
       },
       {
         "TEXT": "Pendente",
-        "VALUE": "pendente"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Adiado",
-        "VALUE": "adiado"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
