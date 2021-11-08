@@ -49,11 +49,11 @@
       },
       {
         "TEXT": "در انتظار",
-        "VALUE": "در انتظار"
+        "VALUE": "pending"
       },
       {
         "TEXT": "به تعویق افتاد",
-        "VALUE": "به تعویق افتاد"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {

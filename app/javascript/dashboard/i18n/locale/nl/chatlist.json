@@ -49,11 +49,11 @@
       },
       {
         "TEXT": "Afwachtend",
-        "VALUE": "afwachtend"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Gesluimerd",
-        "VALUE": "gesluimerd"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
