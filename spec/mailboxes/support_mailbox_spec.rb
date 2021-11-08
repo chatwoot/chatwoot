@@ -5,6 +5,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
   describe 'add mail as a new ticket in the email inbox' do
     let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let!(:channel_email) { create(:channel_email, account: account) }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
     let(:described_subject) { described_class.receive support_mail }
@@ -104,6 +105,42 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
         expect(conversation.contact.email).to eq(group_sender_support_mail.mail['X-Original-Sender'].value)
         expect(conversation.contact.name).to eq(email_sender)
+      end
+    end
+
+    describe 'when mail has in reply to email' do
+      let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
+      let(:described_subject) { described_class.receive reply_mail_without_uuid }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+
+      before do
+        email_channel
+        reply_mail_without_uuid.mail['In-Reply-To'] = 'conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123'
+      end
+
+      it 'create channel with reply to mail' do
+        described_subject
+        conversation_1 = Conversation.last
+
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(conversation_1.additional_attributes['in_reply_to']).to eq('conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123')
+      end
+
+      it 'append message to email conversation with same in reply to' do
+        described_subject
+        conversation_1 = Conversation.last
+
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(conversation_1.additional_attributes['in_reply_to']).to eq('conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123')
+        expect(conversation_1.messages.count).to eq(1)
+
+        reply_mail_without_uuid.mail['In-Reply-To'] = 'conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123'
+
+        described_class.receive reply_mail_without_uuid
+
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(conversation_1.additional_attributes['in_reply_to']).to eq('conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123')
+        expect(conversation_1.messages.count).to eq(2)
       end
     end
   end

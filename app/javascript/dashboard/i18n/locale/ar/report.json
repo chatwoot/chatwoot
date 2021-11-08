@@ -61,6 +61,258 @@
       "PLACEHOLDER": "اختر نطاق المدة"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
+    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
+    "FILTER_DROPDOWN_LABEL": "اختر وكيل",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "المحادثات",
+        "DESC": "(الإجمالي)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "الرسائل الواردة",
+        "DESC": "(الإجمالي)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "الرسائل الصادرة",
+        "DESC": "(الإجمالي)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "وقت الاستجابة الأولى",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "وقت إغلاق المحادثات",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "عدد مرات الإغلاق",
+        "DESC": "(الإجمالي)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "آخر 7 أيام"
+      },
+      {
+        "id": 1,
+        "name": "آخر 30 يوماً"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "العام الماضي"
+      },
+      {
+        "id": 5,
+        "name": "تحديد نطاق المدة"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "تطبيق",
+      "PLACEHOLDER": "اختر نطاق المدة"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "المحادثات",
+        "DESC": "(الإجمالي)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "الرسائل الواردة",
+        "DESC": "(الإجمالي)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "الرسائل الصادرة",
+        "DESC": "(الإجمالي)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "وقت الاستجابة الأولى",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "وقت إغلاق المحادثات",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "عدد مرات الإغلاق",
+        "DESC": "(الإجمالي)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "آخر 7 أيام"
+      },
+      {
+        "id": 1,
+        "name": "آخر 30 يوماً"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "العام الماضي"
+      },
+      {
+        "id": 5,
+        "name": "تحديد نطاق المدة"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "تطبيق",
+      "PLACEHOLDER": "اختر نطاق المدة"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "اختر صندوق الوارد",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "المحادثات",
+        "DESC": "(الإجمالي)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "الرسائل الواردة",
+        "DESC": "(الإجمالي)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "الرسائل الصادرة",
+        "DESC": "(الإجمالي)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "وقت الاستجابة الأولى",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "وقت إغلاق المحادثات",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "عدد مرات الإغلاق",
+        "DESC": "(الإجمالي)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "آخر 7 أيام"
+      },
+      {
+        "id": 1,
+        "name": "آخر 30 يوماً"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "العام الماضي"
+      },
+      {
+        "id": 5,
+        "name": "تحديد نطاق المدة"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "تطبيق",
+      "PLACEHOLDER": "اختر نطاق المدة"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "المحادثات",
+        "DESC": "(الإجمالي)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "الرسائل الواردة",
+        "DESC": "(الإجمالي)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "الرسائل الصادرة",
+        "DESC": "(الإجمالي)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "وقت الاستجابة الأولى",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "وقت إغلاق المحادثات",
+        "DESC": "(متوسط)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "عدد مرات الإغلاق",
+        "DESC": "(الإجمالي)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "آخر 7 أيام"
+      },
+      {
+        "id": 1,
+        "name": "آخر 30 يوماً"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "العام الماضي"
+      },
+      {
+        "id": 5,
+        "name": "تحديد نطاق المدة"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "تطبيق",
+      "PLACEHOLDER": "اختر نطاق المدة"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "تقارير CSAT",
     "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",

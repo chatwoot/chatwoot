@@ -160,5 +160,18 @@ describe('#ConversationAPI', () => {
         }
       );
     });
+
+    it('#updateCustomAttributes', () => {
+      conversationAPI.updateCustomAttributes({
+        conversationId: 45,
+        customAttributes: { order_d: '1001' },
+      });
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/45/custom_attributes',
+        {
+          custom_attributes: { order_d: '1001' },
+        }
+      );
+    });
   });
 });

@@ -218,6 +218,35 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/contacts/filter' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/filter"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let!(:contact1) { create(:contact, :with_email, account: account) }
+      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
+
+      it 'returns all contacts when query is empty' do
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: {
+               payload: []
+             },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).to include(contact1.email)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/contacts/:id' do
     let!(:contact) { create(:contact, account: account) }
 

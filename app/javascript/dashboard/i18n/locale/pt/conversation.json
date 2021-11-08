@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Abertas",
       "OPEN": "MAIS",
       "CLOSE": "FECHAR",
-      "DETAILS": "Detalhes"
+      "DETAILS": "Detalhes",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Responsável da conversa alterado",
     "CHANGE_TEAM": "Equipa de conversação alterada",
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Escolher Agente",

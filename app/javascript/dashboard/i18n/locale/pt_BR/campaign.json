@@ -54,6 +54,7 @@
           "ERROR": "Tempo na página é necessário"
         },
         "ENABLED": "Ativar campanha",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Adicionar Campanha"
       },
       "API": {

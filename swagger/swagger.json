@@ -1796,6 +1796,14 @@
                     "pending"
                   ],
                   "description": "Specify the conversation whether it's pending, open, closed"
+                },
+                "assignee_id": {
+                  "type": "string",
+                  "description": "Agent Id for assigning a conversation to an agent"
+                },
+                "team_id": {
+                  "type": "string",
+                  "description": "Team Id for assigning a conversation to a team"
                 }
               }
             }

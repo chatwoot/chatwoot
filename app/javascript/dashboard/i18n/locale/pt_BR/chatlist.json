@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
+    "FILTER_ALL": "Todos",
     "STATUS_TABS": [
       {
         "NAME": "Abertas",
@@ -48,11 +49,11 @@
       },
       {
         "TEXT": "Pendente",
-        "VALUE": "pending"
+        "VALUE": "pendente"
       },
       {
         "TEXT": "Adiado",
-        "VALUE": "snoozed"
+        "VALUE": "adiado"
       }
     ],
     "ATTACHMENTS": {
@@ -84,7 +85,10 @@
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
+    "SENT": "Enviado com sucesso",
     "NO_MESSAGES": "Nova Mensagem",
-    "NO_CONTENT": "Nenhum conteúdo disponível"
+    "NO_CONTENT": "Nenhum conteúdo disponível",
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado"
   }
 }

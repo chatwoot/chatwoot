@@ -15,6 +15,10 @@
 .multiselect {
   margin-bottom: var(--space-normal);
 
+  &.multiselect--disabled {
+    opacity: .8;
+  }
+
   .multiselect--active {
     >.multiselect__tags {
       border-color: $color-woot;
@@ -162,6 +166,56 @@
 
 .multiselect-wrap--small {
   $multiselect-height: 3.8rem;
+
+  .multiselect__tags,
+  .multiselect__input {
+    align-items: center;
+    display: flex;
+  }
+
+  .multiselect__tags,
+  .multiselect__input,
+  .multiselect {
+    background: var(--white);
+    font-size: var(--font-size-small);
+    height: $multiselect-height;
+    min-height: $multiselect-height;
+  }
+
+  .multiselect__input {
+    height: $multiselect-height - $space-micro;
+    min-height: $multiselect-height - $space-micro;
+  }
+
+  .multiselect__single {
+    align-items: center;
+    display: flex;
+    font-size: var(--font-size-small);
+    margin: 0;
+    padding: var(--space-smaller) var(--space-micro);
+  }
+
+  .multiselect__placeholder {
+    margin: 0;
+    padding: var(--space-smaller) var(--space-micro);
+  }
+
+  .multiselect__select {
+    min-height: $multiselect-height;
+  }
+
+  .multiselect--disabled .multiselect__current,
+  .multiselect--disabled .multiselect__select {
+    background: transparent;
+  }
+
+  .multiselect__tags-wrap {
+    flex-shrink: 0;
+  }
+}
+
+.multiselect-wrap--medium {
+  $multiselect-height: 4.8rem;
 
   .multiselect__tags,
   .multiselect__input {

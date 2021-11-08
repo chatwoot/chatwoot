@@ -28,8 +28,8 @@
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
+    "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -39,10 +39,13 @@
       "OPEN_ACTION": "打開",
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
-      "DETAILS": "詳情"
+      "DETAILS": "詳情",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "標記為待處理",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "下個回覆",
@@ -69,12 +72,12 @@
         "ADD_BCC": "密件副本",
         "CC": {
           "LABEL": "副本",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         },
         "BCC": {
           "LABEL": "密件副本",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
           "ERROR": "請輸入有效的電子信箱"
         }
       }
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "對話指派人已更改",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "寄送者：",
     "ASSIGNMENT": {
       "SELECT_AGENT": "選擇客服",
@@ -144,11 +148,11 @@
       "PLACEHOLDER": "無"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
+      "CONTACT_DETAILS": "聯絡人詳細資料",
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "對話標記",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "對話資訊",
+      "CONTACT_ATTRIBUTES": "聯絡人屬性",
       "PREVIOUS_CONVERSATION": "上一次對話"
     }
   },

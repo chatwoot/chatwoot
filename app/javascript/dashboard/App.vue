@@ -8,6 +8,7 @@
       :has-accounts="hasAccounts"
     />
     <woot-snackbar-box />
+    <network-notification />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
+import NetworkNotification from './components/NetworkNotification';
 import { accountIdFromPathname } from './helper/URLHelper';
 
 export default {
@@ -23,6 +25,7 @@ export default {
   components: {
     WootSnackbarBox,
     AddAccountModal,
+    NetworkNotification,
   },
 
   data() {

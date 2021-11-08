@@ -4,12 +4,9 @@ class AddOnlineStatusToAccountUsers < ActiveRecord::Migration[6.1]
       t.integer :availability, default: 0, null: false
       t.boolean :auto_offline, default: true, null: false
     end
-
-    update_existing_user_availability
   end
 
-  private
-
+  # run as a seperate data migration if you want to migrate the user statuses
   def update_existing_user_availability
     User.find_in_batches do |user_batch|
       user_batch.each do |user|

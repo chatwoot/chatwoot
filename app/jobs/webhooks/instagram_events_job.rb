@@ -38,7 +38,9 @@ class Webhooks::InstagramEventsJob < ApplicationJob
 
   def create_test_text
     messenger_channel = Channel::FacebookPage.last
-    @inbox = ::Inbox.find_by!(channel: messenger_channel)
+    @inbox = ::Inbox.find_by(channel: messenger_channel)
+    return unless @inbox
+
     @contact_inbox = @inbox.contact_inboxes.where(source_id: 'sender_username').first
     unless @contact_inbox
       @contact_inbox ||= @inbox.channel.create_contact_inbox(

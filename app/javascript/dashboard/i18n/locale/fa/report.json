@@ -61,6 +61,258 @@
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
     }
   },
+  "AGENT_REPORTS": {
+    "HEADER": "نمای کلی ایجنت ها",
+    "LOADING_CHART": "در حال دریافت اطلاعات...",
+    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
+    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
+    "FILTER_DROPDOWN_LABEL": "انتخاب ایجنت",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "گفتگوها",
+        "DESC": "( جمع کل )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "پیام‌های ورودی",
+        "DESC": "( جمع کل )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "پیام‌های خروجی",
+        "DESC": "( جمع کل )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "زمان تا اولین پاسخ",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "زمان تا حل شدن مساله",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "در ۷ روز گذشته"
+      },
+      {
+        "id": 1,
+        "name": "در ۳۰ روز گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۳ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۶ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "پارسال"
+      },
+      {
+        "id": 5,
+        "name": "محدوده تاریخ سفارشی"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "درخواست دادن",
+      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "نمای کلی برچسب ها",
+    "LOADING_CHART": "در حال دریافت اطلاعات...",
+    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
+    "DOWNLOAD_LABEL_REPORTS": "دانلود گزارش برچسب ها",
+    "FILTER_DROPDOWN_LABEL": "برچسب را انتخاب کنید",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "گفتگوها",
+        "DESC": "( جمع کل )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "پیام‌های ورودی",
+        "DESC": "( جمع کل )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "پیام‌های خروجی",
+        "DESC": "( جمع کل )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "زمان تا اولین پاسخ",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "زمان تا حل شدن مساله",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "در ۷ روز گذشته"
+      },
+      {
+        "id": 1,
+        "name": "در ۳۰ روز گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۳ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۶ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "پارسال"
+      },
+      {
+        "id": 5,
+        "name": "محدوده تاریخ سفارشی"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "درخواست دادن",
+      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "نمای کلی صندوق ورودی",
+    "LOADING_CHART": "در حال دریافت اطلاعات...",
+    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
+    "DOWNLOAD_INBOX_REPORTS": "دانلود گزارش های صندوق ورودی",
+    "FILTER_DROPDOWN_LABEL": "انتخاب صندوق ورودی",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "گفتگوها",
+        "DESC": "( جمع کل )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "پیام‌های ورودی",
+        "DESC": "( جمع کل )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "پیام‌های خروجی",
+        "DESC": "( جمع کل )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "زمان تا اولین پاسخ",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "زمان تا حل شدن مساله",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "در ۷ روز گذشته"
+      },
+      {
+        "id": 1,
+        "name": "در ۳۰ روز گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۳ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۶ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "پارسال"
+      },
+      {
+        "id": 5,
+        "name": "محدوده تاریخ سفارشی"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "درخواست دادن",
+      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "نمای کلی تیم",
+    "LOADING_CHART": "در حال دریافت اطلاعات...",
+    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
+    "DOWNLOAD_TEAM_REPORTS": "دانلود گزارشات تیم",
+    "FILTER_DROPDOWN_LABEL": "تیم را انتخاب کنید",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "گفتگوها",
+        "DESC": "( جمع کل )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "پیام‌های ورودی",
+        "DESC": "( جمع کل )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "پیام‌های خروجی",
+        "DESC": "( جمع کل )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "زمان تا اولین پاسخ",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "زمان تا حل شدن مساله",
+        "DESC": "( میانگین )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "در ۷ روز گذشته"
+      },
+      {
+        "id": 1,
+        "name": "در ۳۰ روز گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۳ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "۶ ماه گذشته"
+      },
+      {
+        "id": 0,
+        "name": "پارسال"
+      },
+      {
+        "id": 5,
+        "name": "محدوده تاریخ سفارشی"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "درخواست دادن",
+      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",

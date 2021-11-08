@@ -3,7 +3,8 @@ describe NotificationListener do
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
-  let!(:agent_with_notification) { create(:user, account: account) }
+  let!(:first_agent) { create(:user, account: account) }
+  let!(:second_agent) { create(:user, account: account) }
   let!(:agent_with_out_notification) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
@@ -13,12 +14,12 @@ describe NotificationListener do
 
     context 'when conversation is created' do
       it 'creates notifications for inbox members who have notifications turned on' do
-        notification_setting = agent_with_notification.notification_settings.first
+        notification_setting = first_agent.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]
         notification_setting.selected_push_flags = []
         notification_setting.save!
 
-        create(:inbox_member, user: agent_with_notification, inbox: inbox)
+        create(:inbox_member, user: first_agent, inbox: inbox)
         conversation.reload
 
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
@@ -48,7 +49,7 @@ describe NotificationListener do
     let(:event_name) { :'message.created' }
 
     before do
-      notification_setting = agent_with_notification.notification_settings.find_by(account_id: account.id)
+      notification_setting = first_agent.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = [:email_conversation_mention]
       notification_setting.selected_push_flags = []
       notification_setting.save!
@@ -60,14 +61,14 @@ describe NotificationListener do
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
 
-        create(:inbox_member, user: agent_with_notification, inbox: inbox)
+        create(:inbox_member, user: first_agent, inbox: inbox)
         conversation.reload
 
         message = build(
           :message,
           conversation: conversation,
           account: account,
-          content: "hi [#{agent_with_notification.name}](mention://user/#{agent_with_notification.id}/#{agent_with_notification.name})",
+          content: "hi [#{first_agent.name}](mention://user/#{first_agent.id}/#{first_agent.name})",
           private: true
         )
 
@@ -75,7 +76,40 @@ describe NotificationListener do
         listener.message_created(event)
 
         expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
-                                                                user: agent_with_notification,
+                                                                user: first_agent,
+                                                                account: account,
+                                                                primary_actor: message)
+      end
+    end
+
+    context 'when message contains multiple mentions' do
+      it 'creates notifications for inbox member who was mentioned' do
+        builder = double
+        allow(NotificationBuilder).to receive(:new).and_return(builder)
+        allow(builder).to receive(:perform)
+        create(:inbox_member, user: first_agent, inbox: inbox)
+        create(:inbox_member, user: second_agent, inbox: inbox)
+        conversation.reload
+
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hey [#{second_agent.name}](mention://user/#{second_agent.id}/#{second_agent.name})/
+                    [#{first_agent.name}](mention://user/#{first_agent.id}/#{first_agent.name}),
+                     please look in to this?",
+          private: true
+        )
+
+        event = Events::Base.new(event_name, Time.zone.now, message: message)
+        listener.message_created(event)
+
+        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
+                                                                user: second_agent,
+                                                                account: account,
+                                                                primary_actor: message)
+        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
+                                                                user: first_agent,
                                                                 account: account,
                                                                 primary_actor: message)
       end
@@ -87,7 +121,7 @@ describe NotificationListener do
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
 
-        create(:inbox_member, user: agent_with_notification, inbox: inbox)
+        create(:inbox_member, user: first_agent, inbox: inbox)
         conversation.reload
 
         message = build(

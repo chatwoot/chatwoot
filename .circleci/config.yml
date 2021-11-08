@@ -17,7 +17,6 @@ defaults: &defaults
   environment:
       - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
       - RAILS_LOG_TO_STDOUT: false
-      - ENABLE_RACK_ATTACK: false
 jobs:
   build:
     <<: *defaults

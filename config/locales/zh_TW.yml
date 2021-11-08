@@ -27,10 +27,18 @@ zh_TW:
       invalid_email: 您輸入的電子郵件無效。
       email_already_exists: "您已經註冊了一個帳號%{email}"
       failed: 註冊失敗。
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: 客服名稱
+      conversations_count: 對話數量
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
+    team_csv:
+      team_name: 團隊名稱
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
@@ -73,6 +81,9 @@ zh_TW:
       transcript_subject: "對話紀錄"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

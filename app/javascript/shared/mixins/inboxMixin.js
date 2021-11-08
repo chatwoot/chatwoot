@@ -64,16 +64,17 @@ export default {
       return this.chatAdditionalAttributes.type || 'facebook';
     },
     inboxBadge() {
+      let badgeKey = '';
       if (this.isATwitterInbox) {
-        return this.twitterBadge;
+        badgeKey = this.twitterBadge;
+      } else if (this.isAFacebookInbox) {
+        badgeKey = this.facebookBadge;
+      } else if (this.isATwilioChannel) {
+        badgeKey = this.twilioBadge;
+      } else if (this.isAWhatsappChannel) {
+        badgeKey = 'whatsapp';
       }
-      if (this.isAFacebookInbox) {
-        return this.facebookBadge;
-      }
-      if (this.isATwilioChannel) {
-        return this.twilioBadge;
-      }
-      return this.channelType;
+      return badgeKey || this.channelType;
     },
     isAWhatsappChannel() {
       return (

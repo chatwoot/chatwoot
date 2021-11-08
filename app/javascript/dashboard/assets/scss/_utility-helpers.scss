@@ -1,3 +1,44 @@
 .margin-right-small {
   margin-right: var(--space-small);
 }
+
+.fs-small {
+  font-size: var(--font-size-small);
+}
+
+.fs-default {
+  font-size: var(--font-size-default);
+}
+
+.fw-medium {
+  font-weight: var(--font-weight-medium);
+}
+
+.p-normal {
+  padding: var(--space-normal);
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+
+.border-right {
+  border-right: 1px solid var(--color-border);
+}
+
+.border-left {
+  border-left: 1px solid var(--color-border);
+}
+
+.bg-white {
+  background-color: var(--white);
+}

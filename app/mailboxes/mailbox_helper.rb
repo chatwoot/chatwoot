@@ -11,7 +11,9 @@ module MailboxHelper
       content_type: 'incoming_email',
       source_id: processed_mail.message_id,
       content_attributes: {
-        email: processed_mail.serialized_data
+        email: processed_mail.serialized_data,
+        cc_email: processed_mail.cc,
+        bcc_email: processed_mail.bcc
       }
     )
   end

@@ -47,12 +47,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      getCurrentUserAvailabilityStatus: 'getCurrentUserAvailabilityStatus',
+      getCurrentUserAvailability: 'getCurrentUserAvailability',
       getCurrentAccountId: 'getCurrentAccountId',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
-        key => key === this.currentUserAvailabilityStatus
+        key => key === this.currentUserAvailability
       );
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
         availabilityIndex
@@ -61,8 +61,8 @@ export default {
     currentAccountId() {
       return this.getCurrentAccountId;
     },
-    currentUserAvailabilityStatus() {
-      return this.getCurrentUserAvailabilityStatus;
+    currentUserAvailability() {
+      return this.getCurrentUserAvailability;
     },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
@@ -70,8 +70,7 @@ export default {
           label: statusLabel,
           value: AVAILABILITY_STATUS_KEYS[index],
           disabled:
-            this.currentUserAvailabilityStatus ===
-            AVAILABILITY_STATUS_KEYS[index],
+            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
         })
       );
     },
