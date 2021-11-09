@@ -49,11 +49,11 @@
       },
       {
         "TEXT": "Bekliyor",
-        "VALUE": "bekliyor"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Susturuldu",
-        "VALUE": "susturuldu"
+        "VALUE": "snoozed"
       }
     ],
     "ATTACHMENTS": {
