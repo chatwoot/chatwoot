@@ -131,6 +131,14 @@ export const actions = {
     }
   },
 
+  sendEmailTranscriptIn: async (_, data) => {
+    try {
+      await ConversationAPI.sendEmailTranscript(data);
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
   setUserLastSeenIn: async ({ commit, getters }, params) => {
     const { conversationId } = params;
     if (!getters.allMessagesCountIn(conversationId)) {

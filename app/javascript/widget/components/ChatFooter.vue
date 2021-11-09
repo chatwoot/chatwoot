@@ -35,7 +35,6 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { sendEmailTranscript } from 'widget/api/conversation';
 
 export default {
   components: {
@@ -114,7 +113,7 @@ export default {
       const { email } = this.currentUser;
       if (email) {
         try {
-          await sendEmailTranscript({
+          await this.$store.dispatch('conversationV2/sendEmailTranscript', {
             email,
           });
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {

@@ -6,14 +6,12 @@ export default {
   get() {
     return API.get(buildUrl('widget/contact'));
   },
-
   update(identifier, userObject) {
     return API.patch(buildUrl('widget/contact'), {
       identifier,
       ...userObject,
     });
   },
-
   setCustomAttibutes(customAttributes = {}) {
     return API.patch(buildUrl('widget/contact'), {
       custom_attributes: customAttributes,

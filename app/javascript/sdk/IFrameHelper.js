@@ -36,13 +36,9 @@ export const IFrameHelper = {
     loadCSS();
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    const cwCookieContact = Cookies.get('cw_contact');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-    }
-    if (cwCookieContact) {
-      widgetUrl = `${widgetUrl}&cw_contact=${cwCookieContact}`;
     }
     iframe.src = widgetUrl;
 
@@ -116,10 +112,6 @@ export const IFrameHelper = {
         expires: 365,
         sameSite: 'Lax',
       });
-      Cookies.set('cw_contact', message.config.contactIdentifier, {
-        expires: 365,
-        sameSite: 'Lax',
-      });
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -135,9 +127,6 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      IFrameHelper.sendMessage('set-contact-identifier', {
-        contactIdentifier: 'cwCookieContact',
-      });
       dispatchWindowEvent(EVENT_NAME);
     },
 

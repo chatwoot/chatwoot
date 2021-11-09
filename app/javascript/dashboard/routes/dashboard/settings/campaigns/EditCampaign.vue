@@ -153,7 +153,7 @@ export default {
     endPoint: {
       required,
       minLength: minLength(7),
-      // url,
+      url,
     },
     timeOnPage: {
       required,
