@@ -59,7 +59,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it 'returns success when incorrect identifier hash is provided' do
+      it 'returns error when incorrect identifier hash is provided' do
         patch '/api/v1/widget/contact',
               params: params.merge(identifier_hash: incorrect_identifier_hash),
               headers: { 'X-Auth-Token' => token },
