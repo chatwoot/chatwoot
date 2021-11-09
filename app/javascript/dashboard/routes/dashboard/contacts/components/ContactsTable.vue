@@ -114,7 +114,7 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: 'left',
-          sortBy: this.sortConfig.name || '',
+          sortBy: this.sortConfig.name || undefined,
           width: 300,
           renderBodyCell: ({ row }) => (
             <woot-button
