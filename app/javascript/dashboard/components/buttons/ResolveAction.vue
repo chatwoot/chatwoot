@@ -100,12 +100,6 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedAltAndEKey,
-  hasPressedCommandPlusAltAndEKey,
-  hasPressedAltAndMKey,
-} from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
@@ -118,6 +112,7 @@ import {
   startOfTomorrow,
   startOfWeek,
 } from 'date-fns';
+import { CMD_SNOOZE_CONVERSATION } from '../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -125,7 +120,7 @@ export default {
     WootDropdownMenu,
     WootDropdownSubMenu,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins],
+  mixins: [clickaway, alertMixin],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -135,9 +130,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -170,40 +163,15 @@ export default {
       };
     },
   },
-  methods: {
-    async handleKeyEvents(e) {
-      const allConversations = document.querySelectorAll(
-        '.conversations-list .conversation'
+  mounted() {
+    bus.$on(CMD_SNOOZE_CONVERSATION, snoozeType => {
+      this.toggleStatus(
+        this.STATUS_TYPE.SNOOZED,
+        this.snoozeTimes[snoozeType] || null
       );
-      if (hasPressedAltAndMKey(e)) {
-        if (this.$refs.arrowDownButton) {
-          this.$refs.arrowDownButton.$el.click();
-        }
-      }
-      if (hasPressedAltAndEKey(e)) {
-        const activeConversation = document.querySelector(
-          'div.conversations-list div.conversation.active'
-        );
-        const activeConversationIndex = [...allConversations].indexOf(
-          activeConversation
-        );
-        const lastConversationIndex = allConversations.length - 1;
-        try {
-          await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-        } catch (error) {
-          // error
-        }
-        if (hasPressedCommandPlusAltAndEKey(e)) {
-          if (activeConversationIndex < lastConversationIndex) {
-            allConversations[activeConversationIndex + 1].click();
-          } else if (allConversations.length > 1) {
-            allConversations[0].click();
-            document.querySelector('.conversations-list').scrollTop = 0;
-          }
-          e.preventDefault();
-        }
-      }
-    },
+    });
+  },
+  methods: {
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
     },

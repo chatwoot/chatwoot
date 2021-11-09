@@ -79,5 +79,20 @@
     "BUTTON": {
       "REFRESH": "Refresh"
     }
+  },
+  "COMMAND_BAR": {
+    "SECTIONS": {
+      "GENERAL": "General",
+      "REPORTS": "Reports"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports"
+    }
   }
 }

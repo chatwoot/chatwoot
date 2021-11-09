@@ -38,6 +38,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
+import { CMD_MUTE_CONVERSATION } from '../../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -47,7 +48,6 @@ export default {
   mixins: [alertMixin, clickaway],
   data() {
     return {
-      showConversationActions: false,
       showEmailActionsModal: false,
     };
   },
@@ -56,26 +56,23 @@ export default {
       currentChat: 'getSelectedChat',
     }),
   },
+  mounted() {
+    bus.$on(CMD_MUTE_CONVERSATION, () => {
+      this.mute();
+    });
+  },
   methods: {
     mute() {
       this.$store.dispatch('muteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     unmute() {
       this.$store.dispatch('unmuteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
       this.hideConversationActions();
-    },
-    toggleConversationActions() {
-      this.showConversationActions = !this.showConversationActions;
-    },
-    hideConversationActions() {
-      this.showConversationActions = false;
     },
   },
 };
