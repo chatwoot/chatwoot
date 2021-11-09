@@ -7,6 +7,7 @@
     "COMPANY": "Société",
     "LOCATION": "Localisation",
     "CONVERSATION_TITLE": "Détails de la conversation",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Navigateur",
     "OS": "Système d'exploitation",
     "INITIATED_FROM": "Initié depuis",
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Voir les détails"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Ajouter",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Ajouter",
       "PLACEHOLDER": "Ajouter une note",
       "TITLE": "Shift + Entrée pour créer une note"
     },
-    "FOOTER": {
-      "BUTTON": "Voir toutes les notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {

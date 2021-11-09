@@ -7,6 +7,7 @@
     "COMPANY": "Empresa",
     "LOCATION": "Localização",
     "CONVERSATION_TITLE": "Detalhes da conversa",
+    "VIEW_PROFILE": "Visualizar Perfil",
     "BROWSER": "Navegador",
     "OS": "Sistema Operacional",
     "INITIATED_FROM": "A partir de",
@@ -32,8 +33,8 @@
         "NO_RESULT": "Nenhum rótulo encontrado"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Mesclar contatos",
+    "CONTACT_ACTIONS": "Ações para contatos",
     "MUTE_CONTACT": "Silenciar Conversa",
     "UNMUTE_CONTACT": "Reativar Conversa",
     "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
@@ -57,22 +58,22 @@
     "DESC": "Adicione informações básicas sobre o contato."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importar",
+    "TITLE": "Importar Contatos",
+    "DESC": "Importar contatos através de um arquivo CSV.",
+    "DOWNLOAD_LABEL": "Baixar um exemplo de csv.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Arquivo CSV",
+      "SUBMIT": "Importar",
       "CANCEL": "Cancelar"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Contatos salvos com sucesso",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Excluir contato",
+    "TITLE": "Excluir contato",
+    "DESC": "Excluir detalhes do contato",
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
@@ -81,8 +82,8 @@
       "NO": "Não, Mantenha "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Contato excluído com sucesso",
+      "ERROR_MESSAGE": "Não foi possível excluir o contato. Por favor, tente novamente mais tarde."
     }
   },
   "CONTACT_FORM": {
@@ -188,6 +189,10 @@
       "VIEW_DETAILS": "Ver detalhes"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contato",
+    "LOADING": "Carregando perfil de contato..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Adicionar",
@@ -199,16 +204,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Buscando anotações...",
+    "NOT_AVAILABLE": "Não há notas criadas para este contato",
     "HEADER": {
       "TITLE": "Observações"
+    },
+    "LIST": {
+      "LABEL": "Adicionando uma anotação"
     },
     "ADD": {
       "BUTTON": "Adicionar",
       "PLACEHOLDER": "Adicionar uma nota",
       "TITLE": "Shift + Enter para criar uma nota"
     },
-    "FOOTER": {
-      "BUTTON": "Ver todas as notas"
+    "CONTENT_HEADER": {
+      "DELETE": "Deletar Anotação"
     }
   },
   "EVENTS": {
@@ -223,7 +233,7 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "Criar atributo personalizado",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Não há atributos personalizados para este contato.",
     "ADD": {
       "TITLE": "Criar atributo personalizado",
       "DESC": "Adicionar informações personalizadas a este contato."
@@ -244,19 +254,19 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Mesclar contatos",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e conversas. Em caso de conflito, os atributos do contato principal terão prioridade.",
     "PRIMARY": {
       "TITLE": "Contato principal",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Para ser mantido"
     },
     "CHILD": {
       "TITLE": "Contato para mesclar",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Procurar um contato",
+      "HELP_LABEL": "Para ser excluído"
     },
     "SUMMARY": {
       "TITLE": "Sumário",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong> será excluído.",
       "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -269,7 +279,7 @@
         "ERROR": "Selecione um contato filho para mesclar"
       },
       "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
     }
   }
 }
