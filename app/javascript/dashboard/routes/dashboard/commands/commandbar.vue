@@ -10,7 +10,6 @@
 
 <script>
 import 'ninja-keys';
-import { frontendURL } from '../../../helper/URLHelper';
 import conversationHotKeysMixin from './conversationHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 
@@ -34,7 +33,6 @@ export default {
   },
   watch: {
     routeName() {
-      console.log(this.$route.name);
       this.setCommandbarData();
     },
   },
@@ -44,9 +42,6 @@ export default {
   methods: {
     setCommandbarData() {
       this.$refs.ninjakeys.data = this.hotKeys;
-    },
-    openRoute(url) {
-      this.$router.push(frontendURL(url));
     },
   },
 };

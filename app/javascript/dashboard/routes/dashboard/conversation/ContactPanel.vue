@@ -115,7 +115,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import agentMixin from '../../../mixins/agentMixin';
+import agentMixin from 'dashboard/mixins/agentMixin';
+import teamMixin from 'dashboard/mixins/teamMixin';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
@@ -126,6 +127,10 @@ import ConversationInfo from './ConversationInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import {
+  CMD_CHANGE_ASSIGNEE,
+  CMD_CHANGE_TEAM,
+} from '../commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -138,7 +143,7 @@ export default {
     ConversationLabels,
     MultiselectDropdown,
   },
-  mixins: [alertMixin, agentMixin, uiSettingsMixin],
+  mixins: [alertMixin, agentMixin, teamMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -156,7 +161,6 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      teams: 'teams/getTeams',
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
@@ -183,18 +187,6 @@ export default {
     hasContactAttributes() {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
-    },
-    teamsList() {
-      if (this.assignedTeam) {
-        return [
-          {
-            id: 0,
-            name: 'None',
-          },
-          ...this.teams,
-        ];
-      }
-      return this.teams;
     },
     assignedAgent: {
       get() {
@@ -253,8 +245,20 @@ export default {
   mounted() {
     this.getContactDetails();
     this.$store.dispatch('attributes/get', 0);
+    bus.$on(CMD_CHANGE_ASSIGNEE, this.onCmdChangeAssignee);
+    bus.$on(CMD_CHANGE_TEAM, this.onCmdChangeTeam);
+  },
+  destroyed() {
+    bus.$off(CMD_CHANGE_ASSIGNEE, this.onCmdChangeAssignee);
+    bus.$off(CMD_CHANGE_TEAM, this.onCmdChangeTeam);
   },
   methods: {
+    onCmdChangeAssignee(agentInfo) {
+      this.assignedAgent = agentInfo;
+    },
+    onCmdChangeTeam(teamInfo) {
+      this.assignedTeam = teamInfo;
+    },
     onPanelToggle() {
       this.onToggle();
     },

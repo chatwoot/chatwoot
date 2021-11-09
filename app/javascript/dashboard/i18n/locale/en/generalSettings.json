@@ -83,7 +83,10 @@
   "COMMAND_BAR": {
     "SECTIONS": {
       "GENERAL": "General",
-      "REPORTS": "Reports"
+      "REPORTS": "Reports",
+      "CONVERSATION": "Conversation",
+      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_TEAM": "Change Team"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -92,7 +95,20 @@
       "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
       "GO_TO_LABEL_REPORTS": "Go to Label Reports",
       "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports"
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+
+      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "REMOVE_LABELS_FROM_CONVERSATION": "Remove label from the conversation",
+      "REOPEN_CONVERSATION": "Reopen conversation",
+      "RESOLVE_CONVERSATION": "Resolve conversation",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow"
     }
   }
 }

@@ -38,7 +38,10 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
-import { CMD_MUTE_CONVERSATION } from '../../../routes/dashboard/commands/commandBarBusEvents';
+import {
+  CMD_MUTE_CONVERSATION,
+  CMD_SEND_TRANSCRIPT,
+} from '../../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -52,14 +55,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
   },
   mounted() {
-    bus.$on(CMD_MUTE_CONVERSATION, () => {
-      this.mute();
-    });
+    bus.$on(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  },
+  destroyed() {
+    bus.$off(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
     mute() {
