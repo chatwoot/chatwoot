@@ -60,6 +60,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onTypingOn = data => {
+    if (data.is_private) {
+      return;
+    }
     this.clearTimer();
     const {
       conversation: { id: conversationId },

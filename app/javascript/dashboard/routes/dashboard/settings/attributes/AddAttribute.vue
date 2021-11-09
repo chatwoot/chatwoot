@@ -3,8 +3,19 @@
     <div class="column content-box">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
-      <form class="row" @submit.prevent="addAttributes()">
+      <form class="row" @submit.prevent="addAttributes">
         <div class="medium-12 columns">
+          <label :class="{ error: $v.attributeModel.$error }">
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
+            <select v-model="attributeModel">
+              <option v-for="model in models" :key="model.id" :value="model.id">
+                {{ model.option }}
+              </option>
+            </select>
+            <span v-if="$v.attributeModel.$error" class="message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
+            </span>
+          </label>
           <woot-input
             v-model="displayName"
             :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
@@ -22,7 +33,7 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
               v-model="description"
-              rows="5"
+              rows="3"
               type="text"
               :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
               @blur="$v.description.$touch"
@@ -31,18 +42,6 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: $v.attributeModel.$error }">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
-            <select v-model="attributeModel">
-              <option v-for="model in models" :key="model.id" :value="model.id">
-                {{ model.option }}
-              </option>
-            </select>
-            <span v-if="$v.attributeModel.$error" class="message">
-              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
-            </span>
-          </label>
-
           <label :class="{ error: $v.attributeType.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
             <select v-model="attributeType">
