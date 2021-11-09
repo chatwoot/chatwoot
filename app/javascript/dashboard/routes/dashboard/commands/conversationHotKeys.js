@@ -1,7 +1,8 @@
 import { mapGetters } from 'vuex';
 import wootConstants from '../../../constants';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import teamMixin from 'dashboard/mixins/teamMixin';
+import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
+import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import {
   CMD_CHANGE_ASSIGNEE,
   CMD_MUTE_CONVERSATION,
@@ -10,6 +11,8 @@ import {
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
   CMD_CHANGE_TEAM,
+  CMD_ADD_LABEL,
+  CMD_REMOVE_LABEL,
 } from './commandBarBusEvents';
 import {
   ICON_ADD_LABEL,
@@ -27,7 +30,7 @@ import {
 } from './CommandBarIcons';
 
 export default {
-  mixins: [agentMixin, teamMixin],
+  mixins: [agentMixin, conversationTeamMixin, conversationLabelMixin],
   watch: {
     assignableAgents() {
       this.setCommandbarData();
@@ -38,18 +41,25 @@ export default {
     teamsList() {
       this.setCommandbarData();
     },
+    activeLabels() {
+      this.setCommandbarData();
+    },
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
     inboxId() {
-      return this.currentChat.inbox_id;
+      return this.currentChat?.inbox_id;
+    },
+    conversationId() {
+      return this.currentChat?.id;
     },
     statusActions() {
-      const isOpen = this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
+      const isOpen =
+        this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
       const isSnoozed =
-        this.currentChat.status === wootConstants.STATUS_TYPE.SNOOZED;
+        this.currentChat?.status === wootConstants.STATUS_TYPE.SNOOZED;
       const isResolved =
-        this.currentChat.status === wootConstants.STATUS_TYPE.RESOLVED;
+        this.currentChat?.status === wootConstants.STATUS_TYPE.RESOLVED;
 
       let actions = [];
       if (isOpen) {
@@ -145,14 +155,32 @@ export default {
       ];
     },
     labelActions() {
+      const labelsToBeAdded = this.inactiveLabels.map(label => ({
+        id: label.title,
+        title: `#${label.title}`,
+        parent: 'add_a_label_to_the_conversation',
+        section: this.$t('COMMAND_BAR.SECTIONS.ADD_LABEL'),
+        icon: ICON_ADD_LABEL,
+        handler: action => bus.$emit(CMD_ADD_LABEL, { title: action.id }),
+      }));
+      const labelsToBeRemoved = this.activeLabels.map(label => ({
+        id: label.title,
+        title: `#${label.title}`,
+        parent: 'remove_a_label_to_the_conversation',
+        section: this.$t('COMMAND_BAR.SECTIONS.REMOVE_LABEL'),
+        icon: ICON_REMOVE_LABEL,
+        handler: action => bus.$emit(CMD_REMOVE_LABEL, action.id),
+      }));
       return [
+        ...labelsToBeAdded,
         {
           id: 'add_a_label_to_the_conversation',
           title: this.$t('COMMAND_BAR.COMMANDS.ADD_LABELS_TO_CONVERSATION'),
           section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
           icon: ICON_ADD_LABEL,
-          handler: () => this.openRoute(`accounts/${this.accountId}/dashboard`),
+          children: this.inactiveLabels.map(label => label.title),
         },
+        ...labelsToBeRemoved,
         {
           id: 'remove_a_label_to_the_conversation',
           title: this.$t(
@@ -160,7 +188,7 @@ export default {
           ),
           section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
           icon: ICON_REMOVE_LABEL,
-          handler: () => this.openRoute(`accounts/${this.accountId}/dashboard`),
+          children: this.activeLabels.map(label => label.title),
         },
       ];
     },

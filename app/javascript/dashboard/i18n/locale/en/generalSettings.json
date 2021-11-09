@@ -86,7 +86,9 @@
       "REPORTS": "Reports",
       "CONVERSATION": "Conversation",
       "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team"
+      "CHANGE_TEAM": "Change Team",
+      "ADD_LABEL": "Add label to the conversation",
+      "REMOVE_LABEL": "Remove label from the conversation"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",

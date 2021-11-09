@@ -116,7 +116,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import teamMixin from 'dashboard/mixins/teamMixin';
+import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';

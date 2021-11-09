@@ -46,6 +46,11 @@ import Spinner from 'shared/components/Spinner';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
+import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
+import {
+  CMD_ADD_LABEL,
+  CMD_REMOVE_LABEL,
+} from '../../commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -54,7 +59,7 @@ export default {
     AddLabel,
   },
 
-  mixins: [clickaway],
+  mixins: [clickaway, conversationLabelMixin],
   props: {
     conversationId: {
       type: Number,
@@ -70,23 +75,10 @@ export default {
   },
 
   computed: {
-    savedLabels() {
-      return this.$store.getters['conversationLabels/getConversationLabels'](
-        this.conversationId
-      );
-    },
-
     ...mapGetters({
       conversationUiFlags: 'conversationLabels/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
-      accountLabels: 'labels/getLabels',
     }),
-
-    activeLabels() {
-      return this.accountLabels.filter(({ title }) =>
-        this.savedLabels.includes(title)
-      );
-    },
   },
 
   watch: {
@@ -100,6 +92,13 @@ export default {
   mounted() {
     const { conversationId } = this;
     this.fetchLabels(conversationId);
+    bus.$on(CMD_ADD_LABEL, this.addItem);
+    bus.$on(CMD_REMOVE_LABEL, this.removeItem);
+  },
+
+  destroyed() {
+    bus.$off(CMD_ADD_LABEL, this.addItem);
+    bus.$off(CMD_REMOVE_LABEL, this.removeItem);
   },
 
   methods: {
