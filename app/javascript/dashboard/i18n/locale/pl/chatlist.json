@@ -49,7 +49,7 @@
       },
       {
         "TEXT": "Oczekujące",
-        "VALUE": "oczekujące"
+        "VALUE": "pending"
       },
       {
         "TEXT": "Snoozed",
