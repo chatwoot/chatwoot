@@ -41,6 +41,7 @@
     "lodash.groupby": "^4.6.0",
     "marked": "2.0.3",
     "md5": "^2.3.0",
+    "ninja-keys": "^1.1.6",
     "posthog-js": "^1.13.7",
     "prosemirror-markdown": "1.5.1",
     "prosemirror-state": "1.3.4",
