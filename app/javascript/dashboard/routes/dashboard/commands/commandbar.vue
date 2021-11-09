@@ -1,11 +1,11 @@
 <template>
   <ninja-keys
     ref="ninjakeys"
-    noAutoLoadicons
+    no-auto-loadicons
     :placeholder="placeholder"
     @selected="selected"
     @change="change"
-  ></ninja-keys>
+  />
 </template>
 
 <script>
@@ -104,6 +104,9 @@ export default {
       return this.$store.getters.getCurrentAccountId;
     },
   },
+  mounted() {
+    this.$refs.ninjakeys.data = this.hotkeys;
+  },
   methods: {
     selected(event) {
       console.log('selected', event.detail);
@@ -112,19 +115,11 @@ export default {
       console.log('change', event.detail);
     },
   },
-  mounted() {
-    this.$refs.ninjakeys.data = this.hotkeys;
-  },
 };
 </script>
 
 <style>
-.ninja-icon {
-  margin-right: 2px;
-}
-
-.ninja-action.selected {
-  border-left: 2px solid var(--color-woot) !important;
-  /* --ninja-accent-color: #1f93ff; */
+ninja-keys {
+  --ninja-accent-color: var(--w-500);
 }
 </style>
