@@ -40,32 +40,11 @@ export default {
   },
   setup(props, context) {
     const router = context.root.$router;
-
-    // const lastMessageContent = computed(() => {
-    //   const { conversation } = props;
-    //   const { messages = [] } = conversation;
-    //   const lastMessage = messages[messages.length - 1];
-
-    //   if (lastMessage) return lastMessage.content;
-    //   return '';
-    // });
-
-    // const onItemClick = () => {
-    //   const { conversation } = props;
-    //   // conversation
-    //   router.push({
-    //     name: 'chat',
-    //     params: {
-    //       conversationId: conversation.id,
-    //     },
-    //   });
-    // };
     const unreadCount = conversationId => {
       const count =
         context.root.$store.getters['conversationV2/unreadTextMessagesCountIn'](
           conversationId
         ) || 0;
-      debugger;
       return count;
     };
 

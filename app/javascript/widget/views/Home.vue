@@ -58,27 +58,9 @@ export default {
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
-      getTotalMessageCount: 'conversationV2/allMessagesCountIn',
-      getIsFetchingList: 'conversationV2/isFetchingConversationsList',
       lastActiveConversationId: 'conversationV2/lastActiveConversationId',
       allActiveConversations: 'conversationV2/allActiveConversations',
-      getConversationById: 'conversationV2/getConversationById',
-      getCurrentUser: 'contactV2/getCurrentUser',
     }),
-    conversationSize() {
-      return this.getTotalMessageCount(this.conversationId);
-    },
-    isFetchingList() {
-      return this.getIsFetchingList(this.conversationId);
-    },
-    currentUser() {
-      return this.getCurrentUser(this.conversationId);
-    },
-    lastActiveConversation() {
-      const conversationId = this.lastActiveConversationId;
-      return this.getConversationById(conversationId);
-    },
   },
   methods: {
     async startConversation() {

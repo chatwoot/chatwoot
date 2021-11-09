@@ -65,7 +65,7 @@ export default {
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
+      metaIn: 'conversationV2/metaIn',
       currentUser: 'contactV2/getCurrentUser',
       getTotalMessageCount: 'conversationV2/allMessagesCountIn',
       getGroupedMessages: 'conversationV2/groupByMessagesIn',
@@ -85,7 +85,8 @@ export default {
       return this.getIsFetchingList(this.conversationId);
     },
     isOpen() {
-      return this.conversationAttributes.status === 'open';
+      const { status } = this.metaIn(this.conversationId);
+      return status === 'open';
     },
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;

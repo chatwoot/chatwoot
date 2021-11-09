@@ -12,7 +12,7 @@
     </div>
     <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in allMessages"
+        v-for="(message, index) in unreadMessages"
         :key="message.id"
         :message-type="message.messageType"
         :message-id="message.id"
@@ -87,9 +87,6 @@ export default {
       if (!conversationId) return [];
 
       return this.unreadMessagesIn(conversationId);
-    },
-    allMessages() {
-      return this.unreadMessages;
     },
   },
   methods: {

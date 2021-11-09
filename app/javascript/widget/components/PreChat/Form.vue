@@ -106,7 +106,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
-      isCreating: 'conversation/getIsCreating',
+      isCreating: 'conversationV2/isCreating',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);

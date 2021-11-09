@@ -40,7 +40,6 @@ export default {
   computed: {
     ...mapGetters({
       widgetSettings: 'appConfig/getWidgetSettings',
-      messageCount: 'conversation/getMessageCount',
       unreadMessagesIn: 'conversationV2/unreadTextMessagesCountIn',
       campaigns: 'campaign/getCampaigns',
       activeCampaign: 'campaign/getActiveCampaign',
