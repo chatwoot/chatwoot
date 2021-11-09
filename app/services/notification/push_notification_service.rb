@@ -97,6 +97,7 @@ class Notification::PushNotificationService
         body: notification.push_message_title,
         sound: 'default'
       },
+      android: { priority: 'high' },
       data: { notification: notification.fcm_push_data.to_json },
       collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
