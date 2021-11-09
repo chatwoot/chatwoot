@@ -43,7 +43,7 @@ class Imap::ImapMailbox
   end
 
   def in_reply_to
-    @inbound_mail['In-Reply-To'].try(:value)
+    @inbound_mail.in_reply_to
   end
 
   def find_or_create_conversation

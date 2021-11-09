@@ -37,7 +37,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     reply_mail_object = mail(create_payload(true))
 
-    message.update(source_id: "<#{reply_mail_object.message_id}>")
+    message.update(source_id: reply_mail_object.message_id)
   end
 
   def conversation_transcript(conversation, to_email)
