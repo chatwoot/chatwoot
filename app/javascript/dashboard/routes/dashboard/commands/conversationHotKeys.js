@@ -13,6 +13,7 @@ import {
   CMD_CHANGE_TEAM,
   CMD_ADD_LABEL,
   CMD_REMOVE_LABEL,
+  CMD_UNMUTE_CONVERSATION,
 } from './commandBarBusEvents';
 import {
   ICON_ADD_LABEL,
@@ -27,6 +28,7 @@ import {
   ICON_SNOOZE_UNTIL_NEXT_REPLY,
   ICON_SNOOZE_UNTIL_NEXT_WEEK,
   ICON_SNOOZE_UNTIL_TOMORRROW,
+  ICON_UNMUTE_CONVERSATION,
 } from './CommandBarIcons';
 
 export default {
@@ -203,13 +205,21 @@ export default {
       ) {
         return [
           ...this.statusActions,
-          {
-            id: 'mute_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.MUTE_CONVERSATION'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_MUTE_CONVERSATION,
-            handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
-          },
+          this.currentChat.muted
+            ? {
+                id: 'unmute_conversation',
+                title: this.$t('COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION'),
+                section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+                icon: ICON_UNMUTE_CONVERSATION,
+                handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
+              }
+            : {
+                id: 'mute_conversation',
+                title: this.$t('COMMAND_BAR.COMMANDS.MUTE_CONVERSATION'),
+                section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+                icon: ICON_MUTE_CONVERSATION,
+                handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
+              },
           {
             id: 'send_transcript',
             title: this.$t('COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT'),

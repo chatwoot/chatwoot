@@ -41,6 +41,7 @@ import ResolveAction from '../../buttons/ResolveAction';
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
+  CMD_UNMUTE_CONVERSATION,
 } from '../../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
@@ -59,10 +60,12 @@ export default {
   },
   mounted() {
     bus.$on(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$on(CMD_UNMUTE_CONVERSATION, this.unmute);
     bus.$on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   destroyed() {
     bus.$off(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$off(CMD_UNMUTE_CONVERSATION, this.unmute);
     bus.$off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
