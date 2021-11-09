@@ -4,53 +4,152 @@ import { groupConversationBySender } from './helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 
 export const getters = {
-  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
-  getIsCreating: _state => _state.uiFlags.isCreating,
-  getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
-  getConversation: _state => _state.conversations,
-  getConversationSize: _state => Object.keys(_state.conversations).length,
-  getEarliestMessage: _state => {
-    const conversation = Object.values(_state.conversations);
-    if (conversation.length) {
-      return conversation[0];
+  uiFlagsIn: _state => conversationId => {
+    const uiFlags = _state.conversations.uiFlags.byId[conversationId];
+
+    if (uiFlags) return uiFlags;
+    return {
+      allFetched: false,
+      isAgentTyping: false,
+      isFetching: false,
+    };
+  },
+  metaIn: _state => conversationId => {
+    const meta = _state.conversations.meta.byId[conversationId];
+    if (meta) return meta;
+    return {
+      userLastSeenAt: undefined,
+    };
+  },
+  isAllMessagesFetchedIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
+
+    if (uiFlags) return uiFlags.allFetched;
+    return false;
+  },
+  isCreating: _state => _state.uiFlags.conversations.isCreating,
+  isAgentTypingIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const uiFlags = _getters.uiFlagsIn(conversationId);
+
+    if (uiFlags) return uiFlags.isAgentTyping;
+    return false;
+  },
+  isFetchingConversationsList: _state =>
+    _state.conversations.uiFlags.isFetching,
+  allConversations: (...getterArguments) => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const conversations = _state.conversations.allIds.map(id => {
+      const conversation = _state.conversations.byId[id];
+      const messagesInConversation = conversation.messages.map(messageId => {
+        const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+        return lastMessage;
+      });
+      return {
+        ...conversation,
+        messages: messagesInConversation,
+      };
+    });
+    return conversations;
+  },
+  allActiveConversations: (...getterArguments) => {
+    const [, _getters] = getterArguments;
+
+    const conversations = _getters.allConversations
+      .filter(conversation => conversation.status === 'open')
+      .sort((a, b) => {
+        const lastMessageOnA = a.messages[a.messages.length - 1];
+        const lastMessageOnB = b.messages[b.messages.length - 1];
+        return lastMessageOnB.created_at - lastMessageOnA.created_at;
+      });
+    return conversations;
+  },
+  totalConversationsLength: _state => _state.conversations.allIds.length || 0,
+  firstMessageIn: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const messagesInConversation =
+      _state.conversations.byId[conversationId].messages;
+    if (messagesInConversation.length) {
+      const messageId = messagesInConversation[0];
+      const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+      return lastMessage;
     }
     return {};
   },
-  getGroupedConversation: _state => {
-    const conversationGroupedByDate = groupBy(
-      Object.values(_state.conversations),
-      message => formatUnixDate(message.created_at)
+  groupByMessagesIn: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const conversation = _state.conversations.byId[conversationId];
+    const messageIds = conversation ? conversation.messages : [];
+    const messagesInConversation = messageIds.map(messageId =>
+      _rootGetters['messageV2/messageById'](messageId)
     );
-    return Object.keys(conversationGroupedByDate).map(date => ({
+    const messagesGroupedByDate = groupBy(messagesInConversation, message =>
+      formatUnixDate(message.created_at)
+    );
+    return Object.keys(messagesGroupedByDate).map(date => ({
       date,
-      messages: groupConversationBySender(conversationGroupedByDate[date]),
+      messages: groupConversationBySender(messagesGroupedByDate[date]),
     }));
   },
-  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
-  getMessageCount: _state => {
-    return Object.values(_state.conversations).length;
+  isFetchingMessagesIn: _state => conversationId => {
+    const hasConversation = _state.conversations.uiFlags.byId[conversationId];
+    return hasConversation ? hasConversation.isFetching : false;
   },
-  getUnreadMessageCount: _state => {
-    const { userLastSeenAt } = _state.meta;
-    const count = Object.values(_state.conversations).filter(chat => {
-      const { created_at: createdAt, message_type: messageType } = chat;
+  allMessagesCountIn: _state => conversationId => {
+    const conversation = _state.conversations.byId[conversationId];
+    return conversation ? conversation.messages.length : 0;
+  },
+  getConversationById: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
+    const conversation = _state.conversations.byId[conversationId];
+    if (!conversation) return undefined;
+
+    const messageIds = conversation.messages;
+    const messagesInConversation = messageIds.map(messageId => {
+      const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+      return lastMessage;
+    });
+    return {
+      ...conversation,
+      messages: messagesInConversation,
+    };
+  },
+  unreadTextMessagesIn: (...getterArguments) => conversationId => {
+    const [_state, _getters, , _rootGetters] = getterArguments;
+    const conversation = _state.conversations.byId[conversationId];
+    if (!conversation) return [];
+
+    const messageIds = _state.conversations.byId[conversationId].messages;
+    const messagesInConversation = messageIds.map(messageId =>
+      _rootGetters['messageV2/messageById'](messageId)
+    );
+    const { userLastSeenAt } = _getters.metaIn(conversationId);
+
+    const messages = messagesInConversation.filter(message => {
+      const { created_at: createdAt, message_type: messageType } = message;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
       const hasNotSeen = userLastSeenAt
         ? createdAt * 1000 > userLastSeenAt * 1000
         : true;
       return hasNotSeen && isOutGoing;
-    }).length;
-    return count;
-  },
-  getUnreadTextMessages: (_state, _getters) => {
-    const unreadCount = _getters.getUnreadMessageCount;
-    const allMessages = [...Object.values(_state.conversations)];
-    const unreadAgentMessages = allMessages.filter(message => {
-      const { message_type: messageType } = message;
-      return messageType === MESSAGE_TYPE.OUTGOING;
     });
-    const maxUnreadCount = Math.min(unreadCount, 3);
-    const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
-    return allUnreadMessages;
+    return messages;
+  },
+  unreadTextMessagesCountIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const unreadTextMessages = _getters.unreadTextMessagesIn(conversationId);
+
+    return unreadTextMessages.length;
+  },
+  lastActiveConversationId: (...getterArguments) => {
+    const [, _getters] = getterArguments;
+    const conversations = _getters.allActiveConversations;
+    const conversation = conversations[0];
+
+    if (conversation) {
+      return conversation.id;
+    }
+    return undefined;
   },
 };

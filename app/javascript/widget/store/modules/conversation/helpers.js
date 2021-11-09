@@ -1,18 +1,4 @@
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-
-import getUuid from '../../../helpers/uuid';
-export const createTemporaryMessage = ({ attachments, content }) => {
-  const timestamp = new Date().getTime() / 1000;
-  return {
-    id: getUuid(),
-    content,
-    attachments,
-    status: 'in_progress',
-    created_at: timestamp,
-    message_type: MESSAGE_TYPE.INCOMING,
-  };
-};
 
 const getSenderName = message => (message.sender ? message.sender.name : '');
 
@@ -27,16 +13,16 @@ const shouldShowAvatar = (message, nextMessage) => {
   );
 };
 
-export const groupConversationBySender = conversationsForADate =>
-  conversationsForADate.map((message, index) => {
+export const groupConversationBySender = messagesByDay =>
+  messagesByDay.map((message, index) => {
     let showAvatar = false;
-    const isLastMessage = index === conversationsForADate.length - 1;
+    const isLastMessage = index === messagesByDay.length - 1;
     if (isASubmittedFormMessage(message)) {
       showAvatar = false;
     } else if (isLastMessage) {
       showAvatar = true;
     } else {
-      const nextMessage = conversationsForADate[index + 1];
+      const nextMessage = messagesByDay[index + 1];
       showAvatar = shouldShowAvatar(message, nextMessage);
     }
     return { showAvatar, ...message };
