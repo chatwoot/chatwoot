@@ -12,9 +12,9 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
 
     new_mails = false
 
-    Mail.find(what: :last, count: 10, order: :desc).each do |mail|
-      if mail.date.utc >= channel.imap_inbox_synced_at
-        Imap::ImapMailbox.new.process(mail)
+    Mail.find(what: :last, count: 10, order: :desc).each do |inbound_mail|
+      if inbound_mail.date.utc >= channel.imap_inbox_synced_at
+        Imap::ImapMailbox.new.process(inbound_mail, channel)
         new_mails = true
       end
     end

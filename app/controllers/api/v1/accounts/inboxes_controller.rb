@@ -1,4 +1,5 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
+  include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   # we are already handling the authorization in fetch inbox
@@ -41,7 +42,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update
     @inbox.update(permitted_params.except(:channel))
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
- 
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
     # Inbox update doesn't necessarily need channel attributes
@@ -137,27 +137,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Channel::Line::EDITABLE_ATTRS
     else
       []
-    end
-  end
-
-  def validate_email_channel(attributes)
-    channel_data = permitted_params(attributes)[:channel]
-    if channel_data.key?('imap_enabled') && channel_data[:imap_enabled]
-      Mail.defaults do
-        retriever_method :imap, { :address => channel_data[:imap_address],
-                                  :port => channel_data[:imap_port],
-                                  :user_name => channel_data[:imap_email],
-                                  :password => channel_data[:imap_password],
-                                  :enable_ssl => channel_data[:imap_enable_ssl] }
-      end 
-
-      Mail.connection do
-      end
-    end
-
-    if channel_data.key?('smtp_enabled') && channel_data[:smtp_enabled]
-      smtp = Net::SMTP.start(channel_data[:smtp_address], channel_data[:smtp_port], channel_data[:smtp_domain], channel_data[:smtp_email], channel_data[:smtp_password], :login)
-      smtp.finish unless smtp.nil?
     end
   end
 end

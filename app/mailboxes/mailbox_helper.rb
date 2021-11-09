@@ -28,4 +28,19 @@ module MailboxHelper
     end
     @message.save!
   end
+
+  def create_contact
+    @contact_inbox = ::ContactBuilder.new(
+      source_id: "email:#{processed_mail.message_id}",
+      inbox: @inbox,
+      contact_attributes: {
+        name: identify_contact_name,
+        email: processed_mail.original_sender,
+        additional_attributes: {
+          source_id: "email:#{processed_mail.message_id}"
+        }
+      }
+    ).perform
+    @contact = @contact_inbox.contact
+  end
 end

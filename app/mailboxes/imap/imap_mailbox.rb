@@ -2,9 +2,9 @@ class Imap::ImapMailbox
   include MailboxHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
-  def process(mail)
+  def process(mail, channel)
     @inbound_mail = mail
-    find_channel
+    @channel = channel
     load_account
     load_inbox
     decorate_mail
@@ -18,13 +18,6 @@ class Imap::ImapMailbox
   end
 
   private
-
-  def find_channel
-    @channel = Channel::Email.find_by('lower(imap_email) = ? ', @inbound_mail.to)
-    raise 'Email channel/inbox not found' if @channel.nil?
-
-    @channel
-  end
 
   def load_account
     @account = @channel.account
@@ -54,20 +47,18 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_conversation
-    @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({
-                                                                                account_id: @account.id,
-                                                                                inbox_id: @inbox.id,
-                                                                                contact_id: @contact.id,
-                                                                                contact_inbox_id: @contact_inbox.id,
-                                                                                additional_attributes: {
-                                                                                  source: 'email',
-                                                                                  in_reply_to: in_reply_to,
-                                                                                  mail_subject: @processed_mail.subject,
-                                                                                  initiated_at: {
-                                                                                    timestamp: Time.now.utc
-                                                                                  }
-                                                                                }
-                                                                              })
+    @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({ account_id: @account.id,
+                                                                                 inbox_id: @inbox.id,
+                                                                                 contact_id: @contact.id,
+                                                                                 contact_inbox_id: @contact_inbox.id,
+                                                                                 additional_attributes: {
+                                                                                   source: 'email',
+                                                                                   in_reply_to: in_reply_to,
+                                                                                   mail_subject: @processed_mail.subject,
+                                                                                   initiated_at: {
+                                                                                     timestamp: Time.now.utc
+                                                                                   }
+                                                                                 } })
   end
 
   def find_or_create_contact
@@ -77,21 +68,6 @@ class Imap::ImapMailbox
     else
       create_contact
     end
-  end
-
-  def create_contact
-    @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
-      inbox: @inbox,
-      contact_attributes: {
-        name: identify_contact_name,
-        email: @processed_mail.original_sender,
-        additional_attributes: {
-          source_id: "email:#{processed_mail.message_id}"
-        }
-      }
-    ).perform
-    @contact = @contact_inbox.contact
   end
 
   def identify_contact_name
