@@ -62,18 +62,14 @@
             :error="
               $v.attributeKey.$error
                 ? $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR')
-                 : ''
+                : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
             @blur="$v.attributeKey.$touch"
           />
           <div class="modal-footer">
             <woot-submit-button
-              :disabled="
-                $v.displayName.$invalid ||
-                $v.description.$invalid ||
-                uiFlags.isCreating
-              "
+              :disabled="isButtonDisabled"
               :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
             />
             <button class="button clear" @click.prevent="onClose">
@@ -119,6 +115,13 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    isButtonDisabled() {
+      return (
+        this.$v.displayName.$invalid ||
+        this.$v.description.$invalid ||
+        this.uiFlags.isCreating
+      );
+    },
   },
 
   validations: {
