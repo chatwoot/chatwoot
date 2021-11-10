@@ -11,11 +11,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: contact_identify_action.perform
   end
 
-  def destroy_custom_attributes
-    @contact.custom_attributes = @contact.custom_attributes.except(params[:contact][:custom_Attibutes]
-    @contact.save!
-  end
-
   private
 
   def process_hmac
