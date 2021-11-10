@@ -245,18 +245,10 @@ export default {
             message.customAttributes
           );
         } else if (message.event === 'delete-custom-attribute') {
-          this.$store.dispatch('contacts/setCustomAttributes', {
-            [message.customAttribute]: null,
-          });
-        } else if (message.event === 'set-custom-contact-attributes') {
           this.$store.dispatch(
-            'contacts/setCustomAttributes',
-            message.customAttributes
+            'contacts/deleteCustomAttributes',
+            message.customAttribute
           );
-        } else if (message.event === 'delete-custom-contact-attributes') {
-          this.$store.dispatch('contacts/setCustomAttributes', {
-            [message.customAttribute]: null,
-          });
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

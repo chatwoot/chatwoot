@@ -48,16 +48,14 @@ export const actions = {
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
     try {
-      await ContactsAPI.setCustomAttibutes(customAttributes);
+      await ContactsAPI.setCustomAttributes(customAttributes);
     } catch (error) {
       // Ignore error
     }
   },
-  setCustomContactAttributes: async (_, customAttributes = {}) => {
-    console.log('customAttributes', customAttributes);
-
+  deleteCustomAttributes: async (_, customAttribute = {}) => {
     try {
-      await ContactsAPI.setCustomContactAttributes(customAttributes);
+      await ContactsAPI.deleteCustomAttributes([customAttribute]);
     } catch (error) {
       // Ignore error
     }

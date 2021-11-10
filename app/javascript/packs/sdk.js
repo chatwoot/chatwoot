@@ -89,26 +89,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
-    setCustomContactAttributes(customAttributes = {}) {
-      if (!customAttributes || !Object.keys(customAttributes).length) {
-        throw new Error('Custom attributes should have at least one key');
-      } else {
-        IFrameHelper.sendMessage('set-custom-contact-attributes', {
-          customAttributes,
-        });
-      }
-    },
-
-    deleteCustomContactAttributes(customAttribute = '') {
-      if (!customAttribute) {
-        throw new Error('Custom attribute is required');
-      } else {
-        IFrameHelper.sendMessage('delete-custom-contact-attributes', {
-          customAttribute,
-        });
-      }
-    },
-
     setLabel(label = '') {
       IFrameHelper.sendMessage('set-label', { label });
     },

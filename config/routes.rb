@@ -183,7 +183,11 @@ Rails.application.routes.draw do
             post :transcript
           end
         end
-        resource :contact, only: [:show, :update]
+        resource :contact, only: [:show, :update] do
+          collection do
+            post :destroy_custom_attributes
+          end
+        end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end

@@ -12,13 +12,13 @@ export default {
       ...userObject,
     });
   },
-  setCustomAttibutes(customAttributes = {}) {
+  setCustomAttributes(customAttributes = {}) {
     return API.patch(buildUrl('widget/contact'), {
       custom_attributes: customAttributes,
     });
   },
-  setCustomContactAttributes(customAttributes = {}) {
-    return API.patch(buildUrl('widget/contact'), {
+  deleteCustomAttributes(customAttributes = {}) {
+    return API.post(buildUrl('widget/contact/destroy_custom_attributes'), {
       custom_attributes: customAttributes,
     });
   },
