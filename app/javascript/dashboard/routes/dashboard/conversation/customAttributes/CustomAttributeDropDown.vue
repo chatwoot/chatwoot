@@ -27,7 +27,6 @@
           {{ $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_SELECT.NO_RESULT') }}
         </div>
         <woot-button
-          variant="hollow"
           class="add"
           icon="ion-plus-round"
           size="tiny"
@@ -77,7 +76,7 @@ export default {
     },
 
     noResult() {
-      return this.filteredAttributes.length === 0 && this.search !== '';
+      return this.filteredAttributes.length === 0;
     },
   },
 
@@ -139,7 +138,6 @@ export default {
       width: 100%;
       .add {
         float: right;
-        margin-top: var(--space-one);
       }
     }
 

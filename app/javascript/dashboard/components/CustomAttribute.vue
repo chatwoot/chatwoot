@@ -132,9 +132,9 @@ export default {
     },
     formattedValue() {
       if (this.attributeType === 'date') {
-        return format(new Date(this.value), 'dd-MM-yyyy');
+        return format(new Date(this.editedValue), 'dd-MM-yyyy');
       }
-      return this.value;
+      return this.editedValue;
     },
   },
   mounted() {
@@ -160,7 +160,7 @@ export default {
       const updatedValue =
         this.attributeType === 'date'
           ? format(new Date(this.editedValue), DATE_FORMAT)
-          : this.value;
+          : this.editedValue;
 
       this.$v.$touch();
       if (this.$v.$invalid) {
