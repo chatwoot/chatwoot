@@ -111,7 +111,6 @@ export const actions = {
   },
 
   deleteCustomAttributes: async ({ commit }, { id, customAttributes }) => {
-    commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.destroyCustomAttributes(
         id,
