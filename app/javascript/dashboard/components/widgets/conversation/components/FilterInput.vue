@@ -11,7 +11,7 @@
           :key="attribute.key"
           :value="attribute.key"
         >
-          {{ attribute.name }}
+          {{ $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`) }}
         </option>
       </select>
       <button class="filter--attribute_clearbtn" @click="removeFilter">

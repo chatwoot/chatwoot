@@ -82,6 +82,7 @@ export default {
         return {
           key: type.attributeKey,
           name: type.attributeName,
+          attributeI18nKey: type.attributeI18nKey,
         };
       });
     },
