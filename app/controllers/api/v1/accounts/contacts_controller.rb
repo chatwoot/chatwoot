@@ -1,4 +1,4 @@
-class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   include Sift
   sort_on :email, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
