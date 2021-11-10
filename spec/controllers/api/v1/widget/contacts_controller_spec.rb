@@ -65,7 +65,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               headers: { 'X-Auth-Token' => token },
               as: :json
 
-        expect(response).to have_http_status(:internal_server_error)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'returns error when identifier hash is blank' do
@@ -74,7 +74,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               headers: { 'X-Auth-Token' => token },
               as: :json
 
-        expect(response).to have_http_status(:internal_server_error)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'returns error when identifier hash is not provided' do
@@ -83,7 +83,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               headers: { 'X-Auth-Token' => token },
               as: :json
 
-        expect(response).to have_http_status(:internal_server_error)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
