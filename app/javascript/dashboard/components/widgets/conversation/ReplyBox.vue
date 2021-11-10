@@ -52,7 +52,7 @@
         @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box">
+    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
@@ -314,11 +314,22 @@ export default {
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
+    document.addEventListener('paste', this.onPaste);
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
+    document.removeEventListener('paste', this.onPaste);
   },
   methods: {
+    onPaste(e) {
+      const data = e.clipboardData.files;
+      if (!data.length || !data[0]) {
+        return;
+      }
+      const file = data[0];
+      const { name, type, size } = file;
+      this.onFileUpload({ name, type, size, file });
+    },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
     },
@@ -415,9 +426,11 @@ export default {
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
+      const isPrivate = this.isPrivate;
       this.$store.dispatch('conversationTypingStatus/toggleTyping', {
         status,
         conversationId,
+        isPrivate,
       });
     },
     onFileUpload(file) {

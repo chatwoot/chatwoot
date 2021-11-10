@@ -1,10 +1,12 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   include Sift
-
   sort_on :email, type: :string
-  sort_on :name, type: :string
+  sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
   sort_on :phone_number, type: :string
-  sort_on :last_activity_at, type: :datetime
+  sort_on :last_activity_at, internal_name: :order_on_last_activity_at, type: :scope, scope_params: [:direction]
+  sort_on :company, internal_name: :order_on_company_name, type: :scope, scope_params: [:direction]
+  sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
+  sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
 
@@ -51,7 +53,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def filter
-    @contacts = Current.account.contacts.limit(10)
+    result = ::Contacts::FilterService.new(params.permit!, current_user).perform
+    contacts = result[:contacts]
+    @contacts_count = result[:count]
+    @contacts = fetch_contacts_with_conversation_count(contacts)
   end
 
   def contactable_inboxes
@@ -95,10 +100,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
-    @resolved_contacts = Current.account.contacts
-                                .where.not(email: [nil, ''])
-                                .or(Current.account.contacts.where.not(phone_number: [nil, '']))
-                                .or(Current.account.contacts.where.not(identifier: [nil, '']))
+    @resolved_contacts = Current.account.contacts.resolved_contacts
+
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
   end
