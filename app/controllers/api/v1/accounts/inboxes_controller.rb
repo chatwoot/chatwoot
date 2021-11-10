@@ -104,6 +104,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Current.account.telegram_channels.create!(permitted_params(Channel::Telegram::EDITABLE_ATTRS)[:channel].except(:type))
     when 'whatsapp'
       Current.account.whatsapp_channels.create!(permitted_params(Channel::Whatsapp::EDITABLE_ATTRS)[:channel].except(:type))
+    when 'twitter'
+      Current.account.whatsapp_channels.create!(permitted_params(Channel::Twitter::EDITABLE_ATTRS)[:channel].except(:type))
     end
   end
 

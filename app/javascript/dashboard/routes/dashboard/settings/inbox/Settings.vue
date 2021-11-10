@@ -32,6 +32,34 @@
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
+        <label class="medium-9 columns">
+          {{
+            "Enable tweets in conversation feed"
+          }}
+          <select v-model="tweetsEnabled">
+            <option :value="true">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                )
+              }}
+            </option>
+            <option :value="false">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                )
+              }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
+              )
+            }}
+          </p>
+        </label>
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
@@ -401,6 +429,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      tweetsEnabled: true,
       hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,

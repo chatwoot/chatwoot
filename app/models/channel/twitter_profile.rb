@@ -3,6 +3,7 @@
 # Table name: channel_twitter_profiles
 #
 #  id                          :bigint           not null, primary key
+#  tweets_enabled              :boolean
 #  twitter_access_token        :string           not null
 #  twitter_access_token_secret :string           not null
 #  created_at                  :datetime         not null
