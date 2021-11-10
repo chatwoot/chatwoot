@@ -12,7 +12,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
@@ -62,6 +62,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def contactable_inboxes
     @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
     @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
+  end
+
+  def destroy_custom_attributes
+    @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
+    @contact.save!
   end
 
   def create
@@ -134,9 +139,15 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
+  def contact_custom_attributes
+    return @contact.custom_attributes.merge(contact_params[:custom_attributes]) if contact_params[:custom_attributes]
+
+    @contact.custom_attributes
+  end
+
   def contact_update_params
     # we want the merged custom attributes not the original one
-    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_params[:custom_attributes] })
+    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
   end
 
   def set_include_contact_inboxes
