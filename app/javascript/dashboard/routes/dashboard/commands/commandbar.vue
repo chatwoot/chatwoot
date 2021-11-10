@@ -17,7 +17,7 @@ export default {
   mixins: [conversationHotKeysMixin, goToCommandHotKeys],
   data() {
     return {
-      placeholder: 'Search or jump to',
+      placeholder: this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER'),
     };
   },
   computed: {

@@ -81,6 +81,7 @@
     }
   },
   "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Search or jump to",
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Reports",
