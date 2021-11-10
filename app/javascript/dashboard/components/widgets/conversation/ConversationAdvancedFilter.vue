@@ -189,78 +189,78 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
+<style>
 .filter-modal-content {
-  border: 1px solid $color-border;
-  border-radius: $space-small;
-  padding: $space-normal;
+  border: 1px solid var(--color-border);
+  border-radius: var(--space-half);
+  padding: var(--space-one);
 }
 .filter--attributes {
   display: flex;
   align-items: center;
-  margin-bottom: $space-normal;
+  margin-bottom: var(--space-one);
 }
 .filter--attribute_clearbtn {
-  font-size: $font-size-bigger;
-  margin-left: $space-normal;
+  font-size: var(--space-two);
+  margin-left: var(--space-one);
   cursor: pointer;
 }
 .filter--attributes_select {
-  margin-bottom: $zero !important;
+  margin-bottom: var(--space-zero) !important;
 }
 
 .filter--values_select {
-  margin-bottom: $zero !important;
+  margin-bottom: var(--space-zero) !important;
 }
 
 .padding-right-small {
-  padding-right: $space-normal;
+  padding-right: var(--space-one);
 }
 .margin-right-small {
-  margin-right: $space-slab;
+  margin-right: var(--space-three-fourths);
 }
 .append-filter-btn {
   width: 100%;
-  border: 1px solid $color-border;
-  border-radius: $space-small;
+  border: 1px solid var(--color-border);
+  border-radius: var(--space-one-fourths);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $color-woot;
-  font-size: $font-size-big;
-  padding: $space-normal;
-  height: 38px;
+  color: var(--color-woot);
+  font-size: var(--font-size-one-and-half);
+  padding: var(--space-one);
+  height: var(----space-medium);
   cursor: pointer;
 }
 .filter-actions {
-  margin: $space-large $zero $space-normal $zero;
+  margin: var(--space-two) var(--space-zero) var(--space-one) var(--space-zero);
 }
 .filter--attributes_input {
-  margin-bottom: $zero !important;
+  margin-bottom: var(--space-zero) !important;
 }
 .filter--query_operator {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: $space-normal $zero;
+  margin: var(--space-one) var(--space-zero);
 }
 .filter--query_operator_line {
   position: absolute;
-  z-index: 10;
+  z-index: var(--z-index-low);
   width: 100%;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
 }
 .filter--query_operator_container {
   position: relative;
-  z-index: 20;
-  margin: $zero;
+  z-index: var(--z-index-twenty);
+  margin: var(--space-zero);
 }
 .filter--query_operator_select {
   width: 100%;
-  margin-bottom: $zero !important;
+  margin-bottom: var(--space-zero) !important;
   border: none;
-  padding: $zero $space-larger $zero $space-two;
+  padding: var(--space-zero) var(--space-three) var(--space-zero)
+    var(--space-two);
 }
 </style>

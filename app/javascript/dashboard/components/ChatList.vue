@@ -340,7 +340,6 @@ export default {
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
-@import '~widget/assets/scss/variables.scss';
 
 .spinner {
   margin-top: var(--space-normal);
@@ -370,11 +369,11 @@ export default {
   .btn-filter {
     cursor: pointer;
     i {
-      font-size: $font-size-bigger;
+      font-size: var(--font-size-two);
     }
   }
   .btn-clear-filters {
-    color: $color-error;
+    color: var(--r-500);
     cursor: pointer;
   }
 }

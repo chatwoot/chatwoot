@@ -180,12 +180,11 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+<style scoped>
 .multiselect {
-  margin-bottom: $zero !important;
+  margin-bottom: var(--space-zero) !important;
 }
 .filter-error {
-  color: $color-error;
+  color: var(--r-500);
 }
 </style>
