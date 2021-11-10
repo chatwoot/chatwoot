@@ -1,21 +1,24 @@
 <template>
-  <router
-    :show-unread-view="showUnreadView"
-    :show-campaign-view="showCampaignView"
-    :is-mobile="isMobile"
-    :has-fetched="hasFetched"
-    :unread-message-count="unreadMessageCount"
-    :is-left-aligned="isLeftAligned"
-    :hide-message-bubble="hideMessageBubble"
-    :show-popout-button="showPopoutButton"
-  />
+  <div
+    id="app"
+    class="woot-widget-wrap"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': !isLeftAligned,
+      'is-bubble-hidden': isChatTriggerHidden,
+    }"
+  >
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import Router from './views/Router';
+
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -23,17 +26,12 @@ import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'App',
-  components: {
-    Router,
-  },
   mixins: [availabilityMixin],
   data() {
     return {
-      showUnreadView: false,
-      showCampaignView: false,
-      isMobile: false,
-      hideMessageBubble: false,
       widgetPosition: 'right',
+      isMobile: false,
+      isChatTriggerHidden: false,
       showPopoutButton: false,
       isWebWidgetTriggered: false,
       isWidgetOpen: false,
@@ -41,11 +39,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      hasFetched: 'agent/getHasFetched',
-      messageCount: 'conversation/getMessageCount',
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      widgetSettings: 'appConfig/getWidgetSettings',
+      unreadMessagesIn: 'conversationV2/unreadTextMessagesCountIn',
       campaigns: 'campaign/getCampaigns',
       activeCampaign: 'campaign/getActiveCampaign',
+      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -57,20 +55,13 @@ export default {
     isRNWebView() {
       return RNHelper.isRNWebView();
     },
+    unreadMessageCount() {
+      return this.unreadMessagesIn(this.lastActiveConversationId);
+    },
   },
   watch: {
     activeCampaign() {
       this.setCampaignView();
-    },
-    showUnreadView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-      }
-    },
-    showCampaignView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-      }
     },
   },
   mounted() {
@@ -82,7 +73,7 @@ export default {
       setHeader('X-Auth-Token', window.authToken);
     } else {
       setHeader('X-Auth-Token', window.authToken);
-      this.fetchOldConversations();
+
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
@@ -90,6 +81,8 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
+    this.fetchContact();
+    this.fetchAllConversations();
     this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
@@ -97,9 +90,12 @@ export default {
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    ...mapActions('conversationV2', [
+      'fetchOldMessagesIn',
+      'setUserLastSeenIn',
+    ]),
     ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -130,19 +126,32 @@ export default {
     setPosition(position) {
       const widgetPosition = position || 'right';
       this.widgetPosition = widgetPosition;
+      this.$store.dispatch('appConfig/setWidgetSettings', { widgetPosition });
     },
-    setHideMessageBubble(hideBubble) {
-      this.hideMessageBubble = !!hideBubble;
+    setIsChatTriggerHidden(hideBubble) {
+      this.$store.dispatch('appConfig/setWidgetSettings', {
+        isChatTriggerHidden: !!hideBubble,
+      });
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
-        if (!this.isIFrame || this.isWidgetOpen) {
-          this.setUserLastSeen();
+        this.sendSetUnreadViewEvent();
+        const currentRouteName = this.$route.name;
+        if (!this.isWidgetOpen && currentRouteName !== 'unread') {
+          this.$router.replace({ name: 'unread' });
         }
-        this.setUnreadView();
       });
-      bus.$on('on-unread-view-clicked', () => {
-        this.unsetUnreadView();
+      bus.$on('on-unread-view-clicked', conversationId => {
+        this.$router.replace({
+          name: 'home',
+        });
+        this.$router.push({
+          name: 'chat',
+          params: {
+            conversationId,
+          },
+        });
+        this.sendUnsetUnreadView();
         this.setUserLastSeen();
       });
     },
@@ -151,8 +160,12 @@ export default {
         const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
         this.showUnreadView = false;
-        this.unsetUnreadView();
-        this.setUserLastSeen();
+        this.$router.replace({
+          name: 'home',
+        });
+        this.$router.push({ name: 'chat', conversationId: campaignId });
+
+        this.sendUnsetUnreadView();
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
@@ -160,20 +173,24 @@ export default {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      const { messageCount, activeCampaign } = this;
+      const { unreadMessageCount, activeCampaign } = this;
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
-        !messageCount &&
+        !unreadMessageCount &&
         !this.isWebWidgetTriggered;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.showCampaignView = true;
+        const currentRouteName = this.$route.name;
+        if (currentRouteName !== 'campaign') {
+          this.$router.replace({ name: 'campaign' });
+          this.setIframeHeight(this.isMobile);
+        }
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
         this.setIframeHeight(this.isMobile);
       }
     },
-    setUnreadView() {
+    sendSetUnreadViewEvent() {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount > 0) {
         IFrameHelper.sendMessage({
@@ -183,7 +200,7 @@ export default {
         this.setIframeHeight(this.isMobile);
       }
     },
-    unsetUnreadView() {
+    sendUnsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight();
@@ -199,7 +216,8 @@ export default {
       ) {
         return;
       }
-      this.setUserLastSeen();
+      // this.setUserLastSeen();
+      // TODO - what is this for
       this.$store.dispatch('events/create', { name: eventName });
     },
     registerListeners() {
@@ -209,15 +227,14 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
           this.setPosition(message.position);
-          this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
-          this.setHideMessageBubble(message.hideMessageBubble);
-          this.$store.dispatch('contacts/get');
+          this.setIsChatTriggerHidden(message.hideMessageBubble);
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
@@ -252,14 +269,18 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          this.showUnreadView = true;
-          this.showCampaignView = false;
+          // this.sendSetUnreadViewEvent();
         } else if (message.event === 'unset-unread-view') {
-          this.showUnreadView = false;
-          this.showCampaignView = false;
+          // this.sendUnsetUnreadView();
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
+
+          if (!message.isOpen) {
+            this.$router.replace({
+              name: 'home',
+            });
+          }
         }
       });
     },
@@ -269,6 +290,7 @@ export default {
         config: {
           authToken: window.authToken,
           channelConfig: window.chatwootWebChannel,
+          contactIdentifier: window.contactIdentifier,
         },
       });
     },
@@ -278,6 +300,7 @@ export default {
         config: {
           authToken: window.authToken,
           channelConfig: window.chatwootWebChannel,
+          contactIdentifier: window.contactIdentifier,
         },
       });
     },
@@ -297,6 +320,26 @@ export default {
       if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
 
       return extraHeight;
+    },
+    fetchContact() {
+      this.$store.dispatch('contactV2/get').then(() => {
+        this.sendLoadedEvent();
+      });
+    },
+    async fetchAllConversations() {
+      const conversationId = this.lastActiveConversationId;
+      await this.$store.dispatch('conversationV2/fetchAllConversations');
+
+      if (conversationId) {
+        await this.fetchOldMessagesIn(this.lastActiveConversationId);
+        this.sendSetUnreadViewEvent();
+      }
+    },
+    setUserLastSeen() {
+      const conversationId = this.lastActiveConversationId;
+      if (conversationId) {
+        this.setUserLastSeenIn({ conversationId });
+      }
     },
   },
 };

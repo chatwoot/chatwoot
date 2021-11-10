@@ -12,7 +12,7 @@
     </div>
     <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in unreadMessages"
+        v-for="(message, index) in allMessages"
         :key="message.id"
         :message-type="message.messageType"
         :message-id="message.id"
@@ -20,7 +20,6 @@
         :sender="message.sender"
         :message="getMessageContent(message)"
         :campaign-id="message.campaignId"
-        :conversation-id="message.conversation_id"
       />
     </div>
 
@@ -39,7 +38,7 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import UnreadMessage from 'widget/components/UnreadMessage';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
 
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
@@ -70,23 +69,27 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessagesIn: 'conversationV2/unreadTextMessagesIn',
+      unreadMessages: 'conversationV2/unreadTextMessagesIn',
       campaign: 'campaign/getActiveCampaign',
-      getConversationById: 'conversationV2/getConversationById',
-      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
+      lastConversation: 'conversationV2/lastActiveConversationId',
     }),
     showCloseButton() {
       return this.unreadMessageCount;
     },
     sender() {
-      const [firstMessage] = this.unreadMessages;
+      const { id: lastConversationId } = this.lastConversation;
+      const [firstMessage] = this.unreadMessages(lastConversationId);
       return firstMessage.sender || {};
     },
-    unreadMessages() {
-      const conversationId = this.lastActiveConversationId;
-      if (!conversationId) return [];
-
-      return this.unreadMessagesIn(conversationId);
+    allMessages() {
+      const { sender, id: campaignId, message: content } = this.campaign;
+      return [
+        {
+          content,
+          sender,
+          campaignId,
+        },
+      ];
     },
   },
   methods: {
