@@ -1,5 +1,6 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
+import getters from '../../conversations/getters';
 import * as types from '../../../mutation-types';
 const dataToSend = {
   payload: [
@@ -84,7 +85,7 @@ describe('#actions', () => {
         inbox_id: 2,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        { commit, dispatch, state: { currentInbox: 1 }, getters },
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
