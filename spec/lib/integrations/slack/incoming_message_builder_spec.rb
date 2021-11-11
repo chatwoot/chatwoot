@@ -10,6 +10,14 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
+  before do
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png'),
+      headers: {}
+    )
+  end
+
   describe '#perform' do
     context 'when url verification' do
       it 'return challenge code as response' do

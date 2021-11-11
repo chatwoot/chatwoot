@@ -1,5 +1,5 @@
-# Find the various telegram payload samples here: https://core.telegram.org/bots/webhooks#testing-your-bot-with-updates
-# https://core.telegram.org/bots/api#available-types
+# https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
+# https://developers.facebook.com/docs/whatsapp/api/media/
 
 class Whatsapp::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
@@ -12,7 +12,7 @@ class Whatsapp::IncomingMessageService
 
     return if params[:messages].blank?
 
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.build(
       content: params[:messages].first.dig(:text, :body),
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -20,6 +20,7 @@ class Whatsapp::IncomingMessageService
       sender: @contact,
       source_id: params[:messages].first[:id].to_s
     )
+    attach_files
     @message.save!
   end
 
@@ -57,5 +58,32 @@ class Whatsapp::IncomingMessageService
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
+  end
+
+  def file_content_type(file_type)
+    return :image if %w[image sticker].include?(file_type)
+    return :audio if %w[audio voice].include?(file_type)
+    return :video if ['video'].include?(file_type)
+
+    'document'
+  end
+
+  def attach_files
+    message_type = params[:messages].first[:type]
+    return if message_type == 'text'
+
+    attachment_payload = params[:messages].first[message_type.to_sym]
+    attachment_file = Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+
+    @message.content ||= attachment_payload[:caption]
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(message_type),
+      file: {
+        io: attachment_file,
+        filename: attachment_file,
+        content_type: attachment_file.content_type
+      }
+    )
   end
 end
