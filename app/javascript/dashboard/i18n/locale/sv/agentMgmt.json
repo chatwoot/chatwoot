@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Inga resultat hittades."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Inget",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Välj agent",
+        "TEAM": "Välj team"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Inga agenter hittades",
+          "TEAM": "Inga team hittades"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Sök efter agenter",
+          "TEAM": "Sök efter team"
         }
       }
     }
