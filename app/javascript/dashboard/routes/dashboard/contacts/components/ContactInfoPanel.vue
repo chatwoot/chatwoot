@@ -13,12 +13,21 @@
       @panel-close="onClose"
     />
     <accordion-item
-      :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CUSTOM_ATTRIBUTES')"
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
+      compact
       @click="value => toggleSidebarUIState('is_ct_custom_attr_open', value)"
     >
-      <contact-custom-attributes
+      <custom-attributes
+        :contact-id="contact.id"
+        attribute-type="contact_attribute"
+        attribute-class="conversation--attribute"
         :custom-attributes="contact.custom_attributes"
+        class="even"
+      />
+      <custom-attribute-selector
+        attribute-type="contact_attribute"
+        :contact-id="contact.id"
       />
     </accordion-item>
     <accordion-item
@@ -45,9 +54,10 @@
 <script>
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations';
-import ContactCustomAttributes from 'dashboard/routes/dashboard/conversation/ContactCustomAttributes';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
+import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
+import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';
 
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -55,9 +65,10 @@ export default {
   components: {
     AccordionItem,
     ContactConversations,
-    ContactCustomAttributes,
     ContactInfo,
     ContactLabel,
+    CustomAttributes,
+    CustomAttributeSelector,
   },
   mixins: [uiSettingsMixin],
   props: {
