@@ -199,6 +199,10 @@ describe ::ContactInboxBuilder do
     end
 
     describe 'facebook inbox' do
+      before do
+        stub_request(:post, /graph.facebook.com/)
+      end
+
       let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
 
