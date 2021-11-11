@@ -50,7 +50,8 @@
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
         "ERROR": "پیام بسیار کوتاه است"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
