@@ -14,8 +14,9 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   private
 
   def process_hmac
-    return if params[:identifier_hash].blank?
-    raise StandardError, 'HMAC failed: Invalid Identifier Hash Provided' unless valid_hmac?
+    return if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
+
+    render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless valid_hmac?
 
     @contact_inbox.update(hmac_verified: true)
   end
