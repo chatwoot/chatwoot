@@ -4,10 +4,10 @@
       <div class="flex flex-col my-2">
         <header-back-button @click="onBackButtonClick" />
         <h1 class="text-xl font-semibold text-slate-900">
-          All conversations
+          {{ $t('CONVERSATIONS_VIEW.TITLE') }}
         </h1>
         <p class="text-sm text-slate-700">
-          Your previous converations with chatwoot
+          {{ $t('CONVERSATIONS_VIEW.SUB_TITLE') }}
         </p>
       </div>
       <conversation-list :conversations="allConversations" />

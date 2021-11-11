@@ -20,41 +20,26 @@ export default new Router({
     {
       path: '/unread',
       name: 'unread',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: Unread,
     },
     {
       path: '/campaign',
       name: 'campaign',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: Campaign,
     },
     {
       path: '/conversations',
       name: 'conversations',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: Conversations,
     },
     {
       path: '/conversations/prechat',
       name: 'prechat',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: PreChat,
     },
     {
       path: '/conversations/:conversationId',
       name: 'chat',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: Chat,
     },
   ],

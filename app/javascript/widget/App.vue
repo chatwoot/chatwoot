@@ -216,8 +216,6 @@ export default {
       ) {
         return;
       }
-      // this.setUserLastSeen();
-      // TODO - what is this for
       this.$store.dispatch('events/create', { name: eventName });
     },
     registerListeners() {
@@ -269,9 +267,9 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          // this.sendSetUnreadViewEvent();
+          // Side effects after setting the unread goes here
         } else if (message.event === 'unset-unread-view') {
-          // this.sendUnsetUnreadView();
+          // Side effects after un-setting the unread goes here
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
