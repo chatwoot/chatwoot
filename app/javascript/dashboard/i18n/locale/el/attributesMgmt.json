@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Ιδιότητες",
-    "HEADER_BTN_TXT": "Προσθήκη ιδιότητας",
-    "LOADING": "Λήψη ιδιοτήτων",
-    "SIDEBAR_TXT": "<p><b>Ιδιότητες</b> <p>Μια προσαρμοσμένη ιδιότητα παρακολουθεί γεγονότα σχετικά με τις επαφές σας/συνομιλίες σας — όπως για παράδειγμα συνδρομή, ή όταν γίνεται η πρώτη παραγγελία κ. λπ. <br /><br />Για τη δημιουργία ιδιοτήτων απλά κάντε κλικ στο<b>Προσθήκη Ιδιότητας.</b> Μπορείτε επίσης να επεξεργαστείτε ή να διαγράψετε μια υπάρχουσα Ιδιότητα κάνοντας κλικ στο κουμπί Επεξεργασία ή διαγραφή.</p>",
+    "HEADER": "Προσαρμοζόμενες Ιδιότητες",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Προσθήκη ιδιότητας",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Δημιουργία",
       "CANCEL_BUTTON_TEXT": "Άκυρο",
       "FORM": {
         "NAME": {
           "LABEL": "Εμφανιζόμενο Όνομα",
-          "PLACEHOLDER": "Εισάγετε το εμφανιζόμενο όνομα της ιδιότητας",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Το όνομα απαιτείται"
         },
         "DESC": {
           "LABEL": "Περιγραφή",
-          "PLACEHOLDER": "Εισάγετε την περιγραφή της ιδιότητας",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Η περιγραφή απαιτείται"
         },
         "MODEL": {
-          "LABEL": "Μοντέλο",
-          "PLACEHOLDER": "Παρακαλώ επιλέξτε ένα μοντέλο",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Απαιτείται το μοντέλο"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "Ο τύπος απαιτείται"
         },
         "KEY": {
-          "LABEL": "Κλειδί"
+          "LABEL": "Κλειδί",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία",
-        "ERROR_MESSAGE": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
       "API": {
-        "SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία.",
-        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της ιδιότητας. Δοκιμάστε ξανά."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα %{attributeName}",
         "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {attributeName} για επιβεβαίωση",
-        "MESSAGE": "Διαγραφή θα καταργήσει την ιδιότητα",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Διαγραφή ",
         "NO": "Άκυρο"
       }
     },
     "EDIT": {
-      "TITLE": "Επεξεργασία ιδιότητας",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Ενημέρωση",
       "API": {
-        "SUCCESS_MESSAGE": "Ο πράκτορας ενημερώθηκε επιτυχώς",
-        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της ιδιότητας, παρακαλώ προσπαθήστε ξανά"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Διαγραφή"
       },
       "EMPTY_RESULT": {
-        "404": "Δεν δημιουργήθηκαν χαρακτηριστικά",
-        "NOT_FOUND": "Δεν έχουν ρυθμιστεί ιδιότητες"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }
