@@ -72,9 +72,7 @@ class Conversation < ApplicationRecord
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
 
-  # wanted to change this to after_update commit. But it ended up creating a loop
-  # reinvestigate in future and identity the implications
-  after_update :notify_status_change, :create_activity
+  after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
   after_commit :set_display_id, unless: :display_id?
 
@@ -149,6 +147,11 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def execute_after_update_commit_callbacks
+    notify_status_change
+    create_activity
+  end
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
@@ -225,7 +228,7 @@ class Conversation < ApplicationRecord
                 I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
               end
 
-    messages.create(activity_message_params(content)) if content
+    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_label_change(user_name)
@@ -244,7 +247,7 @@ class Conversation < ApplicationRecord
     params = { user_name: user_name, labels: labels.join(', ') }
     content = I18n.t('conversations.activity.labels.added', **params)
 
-    messages.create(activity_message_params(content))
+    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_label_removed(user_name, labels = [])
@@ -253,7 +256,7 @@ class Conversation < ApplicationRecord
     params = { user_name: user_name, labels: labels.join(', ') }
     content = I18n.t('conversations.activity.labels.removed', **params)
 
-    messages.create(activity_message_params(content))
+    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_muted_message
@@ -262,7 +265,7 @@ class Conversation < ApplicationRecord
     params = { user_name: Current.user.name }
     content = I18n.t('conversations.activity.muted', **params)
 
-    messages.create(activity_message_params(content))
+    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_unmuted_message
@@ -271,7 +274,7 @@ class Conversation < ApplicationRecord
     params = { user_name: Current.user.name }
     content = I18n.t('conversations.activity.unmuted', **params)
 
-    messages.create(activity_message_params(content))
+    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def mute_key
