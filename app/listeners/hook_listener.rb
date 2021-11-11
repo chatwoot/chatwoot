@@ -17,7 +17,7 @@ class HookListener < BaseListener
 
   def execute_hooks(event, message)
     message.account.hooks.each do |hook|
-      # In case of dialogflow, we would have a hook for each inbox. 
+      # In case of dialogflow, we would have a hook for each inbox.
       # Which means we will execute the same hook multiple times if the below filter isn't there
       next if hook.inbox.present? && hook.inbox != message.inbox
 
