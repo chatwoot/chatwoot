@@ -1,6 +1,7 @@
 <template>
   <header class="header-collapsed">
     <div class="header-branding">
+      <header-back-button @click="onBackButtonClick" />
       <img
         v-if="avatarUrl"
         class="inbox--avatar mr-3"
@@ -29,6 +30,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
+import HeaderBackButton from 'widget/components/HeaderBackButton';
 import HeaderActions from './HeaderActions';
 import availabilityMixin from 'widget/mixins/availability';
 
@@ -36,6 +39,7 @@ export default {
   name: 'ChatHeader',
   components: {
     HeaderActions,
+    HeaderBackButton,
   },
   mixins: [availabilityMixin],
   props: {
@@ -75,6 +79,11 @@ export default {
         : this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
+  methods: {
+    onBackButtonClick() {
+      this.$router.back();
+    },
+  },
 };
 </script>
 
@@ -83,11 +92,11 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .header-collapsed {
-  display: flex;
-  justify-content: space-between;
-  padding: $space-two $space-medium;
-  width: 100%;
-  box-sizing: border-box;
+  @apply flex;
+  @apply justify-between;
+  @apply py-5 px-4;
+  @apply w-full;
+  @apply box-border;
 
   .header-branding {
     display: flex;

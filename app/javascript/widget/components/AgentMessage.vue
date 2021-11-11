@@ -13,7 +13,7 @@
         />
       </div>
       <div class="message-wrap">
-        <AgentMessageBubble
+        <agent-message-bubble
           v-if="shouldDisplayAgentMessage"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
@@ -145,8 +145,9 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [selectionOption = {}] =
-            this.messageContentAttributes.submitted_values;
+          const [
+            selectionOption = {},
+          ] = this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }

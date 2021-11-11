@@ -1,9 +1,10 @@
 <template>
   <div>
     <footer v-if="!hideReplyBox" class="footer">
-      <ChatInputWrap
+      <chat-input-wrap
         :on-send-message="handleSendMessage"
         :on-send-attachment="handleSendAttachment"
+        @toggle-typing="toggleTyping"
       />
     </footer>
     <div v-else>
@@ -34,7 +35,6 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { sendEmailTranscript } from 'widget/api/conversation';
 
 export default {
   components: {
@@ -46,12 +46,15 @@ export default {
       type: String,
       default: '',
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
-      getConversationSize: 'conversation/getConversationSize',
+      metaIn: 'conversationV2/metaIn',
       currentUser: 'contacts/getCurrentUser',
     }),
     textColor() {
@@ -59,7 +62,8 @@ export default {
     },
     hideReplyBox() {
       const { csatSurveyEnabled } = window.chatwootWebChannel;
-      const { status } = this.conversationAttributes;
+      const { status } = this.metaIn(this.conversationId);
+
       return csatSurveyEnabled && status === 'resolved';
     },
     showEmailTranscriptButton() {
@@ -67,38 +71,49 @@ export default {
     },
   },
   methods: {
-    ...mapActions('conversation', [
+    ...mapActions('messageV2', [
       'sendMessage',
       'sendAttachment',
       'clearConversations',
     ]),
-    ...mapActions('conversationAttributes', [
-      'getAttributes',
-      'clearConversationAttributes',
-    ]),
     async handleSendMessage(content) {
-      const conversationSize = this.getConversationSize;
-      await this.sendMessage({
-        content,
-      });
-      // Update conversation attributes on new conversation
-      if (conversationSize === 0) {
-        this.getAttributes();
+      let conversationId = this.conversationId;
+      if (conversationId) {
+        await this.sendMessage({
+          content,
+          conversationId,
+        });
+      } else {
+        const newConversationId = await this.handleCreateConversation(content);
+
+        bus.$emit('update-conversation-id', newConversationId);
       }
     },
+    async handleCreateConversation(content) {
+      const conversationId = await this.$store.dispatch(
+        'conversationV2/createConversationWithMessage',
+        {
+          content,
+          contact: {
+            emailAddress: '',
+          },
+        }
+      );
+
+      return conversationId;
+    },
     handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+      const conversationId = this.conversationId;
+      this.sendAttachment({ attachment, conversationId });
     },
     startNewConversation() {
-      this.clearConversations();
-      this.clearConversationAttributes();
       window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
     },
     async sendTranscript() {
       const { email } = this.currentUser;
       if (email) {
         try {
-          await sendEmailTranscript({
+          await this.$store.dispatch('conversationV2/sendEmailTranscript', {
             email,
           });
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
@@ -111,6 +126,12 @@ export default {
           });
         }
       }
+    },
+    toggleTyping(typingStatus) {
+      this.$store.dispatch('conversationV2/toggleUserTypingIn', {
+        conversationId: this.conversationId,
+        typingStatus,
+      });
     },
   },
 };

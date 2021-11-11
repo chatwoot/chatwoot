@@ -1,37 +1,35 @@
 <template>
-  <div class="px-4">
-    <div class="flex items-center justify-between mb-4">
-      <div class="text-black-700">
-        <div class="text-base leading-5 font-medium mb-1">
+  <div class="start-conversation-wrap">
+    <div class="flex items-center justify-between">
+      <div>
+        <h4>
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
-        </div>
-        <div class="text-xs leading-4 mt-1">
-          {{ replyWaitMeessage }}
-        </div>
+        </h4>
+        <p class="text-xs text-slate-500 mb-0">
+          {{
+            isOnline ? replyWaitMeessage : $t('TEAM_AVAILABILITY.OFFLINE_BODY')
+          }}
+        </p>
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startConversation"
-    >
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
+    <div class="flex items-center justify-center w-full mt-1">
+      <start-conversation-button />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
+import StartConversationButton from 'widget/components/StartConversationButton';
+
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 
@@ -39,13 +37,13 @@ export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
-    CustomButton,
+    StartConversationButton,
   },
   mixins: [configMixin, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
   },
   computed: {
@@ -73,6 +71,27 @@ export default {
       }
       return '';
     },
+    availableAgentNames() {
+      const names = this.availableAgents.map(agent => agent.name);
+      if (names.length > 2)
+        return this.$t('TEAM_AVAILABILITY.MANY_AGENTS', {
+          agentName: names[0],
+          remainingAgentsCount: names.length - 1,
+        });
+      if (names.length > 1)
+        return this.$t('TEAM_AVAILABILITY.TWO_AGENTS', {
+          agentNameOne: names[0],
+          agentNameTwo: names[1],
+        });
+      if (names.length === 1)
+        return this.$t('TEAM_AVAILABILITY.SINGLE_AGENT', {
+          agentName: names[0],
+        });
+      return this.$t('TEAM_AVAILABILITY.ONLINE');
+    },
+    availableAgentNamesStyle() {
+      return { color: this.widgetColor };
+    },
   },
   methods: {
     startConversation() {
@@ -81,3 +100,26 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.start-conversation-wrap {
+  @apply flex;
+  @apply flex-col;
+  @apply justify-center;
+  @apply mx-4;
+  @apply p-3;
+  @apply bg-slate-25;
+  @apply border border-solid;
+  @apply border-slate-75;
+  @apply rounded-xl;
+}
+
+.agent-names-online {
+  @apply text-sm	text-slate-800;
+  @apply mt-2;
+
+  &::v-deep > span {
+    @apply font-medium;
+    @apply text-woot-700;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <header class="header-expanded bg-white py-8 px-6 relative box-border w-full">
+  <header class="header-expanded bg-white py-6 px-4 relative box-border w-full">
     <div
       class="flex items-start"
       :class="[avatarUrl ? 'justify-between' : 'justify-end']"
@@ -8,10 +8,10 @@
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
     <h2
-      class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
+      class="text-slate-900 mt-4 text-2xl font-medium tracking-wide	"
       v-html="introHeading"
     />
-    <p class="text-lg text-black-700 leading-normal" v-html="introBody" />
+    <p class="text-base mt-2 text-slate-800" v-html="introBody" />
   </header>
 </template>
 
@@ -52,7 +52,7 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/mixins.scss';
 
-$logo-size: 56px;
+$logo-size: 40px;
 
 .header-expanded {
   .logo {

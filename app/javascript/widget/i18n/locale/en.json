@@ -6,11 +6,15 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Submit"
+    },
+    "CONVERSATION_ITEM": {
+      "IMAGE_ATTACHMENT": "** Sent you an attachment"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "We are away at the moment",
+    "OFFLINE_BODY": "We will reply once we are back online."
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
