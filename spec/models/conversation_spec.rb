@@ -394,6 +394,10 @@ RSpec.describe Conversation, type: :model do
     end
 
     describe 'on channels with 24 hour restriction' do
+      before do
+        stub_request(:post, /graph.facebook.com/)
+      end
+
       let!(:facebook_channel) { create(:channel_facebook_page) }
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: facebook_channel.account) }
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }

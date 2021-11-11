@@ -1,6 +1,35 @@
 require 'rails_helper'
 
 describe Telegram::IncomingMessageService do
+  before do
+    stub_request(:any, /api.telegram.org/).to_return(headers: { content_type: 'application/json' }, body: {}.to_json, status: 200)
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png'),
+      headers: {}
+    )
+    stub_request(:get, 'https://chatwoot-assets.local/sample.mov').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.mov'),
+      headers: {}
+    )
+    stub_request(:get, 'https://chatwoot-assets.local/sample.mp3').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.mp3'),
+      headers: {}
+    )
+    stub_request(:get, 'https://chatwoot-assets.local/sample.ogg').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.ogg'),
+      headers: {}
+    )
+    stub_request(:get, 'https://chatwoot-assets.local/sample.pdf').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.pdf'),
+      headers: {}
+    )
+  end
+
   let!(:telegram_channel) { create(:channel_telegram) }
 
   describe '#perform' do
@@ -64,7 +93,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid audio messages params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.mp3')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mp3')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
@@ -92,7 +121,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid image attachment params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.png')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.png')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
@@ -117,7 +146,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid sticker attachment params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.png')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.png')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
@@ -147,7 +176,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid video messages params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.mov')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mov')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
@@ -175,7 +204,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid voice attachment params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.oga')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.ogg')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
@@ -200,7 +229,7 @@ describe Telegram::IncomingMessageService do
 
     context 'when valid document message params' do
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-public-assets.s3.amazonaws.com/test-files/rspec/sample.pdf')
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.pdf')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
