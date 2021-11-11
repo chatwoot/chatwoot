@@ -88,6 +88,7 @@ Rails.application.routes.draw do
             end
             member do
               get :contactable_inboxes
+              post :destroy_custom_attributes
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -183,7 +184,11 @@ Rails.application.routes.draw do
             post :transcript
           end
         end
-        resource :contact, only: [:show, :update]
+        resource :contact, only: [:show, :update] do
+          collection do
+            delete :destroy_custom_attributes
+          end
+        end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end

@@ -19,22 +19,16 @@ describe('attributeMixin', () => {
         custom_attributes: {
           product_id: 2021,
         },
+        meta: {
+          sender: {
+            id: 1212,
+          },
+        },
       }),
       getCurrentAccountId: () => 1,
-    };
+      attributeType: () => 'conversation_attribute',
+     };
     store = new Vuex.Store({ actions, getters });
-  });
-
-  it('returns currently selected conversation custom attributes', () => {
-    const Component = {
-      render() {},
-      title: 'TestComponent',
-      mixins: [attributeMixin],
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.customAttributes).toEqual({
-      product_id: 2021,
-    });
   });
 
   it('returns currently selected conversation id', () => {
@@ -55,6 +49,14 @@ describe('attributeMixin', () => {
       computed: {
         attributes() {
           return attributeFixtures;
+        },
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              product_id: 2021,
+            },
+          };
         },
       },
     };
@@ -85,5 +87,84 @@ describe('attributeMixin', () => {
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.attributeIcon('date')).toBe('ion-calendar');
     expect(wrapper.vm.attributeIcon()).toBe('ion-edit');
+  });
+
+  it('returns currently selected contact', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+      computed: {
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              product_id: 2021,
+            },
+          };
+        },
+      },
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.contact).toEqual({
+      id: 7165,
+      custom_attributes: {
+        product_id: 2021,
+      },
+    });
+  });
+
+  it('returns currently selected contact id', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.contactIdentifier).toEqual(1212);
+  });
+
+  it('returns currently selected conversation custom attributes', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+      computed: {
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              product_id: 2021,
+            },
+          };
+        },
+      },
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.customAttributes).toEqual({
+      product_id: 2021,
+    });
+  });
+
+  it('returns currently selected contact custom attributes', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+      computed: {
+        contact() {
+          return {
+            id: 7165,
+            custom_attributes: {
+              cloudCustomer: true,
+            },
+          };
+        },
+      },
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.customAttributes).toEqual({
+      cloudCustomer: true,
+    });
   });
 });

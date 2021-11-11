@@ -25,9 +25,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   private
 
   def fetch_custom_attributes_definitions
-    @custom_attribute_definitions = Current.account.custom_attribute_definitions.where(
-      attribute_model: permitted_params[:attribute_model] || DEFAULT_ATTRIBUTE_MODEL
-    )
+    @custom_attribute_definitions = Current.account.custom_attribute_definitions.with_attribute_model(permitted_params[:attribute_model])
   end
 
   def fetch_custom_attribute_definition
