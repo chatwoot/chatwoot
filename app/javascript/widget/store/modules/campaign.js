@@ -12,6 +12,7 @@ const state = {
     hasFetched: false,
   },
   activeCampaign: {},
+  campaignHasExecuted: false,
 };
 
 const resetCampaignTimers = (
@@ -34,6 +35,7 @@ export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
   getActiveCampaign: $state => $state.activeCampaign,
+  getCampaignHasExecuted: $state => $state.campaignHasExecuted,
 };
 
 export const actions = {
@@ -76,17 +78,37 @@ export const actions = {
       );
     }
   },
-  startCampaign: async ({ commit }, { websiteToken, campaignId }) => {
-    const { data: campaigns } = await getCampaigns(websiteToken);
-    const campaign = campaigns.find(item => item.id === campaignId);
-    if (campaign) {
-      commit('setActiveCampaign', campaign);
+  startCampaign: async (
+    {
+      commit,
+      rootState: {
+        events: { isOpen },
+      },
+    },
+    { websiteToken, campaignId }
+  ) => {
+    // Disable campaign execution if widget is opened
+    if (!isOpen) {
+      const { data: campaigns } = await getCampaigns(websiteToken);
+      // Check campaign is disabled or not
+      const campaign = campaigns.find(item => item.id === campaignId);
+      if (campaign) {
+        commit('setActiveCampaign', campaign);
+      }
     }
   },
 
   executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
     try {
       await triggerCampaign({ campaignId, websiteToken });
+      commit('setCampaignExecuted');
+      commit('setActiveCampaign', {});
+    } catch (error) {
+      commit('setError', true);
+    }
+  },
+  resetCampaign: async ({ commit }) => {
+    try {
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -106,6 +128,9 @@ export const mutations = {
   },
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
+  },
+  setCampaignExecuted($state) {
+    Vue.set($state, 'campaignHasExecuted', true);
   },
 };
 
