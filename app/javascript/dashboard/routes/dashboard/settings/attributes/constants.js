@@ -3,6 +3,10 @@ export const ATTRIBUTE_MODELS = [
     id: 0,
     option: 'Conversation',
   },
+  {
+    id: 1,
+    option: 'Contact',
+  },
 ];
 
 export const ATTRIBUTE_TYPES = [

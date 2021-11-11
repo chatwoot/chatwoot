@@ -110,6 +110,18 @@ export const actions = {
     }
   },
 
+  deleteCustomAttributes: async ({ commit }, { id, customAttributes }) => {
+    try {
+      const response = await ContactAPI.destroyCustomAttributes(
+        id,
+        customAttributes
+      );
+      commit(types.EDIT_CONTACT, response.data.payload);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
     try {
