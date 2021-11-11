@@ -31,14 +31,6 @@ const filterTypes = [
         label: 'Not equal to',
       },
       {
-        value: 'contains',
-        label: 'Contains',
-      },
-      {
-        value: 'does_not_contain',
-        label: 'Does not contain',
-      },
-      {
         value: 'is_present',
         label: 'Is present',
       },
@@ -62,14 +54,6 @@ const filterTypes = [
       {
         value: 'not_equal_to',
         label: 'Not equal to',
-      },
-      {
-        value: 'contains',
-        label: 'Contains',
-      },
-      {
-        value: 'does_not_contain',
-        label: 'Does not contain',
       },
       {
         value: 'is_present',
@@ -97,14 +81,6 @@ const filterTypes = [
         label: 'Not equal to',
       },
       {
-        value: 'contains',
-        label: 'Contains',
-      },
-      {
-        value: 'does_not_contain',
-        label: 'Does not contain',
-      },
-      {
         value: 'is_present',
         label: 'Is present',
       },
@@ -116,7 +92,7 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'id',
+    attributeKey: 'display_id',
     attributeI18nKey: 'CONVERSATION_IDENTIFIER',
     inputType: 'plain_text',
     dataType: 'Number',
@@ -155,14 +131,6 @@ const filterTypes = [
         label: 'Not equal to',
       },
       {
-        value: 'contains',
-        label: 'Contains',
-      },
-      {
-        value: 'does_not_contain',
-        label: 'Does not contain',
-      },
-      {
         value: 'is_present',
         label: 'Is present',
       },
@@ -186,14 +154,6 @@ const filterTypes = [
       {
         value: 'not_equal_to',
         label: 'Not equal to',
-      },
-      {
-        value: 'contains',
-        label: 'Contains',
-      },
-      {
-        value: 'does_not_contain',
-        label: 'Does not contain',
       },
       {
         value: 'is_present',

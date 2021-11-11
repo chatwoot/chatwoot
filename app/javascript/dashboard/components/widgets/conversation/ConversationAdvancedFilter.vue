@@ -9,14 +9,14 @@
           v-for="(filter, i) in appliedFilters"
           :key="i"
           v-model="appliedFilters[i]"
-          :filter-data="filter"
           :filter-attributes="filterAttributes"
           :input-type="getInputType(appliedFilters[i].attribute_key)"
           :operators="getOperators(appliedFilters[i].attribute_key)"
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
+          :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           :v="$v.appliedFilters.$each[i]"
-          @clearPreviousValues="clearPreviousValues(i)"
+          @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
         <div class="filter-actions">
@@ -40,7 +40,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import filterInputBox from './components/FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from './advancedFilterItems/countries';
@@ -65,7 +65,15 @@ export default {
       required,
       $each: {
         values: {
-          required,
+          required: requiredIf(prop => {
+            let userInputRequired = true;
+            if (
+              prop.filter_operator !== 'is_present' ||
+              prop.filter_operator !== 'is_not_present'
+            )
+              userInputRequired = false;
+            return userInputRequired;
+          }),
         },
       },
     },
@@ -183,8 +191,16 @@ export default {
       this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },
-    clearPreviousValues(index) {
+    resetFilter(index, currentFilter) {
+      this.appliedFilters[index].filter_operator = this.filterTypes.find(
+        filter => filter.attributeKey === currentFilter.attribute_key
+      ).filterOperators[0].value;
       this.appliedFilters[index].values = '';
+    },
+    showUserInput(operatorType) {
+      if (operatorType === 'is_present' || operatorType === 'is_not_present')
+        return false;
+      return true;
     },
   },
 };

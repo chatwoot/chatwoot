@@ -4,7 +4,7 @@
       <select
         v-model="attribute_key"
         class="filter--attributes_select"
-        @change="clearPreviousValues()"
+        @change="resetFilter()"
       >
         <option
           v-for="attribute in filterAttributes"
@@ -20,7 +20,10 @@
     </div>
     <div class="filter-values">
       <div class="row">
-        <div class="small-4 columns padding-right-small">
+        <div
+          class="columns padding-right-small"
+          :class="showUserInput ? 'small-4' : 'small-12'"
+        >
           <select v-model="filter_operator" class="filter--values_select">
             <option
               v-for="(operator, o) in operators"
@@ -31,7 +34,7 @@
             </option>
           </select>
         </div>
-        <div class="small-8 columns">
+        <div v-if="showUserInput" class="small-8 columns">
           <div
             v-if="inputType === 'multi_select'"
             class="multiselect-wrap--small"
@@ -126,6 +129,10 @@ export default {
       type: Object,
       default: () => null,
     },
+    showUserInput: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     attribute_key: {
@@ -173,8 +180,8 @@ export default {
     removeFilter() {
       this.$emit('removeFilter');
     },
-    clearPreviousValues() {
-      this.$emit('clearPreviousValues');
+    resetFilter() {
+      this.$emit('resetFilter');
     },
   },
 };
