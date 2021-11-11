@@ -17,9 +17,9 @@ export default {
       custom_attributes: customAttributes,
     });
   },
-  deleteCustomAttributes(customAttributes = {}) {
+  deleteCustomAttribute(customAttribute) {
     return API.post(buildUrl('widget/contact/destroy_custom_attributes'), {
-      custom_attributes: customAttributes,
+      custom_attributes: [customAttribute],
     });
   },
 };

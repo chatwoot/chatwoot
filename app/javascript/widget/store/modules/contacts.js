@@ -53,9 +53,9 @@ export const actions = {
       // Ignore error
     }
   },
-  deleteCustomAttributes: async (_, customAttribute = {}) => {
+  deleteCustomAttribute: async (_, customAttribute) => {
     try {
-      await ContactsAPI.deleteCustomAttributes([customAttribute]);
+      await ContactsAPI.deleteCustomAttribute(customAttribute);
     } catch (error) {
       // Ignore error
     }

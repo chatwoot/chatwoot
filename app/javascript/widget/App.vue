@@ -246,7 +246,7 @@ export default {
           );
         } else if (message.event === 'delete-custom-attribute') {
           this.$store.dispatch(
-            'contacts/deleteCustomAttributes',
+            'contacts/deleteCustomAttribute',
             message.customAttribute
           );
         } else if (message.event === 'set-locale') {
