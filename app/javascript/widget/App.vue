@@ -6,6 +6,7 @@
       'is-mobile': isMobile,
       'is-widget-right': !isLeftAligned,
       'is-bubble-hidden': isChatTriggerHidden,
+      'is-only-bubble-view': isOnlyBubbleView,
     }"
   >
     <transition name="fade" mode="out-in">
@@ -35,6 +36,7 @@ export default {
       showPopoutButton: false,
       isWebWidgetTriggered: false,
       isWidgetOpen: false,
+      isOnlyBubbleView: false,
     };
   },
   computed: {
@@ -163,7 +165,11 @@ export default {
         this.$router.replace({
           name: 'home',
         });
-        this.$router.push({ name: 'chat', conversationId: campaignId });
+        this.$router.push({
+          name: 'chat',
+          conversationId: this.lastActiveConversationId,
+        });
+
 
         this.sendUnsetUnreadView();
         this.executeCampaign({ campaignId, websiteToken });
@@ -187,6 +193,7 @@ export default {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
+        this.isOnlyBubbleView = true;
         this.setIframeHeight(this.isMobile);
       }
     },
@@ -267,9 +274,9 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          // Side effects after setting the unread goes here
+          this.isOnlyBubbleView = true;
         } else if (message.event === 'unset-unread-view') {
-          // Side effects after un-setting the unread goes here
+          this.isOnlyBubbleView = false;
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
