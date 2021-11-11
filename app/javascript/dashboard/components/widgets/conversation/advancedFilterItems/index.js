@@ -50,7 +50,7 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'inbox',
+    attributeKey: 'inbox_id',
     attributeI18nKey: 'INBOX_NAME',
     inputType: 'search_select',
     dataType: 'text',

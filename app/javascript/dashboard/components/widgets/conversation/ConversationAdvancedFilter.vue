@@ -132,7 +132,7 @@ export default {
           return this.$store.getters['agents/getAgents'];
         case 'contact':
           return this.$store.getters['contacts/getContacts'];
-        case 'inbox':
+        case 'inbox_id':
           return this.$store.getters['inboxes/getInboxes'];
         case 'team_id':
           return this.$store.getters['teams/getTeams'];
