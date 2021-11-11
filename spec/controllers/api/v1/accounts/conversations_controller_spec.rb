@@ -295,7 +295,7 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
-          expect(response_data[:meta][:team][:name]).to eq(team.name)
+          expect(response_data[:meta][:team][:name].downcase).to eq(team.name.downcase)
         end
       end
     end
