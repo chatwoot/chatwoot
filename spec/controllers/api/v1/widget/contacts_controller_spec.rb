@@ -93,7 +93,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
     context 'with invalid website token' do
       it 'returns unauthorized' do
-        patch '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
+        post '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
     end
