@@ -29,9 +29,9 @@ class Team < ApplicationRecord
             presence: { message: 'must not be blank' },
             uniqueness: { scope: :account_id }
 
-  before_validation do
-    self.name = name.downcase if attribute_present?('name')
-  end
+  # before_validation do
+  #   self.name = name.downcase if attribute_present?('name')
+  # end
 
   def add_member(user_id)
     team_members.find_or_create_by(user_id: user_id)&.user

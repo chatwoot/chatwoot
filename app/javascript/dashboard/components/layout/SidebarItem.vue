@@ -144,10 +144,6 @@ export default {
   width: $space-normal;
 }
 
-.nested.vertical.menu .text-truncate {
-  text-transform: capitalize;
-}
-
 .inbox-icon {
   position: relative;
   top: -1px;

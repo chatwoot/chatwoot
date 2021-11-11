@@ -1,5 +1,5 @@
 json.id resource.id
-json.name resource.name
+json.name resource.name.titleize
 json.description resource.description
 json.allow_auto_assign resource.allow_auto_assign
 json.account_id resource.account_id
