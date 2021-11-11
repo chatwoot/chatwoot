@@ -228,7 +228,7 @@ export default {
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
-        this.isATwilioWhatsappChannel ||
+        this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isATwilioSMSChannel ||

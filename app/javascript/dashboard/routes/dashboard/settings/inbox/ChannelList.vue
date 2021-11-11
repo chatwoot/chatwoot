@@ -2,7 +2,12 @@
   <div class="wizard-body small-12 medium-9 columns height-auto">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.AUTH.DESC')"
+      :header-content="
+        useInstallationName(
+          $t('INBOX_MGMT.ADD.AUTH.DESC'),
+          globalConfig.installationName
+        )
+      "
     />
     <div class="row channels">
       <channel-item
@@ -21,12 +26,14 @@ import ChannelItem from 'dashboard/components/widgets/ChannelItem';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     ChannelItem,
     PageHeader,
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
       enabledFeatures: {},
