@@ -219,17 +219,18 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch, getters }, conversation) {
-    const { currentInbox } = state;
+  addConversation({ commit, state, dispatch }, conversation) {
+    const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
-    if (!getters.getAppliedFilters.length) {
-      if (!currentInbox || Number(currentInbox) === inboxId) {
-        commit(types.default.ADD_CONVERSATION, conversation);
-        dispatch('contacts/setContact', sender);
-      }
+    const hasAppliedFilters = !!appliedFilters.length;
+    const isMatchingInboxFilter =
+      !currentInbox || Number(currentInbox) === inboxId;
+    if (!hasAppliedFilters && isMatchingInboxFilter) {
+      commit(types.default.ADD_CONVERSATION, conversation);
+      dispatch('contacts/setContact', sender);
     }
   },
 

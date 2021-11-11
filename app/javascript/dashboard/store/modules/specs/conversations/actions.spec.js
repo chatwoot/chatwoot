@@ -1,6 +1,5 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
-import getters from '../../conversations/getters';
 import * as types from '../../../mutation-types';
 const dataToSend = {
   payload: [
@@ -85,7 +84,30 @@ describe('#actions', () => {
         inbox_id: 2,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 }, getters },
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if conversation filters are applied', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
@@ -100,7 +122,11 @@ describe('#actions', () => {
         inbox_id: 1,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([
@@ -124,7 +150,10 @@ describe('#actions', () => {
         meta: { sender: { id: 1, name: 'john-doe' } },
         inbox_id: 1,
       };
-      actions.addConversation({ commit, dispatch, state: {} }, conversation);
+      actions.addConversation(
+        { commit, dispatch, state: { appliedFilters: [] } },
+        conversation
+      );
       expect(commit.mock.calls).toEqual([
         [types.default.ADD_CONVERSATION, conversation],
       ]);
