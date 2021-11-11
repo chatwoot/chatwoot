@@ -206,4 +206,24 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#deleteCustomAttributes', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.deleteCustomAttributes(
+        { commit },
+        { id: 1, customAttributes: ['cloud-customer'] }
+      );
+      expect(commit.mock.calls).toEqual([[types.EDIT_CONTACT, contactList[0]]]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteCustomAttributes(
+          { commit },
+          { id: 1, customAttributes: ['cloud-customer'] }
+        )
+      ).rejects.toThrow(Error);
+    });
+  });
 });

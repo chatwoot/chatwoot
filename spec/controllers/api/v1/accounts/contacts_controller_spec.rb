@@ -501,4 +501,33 @@ RSpec.describe 'Contacts API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/contacts/:id/destroy_custom_attributes' do
+    let(:custom_attributes) { { test: 'test', test1: 'test1' } }
+    let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
+    let(:valid_params) { { custom_attributes: ['test'] } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_custom_attributes",
+             params: valid_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'delete the custom attribute' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_custom_attributes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+      end
+    end
+  end
 end
