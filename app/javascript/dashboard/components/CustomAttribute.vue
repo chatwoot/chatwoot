@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-attribute">
+  <div class="custom-attribute">
     <div class="title-wrap">
       <h4 class="text-block-title title error">
         <span class="attribute-name" :class="{ error: $v.editedValue.$error }">
@@ -42,7 +42,7 @@
         {{ value || '---' }}
       </a>
       <p v-else class="value">
-        {{ value || '---' }}
+        {{ formattedValue || '---' }}
       </p>
       <woot-button
         v-if="showActions"
@@ -79,8 +79,11 @@
 </template>
 
 <script>
+import format from 'date-fns/format';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   props: {
@@ -89,11 +92,15 @@ export default {
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeKey: { type: String, required: true },
+    contactId: { type: Number, default: null },
   },
   data() {
     return {
       isEditing: false,
-      editedValue: this.value,
+      editedValue:
+        this.attributeType === 'date'
+          ? format(new Date(this.value), DATE_FORMAT)
+          : this.value,
     };
   },
   validations() {
@@ -123,6 +130,12 @@ export default {
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
+    formattedValue() {
+      if (this.attributeType === 'date') {
+        return format(new Date(this.editedValue), 'dd-MM-yyyy');
+      }
+      return this.editedValue;
+    },
   },
   mounted() {
     bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, focusAttributeKey => {
@@ -144,12 +157,17 @@ export default {
       });
     },
     onUpdate() {
+      const updatedValue =
+        this.attributeType === 'date'
+          ? format(new Date(this.editedValue), DATE_FORMAT)
+          : this.editedValue;
+
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       this.isEditing = false;
-      this.$emit('update', this.attributeKey, this.editedValue);
+      this.$emit('update', this.attributeKey, updatedValue);
     },
     onDelete() {
       this.isEditing = false;
@@ -163,7 +181,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contact-attribute {
+.custom-attribute {
   padding: var(--space-slab) var(--space-normal);
 }
 
