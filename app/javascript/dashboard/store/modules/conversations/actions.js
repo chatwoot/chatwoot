@@ -219,15 +219,17 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch }, conversation) {
+  addConversation({ commit, state, dispatch, getters }, conversation) {
     const { currentInbox } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
-    if (!currentInbox || Number(currentInbox) === inboxId) {
-      commit(types.default.ADD_CONVERSATION, conversation);
-      dispatch('contacts/setContact', sender);
+    if (!getters.getAppliedFilters.length) {
+      if (!currentInbox || Number(currentInbox) === inboxId) {
+        commit(types.default.ADD_CONVERSATION, conversation);
+        dispatch('contacts/setContact', sender);
+      }
     }
   },
 
