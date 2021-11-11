@@ -192,7 +192,7 @@
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "FILTER_DROPDOWN_LABEL": "בחר תיבת דואר",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
@@ -320,7 +320,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "דירוג",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
