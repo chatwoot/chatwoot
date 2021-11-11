@@ -50,7 +50,8 @@
         "PLACEHOLDER": "메시지를 입력해 주세요.",
         "ERROR": "너무 짧은 메시지"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
   "CHAT_FORM": {
