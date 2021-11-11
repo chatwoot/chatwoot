@@ -6,6 +6,7 @@
       'is-mobile': isMobile,
       'is-widget-right': !isLeftAligned,
       'is-bubble-hidden': isChatTriggerHidden,
+      'is-only-bubble-view': isOnlyBubbleView,
     }"
   >
     <transition name="fade" mode="out-in">
@@ -35,6 +36,7 @@ export default {
       showPopoutButton: false,
       isWebWidgetTriggered: false,
       isWidgetOpen: false,
+      isOnlyBubbleView: false,
     };
   },
   computed: {
@@ -156,17 +158,23 @@ export default {
       });
     },
     registerCampaignEvents() {
-      bus.$on('on-campaign-view-clicked', campaignId => {
+      bus.$on('on-campaign-view-clicked', async campaignId => {
         const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
         this.showUnreadView = false;
         this.$router.replace({
           name: 'home',
         });
-        this.$router.push({ name: 'chat', conversationId: campaignId });
+
+        await this.executeCampaign({ campaignId, websiteToken });
+        await this.fetchAllConversations();
+
+        this.$router.push({
+          name: 'chat',
+          conversationId: this.lastActiveConversationId,
+        });
 
         this.sendUnsetUnreadView();
-        this.executeCampaign({ campaignId, websiteToken });
       });
     },
     setPopoutDisplay(showPopoutButton) {
@@ -187,6 +195,7 @@ export default {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });
+        this.isOnlyBubbleView = true;
         this.setIframeHeight(this.isMobile);
       }
     },
@@ -255,23 +264,23 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/update', message);
+          this.$store.dispatch('contactV2/update', message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
-            'contacts/setCustomAttributes',
+            'contactV2/setCustomAttributes',
             message.customAttributes
           );
         } else if (message.event === 'delete-custom-attribute') {
-          this.$store.dispatch('contacts/setCustomAttributes', {
+          this.$store.dispatch('contactV2/setCustomAttributes', {
             [message.customAttribute]: null,
           });
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          // this.sendSetUnreadViewEvent();
+          this.isOnlyBubbleView = true;
         } else if (message.event === 'unset-unread-view') {
-          // this.sendUnsetUnreadView();
+          this.isOnlyBubbleView = false;
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();

@@ -9,9 +9,9 @@ import globalConfig from 'shared/store/globalConfig';
 import campaign from 'widget/store/modules/campaign';
 
 // New store modules
-import contactV2 from './modules/contactV2/index.js';
-import conversationV2 from './modules/conversationNew/index.js';
-import messageV2 from './modules/messageV2/index.js';
+import contactV2 from './modules/contact/index.js';
+import conversationV2 from './modules/conversation/index.js';
+import messageV2 from './modules/message/index.js';
 
 Vue.use(Vuex);
 export default new Vuex.Store({

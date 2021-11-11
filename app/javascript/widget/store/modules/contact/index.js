@@ -34,6 +34,8 @@ export const actions = {
   update: async ({ commit }, { identifier, user: userObject }) => {
     try {
       commit('setUIFlag', { isUpdating: false });
+
+      if (!userObject) return;
       const user = {
         email: userObject.email,
         name: userObject.name,

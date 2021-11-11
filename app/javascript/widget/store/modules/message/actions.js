@@ -143,7 +143,7 @@ export const actions = {
           submitted_values: email ? null : submittedValues,
         },
       });
-      dispatch('contacts/get', {}, { root: true });
+      dispatch('contactV2/get', {}, { root: true });
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       throw new Error(error);

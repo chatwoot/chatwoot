@@ -24,6 +24,10 @@ body {
   flex-direction: column;
   height: 100%;
   justify-content: flex-end;
+
+  &.is-only-bubble-view {
+    background: transparent;
+  }
 }
 
 .is-mobile {

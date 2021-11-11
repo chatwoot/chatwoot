@@ -75,6 +75,32 @@ export const actions = {
     }
   },
 
+  addConversation: async ({ commit }, data) => {
+    const { id: conversationId, messages } = data;
+    const { contact_last_seen_at: userLastSeenAt } = data;
+
+    commit('addConversationEntry', data);
+    commit('addConversationId', conversationId);
+    commit('setConversationUIFlag', {
+      uiFlags: { isAgentTyping: false },
+      conversationId,
+    });
+    commit('setConversationMeta', {
+      meta: { userLastSeenAt },
+      conversationId,
+    });
+    commit(
+      'messageV2/addMessagesEntry',
+      { conversationId, messages },
+      { root: true }
+    );
+    commit('addMessageIdsToConversation', {
+      conversationId,
+      messages,
+    });
+    return conversationId;
+  },
+
   createConversationWithMessage: async ({ commit }, params) => {
     const { content, contact } = params;
     commit('setUIFlag', { isCreating: true });

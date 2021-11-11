@@ -55,7 +55,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       metaIn: 'conversationV2/metaIn',
-      currentUser: 'contacts/getCurrentUser',
+      currentUser: 'contactV2/getCurrentUser',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);

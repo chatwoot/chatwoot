@@ -7,6 +7,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
+      'conversation.created': this.onConversationCreated,
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
       'conversation.status_changed': this.onStatusChange,
@@ -33,6 +34,14 @@ class ActionCableConnector extends BaseActionCableConnector {
       status,
       conversationId,
     });
+  };
+
+  onConversationCreated = data => {
+    this.app.$store
+      .dispatch('conversationV2/addConversation', data)
+      .then(() => {
+        window.bus.$emit('on-agent-message-received');
+      });
   };
 
   onMessageCreated = data => {
