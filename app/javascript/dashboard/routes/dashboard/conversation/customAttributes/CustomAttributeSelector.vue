@@ -22,6 +22,7 @@
           <custom-attribute-drop-down
             v-if="showAttributeDropDown"
             :attribute-type="attributeType"
+            :contact-id="contactId"
             @add-attribute="addAttribute"
           />
         </div>
@@ -47,6 +48,7 @@ export default {
       type: String,
       default: 'conversation_attribute',
     },
+    contactId: { type: Number, default: null },
   },
   data() {
     return {
@@ -55,15 +57,25 @@ export default {
   },
   methods: {
     async addAttribute(attribute) {
-      const { attribute_key } = attribute;
       try {
-        await this.$store.dispatch('updateCustomAttributes', {
-          conversationId: this.conversationId,
-          customAttributes: {
-            ...this.customAttributes,
-            [attribute_key]: null,
-          },
-        });
+        const { attribute_key } = attribute;
+        if (this.attributeType === 'conversation_attribute') {
+          await this.$store.dispatch('updateCustomAttributes', {
+            conversationId: this.conversationId,
+            customAttributes: {
+              ...this.customAttributes,
+              [attribute_key]: null,
+            },
+          });
+        } else {
+          await this.$store.dispatch('contacts/update', {
+            id: this.contactId,
+            custom_attributes: {
+              ...this.customAttributes,
+              [attribute_key]: null,
+            },
+          });
+        }
         bus.$emit(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, attribute_key);
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.ADD.SUCCESS'));
       } catch (error) {

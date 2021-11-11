@@ -12,7 +12,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search]
 
   def index
@@ -62,6 +62,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def contactable_inboxes
     @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
     @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
+  end
+
+  # TODO : refactor this method into dedicated contacts/custom_attributes controller class and routes
+  def destroy_custom_attributes
+    @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
+    @contact.save!
   end
 
   def create
