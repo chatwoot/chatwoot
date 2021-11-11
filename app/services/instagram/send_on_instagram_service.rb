@@ -63,9 +63,10 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body]
+    Rails.logger.info("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    message.update!(source_id: response['message_id']) if response['message_id'].present?
 
-    response[:body]
+    response
   end
 
   def calculate_app_secret_proof(app_secret, access_token)
