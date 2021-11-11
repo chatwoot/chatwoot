@@ -41,15 +41,20 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
           </span>
         </label>
-        <div v-if="displayName" class="medium-12 columns">
-          <label>
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
-            <i class="ion-help" />
-          </label>
-          <p class="key-value text-truncate">
-            {{ attributeKey }}
-          </p>
-        </div>
+        <woot-input
+          v-model.trim="attributeKey"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+          type="text"
+          :class="{ error: $v.attributeKey.$error }"
+          :error="
+            $v.attributeKey.$error
+              ? $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR')
+              : ''
+          "
+          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+          readonly
+          @blur="$v.attributeKey.$touch"
+        />
       </div>
       <div class="modal-footer">
         <woot-button
@@ -69,7 +74,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
-import { convertToSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
@@ -92,6 +96,7 @@ export default {
       attributeType: 0,
       types: ATTRIBUTE_TYPES,
       show: true,
+      attributeKey: '',
     };
   },
   validations: {
@@ -105,6 +110,9 @@ export default {
       required,
       minLength: minLength(1),
     },
+    attributeKey: {
+      required,
+    },
   },
   computed: {
     ...mapGetters({
@@ -114,9 +122,6 @@ export default {
       return `${this.$t('ATTRIBUTES_MGMT.EDIT.TITLE')} - ${
         this.selectedAttribute.attribute_display_name
       }`;
-    },
-    attributeKey() {
-      return convertToSlug(this.displayName);
     },
     selectedAttributeType() {
       return this.types.find(
@@ -137,6 +142,7 @@ export default {
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
       this.attributeType = this.selectedAttributeType;
+      this.attributeKey = this.selectedAttribute.attribute_key;
     },
     async editAttributes() {
       this.$v.$touch();
