@@ -13,6 +13,7 @@
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
+      :is-campaign-view-clicked="isCampaignViewClicked"
     />
     <unread
       v-else
@@ -64,6 +65,10 @@ export default {
       default: 0,
     },
     showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+    isCampaignViewClicked: {
       type: Boolean,
       default: false,
     },
