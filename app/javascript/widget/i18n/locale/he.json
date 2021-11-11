@@ -50,7 +50,8 @@
         "PLACEHOLDER": "הקלד הודעה בבקשה",
         "ERROR": "הודעה קצרה מדי"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
