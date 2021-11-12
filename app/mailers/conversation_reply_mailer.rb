@@ -13,7 +13,7 @@ class ConversationReplyMailer < ApplicationMailer
     new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
-    mail(create_payload(true))
+    prepare_mail(true)
   end
 
   def reply_without_summary(conversation, last_queued_id)
@@ -26,7 +26,7 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
-    mail(create_payload(false))
+    prepare_mail(false)
   end
 
   def email_reply(message)
@@ -34,8 +34,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
-
-    reply_mail_object = mail(create_payload(true))
+    reply_mail_object = prepare_mail(true)
 
     message.update(source_id: reply_mail_object.message_id)
   end

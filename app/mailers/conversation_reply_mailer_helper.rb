@@ -1,6 +1,6 @@
 module ConversationReplyMailerHelper
-  def create_payload(cc_bcc_enabled)
-    @mail = {
+  def prepare_mail(cc_bcc_enabled)
+    @options = {
       to: @contact&.email,
       from: email_from,
       reply_to: email_reply_to,
@@ -10,13 +10,12 @@ module ConversationReplyMailerHelper
     }
 
     if cc_bcc_enabled
-      @mail[:cc] = cc_bcc_emails[0]
-      @mail[:bcc] = cc_bcc_emails[1]
+      @options[:cc] = cc_bcc_emails[0]
+      @options[:bcc] = cc_bcc_emails[1]
     end
 
     set_delivery_method
-
-    @mail
+    mail(@options)
   end
 
   private
@@ -34,19 +33,19 @@ module ConversationReplyMailerHelper
       authentication: @channel.smtp_authentication
     }
 
-    @mail[:delivery_method] = :smtp
-    @mail[:delivery_method_options] = smtp_settings
+    @options[:delivery_method] = :smtp
+    @options[:delivery_method_options] = smtp_settings
   end
 
-  def email_imap_enabled
+  def email_smtp_enabled
     @inbox.inbox_type == 'Email' && @channel.imap_enabled
   end
 
   def email_from
-    email_imap_enabled ? @channel.imap_email : from_email_with_name
+    email_smtp_enabled ? @channel.smtp_email : from_email_with_name
   end
 
   def email_reply_to
-    email_imap_enabled ? @channel.imap_email : reply_email
+    email_smtp_enabled ? @channel.smtp_email : reply_email
   end
 end
