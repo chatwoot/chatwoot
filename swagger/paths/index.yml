@@ -146,7 +146,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{account_id}/agents/{id}:
   patch:
     $ref: ./application/agents/update.yml
-  delete: 
+  delete:
     $ref: ./application/agents/delete.yml
 
 
@@ -174,6 +174,10 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   parameters:
     - $ref: '#/parameters/account_id'
   $ref: ./application/conversation/create.yml
+/api/v1/accounts/{account_id}/conversations/filter:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  $ref: ./application/conversation/filter.yml
 /api/v1/accounts/{account_id}/conversations/{converstion_id}:
   parameters:
     - $ref: '#/parameters/account_id'
@@ -230,9 +234,9 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./application/inboxes/inbox_members/create.yml
   patch:
     $ref: ./application/inboxes/inbox_members/update.yml
-  delete: 
+  delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
-  
+
 
 
 # Messages

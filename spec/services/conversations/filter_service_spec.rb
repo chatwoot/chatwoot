@@ -51,6 +51,14 @@ describe ::Conversations::FilterService do
         expect(result.length).to be conversations.count
       end
 
+      it 'filter conversations by custom_attributes and status with pagination' do
+        params[:payload] = payload
+        params[:page] = 2
+        result = filter_service.new(params, user_1).perform
+        conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result.length).to be conversations.count
+      end
+
       it 'filter conversations by tags' do
         Conversation.last.update_labels('support')
         params[:payload] = [
