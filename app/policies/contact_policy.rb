@@ -27,6 +27,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def destroy_custom_attributes?
+    true
+  end
+
   def show?
     true
   end
