@@ -36,15 +36,19 @@ class Channel::Whatsapp < ApplicationRecord
 
   # Extract later into provider Service
   def send_message(phone_number, message)
-    HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },
-      body: {
-        to: phone_number,
-        text: { body: message },
-        type: 'text'
-      }.to_json
-    )
+    if message.attachments.present?
+      send_attachment_message(phone_number, message)
+    else
+      send_text_message(phone_number, message)
+    end
+  end
+
+  def media_url(media_id)
+    "#{api_base_path}/media/#{media_id}"
+  end
+
+  def api_headers
+    { 'D360-API-KEY' => provider_config['api_key'], 'Content-Type' => 'application/json' }
   end
 
   def has_24_hour_messaging_window?
@@ -52,6 +56,36 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   private
+
+  def send_text_message(phone_number, message)
+    HTTParty.post(
+      "#{api_base_path}/messages",
+      headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },
+      body: {
+        to: phone_number,
+        text: { body: message.content },
+        type: 'text'
+      }.to_json
+    )
+  end
+
+  def send_attachment_message(phone_number, message)
+    attachment = message.attachments.first
+    type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
+    attachment_url = attachment.file_url
+    HTTParty.post(
+      "#{api_base_path}/messages",
+      headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },
+      body: {
+        'to' => phone_number,
+        'type' => type,
+        type.to_s => {
+          'link': attachment_url,
+          'caption': message.content
+        }
+      }.to_json
+    )
+  end
 
   # Extract later into provider Service
   def validate_provider_config
