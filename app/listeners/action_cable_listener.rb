@@ -50,7 +50,8 @@ class ActionCableListener < BaseListener
       tokens,
       CONVERSATION_TYPING_ON,
       conversation: conversation.push_event_data,
-      user: user.push_event_data
+      user: user.push_event_data,
+      is_private: event.data[:is_private] || false
     )
   end
 
@@ -65,7 +66,8 @@ class ActionCableListener < BaseListener
       tokens,
       CONVERSATION_TYPING_OFF,
       conversation: conversation.push_event_data,
-      user: user.push_event_data
+      user: user.push_event_data,
+      is_private: event.data[:is_private] || false
     )
   end
 
