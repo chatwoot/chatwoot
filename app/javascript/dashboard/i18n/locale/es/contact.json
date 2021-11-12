@@ -155,6 +155,11 @@
         "LABEL": "Bandeja de entrada",
         "ERROR": "Seleccione una bandeja de entrada"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Mensaje",
         "PLACEHOLDER": "Escriba su mensaje aquí",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -243,13 +255,35 @@
       "CANCEL": "Cancelar",
       "NAME": {
         "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
+        "PLACEHOLDER": "Ej: shopify id",
         "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
