@@ -31,14 +31,14 @@ describe ::Conversations::FilterService do
         [
           {
             attribute_key: 'browser_language',
-            filter_operator: 'equal_to',
-            values: ['en'],
+            filter_operator: 'contains',
+            values: 'en',
             query_operator: 'AND'
           }.with_indifferent_access,
           {
             attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: %w[open pending],
+            filter_operator: 'not_equal_to',
+            values: %w[resolved],
             query_operator: nil
           }.with_indifferent_access
         ]

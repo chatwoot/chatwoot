@@ -30,18 +30,6 @@ class FilterService
     end
   end
 
-  def equals_to_filter_string(filter_operator, current_index)
-    return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'
-
-    "NOT IN (:value_#{current_index})"
-  end
-
-  def like_filter_string(filter_operator, current_index)
-    return "LIKE :value_#{current_index}" if filter_operator == 'contains'
-
-    "NOT LIKE :value_#{current_index}"
-  end
-
   def filter_values(query_hash)
     if query_hash['attribute_key'] == 'status'
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
@@ -56,5 +44,19 @@ class FilterService
       @conversations.unassigned.count,
       @conversations.count
     ]
+  end
+
+  private
+
+  def equals_to_filter_string(filter_operator, current_index)
+    return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'
+
+    "NOT IN (:value_#{current_index})"
+  end
+
+  def like_filter_string(filter_operator, current_index)
+    return "LIKE :value_#{current_index}" if filter_operator == 'contains'
+
+    "NOT LIKE :value_#{current_index}"
   end
 end
