@@ -1,17 +1,14 @@
 import { mapGetters } from 'vuex';
 import wootConstants from '../../../constants';
 import {
-  CMD_CHANGE_ASSIGNEE,
   CMD_MUTE_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
-  CMD_CHANGE_TEAM,
-  CMD_ADD_LABEL,
-  CMD_REMOVE_LABEL,
   CMD_UNMUTE_CONVERSATION,
 } from './commandBarBusEvents';
+
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
@@ -118,7 +115,12 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.CHANGE_ASSIGNEE'),
         agentInfo: agent,
         icon: ICON_ASSIGN_AGENT,
-        handler: action => bus.$emit(CMD_CHANGE_ASSIGNEE, action.agentInfo),
+        handler: action => {
+          this.$store.dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId: action.agentInfo.id,
+          });
+        },
       }));
       return [
         {
@@ -139,7 +141,12 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.CHANGE_TEAM'),
         teamInfo: team,
         icon: ICON_ASSIGN_TEAM,
-        handler: action => bus.$emit(CMD_CHANGE_TEAM, action.teamInfo),
+        handler: action => {
+          this.$store.dispatch('assignTeam', {
+            conversationId: this.currentChat.id,
+            teamId: action.teamInfo.id,
+          });
+        },
       }));
       return [
         {
@@ -159,7 +166,7 @@ export default {
         parent: 'add_a_label_to_the_conversation',
         section: this.$t('COMMAND_BAR.SECTIONS.ADD_LABEL'),
         icon: ICON_ADD_LABEL,
-        handler: action => bus.$emit(CMD_ADD_LABEL, { title: action.id }),
+        handler: action => this.addLabelToConversation({ title: action.id }),
       }));
       const labelsToBeRemoved = this.activeLabels.map(label => ({
         id: label.title,
@@ -167,9 +174,10 @@ export default {
         parent: 'remove_a_label_to_the_conversation',
         section: this.$t('COMMAND_BAR.SECTIONS.REMOVE_LABEL'),
         icon: ICON_REMOVE_LABEL,
-        handler: action => bus.$emit(CMD_REMOVE_LABEL, action.id),
+        handler: action => this.removeLabelFromConversation(action.id),
       }));
-      return [
+
+      let availableActions = [
         ...labelsToBeAdded,
         {
           id: 'add_a_label_to_the_conversation',
@@ -178,17 +186,23 @@ export default {
           icon: ICON_ADD_LABEL,
           children: this.inactiveLabels.map(label => label.title),
         },
-        ...labelsToBeRemoved,
-        {
-          id: 'remove_a_label_to_the_conversation',
-          title: this.$t(
-            'COMMAND_BAR.COMMANDS.REMOVE_LABELS_FROM_CONVERSATION'
-          ),
-          section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-          icon: ICON_REMOVE_LABEL,
-          children: this.activeLabels.map(label => label.title),
-        },
       ];
+      if (this.activeLabels.length) {
+        availableActions = [
+          ...availableActions,
+          ...labelsToBeRemoved,
+          {
+            id: 'remove_a_label_to_the_conversation',
+            title: this.$t(
+              'COMMAND_BAR.COMMANDS.REMOVE_LABELS_FROM_CONVERSATION'
+            ),
+            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+            icon: ICON_REMOVE_LABEL,
+            children: this.activeLabels.map(label => label.title),
+          },
+        ];
+      }
+      return availableActions;
     },
     conversationHotKeys() {
       if (

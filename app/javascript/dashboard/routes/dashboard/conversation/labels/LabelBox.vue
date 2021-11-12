@@ -47,10 +47,6 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import {
-  CMD_ADD_LABEL,
-  CMD_REMOVE_LABEL,
-} from '../../commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -80,65 +76,12 @@ export default {
       labelUiFlags: 'conversationLabels/getUIFlags',
     }),
   },
-
-  watch: {
-    conversationId(newConversationId, prevConversationId) {
-      if (newConversationId && newConversationId !== prevConversationId) {
-        this.fetchLabels(newConversationId);
-      }
-    },
-  },
-
-  mounted() {
-    const { conversationId } = this;
-    this.fetchLabels(conversationId);
-    bus.$on(CMD_ADD_LABEL, this.addItem);
-    bus.$on(CMD_REMOVE_LABEL, this.removeItem);
-  },
-
-  destroyed() {
-    bus.$off(CMD_ADD_LABEL, this.addItem);
-    bus.$off(CMD_REMOVE_LABEL, this.removeItem);
-  },
-
   methods: {
-    async onUpdateLabels(selectedLabels) {
-      try {
-        await this.$store.dispatch('conversationLabels/update', {
-          conversationId: this.conversationId,
-          labels: selectedLabels,
-        });
-      } catch (error) {
-        // Ignore error
-      }
-    },
-
     toggleLabels() {
       this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
     },
-
-    addItem(value) {
-      const result = this.activeLabels.map(item => item.title);
-      result.push(value.title);
-      this.onUpdateLabels(result);
-    },
-
-    removeItem(value) {
-      const result = this.activeLabels
-        .map(label => label.title)
-        .filter(label => label !== value);
-      this.onUpdateLabels(result);
-    },
-
     closeDropdownLabel() {
       this.showSearchDropdownLabel = false;
-    },
-
-    async fetchLabels(conversationId) {
-      if (!conversationId) {
-        return;
-      }
-      this.$store.dispatch('conversationLabels/get', conversationId);
     },
   },
 };

@@ -136,10 +136,6 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import {
-  CMD_CHANGE_ASSIGNEE,
-  CMD_CHANGE_TEAM,
-} from '../commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -255,20 +251,8 @@ export default {
   mounted() {
     this.getContactDetails();
     this.$store.dispatch('attributes/get', 0);
-    bus.$on(CMD_CHANGE_ASSIGNEE, this.onCmdChangeAssignee);
-    bus.$on(CMD_CHANGE_TEAM, this.onCmdChangeTeam);
-  },
-  destroyed() {
-    bus.$off(CMD_CHANGE_ASSIGNEE, this.onCmdChangeAssignee);
-    bus.$off(CMD_CHANGE_TEAM, this.onCmdChangeTeam);
   },
   methods: {
-    onCmdChangeAssignee(agentInfo) {
-      this.assignedAgent = agentInfo;
-    },
-    onCmdChangeTeam(teamInfo) {
-      this.assignedTeam = teamInfo;
-    },
     onPanelToggle() {
       this.onToggle();
     },
