@@ -15,7 +15,6 @@ import {
   ICON_USER_PROFILE,
 } from './CommandBarIcons';
 import { frontendURL } from '../../../helper/URLHelper';
-import adminMixin from 'dashboard/mixins/isAdmin';
 
 const GO_TO_COMMANDS = [
   {
@@ -150,8 +149,6 @@ const GO_TO_COMMANDS = [
 
 export default {
   computed: {
-    mixins: [adminMixin],
-
     goToCommandHotKeys() {
       let commands = GO_TO_COMMANDS;
 

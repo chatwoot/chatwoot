@@ -1,8 +1,5 @@
 import { mapGetters } from 'vuex';
 import wootConstants from '../../../constants';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import {
   CMD_CHANGE_ASSIGNEE,
   CMD_MUTE_CONVERSATION,
@@ -32,7 +29,6 @@ import {
 } from './CommandBarIcons';
 
 export default {
-  mixins: [agentMixin, conversationTeamMixin, conversationLabelMixin],
   watch: {
     assignableAgents() {
       this.setCommandbarData();

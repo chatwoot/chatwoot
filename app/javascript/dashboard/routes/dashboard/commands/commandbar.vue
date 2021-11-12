@@ -12,9 +12,21 @@
 import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
+import agentMixin from 'dashboard/mixins/agentMixin';
+import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
+import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
-  mixins: [conversationHotKeysMixin, goToCommandHotKeys],
+  mixins: [
+    adminMixin,
+    agentMixin,
+    conversationHotKeysMixin,
+    conversationLabelMixin,
+    conversationTeamMixin,
+    goToCommandHotKeys,
+  ],
+
   data() {
     return {
       placeholder: this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER'),
