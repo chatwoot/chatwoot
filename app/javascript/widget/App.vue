@@ -8,6 +8,7 @@
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
     :show-popout-button="showPopoutButton"
+    :is-campaign-view-clicked="isCampaignViewClicked"
   />
 </template>
 
@@ -15,18 +16,19 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
+import configMixin from './mixins/configMixin';
+import availabilityMixin from 'widget/mixins/availability';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
-import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'App',
   components: {
     Router,
   },
-  mixins: [availabilityMixin],
+  mixins: [availabilityMixin, configMixin],
   data() {
     return {
       showUnreadView: false,
@@ -36,6 +38,7 @@ export default {
       widgetPosition: 'right',
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+      isCampaignViewClicked: false,
       isWidgetOpen: false,
     };
   },
@@ -98,7 +101,11 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
+    ...mapActions('campaign', [
+      'initCampaigns',
+      'executeCampaign',
+      'resetCampaign',
+    ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
     ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
@@ -147,15 +154,25 @@ export default {
       });
     },
     registerCampaignEvents() {
-      bus.$on('on-campaign-view-clicked', campaignId => {
-        const { websiteToken } = window.chatwootWebChannel;
+      bus.$on('on-campaign-view-clicked', () => {
+        this.isCampaignViewClicked = true;
         this.showCampaignView = false;
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
+        // Execute campaign only if pre-chat form (and require email too) is not enabled
+        if (
+          !(this.preChatFormEnabled && this.preChatFormOptions.requireEmail)
+        ) {
+          bus.$emit('execute-campaign', this.activeCampaign.id);
+        }
+      });
+      bus.$on('execute-campaign', campaignId => {
+        const { websiteToken } = window.chatwootWebChannel;
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
+
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },
@@ -255,6 +272,10 @@ export default {
           this.showUnreadView = true;
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
+          // Reset campaign, If widget opened via clciking on bubble button
+          if (!this.isCampaignViewClicked) {
+            this.resetCampaign();
+          }
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
