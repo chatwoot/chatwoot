@@ -46,19 +46,19 @@
         "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
+        "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Канал Веб-сайт",
         "DESC": "Створіть канал для свого сайту та почніть підтримувати своїх клієнтів за допомогою нашого віджету.",
         "LOADING_MESSAGE": "Створення каналу підтримки веб-сайту",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Аватар каналу"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Введіть URL вашого вебхука",
           "ERROR": "Будь ласка, введіть правильний URL"
         },
         "CHANNEL_DOMAIN": {
@@ -66,29 +66,29 @@
           "PLACEHOLDER": "Введіть домен вашого сайту (наприклад: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Заголовок",
+          "PLACEHOLDER": "Привіт!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Талін привітання",
+          "PLACEHOLDER": "Ми робимо це простим — запитуємо що-небудь чи поділіться своїми відгуками."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Вітання каналу",
+          "PLACEHOLDER": "Acme Inc зазвичай відповідає за кілька годин."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Увімкнути вітання каналу",
+          "HELP_TEXT": "Привітання користувачу, коли він розпочинає розмову.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Встановити час відповіді",
+          "IN_A_FEW_MINUTES": "За кілька хвилин",
+          "IN_A_FEW_HOURS": "За кілька годин",
+          "IN_A_DAY": "Протягом дня",
+          "HELP_TEXT": "Цей час відповіді буде показуватися на віджеті онлайн чату"
         },
         "WIDGET_COLOR": {
           "LABEL": "Колір віджета",
@@ -97,16 +97,16 @@
         "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\""
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp канал",
+        "DESC": "Інтегруйте Twilio та починайте підтримувати своїх клієнтів через SMS чи WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID облікового запису",
           "PLACEHOLDER": "Будь ласка, введіть SID облікового запису Twilio",
           "ERROR": "Це поле є обов'язковим"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Тип каналу",
+          "ERROR": "Будь ласка, оберіть тип вашого каналу"
         },
         "AUTH_TOKEN": {
           "LABEL": "Токен автентифікації",
@@ -114,8 +114,8 @@
           "ERROR": "Це поле є обов'язковим"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "LABEL": "Назва каналу",
+          "PLACEHOLDER": "Будь ласка, введіть назву каналу",
           "ERROR": "Це поле є обов'язковим"
         },
         "PHONE_NUMBER": {
@@ -125,7 +125,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Ви повинні налаштувати URL зворотнього виклику у Twilio з URL-адресою, згаданим тут."
         },
         "SUBMIT_BUTTON": "Створити Twilio канал",
         "API": {
@@ -133,20 +133,20 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS-канал через Twilio",
+        "DESC": "Розпочніть підтримувати клієнтів через SMS з Twilio інтеграцією."
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "Канал WhatsApp",
+        "DESC": "Розпочніть підтримувати своїх клієнтів через WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "LABEL": "Назва каналу",
+          "PLACEHOLDER": "Будь ласка, введіть назву каналу",
           "ERROR": "Це поле є обов'язковим"
         },
         "PHONE_NUMBER": {
@@ -155,20 +155,20 @@
           "ERROR": "Номер телефону повинен починатися з символу `+'."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API ключ",
+          "SUBTITLE": "Налаштуйте ключ WhatsApp API.",
+          "PLACEHOLDER": "API ключ",
+          "APPLY_FOR_ACCESS": "У вас немає жодного ключа API? Він потрібен для доступу",
+          "ERROR": "Будь ласка введіть правильне значення."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти канал WhatsApp"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API канал",
+        "DESC": "Інтегруйте з API каналом і почніть підтримувати клієнтів.",
         "CHANNEL_NAME": {
           "LABEL": "Назва каналу",
           "PLACEHOLDER": "Будь ласка, введіть назву каналу",
@@ -176,17 +176,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Налаштуйте URL, де бажаєте відкликати події та приймати виклики.",
           "PLACEHOLDER": "URL вебхука"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Створити API канал",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти канал api"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Email канал",
+        "DESC": "Інтегруйте поштову скриньку.",
         "CHANNEL_NAME": {
           "LABEL": "Назва каналу",
           "PLACEHOLDER": "Будь ласка, введіть назву каналу",
@@ -194,10 +194,10 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Пишіть куди клієнти відправляють вам квитки підтримки",
           "PLACEHOLDER": "Email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Створити Канал E-mail",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
@@ -347,58 +347,58 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
       "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
+      "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
+      "INBOX_UPDATE_TITLE": "Налаштування каналу",
+      "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
+      "HMAC_VERIFICATION": "Перевірка ідентифікації користувача",
+      "HMAC_DESCRIPTION": "Щоб підтвердити ідентифікацію користувача, SDK дозволяє вам передати `identifier_hash` для кожного користувача. Тут можна згенерувати HMAC за допомогою 'sha256'.",
+      "HMAC_MANDATORY_VERIFICATION": "Застосувати примусову перевірку особистості користувача",
+      "HMAC_MANDATORY_DESCRIPTION": "Якщо увімкнено, метод Chatwoot SDKs setUser не буде працювати, якщо тільки для кожного користувача не надається `identifier_hash'.",
+      "INBOX_IDENTIFIER": "Ідентифікатор каналу",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
+      "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
+      "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Повторна авторизація",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "SUBTITLE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
+      "MESSAGE_SUCCESS": "З'єднання пройшло успішно",
+      "MESSAGE_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Попередні форми чату дозволяють зберегти інформацію про користувача, перш ніж вони почнуть розмову з вами.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Увімкнути форму попереднього чату",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Так",
+          "DISABLED": "Ні"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Попереднє повідомлення чату",
+        "PLACEHOLDER": "Це повідомлення буде видимим для користувачів разом з формою"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Відвідувачі повинні надати своє ім'я та адресу електронної пошти перед початком чату"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "Встановіть доступність",
+      "SUBTITLE": "Встановіть доступність на вашому віджеті",
+      "WEEKLY_TITLE": "Встановіть робочі години",
+      "TIMEZONE_LABEL": "Обрати часовий пояс",
+      "UPDATE": "Оновити налаштування робочих годин",
+      "TOGGLE_AVAILABILITY": "Увімкнути робочі години для цього каналу",
+      "UNAVAILABLE_MESSAGE_LABEL": "Повідомлення для відвідувачів у неробочі години",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "На даний момент ми недоступні. Залиште повідомлення, що ми відповімо, щойно повернемося.",
+      "TOGGLE_HELP": "Включення покаже робочі години на віджеті в чаті, навіть якщо всі агенти перебувають у автономному режимі. У неробочі години відвідувачі можуть бути попереджені повідомленням і формою попереднього чату.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Увімкнути доступність для цього дня",
+        "UNAVAILABLE": "Неприсутній",
+        "HOURS": "години",
+        "VALIDATION_ERROR": "Час початку має бути менше часу закриття.",
+        "CHOOSE": "Обрати"
       }
     }
   }
