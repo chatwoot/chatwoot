@@ -54,11 +54,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isFetchingMessagesIn: 'conversationV2/isFetchingMessagesIn',
-      firstMessageIn: 'conversationV2/firstMessageIn',
-      isAllMessagesFetchedIn: 'conversationV2/isAllMessagesFetchedIn',
-      totalMessagesSizeIn: 'conversationV2/allMessagesCountIn',
-      isAgentTypingIn: 'conversationV2/isAgentTypingIn',
+      isFetchingMessagesIn: 'conversation/isFetchingMessagesIn',
+      firstMessageIn: 'conversation/firstMessageIn',
+      isAllMessagesFetchedIn: 'conversation/isAllMessagesFetchedIn',
+      totalMessagesSizeIn: 'conversation/allMessagesCountIn',
+      isAgentTypingIn: 'conversation/isAgentTypingIn',
     }),
     firstMessage() {
       return this.firstMessageIn(this.conversationId);
@@ -96,7 +96,7 @@ export default {
     this.$el.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-    ...mapActions('conversationV2', ['fetchOldMessagesIn']),
+    ...mapActions('conversation', ['fetchOldMessagesIn']),
     scrollToBottom() {
       const container = this.$el;
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;

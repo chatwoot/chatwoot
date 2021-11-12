@@ -43,7 +43,7 @@ export const getters = {
     const conversations = _state.conversations.allIds.map(id => {
       const conversation = _state.conversations.byId[id];
       const messagesInConversation = conversation.messages.map(messageId => {
-        const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+        const lastMessage = _rootGetters['message/messageById'](messageId);
         return lastMessage;
       });
       return {
@@ -72,7 +72,7 @@ export const getters = {
       _state.conversations.byId[conversationId].messages;
     if (messagesInConversation.length) {
       const messageId = messagesInConversation[0];
-      const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+      const lastMessage = _rootGetters['message/messageById'](messageId);
       return lastMessage;
     }
     return {};
@@ -82,7 +82,7 @@ export const getters = {
     const conversation = _state.conversations.byId[conversationId];
     const messageIds = conversation ? conversation.messages : [];
     const messagesInConversation = messageIds.map(messageId =>
-      _rootGetters['messageV2/messageById'](messageId)
+      _rootGetters['message/messageById'](messageId)
     );
     const messagesGroupedByDate = groupBy(messagesInConversation, message =>
       formatUnixDate(message.created_at)
@@ -107,7 +107,7 @@ export const getters = {
 
     const messageIds = conversation.messages;
     const messagesInConversation = messageIds.map(messageId => {
-      const lastMessage = _rootGetters['messageV2/messageById'](messageId);
+      const lastMessage = _rootGetters['message/messageById'](messageId);
       return lastMessage;
     });
     return {
@@ -122,7 +122,7 @@ export const getters = {
 
     const messageIds = _state.conversations.byId[conversationId].messages;
     const messagesInConversation = messageIds.map(messageId =>
-      _rootGetters['messageV2/messageById'](messageId)
+      _rootGetters['message/messageById'](messageId)
     );
     const { userLastSeenAt } = _getters.metaIn(conversationId);
 

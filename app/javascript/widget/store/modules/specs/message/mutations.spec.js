@@ -1,4 +1,4 @@
-import { mutations } from '../../messageV2/mutations';
+import { mutations } from '../../message/mutations';
 
 describe('#mutations', () => {
   describe('#updateMessageEntry', () => {

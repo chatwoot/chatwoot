@@ -48,7 +48,7 @@ export default {
 
     const startConversationClick = async () => {
       const conversationId = await context.root.$store.dispatch(
-        'conversationV2/createConversation'
+        'conversation/createConversation'
       );
 
       router.push({
@@ -61,7 +61,7 @@ export default {
 
     const unreadCount = conversationId => {
       const count =
-        context.root.$store.getters['conversationV2/unreadTextMessagesCountIn'](
+        context.root.$store.getters['conversation/unreadTextMessagesCountIn'](
           conversationId
         ) || 0;
       return count;

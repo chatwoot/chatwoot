@@ -30,22 +30,20 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onStatusChange = data => {
     const { status, id: conversationId } = data;
-    this.app.$store.dispatch('conversationV2/setConversationStatusIn', {
+    this.app.$store.dispatch('conversation/setConversationStatusIn', {
       status,
       conversationId,
     });
   };
 
   onConversationCreated = data => {
-    this.app.$store
-      .dispatch('conversationV2/addConversation', data)
-      .then(() => {
-        window.bus.$emit('on-agent-message-received');
-      });
+    this.app.$store.dispatch('conversation/addConversation', data).then(() => {
+      window.bus.$emit('on-agent-message-received');
+    });
   };
 
   onMessageCreated = data => {
-    this.app.$store.dispatch('messageV2/addOrUpdate', data).then(() => {
+    this.app.$store.dispatch('message/addOrUpdate', data).then(() => {
       window.bus.$emit('on-agent-message-received');
     });
     if (data.sender_type === 'User') {
@@ -54,7 +52,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageUpdated = data => {
-    this.app.$store.dispatch('messageV2/addOrUpdate', data).then(() => {
+    this.app.$store.dispatch('message/addOrUpdate', data).then(() => {
       window.bus.$emit('on-agent-message-received');
     });
   };
@@ -76,7 +74,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const {
       conversation: { id: conversationId },
     } = data;
-    this.app.$store.dispatch('conversationV2/toggleAgentTypingIn', {
+    this.app.$store.dispatch('conversation/toggleAgentTypingIn', {
       status: 'on',
       conversationId,
     });
@@ -88,7 +86,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const {
       conversation: { id: conversationId },
     } = data;
-    this.app.$store.dispatch('conversationV2/toggleAgentTypingIn', {
+    this.app.$store.dispatch('conversation/toggleAgentTypingIn', {
       status: 'off',
       conversationId,
     });

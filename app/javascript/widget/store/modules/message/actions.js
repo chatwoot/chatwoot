@@ -19,7 +19,7 @@ export const actions = {
 
     if (doesMessageExist) {
       commit(
-        'conversationV2/removeMessageIdFromConversation',
+        'conversation/removeMessageIdFromConversation',
         { conversationId, messageId: echoId },
         { root: true }
       );
@@ -30,7 +30,7 @@ export const actions = {
     commit('addMessagesEntry', { conversationId, messages });
     commit('addMessageIds', { messages });
     commit(
-      'conversationV2/appendMessageIdsToConversation',
+      'conversation/appendMessageIdsToConversation',
       { conversationId, messages },
       { root: true }
     );
@@ -39,7 +39,7 @@ export const actions = {
     const { content, conversationId } = params;
     try {
       commit(
-        'conversationV2/setConversationUIFlag',
+        'conversation/setConversationUIFlag',
         { uiFlags: { isCreating: true }, conversationId },
         { root: true }
       );
@@ -50,7 +50,7 @@ export const actions = {
       commit('addMessagesEntry', { messages });
       commit('addMessageIds', { messages });
       commit(
-        'conversationV2/appendMessageIdsToConversation',
+        'conversation/appendMessageIdsToConversation',
         { conversationId, messages },
         { root: true }
       );
@@ -68,7 +68,7 @@ export const actions = {
       throw new Error(error);
     } finally {
       commit(
-        'conversationV2/setConversationUIFlag',
+        'conversation/setConversationUIFlag',
         { uiFlags: { isCreating: false }, conversationId },
         { root: true }
       );
@@ -82,7 +82,7 @@ export const actions = {
     } = params;
     try {
       commit(
-        'conversationV2/setConversationUIFlag',
+        'conversation/setConversationUIFlag',
         { uiFlags: { isCreating: true }, conversationId },
         { root: true }
       );
@@ -99,7 +99,7 @@ export const actions = {
       commit('addMessagesEntry', { conversationId, messages });
       commit('addMessageIds', { conversationId, messages });
       commit(
-        'conversationV2/appendMessageIdsToConversation',
+        'conversation/appendMessageIdsToConversation',
         { conversationId, messages },
         { root: true }
       );
@@ -113,29 +113,32 @@ export const actions = {
       throw new Error(error);
     } finally {
       commit(
-        'conversationV2/setConversationUIFlag',
+        'conversation/setConversationUIFlag',
         { uiFlags: { isCreating: false }, conversationId },
         { root: true }
       );
     }
   },
 
-  updateMessage: async (
-    { commit, dispatch },
-    { email, messageId, submittedValues }
-  ) => {
+  update: async ({ commit, getters, dispatch }, params) => {
+    const { email, messageId, submittedValues } = params;
     try {
       commit('setMessageUIFlag', {
         messageId,
         uiFlags: { isUpdating: true },
       });
+
+      const { conversation_id: conversationId } = getters.messageById(
+        messageId
+      );
       const {
         data: { contact: { pubsub_token: pubsubToken } = {} },
-      } = await MessagePublicAPI.update({
+      } = await MessagePublicAPI.update(conversationId, {
         email,
-        messageId,
+        id: messageId,
         values: submittedValues,
       });
+
       commit('updateMessageEntry', {
         id: messageId,
         content_attributes: {
@@ -143,7 +146,7 @@ export const actions = {
           submitted_values: email ? null : submittedValues,
         },
       });
-      dispatch('contactV2/get', {}, { root: true });
+      dispatch('contact/get', {}, { root: true });
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       throw new Error(error);

@@ -40,7 +40,7 @@ export default {
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      currentUser: 'contactV2/getCurrentUser',
+      currentUser: 'contact/getCurrentUser',
     }),
   },
 };

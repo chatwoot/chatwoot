@@ -42,10 +42,10 @@ export default {
   computed: {
     ...mapGetters({
       widgetSettings: 'appConfig/getWidgetSettings',
-      unreadMessagesIn: 'conversationV2/unreadTextMessagesCountIn',
+      unreadMessagesIn: 'conversation/unreadTextMessagesCountIn',
       campaigns: 'campaign/getCampaigns',
       activeCampaign: 'campaign/getActiveCampaign',
-      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
+      lastActiveConversationId: 'conversation/lastActiveConversationId',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -85,7 +85,6 @@ export default {
     }
     this.fetchContact();
     this.fetchAllConversations();
-    this.$store.dispatch('conversationAttributes/getAttributes');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
     this.registerCampaignEvents();
@@ -94,10 +93,7 @@ export default {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
-    ...mapActions('conversationV2', [
-      'fetchOldMessagesIn',
-      'setUserLastSeenIn',
-    ]),
+    ...mapActions('conversation', ['fetchOldMessagesIn', 'setUserLastSeenIn']),
     ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -264,14 +260,14 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contactV2/update', message);
+          this.$store.dispatch('contact/update', message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
-            'contactV2/setCustomAttributes',
+            'contact/setCustomAttributes',
             message.customAttributes
           );
         } else if (message.event === 'delete-custom-attribute') {
-          this.$store.dispatch('contactV2/setCustomAttributes', {
+          this.$store.dispatch('contact/setCustomAttributes', {
             [message.customAttribute]: null,
           });
         } else if (message.event === 'set-locale') {
@@ -331,13 +327,13 @@ export default {
       return extraHeight;
     },
     fetchContact() {
-      this.$store.dispatch('contactV2/get').then(() => {
+      this.$store.dispatch('contact/get').then(() => {
         this.sendLoadedEvent();
       });
     },
     async fetchAllConversations() {
       const conversationId = this.lastActiveConversationId;
-      await this.$store.dispatch('conversationV2/fetchAllConversations');
+      await this.$store.dispatch('conversation/fetchAllConversations');
 
       if (conversationId) {
         await this.fetchOldMessagesIn(this.lastActiveConversationId);

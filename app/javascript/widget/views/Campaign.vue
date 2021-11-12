@@ -69,9 +69,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessages: 'conversationV2/unreadTextMessagesIn',
+      unreadMessages: 'conversation/unreadTextMessagesIn',
       campaign: 'campaign/getActiveCampaign',
-      lastConversation: 'conversationV2/lastActiveConversationId',
+      lastConversation: 'conversation/lastActiveConversationId',
     }),
     showCloseButton() {
       return this.unreadMessageCount;

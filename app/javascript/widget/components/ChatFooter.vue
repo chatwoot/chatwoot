@@ -54,8 +54,8 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
-      metaIn: 'conversationV2/metaIn',
-      currentUser: 'contactV2/getCurrentUser',
+      metaIn: 'conversation/metaIn',
+      currentUser: 'contact/getCurrentUser',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -71,7 +71,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('messageV2', [
+    ...mapActions('message', [
       'sendMessage',
       'sendAttachment',
       'clearConversations',
@@ -91,7 +91,7 @@ export default {
     },
     async handleCreateConversation(content) {
       const conversationId = await this.$store.dispatch(
-        'conversationV2/createConversationWithMessage',
+        'conversation/createConversationWithMessage',
         {
           content,
           contact: {
@@ -113,7 +113,7 @@ export default {
       const { email } = this.currentUser;
       if (email) {
         try {
-          await this.$store.dispatch('conversationV2/sendEmailTranscript', {
+          await this.$store.dispatch('conversation/sendEmailTranscript', {
             email,
           });
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
@@ -128,7 +128,7 @@ export default {
       }
     },
     toggleTyping(typingStatus) {
-      this.$store.dispatch('conversationV2/toggleUserTypingIn', {
+      this.$store.dispatch('conversation/toggleUserTypingIn', {
         conversationId: this.conversationId,
         typingStatus,
       });

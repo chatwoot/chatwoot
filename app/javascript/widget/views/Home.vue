@@ -58,8 +58,8 @@ export default {
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
-      allActiveConversations: 'conversationV2/allActiveConversations',
+      lastActiveConversationId: 'conversation/lastActiveConversationId',
+      allActiveConversations: 'conversation/allActiveConversations',
     }),
   },
   methods: {

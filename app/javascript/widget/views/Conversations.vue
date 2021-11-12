@@ -33,8 +33,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'contactV2/getCurrentUser',
-      allConversations: 'conversationV2/allConversations',
+      user: 'contact/getCurrentUser',
+      allConversations: 'conversation/allConversations',
     }),
   },
   methods: {

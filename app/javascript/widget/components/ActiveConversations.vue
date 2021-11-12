@@ -42,7 +42,7 @@ export default {
     const router = context.root.$router;
     const unreadCount = conversationId => {
       const count =
-        context.root.$store.getters['conversationV2/unreadTextMessagesCountIn'](
+        context.root.$store.getters['conversation/unreadTextMessagesCountIn'](
           conversationId
         ) || 0;
       return count;

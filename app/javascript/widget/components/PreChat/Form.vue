@@ -106,7 +106,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
-      isCreating: 'conversationV2/isCreating',
+      isCreating: 'conversation/isCreating',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -115,7 +115,7 @@ export default {
   methods: {
     async handleCreateConversation() {
       const conversationId = await this.$store.dispatch(
-        'conversationV2/createConversationWithMessage',
+        'conversation/createConversationWithMessage',
         {
           content: this.message,
           contact: {

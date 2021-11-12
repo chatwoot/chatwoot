@@ -22,7 +22,7 @@ export const actions = {
           conversationId,
         });
         commit(
-          'messageV2/addMessagesEntry',
+          'message/addMessagesEntry',
           { conversationId, messages: [lastMessage] },
           { root: true }
         );
@@ -50,7 +50,7 @@ export const actions = {
       const messages = getNonDeletedMessages({ messages: data });
 
       commit(
-        'messageV2/addMessagesEntry',
+        'message/addMessagesEntry',
         { conversationId, messages },
         { root: true }
       );
@@ -90,7 +90,7 @@ export const actions = {
       conversationId,
     });
     commit(
-      'messageV2/addMessagesEntry',
+      'message/addMessagesEntry',
       { conversationId, messages },
       { root: true }
     );
@@ -123,7 +123,7 @@ export const actions = {
         conversationId,
       });
       commit(
-        'messageV2/addMessagesEntry',
+        'message/addMessagesEntry',
         { conversationId, messages },
         { root: true }
       );
