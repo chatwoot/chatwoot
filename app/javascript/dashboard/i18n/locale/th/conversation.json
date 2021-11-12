@@ -64,7 +64,7 @@
       "CREATE": "เพิ่มโน้ต",
       "TWEET": "ทวิต",
       "TIP_FORMAT_ICON": "เเสดงที่เเก้ไขข้อความ",
-      "TIP_EMOJI_ICON": "โชว์ที่เบือกอีโมจิ",
+      "TIP_EMOJI_ICON": "โชว์ตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์",
       "ENTER_TO_SEND": "กดเอ็นเทอร์เพื่อส่ง",
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
@@ -87,7 +87,7 @@
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ กรุณาลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",
@@ -125,19 +125,19 @@
       "DESCRIPTION": "ดูการสนทนาทั้งหมดจากลูกค้าของคุณในหน้าเเดสบอรด์เดียว คุณสามารถกรอกการสนทนาโดยช่องที่เข้ามา หรือ ป้ายกำกับเเละสถานะ"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "เชิญสมาชิกในทีมของคุณ",
+      "DESCRIPTION": "เมื่อคุณพร้อมที่จะคุยกับลูกค้าของคุณ กรุณาให้เพื่อนในทีมมาช่วยคุณ คุณสามารถเชิญเพื่อนในทีมได้โดยการใส่อีเมลของเขาใน Agent List",
+      "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
+      "TITLE": "เชื่อมต่อกล่องข้อความ",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "จัดกลุ่มบทสนทนาด้วยฉลาก",
+      "DESCRIPTION": "การติดฉลากเป็นวิธีง่ายๆ ในการจัดกลุ่มบทสนทนาของคุณ คุณสามารถสร้างฉลากเช่น #การช่วยเหลือ #คำถามเรื่องใบเสร็จ เพื่อนำมาใช้ในบทสนทนาต่อไป",
+      "NEW_LINK": "คลิกที่นี่เพื่อสร้างแท็ก"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -154,6 +154,27 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "เพิ่ม",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

@@ -155,6 +155,11 @@
         "LABEL": "Caixa de Entrada",
         "ERROR": "Selecione uma caixa de entrada"
       },
+      "SUBJECT": {
+        "LABEL": "Assunto",
+        "PLACEHOLDER": "Assunto",
+        "ERROR": "O assunto não pode estar vazio"
+      },
       "MESSAGE": {
         "LABEL": "Messagem",
         "PLACEHOLDER": "Escreva sua mensagem aqui",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Adicionar atributo",
     "BUTTON": "Criar atributo personalizado",
     "NOT_AVAILABLE": "Não há atributos personalizados para este contato.",
+    "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
+    "ACTIONS": {
+      "COPY": "Copiar atributo",
+      "DELETE": "Excluir atributo",
+      "EDIT": "Editar atributo"
+    },
     "ADD": {
       "TITLE": "Criar atributo personalizado",
       "DESC": "Adicionar informações personalizadas a este contato."
@@ -249,7 +261,29 @@
       "VALUE": {
         "LABEL": "Valor do atributo",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Atributo adicionado com sucesso",
+        "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
+      },
+      "UPDATE": {
+        "SUCCESS": "Atributo atualizado com sucesso",
+        "ERROR": "Não foi possível atualizar o atributo. Por favor, tente mais tarde"
+      },
+      "DELETE": {
+        "SUCCESS": "Atributo excluído com sucesso",
+        "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Adicionar atributo",
+        "PLACEHOLDER": "Procurar atributos",
+        "NO_RESULT": "Nenhum atributo encontrado"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Um valor válido é obrigatório",
+      "INVALID_URL": "URL inválida"
     }
   },
   "MERGE_CONTACTS": {
