@@ -50,7 +50,8 @@
         "PLACEHOLDER": "Írd be az üzeneted",
         "ERROR": "Az üzenet túl rövid"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
   "CHAT_FORM": {

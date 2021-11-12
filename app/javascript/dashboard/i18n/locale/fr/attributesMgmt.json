@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributs",
-    "HEADER_BTN_TXT": "Ajouter un attribut",
-    "LOADING": "Récupération des attributs",
-    "SIDEBAR_TXT": "<p><b>Attributs</b> <p>Un attribut personnalisé suit les faits de vos contacts/conversations — comme la formule d'abonnement, ou quand ils ont commandé le premier produit, etc. <br /><br />Pour créer un Attribut, il suffit de cliquer sur le bouton <b>Ajouter un Attribut.</b> Vous pouvez également modifier ou supprimer un attribut existant en cliquant sur le bouton Modifier ou Supprimer.</p>",
+    "HEADER": "Attributs personnalisés",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Ajouter un attribut",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Créer",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "NAME": {
           "LABEL": "Nom affiché",
-          "PLACEHOLDER": "Entrez le nom d'affichage de l'attribut",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Le nom est requis"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Entrez la description de l'attribut",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "La description est requise"
         },
         "MODEL": {
-          "LABEL": "Modèle",
-          "PLACEHOLDER": "Veuillez sélectionner un modèle",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Le modèle est requis"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "Le type est requis"
         },
         "KEY": {
-          "LABEL": "Clé"
+          "LABEL": "Clé",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribut ajouté avec succès",
-        "ERROR_MESSAGE": "Impossible de créer un attribut, veuillez réessayer plus tard"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
       "API": {
-        "SUCCESS_MESSAGE": "Attribut supprimé avec succès.",
-        "ERROR_MESSAGE": "Impossible de supprimer l'attribut. Veuillez réessayer."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Voulez-vous vraiment supprimer - %{attributeName}",
         "PLACE_HOLDER": "Veuillez taper {attributeName} pour confirmer",
-        "MESSAGE": "La suppression supprimera l'attribut",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Supprimer ",
         "NO": "Annuler"
       }
     },
     "EDIT": {
-      "TITLE": "Modifier l'attribut",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Mettre à jour",
       "API": {
-        "SUCCESS_MESSAGE": "Attribut mis à jour avec succès",
-        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour de l'attribut, veuillez réessayer"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Supprimer"
       },
       "EMPTY_RESULT": {
-        "404": "Il n’y a aucun attribut créé",
-        "NOT_FOUND": "Il n'y a aucun attribut configuré"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }

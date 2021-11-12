@@ -48,9 +48,9 @@
       "MARK_PENDING": "Mark as pending",
       "SNOOZE": {
         "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "NEXT_REPLY": "Наступна відповідь",
+        "TOMORROW": "Завтра",
+        "NEXT_WEEK": "Наступного тижня"
       }
     },
     "FOOTER": {
@@ -63,36 +63,36 @@
       "SEND": "Надіслати",
       "CREATE": "Додати нотатку",
       "TWEET": "Твітнути",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_FORMAT_ICON": "Показати текстовий редактор",
+      "TIP_EMOJI_ICON": "Показати емодзі",
+      "TIP_ATTACH_ICON": "Прикріпити файли",
+      "ENTER_TO_SEND": "Enter для надсилання",
+      "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Додати bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Адреси електронної пошти, розділені комами",
+          "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "Прихована копія",
+          "PLACEHOLDER": "Адреси електронної пошти, розділені комами",
+          "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
     "CHANGE_STATUS": "Статус бесіди змінено",
     "CHANGE_AGENT": "Оператора бесіди змінено",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Команда змінена",
+    "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
+    "SENT_BY": "Надіслав:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Виберіть агента",
       "REMOVE": "Видалити",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Призначити"
     },
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
@@ -100,60 +100,81 @@
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Надіслати стенограму розмови",
+    "DESC": "Відправте копію стенограми розмови на вказану адресу електронної пошти",
     "SUBMIT": "Додати",
     "CANCEL": "Скасувати",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
+    "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Надіслати клієнту стенограму",
+      "SEND_TO_AGENT": "Надіслати стенограму агенту",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Відправити стенограму на іншу електронну адресу",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Введіть адресу електронної пошти",
         "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Привіт, 👋, Ласкаво просимо на %{installationName}!",
+    "DESCRIPTION": "Дякуємо за реєстрацію. Ми хочемо отримати максимум від %{installationName}. Ось кілька речей, які ви можете зробити в %{installationName}, щоб отримати приємний досвід.",
+    "READ_LATEST_UPDATES": "Читати наші останні оновлення",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Всі ваші розмови в одному місці",
+      "DESCRIPTION": "Переглядайте всі розмови з Ваших клієнтів в одній панелі. Ви можете фільтрувати розмови за допомогою каналу, міток та статусу."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Запросити членів команди",
+      "DESCRIPTION": "Оскільки Ви готуєтеся поговорити зі своїм клієнтом, запросіть ваших партнерів по команді, щоб допомогти вам. Ви можете запросити ваших товаришів по команді, додавши їх адреси електронної пошти до списку співробітників.",
+      "NEW_LINK": "Натисніть тут, щоб запросити учасника"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Приєднати канал",
+      "DESCRIPTION": "З'єднайте різні канали, за допомогою яких ваші клієнти будуть спілкуватися з вами. Це може бути онлайн сайт на вашому сторінці Facebook або Твіттері або навіть номер Вашого WhatsApp (WhatsApp).",
+      "NEW_LINK": "Натисніть тут, щоб створити вхідний канал"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Організувуйте бесіди за допомогою міток",
+      "DESCRIPTION": "Мітки забезпечують простіший спосіб вести категоризацію ваших розмов. Створіть деякі мітки, такі як #support-enquy, #billing-question і т. п., щоб ви могли використовувати їх в розмовах пізніше.",
+      "NEW_LINK": "Натисніть тут, щоб створити мітки"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Призначений агент",
+    "SELF_ASSIGN": "Призначити мені",
+    "TEAM_LABEL": "Призначена команда",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Нiчого"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_DETAILS": "Контактні дані",
+      "CONVERSATION_ACTIONS": "Дії при бесіді",
+      "CONVERSATION_LABELS": "Мітки бесіди",
+      "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Попередні бесіди"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Атрибут успішно оновлено",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Додати",
+      "SUCCESS": "Атрибут додано успішно",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Додати атрибут",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
