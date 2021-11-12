@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Öznitelikler",
-    "HEADER_BTN_TXT": "Öznitelik ekle",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Özel Nitelikler",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Öznitelik ekle",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Yarat",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "NAME": {
           "LABEL": "Ekran adı",
-          "PLACEHOLDER": "Öznitelik adı girin",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Açıklama",
-          "PLACEHOLDER": "Öznitelik açıklaması girin",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Lütfen model seçin",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Model gerekli"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "Tip gerekli"
         },
         "KEY": {
-          "LABEL": "Anahtar"
+          "LABEL": "Anahtar",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Öznitelik başarıyla eklendi",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Are you sure want to delete - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Sil ",
         "NO": "İptal Et"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Güncelleme",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Sil"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }

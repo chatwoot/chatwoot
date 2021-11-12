@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Niestandardowe atrybuty",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Dodaj atrybut",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Stwórz",
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Name is required"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Model is required"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "Type is required"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Are you sure want to delete - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Usuń ",
         "NO": "Anuluj"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Aktualizuj",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Usuń"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }

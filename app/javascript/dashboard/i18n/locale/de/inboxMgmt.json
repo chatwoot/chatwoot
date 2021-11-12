@@ -292,15 +292,15 @@
       },
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert"
+        "DISABLED": "Behindert"
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert"
+        "DISABLED": "Behindert"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert"
+        "DISABLED": "Behindert"
       },
       "ENABLE_HMAC": {
         "LABEL": "Aktivieren"

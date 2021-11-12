@@ -1,84 +1,86 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Свої атрибути",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
-      "SUBMIT": "Create",
+      "TITLE": "Add Custom Attribute",
+      "SUBMIT": "Створити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Ім'я для відображення",
+          "PLACEHOLDER": "Enter custom attribute display name",
+          "ERROR": "Назва обов'язкова"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "Необхідний опис"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "Застосовується до",
+          "PLACEHOLDER": "Будь ласка, виберіть",
+          "ERROR": "Необхідно вказати модель"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "Тип",
           "PLACEHOLDER": "Будь ласка, оберіть тип",
-          "ERROR": "Type is required"
+          "ERROR": "Потрібен тип"
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Ключ",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "TITLE": "Ви дійсно бажаєте видалити - %{attributeName}",
+        "PLACE_HOLDER": "Будь ласка, введіть {attributeName} щоб підтвердити",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Видалити ",
         "NO": "Скасувати"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Оновити",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Свої атрибути",
+      "CONVERSATION": "Діалог",
+      "CONTACT": "Контакт"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Ім'я",
-        "Description",
-        "Type",
-        "Key"
+        "Опис",
+        "Тип",
+        "Ключ"
       ],
       "BUTTONS": {
         "EDIT": "Редагувати",
         "DELETE": "Видалити"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }
