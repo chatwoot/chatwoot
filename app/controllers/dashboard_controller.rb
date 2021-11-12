@@ -29,7 +29,15 @@ class DashboardController < ActionController::Base
     ).merge(
       APP_VERSION: Chatwoot.config[:version],
       VAPID_PUBLIC_KEY: VapidService.public_key,
-      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
+      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
+      MAILER_SENDER_EMAIL: GlobalConfigService.load('MAILER_SENDER_EMAIL','Chatwoot <accounts@chatwoot.com>'),
+      SMTP_DOMAIN: GlobalConfigService.load('SMTP_DOMAIN','chatwoot.com'),
+      SMTP_PORT: GlobalConfigService.load('SMTP_PORT','1025'),
+      SMTP_USERNAME: GlobalConfigService.load('SMTP_USERNAME',''),
+      SMTP_PASSWORD: GlobalConfigService.load('SMTP_PASSWORD',''),
+      SMTP_AUTHENTICATION: GlobalConfigService.load('SMTP_AUTHENTICATION',''),
+      SMTP_ENABLE_STARTTLS_AUTO: GlobalConfigService.load('SMTP_ENABLE_STARTTLS_AUTO','true'),
+      SMTP_OPENSSL_VERIFY_MODE: GlobalConfigService.load('SMTP_OPENSSL_VERIFY_MODE','peer')
     )
   end
 
