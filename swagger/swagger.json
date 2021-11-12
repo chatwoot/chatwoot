@@ -1182,7 +1182,7 @@
                     "busy",
                     "offline"
                   ],
-                  "description": "The availability status of the agent."
+                  "description": "The availability setting of the agent."
                 },
                 "auto_offline": {
                   "type": "boolean",
@@ -1246,14 +1246,14 @@
                   "description": "Whether its administrator or agent",
                   "required": true
                 },
-                "availability_status": {
+                "availability": {
                   "type": "string",
                   "enum": [
                     "available",
                     "busy",
                     "offline"
                   ],
-                  "description": "The availability status of the agent."
+                  "description": "The availability setting of the agent."
                 },
                 "auto_offline": {
                   "type": "boolean",
