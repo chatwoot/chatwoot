@@ -60,6 +60,16 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#destroyCustomAttributes', () => {
+      contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/destroy_custom_attributes',
+        {
+          custom_attributes: ['cloudCustomer'],
+        }
+      );
+    });
+
     it('#importContacts', () => {
       const file = 'file';
       contactAPI.importContacts(file);

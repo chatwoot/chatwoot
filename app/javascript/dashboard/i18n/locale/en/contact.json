@@ -263,7 +263,7 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Add",
+        "TITLE": "Create new attribute ",
         "SUCCESS": "Attribute added successfully",
         "ERROR": "Unable to add attribute. Please try again later"
       },

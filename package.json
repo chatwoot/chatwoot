@@ -26,7 +26,7 @@
     "@sentry/vue": "^6.4.1",
     "@vue/composition-api": "^1.2.2",
     "autoprefixer": "^10.3.6",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",

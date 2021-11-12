@@ -24,10 +24,10 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getAttributesByModel({ commit }, modelId) {
+  get: async function getAttributesByModel({ commit }) {
     commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true });
     try {
-      const response = await AttributeAPI.getAttributesByModel(modelId);
+      const response = await AttributeAPI.getAttributesByModel();
       commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
       // Ignore error

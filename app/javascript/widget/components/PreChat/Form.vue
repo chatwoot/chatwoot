@@ -3,8 +3,11 @@
     class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit.prevent="onSubmit"
   >
-    <div v-if="options.preChatMessage" class="text-black-800 text-sm leading-5">
-      {{ options.preChatMessage }}
+    <div
+      v-if="shouldShowHeaderMessage"
+      class="text-black-800 text-sm leading-5"
+    >
+      {{ headerMessage }}
     </div>
     <form-input
       v-if="options.requireEmail"
@@ -31,6 +34,7 @@
       "
     />
     <form-text-area
+      v-if="!activeCampaignExist"
       v-model="message"
       class="my-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -38,7 +42,7 @@
       :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
     />
     <custom-button
-      class="font-medium"
+      class="font-medium my-5"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -58,6 +62,8 @@ import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import { isEmptyObject } from 'widget/helpers/utils';
+
 export default {
   components: {
     FormInput,
@@ -88,6 +94,10 @@ export default {
         minLength: minLength(1),
       },
     };
+    // For campaign, message field is not required
+    if (this.activeCampaignExist) {
+      return identityValidations;
+    }
     if (this.options.requireEmail) {
       return {
         ...identityValidations,
@@ -107,25 +117,47 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/isCreating',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
+    activeCampaignExist() {
+      return !isEmptyObject(this.activeCampaign);
+    },
+    shouldShowHeaderMessage() {
+      return this.activeCampaignExist || this.options.preChatMessage;
+    },
+    headerMessage() {
+      if (this.activeCampaignExist) {
+        return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
+      }
+      return this.options.preChatMessage;
+    },
   },
   methods: {
     async handleCreateConversation() {
-      const conversationId = await this.$store.dispatch(
-        'conversation/createConversationWithMessage',
-        {
-          content: this.message,
-          contact: {
-            fullName: this.fullName,
-            emailAddress: this.emailAddress,
+      if (this.activeCampaignExist) {
+        bus.$emit('execute-campaign', this.activeCampaign.id);
+        this.$store.dispatch('contacts/update', {
+          user: {
+            email: this.emailAddress,
+            name: this.fullName,
           },
-        }
-      );
-
-      return conversationId;
+        });
+      } else {
+        const conversationId = await this.$store.dispatch(
+          'conversation/createConversationWithMessage',
+          {
+            content: this.message,
+            contact: {
+              fullName: this.fullName,
+              emailAddress: this.emailAddress,
+            },
+          }
+        );
+        return conversationId;
+      }
     },
     async onSubmit() {
       this.$v.$touch();

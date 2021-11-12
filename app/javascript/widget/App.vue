@@ -19,11 +19,9 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
-import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'App',
@@ -35,6 +33,7 @@ export default {
       isChatTriggerHidden: false,
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+      isCampaignViewClicked: false,
       isWidgetOpen: false,
       isOnlyBubbleView: false,
     };
@@ -173,6 +172,7 @@ export default {
         this.sendUnsetUnreadView();
       });
     },
+
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },

@@ -85,19 +85,26 @@
       >
       </conversation-info>
     </accordion-item>
-
     <accordion-item
-      v-if="hasContactAttributes"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
       :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
+      compact
       @click="
         value => toggleSidebarUIState('is_contact_attributes_open', value)
       "
     >
-      <contact-custom-attributes
-        :custom-attributes="contact.custom_attributes"
+      <custom-attributes
+        attribute-type="contact_attribute"
+        attribute-class="conversation--attribute"
+        class="even"
+        :contact-id="contact.id"
+      />
+      <custom-attribute-selector
+        attribute-type="contact_attribute"
+        :contact-id="contact.id"
       />
     </accordion-item>
+
     <accordion-item
       v-if="contact.id"
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')"
@@ -119,24 +126,27 @@ import agentMixin from '../../../mixins/agentMixin';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
-import ContactCustomAttributes from './ContactCustomAttributes';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import CustomAttributes from './customAttributes/CustomAttributes.vue';
+import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
+
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
     AccordionItem,
     ContactConversations,
-    ContactCustomAttributes,
     ContactDetailsItem,
     ContactInfo,
     ConversationInfo,
     ConversationLabels,
     MultiselectDropdown,
+    CustomAttributes,
+    CustomAttributeSelector,
   },
   mixins: [alertMixin, agentMixin, uiSettingsMixin],
   props: {

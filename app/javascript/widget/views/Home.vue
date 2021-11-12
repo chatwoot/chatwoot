@@ -54,6 +54,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isCampaignViewClicked: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
