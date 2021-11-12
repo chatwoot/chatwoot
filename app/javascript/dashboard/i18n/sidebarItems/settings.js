@@ -67,9 +67,11 @@ const settings = accountId => ({
     },
     attributes: {
       icon: 'ion-code',
-      label: 'ATTRIBUTES',
+      label: 'CUSTOM_ATTRIBUTES',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/attributes/list`),
+      toState: frontendURL(
+        `accounts/${accountId}/settings/custom-attributes/list`
+      ),
       toStateName: 'attributes_list',
     },
     cannedResponses: {

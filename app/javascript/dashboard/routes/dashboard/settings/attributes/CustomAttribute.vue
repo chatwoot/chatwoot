@@ -135,6 +135,10 @@ export default {
           key: 0,
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
         },
+        {
+          key: 1,
+          name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
+        },
       ];
     },
     deleteConfirmText() {

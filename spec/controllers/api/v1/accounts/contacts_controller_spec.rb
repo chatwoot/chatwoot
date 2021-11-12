@@ -14,7 +14,19 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact) { create(:contact, :with_email, account: account) }
+      let!(:contact) { create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Company 1', country_code: 'IN' }) }
+      let!(:contact_1) do
+        create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Test Company 1', country_code: 'CA' })
+      end
+      let(:contact_2) do
+        create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Marvel Company', country_code: 'AL' })
+      end
+      let(:contact_3) do
+        create(:contact, :with_email, account: account, additional_attributes: { company_name: nil, country_code: nil })
+      end
+      let!(:contact_4) do
+        create(:contact, :with_email, account: account, additional_attributes: { company_name: nil, country_code: nil })
+      end
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
       it 'returns all resolved contacts along with contact inboxes' do
@@ -38,6 +50,41 @@ RSpec.describe 'Contacts API', type: :request do
         response_body = JSON.parse(response.body)
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['contact_inboxes'].blank?).to eq(true)
+      end
+
+      it 'returns all contacts with company name desc order' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].last['id']).to eq(contact_4.id)
+        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+      end
+
+      it 'returns all contacts with company name asc order with null values at last' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['email']).to eq(contact_1.email)
+        expect(response_body['payload'].first['id']).to eq(contact_1.id)
+        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+      end
+
+      it 'returns all contacts with country name desc order with null values at last' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=country",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['id']).to eq(contact.id)
+        expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 
       it 'returns includes conversations count and last seen at' do
@@ -451,6 +498,35 @@ RSpec.describe 'Contacts API', type: :request do
                headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/contacts/:id/destroy_custom_attributes' do
+    let(:custom_attributes) { { test: 'test', test1: 'test1' } }
+    let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
+    let(:valid_params) { { custom_attributes: ['test'] } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_custom_attributes",
+             params: valid_params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'delete the custom attribute' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_custom_attributes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq({ 'test1' => 'test1' })
       end
     end
   end
