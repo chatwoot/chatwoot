@@ -26,10 +26,7 @@
           :key="element.name"
           class="list-group-item"
         >
-          <div
-            v-if="element.name === 'contact_attributes'"
-            class="conversation--actions"
-          >
+          <div v-if="element.name === 'contact_attributes'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
@@ -51,10 +48,7 @@
               />
             </accordion-item>
           </div>
-          <div
-            v-if="element.name === 'contact_labels'"
-            class="conversation--actions"
-          >
+          <div v-if="element.name === 'contact_labels'">
             <accordion-item
               :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
               :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
@@ -63,10 +57,7 @@
               <contact-label :contact-id="contact.id" class="contact-labels" />
             </accordion-item>
           </div>
-          <div
-            v-if="element.name === 'previous_conversation'"
-            class="conversation--actions"
-          >
+          <div v-if="element.name === 'previous_conversation'">
             <accordion-item
               :title="
                 $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
