@@ -1182,7 +1182,7 @@
                     "busy",
                     "offline"
                   ],
-                  "description": "The The availability setting of the agent."
+                  "description": "The availability setting of the agent."
                 },
                 "auto_offline": {
                   "type": "boolean",
