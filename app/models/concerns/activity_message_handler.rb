@@ -86,14 +86,17 @@ module ActivityMessageHandler
     Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def create_assignee_change_activity(user_name)
-    return unless user_name
-
+  def generate_assignee_change_activity_content(user_name)
     params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
-    content = I18n.t("conversations.activity.assignee.#{key}", **params)
+    I18n.t("conversations.activity.assignee.#{key}", **params)
+  end
 
+  def create_assignee_change_activity(user_name)
+    return unless user_name
+
+    content = generate_assignee_change_activity_content(user_name)
     Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 end
