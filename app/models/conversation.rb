@@ -45,6 +45,7 @@ class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
   include RoundRobinHandler
+  include ActivityMessageHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -171,6 +172,8 @@ class Conversation < ApplicationRecord
   end
 
   def queue_conversation_auto_resolution_job
+    # FIXME: Move this to one cronjob that iterates over accounts and enqueue resolution jobs
+    # Similar to how we handle campaigns
     return unless auto_resolve_duration
 
     AutoResolveConversationsJob.set(wait_until: (last_activity_at || created_at) + auto_resolve_duration.days).perform_later(id)
@@ -182,21 +185,6 @@ class Conversation < ApplicationRecord
 
   def set_display_id
     reload
-  end
-
-  def create_activity
-    user_name = Current.user.name if Current.user.present?
-    status_change_activity(user_name) if saved_change_to_status?
-    create_label_change(user_name) if saved_change_to_label_list?
-  end
-
-  def status_change_activity(user_name)
-    create_status_change_message(user_name)
-    queue_conversation_auto_resolution_job if open?
-  end
-
-  def activity_message_params(content)
-    { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
   def notify_status_change
@@ -221,16 +209,6 @@ class Conversation < ApplicationRecord
     return true if previous_changes.key?(:id) || saved_change_to_status?
   end
 
-  def create_status_change_message(user_name)
-    content = if user_name
-                I18n.t("conversations.activity.status.#{status}", user_name: user_name)
-              elsif resolved?
-                I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
-              end
-
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
   def create_label_change(user_name)
     return unless user_name
 
@@ -239,42 +217,6 @@ class Conversation < ApplicationRecord
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
-  end
-
-  def create_label_added(user_name, labels = [])
-    return unless labels.size.positive?
-
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.added', **params)
-
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def create_label_removed(user_name, labels = [])
-    return unless labels.size.positive?
-
-    params = { user_name: user_name, labels: labels.join(', ') }
-    content = I18n.t('conversations.activity.labels.removed', **params)
-
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def create_muted_message
-    return unless Current.user
-
-    params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.muted', **params)
-
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def create_unmuted_message
-    return unless Current.user
-
-    params = { user_name: Current.user.name }
-    content = I18n.t('conversations.activity.unmuted', **params)
-
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def mute_key
