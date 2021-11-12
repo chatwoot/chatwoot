@@ -35,7 +35,7 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
       "attribute_type": "standard"
     },
-    "id": {
+    "display_id": {
       "attribute_name": "Conversation Identifier",
       "input_type": "textbox",
       "data_type": "Number",
