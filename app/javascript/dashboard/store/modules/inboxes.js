@@ -78,6 +78,11 @@ export const getters = {
       item => item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms'
     );
   },
+  dialogFlowEnabledInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type !== INBOX_TYPES.EMAIL
+    );
+  },
 };
 
 export const actions = {
