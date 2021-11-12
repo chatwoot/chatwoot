@@ -14,18 +14,16 @@ class FilterService
 
   def filter_operation(query_hash, current_index)
     case query_hash[:filter_operator]
-    when 'equal_to'
+    when 'equal_to', 'not_equal_to'
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
-      "IN (:value_#{current_index})"
-    when 'not_equal_to'
-      @filter_values["value_#{current_index}"] = filter_values(query_hash)
-      "NOT IN (:value_#{current_index})"
-    when 'contains'
+      equals_to_filter_string(query_hash[:filter_operator], current_index)
+    when 'contains', 'does_not_contain'
       @filter_values["value_#{current_index}"] = "%#{filter_values(query_hash)}%"
-      "LIKE :value_#{current_index}"
-    when 'does_not_contain'
-      @filter_values["value_#{current_index}"] = "%#{filter_values(query_hash)}%"
-      "NOT LIKE :value_#{current_index}"
+      like_filter_string(query_hash[:filter_operator], current_index)
+    when 'is_present'
+      @filter_values["value_#{current_index}"] = 'IS NOT NULL'
+    when 'is_not_present'
+      @filter_values["value_#{current_index}"] = 'IS NULL'
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -46,5 +44,19 @@ class FilterService
       @conversations.unassigned.count,
       @conversations.count
     ]
+  end
+
+  private
+
+  def equals_to_filter_string(filter_operator, current_index)
+    return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'
+
+    "NOT IN (:value_#{current_index})"
+  end
+
+  def like_filter_string(filter_operator, current_index)
+    return "LIKE :value_#{current_index}" if filter_operator == 'contains'
+
+    "NOT LIKE :value_#{current_index}"
   end
 end
