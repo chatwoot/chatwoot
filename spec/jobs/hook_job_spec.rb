@@ -5,6 +5,7 @@ RSpec.describe HookJob, type: :job do
 
   let(:account) { create(:account) }
   let(:hook) { create(:integrations_hook, account: account) }
+  let(:inbox) { create(:inbox, account: account) }
   let(:event_name) { 'message.created' }
   let(:event_data) { { message: create(:message, account: account) } }
 
@@ -29,7 +30,7 @@ RSpec.describe HookJob, type: :job do
     end
 
     it 'calls Integrations::Dialogflow::ProcessorService when its a dialogflow intergation' do
-      hook = create(:integrations_hook, :dialogflow, account: account)
+      hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new).and_return(process_service)
       expect(Integrations::Dialogflow::ProcessorService).to receive(:new)
       described_class.perform_now(hook, event_name, event_data)
