@@ -1,7 +1,9 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import uiSettingsMixin from '../uiSettings';
+import uiSettingsMixin, {
+  DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+  DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
+} from '../uiSettings';
 import Vuex from 'vuex';
-
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
@@ -17,6 +19,8 @@ describe('uiSettingsMixin', () => {
         display_rich_content_editor: false,
         enter_to_send_enabled: false,
         is_ct_labels_open: true,
+        conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+        contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
       }),
     };
     store = new Vuex.Store({ actions, getters });
@@ -33,6 +37,8 @@ describe('uiSettingsMixin', () => {
       display_rich_content_editor: false,
       enter_to_send_enabled: false,
       is_ct_labels_open: true,
+      conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+      contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
     });
   });
 
@@ -52,6 +58,8 @@ describe('uiSettingsMixin', () => {
             display_rich_content_editor: false,
             enter_to_send_enabled: true,
             is_ct_labels_open: true,
+            conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+            contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
           },
         },
         undefined
@@ -75,6 +83,8 @@ describe('uiSettingsMixin', () => {
             display_rich_content_editor: false,
             enter_to_send_enabled: false,
             is_ct_labels_open: false,
+            conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+            contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
           },
         },
         undefined
@@ -96,6 +106,38 @@ describe('uiSettingsMixin', () => {
       expect(
         wrapper.vm.isContactSidebarItemOpen('is_ct_prev_conv_open')
       ).toEqual(false);
+    });
+  });
+
+  describe('#conversationSidebarItemsOrder', () => {
+    it('returns correct values', () => {
+      const Component = {
+        render() {},
+        title: 'TestComponent',
+        mixins: [uiSettingsMixin],
+      };
+      const wrapper = shallowMount(Component, { store, localVue });
+      expect(wrapper.vm.conversationSidebarItemsOrder).toEqual([
+        { name: 'conversation_info' },
+        { name: 'contact_attributes' },
+        { name: 'previous_conversation' },
+        { name: 'conversation_actions' },
+      ]);
+    });
+  });
+  describe('#contactSidebarItemsOrder', () => {
+    it('returns correct values', () => {
+      const Component = {
+        render() {},
+        title: 'TestComponent',
+        mixins: [uiSettingsMixin],
+      };
+      const wrapper = shallowMount(Component, { store, localVue });
+      expect(wrapper.vm.contactSidebarItemsOrder).toEqual([
+        { name: 'contact_attributes' },
+        { name: 'contact_labels' },
+        { name: 'previous_conversation' },
+      ]);
     });
   });
 });
