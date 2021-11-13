@@ -155,6 +155,11 @@
         "LABEL": "Εισερχόμενα",
         "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
+      "SUBJECT": {
+        "LABEL": "Θέμα",
+        "PLACEHOLDER": "Θέμα",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Μήνυμα",
         "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
     "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
+    "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Επεξεργασία ιδιότητας"
+    },
     "ADD": {
       "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
       "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."
@@ -249,7 +261,29 @@
       "VALUE": {
         "LABEL": "Τιμή ιδιότητας",
         "PLACEHOLDER": "π.χ.: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

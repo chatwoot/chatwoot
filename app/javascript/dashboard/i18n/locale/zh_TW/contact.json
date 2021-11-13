@@ -155,6 +155,11 @@
         "LABEL": "收件匣",
         "ERROR": "選擇一個收件匣"
       },
+      "SUBJECT": {
+        "LABEL": "主旨",
+        "PLACEHOLDER": "主旨",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "訊息",
         "PLACEHOLDER": "在此填寫你的訊息",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "新增自訂屬性",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "成功複製到剪貼簿",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "編輯屬性"
+    },
     "ADD": {
       "TITLE": "建立自訂屬性",
       "DESC": "為聯絡人新增自訂資訊"
@@ -249,7 +261,29 @@
       "VALUE": {
         "LABEL": "屬性值",
         "PLACEHOLDER": "例如：11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "屬性新增成功",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "屬性更新成功",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
