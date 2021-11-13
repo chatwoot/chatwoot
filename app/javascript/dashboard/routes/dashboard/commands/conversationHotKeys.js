@@ -25,6 +25,61 @@ import {
   ICON_UNMUTE_CONVERSATION,
 } from './CommandBarIcons';
 
+const OPEN_CONVERSATION_ACTIONS = [
+  {
+    id: 'resolve_conversation',
+    title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
+    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+    icon: ICON_RESOLVE_CONVERSATION,
+    handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
+  },
+  {
+    id: 'snooze_conversation',
+    title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
+    icon: ICON_SNOOZE_CONVERSATION,
+    children: ['until_next_reply', 'until_tomorrow', 'until_next_week'],
+  },
+  {
+    id: 'until_next_reply',
+    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
+    parent: 'snooze_conversation',
+    icon: ICON_SNOOZE_UNTIL_NEXT_REPLY,
+    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
+  },
+  {
+    id: 'until_tomorrow',
+    title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
+    parent: 'snooze_conversation',
+    icon: ICON_SNOOZE_UNTIL_TOMORRROW,
+    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
+  },
+  {
+    id: 'until_next_week',
+    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK',
+    parent: 'snooze_conversation',
+    icon: ICON_SNOOZE_UNTIL_NEXT_WEEK,
+    handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextWeek'),
+  },
+];
+
+const RESOLVED_CONVERSATION_ACTIONS = [
+  {
+    id: 'reopen_conversation',
+    title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',
+    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+    icon: ICON_REOPEN_CONVERSATION,
+    handler: () => bus.$emit(CMD_REOPEN_CONVERSATION),
+  },
+];
+
+export const isAConversationRoute = routeName =>
+  [
+    'inbox_conversation',
+    'conversation_through_inbox',
+    'conversations_through_label',
+    'conversations_through_team',
+  ].includes(routeName);
+
 export default {
   watch: {
     assignableAgents() {
@@ -58,54 +113,16 @@ export default {
 
       let actions = [];
       if (isOpen) {
-        actions = [
-          {
-            id: 'resolve_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_RESOLVE_CONVERSATION,
-            handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
-          },
-          {
-            id: 'snooze_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION'),
-            icon: ICON_SNOOZE_CONVERSATION,
-            children: ['until_next_reply', 'until_tomorrow', 'until_next_week'],
-          },
-          {
-            id: 'until_next_reply',
-            title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY'),
-            parent: 'snooze_conversation',
-            icon: ICON_SNOOZE_UNTIL_NEXT_REPLY,
-            handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextReply'),
-          },
-          {
-            id: 'until_tomorrow',
-            title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_TOMORROW'),
-            parent: 'snooze_conversation',
-            icon: ICON_SNOOZE_UNTIL_TOMORRROW,
-            handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
-          },
-          {
-            id: 'until_next_week',
-            title: this.$t('COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK'),
-            parent: 'snooze_conversation',
-            icon: ICON_SNOOZE_UNTIL_NEXT_WEEK,
-            handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'nextWeek'),
-          },
-        ];
+        actions = OPEN_CONVERSATION_ACTIONS;
       } else if (isResolved || isSnoozed) {
-        actions = [
-          {
-            id: 'reopen_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_REOPEN_CONVERSATION,
-            handler: () => bus.$emit(CMD_REOPEN_CONVERSATION),
-          },
-        ];
+        actions = RESOLVED_CONVERSATION_ACTIONS;
       }
-      return actions;
+
+      return actions.map(action => ({
+        ...action,
+        title: this.$t(action.title),
+        section: this.$t(action.section),
+      }));
     },
     assignAgentActions() {
       const agentOptions = this.agentsList.map(agent => ({
@@ -115,12 +132,7 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.CHANGE_ASSIGNEE'),
         agentInfo: agent,
         icon: ICON_ASSIGN_AGENT,
-        handler: action => {
-          this.$store.dispatch('assignAgent', {
-            conversationId: this.currentChat.id,
-            agentId: action.agentInfo.id,
-          });
-        },
+        handler: this.onChangeAssignee,
       }));
       return [
         {
@@ -141,12 +153,7 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.CHANGE_TEAM'),
         teamInfo: team,
         icon: ICON_ASSIGN_TEAM,
-        handler: action => {
-          this.$store.dispatch('assignTeam', {
-            conversationId: this.currentChat.id,
-            teamId: action.teamInfo.id,
-          });
-        },
+        handler: this.onChangeTeam,
       }));
       return [
         {
@@ -204,39 +211,38 @@ export default {
       }
       return availableActions;
     },
+    conversationAdditionalActions() {
+      const sendTranscriptAction = {
+        id: 'send_transcript',
+        title: this.$t('COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT'),
+        section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+        icon: ICON_SEND_TRANSCRIPT,
+        handler: () => bus.$emit(CMD_SEND_TRANSCRIPT),
+      };
+
+      const muteAction = this.currentChat.muted
+        ? {
+            id: 'unmute_conversation',
+            title: this.$t('COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION'),
+            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+            icon: ICON_UNMUTE_CONVERSATION,
+            handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
+          }
+        : {
+            id: 'mute_conversation',
+            title: this.$t('COMMAND_BAR.COMMANDS.MUTE_CONVERSATION'),
+            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+            icon: ICON_MUTE_CONVERSATION,
+            handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
+          };
+
+      return [muteAction, sendTranscriptAction];
+    },
     conversationHotKeys() {
-      if (
-        [
-          'inbox_conversation',
-          'conversation_through_inbox',
-          'conversations_through_label',
-          'conversations_through_team',
-        ].includes(this.$route.name)
-      ) {
+      if (isAConversationRoute(this.$route.name)) {
         return [
           ...this.statusActions,
-          this.currentChat.muted
-            ? {
-                id: 'unmute_conversation',
-                title: this.$t('COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION'),
-                section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-                icon: ICON_UNMUTE_CONVERSATION,
-                handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
-              }
-            : {
-                id: 'mute_conversation',
-                title: this.$t('COMMAND_BAR.COMMANDS.MUTE_CONVERSATION'),
-                section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-                icon: ICON_MUTE_CONVERSATION,
-                handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
-              },
-          {
-            id: 'send_transcript',
-            title: this.$t('COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_SEND_TRANSCRIPT,
-            handler: () => bus.$emit(CMD_SEND_TRANSCRIPT),
-          },
+          ...this.conversationAdditionalActions,
           ...this.assignAgentActions,
           ...this.assignTeamActions,
           ...this.labelActions,
@@ -244,6 +250,21 @@ export default {
       }
 
       return [];
+    },
+  },
+
+  methods: {
+    onChangeAssignee(action) {
+      this.$store.dispatch('assignAgent', {
+        conversationId: this.currentChat.id,
+        agentId: action.agentInfo.id,
+      });
+    },
+    onChangeTeam(action) {
+      this.$store.dispatch('assignTeam', {
+        conversationId: this.currentChat.id,
+        teamId: action.teamInfo.id,
+      });
     },
   },
 };
