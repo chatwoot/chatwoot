@@ -51,7 +51,7 @@
         "ERROR": "Сообщение слишком короткое"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Пожалуйста, укажите ваше имя и адрес электронной почты перед началом беседы"
   },
   "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

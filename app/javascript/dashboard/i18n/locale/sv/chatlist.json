@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Öppna",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öppna"
       },
-      {
-        "TEXT": "Lösta",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Löst"
       },
-      {
-        "TEXT": "Väntande",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Väntande"
       },
-      {
-        "TEXT": "Pausad",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Pausad"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
