@@ -72,6 +72,30 @@ const RESOLVED_CONVERSATION_ACTIONS = [
   },
 ];
 
+const SEND_TRANSCRIPT_ACTION = {
+  id: 'send_transcript',
+  title: 'COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT',
+  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+  icon: ICON_SEND_TRANSCRIPT,
+  handler: () => bus.$emit(CMD_SEND_TRANSCRIPT),
+};
+
+const UNMUTE_ACTION = {
+  id: 'unmute_conversation',
+  title: 'COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION',
+  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+  icon: ICON_UNMUTE_CONVERSATION,
+  handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
+};
+
+const MUTE_ACTION = {
+  id: 'mute_conversation',
+  title: 'COMMAND_BAR.COMMANDS.MUTE_CONVERSATION',
+  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+  icon: ICON_MUTE_CONVERSATION,
+  handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
+};
+
 export const isAConversationRoute = routeName =>
   [
     'inbox_conversation',
@@ -103,6 +127,14 @@ export default {
     conversationId() {
       return this.currentChat?.id;
     },
+    prepareActions(actions) {
+      return actions.map(action => ({
+        ...action,
+        title: this.$t(action.title),
+        section: this.$t(action.section),
+      }));
+    },
+
     statusActions() {
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -117,12 +149,7 @@ export default {
       } else if (isResolved || isSnoozed) {
         actions = RESOLVED_CONVERSATION_ACTIONS;
       }
-
-      return actions.map(action => ({
-        ...action,
-        title: this.$t(action.title),
-        section: this.$t(action.section),
-      }));
+      return this.prepareActions(actions);
     },
     assignAgentActions() {
       const agentOptions = this.agentsList.map(agent => ({
@@ -166,8 +193,9 @@ export default {
         ...teamOptions,
       ];
     },
-    labelActions() {
-      const labelsToBeAdded = this.inactiveLabels.map(label => ({
+
+    addLabelActions() {
+      const availableLabels = this.inactiveLabels.map(label => ({
         id: label.title,
         title: `#${label.title}`,
         parent: 'add_a_label_to_the_conversation',
@@ -175,17 +203,8 @@ export default {
         icon: ICON_ADD_LABEL,
         handler: action => this.addLabelToConversation({ title: action.id }),
       }));
-      const labelsToBeRemoved = this.activeLabels.map(label => ({
-        id: label.title,
-        title: `#${label.title}`,
-        parent: 'remove_a_label_to_the_conversation',
-        section: this.$t('COMMAND_BAR.SECTIONS.REMOVE_LABEL'),
-        icon: ICON_REMOVE_LABEL,
-        handler: action => this.removeLabelFromConversation(action.id),
-      }));
-
-      let availableActions = [
-        ...labelsToBeAdded,
+      return [
+        ...availableLabels,
         {
           id: 'add_a_label_to_the_conversation',
           title: this.$t('COMMAND_BAR.COMMANDS.ADD_LABELS_TO_CONVERSATION'),
@@ -194,49 +213,38 @@ export default {
           children: this.inactiveLabels.map(label => label.title),
         },
       ];
+    },
+    removeLabelActions() {
+      const activeLabels = this.activeLabels.map(label => ({
+        id: label.title,
+        title: `#${label.title}`,
+        parent: 'remove_a_label_to_the_conversation',
+        section: this.$t('COMMAND_BAR.SECTIONS.REMOVE_LABEL'),
+        icon: ICON_REMOVE_LABEL,
+        handler: action => this.removeLabelFromConversation(action.id),
+      }));
+      return [
+        ...activeLabels,
+        {
+          id: 'remove_a_label_to_the_conversation',
+          title: this.$t('COMMAND_BAR.COMMANDS.REMOVE_LABEL_FROM_CONVERSATION'),
+          section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+          icon: ICON_REMOVE_LABEL,
+          children: this.activeLabels.map(label => label.title),
+        },
+      ];
+    },
+    labelActions() {
       if (this.activeLabels.length) {
-        availableActions = [
-          ...availableActions,
-          ...labelsToBeRemoved,
-          {
-            id: 'remove_a_label_to_the_conversation',
-            title: this.$t(
-              'COMMAND_BAR.COMMANDS.REMOVE_LABELS_FROM_CONVERSATION'
-            ),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_REMOVE_LABEL,
-            children: this.activeLabels.map(label => label.title),
-          },
-        ];
+        return [...this.addLabelActions, ...this.removeLabelActions];
       }
-      return availableActions;
+      return this.addLabelActions;
     },
     conversationAdditionalActions() {
-      const sendTranscriptAction = {
-        id: 'send_transcript',
-        title: this.$t('COMMAND_BAR.COMMANDS.SEND_TRANSCRIPT'),
-        section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-        icon: ICON_SEND_TRANSCRIPT,
-        handler: () => bus.$emit(CMD_SEND_TRANSCRIPT),
-      };
-
-      const muteAction = this.currentChat.muted
-        ? {
-            id: 'unmute_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.UNMUTE_CONVERSATION'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_UNMUTE_CONVERSATION,
-            handler: () => bus.$emit(CMD_UNMUTE_CONVERSATION),
-          }
-        : {
-            id: 'mute_conversation',
-            title: this.$t('COMMAND_BAR.COMMANDS.MUTE_CONVERSATION'),
-            section: this.$t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-            icon: ICON_MUTE_CONVERSATION,
-            handler: () => bus.$emit(CMD_MUTE_CONVERSATION),
-          };
-
-      return [muteAction, sendTranscriptAction];
+      return this.prepareActions([
+        this.currentChat.muted ? UNMUTE_ACTION : MUTE_ACTION,
+        SEND_TRANSCRIPT_ACTION,
+      ]);
     },
     conversationHotKeys() {
       if (isAConversationRoute(this.$route.name)) {
