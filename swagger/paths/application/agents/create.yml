@@ -28,7 +28,7 @@ parameters:
         availability_status: 
           type: string
           enum: ['available', 'busy', 'offline']
-          description: The availability status of the agent.
+          description: The availability setting of the agent.
         auto_offline:
           type: boolean
           description: Whether the availability status of agent is configured to go offline automatically when away.

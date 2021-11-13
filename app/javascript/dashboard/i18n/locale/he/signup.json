@@ -4,7 +4,7 @@
     "TITLE": "Register",
     "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account name",
+      "LABEL": "שם החשבון",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
       "ERROR": "Account name is too short"
     },

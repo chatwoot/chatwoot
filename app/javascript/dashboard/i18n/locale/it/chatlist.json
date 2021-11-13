@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Apri",
-        "VALUE": "Aperto"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Apri"
       },
-      {
-        "TEXT": "Risolti",
-        "VALUE": "risolto"
+      "resolved": {
+        "TEXT": "Risolti"
       },
-      {
-        "TEXT": "In Attesa",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "In Attesa"
       },
-      {
-        "TEXT": "Posticipato",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Posticipato"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

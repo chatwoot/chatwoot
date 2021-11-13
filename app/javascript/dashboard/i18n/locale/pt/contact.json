@@ -155,6 +155,11 @@
         "LABEL": "Recebidas",
         "ERROR": "Escolher uma caixa de entrada"
       },
+      "SUBJECT": {
+        "LABEL": "Assunto",
+        "PLACEHOLDER": "Assunto",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Messagem",
         "PLACEHOLDER": "Escreva aqui a sua mensagem",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Adicionar atributo personalizado",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Criar atributo personalizado",
       "DESC": "Adicionar informação personalizada a este contato."
@@ -249,7 +261,29 @@
       "VALUE": {
         "LABEL": "Valor do atributo",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

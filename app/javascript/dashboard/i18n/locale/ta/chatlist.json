@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "திற",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "திற"
       },
-      {
-        "TEXT": "தீர்க்கப்பட்டது",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "தீர்க்கப்பட்டது"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pending"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

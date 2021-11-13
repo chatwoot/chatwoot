@@ -1,6 +1,6 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
-import * as types from '../../../mutation-types';
+import types from '../../../mutation-types';
 
 const commit = jest.fn();
 const dispatch = jest.fn();
@@ -16,7 +16,7 @@ describe('#actions', () => {
       await actions.getConversation({ commit }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.UPDATE_CONVERSATION,
+          types.UPDATE_CONVERSATION,
           { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
@@ -32,7 +32,7 @@ describe('#actions', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue(null);
       await actions.muteConversation({ commit }, 1);
-      expect(commit.mock.calls).toEqual([[types.default.MUTE_CONVERSATION]]);
+      expect(commit.mock.calls).toEqual([[types.MUTE_CONVERSATION]]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
@@ -50,7 +50,7 @@ describe('#actions', () => {
       };
       actions.updateConversation({ commit, dispatch }, conversation);
       expect(commit.mock.calls).toEqual([
-        [types.default.UPDATE_CONVERSATION, conversation],
+        [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -92,7 +92,7 @@ describe('#actions', () => {
         conversation
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_CONVERSATION, conversation],
+        [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -114,7 +114,7 @@ describe('#actions', () => {
       };
       actions.addConversation({ commit, dispatch, state: {} }, conversation);
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_CONVERSATION, conversation],
+        [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -136,9 +136,9 @@ describe('#actions', () => {
       };
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_MESSAGE, message],
+        [types.ADD_MESSAGE, message],
         [
-          types.default.SET_CONVERSATION_CAN_REPLY,
+          types.SET_CONVERSATION_CAN_REPLY,
           { conversationId: 1, canReply: true },
         ],
       ]);
@@ -150,7 +150,7 @@ describe('#actions', () => {
         conversation_id: 1,
       };
       actions.addMessage({ commit }, message);
-      expect(commit.mock.calls).toEqual([[types.default.ADD_MESSAGE, message]]);
+      expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
     });
   });
 
@@ -168,7 +168,7 @@ describe('#actions', () => {
       jest.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        [types.default.MARK_MESSAGE_READ, { id: 1, lastSeen }],
+        [types.MARK_MESSAGE_READ, { id: 1, lastSeen }],
       ]);
     });
     it('sends correct mutations if api is unsuccessful', async () => {
@@ -270,7 +270,7 @@ describe('#deleteMessage', () => {
     axios.delete.mockResolvedValue({ data: { id: 1, content: 'deleted' } });
     await actions.deleteMessage({ commit }, { conversationId, messageId });
     expect(commit.mock.calls).toEqual([
-      [types.default.ADD_MESSAGE, { id: 1, content: 'deleted' }],
+      [types.ADD_MESSAGE, { id: 1, content: 'deleted' }],
     ]);
   });
   it('sends no actions if API is error', async () => {
@@ -295,10 +295,7 @@ describe('#deleteMessage', () => {
         }
       );
       expect(commit.mock.calls).toEqual([
-        [
-          types.default.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES,
-          { order_d: '1001' },
-        ],
+        [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, { order_d: '1001' }],
       ]);
     });
   });

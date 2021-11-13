@@ -50,7 +50,8 @@
         "PLACEHOLDER": "Si us plau, introdueix el teu missatge",
         "ERROR": "Missatge massa curt"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
