@@ -1,10 +1,28 @@
 import { mapGetters } from 'vuex';
-
+export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
+  { name: 'conversation_info' },
+  { name: 'contact_attributes' },
+  { name: 'previous_conversation' },
+  { name: 'conversation_actions' },
+];
+export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
+  { name: 'contact_attributes' },
+  { name: 'contact_labels' },
+  { name: 'previous_conversation' },
+];
 export default {
   computed: {
     ...mapGetters({
       uiSettings: 'getUISettings',
     }),
+    conversationSidebarItemsOrder() {
+      const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
+      return itemsOrder || DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+    },
+    contactSidebarItemsOrder() {
+      const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;
+      return itemsOrder || DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER;
+    },
   },
   methods: {
     updateUISettings(uiSettings = {}) {
