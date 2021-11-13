@@ -156,6 +156,27 @@
       "PREVIOUS_CONVERSATION": "Conversas anteriores"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Criar atributo",
+    "UPDATE": {
+      "SUCCESS": "Atributo atualizado com sucesso",
+      "ERROR": "Não foi possível atualizar o atributo. Por favor, tente mais tarde"
+    },
+    "ADD": {
+      "TITLE": "Adicionar",
+      "SUCCESS": "Atributo adicionado com sucesso",
+      "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
+    },
+    "DELETE": {
+      "SUCCESS": "Atributo excluído com sucesso",
+      "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Adicionar atributo",
+      "PLACEHOLDER": "Procurar atributos",
+      "NO_RESULT": "Nenhum atributo encontrado"
+    }
+  },
   "EMAIL_HEADER": {
     "TO": "Para",
     "BCC": "CCO",

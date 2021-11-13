@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Atributos",
-    "HEADER_BTN_TXT": "Adicionar atributo",
-    "LOADING": "Buscando atributos",
-    "SIDEBAR_TXT": "<p><b>Atributos</b> <p>Um atributo personalizado faixa fatos sobre seus contatos/conversa — como o plano de assinatura. ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um Atributo, basta clicar no<b>Adicionar Atributo.</b> Pode também editar ou apagar um atributo existente clicando em Editar ou Apagar botão.</p>",
+    "HEADER": "Atributos Personalizados",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Adicionar atributo",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Criar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nome para exibição",
-          "PLACEHOLDER": "Digite o nome de exibição do atributo",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "O nome é obrigatório"
         },
         "DESC": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Digite a descrição do atributo",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Descrição obrigatória"
         },
         "MODEL": {
-          "LABEL": "Modelo",
-          "PLACEHOLDER": "Por favor, selecione um modelo",
+          "LABEL": "Aplica-se a",
+          "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "O modelo é necessário"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "O tipo é obrigatório"
         },
         "KEY": {
-          "LABEL": "Chave"
+          "LABEL": "Chave",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atributo adicionado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível criar um atributo, por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Atributo excluído com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível excluir o atributo. Tente novamente."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
-        "MESSAGE": "Excluindo irá remover o atributo",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Excluir ",
         "NO": "Cancelar"
       }
     },
     "EDIT": {
-      "TITLE": "Editar atributo",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Atualizar",
       "API": {
-        "SUCCESS_MESSAGE": "Atributo atualizado com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao atualizar o atributo, por favor, tente novamente"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Excluir"
       },
       "EMPTY_RESULT": {
-        "404": "Não há atributos criados",
-        "NOT_FOUND": "Não há atributos configurados"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }

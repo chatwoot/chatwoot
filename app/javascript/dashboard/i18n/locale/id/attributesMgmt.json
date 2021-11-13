@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Atribut",
-    "HEADER_BTN_TXT": "Tambahkan Attribut",
-    "LOADING": "Mengambil atribut",
-    "SIDEBAR_TXT": "<p><b>Atribut</b> <p>Sebuah atribut kustom melacak fakta-fakta terkait kontak/percakapan Anda — seperti rencana berlangganan, atau ketika melakukan pemesanan pertama kali dan sebagainya. <br /><br />Untuk membuat sebuah atribut, silakan klik pada <b>Tambahkan Atribut.</b> Anda juga bisa mengedit atau menghapus atribut yang sudah ada dengan mengklik pada tombol Edit atau Hapus.</p>",
+    "HEADER": "Atribut Kustom",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Tambahkan atribut",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Buat",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "NAME": {
           "LABEL": "Nama tampilan",
-          "PLACEHOLDER": "Masukkan nama tampilan atribut",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Nama dibutuhkan"
         },
         "DESC": {
           "LABEL": "Deskripsi",
-          "PLACEHOLDER": "Masukkan deskripsi atribut",
+          "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Deskripsi dibutuhkan"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Silakan pilih sebuah model",
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
           "ERROR": "Model dibutuhkan"
         },
         "TYPE": {
@@ -30,34 +30,36 @@
           "ERROR": "Tipe dibutuhkan"
         },
         "KEY": {
-          "LABEL": "Kunci"
+          "LABEL": "Kunci",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atribut berhasil ditambahkan",
-        "ERROR_MESSAGE": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Hapus",
       "API": {
-        "SUCCESS_MESSAGE": "Atribut berhasil dihapus.",
-        "ERROR_MESSAGE": "Tidak dapat menghapus atribut. Coba lagi."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
         "TITLE": "Anda yakin akan menghapus - %{attributeName}",
         "PLACE_HOLDER": "Silakan ketikkan {attributeName} untuk konfirmasi",
-        "MESSAGE": "Penghapusan akan menghilangkan atribut",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Hapus ",
         "NO": "Batalkan"
       }
     },
     "EDIT": {
-      "TITLE": "Edit atribut",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Perbarui",
       "API": {
-        "SUCCESS_MESSAGE": "Atribut berhasil diperbarui",
-        "ERROR_MESSAGE": "Terjadi kesalahan saat memperbarui atribut, silakan coba lagi"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -77,8 +79,8 @@
         "DELETE": "Hapus"
       },
       "EMPTY_RESULT": {
-        "404": "Tidak ada atribut yang dibuat",
-        "NOT_FOUND": "Tidak ada atribut yang dikonfigurasi"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }
