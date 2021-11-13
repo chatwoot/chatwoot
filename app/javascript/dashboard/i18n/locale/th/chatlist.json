@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "เปิด",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "เปิด"
       },
-      {
-        "TEXT": "เสร็จสิ้น",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "เสร็จสิ้น"
       },
-      {
-        "TEXT": "กำลังร้องขอ",
-        "VALUE": "กำลังร้องขอ"
+      "pending": {
+        "TEXT": "กำลังร้องขอ"
       },
-      {
-        "TEXT": "หลับ",
-        "VALUE": "หลับ"
+      "snoozed": {
+        "TEXT": "หลับ"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

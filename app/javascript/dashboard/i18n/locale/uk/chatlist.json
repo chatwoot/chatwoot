@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Відкритий",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Відкриті"
       },
-      {
-        "TEXT": "Вирішений",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Вирішені"
       },
-      {
-        "TEXT": "Очікує",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Очікує"
       },
-      {
-        "TEXT": "Відкладено",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Відкладено"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
