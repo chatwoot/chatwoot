@@ -127,14 +127,6 @@ export default {
     conversationId() {
       return this.currentChat?.id;
     },
-    prepareActions(actions) {
-      return actions.map(action => ({
-        ...action,
-        title: this.$t(action.title),
-        section: this.$t(action.section),
-      }));
-    },
-
     statusActions() {
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -273,6 +265,13 @@ export default {
         conversationId: this.currentChat.id,
         teamId: action.teamInfo.id,
       });
+    },
+    prepareActions(actions) {
+      return actions.map(action => ({
+        ...action,
+        title: this.$t(action.title),
+        section: this.$t(action.section),
+      }));
     },
   },
 };
