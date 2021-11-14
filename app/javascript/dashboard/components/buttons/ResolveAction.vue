@@ -100,6 +100,12 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import {
+  hasPressedAltAndEKey,
+  hasPressedCommandPlusAltAndEKey,
+  hasPressedAltAndMKey,
+} from 'shared/helpers/KeyboardHelpers';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
@@ -124,7 +130,7 @@ export default {
     WootDropdownMenu,
     WootDropdownSubMenu,
   },
-  mixins: [clickaway, alertMixin],
+  mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -178,6 +184,39 @@ export default {
     bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   methods: {
+    async handleKeyEvents(e) {
+      const allConversations = document.querySelectorAll(
+        '.conversations-list .conversation'
+      );
+      if (hasPressedAltAndMKey(e)) {
+        if (this.$refs.arrowDownButton) {
+          this.$refs.arrowDownButton.$el.click();
+        }
+      }
+      if (hasPressedAltAndEKey(e)) {
+        const activeConversation = document.querySelector(
+          'div.conversations-list div.conversation.active'
+        );
+        const activeConversationIndex = [...allConversations].indexOf(
+          activeConversation
+        );
+        const lastConversationIndex = allConversations.length - 1;
+        try {
+          await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+        } catch (error) {
+          // error
+        }
+        if (hasPressedCommandPlusAltAndEKey(e)) {
+          if (activeConversationIndex < lastConversationIndex) {
+            allConversations[activeConversationIndex + 1].click();
+          } else if (allConversations.length > 1) {
+            allConversations[0].click();
+            document.querySelector('.conversations-list').scrollTop = 0;
+          }
+          e.preventDefault();
+        }
+      }
+    },
     onCmdSnoozeConversation(snoozeType) {
       this.toggleStatus(
         this.STATUS_TYPE.SNOOZED,
