@@ -3,6 +3,19 @@ require 'rails_helper'
 RSpec.describe SupportMailbox, type: :mailbox do
   include ActionMailbox::TestHelper
 
+  describe 'when a chatwoot notification email is received' do
+    let(:account) { create(:account) }
+    let!(:channel_email) { create(:channel_email, email: 'sojan@chatwoot.com', account: account) }
+    let(:notification_mail) { create_inbound_email_from_fixture('notification.eml') }
+    let(:described_subject) { described_class.receive notification_mail }
+    let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
+
+    it 'shouldnt create a conversation in the channel' do
+      described_subject
+      expect(conversation.present?).to eq(false)
+    end
+  end
+
   describe 'add mail as a new ticket in the email inbox' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
