@@ -99,7 +99,7 @@ export default {
       isEditing: false,
       editedValue:
         this.attributeType === 'date'
-          ? format(new Date(this.value), DATE_FORMAT)
+          ? format(new Date(this.value || new Date()), DATE_FORMAT)
           : this.value,
     };
   },
