@@ -41,6 +41,7 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('content')).toEqual('test content');
       expect(formPayload.get('echo_id')).toEqual('12');
       expect(formPayload.get('private')).toEqual('true');
+      expect(formPayload.get('cc_emails')).toEqual('');
     });
 
     it('builds object payload if file is not available', () => {
