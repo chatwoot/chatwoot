@@ -35,6 +35,7 @@ describe('#ConversationAPI', () => {
         message: 'test content',
         echoId: 12,
         isPrivate: true,
+
         file: new Blob(['test-content'], { type: 'application/pdf' }),
       });
       expect(formPayload).toBeInstanceOf(FormData);
@@ -57,6 +58,8 @@ describe('#ConversationAPI', () => {
         private: false,
         echo_id: 12,
         content_attributes: { in_reply_to: 12 },
+        bcc_emails: '',
+        cc_emails: '',
       });
     });
   });
