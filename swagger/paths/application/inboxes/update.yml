@@ -26,7 +26,8 @@ patch:
             type: boolean
             description: 'Enable Auto Assignment'
           avatar:
-            type: file
+            type: string
+            format: binary
             description: 'Image file for avatar'
           channel:
             type: object
