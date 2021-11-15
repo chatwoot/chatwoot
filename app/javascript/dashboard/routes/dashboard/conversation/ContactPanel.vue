@@ -99,8 +99,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import agentMixin from '../../../mixins/agentMixin';
-
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -123,7 +121,7 @@ export default {
     ConversationAction,
     draggable,
   },
-  mixins: [alertMixin, agentMixin, uiSettingsMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -148,7 +146,6 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      teams: 'teams/getTeams',
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
