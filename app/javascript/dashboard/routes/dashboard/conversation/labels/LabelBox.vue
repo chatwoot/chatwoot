@@ -17,7 +17,7 @@
           :description="label.description"
           :show-close="true"
           :bg-color="label.color"
-          @click="removeItem"
+          @click="removeLabelFromConversation"
         />
 
         <div class="dropdown-wrap">
@@ -29,8 +29,8 @@
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
-              @add="addItem"
-              @remove="removeItem"
+              @add="addLabelToConversation"
+              @remove="removeLabelFromConversation"
             />
           </div>
         </div>
