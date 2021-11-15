@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "jours d'essai restants.",
-    "TRAIL_BUTTON": "Acheter Maintenant"
+    "TRAIL_BUTTON": "Acheter Maintenant",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Paramètres du compte",
     "APPLICATIONS": "Applications",
     "LABELS": "Étiquettes",
-    "ATTRIBUTES": "Attributs",
+    "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
     "TEAMS": "Équipes",
     "ALL_CONTACTS": "Tous les contacts",
     "TAGGED_WITH": "Tagué avec",

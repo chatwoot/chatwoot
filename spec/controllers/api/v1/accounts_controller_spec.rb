@@ -5,6 +5,11 @@ RSpec.describe 'Accounts API', type: :request do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
 
+    before do
+      # to clear redis cache
+      GlobalConfig.clear_cache
+    end
+
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:account) { create(:account) }
@@ -12,10 +17,10 @@ RSpec.describe 'Accounts API', type: :request do
 
       before do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
       end
 
       it 'calls account builder' do
+        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'nil')
         allow(account_builder).to receive(:perform).and_return([user, account])
 
         params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
@@ -30,6 +35,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'renders error response on invalid params' do
+        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'nil')
         allow(account_builder).to receive(:perform).and_return(nil)
 
         params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
@@ -47,29 +53,23 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
-        params = { account_name: 'test', email: email, user_full_name: user_full_name }
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = 'false'
-
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
         post api_v1_accounts_url,
              params: params,
              as: :json
-
         expect(response).to have_http_status(:not_found)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
       end
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = 'api_only'
-
+        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'api_only')
         post api_v1_accounts_url,
              params: params,
              as: :json
-
         expect(response).to have_http_status(:success)
-        ENV['ENABLE_ACCOUNT_SIGNUP'] = nil
       end
     end
   end

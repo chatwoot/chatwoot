@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Открытые",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Открыть"
       },
-      {
-        "TEXT": "Закрытые",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Закрыт"
       },
-      {
-        "TEXT": "В ожидании",
-        "VALUE": "в ожидании"
+      "pending": {
+        "TEXT": "В ожидании"
       },
-      {
-        "TEXT": "Отложено",
-        "VALUE": "отложено"
+      "snoozed": {
+        "TEXT": "Отложено"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -85,6 +81,7 @@
     "RECEIVED_VIA_EMAIL": "Получено по email",
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
+    "SENT": "Успешно отправлено",
     "NO_MESSAGES": "Нет сообщений",
     "NO_CONTENT": "Содержимое отсутствует",
     "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",

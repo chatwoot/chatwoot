@@ -74,10 +74,10 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Desconectado "
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Atualizar"
     }
   }
 }

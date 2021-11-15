@@ -17,7 +17,8 @@
     }
   }
 
-  .image {
+  .image,
+  .video {
     cursor: pointer;
     position: relative;
 
@@ -26,7 +27,13 @@
     }
 
     .modal-image {
-      max-width: 85%;
+      max-height: 90%;
+      max-width: 90%;
+    }
+
+    .modal-video {
+      max-height: 75vh;
+      max-width: 100%;
     }
 
     &::before {
@@ -35,9 +42,19 @@
       content: '';
       height: 20%;
       left: 0;
-      opacity: .8;
+      opacity: 0.8;
       position: absolute;
       width: 100%;
+    }
+  }
+
+  .video {
+    .modal-container {
+      width: auto;
+
+      .modal--close {
+        z-index: var(--z-index-low);
+      }
     }
   }
 }

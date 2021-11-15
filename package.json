@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.21.1",
+  "version": "1.22.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -23,7 +23,7 @@
     "@rails/webpacker": "5.3.0",
     "@sentry/tracing": "^6.4.1",
     "@sentry/vue": "^6.4.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",
@@ -41,6 +41,7 @@
     "lodash.groupby": "^4.6.0",
     "marked": "2.0.3",
     "md5": "^2.3.0",
+    "ninja-keys": "https://github.com/chatwoot/ninja-keys.git#b4c3233f676780af90c607866fa85e404c835902",
     "posthog-js": "^1.13.7",
     "prosemirror-markdown": "1.5.1",
     "prosemirror-state": "1.3.4",
@@ -65,6 +66,7 @@
     "vue-template-compiler": "2.6.12",
     "vue-upload-component": "2.8.22",
     "vue2-datepicker": "^3.9.1",
+    "vuedraggable": "^2.24.3",
     "vuelidate": "0.7.6",
     "vuex": "~2.1.1",
     "vuex-router-sync": "~4.1.2"
