@@ -54,7 +54,7 @@ export const actions = {
       commit(types.EDIT_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
-      throw errorMessage;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: false });
     }
