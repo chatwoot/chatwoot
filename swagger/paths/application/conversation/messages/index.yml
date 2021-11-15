@@ -6,9 +6,9 @@ description: List all messages of a conversation
 responses:
   200:
     description: Success
-    type: array
-    description: Array of messages
     schema:
+      type: array
+      description: Array of messages
       allOf:
         - $ref: '#/definitions/generic_id'
         - $ref: '#/definitions/message'

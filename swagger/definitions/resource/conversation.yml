@@ -21,7 +21,7 @@ properties:
   contact_last_seen_at:
     type: string
   agent_last_seen_at:
-    type: agent_last_seen_at
+    type: string
   unread_count:
     type: number
     description: The number of unread messages
