@@ -3,8 +3,7 @@ tags:
 operationId: create-a-message
 summary: Create a message
 description: Create a message
-security:
-  - nil
+security: []
 parameters:
   - name: data
     in: body

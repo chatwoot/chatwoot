@@ -696,7 +696,7 @@
         "summary": "Create a contact",
         "description": "Create a contact",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -738,7 +738,7 @@
         "summary": "Get a contact",
         "description": "Get the details of a contact",
         "security": [
-          "nil"
+
         ],
         "responses": {
           "200": {
@@ -763,7 +763,7 @@
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -805,7 +805,7 @@
         "summary": "Create a conversation",
         "description": "Create a conversation",
         "security": [
-          "nil"
+
         ],
         "responses": {
           "200": {
@@ -863,7 +863,7 @@
         "summary": "Create a message",
         "description": "Create a message",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -934,7 +934,7 @@
         "summary": "Update a message",
         "description": "Update a message",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
