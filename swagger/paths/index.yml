@@ -316,9 +316,8 @@
     - $ref: '#/parameters/account_id'
     - in: query
       name: filter_type
-      schema:
-        type: string
-        enum: ['conversation', 'contact', 'report']
+      type: string
+      enum: ['conversation', 'contact', 'report']
       required: false
       description: The type of custom filter
   get:
@@ -346,18 +345,15 @@
     - $ref: '#/parameters/report_type'
     - in: query
       name: id
-      schema:
-        type: string
+      type: string
       description: The Id of specific object in case of agent/inbox/label
     - in: query
       name: since
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should start.
     - in: query
       name: until
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/index.yml'
@@ -369,18 +365,15 @@
     - $ref: '#/parameters/report_type'
     - in: query
       name: id
-      schema:
-        type: string
+      type: string
       description: The Id of specific object in case of agent/inbox/label
     - in: query
       name: since
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should start.
     - in: query
       name: until
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/summary.yml'
