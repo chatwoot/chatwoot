@@ -59,11 +59,7 @@
             :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
             type="text"
             :class="{ error: $v.attributeKey.$error }"
-            :error="
-              $v.attributeKey.$error
-                ? $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR')
-                : ''
-            "
+            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
             @blur="$v.attributeKey.$touch"
           />
@@ -122,6 +118,12 @@ export default {
         this.uiFlags.isCreating
       );
     },
+    keyErrorMessage() {
+      if (!this.$v.attributeKey.isKey) {
+        return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+      }
+      return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
+    },
   },
 
   validations: {
@@ -140,6 +142,9 @@ export default {
     },
     attributeKey: {
       required,
+      isKey(value) {
+        return !(value.indexOf(' ') >= 0);
+      },
     },
   },
 
@@ -148,6 +153,10 @@ export default {
       this.attributeKey = convertToSlug(this.displayName);
     },
     async addAttributes() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         await this.$store.dispatch('attributes/create', {
           attribute_display_name: this.displayName,
@@ -159,7 +168,7 @@ export default {
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
-        const errorMessage = error?.response?.data?.message;
+        const errorMessage = error?.message;
         this.alertMessage =
           errorMessage || this.$t('ATTRIBUTES_MGMT.ADD.API.ERROR_MESSAGE');
       } finally {

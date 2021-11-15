@@ -14,7 +14,6 @@
               : ''
           "
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-          readonly
           @blur="$v.displayName.$touch"
         />
         <label :class="{ error: $v.description.$error }">
@@ -46,11 +45,7 @@
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
           type="text"
           :class="{ error: $v.attributeKey.$error }"
-          :error="
-            $v.attributeKey.$error
-              ? $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR')
-              : ''
-          "
+          :error="$v.attributeKey.$error ? keyErrorMessage : ''"
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
           readonly
           @blur="$v.attributeKey.$touch"
@@ -112,6 +107,9 @@ export default {
     },
     attributeKey: {
       required,
+      isKey(value) {
+        return !(value.indexOf(' ') >= 0);
+      },
     },
   },
   computed: {
@@ -129,6 +127,12 @@ export default {
           item.option.toLowerCase() ===
           this.selectedAttribute.attribute_display_type
       ).id;
+    },
+    keyErrorMessage() {
+      if (!this.$v.attributeKey.isKey) {
+        return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+      }
+      return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
     },
   },
   mounted() {
@@ -153,14 +157,17 @@ export default {
         await this.$store.dispatch('attributes/update', {
           id: this.selectedAttribute.id,
           attribute_description: this.description,
+          attribute_display_name: this.displayName,
         });
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+
+        this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
-        const errorMessage =
-          error?.response?.message ||
-          this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage || this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
   },
