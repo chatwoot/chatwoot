@@ -29,7 +29,7 @@ pt_BR:
       failed: Registro falhou
     contacts:
       import:
-        failed: File is blank
+        failed: Arquivo vazio
   reports:
     period: Reportando o período %{since} a %{until}
     agent_csv:
@@ -83,7 +83,7 @@ pt_BR:
       response: "Por favor, classifique esta conversa, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
     slack:
       name: "Slack"

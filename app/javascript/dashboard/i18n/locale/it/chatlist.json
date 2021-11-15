@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Apri",
-        "VALUE": "Aperto"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Apri"
       },
-      {
-        "TEXT": "Risolti",
-        "VALUE": "risolto"
+      "resolved": {
+        "TEXT": "Risolti"
       },
-      {
-        "TEXT": "In Attesa",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "In Attesa"
       },
-      {
-        "TEXT": "Posticipato",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Posticipato"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -85,6 +81,7 @@
     "RECEIVED_VIA_EMAIL": "Ricevuto via email",
     "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
     "REPLY_TO_TWEET": "Rispondi a questo tweet",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "Nessun Messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi Testo Citato",

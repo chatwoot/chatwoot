@@ -33,6 +33,8 @@ describe('MoveActions', () => {
   beforeEach(() => {
     window.bus = {
       $emit: jest.fn(),
+      $on: jest.fn(),
+      $off: jest.fn(),
     };
 
     state = {

@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "فتح",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "فتح"
       },
-      {
-        "TEXT": "مغلقة",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "مغلقة"
       },
-      {
-        "TEXT": "معلق",
-        "VALUE": "معلق"
+      "pending": {
+        "TEXT": "معلق"
       },
-      {
-        "TEXT": "غفوة",
-        "VALUE": "غفوة"
+      "snoozed": {
+        "TEXT": "غفوة"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -85,6 +81,7 @@
     "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
     "REPLY_TO_TWEET": "الرد على هذه التغريدة",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "لا توجد رسائل",
     "NO_CONTENT": "لم يتم العثور على محتوى",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",

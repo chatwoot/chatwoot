@@ -29,7 +29,7 @@ de:
       failed: Anmeldung gescheitert
     contacts:
       import:
-        failed: File is blank
+        failed: Datei ist leer
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
@@ -80,10 +80,10 @@ de:
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
       transcript_subject: "Gesprächsprotokoll"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Bitte bewerten Sie diese Unterhaltung, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} ist online, bitte versuchen Sie es später erneut"
   integration_apps:
     slack:
       name: "Slack"

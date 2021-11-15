@@ -50,7 +50,8 @@
         "PLACEHOLDER": "Veuillez entrer votre message",
         "ERROR": "Message trop court"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {

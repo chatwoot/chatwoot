@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
-    "TRAIL_BUTTON": "지금 구입하기"
+    "TRAIL_BUTTON": "지금 구입하기",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "계정 설정",
     "APPLICATIONS": "Applications",
     "LABELS": "라벨",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
     "TEAMS": "팀",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",

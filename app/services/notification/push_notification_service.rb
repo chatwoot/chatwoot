@@ -43,7 +43,7 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push?(subscription)
-    ENV['VAPID_PUBLIC_KEY'] && subscription.browser_push?
+    VapidService.public_key && subscription.browser_push?
   end
 
   def send_browser_push(subscription)
@@ -56,8 +56,8 @@ class Notification::PushNotificationService
       auth: subscription.subscription_attributes['auth'],
       vapid: {
         subject: push_url,
-        public_key: ENV['VAPID_PUBLIC_KEY'],
-        private_key: ENV['VAPID_PRIVATE_KEY']
+        public_key: VapidService.public_key,
+        private_key: VapidService.private_key
       },
       ssl_timeout: 5,
       open_timeout: 5,
@@ -97,6 +97,7 @@ class Notification::PushNotificationService
         body: notification.push_message_title,
         sound: 'default'
       },
+      android: { priority: 'high' },
       data: { notification: notification.fcm_push_data.to_json },
       collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }

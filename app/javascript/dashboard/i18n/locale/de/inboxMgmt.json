@@ -58,7 +58,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Geben Sie Ihre Webhook-URL ein",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "CHANNEL_DOMAIN": {
@@ -97,8 +97,8 @@
         "SUBMIT_BUTTON": "Posteingang erstellen"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp-Kanal",
+        "DESC": "Integrieren Sie Twilio und unterstützen Sie Ihre Kunden via SMS oder WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Account SID ein",
@@ -115,7 +115,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Posteingang-Name",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
         "PHONE_NUMBER": {
@@ -137,16 +137,16 @@
         "DESC": "Unterstützen Sie Ihre Kunden per SMS mit Twilio-Integration."
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp-Kanal",
+        "DESC": "Unterstützen Sie Ihre Kunden via WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API-Provider",
           "TWILIO": "Twilio",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Posteingang-Name",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
         "PHONE_NUMBER": {
@@ -155,15 +155,15 @@
           "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API-Schlüssel",
+          "SUBTITLE": "Konfigurieren Sie den WhatsApp API-Schlüssel.",
+          "PLACEHOLDER": "API-Schlüssel",
+          "APPLY_FOR_ACCESS": "Sie haben keinen API-Schlüssel? Für den Zugriff hier beantragen",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Wir konnten den WhatsApp-Kanal nicht speichern"
         }
       },
       "API_CHANNEL": {
@@ -204,50 +204,50 @@
         "FINISH_MESSAGE": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE-Kanal",
+        "DESC": "Integrieren Sie den LINE-Kanal und unterstützen Sie Ihre Kunden.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE-Kanal-ID",
+          "PLACEHOLDER": "LINE-Kanal-ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE-Kanal-Geheimnis",
+          "PLACEHOLDER": "LINE-Kanal-Geheimnis"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE-Kanal-Token",
+          "PLACEHOLDER": "LINE-Kanal-Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE-Kanal erstellen",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Wir konnten den LINE-Kanal nicht speichern"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Sie müssen die Webhook-URL in der LINE-Anwendung mit der hier genannten URL konfigurieren."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram-Kanal",
+        "DESC": "Integrieren Sie den Telegram-Kanal und unterstützen Sie Ihre Kunden.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Bot-Token",
+          "SUBTITLE": "Konfigurieren Sie den Bot-Token, welchen Sie von Telegram BotFather erhalten haben.",
+          "PLACEHOLDER": "Bot-Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegram-Kanal erstellen",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Wir konnten den Telegram-Kanal nicht speichern"
         }
       },
       "AUTH": {
         "TITLE": "Wähle einen Kanal",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -292,23 +292,23 @@
       },
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert"
+        "DISABLED": "Deaktiviert"
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert"
+        "DISABLED": "Deaktiviert"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Behindert"
+        "DISABLED": "Deaktiviert"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Aktivieren"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Avatar löschen",
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
@@ -319,8 +319,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
         "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Avatar von Posteingang erfolgreich gelöscht",
+        "AVATAR_ERROR_MESSAGE": "Der Avatar vom Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
       }
     },
     "TABS": {
@@ -353,11 +353,11 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
       "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
+      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, funktioniert die setUser Methode der Chatwoot SDK nur, wenn ein `identifier_hash` für jeden Benutzer mitgeliefert wird.",
+      "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
+      "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -390,7 +390,7 @@
       "TIMEZONE_LABEL": "Zeitzone auswählen",
       "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Wir sind momentan nicht erreichbar. Hinterlassen Sie eine Nachricht und wir antworten Ihnen sobald wir wieder zurück sind.",
       "TOGGLE_HELP": "Die Aktivierung der Geschäftsverfügbarkeit zeigt die verfügbaren Stunden auf dem Live-Chat-Widget an, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Vor-Chat-Formular gewarnt werden.",
       "DAY": {

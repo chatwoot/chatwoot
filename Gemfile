@@ -144,6 +144,8 @@ group :test do
   gem 'cypress-on-rails', '~> 1.0'
   # fast cleaning of database
   gem 'database_cleaner'
+  # mock http calls
+  gem 'webmock'
 end
 
 group :development, :test do
@@ -155,6 +157,7 @@ group :development, :test do
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
+  gem 'climate_control'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
@@ -170,5 +173,4 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
-  gem 'webmock'
 end

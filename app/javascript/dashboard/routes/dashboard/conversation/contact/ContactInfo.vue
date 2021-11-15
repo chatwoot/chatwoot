@@ -2,6 +2,7 @@
   <div class="contact--profile">
     <div class="contact--info">
       <thumbnail
+        v-if="showAvatar"
         :src="contact.thumbnail"
         size="56px"
         :username="contact.name"
@@ -9,8 +10,16 @@
       />
 
       <div class="contact--details">
-        <h3 class="sub-block-title contact--name">
-          {{ contact.name }}
+        <h3 v-if="showAvatar" class="sub-block-title contact--name">
+          <a
+            :href="contactProfileLink"
+            class="fs-default"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            {{ contact.name }}
+            <i class="ion-android-open open-link--icon" />
+          </a>
         </h3>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
@@ -25,7 +34,6 @@
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -34,17 +42,17 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            v-if="additionalAttributes.location"
-            :value="additionalAttributes.location"
-            icon="ion-map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="ion-briefcase"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
+          />
+          <contact-info-row
+            v-if="location || additionalAttributes.location"
+            :value="location || additionalAttributes.location"
+            icon="ion-map"
+            emoji="🌍"
+            :title="$t('CONTACT_PANEL.LOCATION')"
           />
         </div>
       </div>
@@ -137,6 +145,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -161,6 +170,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -172,8 +185,25 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.additionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${cityAndCountry} ${countryFlag}`;
     },
     socialProfiles() {
       const {
@@ -266,10 +296,20 @@ export default {
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+
+  a {
+    color: var(--color-body);
+  }
+
+  .open-link--icon {
+    color: var(--color-body);
+    font-size: var(--font-size-small);
+    margin-left: var(--space-smaller);
+  }
 }
 
 .contact--metadata {
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-slab);
 }
 
 .contact-actions {

@@ -9,7 +9,7 @@
 
 .card {
   margin-bottom: var(--space-small);
-  padding: var(--space-small);
+  padding: var(--space-normal);
 }
 
 .button-wrapper .button.link.grey-btn {
@@ -21,7 +21,7 @@
   font-size: $font-size-mini;
   max-width: 15rem;
   padding: $space-smaller $space-small;
-  z-index: 9999;
+  z-index: 999;
 }
 
 code {
