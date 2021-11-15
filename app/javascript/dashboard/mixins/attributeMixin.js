@@ -8,31 +8,50 @@ export default {
     }),
     attributes() {
       return this.$store.getters['attributes/getAttributesByModel'](
-        'conversation_attribute'
+        this.attributeType
       );
     },
     customAttributes() {
-      return this.currentChat.custom_attributes || {};
+      if (this.attributeType === 'conversation_attribute')
+        return this.currentChat.custom_attributes || {};
+      return this.contact.custom_attributes || {};
+    },
+    contactIdentifier() {
+      return (
+        this.currentChat.meta?.sender?.id ||
+        this.$route.params.contactId ||
+        this.contactId
+      );
+    },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactIdentifier);
     },
     conversationId() {
       return this.currentChat.id;
     },
-    // Select only custom attribute which are already defined
     filteredAttributes() {
-      return Object.keys(this.customAttributes)
-        .filter(key => {
-          return this.attributes.find(item => item.attribute_key === key);
-        })
-        .map(key => {
-          const item = this.attributes.find(
-            attribute => attribute.attribute_key === key
-          );
+      return Object.keys(this.customAttributes).map(key => {
+        const item = this.attributes.find(
+          attribute => attribute.attribute_key === key
+        );
+        if (item) {
           return {
             ...item,
             value: this.customAttributes[key],
             icon: this.attributeIcon(item.attribute_display_type),
           };
-        });
+        }
+        return {
+          ...item,
+          value: this.customAttributes[key],
+          attribute_description: key,
+          attribute_display_name: key,
+          attribute_display_type: 'text',
+          attribute_key: key,
+          attribute_model: this.attributeType,
+          id: Math.random(),
+        };
+      });
     },
   },
   methods: {
