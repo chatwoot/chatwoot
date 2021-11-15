@@ -1,9 +1,9 @@
 import { mapGetters } from 'vuex';
 export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
+  { name: 'conversation_actions' },
   { name: 'conversation_info' },
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
-  { name: 'conversation_actions' },
 ];
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_attributes' },
