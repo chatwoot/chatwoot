@@ -182,11 +182,17 @@ export default {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      const { unreadMessageCount, activeCampaign } = this;
+      const {
+        unreadMessageCount,
+        activeCampaign,
+        lastActiveConversationId,
+      } = this;
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
+        !lastActiveConversationId &&
         !unreadMessageCount &&
         !this.isWebWidgetTriggered;
+
       if (this.isIFrame && isCampaignReadyToExecute) {
         const currentRouteName = this.$route.name;
         if (currentRouteName !== 'campaign') {

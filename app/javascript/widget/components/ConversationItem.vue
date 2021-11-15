@@ -1,11 +1,11 @@
 <template>
-  <div class="item--wrap">
-    <button @click="onItemClick">
+  <div class="flex py-3 border-color-fix">
+    <button class="w-full" @click="onItemClick">
       <div class="flex items-center space-x-2">
         <div class="h-10 w-10 rounded-full border-2 border-woot-100">
           <thumbnail :src="agentAvatar" size="40px" :username="agentName" />
         </div>
-        <div class="text-left">
+        <div class="text-left flex-grow-0 min-w-0 pt-2">
           <div class="flex items-center">
             <h4 class="text-sm font-medium text-slate-900">{{ agentName }}</h4>
             <span class="text-xs text-slate-500 ml-2">
@@ -107,9 +107,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.item--wrap {
-  @apply flex;
-  @apply py-3;
+.border-color-fix {
   border: 1px solid transparent;
 }
 
@@ -117,6 +115,9 @@ export default {
   @apply inline-block;
   @apply text-sm;
   @apply text-black-700;
+  @apply truncate;
+
+  @apply w-full;
 
   &.has-unread {
     @apply font-medium;
