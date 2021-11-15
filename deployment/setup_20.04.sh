@@ -2,8 +2,22 @@
 
 # Description: Chatwoot installation script
 # OS: Ubuntu 20.04 LTS / Ubuntu 20.10
-# Script Version: 0.5
+# Script Version: 0.6
 # Run this script as root
+
+read -p 'Would you like to configure a domain and SSL for Chatwoot?(yes or no): ' configure_webserver
+
+if [ $configure_webserver == "yes" ]
+then
+read -p 'Enter your sub-domain to be used for Chatwoot (chatwoot.domain.com for example) : ' domain_name
+echo -e "\nThis script will try to generate SSL certificates via LetsEncrypt and serve chatwoot at
+"https://$domain_name". Proceed further once you have pointed your DNS to the IP of the instance.\n"
+read -p 'Do you wish to proceed? (yes or no): ' exit_true
+if [ $exit_true == "no" ]
+then
+exit 1
+fi
+fi
 
 apt update && apt upgrade -y
 apt install -y curl
@@ -84,15 +98,13 @@ cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwo
 systemctl enable chatwoot.target
 systemctl start chatwoot.target
 
-read -p 'Would you like to configure Webserver and SSL (yes or no): ' configure_webserver
-
 if [ $configure_webserver != "yes" ]
 then
 echo "Woot! Woot!! Chatwoot server installation is complete"
 echo "The server will be accessible at http://<server-ip>:3000"
 echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
 else
-read -p 'What is your domain name server (chatwoot.domain.com for example) : ' domain_name
+
 curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
 wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
 cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf

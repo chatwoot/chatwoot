@@ -58,8 +58,11 @@ Rails.application.routes.draw do
             resource :twilio_channel, only: [:create]
           end
           resources :conversations, only: [:index, :create, :show] do
-            get 'meta', on: :collection
-            get 'search', on: :collection
+            collection do
+              get :meta
+              get :search
+              post :filter
+            end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
@@ -80,15 +83,18 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              post :filter
               post :import
             end
             member do
               get :contactable_inboxes
+              post :destroy_custom_attributes
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
+              resources :notes
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -178,7 +184,11 @@ Rails.application.routes.draw do
             post :transcript
           end
         end
-        resource :contact, only: [:show, :update]
+        resource :contact, only: [:show, :update] do
+          collection do
+            post :destroy_custom_attributes
+          end
+        end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end

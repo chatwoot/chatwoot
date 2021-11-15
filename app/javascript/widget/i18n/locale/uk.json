@@ -9,63 +9,64 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Ми онлайн",
+    "OFFLINE": "Нас наразі немає"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
+    "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
+    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Розпочати розмову",
+  "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
     "CLOSE_MESSAGES_BUTTON": "Закрити",
-    "COMPANY_FROM": "from",
-    "BOT": "Bot"
+    "COMPANY_FROM": "від",
+    "BOT": "Бот"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Почніть розмову з нами"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Працює на Chatwoot",
   "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
   "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "TODAY": "Сьогодні",
+  "YESTERDAY": "Вчора",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "Повне ім`я",
+        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
+        "ERROR": "Потрібне повне ім'я"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Адреса електронної пошти",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
+        "ERROR": "Некоректна адреса ел. пошти"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Будь ласка, введіть ваше повідомлення",
+        "ERROR": "Занадто коротке повідомлення"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Невірно заповнене поле"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Оцініть вашу бесіду",
+    "SUBMITTED_TITLE": "Дякуємо за оцінку",
+    "PLACEHOLDER": "Розкажіть докладніше..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "BUTTON_TEXT": "Запит на текст розмови",
+    "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
+    "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
   }
 }

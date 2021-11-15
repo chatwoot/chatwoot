@@ -19,14 +19,6 @@ export const ATTRIBUTE_TYPES = [
     option: 'Number',
   },
   {
-    id: 2,
-    option: 'Currency',
-  },
-  {
-    id: 3,
-    option: 'Percent',
-  },
-  {
     id: 4,
     option: 'Link',
   },

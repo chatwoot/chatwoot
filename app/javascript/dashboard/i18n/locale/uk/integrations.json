@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Редагувати",
-        "TITLE": "Edit webhook",
+        "TITLE": "Редагувати вебхук",
         "CANCEL": "Скасувати",
         "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "Наприклад: https://example/api/webhook",
             "ERROR": "Будь ласка, введіть правильний URL"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "Редагувати вебхук"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "URL вебхуку успішно оновлено",
           "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
         }
       },
@@ -68,18 +68,18 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Використання Slack інтеграцію",
+        "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Інтеграція успішно видалена"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Підключитися"
     }
   }
 }
