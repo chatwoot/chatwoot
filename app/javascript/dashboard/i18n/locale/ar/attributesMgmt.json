@@ -32,7 +32,8 @@
         "KEY": {
           "LABEL": "المفتاح",
           "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required"
+          "ERROR": "Key is required",
+          "IN_VALID": "Invalid key"
         }
       },
       "API": {
