@@ -103,7 +103,7 @@ export default {
   @apply mx-4;
   @apply p-3;
   @apply bg-slate-25;
-  @apply border border-solid;
+  @apply border-solid;
   @apply border-slate-75;
   @apply rounded-xl;
 }
