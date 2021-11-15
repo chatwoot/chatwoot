@@ -20,6 +20,8 @@ parameters:
           description: The ID of the inbox
         user_ids:
           type: array
+          items:
+            type: integer
           description: IDs of users to be deleted from the inbox
 responses:
   200:

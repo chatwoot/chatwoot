@@ -277,6 +277,7 @@
 /api/v1/accounts/{account_id}/integrations/hooks:
   post:
     $ref: './application/integrations/hooks/create.yml'
+/api/v1/accounts/{account_id}/integrations/hooks/{hook_id}:
   patch:
     $ref: ./application/integrations/hooks/update.yml
   delete:

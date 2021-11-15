@@ -9,9 +9,10 @@ responses:
     schema:
       type: array
       description: Array of messages
-      allOf:
-        - $ref: '#/definitions/generic_id'
-        - $ref: '#/definitions/message'
+      items:
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
   404:
     description: Conversation not found
   401:
