@@ -169,4 +169,14 @@ export const actions = {
       root: true,
     });
   },
+
+  updateContact: async ({ commit }, updateObj) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
+    try {
+      commit(types.EDIT_CONTACT, updateObj);
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
