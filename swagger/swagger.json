@@ -14,7 +14,7 @@
     }
   },
   "host": "app.chatwoot.com",
-  "basePath": null,
+  "basePath": "/",
   "schemes": [
     "https"
   ],
@@ -52,7 +52,7 @@
     }
   ],
   "paths": {
-    "platform/api/v1/accounts": {
+    "/platform/api/v1/accounts": {
       "post": {
         "tags": [
           "Accounts"
@@ -90,7 +90,7 @@
         }
       }
     },
-    "platform/api/v1/accounts/{id}": {
+    "/platform/api/v1/accounts/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "platform/api/v1/accounts/{id}/account_users": {
+    "/platform/api/v1/accounts/{id}/account_users": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -343,7 +343,7 @@
         }
       }
     },
-    "platform/api/v1/agent_bots": {
+    "/platform/api/v1/agent_bots": {
       "get": {
         "tags": [
           "AgentBots"
@@ -411,7 +411,7 @@
         }
       }
     },
-    "platform/api/v1/agent_bots/{id}": {
+    "/platform/api/v1/agent_bots/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/agent_bot_id"
@@ -509,7 +509,7 @@
         }
       }
     },
-    "platform/api/v1/users": {
+    "/platform/api/v1/users": {
       "post": {
         "tags": [
           "Users"
@@ -547,7 +547,7 @@
         }
       }
     },
-    "platform/api/v1/users/{id}": {
+    "/platform/api/v1/users/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/platform_user_id"
@@ -645,7 +645,7 @@
         }
       }
     },
-    "platform/api/v1/users/{id}/login": {
+    "/platform/api/v1/users/{id}/login": {
       "get": {
         "tags": [
           "Users"
@@ -682,7 +682,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -721,7 +721,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -788,7 +788,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -843,7 +843,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -911,7 +911,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"

@@ -2,10 +2,10 @@
 
 # Accounts
 
-platform/api/v1/accounts:
+/platform/api/v1/accounts:
   post:
     $ref: ./platform/accounts/create.yml
-platform/api/v1/accounts/{id}:
+/platform/api/v1/accounts/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
@@ -18,7 +18,7 @@ platform/api/v1/accounts/{id}:
 
 # Account Users
 
-platform/api/v1/accounts/{id}/account_users:
+/platform/api/v1/accounts/{id}/account_users:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
@@ -30,12 +30,12 @@ platform/api/v1/accounts/{id}/account_users:
 
 # AgentBots
 
-platform/api/v1/agent_bots:
+/platform/api/v1/agent_bots:
   get:
     $ref: ./platform/agent_bots/index.yml
   post:
     $ref: ./platform/agent_bots/create.yml
-platform/api/v1/agent_bots/{id}:
+/platform/api/v1/agent_bots/{id}:
   parameters:
     - $ref: '#/parameters/agent_bot_id'
   get:
@@ -47,10 +47,10 @@ platform/api/v1/agent_bots/{id}:
 
 # Users
 
-platform/api/v1/users:
+/platform/api/v1/users:
   post:
     $ref: ./platform/users/create.yml
-platform/api/v1/users/{id}:
+/platform/api/v1/users/{id}:
   parameters:
     - $ref: '#/parameters/platform_user_id'
   get:
@@ -59,7 +59,7 @@ platform/api/v1/users/{id}:
     $ref: ./platform/users/update.yml
   delete:
     $ref: ./platform/users/delete.yml
-platform/api/v1/users/{id}/login:
+/platform/api/v1/users/{id}/login:
   parameters:
     - $ref: '#/parameters/platform_user_id'
   $ref: './platform/users/login.yml'
@@ -71,12 +71,12 @@ platform/api/v1/users/{id}/login:
 
 # Contacts
 
-public/api/v1/inboxes/{inbox_identifier}/contacts:
+/public/api/v1/inboxes/{inbox_identifier}/contacts:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
   post:
     $ref: ./public/inboxes/contacts/create.yml
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -86,7 +86,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
     $ref: ./public/inboxes/contacts/update.yml
 
 
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -95,7 +95,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   get:
     $ref: ./public/inboxes/conversations/index.yml
 
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -104,7 +104,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./public/inboxes/messages/create.yml
   get:
     $ref: ./public/inboxes/messages/index.yml
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
