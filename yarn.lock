@@ -10250,9 +10250,9 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-"ninja-keys@https://github.com/chatwoot/ninja-keys.git#3afca67165658308f9676be3ad90370d25351923":
+"ninja-keys@https://github.com/chatwoot/ninja-keys.git#b4c3233f676780af90c607866fa85e404c835902":
   version "1.1.6"
-  resolved "https://github.com/chatwoot/ninja-keys.git#3afca67165658308f9676be3ad90370d25351923"
+  resolved "https://github.com/chatwoot/ninja-keys.git#b4c3233f676780af90c607866fa85e404c835902"
   dependencies:
     "@material/mwc-icon" "0.25.3"
     hotkeys-js "3.8.7"
