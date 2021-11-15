@@ -27,7 +27,7 @@ describe('attributeMixin', () => {
       }),
       getCurrentAccountId: () => 1,
       attributeType: () => 'conversation_attribute',
-     };
+    };
     store = new Vuex.Store({ actions, getters });
   });
 
@@ -78,15 +78,40 @@ describe('attributeMixin', () => {
     ]);
   });
 
-  it('return icon if attribute type passed correctly', () => {
+  it('return display type if attribute passed', () => {
     const Component = {
       render() {},
       title: 'TestComponent',
       mixins: [attributeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.attributeIcon('date')).toBe('ion-calendar');
-    expect(wrapper.vm.attributeIcon()).toBe('ion-edit');
+    expect(wrapper.vm.attributeDisplayType('date')).toBe('text');
+    expect(
+      wrapper.vm.attributeDisplayType('https://www.chatwoot.com/pricing')
+    ).toBe('link');
+    expect(wrapper.vm.attributeDisplayType(9988)).toBe('number');
+  });
+
+  it('return true if link is passed', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.isAttributeLink('https://www.chatwoot.com/pricing')).toBe(
+      true
+    );
+  });
+
+  it('return true if number is passed', () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [attributeMixin],
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    expect(wrapper.vm.isAttributeNumber(9988)).toBe(true);
   });
 
   it('returns currently selected contact', () => {
