@@ -41,4 +41,3 @@ post:
       description: Bad Request Error
       schema:
         $ref: '#/definitions/bad_request_error'
-    description: Access denied
