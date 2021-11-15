@@ -34,7 +34,7 @@
       "
     />
     <form-text-area
-      v-if="!activeCampaignExist"
+      v-if="!activeCampaignExist || options.requireMessage"
       v-model="message"
       class="my-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -137,6 +137,24 @@ export default {
   },
   methods: {
     async handleCreateConversation() {
+      const conversationId = await this.$store.dispatch(
+        'conversation/createConversationWithMessage',
+        {
+          content: this.message,
+          contact: {
+            fullName: this.fullName,
+            emailAddress: this.emailAddress,
+          },
+        }
+      );
+      return conversationId;
+    },
+    async onSubmit() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+
       if (this.activeCampaignExist) {
         bus.$emit('execute-campaign', this.activeCampaign.id);
         this.$store.dispatch('contacts/update', {
@@ -146,32 +164,14 @@ export default {
           },
         });
       } else {
-        const conversationId = await this.$store.dispatch(
-          'conversation/createConversationWithMessage',
-          {
-            content: this.message,
-            contact: {
-              fullName: this.fullName,
-              emailAddress: this.emailAddress,
-            },
-          }
-        );
-        return conversationId;
+        const conversationId = await this.handleCreateConversation();
+        this.$router.replace({
+          name: 'chat',
+          params: {
+            conversationId,
+          },
+        });
       }
-    },
-    async onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-
-      const conversationId = await this.handleCreateConversation();
-      this.$router.replace({
-        name: 'chat',
-        params: {
-          conversationId,
-        },
-      });
     },
   },
 };

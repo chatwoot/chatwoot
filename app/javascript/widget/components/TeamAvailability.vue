@@ -93,11 +93,6 @@ export default {
       return { color: this.widgetColor };
     },
   },
-  methods: {
-    startConversation() {
-      this.$emit('start-conversation');
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>

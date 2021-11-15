@@ -24,7 +24,7 @@ export const mutations = {
     if (!messageById) return;
     if (messageId !== message.id) return;
 
-    Vue.set($state.messages.byId, messageId, { ...message });
+    Vue.set($state.messages.byId, messageId, { ...messageById, ...message });
   },
 
   removeMessageEntry($state, messageId) {

@@ -12,10 +12,7 @@
         v-if="lastActiveConversationId"
         :conversations="allActiveConversations"
       />
-      <team-availability
-        :available-agents="availableAgents"
-        @start-conversation="startConversation"
-      />
+      <team-availability :available-agents="availableAgents" />
 
       <div class="footer-wrap">
         <branding></branding>

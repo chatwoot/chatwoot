@@ -8,15 +8,7 @@
       />
     </footer>
     <div v-else>
-      <custom-button
-        class="font-medium"
-        block
-        :bg-color="widgetColor"
-        :text-color="textColor"
-        @click="startNewConversation"
-      >
-        {{ $t('START_NEW_CONVERSATION') }}
-      </custom-button>
+      <start-conversation-button />
       <custom-button
         v-if="showEmailTranscriptButton"
         type="clear"
@@ -34,12 +26,14 @@ import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
+import StartConversationButton from 'widget/components/StartConversationButton';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
+    StartConversationButton,
   },
   props: {
     msg: {
@@ -113,7 +107,8 @@ export default {
       const { email } = this.currentUser;
       if (email) {
         try {
-          await this.$store.dispatch('conversation/sendEmailTranscript', {
+          await this.$store.dispatch('conversation/sendEmailTranscriptIn', {
+            conversationId: this.conversationId,
             email,
           });
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {

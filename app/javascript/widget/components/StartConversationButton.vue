@@ -17,7 +17,6 @@ import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
-  name: 'TeamAvailability',
   components: {
     CustomButton,
   },

@@ -159,7 +159,7 @@ export const actions = {
 
   sendEmailTranscriptIn: async (_, data) => {
     try {
-      await ConversationAPI.sendEmailTranscript(data);
+      await ConversationAPI.sendEmailTranscriptIn(data);
     } catch (error) {
       // IgnoreError
     }
