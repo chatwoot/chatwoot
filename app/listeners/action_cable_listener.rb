@@ -3,7 +3,9 @@ class ActionCableListener < BaseListener
 
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
+
+    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact.pubsub_token]
+
 
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end

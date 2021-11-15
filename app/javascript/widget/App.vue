@@ -25,7 +25,6 @@ import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   name: 'App',
-  mixins: [availabilityMixin],
   data() {
     return {
       widgetPosition: 'right',
@@ -164,12 +163,18 @@ export default {
         await this.executeCampaign({ campaignId, websiteToken });
         await this.fetchAllConversations();
 
-        this.$router.push({
-          name: 'chat',
-          conversationId: this.lastActiveConversationId,
-        });
-
-        this.sendUnsetUnreadView();
+        const intervelHandle = setInterval(() => {
+          if (this.lastActiveConversationId) {
+            clearInterval(intervelHandle);
+            this.sendUnsetUnreadView();
+            this.$router.push({
+              name: 'chat',
+              params: {
+                conversationId: this.lastActiveConversationId,
+              },
+            });
+          }
+        }, 1000);
       });
     },
 

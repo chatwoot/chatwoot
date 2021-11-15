@@ -136,7 +136,7 @@ export const actions = {
       } = await MessagePublicAPI.update(conversationId, {
         email,
         id: messageId,
-        values: submittedValues,
+        submitted_values: submittedValues,
       });
 
       commit('updateMessageEntry', {
