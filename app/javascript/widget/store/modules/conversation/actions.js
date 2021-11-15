@@ -22,7 +22,7 @@ export const actions = {
           conversationId,
         });
         commit(
-          'messageV2/addMessagesEntry',
+          'message/addMessagesEntry',
           { conversationId, messages: [lastMessage] },
           { root: true }
         );
@@ -50,7 +50,7 @@ export const actions = {
       const messages = getNonDeletedMessages({ messages: data });
 
       commit(
-        'messageV2/addMessagesEntry',
+        'message/addMessagesEntry',
         { conversationId, messages },
         { root: true }
       );
@@ -75,6 +75,32 @@ export const actions = {
     }
   },
 
+  addConversation: async ({ commit }, data) => {
+    const { id: conversationId, messages } = data;
+    const { contact_last_seen_at: userLastSeenAt } = data;
+
+    commit('addConversationEntry', data);
+    commit('addConversationId', conversationId);
+    commit('setConversationUIFlag', {
+      uiFlags: { isAgentTyping: false },
+      conversationId,
+    });
+    commit('setConversationMeta', {
+      meta: { userLastSeenAt },
+      conversationId,
+    });
+    commit(
+      'message/addMessagesEntry',
+      { conversationId, messages },
+      { root: true }
+    );
+    commit('addMessageIdsToConversation', {
+      conversationId,
+      messages,
+    });
+    return conversationId;
+  },
+
   createConversationWithMessage: async ({ commit }, params) => {
     const { content, contact } = params;
     commit('setUIFlag', { isCreating: true });
@@ -97,7 +123,7 @@ export const actions = {
         conversationId,
       });
       commit(
-        'messageV2/addMessagesEntry',
+        'message/addMessagesEntry',
         { conversationId, messages },
         { root: true }
       );
@@ -133,7 +159,7 @@ export const actions = {
 
   sendEmailTranscriptIn: async (_, data) => {
     try {
-      await ConversationAPI.sendEmailTranscript(data);
+      await ConversationAPI.sendEmailTranscriptIn(data);
     } catch (error) {
       // IgnoreError
     }
