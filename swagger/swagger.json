@@ -90,7 +90,7 @@
         }
       }
     },
-    "/platform/api/v1/accounts/{id}": {
+    "/platform/api/v1/accounts/{account_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "/platform/api/v1/accounts/{id}/account_users": {
+    "/platform/api/v1/accounts/{account_id}/account_users": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -650,6 +650,11 @@
       }
     },
     "/platform/api/v1/users/{id}/login": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/platform_user_id"
+        }
+      ],
       "get": {
         "tags": [
           "Users"
@@ -1108,6 +1113,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "get": {
         "tags": [
           "Agent"
@@ -1215,6 +1225,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "patch": {
         "tags": [
           "Agent"
@@ -1398,6 +1413,18 @@
       }
     },
     "/api/v1/accounts/{account_id}/contacts/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the contact",
+          "required": true
+        }
+      ],
       "get": {
         "tags": [
           "Contact"
@@ -1405,18 +1432,6 @@
         "operationId": "contactDetails",
         "summary": "Show Contact",
         "description": "Get a contact belonging to the account using ID",
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1440,16 +1455,6 @@
         "summary": "Update Contact",
         "description": "Update a contact belonging to the account using ID",
         "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -1480,15 +1485,6 @@
         ],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1996,7 +1992,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -2540,7 +2536,15 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/inbox_members": {
+    "/api/v1/accounts/{account_id}/inbox_members/{inbox_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/inbox_id"
+        }
+      ],
       "get": {
         "tags": [
           "Inbox"
@@ -2838,7 +2842,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}/messages": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3409,7 +3413,7 @@
         }
       }
     },
-    "/api/v2/accounts/{id}/reports": {
+    "/api/v2/accounts/{account_id}/reports": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3472,7 +3476,7 @@
         }
       }
     },
-    "/api/v2/accounts/{id}/reports/summary": {
+    "/api/v2/accounts/{account_id}/reports/summary": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
