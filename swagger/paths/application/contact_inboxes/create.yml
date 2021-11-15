@@ -16,6 +16,8 @@ post:
       required: true
       schema:
         type: object
+        required:
+          - inbox_id
         properties:
           inbox_id:
             type: number

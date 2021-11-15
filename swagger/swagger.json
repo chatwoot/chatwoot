@@ -259,16 +259,18 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "user_id",
+                "role"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
-                  "description": "The ID of the user",
-                  "required": true
+                  "description": "The ID of the user"
                 },
                 "role": {
                   "type": "string",
-                  "description": "whether user is an administrator or agent",
-                  "required": true
+                  "description": "whether user is an administrator or agent"
                 }
               }
             }
@@ -320,11 +322,13 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "user_id"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
-                  "description": "The ID of the user",
-                  "required": true
+                  "description": "The ID of the user"
                 }
               }
             }
@@ -1155,6 +1159,11 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "name",
+                "email",
+                "role"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -1236,6 +1245,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "role"
+              ],
               "properties": {
                 "role": {
                   "type": "string",
@@ -1243,8 +1255,7 @@
                     "agent",
                     "administrator"
                   ],
-                  "description": "Whether its administrator or agent",
-                  "required": true
+                  "description": "Whether its administrator or agent"
                 },
                 "availability": {
                   "type": "string",
@@ -1598,6 +1609,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "number",
@@ -2051,6 +2065,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "status"
+              ],
               "properties": {
                 "status": {
                   "type": "string",
@@ -2059,7 +2076,6 @@
                     "resolved",
                     "pending"
                   ],
-                  "required": true,
                   "description": "The status of the conversation"
                 }
               }
@@ -2379,6 +2395,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "enable_auto_assignment"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -2386,12 +2405,10 @@
                 },
                 "enable_auto_assignment": {
                   "type": "boolean",
-                  "required": true,
                   "description": "Enable Auto Assignment"
                 },
                 "avatar": {
                   "type": "file",
-                  "required": false,
                   "description": "Image file for avatar"
                 },
                 "channel": {
@@ -2500,10 +2517,12 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "agent_bot"
+              ],
               "properties": {
                 "agent_bot": {
                   "type": "number",
-                  "required": true,
                   "description": "Agent bot ID"
                 }
               }
@@ -2584,15 +2603,17 @@
             "schema": {
               "type": "object",
               "properties": {
+                "required": [
+                  "inbox_id",
+                  "user_ids"
+                ],
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be added to the inbox",
-                  "required": true
+                  "description": "IDs of users to be added to the inbox"
                 }
               }
             }
@@ -2626,7 +2647,7 @@
         ],
         "operationId": "update-agents-in-inbox",
         "summary": "Update Agents in Inbox",
-        "description": "All agents execept the one passed in params will be removed",
+        "description": "All agents except the one passed in params will be removed",
         "security": [
           {
             "userApiKey": [
@@ -2641,16 +2662,18 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be added to the inbox",
-                  "required": true
+                  "description": "IDs of users to be added to the inbox"
                 }
               }
             }
@@ -2699,16 +2722,18 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be deleted from the inbox",
-                  "required": true
+                  "description": "IDs of users to be deleted from the inbox"
                 }
               }
             }
@@ -4183,10 +4208,12 @@
     },
     "contact_create": {
       "type": "object",
+      "required": [
+        "inbox_id"
+      ],
       "properties": {
         "inbox_id": {
-          "type": "number",
-          "required": true
+          "type": "number"
         },
         "name": {
           "type": "string",
@@ -4237,11 +4264,13 @@
     },
     "conversation_message_create": {
       "type": "object",
+      "required": [
+        "content"
+      ],
       "properties": {
         "content": {
           "type": "string",
-          "description": "The content of the message",
-          "required": true
+          "description": "The content of the message"
         },
         "message_type": {
           "type": "string",

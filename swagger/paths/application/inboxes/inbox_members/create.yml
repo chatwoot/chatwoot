@@ -12,14 +12,15 @@ parameters:
     schema:
       type: object
       properties:
+        required:
+          - inbox_id
+          - user_ids
         inbox_id:
           type: string
           description: The ID of the inbox
-          required: true
         user_ids: 
           type: array
           description: IDs of users to be added to the inbox
-          required: true
 responses:
   200:
     description: Success

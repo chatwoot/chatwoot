@@ -17,13 +17,14 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - role
       properties:
-        role: 
+        role:
           type: string
           enum: ['agent', 'administrator']
           description: Whether its administrator or agent
-          required: true
-        availability: 
+        availability:
           type: string
           enum: ['available', 'busy', 'offline']
           description: The availability setting of the agent.

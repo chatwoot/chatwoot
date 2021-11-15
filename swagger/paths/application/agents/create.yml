@@ -11,6 +11,10 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - name
+        - email
+        - role
       properties:
         name: 
           type: string
