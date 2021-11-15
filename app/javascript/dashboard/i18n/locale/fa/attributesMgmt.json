@@ -33,7 +33,7 @@
           "LABEL": "کلید",
           "PLACEHOLDER": "کلید ویژگی سفارشی را وارد کنید",
           "ERROR": "کلید الزامی است",
-          "IN_VALID": "Invalid key"
+          "IN_VALID": "کلید نامعتبر"
         }
       },
       "API": {
