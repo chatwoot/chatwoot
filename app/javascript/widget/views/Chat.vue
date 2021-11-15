@@ -65,10 +65,10 @@ export default {
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      metaIn: 'conversationV2/metaIn',
-      currentUser: 'contactV2/getCurrentUser',
-      getTotalMessageCount: 'conversationV2/allMessagesCountIn',
-      getGroupedMessages: 'conversationV2/groupByMessagesIn',
+      metaIn: 'conversation/metaIn',
+      currentUser: 'contact/getCurrentUser',
+      getTotalMessageCount: 'conversation/allMessagesCountIn',
+      getGroupedMessages: 'conversation/groupByMessagesIn',
     }),
     conversationId() {
       const { conversationId } = this.$route.params;
@@ -104,7 +104,7 @@ export default {
     this.setUserLastSeen();
   },
   methods: {
-    ...mapActions('conversationV2', ['setUserLastSeenIn']),
+    ...mapActions('conversation', ['setUserLastSeenIn']),
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });
     },

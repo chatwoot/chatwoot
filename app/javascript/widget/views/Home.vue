@@ -12,10 +12,7 @@
         v-if="lastActiveConversationId"
         :conversations="allActiveConversations"
       />
-      <team-availability
-        :available-agents="availableAgents"
-        @start-conversation="startConversation"
-      />
+      <team-availability :available-agents="availableAgents" />
 
       <div class="footer-wrap">
         <branding></branding>
@@ -54,12 +51,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    isCampaignViewClicked: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      lastActiveConversationId: 'conversationV2/lastActiveConversationId',
-      allActiveConversations: 'conversationV2/allActiveConversations',
+      lastActiveConversationId: 'conversation/lastActiveConversationId',
+      allActiveConversations: 'conversation/allActiveConversations',
     }),
   },
   methods: {
