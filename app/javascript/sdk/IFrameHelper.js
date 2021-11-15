@@ -203,6 +203,18 @@ export const IFrameHelper = {
       removeClass(holderEl, 'has-unread-view');
     },
 
+    handleNotificationDot: event => {
+      const bubbleElement = document.querySelector('.woot-widget-bubble');
+      if (
+        event.unreadMessageCount > 0 &&
+        !bubbleElement.classList.contains('unread-notification')
+      ) {
+        addClass(bubbleElement, 'unread-notification');
+      } else if (event.unreadMessageCount === 0) {
+        removeClass(bubbleElement, 'unread-notification');
+      }
+    },
+
     closeChat: () => {
       onBubbleClick({ toggleValue: false });
     },
