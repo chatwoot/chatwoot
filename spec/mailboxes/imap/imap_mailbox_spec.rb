@@ -21,7 +21,7 @@ RSpec.describe Imap::ImapMailbox, type: :mailbox do
     end
 
     context 'when a new email from non existing contact' do
-      let(:inbound_mail) { create_inbound_email_from_mail(from: 'newemail@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
 
       it 'creates the contact and conversation with message' do
         class_instance.process(inbound_mail.mail, channel)
@@ -43,10 +43,50 @@ RSpec.describe Imap::ImapMailbox, type: :mailbox do
     end
 
     context 'when a reply for existing email conversation' do
-      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test') }
+      let(:prev_conversation) { create(:conversation, account: account, assignee: agent) }
+      let(:reply_mail) do
+        create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
+      end
 
       it 'appends new email to the existing conversation' do
-        class_instance.process(inbound_mail.mail, channel)
+        create(
+          :message,
+          content: 'Incoming Message',
+          message_type: 'incoming',
+          inbox: inbox,
+          account: account,
+          conversation: prev_conversation
+        )
+        create(
+          :message,
+          content: 'Outgoing Message',
+          message_type: 'outgoing',
+          inbox: inbox,
+          source_id: 'test-in-reply-to',
+          account: account,
+          conversation: prev_conversation
+        )
+
+        expect(prev_conversation.messages.size).to eq(2)
+
+        class_instance.process(reply_mail.mail, channel)
+
+        expect(prev_conversation.messages.size).to eq(3)
+        expect(prev_conversation.messages.last.content_attributes['email']['from']).to eq(reply_mail.mail.from)
+        expect(prev_conversation.messages.last.content_attributes['email']['to']).to eq(reply_mail.mail.to)
+        expect(prev_conversation.messages.last.content_attributes['email']['subject']).to eq(reply_mail.mail.subject)
+        expect(prev_conversation.messages.last.content_attributes['email']['in_reply_to']).to eq(reply_mail.mail.in_reply_to)
+      end
+    end
+
+    context 'when a reply for non existing email conversation' do
+      let(:reply_mail) do
+        create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
+      end
+
+      it 'creates new email conversation with incoming in-reply-to' do
+        class_instance.process(reply_mail.mail, channel)
+        expect(conversation.additional_attributes['in_reply_to']).to eq(reply_mail.mail.in_reply_to)
       end
     end
   end
