@@ -29,6 +29,7 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
+
     filteredAttributes() {
       return Object.keys(this.customAttributes).map(key => {
         const item = this.attributes.find(
@@ -38,15 +39,17 @@ export default {
           return {
             ...item,
             value: this.customAttributes[key],
-            icon: this.attributeIcon(item.attribute_display_type),
           };
         }
+
         return {
           ...item,
           value: this.customAttributes[key],
           attribute_description: key,
           attribute_display_name: key,
-          attribute_display_type: 'text',
+          attribute_display_type: this.attributeDisplayType(
+            this.customAttributes[key]
+          ),
           attribute_key: key,
           attribute_model: this.attributeType,
           id: Math.random(),
@@ -55,21 +58,24 @@ export default {
     },
   },
   methods: {
-    attributeIcon(attributeType) {
-      switch (attributeType) {
-        case 'date':
-          return 'ion-calendar';
-        case 'link':
-          return 'ion-link';
-        case 'currency':
-          return 'ion-social-usd';
-        case 'number':
-          return 'ion-calculator';
-        case 'percent':
-          return 'ion-calculator';
-        default:
-          return 'ion-edit';
+    isAttributeNumber(attributeValue) {
+      return (
+        Number.isInteger(Number(attributeValue)) && Number(attributeValue) > 0
+      );
+    },
+    isAttributeLink(attributeValue) {
+      /* eslint-disable no-useless-escape */
+      const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+      return URL_REGEX.test(attributeValue);
+    },
+    attributeDisplayType(attributeValue) {
+      if (this.isAttributeNumber(attributeValue)) {
+        return 'number';
       }
+      if (this.isAttributeLink(attributeValue)) {
+        return 'link';
+      }
+      return 'text';
     },
   },
 };

@@ -1,69 +1,69 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "אנא בחר שיחה מהחלונית השמאלית",
+    "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
+    "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
+    "NO_INBOX_1": "שלום! נראה שעדיין לא הוספת תיבות דואר נכנס.",
+    "NO_INBOX_2": " להתחיל",
+    "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
+    "SEARCH_MESSAGES": "חפש הודעות בשיחות",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "חפש הודעות",
+      "RESULT_TITLE": "תוצאות חיפוש",
+      "LOADING_MESSAGE": "מחיקת נתונים...",
+      "PLACEHOLDER": "הקלד כל טקסט כדי לחפש הודעות",
+      "NO_MATCHING_RESULTS": "לא נמצאו תוצאות."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "UNREAD_MESSAGES": "הודעות שלא נקראו",
+    "UNREAD_MESSAGE": "הודעות שלא נקראו",
+    "CLICK_HERE": "לחץ כאן",
+    "LOADING_INBOXES": "טוען תיבות דואר נכנס",
+    "LOADING_CONVERSATIONS": "טוען שיחות",
+    "CANNOT_REPLY": "לא ניתן להשיב עקב",
+    "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "SELECT_A_TWEET_TO_REPLY": "אנא בחר ציוץ להשיב.",
+    "REPLYING_TO": "אתה משיב ל:",
+    "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
+    "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
+    "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
+    "NO_RESPONSE": "אין תגובה",
+    "RATING_TITLE": "דירוג",
+    "FEEDBACK_TITLE": "משוב",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
+      "RESOLVE_ACTION": "פתרון",
+      "REOPEN_ACTION": "פתח מחדש",
       "OPEN_ACTION": "פתח",
-      "OPEN": "More",
+      "OPEN": "עוד",
       "CLOSE": "סגור",
-      "DETAILS": "details",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "DETAILS": "פרטים",
+      "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
+      "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
+      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "סמן כממתין",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "השהה עד",
+        "NEXT_REPLY": "תגובה הבאה",
+        "TOMORROW": "מחר",
+        "NEXT_WEEK": "שבוע הבא"
       }
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
+      "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
+      "REPLY": "הגב",
+      "PRIVATE_NOTE": "הערה פרטית",
+      "SEND": "שלח",
+      "CREATE": "הוסף הערה",
+      "TWEET": "ציוץ",
+      "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "ENTER_TO_SEND": "Enter to send",
@@ -156,10 +156,31 @@
       "PREVIOUS_CONVERSATION": "שיחות קודמות"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "המאפיין עודכן בהצלחה",
+      "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
+    },
+    "ADD": {
+      "TITLE": "הוסף",
+      "SUCCESS": "מאפיין נוסף בהצלחה",
+      "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
+    },
+    "DELETE": {
+      "SUCCESS": "המאפיין נמחק בהצלחה",
+      "ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "הוסף מאפיין",
+      "PLACEHOLDER": "חפש מאפיין",
+      "NO_RESULT": "לא נמצאו מאפיינים"
+    }
+  },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "TO": "אל",
     "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "CC": "עותק",
+    "SUBJECT": "נושא"
   }
 }

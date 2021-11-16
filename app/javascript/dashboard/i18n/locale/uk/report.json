@@ -1,9 +1,9 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Огляд",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -41,19 +41,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Останні 3 місяці"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Останні 6 місяців"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Минулий рік"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Довільний діапазон дат"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -65,8 +65,8 @@
     "HEADER": "Agents Overview",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
+    "FILTER_DROPDOWN_LABEL": "Виберіть агента",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -104,19 +104,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Останні 3 місяці"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Останні 6 місяців"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Минулий рік"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Довільний діапазон дат"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -167,19 +167,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Останні 3 місяці"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Останні 6 місяців"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Минулий рік"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Довільний діапазон дат"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -230,19 +230,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Останні 3 місяці"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Останні 6 місяців"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Минулий рік"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Довільний діапазон дат"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -293,19 +293,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Останні 3 місяці"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Останні 6 місяців"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Минулий рік"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Довільний діапазон дат"
       }
     ],
     "CUSTOM_DATE_RANGE": {
