@@ -29,7 +29,8 @@ class DashboardController < ActionController::Base
     ).merge(
       APP_VERSION: Chatwoot.config[:version],
       VAPID_PUBLIC_KEY: VapidService.public_key,
-      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
+      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
+      FB_APP_ID: GlobalConfigService.load('FB_APP_ID', '')
     )
   end
 
