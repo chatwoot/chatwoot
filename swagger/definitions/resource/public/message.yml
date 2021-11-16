@@ -23,7 +23,8 @@ properties:
     description: Conversation Id of the message
   attachments:
     type: array
-    items: object
+    items:
+      type: object
     description: Attachments if any
   sender:
     type: object

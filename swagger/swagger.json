@@ -1175,13 +1175,11 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "description": "Full Name of the agent",
-                  "required": true
+                  "description": "Full Name of the agent"
                 },
                 "email": {
                   "type": "string",
-                  "description": "Email of the Agent",
-                  "required": true
+                  "description": "Email of the Agent"
                 },
                 "role": {
                   "type": "string",
@@ -1189,8 +1187,7 @@
                     "agent",
                     "administrator"
                   ],
-                  "description": "Whether its administrator or agent",
-                  "required": true
+                  "description": "Whether its administrator or agent"
                 },
                 "availability_status": {
                   "type": "string",
@@ -1605,11 +1602,11 @@
               "properties": {
                 "inbox_id": {
                   "type": "number",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "source_id": {
-                  "$ref": "#/parameters/source_id"
+                  "type": "string",
+                  "description": "Contact Inbox Source Id"
                 }
               }
             }
@@ -1674,19 +1671,19 @@
       }
     },
     "/api/v1/accounts/{account_id}/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "get": {
         "tags": [
           "Conversation"
         ],
-        "operationId": "conversationSearch",
-        "description": "Search for conversations containing a messages with the query string",
-        "summary": "Conversations Search",
+        "operationId": "conversationList",
+        "description": "List all the conversations with pagination",
+        "summary": "Conversations List",
         "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "type": "string"
-          },
           {
             "name": "assignee_type",
             "in": "query",
@@ -1696,7 +1693,8 @@
               "unassigned",
               "all",
               "assigned"
-            ]
+            ],
+            "required": true
           },
           {
             "name": "status",
@@ -1705,14 +1703,15 @@
             "enum": [
               "open",
               "resolved",
-              "pending",
-              "all"
-            ]
+              "pending"
+            ],
+            "required": true
           },
           {
             "name": "page",
             "in": "query",
-            "type": "integer"
+            "type": "integer",
+            "required": true
           },
           {
             "name": "inbox_id",
@@ -1726,9 +1725,6 @@
             "items": {
               "type": "string"
             }
-          },
-          {
-            "$ref": "#/parameters/account_id"
           }
         ],
         "responses": {
@@ -1743,8 +1739,7 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
-          },
-          "description": "Access denied"
+          }
         }
       },
       "post": {
@@ -1768,9 +1763,6 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/account_id"
-          },
-          {
             "name": "data",
             "in": "body",
             "required": true,
@@ -1778,7 +1770,8 @@
               "type": "object",
               "properties": {
                 "source_id": {
-                  "$ref": "#/parameters/source_id"
+                  "type": "string",
+                  "description": "Conversation source id"
                 },
                 "inbox_id": {
                   "type": "string",
@@ -1840,78 +1833,12 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/": {
-      "get": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationList",
-        "description": "List all the conversations with pagination",
-        "summary": "Conversations List",
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "assignee_type",
-            "in": "query",
-            "type": "string",
-            "enum": [
-              "me",
-              "unassigned",
-              "all",
-              "assigned"
-            ],
-            "required": true
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "type": "string",
-            "enum": [
-              "open",
-              "resolved",
-              "pending"
-            ],
-            "required": true
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "inbox_id",
-            "in": "query",
-            "type": "integer"
-          },
-          {
-            "name": "labels",
-            "in": "query",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_list"
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "schema": {
-              "$ref": "#/definitions/bad_request_error"
-            }
-          }
-        }
-      }
-    },
     "/api/v1/accounts/{account_id}/conversations/filter": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "post": {
         "tags": [
           "Conversation"
@@ -1956,6 +1883,9 @@
                   },
                   "values": {
                     "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
                     "description": "array of the attribute values to filter"
                   },
                   "query_operator": {
@@ -1965,9 +1895,6 @@
                 }
               }
             }
-          },
-          {
-            "$ref": "#/parameters/account_id"
           }
         ],
         "responses": {
@@ -2600,11 +2527,11 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
-                "required": [
-                  "inbox_id",
-                  "user_ids"
-                ],
                 "inbox_id": {
                   "type": "string",
                   "description": "The ID of the inbox"
@@ -2758,92 +2685,6 @@
           },
           "422": {
             "description": "User must exist"
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/{account_id}/conversations/{id}/messages": {
-      "post": {
-        "tags": [
-          "Messages"
-        ],
-        "operationId": "conversationNewMessageAttachment",
-        "summary": "Create New Message Attachment",
-        "description": "Create an attachment message. Refer to this discussion if you have any further doubts. https://github.com/chatwoot/chatwoot/discussions/1809#discussioncomment-1211845",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          },
-          {
-            "agentBotApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "$ref": "#/parameters/conversation_id"
-          },
-          {
-            "in": "formData",
-            "name": "content",
-            "type": "string",
-            "description": "The content of the message",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "message_type",
-            "type": "string",
-            "enum": [
-              "outgoing",
-              "incoming"
-            ]
-          },
-          {
-            "in": "formData",
-            "name": "private",
-            "type": "boolean",
-            "description": "Flag to identify if it is a private note"
-          },
-          {
-            "in": "formData",
-            "name": "attachments[]",
-            "type": "array",
-            "description": "The files to be uploaded.",
-            "items": {
-              "type": "string",
-              "format": "binary"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
           }
         }
       }
@@ -4039,7 +3880,9 @@
         },
         "hooks": {
           "type": "array",
-          "items": "object",
+          "items": {
+            "type": "object"
+          },
           "description": "If there are any hooks created for this integration"
         }
       }
@@ -4159,7 +4002,9 @@
         },
         "attachments": {
           "type": "array",
-          "items": "object",
+          "items": {
+            "type": "object"
+          },
           "description": "Attachments if any"
         },
         "sender": {

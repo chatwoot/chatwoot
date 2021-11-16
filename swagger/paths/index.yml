@@ -172,17 +172,12 @@
 
 # Conversations
 /api/v1/accounts/{account_id}/conversations:
-  parameters:
-    - $ref: '#/parameters/account_id'
   $ref: ./application/conversation/index.yml
-/api/v1/accounts/{account_id}/conversations/:
-  parameters:
-    - $ref: '#/parameters/account_id'
-  $ref: ./application/conversation/create.yml
 /api/v1/accounts/{account_id}/conversations/filter:
   parameters:
     - $ref: '#/parameters/account_id'
-  $ref: ./application/conversation/filter.yml
+  post:
+    $ref: ./application/conversation/filter.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}:
   parameters:
     - $ref: '#/parameters/account_id'
@@ -248,8 +243,6 @@
 
 
 # Messages
-/api/v1/accounts/{account_id}/conversations/{id}/messages:
-  $ref: ./application/conversation/messages/create_attachment.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
     - $ref: '#/parameters/account_id'

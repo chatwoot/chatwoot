@@ -11,10 +11,10 @@ parameters:
     required: true
     schema:
       type: object
-      properties:
-        required:
+      required:
           - inbox_id
           - user_ids
+      properties:
         inbox_id:
           type: string
           description: The ID of the inbox
