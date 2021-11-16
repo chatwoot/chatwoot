@@ -50,7 +50,8 @@
         "PLACEHOLDER": "Harap masukkan pesan Anda",
         "ERROR": "Pesan terlalu pendek"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {

@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "فتح",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "فتح"
       },
-      {
-        "TEXT": "مغلقة",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "مغلقة"
       },
-      {
-        "TEXT": "معلق",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "معلق"
       },
-      {
-        "TEXT": "غفوة",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "غفوة"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

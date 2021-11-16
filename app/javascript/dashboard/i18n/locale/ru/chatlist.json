@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Открытые",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Открыть"
       },
-      {
-        "TEXT": "Закрытые",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Закрыт"
       },
-      {
-        "TEXT": "В ожидании",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "В ожидании"
       },
-      {
-        "TEXT": "Отложено",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Отложено"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
