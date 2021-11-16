@@ -50,7 +50,8 @@
         "PLACEHOLDER": "Indtast venligst din besked",
         "ERROR": "Beskeden er for kort"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {

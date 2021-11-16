@@ -206,4 +206,45 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#updateContact', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.updateContact({ commit }, contactList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.EDIT_CONTACT, contactList[0]],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.update({ commit }, contactList[0])).rejects.toThrow(
+        Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+   describe('#deleteCustomAttributes', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.deleteCustomAttributes(
+        { commit },
+        { id: 1, customAttributes: ['cloud-customer'] }
+      );
+      expect(commit.mock.calls).toEqual([[types.EDIT_CONTACT, contactList[0]]]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteCustomAttributes(
+          { commit },
+          { id: 1, customAttributes: ['cloud-customer'] }
+        )
+      ).rejects.toThrow(Error);
+    });
+  });
 });

@@ -27,7 +27,6 @@
           {{ $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_SELECT.NO_RESULT') }}
         </div>
         <woot-button
-          variant="hollow"
           class="add"
           icon="ion-plus-round"
           size="tiny"
@@ -53,6 +52,7 @@ export default {
       type: String,
       default: 'conversation_attribute',
     },
+    contactId: { type: Number, default: null },
   },
 
   data() {
@@ -76,7 +76,7 @@ export default {
     },
 
     noResult() {
-      return this.filteredAttributes.length === 0 && this.search !== '';
+      return this.filteredAttributes.length === 0;
     },
   },
 
@@ -90,7 +90,7 @@ export default {
     },
     addNewAttribute() {
       this.$router.push(
-        `/app/accounts/${this.accountId}/settings/attributes/list`
+        `/app/accounts/${this.accountId}/settings/custom-attributes/list`
       );
     },
     async onAddAttribute(attribute) {
@@ -138,7 +138,6 @@ export default {
       width: 100%;
       .add {
         float: right;
-        margin-top: var(--space-one);
       }
     }
 
