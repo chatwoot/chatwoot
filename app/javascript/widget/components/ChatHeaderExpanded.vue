@@ -4,11 +4,11 @@
       class="flex items-start"
       :class="[avatarUrl ? 'justify-between' : 'justify-end']"
     >
-      <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
+      <img v-if="avatarUrl" class="h-12 rounded-full" :src="avatarUrl" />
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
     <h2
-      class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
+      class="text-slate-900 mt-5 text-3xl mb-3 font-normal"
       v-html="introHeading"
     />
     <p class="text-lg text-black-700 leading-normal" v-html="introBody" />
@@ -48,17 +48,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~widget/assets/scss/mixins.scss';
-
-$logo-size: 56px;
-
-.header-expanded {
-  .logo {
-    width: $logo-size;
-    height: $logo-size;
-    border-radius: $logo-size;
-  }
-}
-</style>

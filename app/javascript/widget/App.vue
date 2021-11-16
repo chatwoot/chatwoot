@@ -1,15 +1,21 @@
 <template>
-  <router
-    :show-unread-view="showUnreadView"
-    :show-campaign-view="showCampaignView"
-    :is-mobile="isMobile"
-    :has-fetched="hasFetched"
-    :unread-message-count="unreadMessageCount"
-    :is-left-aligned="isLeftAligned"
-    :hide-message-bubble="hideMessageBubble"
-    :show-popout-button="showPopoutButton"
-    :is-campaign-view-clicked="isCampaignViewClicked"
-  />
+  <div
+    v-if="!conversationSize && isFetchingList"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+  >
+    <spinner size="" />
+  </div>
+  <div
+    v-else
+    class="flex flex-col justify-end h-full"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': !isLeftAligned,
+      'is-bubble-hidden': hideMessageBubble,
+    }"
+  >
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -18,21 +24,19 @@ import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'App',
   components: {
-    Router,
+    Spinner,
   },
   mixins: [availabilityMixin, configMixin],
   data() {
     return {
-      showUnreadView: false,
-      showCampaignView: false,
       isMobile: false,
       hideMessageBubble: false,
       widgetPosition: 'right',
@@ -44,11 +48,14 @@ export default {
   },
   computed: {
     ...mapGetters({
+      conversationSize: 'conversation/getConversationSize',
+      isFetchingList: 'conversation/getIsFetchingList',
       hasFetched: 'agent/getHasFetched',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
       activeCampaign: 'campaign/getActiveCampaign',
+      currentUser: 'contacts/getCurrentUser',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -65,15 +72,8 @@ export default {
     activeCampaign() {
       this.setCampaignView();
     },
-    showUnreadView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-      }
-    },
-    showCampaignView(newVal) {
-      if (newVal) {
-        this.setIframeHeight(this.isMobile);
-      }
+    '$router.name'() {
+      console.log(this.$router);
     },
   },
   mounted() {
@@ -144,26 +144,26 @@ export default {
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
         if (!this.isIFrame || this.isWidgetOpen) {
-          this.setUserLastSeen();
+          // this.setUserLastSeen();
         }
         this.setUnreadView();
       });
       bus.$on('on-unread-view-clicked', () => {
         this.unsetUnreadView();
-        this.setUserLastSeen();
+        // this.setUserLastSeen();
       });
     },
     registerCampaignEvents() {
       bus.$on('on-campaign-view-clicked', () => {
         this.isCampaignViewClicked = true;
-        this.showCampaignView = false;
-        this.showUnreadView = false;
         this.unsetUnreadView();
-        this.setUserLastSeen();
-        // Execute campaign only if pre-chat form (and require email too) is not enabled
-        if (
-          !(this.preChatFormEnabled && this.preChatFormOptions.requireEmail)
-        ) {
+        // this.setUserLastSeen();
+        const showPreChatForm =
+          this.preChatFormEnabled && this.preChatFormOptions.requireEmail;
+        const isUserEmailAvailable = !!this.currentUser.email;
+        if (showPreChatForm && !isUserEmailAvailable) {
+          this.$router.replace({ name: 'prechat-form' });
+        } else {
           bus.$emit('execute-campaign', this.activeCampaign.id);
         }
       });
@@ -183,10 +183,8 @@ export default {
         !messageCount &&
         !this.isWebWidgetTriggered;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.showCampaignView = true;
-        IFrameHelper.sendMessage({
-          event: 'setCampaignMode',
-        });
+        IFrameHelper.sendMessage({ event: 'setCampaignMode' });
+        this.$router.replace({ name: 'campaigns' });
         this.setIframeHeight(this.isMobile);
       }
     },
@@ -212,7 +210,7 @@ export default {
       this.isWebWidgetTriggered = true;
       if (
         isWidgetTriggerEvent &&
-        (this.showUnreadView || this.showCampaignView)
+        ['unread-messages', 'campaigns'].includes(this.$route.name)
       ) {
         return;
       }
@@ -270,15 +268,13 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          this.showUnreadView = true;
-          this.showCampaignView = false;
+          this.$router.replace({ name: 'unread-messages' });
         } else if (message.event === 'unset-unread-view') {
           // Reset campaign, If widget opened via clciking on bubble button
           if (!this.isCampaignViewClicked) {
             this.resetCampaign();
+            this.$router.replace({ name: 'messages' });
           }
-          this.showUnreadView = false;
-          this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();

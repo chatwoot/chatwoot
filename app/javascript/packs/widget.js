@@ -6,9 +6,11 @@ import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
 import i18n from '../widget/i18n';
-
+import VueRouter from 'vue-router';
+import router from '../widget/router';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
+Vue.use(VueRouter);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -22,6 +24,7 @@ Vue.config.productionTip = false;
 
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
+    router,
     store,
     i18n: i18nConfig,
     render: h => h(App),

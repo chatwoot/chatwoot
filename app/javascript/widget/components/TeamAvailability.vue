@@ -22,7 +22,9 @@
       :text-color="textColor"
       @click="startConversation"
     >
-      {{ $t('START_CONVERSATION') }}
+      {{
+        hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
+      }}
     </custom-button>
   </div>
 </template>
@@ -46,6 +48,10 @@ export default {
     availableAgents: {
       type: Array,
       default: () => {},
+    },
+    hasConversation: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

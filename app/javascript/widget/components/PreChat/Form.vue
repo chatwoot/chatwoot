@@ -157,6 +157,7 @@ export default {
           message: this.message,
         });
       }
+      this.$router.replace({ name: 'messages' });
     },
   },
 };

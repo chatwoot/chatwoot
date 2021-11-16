@@ -49,38 +49,21 @@ export default {
     UnreadMessage,
   },
   mixins: [configMixin],
-  props: {
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    unreadMessageCount: {
-      type: Number,
-      default: 0,
-    },
-    hideMessageBubble: {
-      type: Boolean,
-      default: false,
-    },
-    showUnreadView: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
     ...mapGetters({
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
       unreadMessages: 'conversation/getUnreadTextMessages',
       campaign: 'campaign/getActiveCampaign',
     }),
     showCloseButton() {
-      return this.unreadMessageCount;
+      return !!this.unreadMessageCount;
     },
     sender() {
       const [firstMessage] = this.unreadMessages;
       return firstMessage.sender || {};
     },
     allMessages() {
-      if (this.showUnreadView) {
+      if (this.$route.name === 'unread-messages') {
         return this.unreadMessages;
       }
       const { sender, id: campaignId, message: content } = this.campaign;
@@ -169,65 +152,6 @@ export default {
 
   .close-unread-wrap {
     text-align: left;
-  }
-}
-</style>
-
-<style lang="scss">
-@import '~widget/assets/scss/variables';
-
-.unread-messages {
-  width: 100%;
-  margin-top: 0;
-  padding-bottom: $space-small;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow-y: auto;
-
-  .chat-bubble-wrap {
-    margin-bottom: $space-smaller;
-
-    &:first-child {
-      margin-top: auto;
-    }
-    .chat-bubble {
-      border: 1px solid $color-border-dark;
-    }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-    &:last-child .chat-bubble {
-      border-bottom-left-radius: $space-two;
-    }
-  }
-}
-
-.is-widget-right .unread-wrap {
-  text-align: right;
-  overflow: hidden;
-
-  .chat-bubble-wrap {
-    .chat-bubble {
-      border-radius: $space-two;
-      border-bottom-right-radius: $space-smaller;
-    }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-    &:last-child .chat-bubble {
-      border-bottom-right-radius: $space-two;
-    }
-  }
-
-  .close-unread-wrap {
-    text-align: right;
   }
 }
 </style>
