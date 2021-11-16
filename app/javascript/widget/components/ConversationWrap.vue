@@ -136,7 +136,7 @@ export default {
 }
 
 .conversation-wrap {
-  @apply relative;
+  position: relative;
   flex: 1;
   padding: $space-large $space-small $space-small $space-small;
 }

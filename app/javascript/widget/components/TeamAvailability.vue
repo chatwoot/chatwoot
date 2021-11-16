@@ -1,5 +1,7 @@
 <template>
-  <div class="start-conversation-wrap">
+  <div
+    class="flex flex-col justify-center mx-4 p-3 bg-slate-25 border border-solid border-slate-75 rounded-xl "
+  >
     <div class="flex items-center justify-between">
       <div>
         <h4>
@@ -100,26 +102,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.start-conversation-wrap {
-  @apply flex;
-  @apply flex-col;
-  @apply justify-center;
-  @apply mx-4;
-  @apply p-3;
-  @apply bg-slate-25;
-  @apply border border-solid;
-  @apply border-slate-75;
-  @apply rounded-xl;
-}
-
-.agent-names-online {
-  @apply text-sm	text-slate-800;
-  @apply mt-2;
-
-  &::v-deep > span {
-    @apply font-medium;
-    @apply text-woot-700;
-  }
-}
-</style>

@@ -50,8 +50,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/mixins.scss';
-
 $logo-size: 40px;
 
 .header-expanded {

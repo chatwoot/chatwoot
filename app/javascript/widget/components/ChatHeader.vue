@@ -1,24 +1,24 @@
 <template>
-  <header class="header-collapsed">
-    <div class="header-branding">
+  <header class="flex justify-between py-5 px-4 w-full box-border">
+    <div class="flex align-middle">
       <header-back-button @click="onBackButtonClick" />
       <img
         v-if="avatarUrl"
-        class="inbox--avatar mr-3"
+        class="w-8 h-8 mr-3 rounded-full"
         :src="avatarUrl"
         alt="avatar"
       />
       <div>
-        <div class="text-black-900 font-medium text-base flex items-center">
+        <h4 class="text-black-900 font-medium text-base flex items-center">
           <span class="mr-1" v-html="title" />
-          <div
+          <h4
             :class="
-              `status-view--badge rounded-full leading-4 ${
+              `w-2 h-2 rounded-full leading-4 ${
                 isOnline ? 'bg-green-500' : 'hidden'
               }`
             "
           />
-        </div>
+        </h4>
         <div class="text-xs mt-1 text-black-700">
           {{ replyWaitMeessage }}
         </div>
@@ -86,39 +86,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
-
-.header-collapsed {
-  @apply flex;
-  @apply justify-between;
-  @apply py-5 px-4;
-  @apply w-full;
-  @apply box-border;
-
-  .header-branding {
-    display: flex;
-    align-items: center;
-
-    img {
-      border-radius: 50%;
-    }
-  }
-
-  .title {
-    font-weight: $font-weight-medium;
-  }
-
-  .inbox--avatar {
-    height: 32px;
-    width: 32px;
-  }
-}
-
-.status-view--badge {
-  height: $space-small;
-  width: $space-small;
-}
-</style>

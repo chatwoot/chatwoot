@@ -1,5 +1,10 @@
 <template>
-  <button type="button" class="back-button" @click="$emit('click')">
+  <button
+    type="button"
+    class="inline-flex items-center w-8 h-8 px-2 py-2 relative -left-2
+ text-sm leading-4 font-medium rounded-md text-black-900 hover:bg-black-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-woot-200"
+    @click="$emit('click')"
+  >
     <!-- Heroicon name: solid/mail -->
     <svg
       class="w-5 h-5"
@@ -17,23 +22,3 @@
 <script>
 export default {};
 </script>
-<style lang="scss" scoped>
-.back-button {
-  @apply inline-flex items-center;
-  @apply w-8 h-8;
-  @apply px-2 py-2;
-  @apply relative;
-  @apply -left-2;
-
-  @apply text-sm leading-4 font-medium;
-  @apply rounded-md;
-  @apply text-black-900;
-
-  &:hover {
-    @apply bg-black-50;
-  }
-  &:focus {
-    @apply outline-none ring-2 ring-offset-2 ring-woot-200;
-  }
-}
-</style>

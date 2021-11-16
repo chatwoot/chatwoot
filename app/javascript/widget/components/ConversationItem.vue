@@ -1,5 +1,5 @@
 <template>
-  <div class="item--wrap">
+  <div class="flex py-3 item-border-fix">
     <button @click="onItemClick">
       <div class="flex items-center space-x-2">
         <div class="h-10 w-10 rounded-full border-2 border-woot-100">
@@ -12,7 +12,10 @@
               {{ dynamicTime(lastMessage.created_at) }}
             </span>
           </div>
-          <p class="message-content" :class="{ 'has-unread': unreadCount }">
+          <p
+            class="inline-block text-sm text-black-700"
+            :class="{ 'font-medium': unreadCount }"
+          >
             {{ lastMessageContent }}
             <span v-if="unreadCount > 0" class="unread-bubble"></span>
           </p>
@@ -107,20 +110,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.item--wrap {
-  @apply flex;
-  @apply py-3;
+.item-border-fix {
   border: 1px solid transparent;
-}
-
-.message-content {
-  @apply inline-block;
-  @apply text-sm;
-  @apply text-black-700;
-
-  &.has-unread {
-    @apply font-medium;
-  }
 }
 
 .unread-bubble {
