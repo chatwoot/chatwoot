@@ -50,6 +50,59 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
 
+  scope :order_on_last_activity_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_company_name, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
+          NULLS LAST"
+        )
+      )
+    )
+  }
+  scope :order_on_city, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'city' #{direction}
+          NULLS LAST"
+        )
+      )
+    )
+  }
+  scope :order_on_country_name, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"additional_attributes\"->>'country' #{direction}
+          NULLS LAST"
+        )
+      )
+    )
+  }
+
+  scope :order_on_name, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "CASE
+           WHEN \"contacts\".\"name\" ~~* '^+\d*' THEN 'z'
+           WHEN \"contacts\".\"name\"  ~~*  '^\b*' THEN 'z'
+           ELSE LOWER(\"contacts\".\"name\")
+           END #{direction}"
+        )
+      )
+    )
+  }
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -77,6 +130,12 @@ class Contact < ApplicationRecord
       type: 'contact',
       account: account.webhook_data
     }
+  end
+
+  def self.resolved_contacts
+    where.not(email: [nil, '']).or(
+      Current.account.contacts.where.not(phone_number: [nil, ''])
+    ).or(Current.account.contacts.where.not(identifier: [nil, '']))
   end
 
   private

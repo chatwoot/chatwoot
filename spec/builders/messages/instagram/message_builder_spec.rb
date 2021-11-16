@@ -3,6 +3,10 @@ require 'rails_helper'
 describe  ::Messages::Instagram::MessageBuilder do
   subject(:instagram_message_builder) { described_class }
 
+  before do
+    stub_request(:post, /graph.facebook.com/)
+  end
+
   let!(:account) { create(:account) }
   let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
@@ -19,7 +23,7 @@ describe  ::Messages::Instagram::MessageBuilder do
           name: 'Jane',
           id: 'Sender-id-1',
           account_id: instagram_inbox.account_id,
-          profile_pic: 'https://via.placeholder.com/250x250.png'
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
       messaging = dm_params[:entry][0]['messaging'][0]

@@ -8,8 +8,8 @@ export const buildCreatePayload = ({
   contentAttributes,
   echoId,
   file,
-  ccEmails,
-  bccEmails,
+  ccEmails = '',
+  bccEmails = '',
 }) => {
   let payload;
   if (file) {
@@ -47,8 +47,8 @@ class MessageApi extends ApiClient {
     contentAttributes,
     echo_id: echoId,
     file,
-    ccEmails,
-    bccEmails,
+    ccEmails = '',
+    bccEmails = '',
   }) {
     return axios({
       method: 'post',

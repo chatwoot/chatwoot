@@ -4,6 +4,10 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::FacebookPage do
+  before do
+    stub_request(:post, /graph.facebook.com/)
+  end
+
   let(:channel) { create(:channel_facebook_page) }
 
   it { is_expected.to validate_presence_of(:account_id) }

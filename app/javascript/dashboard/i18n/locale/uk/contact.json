@@ -1,74 +1,74 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Не доступно",
     "EMAIL_ADDRESS": "Адреса електронної пошти",
     "PHONE_NUMBER": "Номер телефону",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
+    "COMPANY": "Організація",
     "LOCATION": "Місцезнаходження",
     "CONVERSATION_TITLE": "Деталі бесіди",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Дивитись профіль",
     "BROWSER": "Браузер",
     "OS": "Операційна система",
     "INITIATED_FROM": "Почалося з",
     "INITIATED_AT": "Час початку",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "IP-адреса",
+    "NEW_MESSAGE": "Нове повідомлення",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
       "TITLE": "Попередні бесіди"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Мітки контакту",
+        "ERROR": "Не вдалося оновити мітки"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "Мітки бесіди",
+        "ADD_BUTTON": "Додати мітки"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Додати мітки",
+        "PLACEHOLDER": "Пошук міток",
+        "NO_RESULT": "Міток не знайдено"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MERGE_CONTACT": "Об'єднати",
+    "CONTACT_ACTIONS": "Дії з контактами",
+    "MUTE_CONTACT": "Заглушити розмову",
+    "UNMUTE_CONTACT": "Увімкнути розмову",
+    "MUTED_SUCCESS": "Ця розмова заглушена на 6 годин",
+    "UNMUTED_SUCCESS": "Ця розмова увімкнена",
+    "SEND_TRANSCRIPT": "Надіслати транскрипт",
     "EDIT_LABEL": "Редагувати",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
+      "CUSTOM_ATTRIBUTES": "Свої атрибути",
+      "CONTACT_LABELS": "Мітки контакту",
       "PREVIOUS_CONVERSATIONS": "Попередні бесіди"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "BUTTON_LABEL": "Редагувати контакт",
+    "TITLE": "Редагувати контакт",
+    "DESC": "Змінити контактні дані"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Новий контакт",
+    "TITLE": "Створити новий контакт",
+    "DESC": "Додайте основну інформацію про контакт."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
+    "BUTTON_LABEL": "Імпорт",
     "TITLE": "Import Contacts",
     "DESC": "Import contacts through a CSV file.",
     "DOWNLOAD_LABEL": "Download a sample csv.",
     "FORM": {
       "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
@@ -95,7 +95,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "Повне ім`я"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -140,7 +140,7 @@
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
@@ -155,101 +155,135 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
-      "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+      "SUBJECT": {
+        "LABEL": "Тема",
+        "PLACEHOLDER": "Тема",
+        "ERROR": "Тема не може бути порожньою"
       },
-      "SUBMIT": "Send message",
+      "MESSAGE": {
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Напишіть ваше повідомлення тут",
+        "ERROR": "Повідомлення не може бути пустим"
+      },
+      "SUBMIT": "Надіслати",
       "CANCEL": "Скасувати",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Повідомлення надіслано!",
+      "ERROR_MESSAGE": "Не вдалося надіслати! Повторіть спробу"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Контакти",
+    "FIELDS": "Поля контактів",
+    "SEARCH_BUTTON": "Пошук",
+    "SEARCH_INPUT_PLACEHOLDER": "Пошук контактів",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "LOADING_MESSAGE": "Завантаження контактів...",
+      "404": "Немає контактів, які відповідають вашому пошуку 🔍",
+      "NO_CONTACTS": "Немає доступних контактів",
       "TABLE_HEADER": {
         "NAME": "Ім'я",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Номер телефону",
         "CONVERSATIONS": "Бесіди",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Остання активність",
+        "COUNTRY": "Країна",
+        "CITY": "Місто",
         "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
+        "COMPANY": "Організація",
         "EMAIL_ADDRESS": "Адреса електронної пошти"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Докладніше"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
-    "LOADING": "Loading contact profile..."
+    "BACK_BUTTON": "Контакти",
+    "LOADING": "Завантаження профілю контакту..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Додати",
+      "TITLE": "Shift + Enter, щоб створити завдання"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Дата завершення",
+      "LABEL_TITLE": "Встановити тип"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Отримання нотаток...",
+    "NOT_AVAILABLE": "Для цього контакту не створено жодних нотаток",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Нотатки"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "додано нотатку"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Додати",
+      "PLACEHOLDER": "Додати нотатку",
+      "TITLE": "Shift + Enter, щоб створити нотатку"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Видалити нотатку"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Події"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "нотатки",
+      "PILL_BUTTON_EVENTS": "події",
       "PILL_BUTTON_CONVO": "бесіди"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Додати атрибут",
+    "BUTTON": "Додати користувацький атрибут",
+    "NOT_AVAILABLE": "Немає ніяких користувацьких атрибутів для цього контакту.",
+    "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
+    "ACTIONS": {
+      "COPY": "Копіювати атрибут",
+      "DELETE": "Видалити атрибут",
+      "EDIT": "Редагувати атрибут"
+    },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Створити користувацький атрибут",
+      "DESC": "Додати користувацьку інформацію до цього контакту."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Додати атрибут",
       "CANCEL": "Скасувати",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Назва користувацької атрибуту",
+        "PLACEHOLDER": "Наприклад: shopify id",
+        "ERROR": "Некоректна назва користувацького атрибуту"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Значення атрибуту",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Атрибут додано успішно",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Атрибут успішно оновлено",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Додати атрибут",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

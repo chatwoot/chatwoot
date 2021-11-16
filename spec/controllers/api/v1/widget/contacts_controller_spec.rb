@@ -38,5 +38,74 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(identify_action).to have_received(:perform)
       end
     end
+
+    context 'with mandatory hmac' do
+      let(:identify_action) { double }
+      let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }
+      let(:correct_identifier_hash) { OpenSSL::HMAC.hexdigest('sha256', web_widget.hmac_token, params[:identifier].to_s) }
+      let(:incorrect_identifier_hash) { 'test' }
+
+      before do
+        allow(ContactIdentifyAction).to receive(:new).and_return(identify_action)
+        allow(identify_action).to receive(:perform)
+      end
+
+      it 'returns success when correct identifier hash is provided' do
+        patch '/api/v1/widget/contact',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns error when incorrect identifier hash is provided' do
+        patch '/api/v1/widget/contact',
+              params: params.merge(identifier_hash: incorrect_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns error when identifier hash is blank' do
+        patch '/api/v1/widget/contact',
+              params: params.merge(identifier_hash: ''),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns error when identifier hash is not provided' do
+        patch '/api/v1/widget/contact',
+              params: params,
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/widget/destroy_custom_attributes' do
+    let(:params) { { website_token: web_widget.website_token, identifier: 'test', custom_attributes: ['test'] } }
+
+    context 'with invalid website token' do
+      it 'returns unauthorized' do
+        post '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with correct website token' do
+      it 'calls destroy custom attributes' do
+        post '/api/v1/widget/destroy_custom_attributes',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+        expect(contact.reload.custom_attributes).to eq({})
+      end
+    end
   end
 end
