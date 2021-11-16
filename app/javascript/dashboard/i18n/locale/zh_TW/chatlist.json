@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "正在進行的\n",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "打開"
       },
-      {
-        "TEXT": "已解決",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "已解決"
       },
-      {
-        "TEXT": "待處理",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "待處理"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

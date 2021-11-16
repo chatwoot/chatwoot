@@ -9,10 +9,10 @@
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
     "SEARCH": {
       "TITLE": "Sök meddelanden",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Sökresultat",
       "LOADING_MESSAGE": "Tuggar data...",
       "PLACEHOLDER": "Skriv valfri text för att söka efter meddelanden",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Inga resultat hittades."
     },
     "UNREAD_MESSAGES": "Olästa meddelanden",
     "UNREAD_MESSAGE": "Oläst meddelande",
@@ -21,17 +21,17 @@
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Du kan bara svara på denna konversation med ett mallmeddelande på grund av",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Välj en tweet att svara på.",
     "REPLYING_TO": "Du svarar:",
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
+    "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
-    "RATING_TITLE": "Rating",
+    "RATING_TITLE": "Betyg",
     "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
@@ -40,17 +40,17 @@
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Snoozad till imorgon",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozad till nästa vecka",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozad till nästa svar"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Markera som väntande",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Snooza tills",
+        "NEXT_REPLY": "Nästa svar",
+        "TOMORROW": "Imorgon",
+        "NEXT_WEEK": "Nästa vecka"
       }
     },
     "FOOTER": {
@@ -67,27 +67,27 @@
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
       "ENTER_TO_SEND": "Enter för att skicka",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "DRAG_DROP": "Dra och släpp hit för att bifoga",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Lägg till bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-post separerade med kommatecken",
+          "ERROR": "Ange giltiga e-postadresser"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-post separerade med kommatecken",
+          "ERROR": "Ange giltiga e-postadresser"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
     "CHANGE_AGENT": "Konversationstilldelning ändrad",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "CHANGE_TEAM": "Konversationsteamet har ändrats",
+    "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
+    "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Välj agent",
@@ -117,16 +117,16 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Hej 👋, Välkommen till %{installationName}!",
+    "DESCRIPTION": "Tack för att du registrerar dig. Vi vill att du ska få ut det mesta av %{installationName}. Här är några saker du kan göra i %{installationName} för att göra upplevelsen härlig.",
+    "READ_LATEST_UPDATES": "Läs våra senaste uppdateringar",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Alla dina konversationer på ett ställe",
+      "DESCRIPTION": "Visa alla konversationer från dina kunder i en enda instrumentpanel. Du kan filtrera konversationerna genom inkommande kanal, etikett och status."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "TITLE": "Bjud in dina teammedlemmar",
+      "DESCRIPTION": "Eftersom du är redo att prata med din kund, ta in dina lagkamrater för att hjälpa dig. Du kan bjuda in dina lagkamrater genom att lägga till deras e-postadress i agentlistan.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -150,10 +150,31 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_LABELS": "Etiketter för konversation",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Tidigare konversationer"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Add",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

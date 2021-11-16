@@ -7,6 +7,9 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    # prevent loop from chatwoot notification emails
+    return if notification_email_from_chatwoot?
+
     ActiveRecord::Base.transaction do
       find_or_create_contact
       find_or_create_conversation

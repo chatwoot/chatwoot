@@ -24,14 +24,14 @@
           "body": "Create a new team of agents."
         },
         {
-          "title": "Add Agents",
+          "title": "הוסף נציג",
           "route": "settings_teams_add_agents",
           "body": "Add agents to the team."
         },
         {
           "title": "Finish",
           "route": "settings_teams_finish",
-          "body": "You are all set to go!"
+          "body": "אתם מוכנים לצאת לדרך!"
         }
       ]
     },
@@ -60,7 +60,7 @@
         {
           "title": "Finish",
           "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
+          "body": "אתם מוכנים לצאת לדרך!"
         }
       ]
     },
@@ -70,7 +70,7 @@
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "מייל",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "הוסף נציגים",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
@@ -82,7 +82,7 @@
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "הוסף נציגים",
       "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
     },
     "FINISH": {
