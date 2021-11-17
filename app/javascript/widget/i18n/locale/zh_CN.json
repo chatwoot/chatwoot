@@ -50,7 +50,8 @@
         "PLACEHOLDER": "请输入您的消息",
         "ERROR": "消息太短了"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {

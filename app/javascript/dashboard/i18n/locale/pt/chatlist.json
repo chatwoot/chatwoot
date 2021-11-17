@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abertas",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abertas"
       },
-      {
-        "TEXT": "Resolvido",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Resolvido"
       },
-      {
-        "TEXT": "Pendente",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pendente"
       },
-      {
-        "TEXT": "Adiado",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Adiado"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import * as types from '../../mutation-types';
+import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
@@ -17,27 +17,24 @@ const actions = {
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.default.UPDATE_CONVERSATION, response.data);
-      commit(
-        `contacts/${types.default.SET_CONTACT_ITEM}`,
-        response.data.meta.sender
-      );
+      commit(types.UPDATE_CONVERSATION, response.data);
+      commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
       // Ignore error
     }
   },
 
   fetchAllConversations: async ({ commit, dispatch }, params) => {
-    commit(types.default.SET_LIST_LOADING_STATUS);
+    commit(types.SET_LIST_LOADING_STATUS);
     try {
       const response = await ConversationApi.get(params);
       const {
         data: { payload: chatList, meta: metaData },
       } = response.data;
-      commit(types.default.SET_ALL_CONVERSATION, chatList);
+      commit(types.SET_ALL_CONVERSATION, chatList);
       dispatch('conversationStats/set', metaData);
       dispatch('conversationLabels/setBulkConversationLabels', chatList);
-      commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      commit(types.CLEAR_LIST_LOADING_STATUS);
       setContacts(commit, chatList);
       dispatch(
         'conversationPage/setCurrentPage',
@@ -72,11 +69,11 @@ const actions = {
   },
 
   emptyAllConversations({ commit }) {
-    commit(types.default.EMPTY_ALL_CONVERSATION);
+    commit(types.EMPTY_ALL_CONVERSATION);
   },
 
   clearSelectedState({ commit }) {
-    commit(types.default.CLEAR_CURRENT_CHAT_WINDOW);
+    commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
   fetchPreviousMessages: async ({ commit }, data) => {
@@ -84,16 +81,16 @@ const actions = {
       const {
         data: { meta, payload },
       } = await MessageApi.getPreviousMessages(data);
-      commit(
-        `conversationMetadata/${types.default.SET_CONVERSATION_METADATA}`,
-        { id: data.conversationId, data: meta }
-      );
-      commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
+      commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
+        id: data.conversationId,
+        data: meta,
+      });
+      commit(types.SET_PREVIOUS_CONVERSATIONS, {
         id: data.conversationId,
         data: payload,
       });
       if (payload.length < 20) {
-        commit(types.default.SET_ALL_MESSAGES_LOADED);
+        commit(types.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
       // Handle error
@@ -101,8 +98,8 @@ const actions = {
   },
 
   async setActiveChat({ commit, dispatch }, data) {
-    commit(types.default.SET_CURRENT_CHAT_WINDOW, data);
-    commit(types.default.CLEAR_ALL_MESSAGES_LOADED);
+    commit(types.SET_CURRENT_CHAT_WINDOW, data);
+    commit(types.CLEAR_ALL_MESSAGES_LOADED);
 
     if (data.dataFetched === undefined) {
       try {
@@ -130,7 +127,7 @@ const actions = {
   },
 
   setCurrentChatAssignee({ commit }, assignee) {
-    commit(types.default.ASSIGN_AGENT, assignee);
+    commit(types.ASSIGN_AGENT, assignee);
   },
 
   assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
@@ -146,7 +143,7 @@ const actions = {
   },
 
   setCurrentChatTeam({ commit }, team) {
-    commit(types.default.ASSIGN_TEAM, team);
+    commit(types.ASSIGN_TEAM, team);
   },
 
   toggleStatus: async (
@@ -166,7 +163,7 @@ const actions = {
         status,
         snoozedUntil,
       });
-      commit(types.default.CHANGE_CONVERSATION_STATUS, {
+      commit(types.CHANGE_CONVERSATION_STATUS, {
         conversationId,
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
@@ -180,9 +177,9 @@ const actions = {
     // eslint-disable-next-line no-useless-catch
     try {
       const pendingMessage = createPendingMessage(data);
-      commit(types.default.ADD_MESSAGE, pendingMessage);
+      commit(types.ADD_MESSAGE, pendingMessage);
       const response = await MessageApi.create(pendingMessage);
-      commit(types.default.ADD_MESSAGE, {
+      commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
@@ -192,9 +189,9 @@ const actions = {
   },
 
   addMessage({ commit }, message) {
-    commit(types.default.ADD_MESSAGE, message);
+    commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
-      commit(types.default.SET_CONVERSATION_CAN_REPLY, {
+      commit(types.SET_CONVERSATION_CAN_REPLY, {
         conversationId: message.conversation_id,
         canReply: true,
       });
@@ -202,7 +199,7 @@ const actions = {
   },
 
   updateMessage({ commit }, message) {
-    commit(types.default.ADD_MESSAGE, message);
+    commit(types.ADD_MESSAGE, message);
   },
 
   deleteMessage: async function deleteLabels(
@@ -213,7 +210,7 @@ const actions = {
       const response = await MessageApi.delete(conversationId, messageId);
       const { data } = response;
       // The delete message is actually deleting the content.
-      commit(types.default.ADD_MESSAGE, data);
+      commit(types.ADD_MESSAGE, data);
     } catch (error) {
       throw new Error(error);
     }
@@ -229,7 +226,7 @@ const actions = {
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
     if (!hasAppliedFilters && isMatchingInboxFilter) {
-      commit(types.default.ADD_CONVERSATION, conversation);
+      commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
     }
   },
@@ -238,7 +235,7 @@ const actions = {
     const {
       meta: { sender },
     } = conversation;
-    commit(types.default.UPDATE_CONVERSATION, conversation);
+    commit(types.UPDATE_CONVERSATION, conversation);
     dispatch('contacts/setContact', sender);
   },
 
@@ -247,38 +244,35 @@ const actions = {
       const {
         data: { id, agent_last_seen_at: lastSeen },
       } = await ConversationApi.markMessageRead(data);
-      setTimeout(
-        () => commit(types.default.MARK_MESSAGE_READ, { id, lastSeen }),
-        4000
-      );
+      setTimeout(() => commit(types.MARK_MESSAGE_READ, { id, lastSeen }), 4000);
     } catch (error) {
       // Handle error
     }
   },
 
   setChatFilter({ commit }, data) {
-    commit(types.default.CHANGE_CHAT_STATUS_FILTER, data);
+    commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },
 
   updateAssignee({ commit }, data) {
-    commit(types.default.UPDATE_ASSIGNEE, data);
+    commit(types.UPDATE_ASSIGNEE, data);
   },
 
   updateConversationContact({ commit }, data) {
     if (data.id) {
-      commit(`contacts/${types.default.SET_CONTACT_ITEM}`, data);
+      commit(`contacts/${types.SET_CONTACT_ITEM}`, data);
     }
-    commit(types.default.UPDATE_CONVERSATION_CONTACT, data);
+    commit(types.UPDATE_CONVERSATION_CONTACT, data);
   },
 
   setActiveInbox({ commit }, inboxId) {
-    commit(types.default.SET_ACTIVE_INBOX, inboxId);
+    commit(types.SET_ACTIVE_INBOX, inboxId);
   },
 
   muteConversation: async ({ commit }, conversationId) => {
     try {
       await ConversationApi.mute(conversationId);
-      commit(types.default.MUTE_CONVERSATION);
+      commit(types.MUTE_CONVERSATION);
     } catch (error) {
       //
     }
@@ -287,7 +281,7 @@ const actions = {
   unmuteConversation: async ({ commit }, conversationId) => {
     try {
       await ConversationApi.unmute(conversationId);
-      commit(types.default.UNMUTE_CONVERSATION);
+      commit(types.UNMUTE_CONVERSATION);
     } catch (error) {
       //
     }
@@ -311,10 +305,7 @@ const actions = {
         customAttributes,
       });
       const { custom_attributes } = response.data;
-      commit(
-        types.default.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES,
-        custom_attributes
-      );
+      commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, custom_attributes);
     } catch (error) {
       // Handle error
     }

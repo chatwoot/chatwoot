@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "باز",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "باز"
       },
-      {
-        "TEXT": "حل شده",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "حل شده"
       },
-      {
-        "TEXT": "در انتظار",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "در انتظار"
       },
-      {
-        "TEXT": "به تعویق افتاد",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "به تعویق افتاد"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

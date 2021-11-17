@@ -41,7 +41,8 @@ export const actions = {
       const response = await AttributeAPI.create(attributeObj);
       commit(types.ADD_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
-      throw new Error(error);
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: false });
     }
@@ -52,7 +53,8 @@ export const actions = {
       const response = await AttributeAPI.update(id, updateObj);
       commit(types.EDIT_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
-      throw new Error(error);
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: false });
     }

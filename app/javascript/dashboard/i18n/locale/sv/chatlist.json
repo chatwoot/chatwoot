@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Öppna",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öppna"
       },
-      {
-        "TEXT": "Lösta",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Löst"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Väntande"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Pausad"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -85,10 +81,10 @@
     "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
     "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
     "REPLY_TO_TWEET": "Svara på detta tweet",
-    "SENT": "Sent successfully",
+    "SENT": "Skickades framgångsrikt",
     "NO_MESSAGES": "Inga meddelanden",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "NO_CONTENT": "Inget innehåll tillgängligt",
+    "HIDE_QUOTED_TEXT": "Dölj citerad text",
+    "SHOW_QUOTED_TEXT": "Visa citerad text"
   }
 }
