@@ -151,6 +151,15 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  def auto_resolve?
+    return false unless auto_resolve_duration && open?
+
+    time_since_last_activity = Time.current.to_i - last_activity_at.to_i
+    time_left_to_auto_resolve = auto_resolve_duration.days.to_i - time_since_last_activity
+
+    time_left_to_auto_resolve.negative?
+  end
+
   private
 
   def execute_after_update_commit_callbacks
