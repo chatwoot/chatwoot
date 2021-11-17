@@ -10,7 +10,7 @@ responses:
       type: array
       description: 'Array of agent bots'
       items:
-        - $ref: '#/definitions/agent_bot'
+        $ref: '#/definitions/agent_bot'
 
   401:
     description: Unauthorized

@@ -10,7 +10,7 @@ info:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 host: app.chatwoot.com
-basePath:
+basePath: /
 schemes:
   - https
 produces:

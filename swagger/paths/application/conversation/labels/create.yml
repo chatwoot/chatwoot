@@ -13,7 +13,7 @@ parameters:
         labels:
           type: array
           description: Array of labels (comma-separated strings)
-          properties:
+          items:
             type: string
 responses:
   200:
