@@ -46,6 +46,7 @@ class Conversation < ApplicationRecord
   include AssignmentHandler
   include RoundRobinHandler
   include ActivityMessageHandler
+  include Wisper::Publisher
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true

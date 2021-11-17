@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::AutomationRules', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let!(:contact) { create(:contact, account: account) }
+  let!(:contact_inbox) { create(:contact_inbox, inbox_id: inbox.id, contact_id: contact.id) }
 
   describe 'GET /api/v1/accounts/{account.id}/automation_rules' do
     context 'when it is an authenticated user' do
@@ -65,6 +68,8 @@ RSpec.describe 'Api::V1::Accounts::AutomationRules', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.count).to eq(1)
+
+        Conversation.new(account: account, inbox: inbox, contact: contact, contact_inbox_id: contact_inbox.id)
       end
     end
   end
