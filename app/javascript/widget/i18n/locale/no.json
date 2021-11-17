@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er pålogget",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Vi er for øyeblikket borte"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag"
   },
   "START_CONVERSATION": "Start samtale",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
     "CLOSE_MESSAGES_BUTTON": "Lukk",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "fra",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -38,16 +38,16 @@
       "FULL_NAME": {
         "LABEL": "Fullt navn",
         "PLACEHOLDER": "Skriv inn fullt navn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Fullt navn er påkrevd"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadresse",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
+        "ERROR": "Ugyldig e-postadresse"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
+        "LABEL": "Melding",
+        "PLACEHOLDER": "Skriv inn meldingen din",
         "ERROR": "Message too short"
       }
     },
