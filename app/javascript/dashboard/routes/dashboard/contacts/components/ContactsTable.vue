@@ -114,7 +114,7 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: 'left',
-          sortBy: this.sortConfig.name || undefined,
+          sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
             <woot-button
@@ -150,7 +150,7 @@ export default {
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
           align: 'left',
-          sortBy: this.sortConfig.email || undefined,
+          sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
             if (row.email)
@@ -171,21 +171,21 @@ export default {
         {
           field: 'phone_number',
           key: 'phone_number',
-          sortBy: this.sortConfig.phone_number || undefined,
+          sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
           align: 'left',
         },
         {
           field: 'company',
           key: 'company',
-          sortBy: this.sortConfig.company_name || undefined,
+          sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: 'left',
         },
         {
           field: 'city',
           key: 'city',
-          sortBy: this.sortConfig.city || undefined,
+          sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
           align: 'left',
         },
@@ -194,7 +194,7 @@ export default {
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: 'left',
-          sortBy: this.sortConfig.country || undefined,
+          sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (

@@ -1,44 +1,43 @@
-post:
-  tags:
-    - Conversation
-  operationId: conversationFilter
-  description: Filter conversations with custom filter options and pagination
-  summary: Conversations Filter
-  security:
-    - userApiKey: []
-    - agentBotApiKey: []
-  parameters:
-    - name: page
-      in: query
-      type: integer
-    - name: payload
-      in: body
-      required: true
-      schema:
-        type: array
-        items:
-          type: object
-          properties:
-            attribute_key:
+tags:
+  - Conversation
+operationId: conversationFilter
+description: Filter conversations with custom filter options and pagination
+summary: Conversations Filter
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: page
+    in: query
+    type: integer
+  - name: payload
+    in: body
+    required: true
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          attribute_key:
+            type: string
+            description: filter attribute name
+          filter_operator:
+            type: string
+            description: filter operator name
+          values:
+            type: array
+            items:
               type: string
-              description: filter attribute name
-            filter_operator:
-              type: string
-              description: filter operator name
-            values:
-              type: array
-              description: array of the attribute values to filter
-            query_operator:
-              type: string
-              description: query operator name
-    - $ref: '#/parameters/account_id'
-  responses:
-    200:
-      description: Success
-      schema:
-        $ref: '#/definitions/conversation_list'
-    400:
-      description: Bad Request Error
-      schema:
-        $ref: '#/definitions/bad_request_error'
-    description: Access denied
+            description: array of the attribute values to filter
+          query_operator:
+            type: string
+            description: query operator name
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/conversation_list'
+  400:
+    description: Bad Request Error
+    schema:
+      $ref: '#/definitions/bad_request_error'
