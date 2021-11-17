@@ -88,8 +88,3 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-.file-uploads .attachment-button + label {
-  cursor: pointer;
-}
-</style>

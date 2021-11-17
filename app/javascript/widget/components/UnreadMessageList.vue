@@ -1,18 +1,14 @@
 <template>
   <div class="unread-wrap">
     <div class="close-unread-wrap">
-      <button
-        v-if="showCloseButton"
-        class="button small close-unread-button"
-        @click="closeFullView"
-      >
+      <button class="button small close-unread-button" @click="closeFullView">
         <i class="ion-android-close" />
         {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
       </button>
     </div>
     <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in allMessages"
+        v-for="(message, index) in messages"
         :key="message.id"
         :message-type="message.messageType"
         :message-id="message.id"
@@ -49,31 +45,17 @@ export default {
     UnreadMessage,
   },
   mixins: [configMixin],
+  props: {
+    messages: {
+      type: Array,
+      required: true,
+    },
+  },
   computed: {
-    ...mapGetters({
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
-      unreadMessages: 'conversation/getUnreadTextMessages',
-      campaign: 'campaign/getActiveCampaign',
-    }),
-    showCloseButton() {
-      return !!this.unreadMessageCount;
-    },
+    ...mapGetters({ unreadMessageCount: 'conversation/getUnreadMessageCount' }),
     sender() {
-      const [firstMessage] = this.unreadMessages;
+      const [firstMessage] = this.messages;
       return firstMessage.sender || {};
-    },
-    allMessages() {
-      if (this.$route.name === 'unread-messages') {
-        return this.unreadMessages;
-      }
-      const { sender, id: campaignId, message: content } = this.campaign;
-      return [
-        {
-          content,
-          sender,
-          campaignId,
-        },
-      ];
     },
   },
   methods: {
@@ -82,9 +64,7 @@ export default {
     },
     closeFullView() {
       if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'toggleBubble',
-        });
+        IFrameHelper.sendMessage({ event: 'toggleBubble' });
       }
     },
     getMessageContent(message) {

@@ -1,10 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Unread from './views/Unread';
 import ViewWithHeader from './components/layouts/ViewWithHeader.vue';
-import PreChatForm from './views/PreChatForm.vue';
-import Messages from './views/Messages.vue';
 
 Vue.use(Router);
 
@@ -14,12 +10,12 @@ export default new Router({
     {
       path: '/unread-messages',
       name: 'unread-messages',
-      component: Unread,
+      component: () => import('./views/UnreadMessages.vue'),
     },
     {
       path: '/campaigns',
       name: 'campaigns',
-      component: Unread,
+      component: () => import('./views/Campaigns.vue'),
     },
     {
       path: '/',
@@ -28,17 +24,17 @@ export default new Router({
         {
           path: '',
           name: 'home',
-          component: Home,
+          component: () => import('./views/Home.vue'),
         },
         {
           path: '/prechat-form',
           name: 'prechat-form',
-          component: PreChatForm,
+          component: () => import('./views/PreChatForm.vue'),
         },
         {
           path: '/messages',
           name: 'messages',
-          component: Messages,
+          component: () => import('./views/Messages.vue'),
         },
       ],
     },
