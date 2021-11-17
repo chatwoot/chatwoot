@@ -9,8 +9,5 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to reopen snoozed conversations
     Conversations::ReopenSnoozedConversationsJob.perform_later
-
-    # IMAP
-    Inboxes::FetchImapEmailInboxesJob.perform_later
   end
 end
