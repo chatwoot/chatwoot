@@ -11,21 +11,22 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - name
+        - email
+        - role
       properties:
-        name: 
+        name:
           type: string
           description: Full Name of the agent
-          required: true
         email:
           type: string
           description: Email of the Agent
-          required: true
-        role: 
+        role:
           type: string
           enum: ['agent', 'administrator']
           description: Whether its administrator or agent
-          required: true
-        availability_status: 
+        availability_status:
           type: string
           enum: ['available', 'busy', 'offline']
           description: The availability setting of the agent.
