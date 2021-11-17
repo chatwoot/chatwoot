@@ -143,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Kontoinställningar",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Egna egenskaper",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
@@ -154,7 +154,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Inkorg",
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {

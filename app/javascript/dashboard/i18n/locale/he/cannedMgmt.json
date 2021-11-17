@@ -1,68 +1,68 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "תגובות מוכנות",
+    "HEADER_BTN_TXT": "הוסף תגובה מוכנה",
+    "LOADING": "מביא תגובות שמורות",
+    "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
+    "SIDEBAR_TXT": "<p><b>תגובות מוכנות</b> </p><p> תגובות מוכנות הן תבניות תשובה שמורות בהן ניתן להשתמש כדי לשלוח תשובה מהירה לשיחה . </p><p> ליצירת תגובה מוכנה, פשוט לחץ על <b>הוסף תגובה מוכנה</b>. אתה יכול גם לערוך או למחוק תגובה מוכנה קיימת על ידי לחיצה על הלחצן ערוך או מחק </p><p> תגובות מוכנות משמשות בעזרת <b>קודים קצרים</b>. סוכנים יכולים לגשת לתגובות מוכנות בזמן צ'אט על ידי הקלדת <b>'/'</b> ואחריה הקוד הקצר. </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "אין תגובות מוכנות זמינות בחשבון זה.",
+      "TITLE": "נהל תגובות מוכנות",
+      "DESC": "תגובות מוכנות הן תבניות תשובה מוגדרות מראש שבהן ניתן להשתמש כדי לשלוח במהירות תשובות לכרטיסים.",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
+        "קוד קצר",
+        "תוכן",
         "פעולות"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
+      "TITLE": "הוסף תגובה מוכנה",
+      "DESC": "תגובות מוכנות הן תבניות תשובה שמורות בהן ניתן להשתמש כדי לשלוח במהירות תשובה לשיחה.",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "קוד קצר",
+          "PLACEHOLDER": "נא להזין קוד קצר",
+          "ERROR": "קוד קצר נדרש"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "תוכן",
+          "PLACEHOLDER": "נא להזין תוכן",
+          "ERROR": "נא להזין תוכן"
         },
         "SUBMIT": "שלח"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
+        "SUCCESS_MESSAGE": "תגובה מוכנה נוספה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
+      "TITLE": "ערוך תגובה מוכנה",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "קוד קצר",
+          "PLACEHOLDER": "נא להזין קוד קצר",
+          "ERROR": "קוד קצר נדרש"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "תוכן",
+          "PLACEHOLDER": "נא להזין תוכן",
+          "ERROR": "נא להזין תוכן"
         },
         "SUBMIT": "שלח"
       },
       "BUTTON_TEXT": "ערוך",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
+        "SUCCESS_MESSAGE": "התגובה המוכנה עודכנה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
+        "SUCCESS_MESSAGE": "התגובה המוכנה נמחקה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {

@@ -186,7 +186,7 @@ Rails.application.routes.draw do
         end
         resource :contact, only: [:show, :update] do
           collection do
-            delete :destroy_custom_attributes
+            post :destroy_custom_attributes
           end
         end
         resources :inbox_members, only: [:index]

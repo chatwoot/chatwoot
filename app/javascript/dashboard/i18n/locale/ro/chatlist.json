@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Deschide",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Deschide"
       },
-      {
-        "TEXT": "Rezolvat",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Rezolvat"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pending"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "icon",

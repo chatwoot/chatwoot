@@ -3,16 +3,19 @@
     <sidebar :route="currentRoute" :class="sidebarClassName"></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
+      <command-bar />
     </section>
   </div>
 </template>
 
 <script>
 import Sidebar from '../../components/layout/Sidebar';
+import CommandBar from './commands/commandbar.vue';
 
 export default {
   components: {
     Sidebar,
+    CommandBar,
   },
   data() {
     return {
