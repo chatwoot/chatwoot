@@ -62,7 +62,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
-        @click="fetchConversations"
+        @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
       </woot-button>
@@ -179,6 +179,11 @@ export default {
     currentPage() {
       return this.$store.getters['conversationPage/getCurrentPageFilter'](
         this.activeAssigneeTab
+      );
+    },
+    currentFiltersPage() {
+      return this.$store.getters['conversationPage/getCurrentPageFilter'](
+        'filtersApplied'
       );
     },
     hasCurrentPageEndReached() {
@@ -310,14 +315,26 @@ export default {
         .dispatch('fetchAllConversations', this.conversationFilters)
         .then(() => this.$emit('conversation-load'));
     },
-    fetchFilteredConversations(payload) {
-      this.$router.push({ name: 'home' });
+    loadMoreConversations() {
+      if (!this.isFilterApplied) this.fetchConversations();
+      else {
+        let page = this.currentFiltersPage + 1;
+        this.fetchFilteredConversations(this.filtersApplied, page);
+      }
+    },
+    fetchFilteredConversations(payload, page) {
+      if (this.$route.name !== 'home') {
+        this.$router.push({ name: 'home' });
+      }
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store
-        .dispatch('fetchFilteredConversations', filterQueryGenerator(payload))
+        .dispatch('fetchFilteredConversations', {
+          queryData: filterQueryGenerator(payload),
+          page,
+        })
         .then(() => this.$emit('conversation-load'));
-      this.onToggleAdvanceFiltersModal();
+      this.showAdvancedFilters = false;
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {

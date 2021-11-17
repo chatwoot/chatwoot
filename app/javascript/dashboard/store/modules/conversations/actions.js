@@ -7,7 +7,7 @@ import { createPendingMessage } from 'dashboard/helper/commons';
 
 const setContacts = (commit, chatList) => {
   commit(
-    `contacts/${types.default.SET_CONTACTS}`,
+    `contacts/${types.SET_CONTACTS}`,
     chatList.map(chat => chat.meta.sender)
   );
 };
@@ -54,14 +54,14 @@ const actions = {
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, payload) => {
-    commit(types.default.SET_LIST_LOADING_STATUS);
+    commit(types.SET_LIST_LOADING_STATUS);
     try {
       const { data } = await ConversationApi.filter(payload);
       const { payload: chatList, meta: metaData } = data;
-      commit(types.default.SET_ALL_CONVERSATION, chatList);
+      commit(types.SET_ALL_CONVERSATION, chatList);
       dispatch('conversationStats/set', metaData);
       dispatch('conversationLabels/setBulkConversationLabels', chatList);
-      commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      commit(types.CLEAR_LIST_LOADING_STATUS);
       setContacts(commit, chatList);
     } catch (error) {
       // Handle error
@@ -312,11 +312,11 @@ const actions = {
   },
 
   setConversationFilters({ commit }, data) {
-    commit(types.default.SET_CONVERSATION_FILTERS, data);
+    commit(types.SET_CONVERSATION_FILTERS, data);
   },
 
   clearConversationFilters({ commit }) {
-    commit(types.default.CLEAR_CONVERSATION_FILTERS);
+    commit(types.CLEAR_CONVERSATION_FILTERS);
   },
 };
 
