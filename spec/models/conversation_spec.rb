@@ -340,6 +340,30 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe 'recent_messages' do
+    subject(:recent_messages) { conversation.recent_messages }
+
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+    let(:message_params) do
+      {
+        conversation: conversation,
+        account: conversation.account,
+        inbox: conversation.inbox,
+        sender: conversation.assignee
+      }
+    end
+    let!(:messages) do
+      create_list(:message, 10, **message_params) do |message, i|
+        message.created_at = i.minute.ago
+      end
+    end
+
+    it 'returns upto 5 recent messages' do
+      expect(recent_messages.length).to be < 6
+      expect(recent_messages).to eq messages.last(5)
+    end
+  end
+
   describe 'unread_incoming_messages' do
     subject(:unread_incoming_messages) { conversation.unread_incoming_messages }
 
