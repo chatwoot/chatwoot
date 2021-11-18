@@ -38,6 +38,17 @@
       </transition-group>
     </div>
 
+    <transition name="fade" mode="out-in">
+      <billing-status-bar
+        v-if="shouldShowStatusBox"
+        :message="trialMessage"
+        :button-text="$t('APP_GLOBAL.TRAIL_BUTTON')"
+        :button-route="billingRoute"
+        :type="statusBarClass"
+        :show-button="isAdmin"
+      />
+    </transition>
+
     <div class="bottom-nav">
       <availability-status />
     </div>
@@ -83,6 +94,7 @@ import { mapGetters } from 'vuex';
 
 import adminMixin from '../../mixins/isAdmin';
 import SidebarItem from './SidebarItem';
+import BillingStatusBar from '../widgets/BillingStatusBar';
 import AvailabilityStatus from './AvailabilityStatus';
 import { frontendURL } from '../../helper/URLHelper';
 import { getSidebarItems } from '../../i18n/default-sidebar';
@@ -110,6 +122,7 @@ export default {
     AgentDetails,
     SidebarItem,
     AvailabilityStatus,
+    BillingStatusBar,
     NotificationBell,
     OptionsMenu,
     AccountSelector,
@@ -170,6 +183,9 @@ export default {
     },
     shouldShowTeams() {
       return this.shouldShowSidebarItem && this.teams.length;
+    },
+    billingRoute() {
+      return frontendURL(`accounts/${this.accountId}/settings/general`);
     },
     inboxSection() {
       return {
@@ -258,6 +274,21 @@ export default {
     },
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
+    },
+    shouldShowStatusBox() {
+      return true;
+    },
+    statusBarClass() {
+      // if ('trial') {
+      //   return 'warning';
+      // }
+      // if ('cancelled') {
+      //   return 'danger';
+      // }
+      return 'warning';
+    },
+    trialMessage() {
+      return `21 ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
     },
   },
   mounted() {

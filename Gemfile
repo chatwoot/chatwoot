@@ -116,6 +116,9 @@ gem 'geocoder'
 # to parse maxmind db
 gem 'maxminddb'
 
+# for the billing logic in chatwoot
+gem 'stripe'
+
 # to create db triggers
 gem 'hairtrigger'
 
