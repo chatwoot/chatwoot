@@ -63,7 +63,7 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { isEmptyObject } from 'widget/helpers/utils';
-
+import routerMixin from 'widget/mixins/routerMixin';
 export default {
   components: {
     FormInput,
@@ -71,6 +71,7 @@ export default {
     CustomButton,
     Spinner,
   },
+  mixins: [routerMixin],
   props: {
     options: {
       type: Object,
@@ -157,7 +158,7 @@ export default {
           message: this.message,
         });
       }
-      this.$router.replace({ name: 'messages' });
+      this.replaceRoute('messages');
     },
   },
 };

@@ -17,19 +17,15 @@ import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import { mapGetters } from 'vuex';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import routerMixin from 'widget/mixins/routerMixin';
 export default {
   name: 'Home',
   components: {
     TeamAvailability,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, routerMixin],
   props: {
     hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    showPopoutButton: {
       type: Boolean,
       default: false,
     },
@@ -61,9 +57,9 @@ export default {
   methods: {
     startConversation() {
       if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.$router.replace({ name: 'prechat-form' });
+        return this.replaceRoute('prechat-form');
       }
-      return this.$router.replace({ name: 'messages' });
+      return this.replaceRoute('messages');
     },
     closeChat() {
       IFrameHelper.sendMessage({ event: 'closeChat' });

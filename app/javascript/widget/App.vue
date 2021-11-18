@@ -28,19 +28,19 @@ import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
+import routerMixin from './mixins/routerMixin';
 
 export default {
   name: 'App',
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin],
+  mixins: [availabilityMixin, configMixin, routerMixin],
   data() {
     return {
       isMobile: false,
       hideMessageBubble: false,
       widgetPosition: 'right',
-      showPopoutButton: false,
       isWebWidgetTriggered: false,
       isCampaignViewClicked: false,
       isWidgetOpen: false,
@@ -58,8 +58,7 @@ export default {
       currentUser: 'contacts/getCurrentUser',
     }),
     isLeftAligned() {
-      const isLeft = this.widgetPosition === 'left';
-      return isLeft;
+      return this.widgetPosition === 'left';
     },
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -67,13 +66,19 @@ export default {
     isRNWebView() {
       return RNHelper.isRNWebView();
     },
+    loadedEventConfig() {
+      return {
+        event: 'loaded',
+        config: {
+          authToken: window.authToken,
+          channelConfig: window.chatwootWebChannel,
+        },
+      };
+    },
   },
   watch: {
     activeCampaign() {
       this.setCampaignView();
-    },
-    '$router.name'() {
-      console.log(this.$router);
     },
   },
   mounted() {
@@ -144,25 +149,25 @@ export default {
     registerUnreadEvents() {
       bus.$on('on-agent-message-received', () => {
         if (!this.isIFrame || this.isWidgetOpen) {
-          // this.setUserLastSeen();
+          this.setUserLastSeen();
         }
         this.setUnreadView();
       });
       bus.$on('on-unread-view-clicked', () => {
         this.unsetUnreadView();
-        // this.setUserLastSeen();
+        this.setUserLastSeen();
       });
     },
     registerCampaignEvents() {
       bus.$on('on-campaign-view-clicked', () => {
         this.isCampaignViewClicked = true;
         this.unsetUnreadView();
-        // this.setUserLastSeen();
+        this.setUserLastSeen();
         const showPreChatForm =
           this.preChatFormEnabled && this.preChatFormOptions.requireEmail;
         const isUserEmailAvailable = !!this.currentUser.email;
         if (showPreChatForm && !isUserEmailAvailable) {
-          this.$router.replace({ name: 'prechat-form' });
+          this.replaceRoute('prechat-form');
         } else {
           bus.$emit('execute-campaign', this.activeCampaign.id);
         }
@@ -184,7 +189,7 @@ export default {
         !this.isWebWidgetTriggered;
       if (this.isIFrame && isCampaignReadyToExecute) {
         IFrameHelper.sendMessage({ event: 'setCampaignMode' });
-        this.$router.replace({ name: 'campaigns' });
+        this.replaceRoute('campaigns');
         this.setIframeHeight(this.isMobile);
       }
     },
@@ -268,12 +273,11 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
-          this.$router.replace({ name: 'unread-messages' });
+          this.replaceRoute('unread-messages');
         } else if (message.event === 'unset-unread-view') {
-          // Reset campaign, If widget opened via clciking on bubble button
           if (!this.isCampaignViewClicked) {
             this.resetCampaign();
-            this.$router.replace({ name: 'messages' });
+            this.replaceRoute('messages');
           }
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
@@ -282,22 +286,10 @@ export default {
       });
     },
     sendLoadedEvent() {
-      IFrameHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
+      IFrameHelper.sendMessage(this.loadedEventConfig);
     },
     sendRNWebViewLoadedEvent() {
-      RNHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
+      RNHelper.sendMessage(this.loadedEventConfig);
     },
     getExtraSpaceToscroll: () => {
       // This function calculates the extra space needed for the view to

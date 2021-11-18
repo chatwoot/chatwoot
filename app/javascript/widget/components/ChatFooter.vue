@@ -1,5 +1,8 @@
 <template>
-  <footer v-if="!hideReplyBox" class="shadow-sm rounded-lg bg-white mb-1">
+  <footer
+    v-if="!hideReplyBox"
+    class="shadow-sm rounded-lg bg-white mb-1 z-50 relative"
+  >
     <chat-input-wrap
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
