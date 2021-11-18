@@ -2,27 +2,30 @@
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
       v-if="showPopoutButton"
-      class="button transparent compact new-window--button"
+      class="button transparent compact new-window--button "
       @click="popoutWindow"
     >
-      <span class="ion-android-open"></span>
+      <fluent-icon icon="open" size="22" class="text-black-900" />
     </button>
     <button
       class="button transparent compact close-button"
       :class="{
         'rn-close-button': isRNWebView,
       }"
+      @click="closeWindow"
     >
-      <span class="ion-android-close" @click="closeWindow"></span>
+      <fluent-icon icon="dismiss" size="24" class="text-black-900" />
     </button>
   </div>
 </template>
 <script>
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
   name: 'HeaderActions',
+  components: { FluentIcon },
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -85,10 +88,6 @@ export default {
   span {
     color: $color-heading;
     font-size: $font-size-large;
-
-    &.ion-android-close {
-      font-size: $font-size-big;
-    }
   }
 
   .close-button {
