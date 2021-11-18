@@ -3,7 +3,7 @@
   @include border-light;
   box-sizing: content-box;
   width: fit-content;
-  z-index: var(--z-index-highest);
+  z-index: var(--z-index-very-high);
 
   &.dropdown-pane--open {
     display: block;
