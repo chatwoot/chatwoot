@@ -63,7 +63,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
-    publish(:conversation_status_change_automation, @conversation.id)
+    Rails.configuration.dispatcher.dispatch('conversation.status_changed', Time.zone.now, conversation: @conversation)
   end
 
   def toggle_typing_status

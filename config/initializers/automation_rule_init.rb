@@ -1,1 +1,0 @@
-Wisper.subscribe(AutomationRuleListener.new)
