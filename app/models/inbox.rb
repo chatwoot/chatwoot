@@ -39,19 +39,19 @@ class Inbox < ApplicationRecord
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
-  has_many :campaigns, dependent: :destroy
-  has_many :contact_inboxes, dependent: :destroy
+  has_many :campaigns, dependent: :destroy_async
+  has_many :contact_inboxes, dependent: :destroy_async
   has_many :contacts, through: :contact_inboxes
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :members, through: :inbox_members, source: :user
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
   has_many :messages, through: :conversations
 
-  has_one :agent_bot_inbox, dependent: :destroy
+  has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
-  has_many :webhooks, dependent: :destroy
-  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
+  has_many :webhooks, dependent: :destroy_async
+  has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
   after_destroy :delete_round_robin_agents
 
