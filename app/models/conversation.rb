@@ -57,6 +57,11 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :resolvable, lambda { |auto_resolve_duration|
+    return [] if auto_resolve_duration.to_i.zero?
+
+    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
 
   belongs_to :account
   belongs_to :inbox
@@ -149,15 +154,6 @@ class Conversation < ApplicationRecord
 
   def recent_messages
     messages.chat.last(5)
-  end
-
-  def auto_resolve?
-    return false unless auto_resolve_duration && open?
-
-    time_since_last_activity = Time.current.to_i - last_activity_at.to_i
-    time_left_to_auto_resolve = auto_resolve_duration.days.to_i - time_since_last_activity
-
-    time_left_to_auto_resolve.negative?
   end
 
   private
