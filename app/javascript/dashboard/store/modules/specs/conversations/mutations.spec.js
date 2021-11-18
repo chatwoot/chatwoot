@@ -201,4 +201,43 @@ describe('#mutations', () => {
       });
     });
   });
+
+  describe('#SET_CONVERSATION_FILTERS', () => {
+    it('set conversation filter', () => {
+      const appliedFilters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      mutations[types.SET_CONVERSATION_FILTERS](appliedFilters);
+      expect(appliedFilters).toEqual([
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ]);
+    });
+  });
+
+  describe('#CLEAR_CONVERSATION_FILTERS', () => {
+    it('clears applied conversation filters', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: [{ id: 'snoozed', name: 'Snoozed' }],
+            query_operator: 'and',
+          },
+        ],
+      };
+      mutations[types.CLEAR_CONVERSATION_FILTERS](state);
+      expect(state.appliedFilters).toEqual([]);
+    });
+  });
 });
