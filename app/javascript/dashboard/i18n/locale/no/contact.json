@@ -161,7 +161,7 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Melding",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
