@@ -8,8 +8,8 @@
 #  attribute_display_type :integer          default("text")
 #  attribute_key          :string
 #  attribute_model        :integer          default("conversation_attribute")
+#  attribute_values       :jsonb
 #  default_value          :integer
-#  values                 :jsonb
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :bigint
