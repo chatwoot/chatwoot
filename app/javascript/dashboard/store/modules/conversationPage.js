@@ -6,7 +6,7 @@ const state = {
     me: 0,
     unassigned: 0,
     all: 0,
-    filters: 0,
+    filtersApplied: 0,
   },
   hasEndReached: {
     me: false,
