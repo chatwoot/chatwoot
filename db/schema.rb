@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_150415) do
+ActiveRecord::Schema.define(version: 2021_11_16_131740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(version: 2021_09_29_150415) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "attribute_description"
+    t.jsonb "values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end

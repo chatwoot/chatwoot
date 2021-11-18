@@ -16,13 +16,15 @@ post:
       required: true
       schema:
         type: object
+        required:
+          - inbox_id
         properties:
           inbox_id:
             type: number
             description: The ID of the inbox
-            required: true
           source_id:
-            $ref: '#/parameters/source_id'
+            type: string
+            description: Contact Inbox Source Id
   responses:
     200:
       description: Success
