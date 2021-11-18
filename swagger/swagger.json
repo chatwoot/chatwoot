@@ -14,7 +14,7 @@
     }
   },
   "host": "app.chatwoot.com",
-  "basePath": null,
+  "basePath": "/",
   "schemes": [
     "https"
   ],
@@ -52,7 +52,7 @@
     }
   ],
   "paths": {
-    "platform/api/v1/accounts": {
+    "/platform/api/v1/accounts": {
       "post": {
         "tags": [
           "Accounts"
@@ -90,7 +90,7 @@
         }
       }
     },
-    "platform/api/v1/accounts/{id}": {
+    "/platform/api/v1/accounts/{account_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "platform/api/v1/accounts/{id}/account_users": {
+    "/platform/api/v1/accounts/{account_id}/account_users": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -259,16 +259,18 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "user_id",
+                "role"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
-                  "description": "The ID of the user",
-                  "required": true
+                  "description": "The ID of the user"
                 },
                 "role": {
                   "type": "string",
-                  "description": "whether user is an administrator or agent",
-                  "required": true
+                  "description": "whether user is an administrator or agent"
                 }
               }
             }
@@ -320,11 +322,13 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "user_id"
+              ],
               "properties": {
                 "user_id": {
                   "type": "integer",
-                  "description": "The ID of the user",
-                  "required": true
+                  "description": "The ID of the user"
                 }
               }
             }
@@ -343,7 +347,7 @@
         }
       }
     },
-    "platform/api/v1/agent_bots": {
+    "/platform/api/v1/agent_bots": {
       "get": {
         "tags": [
           "AgentBots"
@@ -411,7 +415,7 @@
         }
       }
     },
-    "platform/api/v1/agent_bots/{id}": {
+    "/platform/api/v1/agent_bots/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/agent_bot_id"
@@ -509,7 +513,7 @@
         }
       }
     },
-    "platform/api/v1/users": {
+    "/platform/api/v1/users": {
       "post": {
         "tags": [
           "Users"
@@ -547,7 +551,7 @@
         }
       }
     },
-    "platform/api/v1/users/{id}": {
+    "/platform/api/v1/users/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/platform_user_id"
@@ -645,7 +649,12 @@
         }
       }
     },
-    "platform/api/v1/users/{id}/login": {
+    "/platform/api/v1/users/{id}/login": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/platform_user_id"
+        }
+      ],
       "get": {
         "tags": [
           "Users"
@@ -682,7 +691,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -696,7 +705,7 @@
         "summary": "Create a contact",
         "description": "Create a contact",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -721,7 +730,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -738,7 +747,7 @@
         "summary": "Get a contact",
         "description": "Get the details of a contact",
         "security": [
-          "nil"
+
         ],
         "responses": {
           "200": {
@@ -763,7 +772,7 @@
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -788,7 +797,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -805,7 +814,7 @@
         "summary": "Create a conversation",
         "description": "Create a conversation",
         "security": [
-          "nil"
+
         ],
         "responses": {
           "200": {
@@ -843,7 +852,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -863,7 +872,7 @@
         "summary": "Create a message",
         "description": "Create a message",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -911,7 +920,7 @@
         }
       }
     },
-    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}": {
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/public_inbox_identifier"
@@ -934,7 +943,7 @@
         "summary": "Update a message",
         "description": "Update a message",
         "security": [
-          "nil"
+
         ],
         "parameters": [
           {
@@ -978,11 +987,9 @@
             "schema": {
               "type": "array",
               "description": "Array of agent bots",
-              "items": [
-                {
-                  "$ref": "#/definitions/agent_bot"
-                }
-              ]
+              "items": {
+                "$ref": "#/definitions/agent_bot"
+              }
             }
           },
           "401": {
@@ -1104,6 +1111,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "get": {
         "tags": [
           "Agent"
@@ -1155,16 +1167,19 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "name",
+                "email",
+                "role"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
-                  "description": "Full Name of the agent",
-                  "required": true
+                  "description": "Full Name of the agent"
                 },
                 "email": {
                   "type": "string",
-                  "description": "Email of the Agent",
-                  "required": true
+                  "description": "Email of the Agent"
                 },
                 "role": {
                   "type": "string",
@@ -1172,8 +1187,7 @@
                     "agent",
                     "administrator"
                   ],
-                  "description": "Whether its administrator or agent",
-                  "required": true
+                  "description": "Whether its administrator or agent"
                 },
                 "availability_status": {
                   "type": "string",
@@ -1206,6 +1220,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/agents/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "patch": {
         "tags": [
           "Agent"
@@ -1224,9 +1243,7 @@
           {
             "in": "path",
             "name": "id",
-            "schema": {
-              "type": "integer"
-            },
+            "type": "integer",
             "required": true,
             "description": "The ID of the agent to be updated."
           },
@@ -1236,6 +1253,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "role"
+              ],
               "properties": {
                 "role": {
                   "type": "string",
@@ -1243,8 +1263,7 @@
                     "agent",
                     "administrator"
                   ],
-                  "description": "Whether its administrator or agent",
-                  "required": true
+                  "description": "Whether its administrator or agent"
                 },
                 "availability": {
                   "type": "string",
@@ -1296,9 +1315,7 @@
           {
             "in": "path",
             "name": "id",
-            "schema": {
-              "type": "integer"
-            },
+            "type": "integer",
             "required": true,
             "description": "The ID of the agent to be deleted"
           }
@@ -1387,6 +1404,18 @@
       }
     },
     "/api/v1/accounts/{account_id}/contacts/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the contact",
+          "required": true
+        }
+      ],
       "get": {
         "tags": [
           "Contact"
@@ -1394,18 +1423,6 @@
         "operationId": "contactDetails",
         "summary": "Show Contact",
         "description": "Get a contact belonging to the account using ID",
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1429,16 +1446,6 @@
         "summary": "Update Contact",
         "description": "Update a contact belonging to the account using ID",
         "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -1469,15 +1476,6 @@
         ],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1598,14 +1596,17 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "number",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "source_id": {
-                  "$ref": "#/parameters/source_id"
+                  "type": "string",
+                  "description": "Contact Inbox Source Id"
                 }
               }
             }
@@ -1670,19 +1671,19 @@
       }
     },
     "/api/v1/accounts/{account_id}/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "get": {
         "tags": [
           "Conversation"
         ],
-        "operationId": "conversationSearch",
-        "description": "Search for conversations containing a messages with the query string",
-        "summary": "Conversations Search",
+        "operationId": "conversationList",
+        "description": "List all the conversations with pagination",
+        "summary": "Conversations List",
         "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "type": "string"
-          },
           {
             "name": "assignee_type",
             "in": "query",
@@ -1692,7 +1693,8 @@
               "unassigned",
               "all",
               "assigned"
-            ]
+            ],
+            "required": true
           },
           {
             "name": "status",
@@ -1701,14 +1703,15 @@
             "enum": [
               "open",
               "resolved",
-              "pending",
-              "all"
-            ]
+              "pending"
+            ],
+            "required": true
           },
           {
             "name": "page",
             "in": "query",
-            "type": "integer"
+            "type": "integer",
+            "required": true
           },
           {
             "name": "inbox_id",
@@ -1722,9 +1725,6 @@
             "items": {
               "type": "string"
             }
-          },
-          {
-            "$ref": "#/parameters/account_id"
           }
         ],
         "responses": {
@@ -1739,8 +1739,7 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
-          },
-          "description": "Access denied"
+          }
         }
       },
       "post": {
@@ -1764,9 +1763,6 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/account_id"
-          },
-          {
             "name": "data",
             "in": "body",
             "required": true,
@@ -1774,7 +1770,8 @@
               "type": "object",
               "properties": {
                 "source_id": {
-                  "$ref": "#/parameters/source_id"
+                  "type": "string",
+                  "description": "Conversation source id"
                 },
                 "inbox_id": {
                   "type": "string",
@@ -1836,79 +1833,12 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/": {
-      "get": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationList",
-        "description": "List all the conversations with pagination",
-        "summary": "Conversations List",
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "name": "assignee_type",
-            "in": "query",
-            "type": "string",
-            "enum": [
-              "me",
-              "unassigned",
-              "all",
-              "assigned"
-            ],
-            "required": true
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "type": "string",
-            "enum": [
-              "open",
-              "resolved",
-              "pending"
-            ],
-            "required": true
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "type": "integer",
-            "required": true
-          },
-          {
-            "name": "inbox_id",
-            "in": "query",
-            "type": "integer"
-          },
-          {
-            "name": "labels",
-            "in": "query",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_list"
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "schema": {
-              "$ref": "#/definitions/bad_request_error"
-            }
-          },
-          "description": "Access denied"
-        }
-      }
-    },
     "/api/v1/accounts/{account_id}/conversations/filter": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "post": {
         "tags": [
           "Conversation"
@@ -1953,6 +1883,9 @@
                   },
                   "values": {
                     "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
                     "description": "array of the attribute values to filter"
                   },
                   "query_operator": {
@@ -1962,9 +1895,6 @@
                 }
               }
             }
-          },
-          {
-            "$ref": "#/parameters/account_id"
           }
         ],
         "responses": {
@@ -1979,12 +1909,11 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
-          },
-          "description": "Access denied"
+          }
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -2051,6 +1980,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "status"
+              ],
               "properties": {
                 "status": {
                   "type": "string",
@@ -2059,7 +1991,6 @@
                     "resolved",
                     "pending"
                   ],
-                  "required": true,
                   "description": "The status of the conversation"
                 }
               }
@@ -2183,7 +2114,7 @@
                 "labels": {
                   "type": "array",
                   "description": "Array of labels (comma-separated strings)",
-                  "properties": {
+                  "items": {
                     "type": "string"
                   }
                 }
@@ -2300,7 +2231,8 @@
                   "description": "The name of the inbox"
                 },
                 "avatar": {
-                  "type": "file",
+                  "type": "string",
+                  "format": "binary",
                   "description": "File for avatar image"
                 },
                 "channel": {
@@ -2379,6 +2311,9 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "enable_auto_assignment"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -2386,12 +2321,11 @@
                 },
                 "enable_auto_assignment": {
                   "type": "boolean",
-                  "required": true,
                   "description": "Enable Auto Assignment"
                 },
                 "avatar": {
-                  "type": "file",
-                  "required": false,
+                  "type": "string",
+                  "format": "binary",
                   "description": "Image file for avatar"
                 },
                 "channel": {
@@ -2500,10 +2434,12 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "agent_bot"
+              ],
               "properties": {
                 "agent_bot": {
                   "type": "number",
-                  "required": true,
                   "description": "Agent bot ID"
                 }
               }
@@ -2523,7 +2459,15 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/inbox_members": {
+    "/api/v1/accounts/{account_id}/inbox_members/{inbox_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/inbox_id"
+        }
+      ],
       "get": {
         "tags": [
           "Inbox"
@@ -2583,16 +2527,21 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be added to the inbox",
-                  "required": true
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the inbox"
                 }
               }
             }
@@ -2626,7 +2575,7 @@
         ],
         "operationId": "update-agents-in-inbox",
         "summary": "Update Agents in Inbox",
-        "description": "All agents execept the one passed in params will be removed",
+        "description": "All agents except the one passed in params will be removed",
         "security": [
           {
             "userApiKey": [
@@ -2641,16 +2590,21 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be added to the inbox",
-                  "required": true
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the inbox"
                 }
               }
             }
@@ -2699,16 +2653,21 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
               "properties": {
                 "inbox_id": {
                   "type": "string",
-                  "description": "The ID of the inbox",
-                  "required": true
+                  "description": "The ID of the inbox"
                 },
                 "user_ids": {
                   "type": "array",
-                  "description": "IDs of users to be deleted from the inbox",
-                  "required": true
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be deleted from the inbox"
                 }
               }
             }
@@ -2730,92 +2689,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/conversations/{id}/messages": {
-      "post": {
-        "tags": [
-          "Messages"
-        ],
-        "operationId": "conversationNewMessageAttachment",
-        "summary": "Create New Message Attachment",
-        "description": "Create an attachment message. Refer to this discussion if you have any further doubts. https://github.com/chatwoot/chatwoot/discussions/1809#discussioncomment-1211845",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          },
-          {
-            "agentBotApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/account_id"
-          },
-          {
-            "$ref": "#/parameters/conversation_id"
-          },
-          {
-            "in": "formData",
-            "name": "content",
-            "type": "string",
-            "description": "The content of the message",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "message_type",
-            "type": "string",
-            "enum": [
-              "outgoing",
-              "incoming"
-            ]
-          },
-          {
-            "in": "formData",
-            "name": "private",
-            "type": "boolean",
-            "description": "Flag to identify if it is a private note"
-          },
-          {
-            "in": "formData",
-            "name": "attachments[]",
-            "type": "array",
-            "description": "The files to be uploaded.",
-            "items": {
-              "type": "file"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/{account_id}/conversations/{converstion_id}/messages": {
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -2833,17 +2707,20 @@
         "description": "List all messages of a conversation",
         "responses": {
           "200": {
-            "description": "Array of messages",
-            "type": "array",
+            "description": "Success",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
+              "type": "array",
+              "description": "Array of messages",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/generic_id"
+                  },
+                  {
+                    "$ref": "#/definitions/message"
+                  }
+                ]
+              }
             }
           },
           "404": {
@@ -3003,7 +2880,9 @@
             "description": "Unauthorized"
           }
         }
-      },
+      }
+    },
+    "/api/v1/accounts/{account_id}/integrations/hooks/{hook_id}": {
       "patch": {
         "tags": [
           "Integrations"
@@ -3238,14 +3117,12 @@
         {
           "in": "query",
           "name": "filter_type",
-          "schema": {
-            "type": "string",
-            "enum": [
-              "conversation",
-              "contact",
-              "report"
-            ]
-          },
+          "type": "string",
+          "enum": [
+            "conversation",
+            "contact",
+            "report"
+          ],
           "required": false,
           "description": "The type of custom filter"
         }
@@ -3386,7 +3263,7 @@
         }
       }
     },
-    "/api/v2/accounts/{id}/reports": {
+    "/api/v2/accounts/{account_id}/reports": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3400,25 +3277,19 @@
         {
           "in": "query",
           "name": "id",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The Id of specific object in case of agent/inbox/label"
         },
         {
           "in": "query",
           "name": "since",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The timestamp from where report should start."
         },
         {
           "in": "query",
           "name": "until",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The timestamp from where report should stop."
         }
       ],
@@ -3449,7 +3320,7 @@
         }
       }
     },
-    "/api/v2/accounts/{id}/reports/summary": {
+    "/api/v2/accounts/{account_id}/reports/summary": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3460,25 +3331,19 @@
         {
           "in": "query",
           "name": "id",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The Id of specific object in case of agent/inbox/label"
         },
         {
           "in": "query",
           "name": "since",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The timestamp from where report should start."
         },
         {
           "in": "query",
           "name": "until",
-          "schema": {
-            "type": "string"
-          },
+          "type": "string",
           "description": "The timestamp from where report should stop."
         }
       ],
@@ -3587,7 +3452,10 @@
           "description": "ID of the conversation"
         },
         "messages": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          }
         },
         "account_id": {
           "type": "number",
@@ -3614,7 +3482,7 @@
           "type": "string"
         },
         "agent_last_seen_at": {
-          "type": "agent_last_seen_at"
+          "type": "string"
         },
         "unread_count": {
           "type": "number",
@@ -3909,11 +3777,13 @@
           "description": "A query that needs to be saved as a custom filter"
         },
         "created_at": {
-          "type": "datetime",
+          "type": "string",
+          "format": "date-time",
           "description": "The time at which the custom filter was created"
         },
         "updated_at": {
-          "type": "datetime",
+          "type": "string",
+          "format": "date-time",
           "description": "The time at which the custom filter was updated"
         }
       }
@@ -4010,6 +3880,9 @@
         },
         "hooks": {
           "type": "array",
+          "items": {
+            "type": "object"
+          },
           "description": "If there are any hooks created for this integration"
         }
       }
@@ -4085,6 +3958,9 @@
         },
         "messages": {
           "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
           "description": "Messages in the conversation"
         },
         "contact": {
@@ -4126,6 +4002,9 @@
         },
         "attachments": {
           "type": "array",
+          "items": {
+            "type": "object"
+          },
           "description": "Attachments if any"
         },
         "sender": {
@@ -4183,10 +4062,12 @@
     },
     "contact_create": {
       "type": "object",
+      "required": [
+        "inbox_id"
+      ],
       "properties": {
         "inbox_id": {
-          "type": "number",
-          "required": true
+          "type": "number"
         },
         "name": {
           "type": "string",
@@ -4237,11 +4118,13 @@
     },
     "conversation_message_create": {
       "type": "object",
+      "required": [
+        "content"
+      ],
       "properties": {
         "content": {
           "type": "string",
-          "description": "The content of the message",
-          "required": true
+          "description": "The content of the message"
         },
         "message_type": {
           "type": "string",
@@ -4689,165 +4572,138 @@
     "account_id": {
       "in": "path",
       "name": "account_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the account"
     },
     "agent_bot_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the agentbot to be updated"
     },
     "team_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the team to be updated"
     },
     "inbox_id": {
       "in": "path",
       "name": "inbox_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The ID of the Inbox"
     },
     "hook_id": {
       "in": "path",
       "name": "hook_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the integration hook"
     },
     "source_id": {
+      "in": "path",
+      "name": "source_id",
+      "required": true,
       "type": "string",
       "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
     "conversation_id": {
       "in": "path",
       "name": "conversation_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the conversation"
     },
     "message_id": {
       "in": "path",
       "name": "message_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the message"
     },
     "contact_sort_param": {
       "in": "query",
       "name": "sort",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "name",
-          "email",
-          "phone_number",
-          "last_activity_at",
-          "-name",
-          "-email",
-          "-phone_number",
-          "-last_activity_at"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "name",
+        "email",
+        "phone_number",
+        "last_activity_at",
+        "-name",
+        "-email",
+        "-phone_number",
+        "-last_activity_at"
+      ],
       "required": false,
       "description": "The attribute by which list should be sorted"
     },
     "page": {
       "in": "query",
       "name": "page",
-      "schema": {
-        "type": "integer",
-        "default": 1
-      },
+      "type": "integer",
+      "default": 1,
       "required": false,
       "description": "The page parameter"
     },
     "platform_user_id": {
       "in": "path",
       "name": "id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the user on the platform"
     },
     "custom_filter_id": {
       "in": "path",
       "name": "custom_filter_id",
-      "schema": {
-        "type": "integer"
-      },
+      "type": "integer",
       "required": true,
       "description": "The numeric ID of the custom filter"
     },
     "report_type": {
       "in": "query",
       "name": "report_type",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "account",
-          "agent",
-          "inbox",
-          "label",
-          "team"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "account",
+        "agent",
+        "inbox",
+        "label",
+        "team"
+      ],
       "required": true,
       "description": "Type of report"
     },
     "report_metric": {
       "in": "query",
       "name": "metric",
-      "schema": {
-        "type": "string",
-        "enum": [
-          "conversations_count",
-          "incoming_messages_count",
-          "outgoing_messages_count",
-          "avg_first_response_time",
-          "avg_resolution_time",
-          "resolutions_count"
-        ]
-      },
+      "type": "string",
+      "enum": [
+        "conversations_count",
+        "incoming_messages_count",
+        "outgoing_messages_count",
+        "avg_first_response_time",
+        "avg_resolution_time",
+        "resolutions_count"
+      ],
       "required": true,
       "description": "The type of metric"
     },
     "public_inbox_identifier": {
       "in": "path",
       "name": "inbox_identifier",
-      "schema": {
-        "type": "string"
-      },
+      "type": "string",
       "required": true,
       "description": "The identifier obtained from API inbox channel"
     },
     "public_contact_identifier": {
       "in": "path",
       "name": "contact_identifier",
-      "schema": {
-        "type": "string"
-      },
+      "type": "string",
       "required": true,
       "description": "The source id of contact obtained on contact create"
     }

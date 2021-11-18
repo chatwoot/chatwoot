@@ -66,8 +66,8 @@ class Conversation < ApplicationRecord
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
 
-  has_many :messages, dependent: :destroy, autosave: true
-  has_one :csat_survey_response, dependent: :destroy
+  has_many :messages, dependent: :destroy_async, autosave: true
+  has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
   before_save :ensure_snooze_until_reset
@@ -145,6 +145,10 @@ class Conversation < ApplicationRecord
 
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
+  end
+
+  def recent_messages
+    messages.chat.last(5)
   end
 
   private

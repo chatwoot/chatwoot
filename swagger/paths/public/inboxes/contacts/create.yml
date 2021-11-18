@@ -3,8 +3,7 @@ tags:
 operationId: create-a-contact
 summary: Create a contact
 description: Create a contact
-security:
-  - nil
+security: []
 parameters:
   - name: data
     in: body
