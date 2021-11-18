@@ -3,7 +3,7 @@
   @include border-light;
   box-sizing: content-box;
   width: fit-content;
-  z-index: 999;
+  z-index: 9999;
 
   &.dropdown-pane--open {
     display: block;
