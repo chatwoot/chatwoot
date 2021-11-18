@@ -19,6 +19,14 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  filter(payload) {
+    return axios.post(`${this.url}/filter`, payload.queryData, {
+      params: {
+        page: payload.page,
+      },
+    });
+  }
+
   search({ q }) {
     return axios.get(`${this.url}/search`, {
       params: {
@@ -54,7 +62,7 @@ class ConversationApi extends ApiClient {
   toggleTyping({ conversationId, status, isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,
-      is_private: isPrivate
+      is_private: isPrivate,
     });
   }
 
