@@ -8,8 +8,7 @@ security:
 parameters:
   - in: path
     name: id
-    schema:
-      type: integer
+    type: integer
     required: true
     description: The ID of the agent to be updated.
   - name: data
@@ -17,13 +16,14 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - role
       properties:
-        role: 
+        role:
           type: string
           enum: ['agent', 'administrator']
           description: Whether its administrator or agent
-          required: true
-        availability: 
+        availability:
           type: string
           enum: ['available', 'busy', 'offline']
           description: The availability setting of the agent.
