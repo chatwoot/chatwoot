@@ -14,7 +14,7 @@
 class Kbase::Category < ApplicationRecord
   belongs_to :account
   belongs_to :portal
-  has_many :folders, dependent: :destroy
+  has_many :folders, dependent: :destroy_async
   has_many :articles, dependent: :nullify
 
   before_validation :ensure_account_id
