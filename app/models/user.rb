@@ -67,7 +67,7 @@ class User < ApplicationRecord
   validates :email, :name, presence: true
   validates_length_of :name, minimum: 1
 
-  has_many :account_users, dependent: :destroy
+  has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
@@ -75,18 +75,18 @@ class User < ApplicationRecord
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
-  has_many :notifications, dependent: :destroy
-  has_many :notification_settings, dependent: :destroy
-  has_many :notification_subscriptions, dependent: :destroy
-  has_many :team_members, dependent: :destroy
+  has_many :notifications, dependent: :destroy_async
+  has_many :notification_settings, dependent: :destroy_async
+  has_many :notification_subscriptions, dependent: :destroy_async
+  has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :notes, dependent: :nullify
-  has_many :custom_filters, dependent: :destroy
+  has_many :custom_filters, dependent: :destroy_async
 
   before_validation :set_password_and_uid, on: :create
 
