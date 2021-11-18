@@ -1,21 +1,21 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "فیلتر گفتگو‌ها",
     "SUBTITLE": "Add filters below and hit 'Submit' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
+    "ADD_NEW_FILTER": "افزودن فیلتر",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "ثبت",
     "CANCEL_BUTTON_LABEL": "انصراف",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "فیلتر گفتگو‌ها",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "و",
+      "OR": "یا"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
+      "equal_to": "مساوی با",
+      "not_equal_to": "مساوی نیست با",
       "contains": "Contains",
       "does_not_contain": "Does not contain",
       "is_present": "Is present",
@@ -25,12 +25,12 @@
       "STATUS": "وضعیت",
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "عنوان صندوق ورودی",
-      "TEAM_NAME": "Team Name",
+      "TEAM_NAME": "نام تیم",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "CAMPAIGN_NAME": "نام کمپین",
       "LABELS": "برچسب‌ها",
       "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
+      "COUNTRY_NAME": "نام کشور",
       "REFERER_LINK": "Referer link"
     }
   }
