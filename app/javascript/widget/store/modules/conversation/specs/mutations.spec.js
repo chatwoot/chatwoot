@@ -179,7 +179,7 @@ describe('#mutations', () => {
           uiFlags: {
             byId: {
               1: {
-                allMessagesLoaded: false,
+                allFetched: false,
                 isAgentTyping: false,
                 isFetching: false,
               },
@@ -192,10 +192,104 @@ describe('#mutations', () => {
         uiFlags: { isFetching: true },
       });
       expect(state.conversations.uiFlags.byId[1]).toEqual({
-        allMessagesLoaded: false,
+        allFetched: false,
         isAgentTyping: false,
         isFetching: true,
       });
+    });
+  });
+
+  describe('#setConversationMeta', () => {
+    it('it sets meta data for conversation correctly', () => {
+      const state = {
+        conversations: {
+          byId: {},
+          allIds: [],
+          meta: {
+            byId: {},
+          },
+        },
+      };
+      mutations.setConversationMeta(state, {
+        conversationId: 1,
+        meta: { status: 'closed' },
+      });
+      expect(state.conversations.meta.byId[1]).toEqual({
+        userLastSeenAt: undefined,
+        status: 'closed',
+      });
+    });
+  });
+
+  describe('#prependMessageIdsToConversation', () => {
+    it('it prepends a list of message ids to existing conversation entry', () => {
+      const state = {
+        conversations: {
+          byId: { 120: { id: 120, messages: [1] } },
+          allIds: [120],
+        },
+        messages: { byId: { 1: {} }, allIds: [1] },
+      };
+      const messages = [
+        { id: 2, content: 'hi' },
+        { id: 3, content: 'hello' },
+      ];
+      mutations.prependMessageIdsToConversation(state, {
+        conversationId: 120,
+        messages,
+      });
+      expect(state.conversations.byId[120].messages).toEqual([2, 3, 1]);
+    });
+    it('it does not clear existing messages in a conversation', () => {
+      const state = {
+        conversations: {
+          byId: { 120: { id: 120, messages: [2] } },
+          allIds: [120],
+        },
+        messages: { byId: { 2: { id: 2, content: 'hi' } }, allIds: [2] },
+      };
+      const messages = [{ id: 3, content: 'hello' }];
+      mutations.prependMessageIdsToConversation(state, {
+        conversationId: 120,
+        messages,
+      });
+      expect(state.conversations.byId[120].messages).toEqual([3, 2]);
+    });
+  });
+
+  describe('#appendMessageIdsToConversation', () => {
+    it('it prepends a list of message ids to existing conversation entry', () => {
+      const state = {
+        conversations: {
+          byId: { 120: { id: 120, messages: [1] } },
+          allIds: [120],
+        },
+        messages: { byId: { 1: {} }, allIds: [1] },
+      };
+      const messages = [
+        { id: 2, content: 'hi' },
+        { id: 3, content: 'hello' },
+      ];
+      mutations.appendMessageIdsToConversation(state, {
+        conversationId: 120,
+        messages,
+      });
+      expect(state.conversations.byId[120].messages).toEqual([1, 2, 3]);
+    });
+    it('it does not clear existing messages in a conversation', () => {
+      const state = {
+        conversations: {
+          byId: { 120: { id: 120, messages: [2] } },
+          allIds: [120],
+        },
+        messages: { byId: { 2: { id: 2, content: 'hi' } }, allIds: [2] },
+      };
+      const messages = [{ id: 3, content: 'hello' }];
+      mutations.appendMessageIdsToConversation(state, {
+        conversationId: 120,
+        messages,
+      });
+      expect(state.conversations.byId[120].messages).toEqual([2, 3]);
     });
   });
 
@@ -218,7 +312,7 @@ describe('#mutations', () => {
       });
       expect(state.conversations.byId[120].messages).toEqual([2, 3]);
     });
-    it('it does not clear existing messages in a conversation', () => {
+    it('it does clear existing messages in a conversation', () => {
       const state = {
         conversations: {
           byId: { 120: { id: 120, messages: [2] } },
@@ -231,7 +325,7 @@ describe('#mutations', () => {
         conversationId: 120,
         messages,
       });
-      expect(state.conversations.byId[120].messages).toEqual([2, 3]);
+      expect(state.conversations.byId[120].messages).toEqual([3]);
     });
     it('it does not add messages if conversation is not present in store', () => {
       const state = {
