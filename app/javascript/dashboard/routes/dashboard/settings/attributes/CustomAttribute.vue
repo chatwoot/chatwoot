@@ -10,7 +10,7 @@
         />
       </woot-tabs>
 
-      <div class="columns with-right-space ">
+      <div class="columns with-right-space">
         <p
           v-if="!uiFlags.isFetching && !attributes.length"
           class="no-items-error-message"

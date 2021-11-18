@@ -34,9 +34,9 @@
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
-        signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>',
-        <% if ENV['VAPID_PUBLIC_KEY'] %>
-        vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>),
+        signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
+        <% if @global_config['VAPID_PUBLIC_KEY'] %>
+        vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(@global_config['VAPID_PUBLIC_KEY']).bytes %>),
         <% end %>
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         selectedLocale: '<%= I18n.locale %>'

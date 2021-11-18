@@ -31,7 +31,7 @@
         </label>
         <label :class="{ error: $v.attributeType.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
-          <select v-model="attributeType">
+          <select v-model="attributeType" disabled>
             <option v-for="type in types" :key="type.id" :value="type.id">
               {{ type.option }}
             </option>
@@ -40,20 +40,21 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
           </span>
         </label>
-        <div v-if="displayName" class="medium-12 columns">
-          <label>
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
-            <i class="ion-help" />
-          </label>
-          <p class="key-value text-truncate">
-            {{ attributeKey }}
-          </p>
-        </div>
+        <woot-input
+          v-model.trim="attributeKey"
+          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+          type="text"
+          :class="{ error: $v.attributeKey.$error }"
+          :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+          readonly
+          @blur="$v.attributeKey.$touch"
+        />
       </div>
       <div class="modal-footer">
         <woot-button
           :is-loading="isUpdating"
-          :disabled="$v.displayName.$invalid || $v.description.$invalid"
+          :disabled="$v.description.$invalid"
         >
           {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
@@ -68,7 +69,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
-import { convertToSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
@@ -91,6 +91,7 @@ export default {
       attributeType: 0,
       types: ATTRIBUTE_TYPES,
       show: true,
+      attributeKey: '',
     };
   },
   validations: {
@@ -104,6 +105,12 @@ export default {
       required,
       minLength: minLength(1),
     },
+    attributeKey: {
+      required,
+      isKey(value) {
+        return !(value.indexOf(' ') >= 0);
+      },
+    },
   },
   computed: {
     ...mapGetters({
@@ -114,8 +121,18 @@ export default {
         this.selectedAttribute.attribute_display_name
       }`;
     },
-    attributeKey() {
-      return convertToSlug(this.displayName);
+    selectedAttributeType() {
+      return this.types.find(
+        item =>
+          item.option.toLowerCase() ===
+          this.selectedAttribute.attribute_display_type
+      ).id;
+    },
+    keyErrorMessage() {
+      if (!this.$v.attributeKey.isKey) {
+        return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+      }
+      return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
     },
   },
   mounted() {
@@ -128,6 +145,8 @@ export default {
     setFormValues() {
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
+      this.attributeType = this.selectedAttributeType;
+      this.attributeKey = this.selectedAttribute.attribute_key;
     },
     async editAttributes() {
       this.$v.$touch();
@@ -137,18 +156,18 @@ export default {
       try {
         await this.$store.dispatch('attributes/update', {
           id: this.selectedAttribute.id,
-          attribute_display_name: this.displayName,
           attribute_description: this.description,
-          attribute_display_type: this.attributeType,
-          attribute_key: this.attributeKey,
+          attribute_display_name: this.displayName,
         });
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+
+        this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
-        const errorMessage =
-          error?.response?.message ||
-          this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage || this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
   },

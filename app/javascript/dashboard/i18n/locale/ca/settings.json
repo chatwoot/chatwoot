@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dies de prova restants.",
-    "TRAIL_BUTTON": "Compra ara"
+    "TRAIL_BUTTON": "Compra ara",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Configuració del compte",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiquetes",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
     "TEAMS": "Equips",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",

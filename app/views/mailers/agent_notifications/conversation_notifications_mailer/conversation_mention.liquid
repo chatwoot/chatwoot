@@ -5,4 +5,28 @@
   {{message.text_content}}
 </blockquote>
 
+{% for chat_message in conversation.recent_messages %}
+  <div>
+    {% if chat_message.sender == user.available_name %}
+      <h4 style="margin: 0;">You</h4>
+    {% else %}
+      <h4 style="margin: 0;">{{chat_message.sender}}</h4>
+    {% endif %}
+  </div>
+
+  <div>
+    <p style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; font-family: "Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+      {% if chat_message.content %}
+        {{chat_message.content}}
+      {% endif %}
+
+      {% if chat_message.attachments %}
+        {% for attachment in chat_message.attachments %}
+          Attachment [<a href="{{ attachment }}" _target="blank">Click here to view</a>]
+        {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+{% endfor %}
+
 <p><a href="{{ action_url }}">View Message</a></p>
