@@ -12,9 +12,3 @@ trigger_scheduled_items_job:
   cron: "*/5 * * * *"
   class: "TriggerScheduledItemsJob"
   queue: scheduled_jobs
-
-# executed At 00:00 every night
-account_conversations_resolution_scheduler_job:
-  cron: "0 0 * * *"
-  class: "Account::ConversationsResolutionSchedulerJob"
-  queue: scheduled_jobs
