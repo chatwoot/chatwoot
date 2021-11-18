@@ -32,24 +32,6 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
       "REFERER_LINK": "Referer link"
-    },
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Open",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "Resolved",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
-      },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
-      }
-    ]
+    }
   }
 }

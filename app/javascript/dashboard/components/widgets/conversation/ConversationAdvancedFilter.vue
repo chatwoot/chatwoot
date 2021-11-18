@@ -122,13 +122,14 @@ export default {
     },
     // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
+      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
       switch (type) {
         case 'status':
           return [
-            ...this.$t('FILTER.CHAT_STATUS_ITEMS').map(status => {
+            ...Object.keys(statusFilters).map(status => {
               return {
-                id: status.VALUE,
-                name: status.TEXT,
+                id: status,
+                name: statusFilters[status].TEXT,
               };
             }),
             {
