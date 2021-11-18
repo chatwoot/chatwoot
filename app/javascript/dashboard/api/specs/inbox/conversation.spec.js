@@ -202,10 +202,12 @@ describe('#ConversationAPI', () => {
         },
       };
       conversationAPI.filter(payload);
-
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(
+        context.axiosMock.post
+      ).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
-        payload
+        payload.queryData,
+        { params: { page: 1 } }
       );
     });
   });
