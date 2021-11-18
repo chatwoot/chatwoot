@@ -207,7 +207,7 @@ describe('#ConversationAPI', () => {
       ).toHaveBeenCalledWith(
         '/api/v1/conversations/filter',
         payload.queryData,
-        { params: { page: 1 } }
+        { params: { page: payload.page } }
       );
     });
   });

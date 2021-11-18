@@ -1,14 +1,14 @@
-<template>
+l<template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top" :class="{ filter__applied: isFilterApplied }">
+    <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
       <div class="filter--actions">
         <chat-filter
-          v-if="!isFilterApplied"
+          v-if="!hasAppliedFilters"
           @statusFilterChange="updateStatusType"
         />
         <woot-button
@@ -33,7 +33,7 @@
     </div>
 
     <chat-type-tabs
-      v-if="!isFilterApplied"
+      v-if="!hasAppliedFilters"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -86,7 +86,7 @@
         v-if="showAdvancedFilters"
         :filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
-        @applyFilter="fetchFilteredConversations"
+        @applyFilter="onApplyFilter"
       />
     </woot-modal>
   </div>
@@ -155,10 +155,10 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
-      filtersApplied: 'getAppliedFilters',
+      appliedFilters: 'getAppliedFilters',
     }),
-    isFilterApplied() {
-      return this.filtersApplied.length;
+    hasAppliedFilters() {
+      return this.appliedFilters.length;
     },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
@@ -181,14 +181,17 @@ export default {
         this.activeAssigneeTab
       );
     },
+    currentPageFilterKey() {
+      return this.hasAppliedFilters ? 'appliedFilters' : this.activeAssigneeTab;
+    },
     currentFiltersPage() {
       return this.$store.getters['conversationPage/getCurrentPageFilter'](
-        'filtersApplied'
+        this.currentPageFilterKey
       );
     },
     hasCurrentPageEndReached() {
       return this.$store.getters['conversationPage/getHasEndReached'](
-        this.activeAssigneeTab
+        this.currentPageFilterKey
       );
     },
     conversationFilters() {
@@ -215,7 +218,7 @@ export default {
     },
     conversationList() {
       let conversationList = [];
-      if (!this.isFilterApplied) {
+      if (!this.hasAppliedFilters) {
         const filters = this.conversationFilters;
         if (this.activeAssigneeTab === 'me') {
           conversationList = [...this.mineChatsList(filters)];
@@ -257,6 +260,14 @@ export default {
     });
   },
   methods: {
+    onApplyFilter(payload) {
+      if (this.$route.name !== 'home') {
+        this.$router.push({ name: 'home' });
+      }
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('emptyAllConversations');
+      this.fetchFilteredConversations(payload);
+    },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
     },
@@ -316,18 +327,14 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
-      if (!this.isFilterApplied) this.fetchConversations();
-      else {
-        let page = this.currentFiltersPage + 1;
-        this.fetchFilteredConversations(this.filtersApplied, page);
+      if (!this.hasAppliedFilters) {
+        this.fetchConversations();
+      } else {
+        this.fetchFilteredConversations(this.appliedFilters);
       }
     },
-    fetchFilteredConversations(payload, page) {
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
-      }
-      this.$store.dispatch('conversationPage/reset');
-      this.$store.dispatch('emptyAllConversations');
+    fetchFilteredConversations(payload) {
+      let page = this.currentFiltersPage + 1;
       this.$store
         .dispatch('fetchFilteredConversations', {
           queryData: filterQueryGenerator(payload),
