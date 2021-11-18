@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Відкритий",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Відкриті"
       },
-      {
-        "TEXT": "Вирішений",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Вирішені"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Очікує"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Відкладено"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -82,13 +78,13 @@
         "CONTENT": "поділився посиланням"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "RECEIVED_VIA_EMAIL": "Отримано електронною поштою",
+    "VIEW_TWEET_IN_TWITTER": "Переглянути твіт у Twitter",
+    "REPLY_TO_TWEET": "Відповісти на цей твіт",
+    "SENT": "Успішно надіслано",
+    "NO_MESSAGES": "Немає повідомлень",
+    "NO_CONTENT": "Немає вмісту",
+    "HIDE_QUOTED_TEXT": "Приховати цитований текст",
+    "SHOW_QUOTED_TEXT": "Показати цитований текст"
   }
 }

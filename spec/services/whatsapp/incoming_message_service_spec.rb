@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 describe Whatsapp::IncomingMessageService do
-  let!(:whatsapp_channel) { create(:channel_whatsapp) }
-
   describe '#perform' do
+    before do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+    end
+
+    let!(:whatsapp_channel) { create(:channel_whatsapp) }
+
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
@@ -15,6 +19,30 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+      end
+    end
+
+    context 'when valid attachment message params' do
+      it 'creates appropriate conversations, message and contacts' do
+        stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683')).to_return(
+          status: 200,
+          body: File.read('spec/assets/sample.png'),
+          headers: {}
+        )
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
+                           'image' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                                        'mime_type' => 'image/jpeg',
+                                        'sha256' => '29ed500fa64eb55fc19dc4124acb300e5dcca0f822a301ae99944db',
+                                        'caption' => 'Check out my product!' },
+                           'timestamp' => '1633034394', 'type' => 'image' }]
+        }.with_indifferent_access
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
+        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to eq true
       end
     end
   end

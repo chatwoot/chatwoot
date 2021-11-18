@@ -8,7 +8,7 @@
         icon="ion-checkmark"
         emoji="✅"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.RESOLVED)"
+        @click="onCmdResolveConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.RESOLVE_ACTION') }}
       </woot-button>
@@ -19,7 +19,7 @@
         icon="ion-refresh"
         emoji="👀"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.OPEN)"
+        @click="onCmdOpenConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
@@ -29,7 +29,7 @@
         color-scheme="primary"
         icon="ion-person"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.OPEN)"
+        @click="onCmdOpenConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.OPEN_ACTION') }}
       </woot-button>
@@ -118,6 +118,11 @@ import {
   startOfTomorrow,
   startOfWeek,
 } from 'date-fns';
+import {
+  CMD_REOPEN_CONVERSATION,
+  CMD_RESOLVE_CONVERSATION,
+  CMD_SNOOZE_CONVERSATION,
+} from '../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -135,9 +140,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -169,6 +172,16 @@ export default {
         ),
       };
     },
+  },
+  mounted() {
+    bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$on(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
+    bus.$on(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
+  },
+  destroyed() {
+    bus.$off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$off(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
+    bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   methods: {
     async handleKeyEvents(e) {
@@ -203,6 +216,18 @@ export default {
           e.preventDefault();
         }
       }
+    },
+    onCmdSnoozeConversation(snoozeType) {
+      this.toggleStatus(
+        this.STATUS_TYPE.SNOOZED,
+        this.snoozeTimes[snoozeType] || null
+      );
+    },
+    onCmdOpenConversation() {
+      this.toggleStatus(this.STATUS_TYPE.OPEN);
+    },
+    onCmdResolveConversation() {
+      this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;

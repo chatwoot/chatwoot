@@ -50,7 +50,8 @@
         "PLACEHOLDER": "يرجى إدخال رسالتك",
         "ERROR": "رسالة قصيرة جداً"
       }
-    }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

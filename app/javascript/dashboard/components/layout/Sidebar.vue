@@ -125,6 +125,7 @@ export default {
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
+    this.$store.dispatch('attributes/get');
   },
 
   methods: {

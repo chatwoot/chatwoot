@@ -22,6 +22,10 @@ RSpec.describe Campaign, type: :model do
   end
 
   context 'when Inbox other then Website or Twilio SMS' do
+    before do
+      stub_request(:post, /graph.facebook.com/)
+    end
+
     let!(:facebook_channel) { create(:channel_facebook_page) }
     let!(:facebook_inbox) { create(:inbox, channel: facebook_channel) }
     let(:campaign) { build(:campaign, inbox: facebook_inbox) }

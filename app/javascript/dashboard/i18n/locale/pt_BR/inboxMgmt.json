@@ -98,7 +98,7 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
@@ -138,7 +138,7 @@
       },
       "WHATSAPP": {
         "TITLE": "Canal do WhatsApp",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "DESC": "Comece a apoiar seus clientes via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
@@ -156,14 +156,14 @@
         },
         "API_KEY": {
           "LABEL": "Chave da API",
-          "SUBTITLE": "Configure the WhatsApp API key.",
+          "SUBTITLE": "Configure a chave API do WhatsApp.",
           "PLACEHOLDER": "Chave da API",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "APPLY_FOR_ACCESS": "Não tem nenhuma chave de API? ",
+          "ERROR": "Por favor, insira um valor válido."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
         }
       },
       "API_CHANNEL": {
@@ -204,28 +204,28 @@
         "FINISH_MESSAGE": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "Canal LINE",
+        "DESC": "Integre com o canal LINE e comece a apoiar seus clientes.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
           "ERROR": "Este campo é obrigatório"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID do canal LINE",
+          "PLACEHOLDER": "ID do canal LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Canal de LINHA secreto",
+          "PLACEHOLDER": "Canal de LINHA secreto"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "ID do canal Token",
+          "PLACEHOLDER": "ID do canal Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Criar Canal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Não foi possível salvar o canal da LINHA"
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Escolha um canal",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Suporte o widget de chat ao vivo, página do Facebook, perfil do Twitter, WhatsApp, E-mail, etc., como canais. Se você quiser criar um canal personalizado, você pode criá-lo usando o canal API. Selecione um canal entre as opções abaixo para prosseguir."
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -319,8 +319,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível excluir a caixa de entrada. Tente novamente mais tarde.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Perfil da caixa de entrada excluído com sucesso",
+        "AVATAR_ERROR_MESSAGE": "Não foi possível excluir o perfil da caixa de entrada. Por favor, tente novamente mais tarde."
       }
     },
     "TABS": {
@@ -353,8 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação de Identidade do Usuário",
       "HMAC_DESCRIPTION": "Para validar a identidade do usuário, o SDK permite que você passe um `identifier_hash` para cada usuário. Você pode gerar HMAC usando 'sha256' com a chave mostrada aqui.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_VERIFICATION": "Forçar validação de identidade do usuário",
+      "HMAC_MANDATORY_DESCRIPTION": "Se habilitado, o método SDKs  não funcionará a menos que o `identifier_hash` seja fornecido para cada usuário.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use o token 'inbox_identifier' mostrado aqui para autenticar os seus clientes API.",
       "FORWARD_EMAIL_TITLE": "Encaminhar para o E-mail",

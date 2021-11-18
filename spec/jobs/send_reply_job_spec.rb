@@ -19,6 +19,7 @@ RSpec.describe SendReplyJob, type: :job do
     end
 
     it 'calls Facebook::SendOnFacebookService when its facebook message' do
+      stub_request(:post, /graph.facebook.com/)
       facebook_channel = create(:channel_facebook_page)
       facebook_inbox = create(:inbox, channel: facebook_channel)
       message = create(:message, conversation: create(:conversation, inbox: facebook_inbox))
@@ -66,6 +67,7 @@ RSpec.describe SendReplyJob, type: :job do
     end
 
     it 'calls ::Whatsapp:SendOnWhatsappService when its line message' do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       whatsapp_channel = create(:channel_whatsapp)
       message = create(:message, conversation: create(:conversation, inbox: whatsapp_channel.inbox))
       allow(::Whatsapp::SendOnWhatsappService).to receive(:new).with(message: message).and_return(process_service)

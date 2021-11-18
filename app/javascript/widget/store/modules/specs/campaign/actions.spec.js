@@ -94,14 +94,28 @@ describe('#actions', () => {
     it('reset campaign if campaign id is not present in the campaign list', async () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
-        { dispatch, getters: { getCampaigns: campaigns }, commit },
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            events: { isOpen: true },
+          },
+        },
         { campaignId: 32 }
       );
     });
     it('start campaign if campaign id passed', async () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(
-        { dispatch, getters: { getCampaigns: campaigns }, commit },
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            events: { isOpen: false },
+          },
+        },
         { campaignId: 1 }
       );
       expect(commit.mock.calls).toEqual([['setActiveCampaign', campaigns[0]]]);
@@ -112,13 +126,24 @@ describe('#actions', () => {
       const params = { campaignId: 12, websiteToken: 'XDsafmADasd' };
       API.post.mockResolvedValue({});
       await actions.executeCampaign({ commit }, params);
-      expect(commit.mock.calls).toEqual([['setActiveCampaign', {}]]);
+      expect(commit.mock.calls).toEqual([
+        ['setCampaignExecuted'],
+        ['setActiveCampaign', {}],
+      ]);
     });
     it('sends correct actions if  execute campaign API is failed', async () => {
       const params = { campaignId: 12, websiteToken: 'XDsafmADasd' };
       API.post.mockRejectedValue({ message: 'Authentication required' });
       await actions.executeCampaign({ commit }, params);
       expect(commit.mock.calls).toEqual([['setError', true]]);
+    });
+  });
+
+  describe('#resetCampaign', () => {
+    it('sends correct actions if  execute campaign API is success', async () => {
+      API.post.mockResolvedValue({});
+      await actions.resetCampaign({ commit });
+      expect(commit.mock.calls).toEqual([['setActiveCampaign', {}]]);
     });
   });
 });

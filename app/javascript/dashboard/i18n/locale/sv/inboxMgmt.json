@@ -159,11 +159,11 @@
           "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API key",
           "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "Ange ett giltigt värde."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Skapa WhatsApp-kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Vi kunde inte spara WhatsApp-kanalen"
         }
       },
       "API_CHANNEL": {
@@ -204,40 +204,40 @@
         "FINISH_MESSAGE": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE kanal",
+        "DESC": "Integrera med LINE-kanalen och börja stödja dina kunder.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
           "ERROR": "Detta fält är obligatoriskt"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE kanal-ID",
+          "PLACEHOLDER": "LINE kanal-ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE kanal hemlighet",
+          "PLACEHOLDER": "LINE kanal hemlighet"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE kanal hemlighet",
+          "PLACEHOLDER": "LINE kanal hemlighet"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Skapa API-kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Vi kunde inte spara API-kanalen"
         },
         "API_CALLBACK": {
           "TITLE": "Callback-URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Du måste konfigurera webhook URL i LINE-programmet med den URL som nämns här."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram kanal",
+        "DESC": "Integrera med Telegram kanal och börja stödja dina kunder.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "Konfigurera bot token du har fått från Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
         "SUBMIT_BUTTON": "Create Telegram Channel",
@@ -246,8 +246,8 @@
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Välj en kanal",
+        "DESC": "Chatwoot stöder live-chat widget, Facebook-sida, Twitter-profil, WhatsApp, E-post etc., som kanaler. Om du vill bygga en anpassad kanal kan du skapa den med hjälp av API-kanalen. Välj en kanal från alternativen nedan för att fortsätta."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -279,7 +279,7 @@
       "TITLE": "Din inkorg är redo!",
       "MESSAGE": "Du kan nu interagera med dina kunder genom din nya kanal. Supporta glatt ",
       "BUTTON_TEXT": "Ta mig dit",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Fler inställningar",
       "WEBSITE_SUCCESS": "Du har skapat en webbplatskanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt i din inkorg."
     },
     "REAUTH": "Återauktorisera",
@@ -303,33 +303,33 @@
         "DISABLED": "Inaktiverad"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Aktivera"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Ta bort Avatar",
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",
         "MESSAGE": "Är du säker på att ta bort ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Vänligen skriv {inboxName} för att bekräfta",
         "YES": "Ja, ta bort ",
         "NO": "Nej, behåll "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inkorgen har tagits bort",
         "ERROR_MESSAGE": "Kunde inte ta bort inkorgen. Försök igen senare.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Inkorgavatar har tagits bort",
+        "AVATAR_ERROR_MESSAGE": "Kunde inte ta bort inbox-avataren. Försök igen senare."
       }
     },
     "TABS": {
       "SETTINGS": "Inställningar",
       "COLLABORATORS": "Medarbetare",
       "CONFIGURATION": "Konfiguration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "CAMPAIGN": "Kampanjer",
+      "PRE_CHAT_FORM": "Förre chattformulär",
+      "BUSINESS_HOURS": "Affärstimmar"
     },
     "SETTINGS": "Inställningar",
     "FEATURES": {
@@ -343,21 +343,21 @@
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Lägg till eller ta bort agenter från denna inkorg",
       "UPDATE": "Uppdatera",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Aktivera inkasso för e-post",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsrutan för e-post på ny konversation",
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CSAT": "Aktivera CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Aktivera/inaktivera CSAT(kundnöjdhet) undersökning efter att ha löst ett samtal",
       "INBOX_UPDATE_TITLE": "Inkorgsinställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
       "HMAC_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_DESCRIPTION": "För att validera användarens identitet låter SDKn dig att skicka en `identity_hash` för varje användare. Du kan generera HMAC med 'sha256' med nyckeln som visas här.",
+      "HMAC_MANDATORY_VERIFICATION": "Validering av användaridentitet",
+      "HMAC_MANDATORY_DESCRIPTION": "Om aktiverad, kommer Chatwoot SDKs setUser metod inte att fungera om inte `identifier_hash` tillhandahålls för varje användare.",
+      "INBOX_IDENTIFIER": "Identifierare för inkorgen",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Använd `inbox_identifier`-token som visas här för att autentisera dina API-klienter.",
+      "FORWARD_EMAIL_TITLE": "Vidarebefordra till e-post",
       "FORWARD_EMAIL_SUB_TEXT": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -367,24 +367,24 @@
       "MESSAGE_ERROR": "Ett fel uppstod, vänligen försök igen"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Förre chattformulär gör det möjligt för dig att samla in användarinformation innan de börjar samtala med dig.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Aktivera förchattformulär",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Ja",
+          "DISABLED": "Nej"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Förre chattinlägg",
+        "PLACEHOLDER": "Detta meddelande skulle vara synligt för användarna tillsammans med formuläret"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Besökare bör uppge sitt namn och sin e-postadress innan de startar chatten"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
+      "TITLE": "Ställ in din tillgänglighet",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "Select timezone",
