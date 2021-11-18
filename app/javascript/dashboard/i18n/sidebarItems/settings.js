@@ -7,7 +7,6 @@ const settings = accountId => ({
     'labels_list',
     'settings_inbox',
     'attributes_list',
-    'automation_list',
     'settings_inbox_new',
     'settings_inbox_list',
     'settings_inbox_show',
@@ -74,13 +73,6 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
       toStateName: 'attributes_list',
-    },
-    automation: {
-      icon: 'ion-wrench',
-      label: 'AUTOMATION',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
-      toStateName: 'automation_list',
     },
     cannedResponses: {
       icon: 'ion-chatbox-working',
