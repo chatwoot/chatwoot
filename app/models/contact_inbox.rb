@@ -32,7 +32,7 @@ class ContactInbox < ApplicationRecord
   belongs_to :contact
   belongs_to :inbox
 
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
 
   def webhook_data
     {
