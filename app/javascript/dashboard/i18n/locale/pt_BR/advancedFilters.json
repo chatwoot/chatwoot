@@ -26,12 +26,12 @@
       "ASSIGNEE_NAME": "Nome do Responsável",
       "INBOX_NAME": "Nome da Caixa de Entrada",
       "TEAM_NAME": "Nome da Equipe",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversa",
+      "CAMPAIGN_NAME": "Nome da Campanha",
       "LABELS": "Marcadores",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "BROWSER_LANGUAGE": "Idioma do navegador",
+      "COUNTRY_NAME": "Nome do País",
+      "REFERER_LINK": "Link de referência"
     }
   }
 }
