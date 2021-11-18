@@ -28,6 +28,7 @@ const settings = accountId => ({
     'settings_teams_edit',
     'settings_teams_edit_members',
     'settings_teams_edit_finish',
+    'automation_list',
   ],
   menuItems: {
     back: {
@@ -73,6 +74,13 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
       toStateName: 'attributes_list',
+    },
+    automation: {
+      icon: 'ion-wrench',
+      label: 'AUTOMATION',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
+      toStateName: 'automation_list',
     },
     cannedResponses: {
       icon: 'ion-chatbox-working',
