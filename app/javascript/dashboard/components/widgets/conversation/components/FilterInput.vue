@@ -15,9 +15,9 @@
         </option>
       </select>
       <woot-button
-        icon="ion-close-round"
+        icon="ion-close-circled"
         variant="clear"
-        color-scheme="alert"
+        color-scheme="secondary"
         @click="removeFilter"
       />
     </div>

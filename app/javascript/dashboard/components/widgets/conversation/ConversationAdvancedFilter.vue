@@ -23,7 +23,7 @@
           <woot-button
             icon="ion-plus-circled"
             color-scheme="secondary"
-            variant="smooth"
+            variant="hollow"
             is-expanded
             @click="appendNewFilter"
           >
