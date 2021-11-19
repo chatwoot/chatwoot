@@ -37,11 +37,11 @@ class Imap::ImapMailbox
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
-    message = Message.find_by(source_id: in_reply_to)
+    message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
-      @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+      @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
-      @account.conversations.find(message.conversation_id)
+      @inbox.conversations.find(message.conversation_id)
     end
   end
 
