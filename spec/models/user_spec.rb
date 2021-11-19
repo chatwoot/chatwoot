@@ -16,8 +16,8 @@ RSpec.describe User do
     it { is_expected.to have_many(:accounts).through(:account_users) }
     it { is_expected.to have_many(:account_users) }
     it { is_expected.to have_many(:assigned_conversations).class_name('Conversation').dependent(:nullify) }
-    it { is_expected.to have_many(:inbox_members).dependent(:destroy) }
-    it { is_expected.to have_many(:notification_settings).dependent(:destroy) }
+    it { is_expected.to have_many(:inbox_members).dependent(:destroy_async) }
+    it { is_expected.to have_many(:notification_settings).dependent(:destroy_async) }
     it { is_expected.to have_many(:messages) }
     it { is_expected.to have_many(:events) }
     it { is_expected.to have_many(:teams) }

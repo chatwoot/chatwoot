@@ -22,5 +22,5 @@ class PlatformAppPermissible < ApplicationRecord
   validates :platform_app_id, uniqueness: { scope: [:permissible_id, :permissible_type] }
 
   belongs_to :platform_app
-  belongs_to :permissible, polymorphic: true, dependent: :destroy
+  belongs_to :permissible, polymorphic: true, dependent: :destroy_async
 end
