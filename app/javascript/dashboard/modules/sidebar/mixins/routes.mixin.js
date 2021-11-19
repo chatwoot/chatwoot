@@ -29,7 +29,7 @@ export default {
       );
     },
     shouldShowTeamsSideMenu() {
-      return this.shouldShowSidebarItem && this.teams.length;
+      return this.shouldShowConversationsSideMenu && this.teams.length;
     },
   },
 };

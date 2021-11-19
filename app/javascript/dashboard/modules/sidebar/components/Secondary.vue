@@ -88,8 +88,8 @@ export default {
         newLinkTag: 'NEW_INBOX',
         key: 'inbox',
         cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
-        toStateName: 'settings_inbox_list',
+        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
+        toStateName: 'settings_inbox_new',
         newLinkRouteName: 'settings_inbox_new',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
@@ -160,8 +160,8 @@ export default {
         newLinkTag: 'NEW_TEAM',
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
-        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
-        toStateName: 'teams_list',
+        toState: frontendURL(`accounts/${this.accountId}/settings/teams/new`),
+        toStateName: 'settings_teams_new',
         newLinkRouteName: 'settings_teams_new',
         children: this.teams.map(team => ({
           id: team.id,
