@@ -40,3 +40,6 @@ exclude_patterns:
   - "app/javascript/dashboard/i18n/locale"
   - "**/*.stories.js"
   - "stories/"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/countries.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js"

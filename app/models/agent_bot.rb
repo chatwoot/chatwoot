@@ -23,10 +23,10 @@ class AgentBot < ApplicationRecord
   include AccessTokenable
   include Avatarable
 
-  has_many :agent_bot_inboxes, dependent: :destroy
+  has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :restrict_with_exception
-  belongs_to :account, dependent: :destroy, optional: true
+  belongs_to :account, dependent: :destroy_async, optional: true
 
   def available_name
     name

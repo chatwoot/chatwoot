@@ -2,10 +2,10 @@
 
 # Accounts
 
-platform/api/v1/accounts:
+/platform/api/v1/accounts:
   post:
     $ref: ./platform/accounts/create.yml
-platform/api/v1/accounts/{id}:
+/platform/api/v1/accounts/{account_id}:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
@@ -18,7 +18,7 @@ platform/api/v1/accounts/{id}:
 
 # Account Users
 
-platform/api/v1/accounts/{id}/account_users:
+/platform/api/v1/accounts/{account_id}/account_users:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
@@ -30,12 +30,12 @@ platform/api/v1/accounts/{id}/account_users:
 
 # AgentBots
 
-platform/api/v1/agent_bots:
+/platform/api/v1/agent_bots:
   get:
     $ref: ./platform/agent_bots/index.yml
   post:
     $ref: ./platform/agent_bots/create.yml
-platform/api/v1/agent_bots/{id}:
+/platform/api/v1/agent_bots/{id}:
   parameters:
     - $ref: '#/parameters/agent_bot_id'
   get:
@@ -47,10 +47,10 @@ platform/api/v1/agent_bots/{id}:
 
 # Users
 
-platform/api/v1/users:
+/platform/api/v1/users:
   post:
     $ref: ./platform/users/create.yml
-platform/api/v1/users/{id}:
+/platform/api/v1/users/{id}:
   parameters:
     - $ref: '#/parameters/platform_user_id'
   get:
@@ -59,10 +59,11 @@ platform/api/v1/users/{id}:
     $ref: ./platform/users/update.yml
   delete:
     $ref: ./platform/users/delete.yml
-platform/api/v1/users/{id}/login:
+/platform/api/v1/users/{id}/login:
   parameters:
     - $ref: '#/parameters/platform_user_id'
-  $ref: './platform/users/login.yml'
+  get:
+    $ref: './platform/users/login.yml'
 
 
 # ---------------- end of platform path -----------#
@@ -71,12 +72,12 @@ platform/api/v1/users/{id}/login:
 
 # Contacts
 
-public/api/v1/inboxes/{inbox_identifier}/contacts:
+/public/api/v1/inboxes/{inbox_identifier}/contacts:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
   post:
     $ref: ./public/inboxes/contacts/create.yml
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -86,7 +87,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
     $ref: ./public/inboxes/contacts/update.yml
 
 
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -95,7 +96,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   get:
     $ref: ./public/inboxes/conversations/index.yml
 
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -104,7 +105,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     $ref: ./public/inboxes/messages/create.yml
   get:
     $ref: ./public/inboxes/messages/index.yml
-public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
     - $ref: '#/parameters/public_contact_identifier'
@@ -139,11 +140,15 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 
 # Agents
 /api/v1/accounts/{account_id}/agents:
+  parameters:
+    - $ref: '#/parameters/account_id'
   get:
     $ref: ./application/agents/index.yml
   post:
     $ref: ./application/agents/create.yml
 /api/v1/accounts/{account_id}/agents/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
   patch:
     $ref: ./application/agents/update.yml
   delete:
@@ -167,18 +172,13 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 
 # Conversations
 /api/v1/accounts/{account_id}/conversations:
-  parameters:
-    - $ref: '#/parameters/account_id'
   $ref: ./application/conversation/index.yml
-/api/v1/accounts/{account_id}/conversations/:
-  parameters:
-    - $ref: '#/parameters/account_id'
-  $ref: ./application/conversation/create.yml
 /api/v1/accounts/{account_id}/conversations/filter:
   parameters:
     - $ref: '#/parameters/account_id'
-  $ref: ./application/conversation/filter.yml
-/api/v1/accounts/{account_id}/conversations/{converstion_id}:
+  post:
+    $ref: ./application/conversation/filter.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -227,7 +227,10 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
   $ref: ./application/inboxes/set_agent_bot.yml
 
 # Inbox Members
-/api/v1/accounts/{account_id}/inbox_members:
+/api/v1/accounts/{account_id}/inbox_members/{inbox_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/inbox_id'
   get:
     $ref: ./application/inboxes/inbox_members/show.yml
   post:
@@ -240,9 +243,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 
 
 # Messages
-/api/v1/accounts/{account_id}/conversations/{id}/messages:
-  $ref: ./application/conversation/messages/create_attachment.yml
-/api/v1/accounts/{account_id}/conversations/{converstion_id}/messages:
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -269,6 +270,7 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 /api/v1/accounts/{account_id}/integrations/hooks:
   post:
     $ref: './application/integrations/hooks/create.yml'
+/api/v1/accounts/{account_id}/integrations/hooks/{hook_id}:
   patch:
     $ref: ./application/integrations/hooks/update.yml
   delete:
@@ -308,9 +310,8 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
     - $ref: '#/parameters/account_id'
     - in: query
       name: filter_type
-      schema:
-        type: string
-        enum: ['conversation', 'contact', 'report']
+      type: string
+      enum: ['conversation', 'contact', 'report']
       required: false
       description: The type of custom filter
   get:
@@ -331,48 +332,42 @@ public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversat
 ### Reports
 
 # List
-/api/v2/accounts/{id}/reports:
+/api/v2/accounts/{account_id}/reports:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/report_metric'
     - $ref: '#/parameters/report_type'
     - in: query
       name: id
-      schema:
-        type: string
+      type: string
       description: The Id of specific object in case of agent/inbox/label
     - in: query
       name: since
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should start.
     - in: query
       name: until
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/index.yml'
 
 # Summary
-/api/v2/accounts/{id}/reports/summary:
+/api/v2/accounts/{account_id}/reports/summary:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/report_type'
     - in: query
       name: id
-      schema:
-        type: string
+      type: string
       description: The Id of specific object in case of agent/inbox/label
     - in: query
       name: since
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should start.
     - in: query
       name: until
-      schema:
-        type: string
+      type: string
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/summary.yml'
