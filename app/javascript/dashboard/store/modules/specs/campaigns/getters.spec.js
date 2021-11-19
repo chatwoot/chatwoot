@@ -58,6 +58,11 @@ describe('#getters', () => {
     ]);
   });
 
+  it('get all campaigns', () => {
+    const state = { records: campaigns };
+    expect(getters.getAllCampaigns(state)).toEqual(campaigns);
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {

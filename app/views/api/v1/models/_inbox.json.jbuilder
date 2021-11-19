@@ -45,6 +45,22 @@ json.medium resource.channel.try(:medium) if resource.twilio?
 json.forward_to_email resource.channel.try(:forward_to_email)
 json.email resource.channel.try(:email) if resource.email?
 
+## IMAP
+json.imap_email resource.channel.try(:imap_email) if resource.email?
+json.imap_password resource.channel.try(:imap_password) if resource.email?
+json.imap_address resource.channel.try(:imap_address) if resource.email?
+json.imap_port resource.channel.try(:imap_port) if resource.email?
+json.imap_enabled resource.channel.try(:imap_enabled) if resource.email?
+json.imap_enable_ssl resource.channel.try(:imap_enable_ssl) if resource.email?
+
+## SMTP
+json.smtp_email resource.channel.try(:smtp_email) if resource.email?
+json.smtp_password resource.channel.try(:smtp_password) if resource.email?
+json.smtp_address resource.channel.try(:smtp_address) if resource.email?
+json.smtp_port resource.channel.try(:smtp_port) if resource.email?
+json.smtp_enabled resource.channel.try(:smtp_enabled) if resource.email?
+json.smtp_domain resource.channel.try(:smtp_domain) if resource.email?
+
 ## API Channel Attributes
 json.webhook_url resource.channel.try(:webhook_url) if resource.api?
 json.inbox_identifier resource.channel.try(:identifier) if resource.api?
