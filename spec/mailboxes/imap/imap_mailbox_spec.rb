@@ -43,7 +43,7 @@ RSpec.describe Imap::ImapMailbox, type: :mailbox do
     end
 
     context 'when a reply for existing email conversation' do
-      let(:prev_conversation) { create(:conversation, account: account, assignee: agent) }
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
       let(:reply_mail) do
         create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
       end
