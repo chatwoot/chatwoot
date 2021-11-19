@@ -1,5 +1,6 @@
 <template>
   <woot-dropdown-menu>
+    <woot-dropdown-header title="Set yourself as" />
     <woot-dropdown-item
       v-for="status in availabilityStatuses"
       :key="status.value"
@@ -17,20 +18,25 @@
         {{ status.label }}
       </woot-button>
     </woot-dropdown-item>
+    <woot-dropdown-divider />
   </woot-dropdown-menu>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
 
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
   components: {
+    WootDropdownHeader,
+    WootDropdownDivider,
     WootDropdownMenu,
     WootDropdownItem,
     AvailabilityStatusBadge,

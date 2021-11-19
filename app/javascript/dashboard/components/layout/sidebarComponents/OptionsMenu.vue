@@ -7,6 +7,7 @@
       :class="{ 'dropdown-pane--open': show }"
     >
       <availability-status />
+      <li class="divider" />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button
@@ -35,8 +36,10 @@
         <woot-dropdown-item>
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
             class=" change-accounts--button"
+            icon="ion-ios-bolt-outline"
             @click="$emit('key-shortcut-modal')"
           >
             {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
@@ -120,5 +123,6 @@ export default {
 .dropdown-pane {
   left: var(--space-slab);
   bottom: var(--space-larger);
+  min-width: 16.8rem;
 }
 </style>
