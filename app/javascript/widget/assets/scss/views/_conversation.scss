@@ -29,6 +29,18 @@
     }
   }
 
+  &.is-typing .messages-wrap div:last-child {
+    .agent-message {
+      .agent-name {
+        display: none;
+      }
+
+      .user-thumbnail-box {
+        margin-top: 0;
+      }
+    }
+  }
+
   .agent-name {
     color: $color-body;
     font-size: $font-size-small;
@@ -225,5 +237,3 @@
     }
   }
 }
-
-.conversation-wrap
