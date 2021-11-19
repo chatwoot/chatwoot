@@ -1,15 +1,23 @@
-import AvailabilityStatus from '../AvailabilityStatus';
-import { createLocalVue, mount } from '@vue/test-utils';
+import AvailabilityStatus from '../AvailabilityStatus.vue';
+import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
 import WootButton from 'dashboard/components/ui/WootButton';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 import i18n from 'dashboard/i18n';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
 localVue.component('woot-button', WootButton);
+localVue.component('woot-dropdown-header', WootDropdownHeader);
+localVue.component('woot-dropdown-menu', WootDropdownMenu);
+localVue.component('woot-dropdown-divider', WootDropdownDivider);
+localVue.component('woot-dropdown-item', WootDropdownItem);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -53,7 +61,11 @@ describe('AvailabilityStatus', () => {
   });
 
   it('dispatches an action when user changes status', async () => {
-    await availabilityStatus.find('button:first-child').trigger('click');
+    await availabilityStatus;
+    availabilityStatus
+      .findAll('.status-change--dropdown-button')
+      .at(2)
+      .trigger('click');
 
     expect(actions.updateAvailability).toBeCalledWith(
       expect.any(Object),

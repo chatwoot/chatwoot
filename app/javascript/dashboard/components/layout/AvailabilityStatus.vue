@@ -89,7 +89,8 @@ export default {
     closeStatusMenu() {
       this.isStatusMenuOpened = false;
     },
-    changeAvailabilityStatus(availability, accountId) {
+    changeAvailabilityStatus(availability) {
+      const accountId = this.currentAccountId;
       if (this.isUpdating) {
         return;
       }
