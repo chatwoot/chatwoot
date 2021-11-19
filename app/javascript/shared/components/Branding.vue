@@ -1,5 +1,5 @@
 <template>
-  <div v-if="globalConfig.brandName" class="px-0 py-3">
+  <div v-if="globalConfig.brandName" class="px-0 py-3 flex justify-center">
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
@@ -70,7 +70,7 @@ export default {
 .branding--link {
   color: $color-light-gray;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   filter: grayscale(1);
   font-size: $font-size-small;
   opacity: 0.9;

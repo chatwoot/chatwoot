@@ -150,9 +150,7 @@ export const IFrameHelper = {
 
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
-      if (!isOpen) {
-        IFrameHelper.events.resetUnreadMode();
-      } else {
+      if (isOpen) {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
@@ -242,14 +240,10 @@ export const IFrameHelper = {
     }
   },
   toggleCloseButton: () => {
+    let isMobile = false;
     if (window.matchMedia('(max-width: 668px)').matches) {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: true,
-      });
-    } else {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: false,
-      });
+      isMobile = true;
     }
+    IFrameHelper.sendMessage('toggle-close-button', { isMobile });
   },
 };

@@ -17,13 +17,13 @@
           :intro-heading="channelConfig.welcomeTitle"
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="showPopoutButton"
+          :show-popout-button="appConfig.showPopoutButton"
         />
         <chat-header
           v-if="isHeaderCollapsed"
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="showPopoutButton"
+          :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
         />
       </transition>
@@ -58,15 +58,15 @@ export default {
     ChatHeaderExpanded,
   },
   mixins: [configMixin],
-  props: {
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
+  data() {
+    return {
+      showPopoutButton: false,
+    };
   },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
+      appConfig: 'appConfig/getAppConfig',
     }),
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
