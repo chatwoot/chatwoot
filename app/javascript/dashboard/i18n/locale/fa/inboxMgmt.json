@@ -403,21 +403,21 @@
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "جزئیات IMAP خود را تنظیم کنید",
+      "UPDATE": "به‌روزرسانی تنظیمات IMAP",
+      "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
+      "TOGGLE_HELP": "در حال فعال کردن IMAP به کاربر در دریافت ایمیل کمک می‌کند",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "تنظیمات IMAP با موفقیت به‌روزرسانی شد",
+        "ERROR_MESSAGE": "به‌روزرسانی تنظیمات IMAP ممکن نیست"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "آدرس",
+        "PLACE_HOLDER": "آدرس (مثال: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "درگاه",
+        "PLACE_HOLDER": "درگاه"
       },
       "EMAIL": {
         "LABEL": "ایمیل",
@@ -427,25 +427,25 @@
         "LABEL": "رمز عبور",
         "PLACE_HOLDER": "رمز عبور"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "فعال کردن SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "جزئیات SMTP خود را تنظیم کنید",
+      "UPDATE": "به‌روزرسانی تنظیمات SMTP",
+      "TOGGLE_AVAILABILITY": "پیکربندی SMTP را برای این صندوق ورودی فعال کنید",
+      "TOGGLE_HELP": "در حال فعال کردن SMTP به کاربر در ارسال ایمیل کمک می کند",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "تنظیمات SMTP با موفقیت به‌روزرسانی شد",
+        "ERROR_MESSAGE": "به‌روزرسانی تنظیمات SMTP ممکن نیست"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "آدرس",
+        "PLACE_HOLDER": "آدرس (مثال: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "درگاه",
+        "PLACE_HOLDER": "درگاه"
       },
       "EMAIL": {
         "LABEL": "ایمیل",
