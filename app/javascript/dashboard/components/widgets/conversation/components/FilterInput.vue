@@ -14,9 +14,12 @@
           {{ $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`) }}
         </option>
       </select>
-      <button class="filter--attribute_clearbtn" @click="removeFilter">
-        <i class="icon ion-close-circled" />
-      </button>
+      <woot-button
+        icon="ion-close-round"
+        variant="clear"
+        color-scheme="alert"
+        @click="removeFilter"
+      />
     </div>
     <div class="filter-values">
       <div class="row">

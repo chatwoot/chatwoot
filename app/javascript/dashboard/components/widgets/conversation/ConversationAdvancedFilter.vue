@@ -20,10 +20,15 @@
           @removeFilter="removeFilter(i)"
         />
         <div class="filter-actions">
-          <button class="append-filter-btn" @click="appendNewFilter">
-            <i class="icon ion-plus-circled margin-right-small" />
-            <span>{{ $t('FILTER.ADD_NEW_FILTER') }}</span>
-          </button>
+          <woot-button
+            icon="ion-plus-circled"
+            color-scheme="secondary"
+            variant="smooth"
+            is-expanded
+            @click="appendNewFilter"
+          >
+            {{ $t('FILTER.ADD_NEW_FILTER') }}
+          </woot-button>
         </div>
         <div class="modal-footer justify-content-end w-full">
           <woot-button class="button clear" @click.prevent="onClose">
@@ -41,13 +46,13 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import filterInputBox from './components/FilterInput.vue';
+import FilterInputBox from './components/FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from './advancedFilterItems/countries';
 
 export default {
   components: {
-    filterInputBox,
+    FilterInputBox,
   },
   mixins: [alertMixin],
   props: {
@@ -155,7 +160,7 @@ export default {
         case 'labels':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
-              id: i.id,
+              id: i.title,
               name: i.title,
             };
           });
@@ -218,11 +223,6 @@ export default {
   align-items: center;
   margin-bottom: var(--space-one);
 }
-.filter--attribute_clearbtn {
-  font-size: var(--space-two);
-  margin-left: var(--space-one);
-  cursor: pointer;
-}
 .filter--attributes_select {
   margin-bottom: var(--space-zero) !important;
 }
@@ -235,17 +235,17 @@ export default {
   padding-right: var(--space-one);
 }
 .margin-right-small {
-  margin-right: var(--space-three-fourths);
+  margin-right: var(--space-small);
 }
 .append-filter-btn {
   width: 100%;
   border: 1px solid var(--color-border);
-  border-radius: var(--space-one-fourths);
+  border-radius: var(--space-smaller);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-woot);
-  font-size: var(--font-size-one-and-half);
+  font-size: var(--font-size-small);
   padding: var(--space-one);
   height: var(----space-medium);
   cursor: pointer;
