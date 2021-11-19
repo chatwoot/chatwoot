@@ -1,6 +1,7 @@
 import {
   SET_REFERRER_HOST,
   SET_WIDGET_APP_CONFIG,
+  SET_WIDGET_COLOR,
   TOGGLE_WIDGET_OPEN,
 } from '../types';
 
@@ -25,15 +26,11 @@ const getters = {
 };
 
 const actions = {
-  setAppConfig(
-    { commit },
-    { showPopoutButton, position, hideMessageBubble, widgetColor }
-  ) {
+  setAppConfig({ commit }, { showPopoutButton, position, hideMessageBubble }) {
     commit(SET_WIDGET_APP_CONFIG, {
       showPopoutButton: !!showPopoutButton,
       position: position || 'right',
       hideMessageBubble: !!hideMessageBubble,
-      widgetColor,
     });
   },
   toggleWidgetOpen({ commit }, isWidgetOpen) {
@@ -42,6 +39,9 @@ const actions = {
   setReferrerHost({ commit }, referrerHost) {
     commit(SET_REFERRER_HOST, referrerHost);
   },
+  setWidgetColor({ commit }, widgetColor) {
+    commit(SET_WIDGET_COLOR, widgetColor);
+  },
 };
 
 const mutations = {
@@ -49,13 +49,15 @@ const mutations = {
     $state.showPopoutButton = data.showPopoutButton;
     $state.position = data.position;
     $state.hideMessageBubble = data.hideMessageBubble;
-    $state.widgetColor = data.widgetColor;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;
   },
   [SET_REFERRER_HOST]($state, referrerHost) {
     $state.referrerHost = referrerHost;
+  },
+  [SET_WIDGET_COLOR]($state, widgetColor) {
+    $state.widgetColor = widgetColor;
   },
 };
 

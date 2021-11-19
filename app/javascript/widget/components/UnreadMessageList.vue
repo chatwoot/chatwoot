@@ -2,10 +2,10 @@
   <div class="unread-wrap">
     <div class="close-unread-wrap">
       <button class="button small close-unread-button" @click="closeFullView">
-        <div class="flex items-center">
+        <span class="flex items-center">
           <fluent-icon class="mr-1" icon="dismiss" size="12" />
           {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
-        </div>
+        </span>
       </button>
     </div>
     <div class="unread-messages">
@@ -25,12 +25,12 @@
       <button
         v-if="unreadMessageCount"
         class="button clear-button"
-        @click="openFullView"
+        @click="openConversationView"
       >
-        <div class="flex items-center">
+        <span class="flex items-center">
           <fluent-icon class="mr-2" size="16" icon="arrow-right" />
           {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
-        </div>
+        </span>
       </button>
     </div>
   </div>
@@ -40,7 +40,7 @@
 import { IFrameHelper } from 'widget/helpers/utils';
 import { mapGetters } from 'vuex';
 import configMixin from '../mixins/configMixin';
-
+import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
 
@@ -65,8 +65,8 @@ export default {
     },
   },
   methods: {
-    openFullView() {
-      bus.$emit('on-unread-view-clicked');
+    openConversationView() {
+      bus.$emit(ON_UNREAD_MESSAGE_CLICK);
     },
     closeFullView() {
       if (IFrameHelper.isIFrame()) {

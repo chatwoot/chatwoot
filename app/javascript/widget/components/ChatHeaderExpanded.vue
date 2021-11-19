@@ -1,5 +1,5 @@
 <template>
-  <header class="header-expanded bg-white py-8 px-6 relative box-border w-full">
+  <header class="header-expanded bg-white py-6 px-5 relative box-border w-full">
     <div
       class="flex items-start"
       :class="[avatarUrl ? 'justify-between' : 'justify-end']"

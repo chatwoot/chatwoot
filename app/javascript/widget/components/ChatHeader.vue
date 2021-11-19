@@ -1,5 +1,5 @@
 <template>
-  <header class="flex justify-between px-4 py-5 w-full">
+  <header class="flex justify-between p-5 w-full">
     <div class="flex items-center">
       <button @click="onBackButtonClick">
         <fluent-icon icon="chevron-left" size="24" />

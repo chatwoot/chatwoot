@@ -34,7 +34,7 @@
       "
     />
     <form-text-area
-      v-if="!activeCampaignExist"
+      v-if="!hasActiveCampaign"
       v-model="message"
       class="my-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -96,7 +96,7 @@ export default {
       },
     };
     // For campaign, message field is not required
-    if (this.activeCampaignExist) {
+    if (this.hasActiveCampaign) {
       return identityValidations;
     }
     if (this.options.requireEmail) {
@@ -123,14 +123,14 @@ export default {
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
-    activeCampaignExist() {
+    hasActiveCampaign() {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.activeCampaignExist || this.options.preChatMessage;
+      return this.hasActiveCampaign || this.options.preChatMessage;
     },
     headerMessage() {
-      if (this.activeCampaignExist) {
+      if (this.hasActiveCampaign) {
         return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
       }
       return this.options.preChatMessage;
@@ -142,23 +142,12 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      // Check any active campaign exist or not
-      if (this.activeCampaignExist) {
-        bus.$emit('execute-campaign', this.activeCampaign.id);
-        this.$store.dispatch('contacts/update', {
-          user: {
-            email: this.emailAddress,
-            name: this.fullName,
-          },
-        });
-      } else {
-        this.$store.dispatch('conversation/createConversation', {
-          fullName: this.fullName,
-          emailAddress: this.emailAddress,
-          message: this.message,
-        });
-      }
-      this.replaceRoute('messages');
+      this.$emit('submit', {
+        fullName: this.fullName,
+        emailAddress: this.emailAddress,
+        message: this.message,
+        activeCampaignId: this.activeCampaign.id,
+      });
     },
   },
 };

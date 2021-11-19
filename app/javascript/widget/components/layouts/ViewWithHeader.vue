@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full h-full bg-slate-50 flex flex-col" @keydown.esc="closeChat">
+  <div
+    class="w-full h-full bg-slate-50 flex flex-col"
+    @keydown.esc="closeWindow"
+  >
     <div
       class="header-wrap bg-white"
       :class="{ expanded: !isHeaderCollapsed, collapsed: isHeaderCollapsed }"
@@ -49,6 +52,7 @@ import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   components: {
@@ -78,6 +82,11 @@ export default {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
+    },
+  },
+  methods: {
+    closeWindow() {
+      IFrameHelper.sendMessage({ event: 'closeWindow' });
     },
   },
 };

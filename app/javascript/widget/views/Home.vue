@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { IFrameHelper } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import { mapGetters } from 'vuex';
@@ -44,7 +43,6 @@ export default {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
-      getCampaignHasExecuted: 'campaign/getCampaignHasExecuted',
       conversationSize: 'conversation/getConversationSize',
     }),
   },
@@ -60,9 +58,6 @@ export default {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
-    },
-    closeChat() {
-      IFrameHelper.sendMessage({ event: 'closeChat' });
     },
   },
 };

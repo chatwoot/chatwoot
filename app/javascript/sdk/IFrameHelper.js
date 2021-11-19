@@ -3,7 +3,6 @@ import {
   wootOn,
   addClass,
   loadCSS,
-  removeClass,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
@@ -19,6 +18,8 @@ import {
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
+  removeUnreadClass,
+  addUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
@@ -148,6 +149,11 @@ export const IFrameHelper = {
       onBubbleClick(bubbleState);
     },
 
+    closeWindow: () => {
+      onBubbleClick({ toggleValue: false });
+      removeUnreadClass();
+    },
+
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (isOpen) {
@@ -160,30 +166,6 @@ export const IFrameHelper = {
         referrerHost,
       });
     },
-
-    setUnreadMode: message => {
-      const { unreadMessageCount } = message;
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-
-      if (!isOpen && unreadMessageCount > 0) {
-        IFrameHelper.sendMessage('set-unread-view');
-        onBubbleClick({ toggleValue });
-        const holderEl = document.querySelector('.woot-widget-holder');
-        addClass(holderEl, 'has-unread-view');
-      }
-    },
-
-    setCampaignMode: () => {
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-      if (!isOpen) {
-        onBubbleClick({ toggleValue });
-        const holderEl = document.querySelector('.woot-widget-holder');
-        addClass(holderEl, 'has-unread-view');
-      }
-    },
-
     updateIframeHeight: message => {
       const { extraHeight = 0, isFixedHeight } = message;
       if (!extraHeight) return;
@@ -191,19 +173,12 @@ export const IFrameHelper = {
       IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
 
-    resetUnreadMode: () => {
-      IFrameHelper.sendMessage('unset-unread-view');
-      IFrameHelper.events.removeUnreadClass();
+    setUnreadMode: () => {
+      addUnreadClass();
+      onBubbleClick({ toggleValue: true });
     },
 
-    removeUnreadClass: () => {
-      const holderEl = document.querySelector('.woot-widget-holder');
-      removeClass(holderEl, 'has-unread-view');
-    },
-
-    closeChat: () => {
-      onBubbleClick({ toggleValue: false });
-    },
+    resetUnreadMode: () => removeUnreadClass(),
   },
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
