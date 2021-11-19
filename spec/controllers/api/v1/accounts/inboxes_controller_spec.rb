@@ -376,6 +376,57 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.email).to eq('emailtest@email.test')
       end
 
+      it 'updates email inbox with imap when administrator' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        imap_connection = double
+        allow(Mail).to receive(:connection).and_return(imap_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  imap_enabled: true,
+                  imap_address: 'imap.gmail.com',
+                  imap_port: 993,
+                  imap_email: 'imaptest@gmail.com'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.imap_enabled).to be true
+        expect(email_channel.reload.imap_address).to eq('imap.gmail.com')
+        expect(email_channel.reload.imap_port).to eq(993)
+      end
+
+      it 'updates email inbox with smtp when administrator' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        smtp_connection = double
+        allow(smtp_connection).to receive(:finish).and_return(true)
+        allow(Net::SMTP).to receive(:start).and_return(smtp_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  smtp_enabled: true,
+                  smtp_address: 'smtp.gmail.com',
+                  smtp_port: 587,
+                  smtp_email: 'smtptest@gmail.com'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.smtp_enabled).to be true
+        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
+        expect(email_channel.reload.smtp_port).to eq(587)
+      end
+
       it 'updates avatar when administrator' do
         # no avatar before upload
         expect(inbox.avatar.attached?).to eq(false)
