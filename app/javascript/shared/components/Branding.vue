@@ -4,7 +4,7 @@
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link w-full justify-center"
+      class="branding--link justify-center"
     >
       <img
         class="branding--image"
@@ -22,6 +22,7 @@
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { mapGetters } from 'vuex';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -33,7 +34,6 @@ export default {
   mixins: [globalConfigMixin],
   data() {
     return {
-      referrerHost: '',
       globalConfig: {
         brandName,
         logoThumbnail,
@@ -42,6 +42,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ referrerHost: 'appConfig/getReferrerHost' }),
     brandRedirectURL() {
       const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
       if (this.referrerHost) {
@@ -49,11 +50,6 @@ export default {
       }
       return baseURL;
     },
-  },
-  mounted() {
-    bus.$on(BUS_EVENTS.SET_REFERRER_HOST, referrerHost => {
-      this.referrerHost = referrerHost;
-    });
   },
 };
 </script>
