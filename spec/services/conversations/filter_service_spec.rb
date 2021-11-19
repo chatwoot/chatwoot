@@ -74,7 +74,7 @@ describe ::Conversations::FilterService do
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
-            values: [1],
+            values: ['support'],
             query_operator: nil
           }.with_indifferent_access
         ]

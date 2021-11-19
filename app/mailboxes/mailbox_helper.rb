@@ -29,6 +29,21 @@ module MailboxHelper
     @message.save!
   end
 
+  def create_contact
+    @contact_inbox = ::ContactBuilder.new(
+      source_id: "email:#{processed_mail.message_id}",
+      inbox: @inbox,
+      contact_attributes: {
+        name: identify_contact_name,
+        email: processed_mail.original_sender,
+        additional_attributes: {
+          source_id: "email:#{processed_mail.message_id}"
+        }
+      }
+    ).perform
+    @contact = @contact_inbox.contact
+  end
+
   def notification_email_from_chatwoot?
     # notification emails are send via mailer sender email address. so it should match
     @processed_mail.original_sender == Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
