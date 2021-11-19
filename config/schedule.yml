@@ -3,13 +3,18 @@
 
 # executed At 12:00 on every day-of-month.
 internal_check_new_versions_job:
-  cron: "0 12 */1 * *"
-  class: "Internal::CheckNewVersionsJob"
+  cron: '0 12 */1 * *'
+  class: 'Internal::CheckNewVersionsJob'
   queue: scheduled_jobs
 
 # executed At every 5th minute..
 trigger_scheduled_items_job:
-  cron: "*/5 * * * *"
-  class: "TriggerScheduledItemsJob"
+  cron: '*/5 * * * *'
+  class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
-  
+
+# executed At every minute.
+trigger_scheduled_items_job:
+  cron: '*/1 * * * *'
+  class: 'Inboxes::FetchImapEmailInboxesJob'
+  queue: scheduled_jobs

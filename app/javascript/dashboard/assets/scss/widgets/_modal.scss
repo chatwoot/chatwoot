@@ -29,7 +29,6 @@
   }
 }
 
-
 .page-top-bar {
   @include padding($space-large $space-large $zero);
 
@@ -48,12 +47,10 @@
   position: relative;
   width: 60rem;
 
-
   .content-box {
     @include padding($zero);
     height: auto;
   }
-
 
   h2 {
     color: $color-heading;
@@ -89,6 +86,10 @@
     button {
       font-size: $font-size-small;
     }
+
+    &.justify-content-end {
+      justify-content: end;
+    }
   }
 
   .delete-item {
@@ -97,7 +98,6 @@
       @include margin($zero);
     }
   }
-
 }
 
 .modal-enter,
