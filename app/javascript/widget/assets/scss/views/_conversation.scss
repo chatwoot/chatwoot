@@ -73,6 +73,7 @@
 
     &.has-response + .user-message-wrap {
       margin-top: $space-micro;
+
       .chat-bubble {
         border-top-right-radius: $space-smaller;
       }
@@ -102,10 +103,6 @@
     }
   }
 
-  .has-attachment {
-    overflow: hidden;
-    padding: 0;
-  }
 
   .user.has-attachment {
     .icon-wrap {
