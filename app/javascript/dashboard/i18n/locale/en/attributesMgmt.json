@@ -30,8 +30,8 @@
           "ERROR": "Type is required",
           "LIST": {
             "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter values and press enter key",
-            "ERROR": "Please add one value"
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
           }
         },
         "KEY": {

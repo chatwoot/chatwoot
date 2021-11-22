@@ -50,23 +50,26 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
           </span>
         </label>
-        <label
-          v-if="isAttributeTypeList"
-          :class="{ error: $v.attributeType.$error }"
-        >
-          {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
+        <div v-if="isAttributeTypeList" class="multiselect--wrap">
+          <label>
+            {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
+          </label>
           <multiselect
-            v-if="isAttributeTypeList"
             v-model="listValues"
-            :placeholder="$t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.PLACEHOLDER')"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')"
             label="name"
             track-by="name"
+            :class="{ invalid: isInvalid }"
             :options="value"
             :multiple="true"
             :taggable="true"
+            @close="onTouch"
             @tag="addTagValue"
           />
-        </label>
+          <label v-show="isInvalid" class="error-message">
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
         <woot-button :is-loading="isUpdating" :disabled="isButtonDisabled">
@@ -108,6 +111,7 @@ export default {
       attributeKey: '',
       listValues: [],
       value: [],
+      isTouched: false,
     };
   },
   validations: {
@@ -141,7 +145,10 @@ export default {
       return this.listValues.map(item => item.name);
     },
     isButtonDisabled() {
-      return this.$v.description.$invalid || this.listValues.length === 0;
+      return this.$v.description.$invalid || this.isInvalid;
+    },
+    isInvalid() {
+      return this.isTouched && this.listValues.length === 0;
     },
     pageTitle() {
       return `${this.$t('ATTRIBUTES_MGMT.EDIT.TITLE')} - ${
@@ -171,6 +178,9 @@ export default {
   methods: {
     onClose() {
       this.$emit('on-close');
+    },
+    onTouch() {
+      this.isTouched = true;
     },
     addTagValue(tagValue) {
       const tag = {
@@ -215,5 +225,25 @@ export default {
 .key-value {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
+}
+.multiselect--wrap {
+  margin-bottom: var(--space-normal);
+  .error-message {
+    color: var(--r-400);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+  }
+  .invalid {
+    ::v-deep {
+      .multiselect__tags {
+        border: 1px solid var(--r-400);
+      }
+    }
+  }
+}
+::v-deep {
+  .multiselect {
+    margin-bottom: 0;
+  }
 }
 </style>

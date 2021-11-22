@@ -63,11 +63,10 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <label
-            v-if="isAttributeTypeList"
-            :class="{ error: $v.attributeType.$error }"
-          >
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
+          <div v-if="isAttributeTypeList" class="multiselect--wrap">
+            <label>
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
+            </label>
             <multiselect
               v-model="listValues"
               :placeholder="
@@ -75,12 +74,17 @@
               "
               label="name"
               track-by="name"
+              :class="{ invalid: isInvalid }"
               :options="value"
               :multiple="true"
               :taggable="true"
+              @close="onTouch"
               @tag="addTagValue"
             />
-          </label>
+            <label v-show="isInvalid" class="error-message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
+            </label>
+          </div>
           <div class="modal-footer">
             <woot-submit-button
               :disabled="isButtonDisabled"
@@ -124,6 +128,7 @@ export default {
       listValues: [],
       value: [],
       show: true,
+      isTouched: false,
     };
   },
 
@@ -131,6 +136,9 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    isInvalid() {
+      return this.isTouched && this.listValues.length === 0;
+    },
     attributeListValues() {
       return this.listValues.map(item => item.name);
     },
@@ -139,7 +147,7 @@ export default {
         this.$v.displayName.$invalid ||
         this.$v.description.$invalid ||
         this.uiFlags.isCreating ||
-        this.listValues.length === 0
+        this.isInvalid
       );
     },
     keyErrorMessage() {
@@ -182,6 +190,9 @@ export default {
       };
       this.listValues.push(tag);
     },
+    onTouch() {
+      this.isTouched = true;
+    },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);
     },
@@ -216,5 +227,25 @@ export default {
 .key-value {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
+}
+.multiselect--wrap {
+  margin-bottom: var(--space-normal);
+  .error-message {
+    color: var(--r-400);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+  }
+  .invalid {
+    ::v-deep {
+      .multiselect__tags {
+        border: 1px solid var(--r-400);
+      }
+    }
+  }
+}
+::v-deep {
+  .multiselect {
+    margin-bottom: 0;
+  }
 }
 </style>

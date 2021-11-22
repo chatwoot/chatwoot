@@ -326,6 +326,7 @@ export default {
 ::v-deep {
   .selector-wrap {
     margin: 0;
+    top: var(--space-smaller);
     .selector-name {
       margin-left: 0;
     }
