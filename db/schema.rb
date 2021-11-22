@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_150415) do
+ActiveRecord::Schema.define(version: 2021_11_22_061012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -273,9 +273,11 @@ ActiveRecord::Schema.define(version: 2021_09_29_150415) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "hmac_verified", default: false
+    t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
+    t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
