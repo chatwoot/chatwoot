@@ -35,7 +35,8 @@ describe ActionCableListener do
       # HACK: to reload conversation inbox members
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
       conversation.contact_inbox.update(hmac_verified: true)
-      non_verified_contact_inbox = create(:contact_inbox, contact: conversation.contact, inbox: inbox)
+      # creating a non verified contact inbox to ensure the events are not sent to it
+      create(:contact_inbox, contact: conversation.contact, inbox: inbox)
       verified_contact_inbox = create(:contact_inbox, contact: conversation.contact, inbox: inbox, hmac_verified: true)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
