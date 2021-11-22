@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Accounts::AutomationRules', type: :request do
+RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
@@ -48,13 +48,26 @@ RSpec.describe 'Api::V1::Accounts::AutomationRules', type: :request do
             }
           ],
           actions: [
-            send_message: { message: 'Welcome to the chatwoot platform.' },
-            assign_to_team: [1],
-            add_label: ['priority_customer'],
-            assign_best_agents: [1, 2, 3, 4],
-            update_additional_attributes: [
-              intiated_at: Time.now.utc
-            ]
+            {
+              action_name: :send_message,
+              action_params: 'Welcome to the chatwoot platform.'
+            },
+            {
+              action_name: :assign_to_team,
+              action_params: [1]
+            },
+            {
+              action_name: :add_label,
+              action_params: %w[support priority_customer]
+            },
+            {
+              action_name: :assign_best_agents,
+              action_params: [1, 2, 3, 4]
+            },
+            {
+              action_name: :update_additional_attributes,
+              action_params: { intiated_at: Time.now.utc }
+            }
           ]
         }.with_indifferent_access
       end

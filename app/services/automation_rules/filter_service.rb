@@ -2,6 +2,7 @@ require 'json'
 
 class AutomationRule::ConditionsFilterService < FilterService
   def initialize(rule, conversation)
+    super()
     @rule = rule
     @conversation = conversation
     file = File.read('./lib/filters/filter_keys.json')
