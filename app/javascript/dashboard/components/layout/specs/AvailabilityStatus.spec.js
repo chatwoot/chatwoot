@@ -1,5 +1,5 @@
 import AvailabilityStatus from '../AvailabilityStatus.vue';
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
