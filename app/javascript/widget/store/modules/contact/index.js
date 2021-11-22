@@ -1,11 +1,14 @@
-import ContactsAPI from '../../api/contacts';
-import { refreshActionCableConnector } from '../../helpers/actionCable';
+import ContactsAPI from 'widget/api/contacts';
+import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
 const state = {
   currentUser: {},
+  uiFlags: {
+    isFetching: false,
+    isCreating: false,
+    isUpdating: false,
+  },
 };
-
-const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 export const getters = {
   getCurrentUser(_state) {
@@ -16,14 +19,23 @@ export const getters = {
 export const actions = {
   get: async ({ commit }) => {
     try {
+      commit('setUIFlag', { isFetching: true });
       const { data } = await ContactsAPI.get();
-      commit(SET_CURRENT_USER, data);
+      const { pubsub_token: pubsubToken } = data;
+      commit('setCurrentUser', data);
+
+      refreshActionCableConnector(pubsubToken);
     } catch (error) {
-      // Ignore error
+      throw new Error(error);
+    } finally {
+      commit('setUIFlag', { isFetching: false });
     }
   },
-  update: async ({ dispatch }, { identifier, user: userObject }) => {
+  update: async ({ commit }, { identifier, user: userObject }) => {
     try {
+      commit('setUIFlag', { isUpdating: false });
+
+      if (!userObject) return;
       const user = {
         email: userObject.email,
         name: userObject.name,
@@ -35,15 +47,11 @@ export const actions = {
         data: { pubsub_token: pubsubToken },
       } = await ContactsAPI.update(identifier, user);
 
-      dispatch('get');
-      if (userObject.identifier_hash) {
-        dispatch('conversation/clearConversations', {}, { root: true });
-        dispatch('conversation/fetchOldConversations', {}, { root: true });
-      }
-
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
-      // Ignore error
+      throw new Error(error);
+    } finally {
+      commit('setUIFlag', { isUpdating: false });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
@@ -63,9 +71,15 @@ export const actions = {
 };
 
 export const mutations = {
-  [SET_CURRENT_USER]($state, user) {
+  setCurrentUser($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
+  },
+  setUIFlag($state, uiFlags) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
+      ...uiFlags,
+    };
   },
 };
 
