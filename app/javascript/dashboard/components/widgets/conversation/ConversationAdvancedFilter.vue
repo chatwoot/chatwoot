@@ -154,7 +154,7 @@ export default {
         case 'labels':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
-              id: i.id,
+              id: i.title,
               name: i.title,
             };
           });
