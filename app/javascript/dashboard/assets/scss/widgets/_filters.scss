@@ -70,9 +70,9 @@
 }
 
 .filter--query_operator_container {
+  margin: var(--space-zero);
   position: relative;
   z-index: var(--z-index-twenty);
-  margin: var(--space-zero);
 }
 
 .filter--query_operator_select {
