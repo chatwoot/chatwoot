@@ -66,13 +66,10 @@ export default {
       $each: {
         values: {
           required: requiredIf(prop => {
-            let userInputRequired = true;
-            if (
+            return !(
               prop.filter_operator === 'is_present' ||
               prop.filter_operator === 'is_not_present'
-            )
-              userInputRequired = false;
-            return userInputRequired;
+            );
           }),
         },
       },
