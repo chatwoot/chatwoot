@@ -30,6 +30,15 @@
             @input="onDisplayNameChange"
             @blur="$v.displayName.$touch"
           />
+          <woot-input
+            v-model="attributeKey"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+            type="text"
+            :class="{ error: $v.attributeKey.$error }"
+            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+            @blur="$v.attributeKey.$touch"
+          />
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
@@ -54,15 +63,24 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <woot-input
-            v-model="attributeKey"
-            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
-            type="text"
-            :class="{ error: $v.attributeKey.$error }"
-            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
-            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
-            @blur="$v.attributeKey.$touch"
-          />
+          <label
+            v-if="isAttributeTypeList"
+            :class="{ error: $v.attributeType.$error }"
+          >
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
+            <multiselect
+              v-model="listValues"
+              :placeholder="
+                $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
+              "
+              label="name"
+              track-by="name"
+              :options="value"
+              :multiple="true"
+              :taggable="true"
+              @tag="addTagValue"
+            />
+          </label>
           <div class="modal-footer">
             <woot-submit-button
               :disabled="isButtonDisabled"
@@ -103,6 +121,8 @@ export default {
       attributeKey: '',
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
+      listValues: [],
+      value: [],
       show: true,
     };
   },
@@ -111,11 +131,15 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    attributeListValues() {
+      return this.listValues.map(item => item.name);
+    },
     isButtonDisabled() {
       return (
         this.$v.displayName.$invalid ||
         this.$v.description.$invalid ||
-        this.uiFlags.isCreating
+        this.uiFlags.isCreating ||
+        this.listValues.length === 0
       );
     },
     keyErrorMessage() {
@@ -123,6 +147,9 @@ export default {
         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
       }
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
+    },
+    isAttributeTypeList() {
+      return this.attributeType === 6;
     },
   },
 
@@ -149,6 +176,12 @@ export default {
   },
 
   methods: {
+    addTagValue(tagValue) {
+      const tag = {
+        name: tagValue,
+      };
+      this.listValues.push(tag);
+    },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);
     },
@@ -164,6 +197,7 @@ export default {
           attribute_model: this.attributeModel,
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
+          attribute_values: this.attributeListValues,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();

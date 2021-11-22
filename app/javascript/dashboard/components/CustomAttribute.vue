@@ -2,77 +2,102 @@
   <div class="custom-attribute">
     <div class="title-wrap">
       <h4 class="text-block-title title error">
-        <span class="attribute-name" :class="{ error: $v.editedValue.$error }">
-          {{ label }}
-        </span>
+        <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
+          <input
+            v-model="editedValue"
+            class="checkbox"
+            type="checkbox"
+            @change="onUpdate"
+          />
+        </div>
+        <div class="name-button__wrap">
+          <span
+            class="attribute-name"
+            :class="{ error: $v.editedValue.$error }"
+          >
+            {{ label }}
+          </span>
+          <woot-button
+            v-if="showActions"
+            v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
+            variant="link"
+            size="medium"
+            color-scheme="secondary"
+            icon="ion-trash-a"
+            class-names="delete-button"
+            @click="onDelete"
+          />
+        </div>
       </h4>
     </div>
-    <div v-show="isEditing">
-      <div class="input-group small">
-        <input
-          ref="inputfield"
-          v-model="editedValue"
-          :type="inputType"
-          class="input-group-field"
-          autofocus="true"
-          :class="{ error: $v.editedValue.$error }"
-          @blur="$v.editedValue.$touch"
-          @keyup.enter="onUpdate"
-        />
-        <div class="input-group-button">
-          <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
+    <div v-if="!isAttributeTypeCheckbox && !isAttributeTypeList">
+      <div v-show="isEditing">
+        <div class="input-group small">
+          <input
+            ref="inputfield"
+            v-model="editedValue"
+            :type="inputType"
+            class="input-group-field"
+            autofocus="true"
+            :class="{ error: $v.editedValue.$error }"
+            @blur="$v.editedValue.$touch"
+            @keyup.enter="onUpdate"
+          />
+          <div class="input-group-button">
+            <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
+          </div>
         </div>
+        <span v-if="shouldShowErrorMessage" class="error-message">
+          {{ errorMessage }}
+        </span>
       </div>
-      <span v-if="shouldShowErrorMessage" class="error-message">
-        {{ errorMessage }}
-      </span>
-    </div>
-    <div
-      v-show="!isEditing"
-      class="value--view"
-      :class="{ 'is-editable': showActions }"
-    >
-      <a
-        v-if="isAttributeTypeLink"
-        :href="value"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="value"
+      <div
+        v-show="!isEditing"
+        class="value--view"
+        :class="{ 'is-editable': showActions }"
       >
-        {{ value || '---' }}
-      </a>
-      <p v-else class="value">
-        {{ formattedValue || '---' }}
-      </p>
-      <woot-button
-        v-if="showActions"
-        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-        variant="link"
-        size="small"
-        color-scheme="secondary"
-        icon="ion-clipboard"
-        class-names="edit-button"
-        @click="onCopy"
-      />
-      <woot-button
-        v-if="showActions"
-        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
-        variant="link"
-        size="small"
-        color-scheme="secondary"
-        icon="ion-compose"
-        class-names="edit-button"
-        @click="onEdit"
-      />
-      <woot-button
-        v-if="showActions"
-        v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
-        variant="link"
-        size="small"
-        color-scheme="secondary"
-        icon="ion-trash-a"
-        class-names="edit-button"
-        @click="onDelete"
+        <a
+          v-if="isAttributeTypeLink"
+          :href="value"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="value"
+        >
+          {{ value || '---' }}
+        </a>
+        <p v-else class="value">
+          {{ formattedValue || '---' }}
+        </p>
+        <woot-button
+          v-if="showActions"
+          v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+          variant="link"
+          size="small"
+          color-scheme="secondary"
+          icon="ion-clipboard"
+          class-names="edit-button"
+          @click="onCopy"
+        />
+        <woot-button
+          v-if="showActions"
+          v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+          variant="link"
+          size="small"
+          color-scheme="secondary"
+          icon="ion-compose"
+          class-names="edit-button"
+          @click="onEdit"
+        />
+      </div>
+    </div>
+    <div v-if="isAttributeTypeList">
+      <single-select-dropdown
+        :list-values="listValues"
+        :selected-item="editedValue"
+        :single-selector-placeholder="
+          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
+        "
+        @click="onUpdateListValue"
       />
     </div>
   </div>
@@ -82,13 +107,18 @@
 import format from 'date-fns/format';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import SingleSelectDropdown from 'shared/components/ui/singleSelectDropdown/SingleSelectDropdown.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
+  components: {
+    SingleSelectDropdown,
+  },
   props: {
     label: { type: String, required: true },
-    value: { type: [String, Number], default: '' },
+    listValues: { type: Array, default: () => [] },
+    value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeKey: { type: String, required: true },
@@ -115,6 +145,12 @@ export default {
   },
 
   computed: {
+    isAttributeTypeCheckbox() {
+      return this.attributeType === 'checkbox';
+    },
+    isAttributeTypeList() {
+      return this.attributeType === 'list';
+    },
     isAttributeTypeLink() {
       return this.attributeType === 'link';
     },
@@ -156,6 +192,12 @@ export default {
         this.focusInput();
       });
     },
+    onUpdateListValue(value) {
+      if (value) {
+        this.editedValue = value;
+        this.onUpdate();
+      }
+    },
     onUpdate() {
       const updatedValue =
         this.attributeType === 'date'
@@ -194,8 +236,23 @@ export default {
   display: flex;
   align-items: center;
   margin: 0;
+  width: 100%;
+}
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+}
+.checkbox {
+  margin: 0 var(--space-small) 0 0;
+}
+.name-button__wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .attribute-name {
+  width: 100%;
   &.error {
     color: var(--r-400);
   }
@@ -206,12 +263,18 @@ export default {
 .edit-button {
   display: none;
 }
+.delete-button {
+  display: flex;
+  justify-content: flex-end;
+  width: var(--space-normal);
+}
 .value--view {
   display: flex;
 
   &.is-editable:hover {
     .value {
       background: var(--color-background);
+      margin-bottom: 0;
     }
     .edit-button {
       display: block;
@@ -222,6 +285,7 @@ export default {
   display: inline-block;
   min-width: var(--space-mega);
   border-radius: var(--border-radius-small);
+  margin-bottom: 0;
   word-break: break-all;
   padding: var(--space-micro) var(--space-smaller);
 }
