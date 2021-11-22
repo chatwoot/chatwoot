@@ -179,4 +179,8 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     }
   },
+
+  setContactFilters({ commit }, data) {
+    commit(types.SET_CONTACT_FILTERS, data);
+  },
 };

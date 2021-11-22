@@ -8,6 +8,7 @@
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
+        :on-toggle-filter="onToggleFilters"
         :header-title="label"
       />
       <contacts-table
@@ -30,6 +31,14 @@
       :contact="selectedContact"
       :on-close="closeContactInfoPanel"
     />
+    <woot-modal :show.sync="showFiltersModal" :on-close="onToggleFilters">
+      <filter-contacts
+        v-if="showFiltersModal"
+        :on-close="onToggleFilters"
+        :filter-types="contactFilterItems"
+        @applyFilter="onApplyFilter"
+      />
+    </woot-modal>
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
     <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
       <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
@@ -46,6 +55,8 @@ import ContactInfoPanel from './ContactInfoPanel';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 import ImportContacts from './ImportContacts.vue';
+import FilterContacts from './FilterContacts.vue';
+import contactFilterItems from '../contactFilterItems';
 
 const DEFAULT_PAGE = 1;
 
@@ -57,6 +68,7 @@ export default {
     ContactInfoPanel,
     CreateContact,
     ImportContacts,
+    FilterContacts,
   },
   props: {
     label: { type: String, default: '' },
@@ -66,8 +78,15 @@ export default {
       searchQuery: '',
       showCreateModal: false,
       showImportModal: false,
+      showFiltersModal: false,
       selectedContactId: '',
       sortConfig: { name: 'asc' },
+      contactFilterItems: contactFilterItems.map(filter => ({
+        ...filter,
+        attributeName: this.$t(
+          `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
+        ),
+      })),
     };
   },
   computed: {
@@ -133,7 +152,7 @@ export default {
     fetchContacts(page) {
       this.updatePageParam(page);
       let value = '';
-      if(this.searchQuery.charAt(0) === '+') {
+      if (this.searchQuery.charAt(0) === '+') {
         value = this.searchQuery.substring(1);
       } else {
         value = this.searchQuery;
@@ -184,9 +203,15 @@ export default {
     onToggleImport() {
       this.showImportModal = !this.showImportModal;
     },
+    onToggleFilters() {
+      this.showFiltersModal = !this.showFiltersModal;
+    },
     onSortChange(params) {
       this.sortConfig = params;
       this.fetchContacts(this.meta.currentPage);
+    },
+    onApplyFilter(payload) {
+      console.log(payload);
     },
   },
 };

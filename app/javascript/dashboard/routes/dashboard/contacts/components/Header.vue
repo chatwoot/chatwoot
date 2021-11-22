@@ -25,7 +25,15 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-
+        <woot-button
+          color-scheme="secondary"
+          icon="ion-ios-settings-strong"
+          class="margin-right-small"
+          data-testid="create-new-contact"
+          @click="onToggleFilter"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
+        </woot-button>
         <woot-button
           color-scheme="success"
           icon="ion-android-add-circle"
@@ -68,6 +76,10 @@ export default {
       default: () => {},
     },
     onToggleCreate: {
+      type: Function,
+      default: () => {},
+    },
+    onToggleFilter: {
       type: Function,
       default: () => {},
     },
