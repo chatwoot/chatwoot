@@ -41,17 +41,17 @@
           </label>
         </div>
       </div>
-      <div class="row" v-if="isAnEmailInbox">
+      <div v-if="isAnEmailInbox" class="row">
         <div class="columns">
-          <label :class="{ error: $v.message.$error }">
+          <label :class="{ error: $v.subject.$error }">
             {{ $t('NEW_CONVERSATION.FORM.SUBJECT.LABEL') }}
             <input
               v-model="subject"
               type="text"
               :placeholder="$t('NEW_CONVERSATION.FORM.SUBJECT.PLACEHOLDER')"
-              @input="$v.message.$touch"
+              @input="$v.subject.$touch"
             />
-            <span v-if="$v.message.$error" class="message">
+            <span v-if="$v.subject.$error" class="message">
               {{ $t('NEW_CONVERSATION.FORM.SUBJECT.ERROR') }}
             </span>
           </label>
@@ -93,7 +93,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import { required } from 'vuelidate/lib/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 
 export default {
   components: {
@@ -120,7 +120,7 @@ export default {
   },
   validations: {
     subject: {
-      required,
+      required: requiredIf('isAnEmailInbox'),
     },
     message: {
       required,
