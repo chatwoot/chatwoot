@@ -137,7 +137,9 @@ class ActionCableListener < BaseListener
     return [] if message.activity?
     return [] if contact_inbox.nil?
 
-    contact_inbox.hmac_verified? ? @contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+    contact = contact_inbox.contact
+
+    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
   end
 
   def broadcast(account, tokens, event_name, data)
