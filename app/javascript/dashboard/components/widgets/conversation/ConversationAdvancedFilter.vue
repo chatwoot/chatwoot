@@ -68,8 +68,8 @@ export default {
           required: requiredIf(prop => {
             let userInputRequired = true;
             if (
-              prop.filter_operator !== 'is_present' ||
-              prop.filter_operator !== 'is_not_present'
+              prop.filter_operator === 'is_present' ||
+              prop.filter_operator === 'is_not_present'
             )
               userInputRequired = false;
             return userInputRequired;
