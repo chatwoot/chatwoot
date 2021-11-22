@@ -291,7 +291,7 @@ export default {
       IFrameHelper.sendMessage(loadedEventConfig());
     },
     sendRNWebViewLoadedEvent() {
-      RNHelper.sendMessage(loadedEventConfig);
+      RNHelper.sendMessage(loadedEventConfig());
     },
   },
 };
