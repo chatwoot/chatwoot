@@ -3,7 +3,6 @@ import {
   wootOn,
   addClass,
   loadCSS,
-  removeClass,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
@@ -19,6 +18,8 @@ import {
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
+  addUnreadClass,
+  removeUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
@@ -171,8 +172,7 @@ export const IFrameHelper = {
       if (!isOpen && unreadMessageCount > 0) {
         IFrameHelper.sendMessage('set-unread-view');
         onBubbleClick({ toggleValue });
-        const holderEl = document.querySelector('.woot-widget-holder');
-        addClass(holderEl, 'has-unread-view');
+        addUnreadClass();
       }
     },
 
@@ -181,8 +181,7 @@ export const IFrameHelper = {
       const toggleValue = true;
       if (!isOpen) {
         onBubbleClick({ toggleValue });
-        const holderEl = document.querySelector('.woot-widget-holder');
-        addClass(holderEl, 'has-unread-view');
+        addUnreadClass();
       }
     },
 
@@ -195,12 +194,7 @@ export const IFrameHelper = {
 
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
-      IFrameHelper.events.removeUnreadClass();
-    },
-
-    removeUnreadClass: () => {
-      const holderEl = document.querySelector('.woot-widget-holder');
-      removeClass(holderEl, 'has-unread-view');
+      removeUnreadClass();
     },
 
     closeChat: () => {
