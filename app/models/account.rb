@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
 #  limits                :jsonb
@@ -68,6 +69,8 @@ class Account < ApplicationRecord
   has_many :teams, dependent: :destroy
   has_many :custom_filters, dependent: :destroy
   has_many :custom_attribute_definitions, dependent: :destroy
+ 
+  has_many :account_billing_subscriptions, dependent: :destroy, class_name: '::Enterprise::AccountBillingSubscription' if ChatwootApp.ee?
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 

@@ -11,6 +11,11 @@ module ChatwootApp
     100_000
   end
 
+  def self.chatwoot_saas?
+    # add condition 
+    true
+  end
+
   def self.ee?
     # Disable EE using environment variables when testing
     return if ENV.fetch('DISABLE_EE', false)

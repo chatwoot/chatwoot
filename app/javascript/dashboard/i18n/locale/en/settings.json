@@ -137,6 +137,7 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
+    "BILLING": "Billing",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
@@ -193,6 +194,23 @@
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing settings",
+    "SUBMIT": "Update settings",
+    "BACK": "Back",
+    "FORM": {
+      "CURRENT_PLAN" : {
+        "TITLE": "Current Plan",
+        "NOTE": "Your current Chatwoot Subscription Plan" ,
+        "TRIAL_NOTE": "You are currently under the Chatwoot trial Plan"
+      },
+      "CHANGE_PLAN" : {
+        "TITLE": "Change Plan",
+        "NOTE": "Change your current Chatwoot Subscription Plan",
+        "SELECT_PLAN": "Select A Plan"
+      }
     }
   }
 }

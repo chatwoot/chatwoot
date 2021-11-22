@@ -28,6 +28,7 @@ const settings = accountId => ({
     'settings_teams_edit',
     'settings_teams_edit_members',
     'settings_teams_edit_finish',
+    'billing_settings_index',
   ],
   menuItems: {
     back: {
@@ -103,6 +104,13 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/general`),
       toStateName: 'general_settings_index',
+    },
+    billing_settings_index: {
+      icon: 'ion-card',
+      label: 'BILLING',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/billing`),
+      toStateName: 'billing_settings_index',
     },
   },
 });

@@ -185,7 +185,7 @@ export default {
       return this.shouldShowSidebarItem && this.teams.length;
     },
     billingRoute() {
-      return frontendURL(`accounts/${this.accountId}/settings/general`);
+      return frontendURL(`accounts/${this.accountId}/settings/billing`);
     },
     inboxSection() {
       return {
