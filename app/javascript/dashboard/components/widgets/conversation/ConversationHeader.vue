@@ -85,7 +85,7 @@ export default {
       if (!this.isAWebWidgetInbox) {
         return true;
       }
-      return this.chatMetadata.hmac_verfied;
+      return this.chatMetadata.hmac_verified;
     },
     currentContact() {
       return this.$store.getters['contacts/getContact'](
