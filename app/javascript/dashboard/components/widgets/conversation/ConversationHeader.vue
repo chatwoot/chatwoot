@@ -10,7 +10,12 @@
       />
       <div class="user--profile__meta">
         <h3 class="user--name text-truncate">
-          {{ currentContact.name }}
+          <span class="margin-right-smaller">{{ currentContact.name }}</span>
+          <i
+            v-if="!isHMACVerified"
+            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+            class="ion-android-alert text-y-800 fs-default"
+          />
         </h3>
         <div class="conversation--header--actions">
           <inbox-name :inbox="inbox" class="margin-right-small" />
@@ -73,11 +78,15 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
-
     chatMetadata() {
       return this.chat.meta;
     },
-
+    isHMACVerified() {
+      if (!this.isAWebWidgetInbox) {
+        return true;
+      }
+      return this.chatMetadata.hmac_verified;
+    },
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id
