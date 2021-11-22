@@ -24,7 +24,23 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token],
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],
+        'message.created',
+        message.push_event_data.merge(account_id: account.id)
+      )
+      listener.message_created(event)
+    end
+
+    it 'sends message to all hmac verified contact inboxes' do
+      # HACK: to reload conversation inbox members
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+      conversation.contact_inbox.update(hmac_verified: true)
+      # creating a non verified contact inbox to ensure the events are not sent to it
+      create(:contact_inbox, contact: conversation.contact, inbox: inbox)
+      verified_contact_inbox = create(:contact_inbox, contact: conversation.contact, inbox: inbox, hmac_verified: true)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token, verified_contact_inbox.pubsub_token],
         'message.created',
         message.push_event_data.merge(account_id: account.id)
       )
