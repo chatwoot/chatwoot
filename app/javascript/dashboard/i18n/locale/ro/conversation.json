@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
     "NO_MESSAGE_2": " pentru a trimite un mesaj către pagina ta!",
     "NO_INBOX_1": "Hola! Se pare că nu ai adăugat încă nici o căsuță poștală.",
