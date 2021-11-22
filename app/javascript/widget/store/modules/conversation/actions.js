@@ -1,107 +1,197 @@
-import {
-  createConversationAPI,
-  sendMessageAPI,
-  getMessagesAPI,
-  sendAttachmentAPI,
-  toggleTyping,
-  setUserLastSeenAt,
-} from 'widget/api/conversation';
-
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import ConversationAPI from 'widget/api/conversationPublic';
+import MessageAPI from 'widget/api/messagePublic';
+import { getNonDeletedMessages } from './helpers';
 
 export const actions = {
-  createConversation: async ({ commit, dispatch }, params) => {
-    commit('setConversationUIFlag', { isCreating: true });
+  fetchAllConversations: async ({ commit }) => {
     try {
-      const { data } = await createConversationAPI(params);
-      const { messages } = data;
-      const [message = {}] = messages;
-      commit('pushMessageToConversation', message);
-      dispatch('conversationAttributes/getAttributes', {}, { root: true });
-    } catch (error) {
-      // Ignore error
-    } finally {
-      commit('setConversationUIFlag', { isCreating: false });
-    }
-  },
-  sendMessage: async ({ commit }, params) => {
-    const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    await sendMessageAPI(content);
-  },
-
-  sendAttachment: async ({ commit }, params) => {
-    const {
-      attachment: { thumbUrl, fileType },
-    } = params;
-    const attachment = {
-      thumb_url: thumbUrl,
-      data_url: thumbUrl,
-      file_type: fileType,
-      status: 'in_progress',
-    };
-    const tempMessage = createTemporaryMessage({
-      attachments: [attachment],
-    });
-    commit('pushMessageToConversation', tempMessage);
-    try {
-      const { data } = await sendAttachmentAPI(params);
-      commit('updateAttachmentMessageStatus', {
-        message: data,
-        tempId: tempMessage.id,
+      commit('setUIFlag', { isFetching: true });
+      const { data } = await ConversationAPI.get();
+      data.forEach(conversation => {
+        const { id: conversationId, messages } = conversation;
+        const { contact_last_seen_at: userLastSeenAt, status } = conversation;
+        const lastMessage = messages[messages.length - 1];
+        commit('addConversationEntry', conversation);
+        commit('addConversationId', conversationId);
+        commit('setConversationUIFlag', {
+          uiFlags: {},
+          conversationId,
+        });
+        commit('setConversationMeta', {
+          meta: { userLastSeenAt, status },
+          conversationId,
+        });
+        commit(
+          'message/addMessagesEntry',
+          { conversationId, messages: [lastMessage] },
+          { root: true }
+        );
+        commit('addMessageIdsToConversation', {
+          conversationId,
+          messages: [lastMessage],
+        });
       });
     } catch (error) {
-      // Show error
+      throw new Error(error);
+    } finally {
+      commit('setUIFlag', { isFetching: false });
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+
+  fetchOldMessagesIn: async ({ commit }, params) => {
+    const { conversationId, beforeId } = params;
+
     try {
-      commit('setConversationListLoading', true);
-      const { data } = await getMessagesAPI({ before });
-      const formattedMessages = getNonDeletedMessages({ messages: data });
-      commit('setMessagesInConversation', formattedMessages);
-      commit('setConversationListLoading', false);
+      commit('setConversationUIFlag', {
+        uiFlags: { isFetching: true },
+        conversationId,
+      });
+      const { data } = await MessageAPI.get(conversationId, beforeId);
+      const messages = getNonDeletedMessages({ messages: data });
+
+      commit(
+        'message/addMessagesEntry',
+        { conversationId, messages },
+        { root: true }
+      );
+      commit('prependMessageIdsToConversation', {
+        conversationId,
+        messages,
+      });
+
+      if (data.length < 20) {
+        commit('setConversationUIFlag', {
+          conversationId,
+          uiFlags: { allFetched: true },
+        });
+      }
     } catch (error) {
-      commit('setConversationListLoading', false);
+      throw new Error(error);
+    } finally {
+      commit('setConversationUIFlag', {
+        conversationId,
+        uiFlags: { isFetching: false },
+      });
     }
   },
 
-  clearConversations: ({ commit }) => {
-    commit('clearConversations');
+  addConversation: async ({ commit }, data) => {
+    const { id: conversationId, messages } = data;
+    const { contact_last_seen_at: userLastSeenAt } = data;
+
+    commit('addConversationEntry', data);
+    commit('addConversationId', conversationId);
+    commit('setConversationUIFlag', {
+      uiFlags: { isAgentTyping: false },
+      conversationId,
+    });
+    commit('setConversationMeta', {
+      meta: { userLastSeenAt },
+      conversationId,
+    });
+    commit(
+      'message/addMessagesEntry',
+      { conversationId, messages },
+      { root: true }
+    );
+    commit('addMessageIdsToConversation', {
+      conversationId,
+      messages,
+    });
+    return conversationId;
   },
 
-  addOrUpdateMessage: async ({ commit }, data) => {
-    const { id, content_attributes } = data;
-    if (content_attributes && content_attributes.deleted) {
-      commit('deleteMessage', id);
-      return;
-    }
-    commit('pushMessageToConversation', data);
-  },
-
-  toggleAgentTyping({ commit }, data) {
-    commit('toggleAgentTypingStatus', data);
-  },
-
-  toggleUserTyping: async (_, data) => {
+  createConversationWithMessage: async ({ commit }, params) => {
+    const { content, contact } = params;
+    commit('setUIFlag', { isCreating: true });
     try {
-      await toggleTyping(data);
+      const { data } = await ConversationAPI.createWithMessage(
+        content,
+        contact
+      );
+      const { id: conversationId, messages } = data;
+      const { contact_last_seen_at: userLastSeenAt } = data;
+
+      commit('addConversationEntry', data);
+      commit('addConversationId', conversationId);
+      commit('setConversationUIFlag', {
+        uiFlags: { isAgentTyping: false },
+        conversationId,
+      });
+      commit('setConversationMeta', {
+        meta: { userLastSeenAt },
+        conversationId,
+      });
+      commit(
+        'message/addMessagesEntry',
+        { conversationId, messages },
+        { root: true }
+      );
+      commit('addMessageIdsToConversation', {
+        conversationId,
+        messages,
+      });
+      return conversationId;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit('setUIFlag', { isCreating: false });
+    }
+  },
+
+  toggleAgentTypingIn({ commit }, data) {
+    const { status, conversationId } = data;
+    const isAgentTyping = status === 'on';
+
+    commit('setConversationUIFlag', {
+      uiFlags: { isAgentTyping },
+      conversationId,
+    });
+  },
+
+  toggleUserTypingIn: async (_, data) => {
+    try {
+      await ConversationAPI.toggleTypingIn(data);
     } catch (error) {
       // IgnoreError
     }
   },
 
-  setUserLastSeen: async ({ commit, getters: appGetters }) => {
-    if (!appGetters.getConversationSize) {
-      return;
-    }
-
-    const lastSeen = Date.now() / 1000;
+  sendEmailTranscriptIn: async (_, data) => {
     try {
-      commit('setMetaUserLastSeenAt', lastSeen);
-      await setUserLastSeenAt({ lastSeen });
+      await ConversationAPI.sendEmailTranscriptIn(data);
     } catch (error) {
       // IgnoreError
     }
+  },
+
+  setUserLastSeenIn: async ({ commit, getters }, params) => {
+    const { conversationId } = params;
+    if (!getters.allMessagesCountIn(conversationId)) {
+      return;
+    }
+
+    const userLastSeenAt = Date.now() / 1000;
+    try {
+      commit('setConversationMeta', {
+        meta: { userLastSeenAt },
+        conversationId,
+      });
+      await ConversationAPI.setUserLastSeenIn({
+        lastSeen: userLastSeenAt,
+        conversationId,
+      });
+    } catch (error) {
+      // IgnoreError
+    }
+  },
+
+  setConversationStatusIn: async ({ commit }, params) => {
+    const { conversationId, status } = params;
+
+    commit('setConversationMeta', {
+      meta: { status },
+      conversationId,
+    });
   },
 };

@@ -1,88 +1,123 @@
 import Vue from 'vue';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { findUndeliveredMessage } from './helpers';
 
 export const mutations = {
-  clearConversations($state) {
-    Vue.set($state, 'conversations', {});
-  },
-  pushMessageToConversation($state, message) {
-    const { id, status, message_type: type } = message;
-
-    const messagesInbox = $state.conversations;
-    const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
-    const isTemporaryMessage = status === 'in_progress';
-
-    if (!isMessageIncoming || isTemporaryMessage) {
-      Vue.set(messagesInbox, id, message);
-      return;
-    }
-
-    const [messageInConversation] = findUndeliveredMessage(
-      messagesInbox,
-      message
-    );
-    if (!messageInConversation) {
-      Vue.set(messagesInbox, id, message);
-    } else {
-      Vue.delete(messagesInbox, messageInConversation.id);
-      Vue.set(messagesInbox, id, message);
-    }
-  },
-
-  updateAttachmentMessageStatus($state, { message, tempId }) {
-    const { id } = message;
-    const messagesInbox = $state.conversations;
-
-    const messageInConversation = messagesInbox[tempId];
-
-    if (messageInConversation) {
-      Vue.delete(messagesInbox, tempId);
-      Vue.set(messagesInbox, id, { ...message });
-    }
-  },
-
-  setConversationUIFlag($state, uiFlags) {
+  setUIFlag($state, uiFlags) {
     $state.uiFlags = {
       ...$state.uiFlags,
       ...uiFlags,
     };
   },
 
-  setConversationListLoading($state, status) {
-    $state.uiFlags.isFetchingList = status;
+  addConversationEntry($state, conversation) {
+    if (!conversation.id) return;
+
+    Vue.set($state.conversations.byId, conversation.id, {
+      ...conversation,
+      messages: [],
+    });
   },
 
-  setMessagesInConversation($state, payload) {
-    if (!payload.length) {
-      $state.uiFlags.allMessagesLoaded = true;
-      return;
-    }
-
-    payload.map(message => Vue.set($state.conversations, message.id, message));
+  addConversationId($state, conversationId) {
+    $state.conversations.allIds.push(conversationId);
   },
 
-  updateMessage($state, { id, content_attributes }) {
-    $state.conversations[id] = {
-      ...$state.conversations[id],
+  updateConversationEntry($state, conversation, content_attributes = {}) {
+    if (!conversation.id) return;
+    if (!$state.conversations.allIds.includes(conversation.id)) return;
+
+    Vue.set($state.conversations.byId, conversation.id, {
+      ...conversation,
       content_attributes: {
-        ...($state.conversations[id].content_attributes || {}),
+        ...(conversation.content_attributes || {}),
         ...content_attributes,
       },
+    });
+  },
+
+  removeConversationEntry($state, conversationId) {
+    if (!conversationId) return;
+
+    Vue.set($state.conversations.byId, conversationId, undefined);
+  },
+
+  removeConversationId($state, conversationId) {
+    $state.conversations.allIds = $state.conversations.allIds.filter(
+      id => id !== conversationId
+    );
+  },
+
+  setConversationUIFlag($state, { conversationId, uiFlags }) {
+    const defaultFlags = {
+      allFetched: false,
+      isAgentTyping: false,
+      isFetching: false,
     };
+    const flags = $state.conversations.uiFlags.byId[conversationId];
+    Vue.set($state.conversations.uiFlags.byId, conversationId, {
+      ...defaultFlags,
+      ...flags,
+      ...uiFlags,
+    });
   },
 
-  deleteMessage($state, id) {
-    const messagesInbox = $state.conversations;
-    Vue.delete(messagesInbox, id);
+  setConversationMeta($state, { conversationId, meta = {} }) {
+    const defaultMeta = {
+      userLastSeenAt: undefined,
+      status: 'open',
+    };
+    const currentMeta = $state.conversations.meta.byId[conversationId];
+    Vue.set($state.conversations.meta.byId, conversationId, {
+      ...defaultMeta,
+      ...currentMeta,
+      ...meta,
+    });
   },
 
-  toggleAgentTypingStatus($state, { status }) {
-    const isTyping = status === 'on';
-    $state.uiFlags.isAgentTyping = isTyping;
+  prependMessageIdsToConversation($state, { conversationId, messages }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    const messageIds = messages.map(message => message.id);
+    const updatedMessageIds = [...messageIds, ...conversationById.messages];
+    const uniqIds = Array.from(new Set(updatedMessageIds));
+
+    Vue.set(conversationById, 'messages', uniqIds);
   },
 
-  setMetaUserLastSeenAt($state, lastSeen) {
-    $state.meta.userLastSeenAt = lastSeen;
+  appendMessageIdsToConversation($state, { conversationId, messages }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    const messageIds = messages.map(message => message.id);
+    const updatedMessageIds = [...conversationById.messages, ...messageIds];
+    const uniqIds = Array.from(new Set(updatedMessageIds));
+
+    Vue.set(conversationById, 'messages', uniqIds);
+  },
+
+  addMessageIdsToConversation($state, { conversationId, messages }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    const messageIds = messages.map(message => message.id);
+    Vue.set(conversationById, 'messages', messageIds);
+  },
+
+  removeMessageIdFromConversation($state, { conversationId, messageId }) {
+    if (!messageId || !conversationId) return;
+
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    conversationById.messages = conversationById.messages.filter(
+      id => id !== messageId
+    );
+  },
+
+  setMetaUserLastSeenIn($state, { conversationId, lastSeen }) {
+    const conversationById = $state.conversations.byId[conversationId];
+    if (!conversationById) return;
+
+    Vue.set(conversationById.meta, 'userLastSeenAt', lastSeen);
   },
 };
