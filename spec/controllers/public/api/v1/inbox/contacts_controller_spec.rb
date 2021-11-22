@@ -23,7 +23,7 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(response).to have_http_status(:success)
       data = JSON.parse(response.body)
       expect(data['source_id']).to eq contact_inbox.source_id
-      expect(data['pubsub_token']).to eq contact.pubsub_token
+      expect(data['pubsub_token']).to eq contact_inbox.pubsub_token
     end
   end
 
