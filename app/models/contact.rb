@@ -25,6 +25,7 @@
 #
 
 class Contact < ApplicationRecord
+  # TODO: remove the pubsub_token attribute from this model in future.
   include Avatarable
   include AvailabilityStatusable
   include Labelable
