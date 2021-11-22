@@ -18,7 +18,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#setError', () => {
+  describe('#setHasFetched', () => {
     it('set fetched flag', () => {
       const state = { records: [], uiFlags: {} };
       mutations.setHasFetched(state, true);
