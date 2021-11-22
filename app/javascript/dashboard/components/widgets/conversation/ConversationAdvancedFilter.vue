@@ -41,13 +41,13 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import filterInputBox from './components/FilterInput.vue';
+import FilterInputBox from './components/FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from './advancedFilterItems/countries';
 
 export default {
   components: {
-    filterInputBox,
+    FilterInputBox,
   },
   mixins: [alertMixin],
   props: {
@@ -155,7 +155,7 @@ export default {
         case 'labels':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
-              id: i.id,
+              id: i.title,
               name: i.title,
             };
           });
