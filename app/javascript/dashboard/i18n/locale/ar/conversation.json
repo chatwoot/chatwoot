@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
