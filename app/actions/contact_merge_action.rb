@@ -50,7 +50,8 @@ class ContactMergeAction
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
 
     @mergee_contact.destroy!
-    Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact, tokens: [@base_contact.contact_inboxes.map(&:pubsub_token).compact])
+    Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
+                                                                           tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
     @base_contact.update!(merged_attributes)
   end
 end
