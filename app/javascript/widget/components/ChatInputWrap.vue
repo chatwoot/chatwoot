@@ -23,13 +23,13 @@
       />
       <button
         v-if="hasEmojiPickerEnabled"
-        class="emoji-toggle"
+        class="icon-button flex justify-center items-center"
         aria-label="Emoji picker"
-        @click="toggleEmojiPicker()"
+        @click="toggleEmojiPicker"
       >
-        <i
-          class="icon ion-happy-outline"
-          :class="{ active: showEmojiPicker }"
+        <fluent-icon
+          icon="emoji"
+          :class="{ 'text-woot-500': showEmojiPicker }"
         />
       </button>
       <emoji-input
@@ -50,11 +50,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import ChatSendButton from 'widget/components/ChatSendButton.vue';
+
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-import EmojiInput from 'shared/components/emoji/EmojiInput';
+import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
+import EmojiInput from 'shared/components/emoji/EmojiInput';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   name: 'ChatInputWrap',
@@ -62,6 +64,7 @@ export default {
     ChatAttachmentButton,
     ChatSendButton,
     EmojiInput,
+    FluentIcon,
     ResizableTextArea,
   },
   mixins: [clickaway, configMixin],
@@ -176,14 +179,6 @@ export default {
   &.is-focused {
     box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
   }
-}
-
-.emoji-toggle {
-  @include button-size;
-
-  font-size: $font-size-large;
-  color: $color-gray;
-  cursor: pointer;
 }
 
 .emoji-dialog {

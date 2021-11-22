@@ -1,24 +1,27 @@
+parameters:
+  - $ref: '#/parameters/account_id'
+
 get:
   tags:
     - Conversation
-  operationId: conversationSearch
-  description: Search for conversations containing a messages with the query string
-  summary: Conversations Search
+  operationId: conversationList
+  description: List all the conversations with pagination
+  summary: Conversations List
   parameters:
-    - name: q
-      in: query
-      type: string
     - name: assignee_type
       in: query
       type: string
       enum: ['me', 'unassigned', 'all', 'assigned']
+      required: true
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'pending', 'all']
+      enum: ['open', 'resolved', 'pending']
+      required: true
     - name: page
       in: query
       type: integer
+      required: true
     - name: inbox_id
       in: query
       type: integer
@@ -27,7 +30,6 @@ get:
       type: array
       items:
         type: string
-    - $ref: '#/parameters/account_id'
 
   responses:
     200:
@@ -38,8 +40,6 @@ get:
       description: Bad Request Error
       schema:
         $ref: '#/definitions/bad_request_error'
-    description: Access denied
-
 
 post:
   tags:
@@ -51,7 +51,6 @@ post:
     - userApiKey: []
     - agentBotApiKey: []
   parameters:
-    - $ref: '#/parameters/account_id'
     - name: data
       in: body
       required: true
@@ -59,7 +58,8 @@ post:
         type: object
         properties:
           source_id:
-            $ref: '#/parameters/source_id'
+            type: string
+            description: Conversation source id
           inbox_id:
             type: string
             description: "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
