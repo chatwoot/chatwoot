@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  hmac_verified :boolean          default(FALSE)
+#  pubsub_token  :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  contact_id    :bigint
@@ -15,6 +16,7 @@
 #  index_contact_inboxes_on_contact_id              (contact_id)
 #  index_contact_inboxes_on_inbox_id                (inbox_id)
 #  index_contact_inboxes_on_inbox_id_and_source_id  (inbox_id,source_id) UNIQUE
+#  index_contact_inboxes_on_pubsub_token            (pubsub_token) UNIQUE
 #  index_contact_inboxes_on_source_id               (source_id)
 #
 # Foreign Keys
@@ -24,6 +26,7 @@
 #
 
 class ContactInbox < ApplicationRecord
+  include Pubsubable
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   validates :source_id, presence: true
