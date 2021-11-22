@@ -12,7 +12,7 @@
     >
       <div class="selector-user-wrap">
         <Thumbnail
-          v-if="hasValue"
+          v-if="hasValue && hasThumbnail"
           :src="selectedItem.thumbnail"
           size="24px"
           :status="selectedItem.availability_status"
@@ -48,6 +48,7 @@
         v-if="showSearchDropdown"
         :options="options"
         :selected-item="selectedItem"
+        :has-thumbnail="hasThumbnail"
         :input-placeholder="inputPlaceholder"
         :no-search-result="noSearchResult"
         @click="onClickSelectItem"
@@ -74,6 +75,10 @@ export default {
     selectedItem: {
       type: Object,
       default: () => ({}),
+    },
+    hasThumbnail: {
+      type: Boolean,
+      default: true,
     },
     multiselectorTitle: {
       type: String,

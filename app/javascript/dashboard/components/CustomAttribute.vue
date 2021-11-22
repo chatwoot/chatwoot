@@ -91,11 +91,23 @@
       </div>
     </div>
     <div v-if="isAttributeTypeList">
-      <single-select-dropdown
-        :list-values="listValues"
-        :selected-item="editedValue"
-        :single-selector-placeholder="
+      <multiselect-dropdown
+        :options="listValueToObject"
+        :selected-item="editedValueToObject"
+        :has-thumbnail="false"
+        :multiselector-title="
+          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.TITLE')
+        "
+        :multiselector-placeholder="
           $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
+        "
+        :no-search-result="
+          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.NO_RESULT')
+        "
+        :input-placeholder="
+          $t(
+            'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
+          )
         "
         @click="onUpdateListValue"
       />
@@ -107,13 +119,13 @@
 import format from 'date-fns/format';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import SingleSelectDropdown from 'shared/components/ui/singleSelectDropdown/SingleSelectDropdown.vue';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
-    SingleSelectDropdown,
+    MultiselectDropdown,
   },
   props: {
     label: { type: String, required: true },
@@ -145,6 +157,17 @@ export default {
   },
 
   computed: {
+    listValueToObject() {
+      return this.listValues.map((values, index) => ({
+        id: index + 1,
+        name: values,
+      }));
+    },
+    editedValueToObject() {
+      const id = this.listValues.indexOf(this.editedValue) + 1;
+      const obj = `{ "id":${id}, "name":"${this.editedValue}" }`;
+      return JSON.parse(obj);
+    },
     isAttributeTypeCheckbox() {
       return this.attributeType === 'checkbox';
     },
@@ -194,7 +217,7 @@ export default {
     },
     onUpdateListValue(value) {
       if (value) {
-        this.editedValue = value;
+        this.editedValue = value.name;
         this.onUpdate();
       }
     },
@@ -298,5 +321,17 @@ export default {
   margin-bottom: 1rem;
   margin-top: -1.6rem;
   width: 100%;
+}
+
+::v-deep {
+  .selector-wrap {
+    margin: 0;
+    .selector-name {
+      margin-left: 0;
+    }
+  }
+  .name {
+    margin-left: 0;
+  }
 }
 </style>
