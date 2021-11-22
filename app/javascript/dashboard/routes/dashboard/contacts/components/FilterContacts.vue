@@ -84,14 +84,13 @@ export default {
         };
       });
     },
-    getAppliedFilters() {
-      return this.$store.getters.getAppliedFilters;
+    getAppliedContactFilters() {
+      return this.$store.getters['contacts/getAppliedContactFilters'];
     },
   },
   mounted() {
-    this.$store.dispatch('campaigns/get');
-    if (this.getAppliedFilters.length) {
-      this.appliedFilters = this.getAppliedFilters;
+    if (this.getAppliedContactFilters.length) {
+      this.appliedFilters = this.getAppliedContactFilters;
     } else {
       this.appliedFilters.push({
         attribute_key: 'name',
@@ -139,7 +138,7 @@ export default {
       if (this.$v.$invalid) return;
       this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$store.dispatch(
-        'setContactFilters',
+        'contacts/setContactFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
       this.$emit('applyFilter', this.appliedFilters);

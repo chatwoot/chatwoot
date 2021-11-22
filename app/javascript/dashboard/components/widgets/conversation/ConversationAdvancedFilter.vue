@@ -93,14 +93,14 @@ export default {
         };
       });
     },
-    getAppliedFilters() {
-      return this.$store.getters.getAppliedFilters;
+    getAppliedConversationFilters() {
+      return this.$store.getters.getAppliedConversationFilters;
     },
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
-    if (this.getAppliedFilters.length) {
-      this.appliedFilters = this.getAppliedFilters;
+    if (this.getAppliedConversationFilters.length) {
+      this.appliedFilters = this.getAppliedConversationFilters;
     } else {
       this.appliedFilters.push({
         attribute_key: 'status',
