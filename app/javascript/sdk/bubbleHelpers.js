@@ -75,12 +75,12 @@ export const onClickChatBubble = () => {
   wootOn(bubbleHolder, 'click', onBubbleClick);
 };
 
-export const removeUnreadClass = () => {
-  const holderEl = document.querySelector('.woot-widget-holder');
-  removeClass(holderEl, 'has-unread-view');
-};
-
 export const addUnreadClass = () => {
   const holderEl = document.querySelector('.woot-widget-holder');
   addClass(holderEl, 'has-unread-view');
+};
+
+export const removeUnreadClass = () => {
+  const holderEl = document.querySelector('.woot-widget-holder');
+  removeClass(holderEl, 'has-unread-view');
 };

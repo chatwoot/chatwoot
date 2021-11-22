@@ -21,7 +21,6 @@
 
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { mapGetters } from 'vuex';
 
 const {

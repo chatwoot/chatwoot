@@ -6,23 +6,23 @@ import {
 } from '../types';
 
 const state = {
-  widgetColor: '',
   showPopoutButton: false,
   hideMessageBubble: false,
   position: 'right',
   isWebWidgetTriggered: false,
   isCampaignViewClicked: false,
   isWidgetOpen: false,
+  widgetColor: '',
   referrerHost: '',
 };
 
-const getters = {
-  getWidgetColor: $state => $state.widgetColor,
+export const getters = {
+  getAppConfig: $state => $state,
   isRightAligned: $state => $state.position === 'right',
   getHideMessageBubble: $state => $state.hideMessageBubble,
   getIsWidgetOpen: $state => $state.isWidgetOpen,
+  getWidgetColor: $state => $state.widgetColor,
   getReferrerHost: $state => $state.referrerHost,
-  getAppConfig: $state => $state,
 };
 
 const actions = {
@@ -36,11 +36,11 @@ const actions = {
   toggleWidgetOpen({ commit }, isWidgetOpen) {
     commit(TOGGLE_WIDGET_OPEN, isWidgetOpen);
   },
-  setReferrerHost({ commit }, referrerHost) {
-    commit(SET_REFERRER_HOST, referrerHost);
-  },
   setWidgetColor({ commit }, widgetColor) {
     commit(SET_WIDGET_COLOR, widgetColor);
+  },
+  setReferrerHost({ commit }, referrerHost) {
+    commit(SET_REFERRER_HOST, referrerHost);
   },
 };
 
@@ -53,11 +53,11 @@ const mutations = {
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;
   },
-  [SET_REFERRER_HOST]($state, referrerHost) {
-    $state.referrerHost = referrerHost;
-  },
   [SET_WIDGET_COLOR]($state, widgetColor) {
     $state.widgetColor = widgetColor;
+  },
+  [SET_REFERRER_HOST]($state, referrerHost) {
+    $state.referrerHost = referrerHost;
   },
 };
 

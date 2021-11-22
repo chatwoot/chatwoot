@@ -18,8 +18,8 @@ import {
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
-  removeUnreadClass,
   addUnreadClass,
+  removeUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
