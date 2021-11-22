@@ -7,11 +7,10 @@
       class="status-items"
     >
       <woot-button
-        variant="clear"
         size="small"
         color-scheme="secondary"
+        :variant="status.disabled ? 'smooth' : 'clear'"
         class-names="status-change--dropdown-button"
-        :is-disabled="status.disabled"
         @click="changeAvailabilityStatus(status.value)"
       >
         <availability-status-badge :status="status.value" />

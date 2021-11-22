@@ -118,7 +118,6 @@ export default {
       if (this.shouldShowNotificationsSideMenu) return false;
       return true;
     },
-    activeParentRouteName() {},
   },
   mounted() {
     this.$store.dispatch('labels/get');
@@ -201,6 +200,7 @@ export default {
 
 <style lang="scss" scoped>
 .woot-sidebar {
+  background: white;
   display: flex;
 
   &.only-primary {
@@ -212,7 +212,7 @@ export default {
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100vh;
-  width: 20rem;
+  width: 19rem;
   flex-shrink: 0;
   overflow: auto;
   padding: var(--space-small);

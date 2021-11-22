@@ -116,6 +116,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    shouldShowStatusAlways: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -124,6 +128,7 @@ export default {
   },
   computed: {
     showStatusIndicator() {
+      if (this.shouldShowStatusAlways) return true;
       return this.status === 'online' || this.status === 'busy';
     },
     avatarSize() {
@@ -209,6 +214,10 @@ export default {
 
   .user-online-status--busy {
     background: $warning-color;
+  }
+
+  .user-online-status--offline {
+    background: var(--s-500);
   }
 }
 </style>

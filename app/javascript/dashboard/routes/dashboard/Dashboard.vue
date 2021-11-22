@@ -32,9 +32,9 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas is-open ';
+        return 'off-canvas position-left is-transition-push is-open';
       }
-      return 'off-canvas position-left is-transition-push is-closed';
+      return 'off-canvas is-transition-push is-closed';
     },
     contentClassName() {
       if (this.isOnDesktop) {
@@ -43,7 +43,7 @@ export default {
       if (this.isSidebarOpen) {
         return 'off-canvas-content is-open-left has-transition-push has-position-left';
       }
-      return 'off-canvas-content';
+      return 'off-canvas-content has-transition-push';
     },
   },
   mounted() {
@@ -68,3 +68,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.off-canvas-content.is-open-left {
+  transform: translateX(25.4rem);
+}
+</style>

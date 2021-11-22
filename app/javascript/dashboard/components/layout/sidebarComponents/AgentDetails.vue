@@ -3,7 +3,8 @@
     <thumbnail
       :src="currentUser.avatar_url"
       :username="currentUser.name"
-      :status="currentUser.availability_status"
+      :status="statusOfAgent"
+      should-show-status-always
       size="32px"
     />
   </woot-button>
@@ -19,8 +20,15 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      allAgents: 'agents/getAgents',
       currentRole: 'getCurrentRole',
     }),
+    statusOfAgent() {
+      const { id: currentAgentId } = this.currentUser;
+      const agentInfo =
+        this.allAgents.find(agent => agent.id === currentAgentId) || {};
+      return agentInfo.availability_status;
+    },
   },
   methods: {
     handleClick() {

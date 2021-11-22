@@ -8,7 +8,7 @@
     <li :class="{ active: isActive }">
       <a
         :href="href"
-        class="button clear menu-item"
+        class="button clear menu-item text-truncate"
         :class="{ 'is-active': isActive, 'text-truncate': shouldTruncate }"
         @click="navigate"
       >

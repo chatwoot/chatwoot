@@ -12,7 +12,7 @@
         :icon="menuItem.icon"
         :name="menuItem.label"
         :to="menuItem.toState"
-        :is-child-menu-active="false"
+        :is-child-menu-active="isMenuActive(menuItem, $route.name)"
       />
     </nav>
     <div class="menu vertical user-menu">
@@ -77,6 +77,18 @@ export default {
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
+    },
+    isMenuActive(menuItem, currentRouteName) {
+      const { key = '' } = menuItem;
+
+      if (currentRouteName === key) return true;
+      // Conversations route is defaulted as home
+      // TODO: Needs to ewfactor old statenames to follow a structure while key naming.
+      if (currentRouteName.includes('inbox') && key === 'conversations')
+        return true;
+      if (currentRouteName.includes('conversations') && key === 'conversations')
+        return true;
+      return false;
     },
   },
 };
