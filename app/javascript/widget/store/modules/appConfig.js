@@ -1,22 +1,30 @@
-import { SET_WIDGET_COLOR } from '../types';
+import { SET_REFERRER_HOST, SET_WIDGET_COLOR } from '../types';
 
 const state = {
   widgetColor: '',
+  referrerHost: '',
 };
 
-const getters = {
+export const getters = {
   getWidgetColor: $state => $state.widgetColor,
+  getReferrerHost: $state => $state.referrerHost,
 };
 
-const actions = {
+export const actions = {
   setWidgetColor({ commit }, data) {
     commit(SET_WIDGET_COLOR, data);
   },
+  setReferrerHost({ commit }, referrerHost) {
+    commit(SET_REFERRER_HOST, referrerHost);
+  },
 };
 
-const mutations = {
+export const mutations = {
   [SET_WIDGET_COLOR]($state, data) {
     $state.widgetColor = data.widgetColor;
+  },
+  [SET_REFERRER_HOST]($state, referrerHost) {
+    $state.referrerHost = referrerHost;
   },
 };
 
