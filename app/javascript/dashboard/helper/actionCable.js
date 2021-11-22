@@ -20,6 +20,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.contact_changed': this.onConversationContactChange,
       'presence.update': this.onPresenceUpdate,
       'contact.deleted': this.onContactDelete,
+      'contact.updated': this.onContactUpdate,
     };
   }
 
@@ -123,6 +124,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       data.id
     );
     this.fetchConversationStats();
+  };
+
+  onContactUpdate = data => {
+    this.app.$store.dispatch('contacts/updateContact', data);
   };
 }
 

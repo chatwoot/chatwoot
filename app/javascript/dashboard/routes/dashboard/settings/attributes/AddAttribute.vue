@@ -27,6 +27,7 @@
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
+            @input="onDisplayNameChange"
             @blur="$v.displayName.$touch"
           />
           <label :class="{ error: $v.description.$error }">
@@ -53,22 +54,18 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <div v-if="displayName" class="medium-12 columns">
-            <label>
-              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL') }}
-              <i class="ion-help" />
-            </label>
-            <p class="key-value text-truncate">
-              {{ attributeKey }}
-            </p>
-          </div>
+          <woot-input
+            v-model="attributeKey"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+            type="text"
+            :class="{ error: $v.attributeKey.$error }"
+            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+            @blur="$v.attributeKey.$touch"
+          />
           <div class="modal-footer">
             <woot-submit-button
-              :disabled="
-                $v.displayName.$invalid ||
-                  $v.description.$invalid ||
-                  uiFlags.isCreating
-              "
+              :disabled="isButtonDisabled"
               :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
             />
             <button class="button clear" @click.prevent="onClose">
@@ -103,6 +100,7 @@ export default {
       description: '',
       attributeModel: 0,
       attributeType: 0,
+      attributeKey: '',
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       show: true,
@@ -113,8 +111,18 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
-    attributeKey() {
-      return convertToSlug(this.displayName);
+    isButtonDisabled() {
+      return (
+        this.$v.displayName.$invalid ||
+        this.$v.description.$invalid ||
+        this.uiFlags.isCreating
+      );
+    },
+    keyErrorMessage() {
+      if (!this.$v.attributeKey.isKey) {
+        return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
+      }
+      return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
     },
   },
 
@@ -132,10 +140,23 @@ export default {
     attributeType: {
       required,
     },
+    attributeKey: {
+      required,
+      isKey(value) {
+        return !(value.indexOf(' ') >= 0);
+      },
+    },
   },
 
   methods: {
+    onDisplayNameChange() {
+      this.attributeKey = convertToSlug(this.displayName);
+    },
     async addAttributes() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         await this.$store.dispatch('attributes/create', {
           attribute_display_name: this.displayName,
@@ -147,7 +168,7 @@ export default {
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
-        const errorMessage = error?.response?.data?.message;
+        const errorMessage = error?.message;
         this.alertMessage =
           errorMessage || this.$t('ATTRIBUTES_MGMT.ADD.API.ERROR_MESSAGE');
       } finally {

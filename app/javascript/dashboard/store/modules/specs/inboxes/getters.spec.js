@@ -24,6 +24,11 @@ describe('#getters', () => {
     expect(getters.getTwilioSMSInboxes(state).length).toEqual(1);
   });
 
+  it('dialogFlowEnabledInboxes', () => {
+    const state = { records: inboxList };
+    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(5);
+  });
+
   it('getInbox', () => {
     const state = {
       records: inboxList,

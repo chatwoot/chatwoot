@@ -56,9 +56,16 @@ export const actions = {
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
     try {
-      await ContactsAPI.setCustomAttibutes(customAttributes);
+      await ContactsAPI.setCustomAttributes(customAttributes);
     } catch (error) {
-      // Ingore error
+      // Ignore error
+    }
+  },
+  deleteCustomAttribute: async (_, customAttribute) => {
+    try {
+      await ContactsAPI.deleteCustomAttribute(customAttribute);
+    } catch (error) {
+      // Ignore error
     }
   },
 };

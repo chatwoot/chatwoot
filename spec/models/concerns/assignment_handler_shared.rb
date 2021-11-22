@@ -22,9 +22,13 @@ shared_examples_for 'assignment_handler' do
 
       it 'creates team assigned and unassigned message activity' do
         expect(conversation.update(team: team)).to eq true
-        expect(conversation.messages.pluck(:content)).to include("Assigned to #{team.name} by #{agent.name}")
         expect(conversation.update(team: nil)).to eq true
-        expect(conversation.messages.pluck(:content)).to include("Unassigned from #{team.name} by #{agent.name}")
+        expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
+          .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                content: "Assigned to #{team.name} by #{agent.name}"  }))
+        expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
+          .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                content: "Unassigned from #{team.name} by #{agent.name}" }))
       end
 
       it 'changes assignee to nil if they doesnt belong to the team and allow_auto_assign is false' do
@@ -41,7 +45,9 @@ shared_examples_for 'assignment_handler' do
         conversation.update(team: team)
 
         expect(conversation.reload.assignee).to eq agent
-        expect(conversation.messages.pluck(:content)).to include("Assigned to #{conversation.assignee.name} via #{team.name} by #{agent.name}")
+        expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
+          .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                content: "Assigned to #{conversation.assignee.name} via #{team.name} by #{agent.name}" }))
       end
 
       it 'wont change assignee if he is already a team member' do
@@ -94,7 +100,9 @@ shared_examples_for 'assignment_handler' do
 
       it 'creates self-assigned message activity' do
         expect(update_assignee).to eq(true)
-        expect(conversation.messages.pluck(:content)).to include("#{agent.name} self-assigned this conversation")
+        expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
+          .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
+                                message_type: :activity, content: "#{agent.name} self-assigned this conversation" }))
       end
     end
   end

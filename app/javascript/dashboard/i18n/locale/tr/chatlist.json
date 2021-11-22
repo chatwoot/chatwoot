@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Açık",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Açık"
       },
-      {
-        "TEXT": "Çözüldü",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Çözüldü"
       },
-      {
-        "TEXT": "Bekliyor",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Bekliyor"
       },
-      {
-        "TEXT": "Susturuldu",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Susturuldu"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

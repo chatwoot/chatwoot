@@ -38,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Open",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
       },
-      {
-        "TEXT": "Opgelost",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Opgelost"
       },
-      {
-        "TEXT": "Afwachtend",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Afwachtend"
       },
-      {
-        "TEXT": "Gesluimerd",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Gesluimerd"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
