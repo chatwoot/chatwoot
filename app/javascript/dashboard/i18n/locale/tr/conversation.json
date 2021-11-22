@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Lütfen sol bölmeden bir konuşma seçin",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
     "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
     "NO_INBOX_1": "Görünüşe göre henüz gelen kutusu eklemediniz.",
