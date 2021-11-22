@@ -25,7 +25,6 @@
 #
 
 class Contact < ApplicationRecord
-  include Pubsubable
   include Avatarable
   include AvailabilityStatusable
   include Labelable
