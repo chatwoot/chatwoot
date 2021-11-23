@@ -68,6 +68,7 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
             </label>
             <multiselect
+              ref="tagInput"
               v-model="values"
               :placeholder="
                 $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
@@ -78,6 +79,7 @@
               :options="options"
               :multiple="true"
               :taggable="true"
+              @close="onTouch"
               @tag="addTagValue"
             />
             <label v-show="isMultiselectInvalid" class="error-message">
@@ -127,7 +129,7 @@ export default {
       values: [],
       options: [],
       show: true,
-      isTouched: true,
+      isTouched: false,
     };
   },
 
@@ -136,9 +138,10 @@ export default {
       uiFlags: 'getUIFlags',
     }),
     isMultiselectInvalid() {
-      return (
-        this.isAttributeTypeList && this.isTouched && this.values.length === 0
-      );
+      return this.isTouched && this.values.length === 0;
+    },
+    isTagInputInvalid() {
+      return this.isAttributeTypeList && this.values.length === 0;
     },
     attributeListValues() {
       return this.values.map(item => item.name);
@@ -148,7 +151,7 @@ export default {
         this.$v.displayName.$invalid ||
         this.$v.description.$invalid ||
         this.uiFlags.isCreating ||
-        this.isMultiselectInvalid
+        this.isTagInputInvalid
       );
     },
     keyErrorMessage() {
@@ -190,6 +193,10 @@ export default {
         name: tagValue,
       };
       this.values.push(tag);
+      this.$refs.tagInput.$el.focus();
+    },
+    onTouch() {
+      this.isTouched = true;
     },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);

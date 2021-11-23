@@ -55,6 +55,7 @@
             {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
           </label>
           <multiselect
+            ref="tagInput"
             v-model="values"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')"
             label="name"
@@ -185,6 +186,7 @@ export default {
         name: tagValue,
       };
       this.values.push(tag);
+      this.$refs.tagInput.$el.focus();
     },
     setFormValues() {
       this.displayName = this.selectedAttribute.attribute_display_name;
