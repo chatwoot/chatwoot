@@ -68,26 +68,28 @@
         <p v-else class="value">
           {{ formattedValue || '---' }}
         </p>
-        <woot-button
-          v-if="showActions"
-          v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-          variant="link"
-          size="small"
-          color-scheme="secondary"
-          icon="ion-clipboard"
-          class-names="edit-button"
-          @click="onCopy"
-        />
-        <woot-button
-          v-if="showActions"
-          v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
-          variant="link"
-          size="small"
-          color-scheme="secondary"
-          icon="ion-compose"
-          class-names="edit-button"
-          @click="onEdit"
-        />
+        <div class="action-buttons__wrap">
+          <woot-button
+            v-if="showActions"
+            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+            variant="link"
+            size="small"
+            color-scheme="secondary"
+            icon="ion-clipboard"
+            class-names="edit-button"
+            @click="onCopy"
+          />
+          <woot-button
+            v-if="showActions"
+            v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+            variant="link"
+            size="small"
+            color-scheme="secondary"
+            icon="ion-compose"
+            class-names="edit-button"
+            @click="onEdit"
+          />
+        </div>
       </div>
     </div>
     <div v-if="isAttributeTypeList">
@@ -301,6 +303,11 @@ export default {
     .edit-button {
       display: block;
     }
+  }
+
+  .action-buttons__wrap {
+    display: flex;
+    max-width: var(--space-larger);
   }
 }
 .value {
