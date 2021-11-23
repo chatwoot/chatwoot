@@ -25,7 +25,7 @@ export const getters = {
   getReferrerHost: $state => $state.referrerHost,
 };
 
-const actions = {
+export const actions = {
   setAppConfig({ commit }, { showPopoutButton, position, hideMessageBubble }) {
     commit(SET_WIDGET_APP_CONFIG, {
       showPopoutButton: !!showPopoutButton,
@@ -44,7 +44,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_WIDGET_APP_CONFIG]($state, data) {
     $state.showPopoutButton = data.showPopoutButton;
     $state.position = data.position;

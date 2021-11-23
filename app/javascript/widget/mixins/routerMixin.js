@@ -1,8 +1,8 @@
 export default {
   methods: {
-    replaceRoute(name) {
+    async replaceRoute(name) {
       if (this.$route.name !== name) {
-        this.$router.replace({ name });
+        return this.$router.replace({ name });
       }
     },
   },

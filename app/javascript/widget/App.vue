@@ -138,8 +138,7 @@ export default {
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, this.setUnreadView);
       bus.$on(ON_UNREAD_MESSAGE_CLICK, () => {
-        this.unsetUnreadView();
-        this.replaceRoute('messages');
+        this.replaceRoute('messages').then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
@@ -166,17 +165,19 @@ export default {
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) && !messageCount;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.replaceRoute('campaigns');
-        this.setIframeHeight(this.isMobile);
-        IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+        this.replaceRoute('campaigns').then(() => {
+          this.setIframeHeight(this.isMobile);
+          IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+        });
       }
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
-        this.replaceRoute('unread-messages');
-        this.setIframeHeight(this.isMobile);
-        IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+        this.replaceRoute('unread-messages').then(() => {
+          this.setIframeHeight(this.isMobile);
+          IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+        });
       }
     },
     unsetUnreadView() {
