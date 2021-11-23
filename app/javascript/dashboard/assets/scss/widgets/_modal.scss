@@ -47,6 +47,11 @@
   position: relative;
   width: 60rem;
 
+  &.medium {
+    max-width: 80%;
+    width: 90rem;
+  }
+
   .content-box {
     @include padding($zero);
     height: auto;
@@ -109,9 +114,4 @@
 .modal-enter .modal-container,
 .modal-leave .modal-container {
   transform: scale(1.1);
-}
-
-.modal-container.medium {
-  width: 90rem;
-  max-width: 80%;
 }
