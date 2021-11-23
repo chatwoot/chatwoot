@@ -31,7 +31,7 @@ class RoomChannel < ApplicationCable::Channel
 
   def current_user
     @current_user ||= if params[:user_id].blank?
-                        Contact.find_by!(pubsub_token: @pubsub_token)
+                        ContactInbox.find_by!(pubsub_token: @pubsub_token).contact
                       else
                         User.find_by!(pubsub_token: @pubsub_token, id: params[:user_id])
                       end

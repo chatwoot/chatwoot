@@ -18,7 +18,7 @@ class ActionCableListener < BaseListener
   def message_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_token(conversation.contact, message)
+    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
@@ -27,7 +27,7 @@ class ActionCableListener < BaseListener
     message, account = extract_message_and_account(event)
     conversation = message.conversation
     contact = conversation.contact
-    tokens = user_tokens(account, conversation.inbox.members) + contact_token(conversation.contact, message)
+    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data)
   end
@@ -132,12 +132,14 @@ class ActionCableListener < BaseListener
     (agent_tokens + admin_tokens).uniq
   end
 
-  def contact_token(contact, message)
+  def contact_tokens(contact_inbox, message)
     return [] if message.private?
     return [] if message.activity?
-    return [] if contact.nil?
+    return [] if contact_inbox.nil?
 
-    [contact.pubsub_token]
+    contact = contact_inbox.contact
+
+    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
   end
 
   def broadcast(account, tokens, event_name, data)
