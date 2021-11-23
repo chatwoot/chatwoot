@@ -68,14 +68,14 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
             </label>
             <multiselect
-              v-model="listValues"
+              v-model="values"
               :placeholder="
                 $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
               "
               label="name"
               track-by="name"
               :class="{ invalid: isMultiselectInvalid }"
-              :options="value"
+              :options="options"
               :multiple="true"
               :taggable="true"
               @tag="addTagValue"
@@ -124,8 +124,8 @@ export default {
       attributeKey: '',
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
-      listValues: [],
-      value: [],
+      values: [],
+      options: [],
       show: true,
       isTouched: true,
     };
@@ -137,13 +137,11 @@ export default {
     }),
     isMultiselectInvalid() {
       return (
-        this.isAttributeTypeList &&
-        this.isTouched &&
-        this.listValues.length === 0
+        this.isAttributeTypeList && this.isTouched && this.values.length === 0
       );
     },
     attributeListValues() {
-      return this.listValues.map(item => item.name);
+      return this.values.map(item => item.name);
     },
     isButtonDisabled() {
       return (
@@ -191,7 +189,7 @@ export default {
       const tag = {
         name: tagValue,
       };
-      this.listValues.push(tag);
+      this.values.push(tag);
     },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);

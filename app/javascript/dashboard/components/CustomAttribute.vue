@@ -30,7 +30,7 @@
         </div>
       </h4>
     </div>
-    <div v-if="!isAttributeTypeCheckbox && !isAttributeTypeList">
+    <div v-if="notAttributeTypeCheckboxAndList">
       <div v-show="isEditing">
         <div class="input-group small">
           <input
@@ -92,12 +92,9 @@
     </div>
     <div v-if="isAttributeTypeList">
       <multiselect-dropdown
-        :options="listValuesToObject"
-        :selected-item="editedValueToObject"
+        :options="listOptions"
+        :selected-item="selectedItem"
         :has-thumbnail="false"
-        :multiselector-title="
-          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.TITLE')
-        "
         :multiselector-placeholder="
           $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
         "
@@ -129,7 +126,7 @@ export default {
   },
   props: {
     label: { type: String, required: true },
-    listValues: { type: Array, default: () => [] },
+    values: { type: Array, default: () => [] },
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
@@ -157,14 +154,14 @@ export default {
   },
 
   computed: {
-    listValuesToObject() {
-      return this.listValues.map((values, index) => ({
+    listOptions() {
+      return this.values.map((values, index) => ({
         id: index + 1,
         name: values,
       }));
     },
-    editedValueToObject() {
-      const id = this.listValues.indexOf(this.editedValue) + 1;
+    selectedItem() {
+      const id = this.values.indexOf(this.editedValue) + 1;
       const objValue = `{ "id":${id}, "name":"${this.editedValue}" }`;
       return JSON.parse(objValue);
     },
@@ -176,6 +173,9 @@ export default {
     },
     isAttributeTypeLink() {
       return this.attributeType === 'link';
+    },
+    notAttributeTypeCheckboxAndList() {
+      return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
     },
     inputType() {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;

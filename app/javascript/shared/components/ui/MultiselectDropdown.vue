@@ -82,7 +82,7 @@ export default {
     },
     multiselectorTitle: {
       type: String,
-      default: 'Select',
+      default: '',
     },
     multiselectorPlaceholder: {
       type: String,

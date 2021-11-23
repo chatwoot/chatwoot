@@ -55,12 +55,12 @@
             {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
           </label>
           <multiselect
-            v-model="listValues"
+            v-model="values"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')"
             label="name"
             track-by="name"
             :class="{ invalid: isMultiselectInvalid }"
-            :options="value"
+            :options="options"
             :multiple="true"
             :taggable="true"
             @tag="addTagValue"
@@ -108,8 +108,8 @@ export default {
       types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
-      listValues: [],
-      value: [],
+      values: [],
+      options: [],
       isTouched: true,
     };
   },
@@ -141,16 +141,14 @@ export default {
       }));
     },
     updatedAttributeListValues() {
-      return this.listValues.map(item => item.name);
+      return this.values.map(item => item.name);
     },
     isButtonDisabled() {
       return this.$v.description.$invalid || this.isMultiselectInvalid;
     },
     isMultiselectInvalid() {
       return (
-        this.isAttributeTypeList &&
-        this.isTouched &&
-        this.listValues.length === 0
+        this.isAttributeTypeList && this.isTouched && this.values.length === 0
       );
     },
     pageTitle() {
@@ -186,14 +184,14 @@ export default {
       const tag = {
         name: tagValue,
       };
-      this.listValues.push(tag);
+      this.values.push(tag);
     },
     setFormValues() {
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
       this.attributeType = this.selectedAttributeType;
       this.attributeKey = this.selectedAttribute.attribute_key;
-      this.listValues = this.setAttributeListValue;
+      this.values = this.setAttributeListValue;
     },
     async editAttributes() {
       this.$v.$touch();
