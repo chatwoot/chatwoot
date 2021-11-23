@@ -160,10 +160,9 @@ export default {
         name: value,
       }));
     },
-    selectedItem() {
+   selectedItem() {
       const id = this.values.indexOf(this.editedValue) + 1;
-      const objValue = `{ "id":${id}, "name":"${this.editedValue}" }`;
-      return JSON.parse(objValue);
+      return { id, name: this.editedValue };
     },
     isAttributeTypeCheckbox() {
       return this.attributeType === 'checkbox';
