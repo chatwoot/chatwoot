@@ -296,6 +296,13 @@ export default {
   overflow: auto;
 }
 
+.ProseMirror-prompt {
+  z-index: var(--z-index-highest);
+  background: var(--color-background-light);
+  border-radius: var(--border-radius-normal);
+  border: 1px solid var(--color-border);
+}
+
 .is-private {
   .prosemirror-mention-node {
     font-weight: var(--font-weight-medium);
