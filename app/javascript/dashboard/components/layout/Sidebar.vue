@@ -6,6 +6,7 @@
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       @toggle-accounts="toggleAccountModal"
+      @key-shortcut-modal="toggleKeyShortcutModal"
     />
 
     <secondary-sidebar

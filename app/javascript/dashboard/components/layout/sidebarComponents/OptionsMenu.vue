@@ -30,7 +30,7 @@
             class=" change-accounts--button"
             @click="$emit('show-support-chat-window')"
           >
-            Contact Support
+            {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
@@ -40,14 +40,30 @@
             size="small"
             class=" change-accounts--button"
             icon="ion-ios-bolt-outline"
-            @click="$emit('key-shortcut-modal')"
+            @click="handleKeyboardHelpClick"
           >
             {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <router-link
+            v-slot="{ href, isActive, navigate }"
             :to="`/app/accounts/${accountId}/profile/settings`"
+            custom
+          >
+            <a
+              :href="href"
+              class="button small clear secondary"
+              :class="{ 'is-active': isActive }"
+              @click="e => handleProfileSettingClick(e, navigate)"
+            >
+              <i class="icon ion-person" />
+              <span class="button__content">
+                {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+              </span>
+            </a>
+          </router-link>
+          <router-link
             class="button clear small secondary change-accounts--button"
           >
             <i class="icon ion-person" />
@@ -110,6 +126,14 @@ export default {
     },
   },
   methods: {
+    handleProfileSettingClick(e, navigate) {
+      this.$emit('close');
+      navigate(e);
+    },
+    handleKeyboardHelpClick() {
+      this.$emit('key-shortcut-modal');
+      this.$emit('close');
+    },
     logout() {
       Auth.logout();
     },
@@ -124,5 +148,6 @@ export default {
   left: var(--space-slab);
   bottom: var(--space-larger);
   min-width: 16.8rem;
+  z-index: var(--z-index-much-higher);
 }
 </style>

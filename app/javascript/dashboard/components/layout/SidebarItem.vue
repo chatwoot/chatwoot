@@ -101,6 +101,11 @@ export default {
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {
         navigate(e);
+      } else if (this.menuItem.showModalForNewItem) {
+        if (this.menuItem.modalName === 'AddLabel') {
+          e.preventDefault();
+          this.$emit('add-label');
+        }
       }
     },
     showItem(item) {

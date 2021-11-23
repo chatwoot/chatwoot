@@ -8,7 +8,7 @@
     >
       <woot-button
         size="small"
-        color-scheme="secondary"
+        :color-scheme="status.disabled ? '' : 'secondary'"
         :variant="status.disabled ? 'smooth' : 'clear'"
         class-names="status-change--dropdown-button"
         @click="changeAvailabilityStatus(status.value)"

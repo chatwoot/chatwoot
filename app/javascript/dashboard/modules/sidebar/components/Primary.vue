@@ -22,6 +22,7 @@
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
         @show-support-chat-window="toggleSupportChatWindow"
+        @key-shortcut-modal="$emit('key-shortcut-modal')"
         @close="toggleOptions"
       />
     </div>

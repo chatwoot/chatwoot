@@ -22,12 +22,10 @@ export default {
       currentUser: 'getCurrentUser',
       allAgents: 'agents/getAgents',
       currentRole: 'getCurrentRole',
+      currentUserAvailability: 'getCurrentUserAvailability',
     }),
     statusOfAgent() {
-      const { id: currentAgentId } = this.currentUser;
-      const agentInfo =
-        this.allAgents.find(agent => agent.id === currentAgentId) || {};
-      return agentInfo.availability_status;
+      return this.currentUserAvailability || 'offline';
     },
   },
   methods: {
