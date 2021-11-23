@@ -1,8 +1,8 @@
 require 'json'
 
-class AutomationRule::ConditionsFilterService < FilterService
+class AutomationRules::ConditionsFilterService < FilterService
   def initialize(rule, conversation)
-    super()
+    super([], nil)
     @rule = rule
     @conversation = conversation
     file = File.read('./lib/filters/filter_keys.json')
@@ -12,8 +12,8 @@ class AutomationRule::ConditionsFilterService < FilterService
   def perform
     conversation_filters = @filters['conversations']
 
-    @rule.conditions.each do |query_hash, current_index|
-      current_filter = conversation_filters[query_hash['attribute_key']]
+    @rule.conditions.each_with_index do |query_hash, current_index|
+      current_filter = conversation_filters[query_hash['attribute']]
       @query_string += conversation_query_string(current_filter, query_hash, current_index)
     end
 
@@ -22,8 +22,9 @@ class AutomationRule::ConditionsFilterService < FilterService
   end
 
   def conversation_query_string(current_filter, query_hash, current_index)
-    attribute_key = query_hash[:attribute_key]
-    query_operator = query_hash[:query_operator]
+    attribute_key = query_hash['attribute']
+    query_operator = query_hash['query_operator']
+
     filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']

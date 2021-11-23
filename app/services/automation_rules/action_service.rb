@@ -1,4 +1,4 @@
-class AutomationRule::ActionService
+class AutomationRules::ActionService
   def initialize(rule, conversation)
     @rule = rule
     @conversation = conversation

@@ -37,13 +37,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
             {
               attribute: 'browser_language',
               filter_operator: 'equal_to',
-              value: ['en'],
+              values: ['en'],
               query_operator: 'AND'
             },
             {
               attribute: 'country',
               filter_operator: 'equal_to',
-              value: %w[USA UK],
+              values: %w[USA UK],
               query_operator: nil
             }
           ],
