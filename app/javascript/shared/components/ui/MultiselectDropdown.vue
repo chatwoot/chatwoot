@@ -121,6 +121,7 @@ export default {
 
     onClickSelectItem(value) {
       this.$emit('click', value);
+      this.onCloseDropdown();
     },
   },
 };
