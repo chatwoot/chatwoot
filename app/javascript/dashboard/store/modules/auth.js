@@ -47,8 +47,11 @@ export const getters = {
     return currentAccount.availability;
   },
 
-  getCurrentAccountId(_state) {
-    return _state.currentAccountId;
+  getCurrentAccountId(_, __, rootState) {
+    if (rootState.route.params && rootState.route.params.accountId) {
+      return Number(rootState.route.params.accountId);
+    }
+    return null;
   },
 
   getCurrentRole(_state) {
