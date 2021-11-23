@@ -28,7 +28,7 @@
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
       }
-      window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
+      window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
