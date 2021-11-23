@@ -1,4 +1,4 @@
-const conditions = [
+const CONVERSATION_STATUS_CONDITION = [
   {
     attributeKey: 'status',
     attributeI18nKey: 'STATUS',
@@ -16,6 +16,9 @@ const conditions = [
     ],
     attribute_type: 'standard',
   },
+];
+
+const BROWSER_LANGUAGE_CONDITION = [
   {
     attributeKey: 'browser_language',
     attributeI18nKey: 'BROWSER_LANGUAGE',
@@ -33,6 +36,9 @@ const conditions = [
     ],
     attribute_type: 'additional_attributes',
   },
+];
+
+const COUNTRY_NAME_CONDITION = [
   {
     attributeKey: 'country_code',
     attributeI18nKey: 'COUNTRY_NAME',
@@ -50,6 +56,9 @@ const conditions = [
     ],
     attribute_type: 'additional_attributes',
   },
+];
+
+export const REFERER_LINK_CONDITION = [
   {
     attributeKey: 'referer',
     attributeI18nKey: 'REFERER_LINK',
@@ -77,4 +86,17 @@ const conditions = [
   },
 ];
 
-export default conditions;
+export const getAutomationCondition = ({ actionType = '' }) => {
+  if (actionType === 'conversation_updated') {
+    return [...CONVERSATION_STATUS_CONDITION, ...COUNTRY_NAME_CONDITION];
+  }
+  if (actionType === 'messaged_created') {
+    return [...CONVERSATION_STATUS_CONDITION];
+  }
+  return [
+    ...CONVERSATION_STATUS_CONDITION,
+    ...BROWSER_LANGUAGE_CONDITION,
+    ...COUNTRY_NAME_CONDITION,
+    ...REFERER_LINK_CONDITION,
+  ];
+};

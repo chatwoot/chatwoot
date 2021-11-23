@@ -86,8 +86,9 @@ import { required, requiredIf } from 'vuelidate/lib/validators';
 import filterInputBox from 'dashboard/components/widgets/conversation/components/FilterInput.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'dashboard/components/widgets/conversation/advancedFilterItems/countries';
-import automationConditions from './automationConditions/index';
 import { AUTOMATION_RULE_EVENTS } from './constants';
+
+import { getAutomationCondition } from './automationConditions';
 
 export default {
   components: {
@@ -126,7 +127,9 @@ export default {
   },
   data() {
     return {
-      filterTypes: automationConditions.createConversation.map(filter => ({
+      filterTypes: getAutomationCondition({
+        actionType: 'conversation_created',
+      }).map(filter => ({
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
@@ -168,27 +171,29 @@ export default {
   methods: {
     onEventChange() {
       if (this.automationRuleEvent === 'conversation_created') {
-        this.filterTypes = automationConditions.createConversation.map(
-          filter => ({
-            ...filter,
-            attributeName: this.$t(
-              `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
-            ),
-          })
-        );
+        this.filterTypes = getAutomationCondition({
+          actionType: 'conversation_created',
+        }).map(filter => ({
+          ...filter,
+          attributeName: this.$t(
+            `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
+          ),
+        }));
       }
       if (this.automationRuleEvent === 'conversation_updated') {
-        this.filterTypes = automationConditions.updateConversation.map(
-          filter => ({
-            ...filter,
-            attributeName: this.$t(
-              `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
-            ),
-          })
-        );
+        this.filterTypes = getAutomationCondition({
+          actionType: 'conversation_updated',
+        }).map(filter => ({
+          ...filter,
+          attributeName: this.$t(
+            `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
+          ),
+        }));
       }
       if (this.automationRuleEvent === 'messaged_created') {
-        this.filterTypes = automationConditions.createMessage.map(filter => ({
+        this.filterTypes = getAutomationCondition({
+          actionType: 'messaged_created',
+        }).map(filter => ({
           ...filter,
           attributeName: this.$t(
             `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
