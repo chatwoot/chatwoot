@@ -37,17 +37,16 @@ describe(`behavior`, () => {
       // Arrange
       spyOn(auth, 'isLoggedIn').and.returnValue(true);
       spyOn(auth, 'getCurrentUser').and.returnValue({
-        role: 'user',
+        account_id: 1,
+        accounts: [{ id: 1, role: 'agent' }],
       });
-      const to = {
-        name: 'login',
-      };
-      const from = { name: '' };
+      const to = { name: 'login' };
+      const from = { name: '', params: { accountId: 1 } };
       const next = jest.fn();
       // Act
       validateAuthenticateRoutePermission(to, from, next);
       // Assert
-      expect(next).toHaveBeenCalledWith('/app/dashboard');
+      expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
     });
   });
   describe(`when route is protected`, () => {
@@ -56,9 +55,7 @@ describe(`behavior`, () => {
         // Arrange
         spyOn(auth, 'isLoggedIn').and.returnValue(false);
         spyOn(auth, 'getCurrentUser').and.returnValue(null);
-        const to = {
-          name: 'some-protected-route',
-        };
+        const to = { name: 'some-protected-route', params: { accountId: 1 } };
         const from = { name: '' };
         const next = jest.fn();
         // Act
@@ -73,18 +70,16 @@ describe(`behavior`, () => {
           // Arrange
           spyOn(auth, 'isLoggedIn').and.returnValue(true);
           spyOn(auth, 'getCurrentUser').and.returnValue({
-            role: 'user',
+            accounts: [{ id: 1, role: 'agent' }],
           });
-          window.roleWiseRoutes.user = ['dashboard'];
-          const to = {
-            name: 'admin',
-          };
+          window.roleWiseRoutes.agent = ['dashboard'];
+          const to = { name: 'admin', params: { accountId: 1 } };
           const from = { name: '' };
           const next = jest.fn();
           // Act
           validateAuthenticateRoutePermission(to, from, next);
           // Assert
-          expect(next).toHaveBeenCalledWith('/app/dashboard');
+          expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
         });
       });
       describe(`when route is accessible to current user`, () => {
@@ -92,12 +87,10 @@ describe(`behavior`, () => {
           // Arrange
           spyOn(auth, 'isLoggedIn').and.returnValue(true);
           spyOn(auth, 'getCurrentUser').and.returnValue({
-            role: 'user',
+            accounts: [{ id: 1, role: 'agent' }],
           });
-          window.roleWiseRoutes.user = ['dashboard', 'admin'];
-          const to = {
-            name: 'admin',
-          };
+          window.roleWiseRoutes.agent = ['dashboard', 'admin'];
+          const to = { name: 'admin', params: { accountId: 1 } };
           const from = { name: '' };
           const next = jest.fn();
           // Act
