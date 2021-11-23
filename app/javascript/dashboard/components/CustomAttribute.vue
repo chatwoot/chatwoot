@@ -160,7 +160,7 @@ export default {
         name: value,
       }));
     },
-   selectedItem() {
+    selectedItem() {
       const id = this.values.indexOf(this.editedValue) + 1;
       return { id, name: this.editedValue };
     },
