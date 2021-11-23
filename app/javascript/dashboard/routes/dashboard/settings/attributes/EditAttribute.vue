@@ -59,14 +59,13 @@
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')"
             label="name"
             track-by="name"
-            :class="{ invalid: isInvalid }"
+            :class="{ invalid: isMultiselectInvalid }"
             :options="value"
             :multiple="true"
             :taggable="true"
-            @close="onTouch"
             @tag="addTagValue"
           />
-          <label v-show="isInvalid" class="error-message">
+          <label v-show="isMultiselectInvalid" class="error-message">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>
         </div>
@@ -111,7 +110,7 @@ export default {
       attributeKey: '',
       listValues: [],
       value: [],
-      isTouched: false,
+      isTouched: true,
     };
   },
   validations: {
@@ -145,10 +144,14 @@ export default {
       return this.listValues.map(item => item.name);
     },
     isButtonDisabled() {
-      return this.$v.description.$invalid || this.isInvalid;
+      return this.$v.description.$invalid || this.isMultiselectInvalid;
     },
-    isInvalid() {
-      return this.isTouched && this.listValues.length === 0;
+    isMultiselectInvalid() {
+      return (
+        this.isAttributeTypeList &&
+        this.isTouched &&
+        this.listValues.length === 0
+      );
     },
     pageTitle() {
       return `${this.$t('ATTRIBUTES_MGMT.EDIT.TITLE')} - ${
@@ -178,9 +181,6 @@ export default {
   methods: {
     onClose() {
       this.$emit('on-close');
-    },
-    onTouch() {
-      this.isTouched = true;
     },
     addTagValue(tagValue) {
       const tag = {
@@ -244,6 +244,12 @@ export default {
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
+  }
+  .multiselect__content-wrapper {
+    display: none;
+  }
+  .multiselect--active .multiselect__tags {
+    border-radius: var(--border-radius-normal);
   }
 }
 </style>

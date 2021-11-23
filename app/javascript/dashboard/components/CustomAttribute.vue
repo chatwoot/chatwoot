@@ -92,7 +92,7 @@
     </div>
     <div v-if="isAttributeTypeList">
       <multiselect-dropdown
-        :options="listValueToObject"
+        :options="listValuesToObject"
         :selected-item="editedValueToObject"
         :has-thumbnail="false"
         :multiselector-title="
@@ -157,7 +157,7 @@ export default {
   },
 
   computed: {
-    listValueToObject() {
+    listValuesToObject() {
       return this.listValues.map((values, index) => ({
         id: index + 1,
         name: values,
@@ -165,8 +165,8 @@ export default {
     },
     editedValueToObject() {
       const id = this.listValues.indexOf(this.editedValue) + 1;
-      const obj = `{ "id":${id}, "name":"${this.editedValue}" }`;
-      return JSON.parse(obj);
+      const objValue = `{ "id":${id}, "name":"${this.editedValue}" }`;
+      return JSON.parse(objValue);
     },
     isAttributeTypeCheckbox() {
       return this.attributeType === 'checkbox';

@@ -74,14 +74,13 @@
               "
               label="name"
               track-by="name"
-              :class="{ invalid: isInvalid }"
+              :class="{ invalid: isMultiselectInvalid }"
               :options="value"
               :multiple="true"
               :taggable="true"
-              @close="onTouch"
               @tag="addTagValue"
             />
-            <label v-show="isInvalid" class="error-message">
+            <label v-show="isMultiselectInvalid" class="error-message">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
@@ -128,7 +127,7 @@ export default {
       listValues: [],
       value: [],
       show: true,
-      isTouched: false,
+      isTouched: true,
     };
   },
 
@@ -136,8 +135,12 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
-    isInvalid() {
-      return this.isTouched && this.listValues.length === 0;
+    isMultiselectInvalid() {
+      return (
+        this.isAttributeTypeList &&
+        this.isTouched &&
+        this.listValues.length === 0
+      );
     },
     attributeListValues() {
       return this.listValues.map(item => item.name);
@@ -147,7 +150,7 @@ export default {
         this.$v.displayName.$invalid ||
         this.$v.description.$invalid ||
         this.uiFlags.isCreating ||
-        this.isInvalid
+        this.isMultiselectInvalid
       );
     },
     keyErrorMessage() {
@@ -189,9 +192,6 @@ export default {
         name: tagValue,
       };
       this.listValues.push(tag);
-    },
-    onTouch() {
-      this.isTouched = true;
     },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);
@@ -246,6 +246,12 @@ export default {
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
+  }
+  .multiselect__content-wrapper {
+    display: none;
+  }
+  .multiselect--active .multiselect__tags {
+    border-radius: var(--border-radius-normal);
   }
 }
 </style>
