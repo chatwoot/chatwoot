@@ -155,9 +155,9 @@ export default {
 
   computed: {
     listOptions() {
-      return this.values.map((values, index) => ({
+      return this.values.map((value, index) => ({
         id: index + 1,
-        name: values,
+        name: value,
       }));
     },
     selectedItem() {
