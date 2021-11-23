@@ -94,6 +94,7 @@
 
   .delete-item {
     @include padding($space-large);
+
     button {
       @include margin($zero);
     }
@@ -108,4 +109,9 @@
 .modal-enter .modal-container,
 .modal-leave .modal-container {
   transform: scale(1.1);
+}
+
+.modal-container.medium {
+  width: 90rem;
+  max-width: 80%;
 }
