@@ -1,5 +1,10 @@
 <template>
-  <woot-button variant="link" class="current-user" @click="handleClick">
+  <woot-button
+    v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"
+    variant="link"
+    class="current-user"
+    @click="handleClick"
+  >
     <thumbnail
       :src="currentUser.avatar_url"
       :username="currentUser.name"

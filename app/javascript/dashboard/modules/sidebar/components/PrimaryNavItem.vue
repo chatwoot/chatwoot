@@ -1,7 +1,7 @@
 <template>
   <router-link v-slot="{ href, isActive, navigate }" :to="to" custom>
     <a
-      v-tooltip.right="name"
+      v-tooltip.right="$t(`SIDEBAR.${name}`)"
       :href="href"
       class="button clear button--only-icon menu-item"
       :class="{ 'is-active': isActive || isChildMenuActive }"

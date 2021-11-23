@@ -1,7 +1,7 @@
 <template>
   <div class="notifications-link">
     <primary-nav-item
-      v-tooltip.right="'NOTIFICATIONS'"
+      name="NOTIFICATIONS"
       icon="ion-ios-bell"
       :to="`/app/accounts/${accountId}/notifications`"
       :count="unreadCount"
