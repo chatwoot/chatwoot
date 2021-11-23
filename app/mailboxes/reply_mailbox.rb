@@ -26,6 +26,8 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def conversation_uuid_from_to_address
+    return if mail.to.nil?
+
     mail.to.each do |email|
       username = email.split('@')[0]
       match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
