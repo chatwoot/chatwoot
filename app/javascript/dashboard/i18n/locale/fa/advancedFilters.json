@@ -1,10 +1,10 @@
 {
   "FILTER": {
     "TITLE": "فیلتر گفتگو‌ها",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای فیلتر کردن مکالمات روی «اعمال فیلترها» ضربه بزنید.",
     "ADD_NEW_FILTER": "افزودن فیلتر",
     "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
     "CANCEL_BUTTON_LABEL": "انصراف",
     "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
     "EMPTY_VALUE_ERROR": "مقدار الزامی است",
