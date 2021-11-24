@@ -85,7 +85,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Rapoarte",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Conversație",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
