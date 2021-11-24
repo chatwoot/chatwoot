@@ -1,10 +1,10 @@
 {
   "FILTER": {
     "TITLE": "Фильтр диалогов",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "Добавьте фильтры и нажмите «Применить фильтры» для фильтрации диалогов.",
     "ADD_NEW_FILTER": "Добавить фильтр",
     "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "SUBMIT_BUTTON_LABEL": "Применить фильтры",
     "CANCEL_BUTTON_LABEL": "Отменить",
     "CLEAR_BUTTON_LABEL": "Очистить фильтры",
     "EMPTY_VALUE_ERROR": "Необходимо указать значение",
