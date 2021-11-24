@@ -154,10 +154,10 @@ export default {
 
   computed: {
     formattedValue() {
-      if (this.attributeType === 'date') {
+      if (this.isAttributeTypeDate) {
         return format(new Date(this.value || new Date()), DATE_FORMAT);
       }
-      if (this.attributeType === 'checkbox') {
+      if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
       return this.value;
@@ -180,6 +180,9 @@ export default {
     },
     isAttributeTypeLink() {
       return this.attributeType === 'link';
+    },
+    isAttributeTypeDate() {
+      return this.attributeType === 'date';
     },
     notAttributeTypeCheckboxAndList() {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
