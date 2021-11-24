@@ -30,6 +30,15 @@
             @input="onDisplayNameChange"
             @blur="$v.displayName.$touch"
           />
+          <woot-input
+            v-model="attributeKey"
+            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
+            type="text"
+            :class="{ error: $v.attributeKey.$error }"
+            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
+            @blur="$v.attributeKey.$touch"
+          />
           <label :class="{ error: $v.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
@@ -54,15 +63,29 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <woot-input
-            v-model="attributeKey"
-            :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
-            type="text"
-            :class="{ error: $v.attributeKey.$error }"
-            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
-            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
-            @blur="$v.attributeKey.$touch"
-          />
+          <div v-if="isAttributeTypeList" class="multiselect--wrap">
+            <label>
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
+            </label>
+            <multiselect
+              ref="tagInput"
+              v-model="values"
+              :placeholder="
+                $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
+              "
+              label="name"
+              track-by="name"
+              :class="{ invalid: isMultiselectInvalid }"
+              :options="options"
+              :multiple="true"
+              :taggable="true"
+              @close="onTouch"
+              @tag="addTagValue"
+            />
+            <label v-show="isMultiselectInvalid" class="error-message">
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
+            </label>
+          </div>
           <div class="modal-footer">
             <woot-submit-button
               :disabled="isButtonDisabled"
@@ -103,7 +126,10 @@ export default {
       attributeKey: '',
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
+      values: [],
+      options: [],
       show: true,
+      isTouched: false,
     };
   },
 
@@ -111,11 +137,21 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    isMultiselectInvalid() {
+      return this.isTouched && this.values.length === 0;
+    },
+    isTagInputInvalid() {
+      return this.isAttributeTypeList && this.values.length === 0;
+    },
+    attributeListValues() {
+      return this.values.map(item => item.name);
+    },
     isButtonDisabled() {
       return (
         this.$v.displayName.$invalid ||
         this.$v.description.$invalid ||
-        this.uiFlags.isCreating
+        this.uiFlags.isCreating ||
+        this.isTagInputInvalid
       );
     },
     keyErrorMessage() {
@@ -123,6 +159,9 @@ export default {
         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
       }
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
+    },
+    isAttributeTypeList() {
+      return this.attributeType === 6;
     },
   },
 
@@ -149,6 +188,16 @@ export default {
   },
 
   methods: {
+    addTagValue(tagValue) {
+      const tag = {
+        name: tagValue,
+      };
+      this.values.push(tag);
+      this.$refs.tagInput.$el.focus();
+    },
+    onTouch() {
+      this.isTouched = true;
+    },
     onDisplayNameChange() {
       this.attributeKey = convertToSlug(this.displayName);
     },
@@ -164,6 +213,7 @@ export default {
           attribute_model: this.attributeModel,
           attribute_display_type: this.attributeType,
           attribute_key: this.attributeKey,
+          attribute_values: this.attributeListValues,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
@@ -182,5 +232,31 @@ export default {
 .key-value {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
+}
+.multiselect--wrap {
+  margin-bottom: var(--space-normal);
+  .error-message {
+    color: var(--r-400);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+  }
+  .invalid {
+    ::v-deep {
+      .multiselect__tags {
+        border: 1px solid var(--r-400);
+      }
+    }
+  }
+}
+::v-deep {
+  .multiselect {
+    margin-bottom: 0;
+  }
+  .multiselect__content-wrapper {
+    display: none;
+  }
+  .multiselect--active .multiselect__tags {
+    border-radius: var(--border-radius-normal);
+  }
 }
 </style>

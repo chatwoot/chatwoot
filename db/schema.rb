@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_061012) do
+ActiveRecord::Schema.define(version: 2021_11_22_112607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,14 +61,6 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
-  create_table "actions", force: :cascade do |t|
-    t.string "name", null: false
-    t.jsonb "execution_list", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_actions_on_name"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
