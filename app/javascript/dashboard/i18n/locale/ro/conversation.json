@@ -160,22 +160,22 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atribut actualizat cu succes",
+      "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Adaugă",
+      "SUCCESS": "Atribut adăugat cu succes",
+      "ERROR": "Imposibil de adăugat atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atribut sters cu succes",
+      "ERROR": "Imposibil de șters atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Adaugă atributii",
+      "PLACEHOLDER": "Cauta atributii",
+      "NO_RESULT": "Nu s-au găsit atributii"
     }
   },
   "EMAIL_HEADER": {
