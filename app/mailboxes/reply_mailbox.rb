@@ -26,7 +26,7 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def conversation_uuid_from_to_address
-    return if mail.to.nil?
+    return check_forwarded_for_email if mail.to.blank?
 
     mail.to.each do |email|
       username = email.split('@')[0]
@@ -79,6 +79,15 @@ class ReplyMailbox < ApplicationMailbox
     raise "#{resource.class.name} not found" if resource.nil?
 
     resource
+  end
+
+  def check_forwarded_for_email
+    email = mail['X-Forwarded-For'].try(:value)
+    return if email.blank?
+
+    username = email.split('@')[0]
+    match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
+    @conversation_uuid = match_result.captures if match_result
   end
 
   def decorate_mail

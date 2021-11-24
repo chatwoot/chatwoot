@@ -52,10 +52,11 @@ class ApplicationMailbox < ActionMailbox::Base
     false
   end
 
-  def in_reply_to_matches?(in_reply_to)
+  def self.in_reply_to_matches?(in_reply_to)
+    in_reply_to_match = false
     if in_reply_to.is_a?(Array)
       in_reply_to.each do |in_reply_to_mail|
-        in_reply_to_match = in_reply_to_mail.match(CONVERSATION_MESSAGE_ID_PATTERN)
+        in_reply_to_match ||= in_reply_to_mail.match(CONVERSATION_MESSAGE_ID_PATTERN)
       end
     else
       in_reply_to_match = in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
