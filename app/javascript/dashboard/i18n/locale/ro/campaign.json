@@ -1,65 +1,65 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER": "Campanii",
+    "SIDEBAR_TXT": "Mesajele proactive permit clientului să trimită mesaje de ieșire către contactele lor, ceea ce ar declanșa mai multe conversații. Faceţi clic pe <b>Adăugare campanie</b> pentru a crea o nouă campanie. De asemenea, puteți edita sau șterge o campanie existentă făcând clic pe butonul Editare sau șterge.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "Crează o singură campanie",
+      "ONGOING": "Creați o campanie în desfășurare"
     },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "Creează o campanie",
+      "DESC": "Mesajele proactive permit clientului să trimită mesaje către contactele lor, ceea ce ar declanșa mai multe conversații.",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "CREATE_BUTTON_TEXT": "Creeaza",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Titlu",
+          "PLACEHOLDER": "Vă rugăm să introduceţi titlul campaniei",
+          "ERROR": "Titlul este necesar"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Timp programat",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "CONFIRM": "Confirmă",
+          "ERROR": "Timpul programat este necesar"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "Audienţă",
+          "PLACEHOLDER": "Selectați etichetele clienților",
+          "ERROR": "Audienţa este necesară"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "Selectați Inbox",
+          "PLACEHOLDER": "Selectați Inbox",
+          "ERROR": "Inbox-ul este necesar"
         },
         "MESSAGE": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Vă rugăm să introduceți mesajul campaniei",
+          "ERROR": "Este necesar un mesaj"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "Trimis de",
+          "PLACEHOLDER": "Vă rugăm să selectaţi conţinutul campaniei",
+          "ERROR": "Expeditorul este necesar"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "Vă rugăm să introduceți adresa URL",
           "ERROR": "Te rog introdu un URL valid"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "Timp pe pagina (secunde)",
+          "PLACEHOLDER": "Vă rugăm să introduceţi timpul",
+          "ERROR": "Timpul pe pagină este necesar"
         },
-        "ENABLED": "Enable campaign",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "Activați campania",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Declanşator doar în timpul orelor de lucru",
+        "SUBMIT": "Adaugă Campanie"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "Campanie creată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare. Te rugăm să încerci din nou."
       }
     },
     "DELETE": {
@@ -71,34 +71,34 @@
         "NO": "Nu, păstreaza"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Campanie ștearsă cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut șterge campania. Vă rugăm să încercați din nou mai târziu."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Editare campanie",
       "UPDATE_BUTTON_TEXT": "Actualizare",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Campanie actualizată cu succes",
         "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "Se încarcă campaniile...",
+      "404": "Nu sunt campanii create pentru acest inbox.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
-        "INBOX": "Inbox",
+        "TITLE": "Titlu",
+        "MESSAGE": "Mesaj",
+        "INBOX": "Primite",
         "STATUS": "Status",
-        "SENDER": "Sender",
+        "SENDER": "Expeditor",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "Timp programat",
+        "TIME_ON_PAGE": "Timp (secunde)",
+        "CREATED_AT": "Creat la"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Adaugă",
         "EDIT": "Editare",
         "DELETE": "Şterge"
       },
