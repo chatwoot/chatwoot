@@ -5,6 +5,7 @@
       :key="attribute.id"
       :attribute-key="attribute.attribute_key"
       :attribute-type="attribute.attribute_display_type"
+      :values="attribute.attribute_values"
       :label="attribute.attribute_display_name"
       :icon="attribute.icon"
       emoji=""

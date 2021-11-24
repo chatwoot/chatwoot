@@ -20,9 +20,11 @@ import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
-
+import {
+  getExtraSpaceToScroll,
+  loadedEventConfig,
+} from './helpers/IframeEventHelper';
 export default {
   name: 'App',
   components: {
@@ -99,7 +101,7 @@ export default {
     this.registerCampaignEvents();
   },
   methods: {
-    ...mapActions('appConfig', ['setWidgetColor']),
+    ...mapActions('appConfig', ['setWidgetColor', 'setReferrerHost']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
       'initCampaigns',
@@ -120,7 +122,7 @@ export default {
     },
     setIframeHeight(isFixedHeight) {
       this.$nextTick(() => {
-        const extraHeight = this.getExtraSpaceToscroll();
+        const extraHeight = getExtraSpaceToScroll();
         IFrameHelper.sendMessage({
           event: 'updateIframeHeight',
           isFixedHeight,
@@ -245,7 +247,7 @@ export default {
             isInBusinessHours: this.isInBusinessHours,
           });
           window.referrerURL = referrerURL;
-          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
+          this.setReferrerHost(referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
@@ -286,39 +288,10 @@ export default {
       });
     },
     sendLoadedEvent() {
-      IFrameHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
+      IFrameHelper.sendMessage(loadedEventConfig());
     },
     sendRNWebViewLoadedEvent() {
-      RNHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
-    },
-    getExtraSpaceToscroll: () => {
-      // This function calculates the extra space needed for the view to
-      // accomodate the height of close button + height of
-      // read messages button. So that scrollbar won't appear
-      const unreadMessageWrap = document.querySelector('.unread-messages');
-      const unreadCloseWrap = document.querySelector('.close-unread-wrap');
-      const readViewWrap = document.querySelector('.open-read-view-wrap');
-
-      if (!unreadMessageWrap) return 0;
-
-      // 24px to compensate the paddings
-      let extraHeight = 24 + unreadMessageWrap.scrollHeight;
-      if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
-      if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
-
-      return extraHeight;
+      RNHelper.sendMessage(loadedEventConfig());
     },
   },
 };
