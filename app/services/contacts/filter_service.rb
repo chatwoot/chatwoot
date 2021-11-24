@@ -38,6 +38,10 @@ class Contacts::FilterService < FilterService
     end
   end
 
+  def filter_values(query_hash)
+    query_hash['values'][0]
+  end
+
   def base_relation
     Current.account.contacts.left_outer_joins(:labels)
   end
