@@ -3,6 +3,7 @@ import {
   wootOn,
   addClass,
   loadCSS,
+  removeClass,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
