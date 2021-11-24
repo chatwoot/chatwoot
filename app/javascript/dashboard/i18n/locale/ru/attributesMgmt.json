@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Пожалуйста выберите тип",
           "ERROR": "Необходимо указать тип",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Список занчений",
+            "PLACEHOLDER": "Пожалуйста, введите значение и нажмите клавишу Enter",
+            "ERROR": "Должно быть хотя бы одно значение"
           }
         },
         "KEY": {
@@ -65,8 +65,8 @@
       "UPDATE_BUTTON_TEXT": "Обновить",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Список занчений",
+          "PLACEHOLDER": "Пожалуйста, введите значения и нажмите клавишу Enter"
         }
       },
       "API": {
