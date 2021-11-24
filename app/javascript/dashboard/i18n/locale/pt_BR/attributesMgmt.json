@@ -27,7 +27,12 @@
         "TYPE": {
           "LABEL": "Tipo",
           "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "O tipo é obrigatório"
+          "ERROR": "O tipo é obrigatório",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
         },
         "KEY": {
           "LABEL": "Chave",
@@ -58,6 +63,12 @@
     "EDIT": {
       "TITLE": "Editar atributo personalizado",
       "UPDATE_BUTTON_TEXT": "Atualizar",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
       "API": {
         "SUCCESS_MESSAGE": "Atributo personalizado atualizado com sucesso",
         "ERROR_MESSAGE": "Houve um erro ao atualizar atributo personalizado, por favor, tente novamente"
