@@ -29,9 +29,9 @@
           "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
           "ERROR": "نوع الزامی است",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "لیست مقادیر",
+            "PLACEHOLDER": "لطفا مقدار را وارد کنید و کلید enter را فشار دهید",
+            "ERROR": "باید حداقل یک مقدار داشته باشد"
           }
         },
         "KEY": {
@@ -65,8 +65,8 @@
       "UPDATE_BUTTON_TEXT": "اعمال شود",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "لیست مقادیر",
+          "PLACEHOLDER": "لطفا مقادیر را وارد کنید و کلید enter را فشار دهید"
         }
       },
       "API": {
