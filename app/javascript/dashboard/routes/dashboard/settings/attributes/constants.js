@@ -26,4 +26,12 @@ export const ATTRIBUTE_TYPES = [
     id: 5,
     option: 'Date',
   },
+  {
+    id: 6,
+    option: 'List',
+  },
+  {
+    id: 7,
+    option: 'Checkbox',
+  },
 ];

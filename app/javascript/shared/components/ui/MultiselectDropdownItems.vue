@@ -27,6 +27,7 @@
             >
               <div class="user-wrap">
                 <Thumbnail
+                  v-if="hasThumbnail"
                   :src="option.thumbnail"
                   size="24px"
                   :username="option.name"
@@ -75,6 +76,10 @@ export default {
     selectedItem: {
       type: Object,
       default: () => ({}),
+    },
+    hasThumbnail: {
+      type: Boolean,
+      default: true,
     },
     inputPlaceholder: {
       type: String,
