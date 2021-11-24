@@ -1,40 +1,32 @@
 <template>
   <div class="filters">
-    <div class="filter--attributes">
-      <select
-        v-model="attribute_key"
-        class="filter--attributes_select"
-        @change="resetFilter()"
-      >
-        <option
-          v-for="attribute in filterAttributes"
-          :key="attribute.key"
-          :value="attribute.key"
+    <div class="filter">
+      <div class="filter-inputs">
+        <select
+          v-model="attributeKey"
+          class="filter__question"
+          @change="resetFilter()"
         >
-          {{ $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`) }}
-        </option>
-      </select>
-      <button class="filter--attribute_clearbtn" @click="removeFilter">
-        <i class="icon ion-close-circled" />
-      </button>
-    </div>
-    <div class="filter-values">
-      <div class="row">
-        <div
-          class="columns padding-right-small"
-          :class="showUserInput ? 'small-4' : 'small-12'"
-        >
-          <select v-model="filter_operator" class="filter--values_select">
-            <option
-              v-for="(operator, o) in operators"
-              :key="o"
-              :value="operator.value"
-            >
-              {{ $t(`FILTER.OPERATOR_LABELS.${operator.value}`) }}
-            </option>
-          </select>
-        </div>
-        <div v-if="showUserInput" class="small-8 columns">
+          <option
+            v-for="attribute in filterAttributes"
+            :key="attribute.key"
+            :value="attribute.key"
+          >
+            {{ $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`) }}
+          </option>
+        </select>
+
+        <select v-model="filterOperator" class="filter__operator">
+          <option
+            v-for="(operator, o) in operators"
+            :key="o"
+            :value="operator.value"
+          >
+            {{ $t(`FILTER.OPERATOR_LABELS.${operator.value}`) }}
+          </option>
+        </select>
+
+        <div v-if="showUserInput" class="filter__answer--wrap">
           <div
             v-if="inputType === 'multi_select'"
             class="multiselect-wrap--small"
@@ -73,27 +65,32 @@
             v-else
             v-model="values"
             type="text"
-            class="filter--attributes_input"
+            class="answer--text-input"
             placeholder="Enter value"
           />
-          <div v-if="v.values.$dirty && v.values.$error" class="filter-error">
-            {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
-          </div>
         </div>
+        <woot-button
+          icon="ion-close"
+          variant="clear"
+          color-scheme="secondary"
+          @click="removeFilter"
+        />
       </div>
+      <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
+        {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+      </p>
     </div>
-    <div v-if="showQueryOperator" class="filter--query_operator">
-      <hr class="filter--query_operator_line" />
-      <div class="filter--query_operator_container">
-        <select v-model="query_operator" class="filter--query_operator_select">
-          <option value="and">
-            {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
-          </option>
-          <option value="or">
-            {{ $t('FILTER.QUERY_DROPDOWN_LABELS.OR') }}
-          </option>
-        </select>
-      </div>
+
+    <div v-if="showQueryOperator" class="filter__join-operator">
+      <hr class="operator__line" />
+      <select v-model="query_operator" class="operator__select">
+        <option value="and">
+          {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
+        </option>
+        <option value="or">
+          {{ $t('FILTER.QUERY_DROPDOWN_LABELS.OR') }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -135,7 +132,7 @@ export default {
     },
   },
   computed: {
-    attribute_key: {
+    attributeKey: {
       get() {
         if (!this.value) return null;
         return this.value.attribute_key;
@@ -145,7 +142,7 @@ export default {
         this.$emit('input', { ...payload, attribute_key: value });
       },
     },
-    filter_operator: {
+    filterOperator: {
       get() {
         if (!this.value) return null;
         return this.value.filter_operator;
@@ -186,12 +183,75 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.multiselect {
-  margin-bottom: var(--space-zero) !important;
+<style lang="scss" scoped>
+.filter {
+  background: var(--color-background);
+  padding: var(--space-small);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-medium);
 }
+
+.filter-inputs {
+  display: flex;
+}
+
 .filter-error {
   color: var(--r-500);
+  display: block;
+  margin: var(--space-smaller) 0;
+}
+
+.filter__question,
+.filter__operator {
+  margin-bottom: var(--space-zero);
+  margin-right: var(--space-smaller);
+}
+
+.filter__question {
+  max-width: 30%;
+}
+
+.filter__operator {
+  max-width: 20%;
+}
+
+.filter__answer--wrap {
+  margin-right: var(--space-smaller);
+  flex-grow: 1;
+}
+.filter__answer {
+  &.answer--text-input {
+    margin-bottom: var(--space-zero);
+  }
+}
+
+.filter__join-operator-wrap {
+  position: relative;
+  z-index: var(--z-index-twenty);
+  margin: var(--space-zero);
+}
+
+.filter__join-operator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: var(--space-one) var(--space-zero);
+
+  .operator__line {
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .operator__select {
+    position: relative;
+    width: auto;
+    margin-bottom: var(--space-zero) !important;
+  }
+}
+
+.multiselect {
+  margin-bottom: var(--space-zero);
 }
 </style>
