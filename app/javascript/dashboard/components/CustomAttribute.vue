@@ -66,7 +66,7 @@
           {{ value || '---' }}
         </a>
         <p v-else class="value">
-          {{ formattedValue || '---' }}
+          {{ displayValue || '---' }}
         </p>
         <div class="action-buttons__wrap">
           <woot-button
@@ -138,10 +138,7 @@ export default {
   data() {
     return {
       isEditing: false,
-      editedValue:
-        this.attributeType === 'date'
-          ? format(new Date(this.value || new Date()), DATE_FORMAT)
-          : this.value,
+      editedValue: null,
     };
   },
   validations() {
@@ -156,6 +153,15 @@ export default {
   },
 
   computed: {
+    formattedValue() {
+      if (this.isAttributeTypeDate) {
+        return format(new Date(this.value || new Date()), DATE_FORMAT);
+      }
+      if (this.isAttributeTypeCheckbox) {
+        return this.value === 'false' ? false : this.value;
+      }
+      return this.value;
+    },
     listOptions() {
       return this.values.map((value, index) => ({
         id: index + 1,
@@ -175,6 +181,9 @@ export default {
     isAttributeTypeLink() {
       return this.attributeType === 'link';
     },
+    isAttributeTypeDate() {
+      return this.attributeType === 'date';
+    },
     notAttributeTypeCheckboxAndList() {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
     },
@@ -190,7 +199,7 @@ export default {
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
-    formattedValue() {
+    displayValue() {
       if (this.attributeType === 'date') {
         return format(new Date(this.editedValue), 'dd-MM-yyyy');
       }
@@ -198,6 +207,7 @@ export default {
     },
   },
   mounted() {
+    this.editedValue = this.formattedValue;
     bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, focusAttributeKey => {
       if (this.attributeKey === focusAttributeKey) {
         this.onEdit();
