@@ -58,7 +58,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "أدخل رابط Webhook",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
         "CHANNEL_DOMAIN": {
@@ -97,8 +97,8 @@
         "SUBMIT_BUTTON": "إنشاء قناة تواصل"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "قناة Twilio SMS/WhatsApp",
+        "DESC": "قم بإضافة قناة Twilio لتمكن عملائك من التواصل معك عبر الرسائل القصيرة SMS أو عبر واتساب.",
         "ACCOUNT_SID": {
           "LABEL": "معرف حساب Twilio (يعرف أيضاً بـ Account SID)",
           "PLACEHOLDER": "الرجاء إدخال معرف حساب Twilio الخاص بك (يعرف أيضاً بـ Account SID)",
