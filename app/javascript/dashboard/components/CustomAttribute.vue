@@ -158,13 +158,7 @@ export default {
         return format(new Date(this.value || new Date()), DATE_FORMAT);
       }
       if (this.attributeType === 'checkbox') {
-        if (this.value === 'true') {
-          return true;
-        }
-        if (this.value === 'false') {
-          return false;
-        }
-        return this.value;
+        return this.value === 'false' ? false : this.value;
       }
       return this.value;
     },
