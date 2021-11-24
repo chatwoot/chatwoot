@@ -1,6 +1,17 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
 import types from '../../../mutation-types';
+const dataToSend = {
+  payload: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: ['open'],
+      query_operator: null,
+    },
+  ],
+};
+import { dataReceived } from './testConversationResponse';
 
 const commit = jest.fn();
 const dispatch = jest.fn();
@@ -73,7 +84,30 @@ describe('#actions', () => {
         inbox_id: 2,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if conversation filters are applied', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
@@ -88,7 +122,11 @@ describe('#actions', () => {
         inbox_id: 1,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        {
+          commit,
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([
@@ -112,7 +150,10 @@ describe('#actions', () => {
         meta: { sender: { id: 1, name: 'john-doe' } },
         inbox_id: 1,
       };
-      actions.addConversation({ commit, dispatch, state: {} }, conversation);
+      actions.addConversation(
+        { commit, dispatch, state: { appliedFilters: [] } },
+        conversation
+      );
       expect(commit.mock.calls).toEqual([
         [types.ADD_CONVERSATION, conversation],
       ]);
@@ -260,6 +301,44 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['ASSIGN_TEAM', { id: 1, name: 'Team' }],
       ]);
+    });
+  });
+
+  describe('#fetchFilteredConversations', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: dataReceived,
+      });
+      await actions.fetchFilteredConversations({ commit }, dataToSend);
+      expect(commit).toHaveBeenCalledTimes(2);
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+      ]);
+    });
+  });
+
+  describe('#setConversationFilter', () => {
+    it('commits the correct mutation and sets filter state', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      actions.setConversationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONVERSATION_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('#clearConversationFilter', () => {
+    it('commits the correct mutation and clears filter state', () => {
+      actions.clearConversationFilters({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
     });
   });
 });

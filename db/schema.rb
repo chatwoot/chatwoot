@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_131740) do
+ActiveRecord::Schema.define(version: 2021_11_22_112607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,14 +61,6 @@ ActiveRecord::Schema.define(version: 2021_11_16_131740) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
-  create_table "actions", force: :cascade do |t|
-    t.string "name", null: false
-    t.jsonb "execution_list", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_actions_on_name"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -181,6 +173,21 @@ ActiveRecord::Schema.define(version: 2021_11_16_131740) do
     t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "imap_enabled", default: false
+    t.string "imap_address", default: ""
+    t.integer "imap_port", default: 0
+    t.string "imap_email", default: ""
+    t.string "imap_password", default: ""
+    t.boolean "imap_enable_ssl", default: true
+    t.datetime "imap_inbox_synced_at"
+    t.boolean "smtp_enabled", default: false
+    t.string "smtp_address", default: ""
+    t.integer "smtp_port", default: 0
+    t.string "smtp_email", default: ""
+    t.string "smtp_password", default: ""
+    t.string "smtp_domain", default: ""
+    t.boolean "smtp_enable_starttls_auto", default: true
+    t.string "smtp_authentication", default: "login"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -273,9 +280,11 @@ ActiveRecord::Schema.define(version: 2021_11_16_131740) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "hmac_verified", default: false
+    t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
+    t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
@@ -355,7 +364,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_131740) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "attribute_description"
-    t.jsonb "values", default: []
+    t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
