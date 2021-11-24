@@ -282,9 +282,9 @@
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "مقدار را انتخاب کنید",
+          "SEARCH_INPUT_PLACEHOLDER": "جستجو مقدار",
+          "NO_RESULT": "نتیجه‌ای یافت نشد"
         }
       }
     },
