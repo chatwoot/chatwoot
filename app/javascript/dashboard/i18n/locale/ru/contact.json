@@ -279,6 +279,13 @@
         "TITLE": "Добавить атрибуты",
         "PLACEHOLDER": "Поиск по атрибутам",
         "NO_RESULT": "Атрибуты не найдены"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {
