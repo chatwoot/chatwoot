@@ -4,7 +4,7 @@
       <p>{{ $t('FILTER.SUBTITLE') }}</p>
     </woot-modal-header>
     <div class="row modal-content">
-      <div class="medium-12 columns">
+      <div class="medium-12 columns filters-wrap">
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
           :key="i"
@@ -20,11 +20,18 @@
           @removeFilter="removeFilter(i)"
         />
         <div class="filter-actions">
-          <button class="append-filter-btn" @click="appendNewFilter">
-            <i class="icon ion-plus-circled margin-right-small" />
-            <span>{{ $t('FILTER.ADD_NEW_FILTER') }}</span>
-          </button>
+          <woot-button
+            icon="ion-plus"
+            color-scheme="success"
+            variant="smooth"
+            size="small"
+            @click="appendNewFilter"
+          >
+            {{ $t('FILTER.ADD_NEW_FILTER') }}
+          </woot-button>
         </div>
+      </div>
+      <div class="medium-12 columns">
         <div class="modal-footer justify-content-end w-full">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
@@ -203,79 +210,16 @@ export default {
   },
 };
 </script>
-
-<style>
-.filter-modal-content {
+<style lang="scss" scoped>
+.filters-wrap {
+  padding: var(--space-normal);
+  border-radius: var(--border-radius-large);
   border: 1px solid var(--color-border);
-  border-radius: var(--space-half);
-  padding: var(--space-one);
-}
-.filter--attributes {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-one);
-}
-.filter--attribute_clearbtn {
-  font-size: var(--space-two);
-  margin-left: var(--space-one);
-  cursor: pointer;
-}
-.filter--attributes_select {
-  margin-bottom: var(--space-zero) !important;
+  background: var(--color-background-light);
+  margin-bottom: var(--space-normal);
 }
 
-.filter--values_select {
-  margin-bottom: var(--space-zero) !important;
-}
-
-.padding-right-small {
-  padding-right: var(--space-one);
-}
-.margin-right-small {
-  margin-right: var(--space-three-fourths);
-}
-.append-filter-btn {
-  width: 100%;
-  border: 1px solid var(--color-border);
-  border-radius: var(--space-one-fourths);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-woot);
-  font-size: var(--font-size-one-and-half);
-  padding: var(--space-one);
-  height: var(----space-medium);
-  cursor: pointer;
-}
 .filter-actions {
-  margin: var(--space-two) var(--space-zero) var(--space-one) var(--space-zero);
-}
-.filter--attributes_input {
-  margin-bottom: var(--space-zero) !important;
-}
-.filter--query_operator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin: var(--space-one) var(--space-zero);
-}
-.filter--query_operator_line {
-  position: absolute;
-  z-index: var(--z-index-low);
-  width: 100%;
-  border-bottom: 1px solid var(--color-border);
-}
-.filter--query_operator_container {
-  position: relative;
-  z-index: var(--z-index-twenty);
-  margin: var(--space-zero);
-}
-.filter--query_operator_select {
-  width: 100%;
-  margin-bottom: var(--space-zero) !important;
-  border: none;
-  padding: var(--space-zero) var(--space-three) var(--space-zero)
-    var(--space-two);
+  margin-top: var(--space-normal);
 }
 </style>
