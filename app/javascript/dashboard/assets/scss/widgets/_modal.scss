@@ -47,6 +47,11 @@
   position: relative;
   width: 60rem;
 
+  &.medium {
+    max-width: 80%;
+    width: 90rem;
+  }
+
   .content-box {
     @include padding($zero);
     height: auto;
@@ -94,6 +99,7 @@
 
   .delete-item {
     @include padding($space-large);
+
     button {
       @include margin($zero);
     }

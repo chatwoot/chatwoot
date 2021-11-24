@@ -25,6 +25,7 @@ $default-button-height: 4.0rem;
   // @TODDO - Remove after moving all buttons to woot-button
   .icon+.button__content {
     padding-left: var(--space-small);
+    width: auto;
   }
 
   &.expanded {
@@ -102,7 +103,6 @@ $default-button-height: 4.0rem;
     margin: 0;
     padding: 0;
   }
-
 
 }
 

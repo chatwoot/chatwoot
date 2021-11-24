@@ -34,6 +34,10 @@ export default {
       type: String,
       default: 'centered',
     },
+    size: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     modalContainerClassName() {
@@ -41,7 +45,8 @@ export default {
       if (this.fullWidth) {
         return `${className} modal-container--full-width`;
       }
-      return className;
+
+      return `${className} ${this.size}`;
     },
     modalClassName() {
       const modalClassNameMap = {
