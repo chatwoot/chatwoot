@@ -15,11 +15,12 @@ module EE::Account
   end
 
   def create_checkout_link(product_price)
+    billing_url = "#{ENV['FRONTEND_URL']}/app/accounts/#{id}/settings/billing"
     stripe_session = Stripe::Checkout::Session.create({
-      success_url: 'https://chatwoot.com/success',
-      cancel_url: 'https://chatwoot.com/cancel',
+      success_url: "#{billing_url}?result=success" ,
+      cancel_url: "#{billing_url}?result=cancel",
       line_items: [
-        {price: product_price.price_stripe_id, quantity: account_users.count},
+        { price: product_price.price_stripe_id, quantity: account_users.count },
       ],
       customer: stripe_customer_id,
       mode: 'subscription'
