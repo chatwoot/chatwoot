@@ -81,6 +81,7 @@ l<template>
     <woot-modal
       :show.sync="showAdvancedFilters"
       :on-close="onToggleAdvanceFiltersModal"
+      size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
