@@ -74,7 +74,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def long_lived_token(omniauth_token)
-    koala = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_APP_SECRET'])
+    koala = Koala::Facebook::OAuth.new(GlobalConfigService.load('FB_APP_ID', ''), GlobalConfigService.load('FB_APP_SECRET', ''))
     koala.exchange_access_token_info(omniauth_token)['access_token']
   rescue StandardError => e
     Rails.logger.info e

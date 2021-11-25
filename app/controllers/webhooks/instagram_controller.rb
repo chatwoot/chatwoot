@@ -25,6 +25,6 @@ class Webhooks::InstagramController < ApplicationController
   private
 
   def valid_instagram_token?(token)
-    token == ENV['IG_VERIFY_TOKEN']
+    token == GlobalConfigService.load('IG_VERIFY_TOKEN', '')
   end
 end
