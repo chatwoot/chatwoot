@@ -108,7 +108,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
     "TRAIL_BUTTON": "اشترك الآن",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "حذف المستخدم"
   },
   "COMPONENTS": {
     "CODE": {
@@ -147,7 +147,7 @@
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
     "ALL_CONTACTS": "جميع جهات الاتصال",
-    "TAGGED_WITH": "Tagged with",
+    "TAGGED_WITH": "مشار إليه بواسطة",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
@@ -156,7 +156,7 @@
     "REPORTS_AGENT": "موظف الدعم",
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "الفريق"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
@@ -188,14 +188,14 @@
       "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
       "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
+      "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
+      "TOGGLE_RICH_CONTENT_EDITOR": "تبديل محرر المحتوى المتقدم",
+      "SWITCH_TO_REPLY": "التبديل إلى الرد",
+      "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }
