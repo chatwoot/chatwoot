@@ -41,7 +41,7 @@ export const SDK_CSS = `.woot-widget-holder {
   content: '';
   position: absolute;
   width: 14px;
-  height: 14px;
+  height: 12px;
   background: #ff4040;
   border-radius: 100%;
   top: 0px;
