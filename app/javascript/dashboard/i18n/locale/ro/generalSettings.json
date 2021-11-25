@@ -34,9 +34,9 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Numărul de zile de pe bilet ar trebui să se rezolve automat dacă nu există activitate",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Te rugăm să introduci o durată de rezolvare automată (minim 1 zi)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
