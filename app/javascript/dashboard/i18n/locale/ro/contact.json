@@ -116,103 +116,103 @@
         "LABEL": "Locaţie"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Introduceți numele companiei",
+        "LABEL": "Nume companie"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Introdu numele de utilizator Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Introdu numele de utilizator Facebook",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Introduceți numele de utilizator LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Introdu numele de utilizator Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "SUCCESS_MESSAGE": "Contact salvat cu succes",
+    "CONTACT_ALREADY_EXIST": "Această adresă de e-mail este folosită pentru un alt contact.",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "Începe conversația",
+    "TITLE": "Conversație nouă",
+    "DESC": "Începe o conversație nouă prin trimiterea unui mesaj nou.",
+    "NO_INBOX": "Nu s-a putut găsi un inbox pentru a iniția o nouă conversație cu acest contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "către"
       },
       "INBOX": {
         "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "ERROR": "Selectați un inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Subiect",
+        "PLACEHOLDER": "Subiect",
+        "ERROR": "Subiectul nu poate fi gol"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Scrie mesajul aici",
+        "ERROR": "Mesajul nu poate fi gol"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Mesaj trimis!",
+      "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Contacte",
+    "FIELDS": "Câmpuri de contact",
+    "SEARCH_BUTTON": "Caută",
+    "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "LOADING_MESSAGE": "Se încarcă contactele...",
+      "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
+      "NO_CONTACTS": "Nu există contacte disponibile",
       "TABLE_HEADER": {
         "NAME": "Nume",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Număr de telefon",
         "CONVERSATIONS": "Conversații",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "Ultima activitate",
+        "COUNTRY": "Țară",
+        "CITY": "Oraș",
+        "SOCIAL_PROFILES": "Social Profil",
         "COMPANY": "Companie",
         "EMAIL_ADDRESS": "Adresa Email"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Vezi detaliile"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
-    "LOADING": "Loading contact profile..."
+    "BACK_BUTTON": "Contacte",
+    "LOADING": "Se încarcă profilul contactului..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Adaugă",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter pentru a crea o sarcină"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data scadentă",
+      "LABEL_TITLE": "Setare tip"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Se preiau notițe...",
+    "NOT_AVAILABLE": "Nu există note create pentru aceast contact",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Notițe"
     },
     "LIST": {
       "LABEL": "Notă adaugată"
@@ -319,7 +319,7 @@
       "CHILD_CONTACT": {
         "ERROR": "Selectați un contact copil pentru a imbina"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "SUCCESS_MESSAGE": "Contact unit cu succes",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
