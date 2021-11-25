@@ -40,7 +40,7 @@ export const SDK_CSS = `.woot-widget-holder {
 .woot-widget-bubble.unread-notification::after {
   content: '';
   position: absolute;
-  width: 14px;
+  width: 12px;
   height: 12px;
   background: #ff4040;
   border-radius: 100%;
