@@ -21,7 +21,7 @@
 #
 class Team < ApplicationRecord
   belongs_to :account
-  has_many :team_members, dependent: :destroy
+  has_many :team_members, dependent: :destroy_async
   has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
 
@@ -39,5 +39,13 @@ class Team < ApplicationRecord
 
   def remove_member(user_id)
     team_members.find_by(user_id: user_id)&.destroy
+  end
+
+  def messages
+    account.messages.where(conversation_id: conversations.pluck(:id))
+  end
+
+  def events
+    account.events.where(conversation_id: conversations.pluck(:id))
   end
 end

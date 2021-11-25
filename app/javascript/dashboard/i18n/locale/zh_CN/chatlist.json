@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "搜索人、聊天室、保存回复"
     },
+    "FILTER_ALL": "所有的",
     "STATUS_TABS": [
       {
         "NAME": "打开",
@@ -37,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "正在进行的\n",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "打开"
       },
-      {
-        "TEXT": "已解决",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "已解决"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "等待中"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "已关闭"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -84,7 +81,10 @@
     "RECEIVED_VIA_EMAIL": "通过电子邮件接收",
     "VIEW_TWEET_IN_TWITTER": "在 Twitter 中查看 tweet",
     "REPLY_TO_TWEET": "回复此推文",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "没有信息",
-    "NO_CONTENT": "没有可用的内容"
+    "NO_CONTENT": "没有可用的内容",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text"
   }
 }

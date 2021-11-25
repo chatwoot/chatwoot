@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Ανοιχτές",
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
-      "DETAILS": "Λεπτομέρειες"
+      "DETAILS": "Λεπτομέρειες",
+      "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
     "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Επιλογή πράκτορα",
@@ -142,6 +146,35 @@
     "TEAM_LABEL": "Ανατεθειμένο σε Ομάδα",
     "SELECT": {
       "PLACEHOLDER": "Κανένα"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Λεπτομέρειες Επαφής",
+      "CONVERSATION_ACTIONS": "Ενέργειες Συνομιλίας",
+      "CONVERSATION_LABELS": "Ετικέτες συνομιλίας",
+      "CONVERSATION_INFO": "Πληροφορίες Συνομιλίας",
+      "CONTACT_ATTRIBUTES": "Ιδιότητες Επαφής",
+      "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Προσθήκη",
+      "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

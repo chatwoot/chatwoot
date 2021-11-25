@@ -17,7 +17,15 @@
           <woot-code
             v-if="isATwilioInbox"
             lang="html"
-            :script="twilioCallbackURL"
+            :script="currentInbox.callback_webhook_url"
+          >
+          </woot-code>
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
+            v-if="isALineInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
           >
           </woot-code>
         </div>
@@ -75,10 +83,19 @@ export default {
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
     },
+    isALineInbox() {
+      return this.currentInbox.channel_type === 'Channel::Line';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isALineInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
         )}`;
       }
 

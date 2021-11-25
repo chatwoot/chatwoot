@@ -33,7 +33,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
-      it 'returns conversations with empty messages array for conversations with out messages ' do
+      it 'returns conversations with empty messages array for conversations with out messages' do
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
             as: :json
@@ -109,6 +109,39 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/filter' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter", params: { q: 'test' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        conversation = create(:conversation, account: account)
+        create(:message, conversation: conversation, account: account, content: 'test1')
+        create(:message, conversation: conversation, account: account, content: 'test2')
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns all conversations with empty query' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: { payload: [] },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response_data.count).to eq(2)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id' do
     let(:conversation) { create(:conversation, account: account) }
 
@@ -170,6 +203,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:team) { create(:team, account: account) }
 
       it 'will not create a new conversation if agent does not have access to inbox' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
@@ -249,6 +283,19 @@ RSpec.describe 'Conversations API', type: :request do
                headers: agent.create_new_auth_token,
                params: { contact_id: contact.id, inbox_id: inbox.id },
                as: :json
+        end
+
+        it 'creates a new conversation with assignee and team' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, contact_id: contact.id, inbox_id: inbox.id, assignee_id: agent.id, team_id: team.id },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
+          expect(response_data[:meta][:team][:name]).to eq(team.name)
         end
       end
     end
@@ -357,12 +404,24 @@ RSpec.describe 'Conversations API', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
              headers: agent.create_new_auth_token,
-             params: { typing_status: 'on' },
+             params: { typing_status: 'on', is_private: false },
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent })
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: false })
+      end
+
+      it 'toggles the conversation status for private notes' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: agent.create_new_auth_token,
+             params: { typing_status: 'on', is_private: true },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: true })
       end
     end
   end
@@ -392,6 +451,19 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).not_to eq nil
+      end
+
+      it 'updates assignee last seen' do
+        conversation.update!(assignee_id: agent.id)
+
+        expect(conversation.reload.assignee_last_seen_at).to eq nil
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee_last_seen_at).not_to eq nil
       end
     end
   end
@@ -493,6 +565,39 @@ RSpec.describe 'Conversations API', type: :request do
              params: {},
              as: :json
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/custom_attributes' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:custom_attributes) { { user_id: 1001, created_date: '23/12/2012', subscription_id: 12 } }
+      let(:valid_params) { { custom_attributes: custom_attributes } }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'updates last seen' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).not_to eq nil
+        expect(conversation.reload.custom_attributes.count).to eq 3
       end
     end
   end

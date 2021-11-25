@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Không tìm thấy kết quả."
     },
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "None",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Chọn thành viên",
+        "TEAM": "Chọn nhóm"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Không tìm thấy nhà cung cấp",
-          "TEAM": "No teams found"
+          "TEAM": "Không tìm thấy nhóm nào"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Tìm kiếm thành viên",
+          "TEAM": "Tìm kiếm nhóm"
         }
       }
     }

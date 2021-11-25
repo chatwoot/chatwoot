@@ -20,8 +20,12 @@ describe('#getters', () => {
 
   it('get', () => {
     expect(
-      getters.getCurrentUserAvailabilityStatus({
-        currentUser: { id: 1, name: 'Pranav', availability_status: 'busy' },
+      getters.getCurrentUserAvailability({
+        currentAccountId: 1,
+        currentUser: {
+          id: 1,
+          accounts: [{ id: 1, availability: 'busy' }],
+        },
       })
     ).toEqual('busy');
   });

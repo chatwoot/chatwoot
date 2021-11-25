@@ -7,6 +7,8 @@ export const state = {
   uiFlags: {
     isFetching: false,
     isCreating: false,
+    isUpdating: false,
+    isDeleting: false,
   },
 };
 
@@ -14,18 +16,18 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getAttributes: _state => attributeType => {
+  getAttributesByModel: _state => attributeModel => {
     return _state.records.filter(
-      record => record.attribute_display_type === attributeType
+      record => record.attribute_model === attributeModel
     );
   },
 };
 
 export const actions = {
-  get: async function getAttributes({ commit }) {
+  get: async function getAttributesByModel({ commit }) {
     commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true });
     try {
-      const response = await AttributeAPI.get();
+      const response = await AttributeAPI.getAttributesByModel();
       commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
       // Ignore error
@@ -39,7 +41,8 @@ export const actions = {
       const response = await AttributeAPI.create(attributeObj);
       commit(types.ADD_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
-      throw new Error(error);
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: false });
     }
@@ -50,7 +53,8 @@ export const actions = {
       const response = await AttributeAPI.update(id, updateObj);
       commit(types.EDIT_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
-      throw new Error(error);
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isUpdating: false });
     }

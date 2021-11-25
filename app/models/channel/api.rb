@@ -18,21 +18,15 @@
 #
 
 class Channel::Api < ApplicationRecord
-  self.table_name = 'channel_api'
+  include Channelable
 
-  validates :account_id, presence: true
-  belongs_to :account
+  self.table_name = 'channel_api'
+  EDITABLE_ATTRS = [:webhook_url].freeze
 
   has_secure_token :identifier
   has_secure_token :hmac_token
 
-  has_one :inbox, as: :channel, dependent: :destroy
-
   def name
     'API'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 end

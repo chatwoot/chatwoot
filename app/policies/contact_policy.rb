@@ -15,11 +15,19 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def filter?
+    true
+  end
+
   def update?
     true
   end
 
   def contactable_inboxes?
+    true
+  end
+
+  def destroy_custom_attributes?
     true
   end
 
@@ -29,5 +37,9 @@ class ContactPolicy < ApplicationPolicy
 
   def create?
     true
+  end
+
+  def destroy?
+    @account_user.administrator?
   end
 end

@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Rechercher des personnes, des conversations, des réponses standardisées ..."
     },
+    "FILTER_ALL": "Tous",
     "STATUS_TABS": [
       {
         "NAME": "Ouvert",
@@ -37,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Ouvert",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Ouvert"
       },
-      {
-        "TEXT": "Résolu",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Résolu"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "En attente"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Reporté"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -84,7 +81,10 @@
     "RECEIVED_VIA_EMAIL": "Reçu par courriel",
     "VIEW_TWEET_IN_TWITTER": "Voir le tweet sur Twitter",
     "REPLY_TO_TWEET": "Répondre à ce tweet",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "Pas de messages",
-    "NO_CONTENT": "Aucun contenu disponible"
+    "NO_CONTENT": "Aucun contenu disponible",
+    "HIDE_QUOTED_TEXT": "Masquer le texte cité",
+    "SHOW_QUOTED_TEXT": "Afficher le texte cité"
   }
 }

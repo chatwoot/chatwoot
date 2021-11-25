@@ -16,22 +16,16 @@
 #
 
 class Channel::TwitterProfile < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_twitter_profiles'
 
-  validates :account_id, presence: true
   validates :profile_id, uniqueness: { scope: :account_id }
-  belongs_to :account
-
-  has_one :inbox, as: :channel, dependent: :destroy
 
   before_destroy :unsubscribe
 
   def name
     'Twitter'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def create_contact_inbox(profile_id, name, additional_attributes)

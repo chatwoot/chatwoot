@@ -1,25 +1,39 @@
 class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseController
-  before_action :fetch_inbox, only: [:create, :show]
-  before_action :current_agents_ids, only: [:create]
+  before_action :fetch_inbox
+  before_action :current_agents_ids, only: [:update]
 
   def create
     authorize @inbox, :create?
-    begin
-      # update also done via same action
-      update_agents_list
-      head :ok
-    rescue StandardError => e
-      Rails.logger.debug { "Rescued: #{e.inspect}" }
-      render_could_not_create_error('Could not add agents to inbox')
+    ActiveRecord::Base.transaction do
+      params[:user_ids].map { |user_id| @inbox.add_member(user_id) }
     end
+    fetch_updated_agents
   end
 
   def show
     authorize @inbox, :show?
-    @agents = Current.account.users.where(id: @inbox.members.select(:user_id))
+    fetch_updated_agents
+  end
+
+  def update
+    authorize @inbox, :update?
+    update_agents_list
+    fetch_updated_agents
+  end
+
+  def destroy
+    authorize @inbox, :destroy?
+    ActiveRecord::Base.transaction do
+      params[:user_ids].map { |user_id| @inbox.remove_member(user_id) }
+    end
+    head :ok
   end
 
   private
+
+  def fetch_updated_agents
+    @agents = Current.account.users.where(id: @inbox.members.select(:user_id))
+  end
 
   def update_agents_list
     # get all the user_ids which the inbox currently has as members.

@@ -79,12 +79,12 @@ const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 export default {
   mixins: [alertMixin],
-	props: {
-		type: {
-			type: String,
-			required: true,
+  props: {
+    type: {
+      type: String,
+      required: true,
     },
-	},
+  },
   data() {
     return {
       accountSID: '',

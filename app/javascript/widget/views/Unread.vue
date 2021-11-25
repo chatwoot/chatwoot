@@ -6,8 +6,10 @@
         class="button small close-unread-button"
         @click="closeFullView"
       >
-        <i class="ion-android-close" />
-        {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
+        <div class="flex items-center">
+          <fluent-icon class="mr-1" icon="dismiss" size="12" />
+          {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
+        </div>
       </button>
     </div>
     <div class="unread-messages">
@@ -29,8 +31,10 @@
         class="button clear-button"
         @click="openFullView"
       >
-        <i class="ion-arrow-right-c" />
-        {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
+        <div class="flex items-center">
+          <fluent-icon class="mr-2" size="16" icon="arrow-right" />
+          {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
+        </div>
       </button>
     </div>
   </div>
@@ -38,14 +42,16 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import UnreadMessage from 'widget/components/UnreadMessage.vue';
-
-import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
+import configMixin from '../mixins/configMixin';
+
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
 
 export default {
   name: 'Unread',
   components: {
+    FluentIcon,
     UnreadMessage,
   },
   mixins: [configMixin],
@@ -169,65 +175,6 @@ export default {
 
   .close-unread-wrap {
     text-align: left;
-  }
-}
-</style>
-
-<style lang="scss">
-@import '~widget/assets/scss/variables';
-
-.unread-messages {
-  width: 100%;
-  margin-top: 0;
-  padding-bottom: $space-small;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow-y: auto;
-
-  .chat-bubble-wrap {
-    margin-bottom: $space-smaller;
-
-    &:first-child {
-      margin-top: auto;
-    }
-    .chat-bubble {
-      border: 1px solid $color-border-dark;
-    }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-    &:last-child .chat-bubble {
-      border-bottom-left-radius: $space-two;
-    }
-  }
-}
-
-.is-widget-right .unread-wrap {
-  text-align: right;
-  overflow: hidden;
-
-  .chat-bubble-wrap {
-    .chat-bubble {
-      border-radius: $space-two;
-      border-bottom-right-radius: $space-smaller;
-    }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-    &:last-child .chat-bubble {
-      border-bottom-right-radius: $space-two;
-    }
-  }
-
-  .close-unread-wrap {
-    text-align: right;
   }
 }
 </style>

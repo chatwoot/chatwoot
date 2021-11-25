@@ -3,11 +3,20 @@ require 'rails_helper'
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
   let(:message_params) { slack_message_stub }
+  let(:message_with_attachments) { slack_attachment_stub }
   let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
 
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
+
+  before do
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png'),
+      headers: {}
+    )
+  end
 
   describe '#perform' do
     context 'when url verification' do
@@ -50,6 +59,17 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder = described_class.new(message_params)
         builder.perform
         expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'saves attachment if params files present' do
+        expect(hook).not_to eq nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:sender).and_return(nil)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+        expect(conversation.messages.last.attachments).to be_any
       end
     end
   end

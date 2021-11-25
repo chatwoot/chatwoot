@@ -7,6 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "浏览器",
     "OS": "操作系统",
     "INITIATED_FROM": "启动自：",
@@ -32,12 +33,19 @@
         "NO_RESULT": "未找到标签"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "开始会话",
     "UNMUTE_CONTACT": "取消静音",
     "MUTED_SUCCESS": "此对话被静音6小时",
     "UNMUTED_SUCCESS": "此对话已取消静音",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "编辑"
+    "EDIT_LABEL": "编辑",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "自定义属性",
+      "CONTACT_LABELS": "联系人标签",
+      "PREVIOUS_CONVERSATIONS": "上一次对话"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "编辑联系人",
@@ -48,6 +56,35 @@
     "BUTTON_LABEL": "新建联系人",
     "TITLE": "创建新联系人",
     "DESC": "添加联系人的基本信息。"
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "取消"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "出现错误，请重试"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "确认删除",
+      "MESSAGE": "您确定要删除吗？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "是的，删除 ",
+      "NO": "不，保留 "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -118,6 +155,11 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "消息",
         "PLACEHOLDER": "Write your message here",
@@ -152,6 +194,10 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Add",
@@ -163,16 +209,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
@@ -186,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "自定义属性",
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -203,22 +261,46 @@
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Choose a contact"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -231,7 +313,7 @@
         "ERROR": "Select a child contact to merge"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

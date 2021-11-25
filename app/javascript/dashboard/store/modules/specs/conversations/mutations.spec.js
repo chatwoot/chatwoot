@@ -161,7 +161,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#RESOLVE_CONVERSATION', () => {
+  describe('#CHANGE_CONVERSATION_STATUS', () => {
     it('updates the conversation status correctly', () => {
       const state = {
         allConversations: [
@@ -173,7 +173,7 @@ describe('#mutations', () => {
         ],
       };
 
-      mutations[types.RESOLVE_CONVERSATION](state, {
+      mutations[types.CHANGE_CONVERSATION_STATUS](state, {
         conversationId: '1',
         status: 'resolved',
       });
@@ -185,6 +185,59 @@ describe('#mutations', () => {
           status: 'resolved',
         },
       ]);
+    });
+
+    describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {
+      it('update conversation custom attributes', () => {
+        const custom_attributes = { order_id: 1001 };
+        const state = { allConversations: [{ id: 1 }], selectedChatId: 1 };
+        mutations[types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](state, {
+          conversationId: 1,
+          custom_attributes,
+        });
+        expect(
+          state.allConversations[0].custom_attributes.custom_attributes
+        ).toEqual(custom_attributes);
+      });
+    });
+  });
+
+  describe('#SET_CONVERSATION_FILTERS', () => {
+    it('set conversation filter', () => {
+      const appliedFilters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      mutations[types.SET_CONVERSATION_FILTERS](appliedFilters);
+      expect(appliedFilters).toEqual([
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ]);
+    });
+  });
+
+  describe('#CLEAR_CONVERSATION_FILTERS', () => {
+    it('clears applied conversation filters', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: [{ id: 'snoozed', name: 'Snoozed' }],
+            query_operator: 'and',
+          },
+        ],
+      };
+      mutations[types.CLEAR_CONVERSATION_FILTERS](state);
+      expect(state.appliedFilters).toEqual([]);
     });
   });
 });

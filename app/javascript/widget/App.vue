@@ -8,6 +8,7 @@
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
     :show-popout-button="showPopoutButton"
+    :is-campaign-view-clicked="isCampaignViewClicked"
   />
 </template>
 
@@ -15,16 +16,21 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
+import configMixin from './mixins/configMixin';
+import availabilityMixin from 'widget/mixins/availability';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { isEmptyObject } from 'widget/helpers/utils';
-
+import {
+  getExtraSpaceToScroll,
+  loadedEventConfig,
+} from './helpers/IframeEventHelper';
 export default {
   name: 'App',
   components: {
     Router,
   },
+  mixins: [availabilityMixin, configMixin],
   data() {
     return {
       showUnreadView: false,
@@ -34,6 +40,8 @@ export default {
       widgetPosition: 'right',
       showPopoutButton: false,
       isWebWidgetTriggered: false,
+      isCampaignViewClicked: false,
+      isWidgetOpen: false,
     };
   },
   computed: {
@@ -93,9 +101,13 @@ export default {
     this.registerCampaignEvents();
   },
   methods: {
-    ...mapActions('appConfig', ['setWidgetColor']),
+    ...mapActions('appConfig', ['setWidgetColor', 'setReferrerHost']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
+    ...mapActions('campaign', [
+      'initCampaigns',
+      'executeCampaign',
+      'resetCampaign',
+    ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
     ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
@@ -110,7 +122,7 @@ export default {
     },
     setIframeHeight(isFixedHeight) {
       this.$nextTick(() => {
-        const extraHeight = this.getExtraSpaceToscroll();
+        const extraHeight = getExtraSpaceToScroll();
         IFrameHelper.sendMessage({
           event: 'updateIframeHeight',
           isFixedHeight,
@@ -132,8 +144,8 @@ export default {
       this.hideMessageBubble = !!hideBubble;
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        if (!this.isIFrame) {
+      bus.$on('on-agent-message-received', () => {
+        if (!this.isIFrame || this.isWidgetOpen) {
           this.setUserLastSeen();
         }
         this.setUnreadView();
@@ -144,15 +156,25 @@ export default {
       });
     },
     registerCampaignEvents() {
-      bus.$on('on-campaign-view-clicked', campaignId => {
-        const { websiteToken } = window.chatwootWebChannel;
+      bus.$on('on-campaign-view-clicked', () => {
+        this.isCampaignViewClicked = true;
         this.showCampaignView = false;
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
+        // Execute campaign only if pre-chat form (and require email too) is not enabled
+        if (
+          !(this.preChatFormEnabled && this.preChatFormOptions.requireEmail)
+        ) {
+          bus.$emit('execute-campaign', this.activeCampaign.id);
+        }
+      });
+      bus.$on('execute-campaign', campaignId => {
+        const { websiteToken } = window.chatwootWebChannel;
         this.executeCampaign({ campaignId, websiteToken });
       });
     },
+
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },
@@ -219,9 +241,13 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          this.initCampaigns({ currentURL: referrerURL, websiteToken });
+          this.initCampaigns({
+            currentURL: referrerURL,
+            websiteToken,
+            isInBusinessHours: this.isInBusinessHours,
+          });
           window.referrerURL = referrerURL;
-          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
+          this.setReferrerHost(referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
@@ -238,9 +264,10 @@ export default {
             message.customAttributes
           );
         } else if (message.event === 'delete-custom-attribute') {
-          this.$store.dispatch('contacts/setCustomAttributes', {
-            [message.customAttribute]: null,
-          });
+          this.$store.dispatch(
+            'contacts/deleteCustomAttribute',
+            message.customAttribute
+          );
         } else if (message.event === 'set-locale') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
@@ -248,47 +275,23 @@ export default {
           this.showUnreadView = true;
           this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
+          // Reset campaign, If widget opened via clciking on bubble button
+          if (!this.isCampaignViewClicked) {
+            this.resetCampaign();
+          }
           this.showUnreadView = false;
           this.showCampaignView = false;
         } else if (message.event === 'toggle-open') {
+          this.isWidgetOpen = message.isOpen;
           this.toggleOpen();
         }
       });
     },
     sendLoadedEvent() {
-      IFrameHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
+      IFrameHelper.sendMessage(loadedEventConfig());
     },
     sendRNWebViewLoadedEvent() {
-      RNHelper.sendMessage({
-        event: 'loaded',
-        config: {
-          authToken: window.authToken,
-          channelConfig: window.chatwootWebChannel,
-        },
-      });
-    },
-    getExtraSpaceToscroll: () => {
-      // This function calculates the extra space needed for the view to
-      // accomodate the height of close button + height of
-      // read messages button. So that scrollbar won't appear
-      const unreadMessageWrap = document.querySelector('.unread-messages');
-      const unreadCloseWrap = document.querySelector('.close-unread-wrap');
-      const readViewWrap = document.querySelector('.open-read-view-wrap');
-
-      if (!unreadMessageWrap) return 0;
-
-      // 24px to compensate the paddings
-      let extraHeight = 24 + unreadMessageWrap.scrollHeight;
-      if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
-      if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
-
-      return extraHeight;
+      RNHelper.sendMessage(loadedEventConfig());
     },
   },
 };

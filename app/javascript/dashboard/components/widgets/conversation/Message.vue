@@ -3,8 +3,9 @@
     <div :class="wrapClass">
       <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-mail-head
-          v-if="isEmailContentType"
           :email-attributes="contentAttributes.email"
+          :cc="emailHeadAttributes.cc"
+          :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
         <bubble-text
@@ -12,6 +13,7 @@
           :message="message"
           :is-email="isEmailContentType"
           :readable-time="readableTime"
+          :display-quoted-button="displayQuotedButton"
         />
         <span
           v-if="isPending && hasAttachments"
@@ -29,6 +31,11 @@
             <audio v-else-if="attachment.file_type === 'audio'" controls>
               <source :src="attachment.data_url" />
             </audio>
+            <bubble-video
+              v-else-if="attachment.file_type === 'video'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
             <bubble-file
               v-else
               :url="attachment.data_url"
@@ -36,7 +43,6 @@
             />
           </div>
         </div>
-
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
@@ -90,6 +96,7 @@ import BubbleMailHead from './bubble/MailHead';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import BubbleVideo from './bubble/Video.vue';
 import BubbleActions from './bubble/Actions';
 
 import Spinner from 'shared/components/Spinner';
@@ -107,6 +114,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    BubbleVideo,
     BubbleMailHead,
     ContextMenu,
     Spinner,
@@ -128,6 +136,24 @@ export default {
     };
   },
   computed: {
+    contentToBeParsed() {
+      const {
+        html_content: { full: fullHTMLContent } = {},
+        text_content: { full: fullTextContent } = {},
+      } = this.contentAttributes.email || {};
+      return fullHTMLContent || fullTextContent || '';
+    },
+    displayQuotedButton() {
+      if (!this.isIncoming) {
+        return false;
+      }
+
+      if (this.contentToBeParsed.includes('<blockquote')) {
+        return true;
+      }
+
+      return false;
+    },
     message() {
       const botMessageContent = generateBotMessageContent(
         this.contentType,
@@ -142,20 +168,10 @@ export default {
       );
 
       const {
-        email: {
-          content_type: contentType = '',
-          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
-          text_content: { full: fullTextContent, reply: replyTextContent } = {},
-        } = {},
+        email: { content_type: contentType = '' } = {},
       } = this.contentAttributes;
-      let contentToBeParsed =
-        replyHTMLContent ||
-        replyTextContent ||
-        fullHTMLContent ||
-        fullTextContent ||
-        '';
-      if (contentToBeParsed && this.isIncoming) {
-        const parsedContent = this.stripStyleCharacters(contentToBeParsed);
+      if (this.contentToBeParsed && this.isIncoming) {
+        const parsedContent = this.stripStyleCharacters(this.contentToBeParsed);
         if (parsedContent) {
           // This is a temporary fix for line-breaks in text/plain emails
           // Now, It is not rendered properly in the email preview.
@@ -214,19 +230,18 @@ export default {
     isIncoming() {
       return this.data.message_type === MESSAGE_TYPE.INCOMING;
     },
+    emailHeadAttributes() {
+      return {
+        email: this.contentAttributes.email,
+        cc: this.contentAttributes.cc_emails,
+        bcc: this.contentAttributes.bcc_emails
+      }
+    },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
     },
     isMessageDeleted() {
       return this.contentAttributes.deleted;
-    },
-    hasImageAttachment() {
-      if (this.hasAttachments && this.data.attachments.length > 0) {
-        const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === 'image';
-      }
-      return false;
     },
     hasText() {
       return !!this.data.content;
@@ -254,7 +269,8 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
-        'is-image': this.hasImageAttachment,
+        'is-image': this.hasMediaAttachment('image'),
+        'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
       };
@@ -272,6 +288,14 @@ export default {
     },
   },
   methods: {
+    hasMediaAttachment(type) {
+      if (this.hasAttachments && this.data.attachments.length > 0) {
+        const { attachments = [{}] } = this.data;
+        const { file_type: fileType } = attachments[0];
+        return fileType === type;
+      }
+      return false;
+    },
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
     },
@@ -299,17 +323,28 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
-    &.is-image {
+    &.is-image,
+    &.is-video {
       padding: 0;
       overflow: hidden;
 
-      .image {
+      .image,
+      .video {
         max-width: 32rem;
         padding: var(--space-micro);
 
-        > img {
+        > img,
+        > video {
           border-radius: var(--border-radius-medium);
         }
+        > video {
+          height: 100%;
+          object-fit: cover;
+          width: 100%;
+        }
+      }
+      .video {
+        height: 18rem;
       }
     }
 

@@ -14,6 +14,14 @@ plugins:
 checks:
   similar-code:
     enabled: false
+  method-count:
+    enabled: true
+    config:
+      threshold: 30
+  file-lines:
+    enabled: true
+    config:
+      threshold: 300
 exclude_patterns:
   - "spec/"
   - "**/specs/"
@@ -32,3 +40,6 @@ exclude_patterns:
   - "app/javascript/dashboard/i18n/locale"
   - "**/*.stories.js"
   - "stories/"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/countries.js"
+  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js"

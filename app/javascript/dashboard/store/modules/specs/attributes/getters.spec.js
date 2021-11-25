@@ -2,15 +2,15 @@ import { getters } from '../../attributes';
 import attributesList from './fixtures';
 
 describe('#getters', () => {
-  it('getAttributes', () => {
+  it('getAttributesByModel', () => {
     const state = { records: attributesList };
-    expect(getters.getAttributes(state)(1)).toEqual([
+    expect(getters.getAttributesByModel(state)(1)).toEqual([
       {
         attribute_display_name: 'Language one',
-        attribute_display_type: 1,
+        attribute_display_type: 2,
         attribute_description: 'The conversation language one',
         attribute_key: 'language_one',
-        attribute_model: 3,
+        attribute_model: 1,
       },
     ]);
   });

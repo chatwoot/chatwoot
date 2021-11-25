@@ -56,6 +56,11 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Imagem do Canal"
         },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL do webhook",
+          "PLACEHOLDER": "Digite sua URL de Webhook",
+          "ERROR": "Por favor, insira uma URL válida"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do website",
           "PLACEHOLDER": "Informe o domínio do seu site (por exemplo: acme.com)"
@@ -92,8 +97,8 @@
         "SUBMIT_BUTTON": "Criar caixa de entrada"
       },
       "TWILIO": {
-        "TITLE": "Canal SMS/WhatsApp do Twilio",
-        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS e WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
@@ -109,8 +114,8 @@
           "ERROR": "Este campo é obrigatório"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nome do Canal",
-          "PLACEHOLDER": "Por favor, insira um nome de canal",
+          "LABEL": "Nome da Caixa de Entrada",
+          "PLACEHOLDER": "Por favor, digite um nome para caixa de entrada",
           "ERROR": "Este campo é obrigatório"
         },
         "PHONE_NUMBER": {
@@ -132,8 +137,34 @@
         "DESC": "Comece a apoiar seus clientes através de SMS com integração Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "Canal do Whatsapp via Twilio",
-        "DESC": "Comece a apoiar seus clientes através do Whatsapp com integração com Twilio."
+        "TITLE": "Canal do WhatsApp",
+        "DESC": "Comece a apoiar seus clientes via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Diálogo"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nome da Caixa de Entrada",
+          "PLACEHOLDER": "Por favor, digite um nome para caixa de entrada",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de telefone",
+          "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
+          "ERROR": "Por favor, insira um valor válido. O número de telefone deve começar com o sinal `+`."
+        },
+        "API_KEY": {
+          "LABEL": "Chave da API",
+          "SUBTITLE": "Configure a chave API do WhatsApp.",
+          "PLACEHOLDER": "Chave da API",
+          "APPLY_FOR_ACCESS": "Não tem nenhuma chave de API? ",
+          "ERROR": "Por favor, insira um valor válido."
+        },
+        "SUBMIT_BUTTON": "Criar canal do WhatsApp",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "Canal da API",
@@ -172,9 +203,51 @@
         },
         "FINISH_MESSAGE": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "Canal LINE",
+        "DESC": "Integre com o canal LINE e comece a apoiar seus clientes.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor, insira um nome de canal",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID do canal LINE",
+          "PLACEHOLDER": "ID do canal LINE"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Canal de LINHA secreto",
+          "PLACEHOLDER": "Canal de LINHA secreto"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "ID do canal Token",
+          "PLACEHOLDER": "ID do canal Token"
+        },
+        "SUBMIT_BUTTON": "Criar Canal",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal da LINHA"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de retorno",
+          "SUBTITLE": "Você precisa configurar a URL do webhook no aplicativo LINE com a URL mencionada aqui."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Canal do Telegram",
+        "DESC": "Integre com o canal do Telegram e comece a apoiar seus clientes.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure o token do bot que obteve do Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Criar canal do Telegram",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal de e-mail"
+        }
+      },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Escolha um canal",
+        "DESC": "Suporte o widget de chat ao vivo, página do Facebook, perfil do Twitter, WhatsApp, E-mail, etc., como canais. Se você quiser criar um canal personalizado, você pode criá-lo usando o canal API. Selecione um canal entre as opções abaixo para prosseguir."
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -228,11 +301,14 @@
       "ENABLE_CSAT": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Habilitado"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Apagar Avatar",
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
@@ -243,8 +319,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível excluir a caixa de entrada. Tente novamente mais tarde.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Perfil da caixa de entrada excluído com sucesso",
+        "AVATAR_ERROR_MESSAGE": "Não foi possível excluir o perfil da caixa de entrada. Por favor, tente novamente mais tarde."
       }
     },
     "TABS": {
@@ -277,6 +353,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
       "HMAC_VERIFICATION": "Validação de Identidade do Usuário",
       "HMAC_DESCRIPTION": "Para validar a identidade do usuário, o SDK permite que você passe um `identifier_hash` para cada usuário. Você pode gerar HMAC usando 'sha256' com a chave mostrada aqui.",
+      "HMAC_MANDATORY_VERIFICATION": "Forçar validação de identidade do usuário",
+      "HMAC_MANDATORY_DESCRIPTION": "Se habilitado, o método SDKs  não funcionará a menos que o `identifier_hash` seja fornecido para cada usuário.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use o token 'inbox_identifier' mostrado aqui para autenticar os seus clientes API.",
       "FORWARD_EMAIL_TITLE": "Encaminhar para o E-mail",
@@ -312,7 +390,7 @@
       "TIMEZONE_LABEL": "Selecionar fuso horário",
       "UPDATE": "Atualizar configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
-      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para vistores",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {

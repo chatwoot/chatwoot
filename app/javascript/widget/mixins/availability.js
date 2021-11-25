@@ -58,5 +58,9 @@ export default {
         closeMinute: workingHourConfig.close_minutes,
       };
     },
+    isInBusinessHours() {
+      const { workingHoursEnabled } = window.chatwootWebChannel;
+      return workingHoursEnabled ? this.isInBetweenTheWorkingHours : true;
+    },
   },
 };

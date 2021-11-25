@@ -35,6 +35,7 @@ module Events::Types
   CONTACT_CREATED = 'contact.created'
   CONTACT_UPDATED = 'contact.updated'
   CONTACT_MERGED = 'contact.merged'
+  CONTACT_DELETED = 'contact.deleted'
 
   # agent events
   AGENT_ADDED = 'agent.added'

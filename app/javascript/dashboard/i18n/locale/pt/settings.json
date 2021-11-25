@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
-    "TRAIL_BUTTON": "Comprar agora"
+    "TRAIL_BUTTON": "Comprar agora",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Configurações da conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "TEAMS": "Equipas",
     "ALL_CONTACTS": "Todos os contatos",
     "TAGGED_WITH": "Etiquetada com",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em curso",
-    "ONE_OFF": "Pontual"
+    "ONE_OFF": "Pontual",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Etiquetas",
+    "REPORTS_INBOX": "Recebidas",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",

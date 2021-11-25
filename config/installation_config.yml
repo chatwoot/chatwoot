@@ -40,3 +40,7 @@
   value:
 - name: API_CHANNEL_THUMBNAIL
   value:
+- name: ANALYTICS_TOKEN
+  value:
+- name: ANALYTICS_HOST
+  value:

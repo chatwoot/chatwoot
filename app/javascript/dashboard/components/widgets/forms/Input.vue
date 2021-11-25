@@ -5,6 +5,7 @@
       :value="value"
       :type="type"
       :placeholder="placeholder"
+      :readonly="readonly"
       @input="onChange"
       @blur="onBlur"
     />
@@ -41,6 +42,10 @@ export default {
     error: {
       type: String,
       default: '',
+    },
+    readonly: {
+      type: Boolean,
+      deafaut: false,
     },
   },
   methods: {

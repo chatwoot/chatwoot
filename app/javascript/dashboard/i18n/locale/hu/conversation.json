@@ -39,7 +39,10 @@
       "OPEN_ACTION": "Megnyitás",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
-      "DETAILS": "részletek"
+      "DETAILS": "részletek",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -84,6 +87,7 @@
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Küldő:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
@@ -142,6 +146,35 @@
     "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
       "PLACEHOLDER": "Nincs"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Beszélgetés cimkék",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Add",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

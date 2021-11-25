@@ -29,6 +29,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render layout: false, template: 'api/v2/accounts/reports/labels.csv.erb', format: 'csv'
   end
 
+  def teams
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=teams_report.csv'
+    render layout: false, template: 'api/v2/accounts/reports/teams.csv.erb', format: 'csv'
+  end
+
   private
 
   def check_authorization

@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  content             :text
 #  content_attributes  :json
-#  content_type        :integer          default("text")
+#  content_type        :integer          default("text"), not null
 #  external_source_ids :jsonb
 #  message_type        :integer          not null
 #  private             :boolean          default(FALSE)
@@ -32,10 +32,13 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
+  before_validation :ensure_content_type
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+  validates :content_type, presence: true
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -79,8 +82,8 @@ class Message < ApplicationRecord
   belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
-  has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
-  has_one :csat_survey_response, dependent: :destroy
+  has_many :attachments, dependent: :destroy_async, autosave: true, before_add: :validate_attachments_limit
+  has_one :csat_survey_response, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
 
@@ -94,7 +97,8 @@ class Message < ApplicationRecord
     data = attributes.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id
+      conversation_id: conversation.display_id,
+      conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
@@ -132,6 +136,10 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def ensure_content_type
+    self.content_type ||= Message.content_types[:text]
+  end
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
@@ -198,17 +206,15 @@ class Message < ApplicationRecord
   end
 
   def trigger_notify_via_mail
+    return EmailReplyWorker.perform_in(1.second, id) if inbox.inbox_type == 'Email'
+
     # will set a redis key for the conversation so that we don't need to send email for every new message
     # last few messages coupled together is sent every 2 minutes rather than one email for each message
     # if redis key exists there is an unprocessed job that will take care of delivering the email
     return if Redis::Alfred.get(conversation_mail_key).present?
 
-    Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
-    if inbox.inbox_type == 'Email'
-      ConversationReplyEmailWorker.perform_in(2.seconds, conversation.id, Time.zone.now)
-    else
-      ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
-    end
+    Redis::Alfred.setex(conversation_mail_key, id)
+    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, id)
   end
 
   def conversation_mail_key

@@ -1,11 +1,11 @@
 # ref: https://github.com/jgorset/facebook-messenger#make-a-configuration-provider
 class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   def valid_verify_token?(_verify_token)
-    ENV['FB_VERIFY_TOKEN']
+    GlobalConfigService.load('FB_VERIFY_TOKEN', '')
   end
 
   def app_secret_for(_page_id)
-    ENV['FB_APP_SECRET']
+    GlobalConfigService.load('FB_APP_SECRET', '')
   end
 
   def access_token_for(page_id)
@@ -25,9 +25,7 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :message do |message|
-    Rails.logger.info "MESSAGE_RECIEVED #{message}"
-    response = ::Integrations::Facebook::MessageParser.new(message)
-    ::Integrations::Facebook::MessageCreator.new(response).perform
+    Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|
@@ -42,8 +40,6 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :message_echo do |message|
-    Rails.logger.info "MESSAGE_ECHO #{message}"
-    response = ::Integrations::Facebook::MessageParser.new(message)
-    ::Integrations::Facebook::MessageCreator.new(response).perform
+    Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
 end

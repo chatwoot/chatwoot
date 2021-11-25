@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
-    "TRAIL_BUTTON": "اشترك الآن"
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
     "APPLICATIONS": "التطبيقات",
     "LABELS": "الوسوم",
-    "ATTRIBUTES": "السمات",
+    "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "TEAMS": "الفرق",
     "ALL_CONTACTS": "جميع جهات الاتصال",
     "TAGGED_WITH": "Tagged with",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
-    "ONE_OFF": "إيقاف واحد"
+    "ONE_OFF": "إيقاف واحد",
+    "REPORTS_AGENT": "موظف الدعم",
+    "REPORTS_LABEL": "الوسوم",
+    "REPORTS_INBOX": "صندوق الوارد",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

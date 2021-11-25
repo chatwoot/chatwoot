@@ -24,12 +24,15 @@ export const actions = {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
-    const { inboxId, message, contactId, sourceId } = params;
+    const { inboxId, message, contactId, sourceId, mailSubject } = params;
     try {
       const { data } = await ConversationApi.create({
         inbox_id: inboxId,
         contact_id: contactId,
         source_id: sourceId,
+        additional_attributes: {
+          mail_subject: mailSubject,
+        },
         message,
       });
       commit(types.default.ADD_CONTACT_CONVERSATION, {
@@ -81,6 +84,9 @@ export const mutations = {
   [types.default.ADD_CONTACT_CONVERSATION]: ($state, { id, data }) => {
     const conversations = $state.records[id] || [];
     Vue.set($state.records, id, [...conversations, data]);
+  },
+  [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
+    Vue.delete($state.records, id);
   },
 };
 

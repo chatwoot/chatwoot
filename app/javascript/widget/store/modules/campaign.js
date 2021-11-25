@@ -12,32 +12,48 @@ const state = {
     hasFetched: false,
   },
   activeCampaign: {},
+  campaignHasExecuted: false,
 };
 
-const resetCampaignTimers = (campaigns, currentURL) => {
+const resetCampaignTimers = (
+  campaigns,
+  currentURL,
+  websiteToken,
+  isInBusinessHours
+) => {
   const formattedCampaigns = formatCampaigns({ campaigns });
   // Find all campaigns that matches the current URL
   const filteredCampaigns = filterCampaigns({
     campaigns: formattedCampaigns,
     currentURL,
+    isInBusinessHours,
   });
-  campaignTimer.initTimers({ campaigns: filteredCampaigns });
+  campaignTimer.initTimers({ campaigns: filteredCampaigns }, websiteToken);
 };
 
 export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
   getActiveCampaign: $state => $state.activeCampaign,
+  getCampaignHasExecuted: $state => $state.campaignHasExecuted,
 };
 
 export const actions = {
-  fetchCampaigns: async ({ commit }, { websiteToken, currentURL }) => {
+  fetchCampaigns: async (
+    { commit },
+    { websiteToken, currentURL, isInBusinessHours }
+  ) => {
     try {
       const { data: campaigns } = await getCampaigns(websiteToken);
       commit('setCampaigns', campaigns);
       commit('setError', false);
       commit('setHasFetched', true);
-      resetCampaignTimers(campaigns, currentURL);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
@@ -45,25 +61,54 @@ export const actions = {
   },
   initCampaigns: async (
     { getters: { getCampaigns: campaigns }, dispatch },
-    { currentURL, websiteToken }
+    { currentURL, websiteToken, isInBusinessHours }
   ) => {
     if (!campaigns.length) {
-      dispatch('fetchCampaigns', { websiteToken, currentURL });
+      dispatch('fetchCampaigns', {
+        websiteToken,
+        currentURL,
+        isInBusinessHours,
+      });
     } else {
-      resetCampaignTimers(campaigns, currentURL);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     }
   },
   startCampaign: async (
-    { getters: { getCampaigns: campaigns }, commit },
-    { campaignId }
+    {
+      commit,
+      rootState: {
+        events: { isOpen },
+      },
+    },
+    { websiteToken, campaignId }
   ) => {
-    const campaign = campaigns.find(item => item.id === campaignId);
-    commit('setActiveCampaign', campaign);
+    // Disable campaign execution if widget is opened
+    if (!isOpen) {
+      const { data: campaigns } = await getCampaigns(websiteToken);
+      // Check campaign is disabled or not
+      const campaign = campaigns.find(item => item.id === campaignId);
+      if (campaign) {
+        commit('setActiveCampaign', campaign);
+      }
+    }
   },
 
   executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
     try {
       await triggerCampaign({ campaignId, websiteToken });
+      commit('setCampaignExecuted');
+      commit('setActiveCampaign', {});
+    } catch (error) {
+      commit('setError', true);
+    }
+  },
+  resetCampaign: async ({ commit }) => {
+    try {
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -83,6 +128,9 @@ export const mutations = {
   },
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
+  },
+  setCampaignExecuted($state) {
+    Vue.set($state, 'campaignHasExecuted', true);
   },
 };
 

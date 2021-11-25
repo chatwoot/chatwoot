@@ -19,6 +19,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_off': this.onTypingOff,
       'conversation.contact_changed': this.onConversationContactChange,
       'presence.update': this.onPresenceUpdate,
+      'contact.deleted': this.onContactDelete,
+      'contact.updated': this.onContactUpdate,
     };
   }
 
@@ -33,7 +35,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onPresenceUpdate = data => {
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
-    this.app.$store.dispatch('setCurrentUserAvailabilityStatus', data.users);
+    this.app.$store.dispatch('setCurrentUserAvailability', data.users);
   };
 
   onConversationContactChange = payload => {
@@ -114,6 +116,18 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
+  };
+
+  onContactDelete = data => {
+    this.app.$store.dispatch(
+      'contacts/deleteContactThroughConversations',
+      data.id
+    );
+    this.fetchConversationStats();
+  };
+
+  onContactUpdate = data => {
+    this.app.$store.dispatch('contacts/updateContact', data);
   };
 }
 

@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "日、トライアル期間が残っています。",
-    "TRAIL_BUTTON": "今すぐ購入"
+    "TRAIL_BUTTON": "今すぐ購入",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "アカウント設定",
     "APPLICATIONS": "Applications",
     "LABELS": "ラベル",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "カスタム属性",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "担当者",
+    "REPORTS_LABEL": "ラベル",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

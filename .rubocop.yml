@@ -14,6 +14,7 @@ Metrics/ClassLength:
     - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
     - 'app/builders/messages/facebook/message_builder.rb'
+    - 'app/controllers/api/v1/accounts/contacts_controller.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -100,6 +101,7 @@ Metrics/AbcSize:
     - 'app/controllers/concerns/auth_helper.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
+    - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
 Metrics/CyclomaticComplexity:
   Max: 7
   Exclude:

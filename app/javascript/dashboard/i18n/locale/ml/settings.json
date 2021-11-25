@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.",
-    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക"
+    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
     "APPLICATIONS": "Applications",
     "LABELS": "ലേബലുകൾ",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "ഏജന്റുമാർ",
+    "REPORTS_LABEL": "ലേബലുകൾ",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

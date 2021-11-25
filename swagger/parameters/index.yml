@@ -7,6 +7,9 @@ agent_bot_id:
 team_id:
   $ref: ./team_id.yml
 
+inbox_id:
+  $ref: ./inbox_id.yml
+
 hook_id:
   $ref: ./hook_id.yml
 

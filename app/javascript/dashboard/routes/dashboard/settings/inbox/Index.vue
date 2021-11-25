@@ -2,7 +2,7 @@
   <div class="column content-box">
     <!-- List Canned Response -->
     <div class="row">
-      <div class="small-8 columns with-right-space ">
+      <div class="small-8 columns with-right-space">
         <p v-if="!inboxesList.length" class="no-items-error-message">
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
@@ -43,11 +43,18 @@
                   Twitter
                 </span>
                 <span v-if="item.channel_type === 'Channel::TwilioSms'">
-                  Twilio SMS
+                  {{ twilioChannelName(item) }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Whatsapp'">
+                  Whatsapp
                 </span>
                 <span v-if="item.channel_type === 'Channel::Email'">
                   Email
                 </span>
+                <span v-if="item.channel_type === 'Channel::Telegram'">
+                  Telegram
+                </span>
+                <span v-if="item.channel_type === 'Channel::Line'">Line</span>
                 <span v-if="item.channel_type === 'Channel::Api'">
                   {{ globalConfig.apiChannelName || 'API' }}
                 </span>
@@ -168,6 +175,11 @@ export default {
     },
   },
   methods: {
+    twilioChannelName(item) {
+      const { medium = '' } = item;
+      if (medium === 'whatsapp') return 'WhatsApp';
+      return 'Twilio SMS';
+    },
     openSettings(inbox) {
       this.showSettings = true;
       this.selectedInbox = inbox;

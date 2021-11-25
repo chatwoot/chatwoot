@@ -35,6 +35,8 @@ export const state = {
     isUpdating: false,
     isUpdatingAutoAssignment: false,
     isDeleting: false,
+    isUpdatingIMAP: false,
+    isUpdatingSMTP: false,
   },
 };
 
@@ -71,6 +73,16 @@ export const getters = {
   getTwilioInboxes($state) {
     return $state.records.filter(
       item => item.channel_type === INBOX_TYPES.TWILIO
+    );
+  },
+  getTwilioSMSInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms'
+    );
+  },
+  dialogFlowEnabledInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type !== INBOX_TYPES.EMAIL
     );
   },
 };
@@ -150,6 +162,52 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingAutoAssignment: false,
+      });
+      throw new Error(error);
+    }
+  },
+  updateInboxIMAP: async (
+    { commit },
+    { id, formData = true, ...inboxParams }
+  ) => {
+    commit(types.default.SET_INBOXES_UI_FLAG, {
+      isUpdatingIMAP: true,
+    });
+    try {
+      const response = await InboxesAPI.update(
+        id,
+        formData ? buildInboxData(inboxParams) : inboxParams
+      );
+      commit(types.default.EDIT_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingIMAP: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingIMAP: false,
+      });
+      throw new Error(error);
+    }
+  },
+  updateInboxSMTP: async (
+    { commit },
+    { id, formData = true, ...inboxParams }
+  ) => {
+    commit(types.default.SET_INBOXES_UI_FLAG, {
+      isUpdatingSMTP: true,
+    });
+    try {
+      const response = await InboxesAPI.update(
+        id,
+        formData ? buildInboxData(inboxParams) : inboxParams
+      );
+      commit(types.default.EDIT_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingSMTP: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingSMTP: false,
       });
       throw new Error(error);
     }

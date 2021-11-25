@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_120929) do
+ActiveRecord::Schema.define(version: 2021_11_22_112607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "active_at"
+    t.integer "availability", default: 0, null: false
+    t.boolean "auto_offline", default: true, null: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
@@ -137,6 +139,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.integer "campaign_status", default: 0, null: false
     t.jsonb "audience", default: []
     t.datetime "scheduled_at"
+    t.boolean "trigger_only_during_business_hours", default: false
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
@@ -170,6 +173,21 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "imap_enabled", default: false
+    t.string "imap_address", default: ""
+    t.integer "imap_port", default: 0
+    t.string "imap_email", default: ""
+    t.string "imap_password", default: ""
+    t.boolean "imap_enable_ssl", default: true
+    t.datetime "imap_inbox_synced_at"
+    t.boolean "smtp_enabled", default: false
+    t.string "smtp_address", default: ""
+    t.integer "smtp_port", default: 0
+    t.string "smtp_email", default: ""
+    t.string "smtp_password", default: ""
+    t.string "smtp_domain", default: ""
+    t.boolean "smtp_enable_starttls_auto", default: true
+    t.string "smtp_authentication", default: "login"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -181,8 +199,28 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "instagram_id"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_line", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "line_channel_id", null: false
+    t.string "line_channel_secret", null: false
+    t.string "line_channel_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
+  end
+
+  create_table "channel_telegram", force: :cascade do |t|
+    t.string "bot_name"
+    t.integer "account_id", null: false
+    t.string "bot_token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|
@@ -225,6 +263,16 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
+  create_table "channel_whatsapp", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "provider", default: "default"
+    t.jsonb "provider_config", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -232,9 +280,11 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "hmac_verified", default: false
+    t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
+    t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
@@ -270,12 +320,14 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
     t.bigint "campaign_id"
     t.datetime "snoozed_until"
+    t.jsonb "custom_attributes", default: {}
+    t.datetime "assignee_last_seen_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
@@ -312,6 +364,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "attribute_description"
+    t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
@@ -487,7 +540,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_120929) do
     t.boolean "private", default: false
     t.integer "status", default: 0
     t.string "source_id"
-    t.integer "content_type", default: 0
+    t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"

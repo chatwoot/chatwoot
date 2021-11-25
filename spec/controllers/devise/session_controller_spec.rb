@@ -18,6 +18,7 @@ RSpec.describe 'Session', type: :request do
 
     context 'when it is valid credentials' do
       let!(:user) { create(:user, password: 'Password1!', account: account) }
+      let!(:user_with_new_pwd) { create(:user, password: 'Password1!.><?', account: account) }
 
       it 'returns successful auth response' do
         params = { email: user.email, password: 'Password1!' }
@@ -28,6 +29,17 @@ RSpec.describe 'Session', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(user.email)
+      end
+
+      it 'returns successful auth response with new password special characters' do
+        params = { email: user_with_new_pwd.email, password: 'Password1!.><?' }
+
+        post new_user_session_url,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(user_with_new_pwd.email)
       end
     end
 

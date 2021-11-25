@@ -27,10 +27,18 @@ fa:
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
       failed: ثبت نام ناموفق بود
+    contacts:
+      import:
+        failed: فایل خالی است
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
       agent_name: اسم ایجنت
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: نام تیم
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -73,6 +81,9 @@ fa:
       transcript_subject: "متن مکالمه"
     survey:
       response: "لطفاً به مکالمه امتیاز دهید %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
   integration_apps:
     slack:
       name: "Slack"

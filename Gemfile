@@ -56,14 +56,13 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'rack-timeout'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
-gem 'devise-secure_password', '~> 2.0'
+gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -78,7 +77,7 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 # TODO: bump up gem to 2.0
 gem 'facebook-messenger'
-gem 'telegram-bot-ruby'
+gem 'line-bot-api'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
@@ -122,6 +121,11 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -140,12 +144,20 @@ group :test do
   gem 'cypress-on-rails', '~> 1.0'
   # fast cleaning of database
   gem 'database_cleaner'
+  # mock http calls
+  gem 'webmock'
 end
 
 group :development, :test do
+  # TODO: is this needed ?
+  # errors thrown by devise password gem
+  gem 'flay'
+  gem 'rspec'
+  # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
+  gem 'climate_control'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
@@ -161,5 +173,4 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
-  gem 'webmock'
 end

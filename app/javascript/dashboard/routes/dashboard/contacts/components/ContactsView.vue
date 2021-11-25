@@ -7,6 +7,7 @@
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
+        :on-toggle-import="onToggleImport"
         :header-title="label"
       />
       <contacts-table
@@ -30,6 +31,9 @@
       :on-close="closeContactInfoPanel"
     />
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
+    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
+      <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
+    </woot-modal>
   </div>
 </template>
 
@@ -41,6 +45,7 @@ import ContactsTable from './ContactsTable';
 import ContactInfoPanel from './ContactInfoPanel';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
+import ImportContacts from './ImportContacts.vue';
 
 const DEFAULT_PAGE = 1;
 
@@ -51,6 +56,7 @@ export default {
     TableFooter,
     ContactInfoPanel,
     CreateContact,
+    ImportContacts,
   },
   props: {
     label: { type: String, default: '' },
@@ -59,6 +65,7 @@ export default {
     return {
       searchQuery: '',
       showCreateModal: false,
+      showImportModal: false,
       selectedContactId: '',
       sortConfig: { name: 'asc' },
     };
@@ -125,16 +132,22 @@ export default {
     },
     fetchContacts(page) {
       this.updatePageParam(page);
+      let value = '';
+      if(this.searchQuery.charAt(0) === '+') {
+        value = this.searchQuery.substring(1);
+      } else {
+        value = this.searchQuery;
+      }
       const requestParams = {
         page,
         sortAttr: this.getSortAttribute(),
         label: this.label,
       };
-      if (!this.searchQuery) {
+      if (!value) {
         this.$store.dispatch('contacts/get', requestParams);
       } else {
         this.$store.dispatch('contacts/search', {
-          search: this.searchQuery,
+          search: value,
           ...requestParams,
         });
       }
@@ -167,6 +180,9 @@ export default {
     },
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
+    },
+    onToggleImport() {
+      this.showImportModal = !this.showImportModal;
     },
     onSortChange(params) {
       this.sortConfig = params;

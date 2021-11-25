@@ -34,6 +34,7 @@ export default {
           'lang',
           'align',
           'size',
+          'border',
         ],
       });
     },

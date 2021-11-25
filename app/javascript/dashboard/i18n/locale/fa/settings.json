@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
-    "TRAIL_BUTTON": "الان بخرید"
+    "TRAIL_BUTTON": "الان بخرید",
+    "DELETED_USER": "کاربر حذف شده"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
     "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
-    "ATTRIBUTES": "ویژگی ها",
+    "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "TEAMS": "تیم‌ها",
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
@@ -150,7 +151,11 @@
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
-    "ONE_OFF": "یکبار مصرف"
+    "ONE_OFF": "یکبار مصرف",
+    "REPORTS_AGENT": "ایجنت ها",
+    "REPORTS_LABEL": "برچسب‌ها",
+    "REPORTS_INBOX": "صندوق ورودی",
+    "REPORTS_TEAM": "تیم‌"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",

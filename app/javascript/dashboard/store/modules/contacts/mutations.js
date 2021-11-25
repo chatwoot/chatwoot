@@ -46,6 +46,12 @@ export const mutations = {
     Vue.set($state.records, data.id, data);
   },
 
+  [types.DELETE_CONTACT]: ($state, id) => {
+    const index = $state.sortOrder.findIndex(item => item === id);
+    Vue.delete($state.sortOrder, index);
+    Vue.delete($state.records, id);
+  },
+
   [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
     Object.values($state.records).forEach(element => {
       const availabilityStatus = data[element.id];

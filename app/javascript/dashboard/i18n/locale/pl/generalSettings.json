@@ -71,5 +71,13 @@
       "assigned_conversation_new_message": "Nowa wiadomość",
       "conversation_mention": "Wzmianka"
     }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    }
   }
 }

@@ -1,11 +1,14 @@
 <template>
   <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
     <option
-      v-for="item in $t('CHAT_LIST.CHAT_STATUS_ITEMS')"
-      :key="item['VALUE']"
-      :value="item['VALUE']"
+      v-for="(value, status) in $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS')"
+      :key="status"
+      :value="status"
     >
-      {{ item['TEXT'] }}
+      {{ value['TEXT'] }}
+    </option>
+    <option value="all">
+      {{ $t('CHAT_LIST.FILTER_ALL') }}
     </option>
   </select>
 </template>
@@ -30,6 +33,8 @@ export default {
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.PENDING) {
           this.activeStatus = wootConstants.STATUS_TYPE.SNOOZED;
         } else if (this.activeStatus === wootConstants.STATUS_TYPE.SNOOZED) {
+          this.activeStatus = wootConstants.STATUS_TYPE.ALL;
+        } else if (this.activeStatus === wootConstants.STATUS_TYPE.ALL) {
           this.activeStatus = wootConstants.STATUS_TYPE.OPEN;
         }
       }

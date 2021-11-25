@@ -10,6 +10,7 @@
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
+    "FILTER_ALL": "Totes",
     "STATUS_TABS": [
       {
         "NAME": "Obrir",
@@ -37,24 +38,20 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Obertes",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Obrir"
       },
-      {
-        "TEXT": "Resoltes",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Resoltes"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pending"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -84,7 +81,10 @@
     "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "Cap Missatge",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text"
   }
 }

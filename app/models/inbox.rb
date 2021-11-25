@@ -31,6 +31,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
+  validates :name, presence: true
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
 
@@ -38,19 +39,19 @@ class Inbox < ApplicationRecord
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
-  has_many :campaigns, dependent: :destroy
-  has_many :contact_inboxes, dependent: :destroy
+  has_many :campaigns, dependent: :destroy_async
+  has_many :contact_inboxes, dependent: :destroy_async
   has_many :contacts, through: :contact_inboxes
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :members, through: :inbox_members, source: :user
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
   has_many :messages, through: :conversations
 
-  has_one :agent_bot_inbox, dependent: :destroy
+  has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
-  has_many :webhooks, dependent: :destroy
-  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
+  has_many :webhooks, dependent: :destroy_async
+  has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
   after_destroy :delete_round_robin_agents
 
@@ -62,7 +63,7 @@ class Inbox < ApplicationRecord
   end
 
   def remove_member(user_id)
-    member = inbox_members.find_by(user_id: user_id)
+    member = inbox_members.find_by!(user_id: user_id)
     member.try(:destroy)
   end
 
@@ -78,6 +79,14 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Api'
   end
 
+  def email?
+    channel_type == 'Channel::Email'
+  end
+
+  def twilio?
+    channel_type == 'Channel::TwilioSms'
+  end
+
   def inbox_type
     channel.name
   end
@@ -87,6 +96,15 @@ class Inbox < ApplicationRecord
       id: id,
       name: name
     }
+  end
+
+  def callback_webhook_url
+    case channel_type
+    when 'Channel::TwilioSms'
+      "#{ENV['FRONTEND_URL']}/twilio/callback"
+    when 'Channel::Line'
+      "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
+    end
   end
 
   private

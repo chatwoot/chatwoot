@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "நாட்கள் சோதனை மீதமுள்ளது.",
-    "TRAIL_BUTTON": "இப்போது வாங்க"
+    "TRAIL_BUTTON": "இப்போது வாங்க",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "ஏஜென்ட்கள்",
+    "REPORTS_LABEL": "Labels",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

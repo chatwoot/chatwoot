@@ -11,7 +11,7 @@ describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: attributesList });
-      await actions.get({ commit }, { inboxId: 23 });
+      await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true }],
         [types.default.SET_CUSTOM_ATTRIBUTE, attributesList],
@@ -20,7 +20,7 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.get({ commit }, { inboxId: 23 });
+      await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true }],
         [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false }],

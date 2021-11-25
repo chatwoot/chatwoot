@@ -47,6 +47,17 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(response_data.pluck('id')).to include(csat_3_days_ago.id)
         expect(response_data.pluck('id')).not_to include(csat_10_days_ago.id)
       end
+
+      it 'returns csat responses even if the agent is deleted from account' do
+        deleted_agent_csat = create(:csat_survey_response, account: account, assigned_agent: agent)
+        deleted_agent_csat.assigned_agent.account_users.destroy_all
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 

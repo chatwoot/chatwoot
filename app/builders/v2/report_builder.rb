@@ -41,19 +41,25 @@ class V2::ReportBuilder
       user
     when :label
       label
+    when :team
+      team
     end
   end
 
   def inbox
-    @inbox ||= account.inboxes.where(id: params[:id]).first
+    @inbox ||= account.inboxes.find(params[:id])
   end
 
   def user
-    @user ||= account.users.where(id: params[:id]).first
+    @user ||= account.users.find(params[:id])
   end
 
   def label
-    @label ||= account.labels.where(id: params[:id]).first
+    @label ||= account.labels.find(params[:id])
+  end
+
+  def team
+    @team ||= account.teams.find(params[:id])
   end
 
   def conversations_count
@@ -62,15 +68,14 @@ class V2::ReportBuilder
          .count
   end
 
-  # unscoped removes all scopes added to a model previously
   def incoming_messages_count
-    scope.messages.unscoped.where(account_id: account.id).incoming
+    scope.messages.incoming.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def outgoing_messages_count
-    scope.messages.unscoped.where(account_id: account.id).outgoing
+    scope.messages.outgoing.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end

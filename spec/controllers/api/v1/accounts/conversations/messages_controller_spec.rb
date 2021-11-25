@@ -35,7 +35,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
-      it 'creates an outgoing message with a specific bot sender' do
+      it 'creates an outgoing text message with a specific bot sender' do
         agent_bot = create(:agent_bot)
         time_stamp = Time.now.utc.to_s
         params = { content: 'test-message', external_created_at: time_stamp, sender_type: 'AgentBot', sender_id: agent_bot.id }
@@ -50,6 +50,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.last.sender_id).to eq(agent_bot.id)
+        expect(conversation.messages.last.content_type).to eq('text')
       end
 
       it 'creates a new outgoing message with attachment' do

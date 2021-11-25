@@ -1,6 +1,6 @@
 import { createConsumer } from '@rails/actioncable';
 
-const PRESENCE_INTERVAL = 60000;
+const PRESENCE_INTERVAL = 20000;
 
 class BaseActionCableConnector {
   constructor(app, pubsubToken, websocketHost = '') {

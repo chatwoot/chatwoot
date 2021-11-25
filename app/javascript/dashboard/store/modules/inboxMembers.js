@@ -5,7 +5,7 @@ export const actions = {
     return InboxMembersAPI.show(inboxId);
   },
   create(_, { inboxId, agentList }) {
-    return InboxMembersAPI.create({ inboxId, agentList });
+    return InboxMembersAPI.update({ inboxId, agentList });
   },
 };
 

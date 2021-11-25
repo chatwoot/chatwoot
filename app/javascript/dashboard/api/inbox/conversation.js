@@ -19,6 +19,14 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  filter(payload) {
+    return axios.post(`${this.url}/filter`, payload.queryData, {
+      params: {
+        page: payload.page,
+      },
+    });
+  }
+
   search({ q }) {
     return axios.get(`${this.url}/search`, {
       params: {
@@ -51,9 +59,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
-  toggleTyping({ conversationId, status }) {
+  toggleTyping({ conversationId, status, isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,
+      is_private: isPrivate,
     });
   }
 
@@ -79,6 +88,12 @@ class ConversationApi extends ApiClient {
 
   sendEmailTranscript({ conversationId, email }) {
     return axios.post(`${this.url}/${conversationId}/transcript`, { email });
+  }
+
+  updateCustomAttributes({ conversationId, customAttributes }) {
+    return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
+      custom_attributes: customAttributes,
+    });
   }
 }
 

@@ -107,7 +107,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "päivää jäljellä.",
-    "TRAIL_BUTTON": "Osta nyt"
+    "TRAIL_BUTTON": "Osta nyt",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -142,7 +143,7 @@
     "ACCOUNT_SETTINGS": "Tilin asetukset",
     "APPLICATIONS": "Applications",
     "LABELS": "Tunnisteet",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Mukautetut attribuutit",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
@@ -150,7 +151,11 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "Edustajat",
+    "REPORTS_LABEL": "Tunnisteet",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

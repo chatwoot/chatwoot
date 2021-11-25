@@ -16,13 +16,13 @@ json.chatwoot_website_channel do
   json.csat_survey_enabled @web_widget.inbox.csat_survey_enabled
   json.working_hours @web_widget.inbox.working_hours
   json.out_of_office_message @web_widget.inbox.out_of_office_message
-  json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].formatted_offset
+  json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset
 end
 json.chatwoot_widget_defaults do
   json.use_inbox_avatar_for_bot ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false))
 end
 json.contact do
-  json.pubsub_token @contact.pubsub_token
+  json.pubsub_token @contact_inbox.pubsub_token
 end
 json.auth_token @token
 json.global_config @global_config

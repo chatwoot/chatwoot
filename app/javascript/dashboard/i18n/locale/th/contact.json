@@ -7,6 +7,7 @@
     "COMPANY": "บริษัท",
     "LOCATION": "สถานที่",
     "CONVERSATION_TITLE": "รายละเอียดการสนทนา",
+    "VIEW_PROFILE": "ดูโปรไฟล์",
     "BROWSER": "บราวเซอร์",
     "OS": "ระบบปฏิบัติการ",
     "INITIATED_FROM": "Initiated from",
@@ -32,12 +33,19 @@
         "NO_RESULT": "ไม่พบหัวข้อ"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "ระงับการสนทนา",
     "UNMUTE_CONTACT": "เลิกใบ้การสนทนา",
     "MUTED_SUCCESS": "การสนทนานี้ถูกระงับ 6 ชั่วโมง",
     "UNMUTED_SUCCESS": "การสนทนานี้เลิกใบ้เเล้ว",
     "SEND_TRANSCRIPT": "ส่งประวัติเเชท",
-    "EDIT_LABEL": "เเก้ไข"
+    "EDIT_LABEL": "เเก้ไข",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
+      "CONTACT_LABELS": "ป้ายกำกับผู้ติดต่อ",
+      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "เเก้ไขผู้ติดต่อ",
@@ -48,6 +56,35 @@
     "BUTTON_LABEL": "การติดต่อใหม่",
     "TITLE": "สร้างการติดต่อใหม่",
     "DESC": "เพิ่าข้อความพื้นฐานเกี่ยวกับการติดต่อนี้"
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "ยกเลิก"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "ยืนยันการลบ",
+      "MESSAGE": "คุณต้องการที่จะลบไหม ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "เอาเลย ",
+      "NO": "ไม่อะเก็บไว้ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -118,6 +155,11 @@
         "LABEL": "กล่องข้อความ",
         "ERROR": "เลือกกล่องข้อความ"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "ข้อความ",
         "PLACEHOLDER": "เขียนข้อความของคุณที่นี่",
@@ -152,6 +194,10 @@
       "VIEW_DETAILS": "ดูรายละเอียด"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "ผู้ติดต่อ",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "เพิ่ม",
@@ -163,16 +209,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "โน้ต"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "เพิ่ม",
       "PLACEHOLDER": "เพิ่มโน็ต",
       "TITLE": "Shift + Enter เพื่อสร้างโน็ต"
     },
-    "FOOTER": {
-      "BUTTON": "ดูโน็ตทั้งหมด"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
@@ -186,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "แอตทริบิวต์ที่กำหนดเอง",
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "สร้างแอตทริบิวต์เเบบกำหนดเอง",
       "DESC": "เพิ่มข้อมูลแอตทริบิวต์ในผู้ติดต่อนี้"
@@ -203,22 +261,46 @@
       "VALUE": {
         "LABEL": "ค่าของแอตทริบิวต์",
         "PLACEHOLDER": "ตัวอย่าง: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "รวมผู้ติดต่อเข้าด้วยกัน",
-    "DESCRIPTION": "รวมผู้ติดต่อจะมีประโยชน์เมื่อคุณมีรายการที่ซ้ำกันของผู้ติดต่อเดียวกัน การดำเนินการผสานใช้ผู้ติดต่อหลักและผู้ติดต่อย่อย หลังจากรวมแล้ว รายละเอียดทั้งหมดในผู้ติดต่อหลักจะยังเหมือนเดิม หากผู้ติดต่อหลักไม่มีฟิลด์ ค่าจากผู้ติดต่อย่อยจะถูกใช้หลังจากการรวม หากเกิดข้อขัดแย้ง ฟิลด์ในผู้ติดต่อหลักจะไม่ได้รับผลกระทบ แต่ฟิลด์จากผู้ติดต่อหลักจะถูกคัดลอกไปยังแอตทริบิวต์ที่กำหนดเองในผู้ติดต่อหลัก",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "ผู้ติดต่อหลัก"
+      "TITLE": "ผู้ติดต่อหลัก",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "ผู้ติดต่อที่จะรวมเข้าด้วยกัน",
-      "PLACEHOLDER": "เลือกผู้ติดต่อ"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "สรุปผล",
-      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{childContactName}</strong>จะถูกลบออก",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{childContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{primaryContactName}</strong>"
     },
     "SEARCH": {
@@ -231,7 +313,7 @@
         "ERROR": "เลือกผู้ติดต่อที่จะรวมเข้าด้วยกัน"
       },
       "SUCCESS_MESSAGE": "รวมผู้ติดต่อเข้าด้วยกันเรียบร้อยเเล้ว",
-      "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ ลองใหม่อีกครั้งด้วยนะ!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

@@ -39,7 +39,6 @@
 
 class User < ApplicationRecord
   include AccessTokenable
-  include AvailabilityStatusable
   include Avatarable
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
@@ -57,6 +56,8 @@ class User < ApplicationRecord
          :confirmable,
          :password_has_required_content
 
+  # TODO: remove in a future version once online status is moved to account users
+  # remove the column availability from users
   enum availability: { online: 0, offline: 1, busy: 2 }
 
   # The validation below has been commented out as it does not
@@ -66,7 +67,7 @@ class User < ApplicationRecord
   validates :email, :name, presence: true
   validates_length_of :name, minimum: 1
 
-  has_many :account_users, dependent: :destroy
+  has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
@@ -74,22 +75,20 @@ class User < ApplicationRecord
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
-  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
+  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
-  has_many :notifications, dependent: :destroy
-  has_many :notification_settings, dependent: :destroy
-  has_many :notification_subscriptions, dependent: :destroy
-  has_many :team_members, dependent: :destroy
+  has_many :notifications, dependent: :destroy_async
+  has_many :notification_settings, dependent: :destroy_async
+  has_many :notification_subscriptions, dependent: :destroy_async
+  has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :notes, dependent: :nullify
-  has_many :custom_filters, dependent: :destroy
+  has_many :custom_filters, dependent: :destroy_async
 
   before_validation :set_password_and_uid, on: :create
-
-  after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -141,6 +140,14 @@ class User < ApplicationRecord
     current_account_user&.role
   end
 
+  def availability_status
+    current_account_user&.availability_status
+  end
+
+  def auto_offline
+    current_account_user&.auto_offline
+  end
+
   def inviter
     current_account_user&.inviter
   end
@@ -156,7 +163,8 @@ class User < ApplicationRecord
       available_name: available_name,
       avatar_url: avatar_url,
       type: 'user',
-      availability_status: availability_status
+      availability_status: availability_status,
+      thumbnail: avatar_url
     }
   end
 
@@ -167,13 +175,5 @@ class User < ApplicationRecord
       email: email,
       type: 'user'
     }
-  end
-
-  private
-
-  def update_presence_in_redis
-    accounts.each do |account|
-      OnlineStatusTracker.set_status(account.id, id, availability)
-    end
   end
 end
