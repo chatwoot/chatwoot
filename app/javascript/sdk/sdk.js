@@ -37,6 +37,19 @@ export const SDK_CSS = `.woot-widget-holder {
   user-select: none;
 }
 
+.woot-widget-bubble.unread-notification::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ff4040;
+  border-radius: 100%;
+  top: 0px;
+  right: 0px;
+  border: 2px solid #ffffff;
+  transition: background 0.2s ease;
+}
+
 .woot-widget-bubble.woot-widget--expanded {
   bottom: 24px;
   display: flex;
