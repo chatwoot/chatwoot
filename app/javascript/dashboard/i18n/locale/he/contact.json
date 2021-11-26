@@ -279,6 +279,13 @@
         "TITLE": "הוסף מאפיין",
         "PLACEHOLDER": "חפש מאפיין",
         "NO_RESULT": "לא נמצאו מאפיינים"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {
