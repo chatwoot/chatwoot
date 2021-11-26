@@ -12,15 +12,14 @@
 #
 ############################################################
 
-
 class Seeders::AccountSeeder
   pattr_initialize [:account!]
-  
+
   def seed!
     seed_canned_responses
   end
 
-  def seed_canned_responses(count: 50) 
+  def seed_canned_responses(count: 50)
     count.times do
       account.canned_responses.create(content: Faker::Quote.fortune_cookie, short_code: Faker::Alphanumeric.alpha(number: 10))
     end
