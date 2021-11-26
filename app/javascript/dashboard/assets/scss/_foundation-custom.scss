@@ -49,7 +49,17 @@ code {
 .cursor-pointer {
   cursor: pointer;
 }
+
 // remove when grid gutters are fixed
 .columns.with-right-space {
   padding-right: var(--space-normal);
+}
+
+
+.padding-right-small {
+  padding-right: var(--space-one);
+}
+
+.margin-right-small {
+  margin-right: var(--space-small);
 }

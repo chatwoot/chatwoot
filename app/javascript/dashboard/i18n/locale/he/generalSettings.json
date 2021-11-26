@@ -1,83 +1,83 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "הגדרות חשבון",
+    "SUBMIT": "עדכן הגדרות",
+    "BACK": "חזור",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "לא ניתן היה לעדכן את ההגדרות, נסה שוב!",
+      "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "אנא תקן שגיאות בטופס",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "הגדרות כלליות",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "שם החשבון",
+        "PLACEHOLDER": "שם החשבון שלך",
+        "ERROR": "נא להזין שם חשבון חוקי"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "שפת אתר (ביטא)",
+        "PLACEHOLDER": "שם החשבון שלך",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "דומיין דואר נכנס",
+        "PLACEHOLDER": "הדומיין שבו תקבלו את המיילים",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "אימייל לתמיכה",
+        "PLACEHOLDER": "דוא\"ל התמיכה של החברה שלך",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "מספר הימים לאחר כרטיס אמור להיפתר אוטומטית אם אין פעילות",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "אנא הזן משך פתרון אוטומטי חוקי (מינימום יום אחד)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
+      "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
+      "SELECT_ONE": "תבחר אחד"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "התראות",
-    "MARK_ALL_DONE": "Mark All Done",
+    "MARK_ALL_DONE": "סמן הכל כבוצע",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "טוען הודעות...",
+      "404": "אין התראות",
       "TABLE_HEADER": [
         "שם",
-        "Phone Number",
+        "מספר טלפון",
         "שיחות",
-        "Last Contacted"
+        "פניה אחרונה"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "שיחה חדשה",
+      "conversation_assignment": "שיחה הוקצתה",
+      "assigned_conversation_new_message": "הודעה חדשה",
+      "conversation_mention": "אִזְכּוּר"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "מנותק מ-Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "רענן"
     }
   }
 }

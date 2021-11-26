@@ -82,8 +82,8 @@ class Message < ApplicationRecord
   belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
-  has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
-  has_one :csat_survey_response, dependent: :destroy
+  has_many :attachments, dependent: :destroy_async, autosave: true, before_add: :validate_attachments_limit
+  has_one :csat_survey_response, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
 
@@ -97,7 +97,8 @@ class Message < ApplicationRecord
     data = attributes.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id
+      conversation_id: conversation.display_id,
+      conversation: { assignee_id: conversation.assignee_id }
     )
     data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?

@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "Створити нову команду",
+    "HEADER": "Команди",
+    "SIDEBAR_TXT": "<p><b>Команди</b></p> <p>Команди дозволяють організовувати своїх агентів в групи на основі їх обов'язків. <br /> Користувач може бути частиною декількох команд. Ви можете призначити розмови команді, коли працюєте спільно. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "В цьому обліковому запису не створено жодної команди.",
+      "EDIT_TEAM": "Редагувати команду"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Створити нову команду",
+        "DESC": "Додати заголовок та опис до вашої нової команди."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Додати агентів до команди",
+        "TITLE": "Додати агентів до команди - %{teamName}",
+        "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові."
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "Створити",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Створіть нову команду агентів."
         },
         {
           "title": "Додати агентів",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Додати агентів до команди."
         },
         {
-          "title": "Finish",
+          "title": "Закінчити",
           "route": "settings_teams_finish",
           "body": "Все готово!"
         }
@@ -43,7 +43,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Додати агентів до команди - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
@@ -58,7 +58,7 @@
           "body": "Edit agents in your team."
         },
         {
-          "title": "Finish",
+          "title": "Закінчити",
           "route": "settings_teams_edit_finish",
           "body": "Все готово!"
         }
@@ -77,8 +77,8 @@
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "TITLE": "Додати агентів до команди - %{teamName}",
+      "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
@@ -88,7 +88,7 @@
     "FINISH": {
       "TITLE": "Your team is ready!",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "BUTTON_TEXT": "Закінчити"
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",

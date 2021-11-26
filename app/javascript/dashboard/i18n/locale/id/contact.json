@@ -155,6 +155,11 @@
         "LABEL": "Kotak masuk",
         "ERROR": "Pilih kotak masuk"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "Pesan",
         "PLACEHOLDER": "Tulis pesan Anda disini",
@@ -232,8 +237,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Tambahkan atribut kustom",
     "NOT_AVAILABLE": "Tidak ada atribut kustom yang tersedia untuk kontak ini.",
+    "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit atribut"
+    },
     "ADD": {
       "TITLE": "Buat atribut kustom",
       "DESC": "Tambahkan informasi kustom pada kontak ini."
@@ -249,7 +261,29 @@
       "VALUE": {
         "LABEL": "Nilai atribut",
         "PLACEHOLDER": "Mis: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Atribut berhasil ditambahkan",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Atribut berhasil diperbarui",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Atribut berhasil dihapus",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

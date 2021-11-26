@@ -8,8 +8,7 @@ security:
 parameters:
   - in: path
     name: id
-    schema:
-      type: integer
+    type: integer
     required: true
     description: The ID of the agent to be deleted
 responses:
