@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Veuillez sélectionner une conversation à partir du panneau de gauche",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Oh oh ! Il semble qu'il n'y ait aucun message de clients dans votre boîte de réception.",
     "NO_MESSAGE_2": " pour envoyer un message à votre page !",
     "NO_INBOX_1": "Oh ! On dirait que vous n'avez pas encore ajouté de boîte de réception.",
