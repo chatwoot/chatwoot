@@ -40,6 +40,7 @@
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""
+              :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
             />
@@ -56,6 +57,7 @@
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""
+              :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
@@ -218,6 +220,10 @@ export default {
 .filter__answer--wrap {
   margin-right: var(--space-smaller);
   flex-grow: 1;
+
+  input {
+    margin-bottom: 0;
+  }
 }
 .filter__answer {
   &.answer--text-input {
