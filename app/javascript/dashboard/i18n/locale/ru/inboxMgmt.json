@@ -400,6 +400,65 @@
         "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
         "CHOOSE": "Выбрать"
       }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Настроить параметры IMAP",
+      "UPDATE": "Обновить настройки IMAP",
+      "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
+      "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Настройки IMAP успешно обновлены",
+        "ERROR_MESSAGE": "Невозможно обновить настройки IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Адрес",
+        "PLACE_HOLDER": "Адрес (например, imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "ENABLE_SSL": "Включить SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Настроить параметры SMTP",
+      "UPDATE": "Обновить настройки SMTP",
+      "TOGGLE_AVAILABILITY": "Включить SMTP конфигурацию для этого ящика",
+      "TOGGLE_HELP": "Включение SMTP поможет пользователю отправлять почту",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Настройки SMTP успешно обновлены",
+        "ERROR_MESSAGE": "Невозможно обновить настройки SMTP"
+      },
+      "ADDRESS": {
+        "LABEL": "Адрес",
+        "PLACE_HOLDER": "Адрес (например, smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "DOMAIN": {
+        "LABEL": "Домен",
+        "PLACE_HOLDER": "Домен"
+      }
     }
   }
 }
