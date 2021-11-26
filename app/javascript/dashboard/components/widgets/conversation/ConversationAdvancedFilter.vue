@@ -49,9 +49,9 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import FilterInputBox from './components/FilterInput.vue';
+import FilterInputBox from '../FilterInput.vue';
 import languages from './advancedFilterItems/languages';
-import countries from './advancedFilterItems/countries';
+import countries from '../../../../shared/constants/countries';
 
 export default {
   components: {
@@ -94,19 +94,18 @@ export default {
       return this.filterTypes.map(type => {
         return {
           key: type.attributeKey,
-          name: type.attributeName,
-          attributeI18nKey: type.attributeI18nKey,
+          name: this.$t(`FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
         };
       });
     },
-    getAppliedFilters() {
-      return this.$store.getters.getAppliedFilters;
+    getAppliedConversationFilters() {
+      return this.$store.getters.getAppliedConversationFilters;
     },
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
-    if (this.getAppliedFilters.length) {
-      this.appliedFilters = this.getAppliedFilters;
+    if (this.getAppliedConversationFilters.length) {
+      this.appliedFilters = this.getAppliedConversationFilters;
     } else {
       this.appliedFilters.push({
         attribute_key: 'status',

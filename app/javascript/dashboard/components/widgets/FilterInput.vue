@@ -72,8 +72,7 @@
           />
         </div>
         <woot-button
-          icon="dismiss"
-          icon-size="16"
+          icon="ion-close"
           variant="clear"
           color-scheme="secondary"
           @click="removeFilter"
