@@ -102,6 +102,32 @@ RSpec.describe 'Profile API', type: :request do
     end
   end
 
+  describe 'DELETE /api/v1/profile/avatar' do
+    let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete '/api/v1/profile/avatar'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        agent.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'deletes the agent avatar' do
+        delete '/api/v1/profile/avatar',
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'POST /api/v1/profile/availability' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

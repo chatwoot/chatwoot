@@ -36,6 +36,10 @@ const endPoints = {
     },
     params: { omniauth_token: '' },
   },
+
+  deleteAvatar: {
+    url: '/api/v1/profile/avatar',
+  },
 };
 
 export default page => {
