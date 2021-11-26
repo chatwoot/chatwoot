@@ -1,5 +1,5 @@
 json.id @account.id
-json.plan_name @billing_subscription.present? ? @billing_subscription.billing_product_price.billing_product.product_name : 'free'
+json.plan_name @billing_subscription.present? ? @billing_subscription.billing_product_price.billing_product.product_name.capitalize : 'Trial'
 json.agent_count @account.account_users.count
 json.available_product_prices do 
   json.array! @available_product_prices.each do |product_price|
