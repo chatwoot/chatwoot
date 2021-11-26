@@ -10,7 +10,9 @@
         </div>
         <div class="columns small-9 medium-5">
           <label>{{
-            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.TRIAL_NOTE')
+            $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.PLAN_NOTE', {
+              plan: planName,
+            })
           }}</label>
         </div>
       </div>
@@ -22,15 +24,15 @@
           <p>{{ $t('BILLING_SETTINGS.FORM.CURRENT_PLAN.NOTE') }}</p>
         </div>
         <div class="columns small-9 medium-5">
-          <label :class="{ error: $v.locale.$error }">
+          <label>
             {{ $t('BILLING_SETTINGS.FORM.CHANGE_PLAN.SELECT_PLAN') }}
-            <select v-model="locale">
+            <select v-model="selectedProductPrice" @change="submitSubscription">
               <option
-                v-for="lang in languagesSortedByCode"
-                :key="lang.iso_639_1_code"
-                :value="lang.iso_639_1_code"
+                v-for="productPrice in availableProductPrices"
+                :key="productPrice.id"
+                :value="productPrice.id"
               >
-                {{ lang.name }}
+                {{ productPrice.display_name }}
               </option>
             </select>
           </label>
@@ -43,38 +45,23 @@
 </template>
 
 <script>
-import { required, minValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
-const semver = require('semver');
+import AccountAPI from '../../../../api/account';
 
 export default {
   mixins: [accountMixin, alertMixin, configMixin],
   data() {
     return {
-      id: '',
-      name: '',
-      locale: 'en',
-      domain: '',
-      supportEmail: '',
-      features: {},
-      autoResolveDuration: null,
-      latestChatwootVersion: null,
+      planName: '',
+      agentCount: 0,
+      selectedProductPrice: '',
+      availableProductPrices: [],
     };
   },
-  validations: {
-    name: {
-      required,
-    },
-    locale: {
-      required,
-    },
-    autoResolveDuration: {
-      minValue: minValue(1),
-    },
-  },
+  validations: {},
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
@@ -84,42 +71,33 @@ export default {
 
     isUpdating() {
       return this.uiFlags.isUpdating;
-    }
+    },
   },
   mounted() {
-    if (!this.id) {
-      this.initializeAccount();
-    }
+    this.initializeAccountBillingSubscription();
   },
   methods: {
-    async initializeAccount() {
+    async initializeAccountBillingSubscription() {
       try {
-        await this.$store.dispatch('accounts/get');
+        await this.$store.dispatch('accounts/getBillingSubscription');
         const {
-          name,
-          locale,
-          id,
-          domain,
-          support_email,
-          custom_email_domain_enabled,
-          features,
-          auto_resolve_duration,
-          latest_chatwoot_version: latestChatwootVersion,
+          plan_name,
+          agent_count,
+          available_product_prices,
         } = this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
-        this.name = name;
-        this.locale = locale;
-        this.id = id;
-        this.domain = domain;
-        this.supportEmail = support_email;
-        this.customEmailDomainEnabled = custom_email_domain_enabled;
-        this.features = features;
-        this.autoResolveDuration = auto_resolve_duration;
-        this.latestChatwootVersion = latestChatwootVersion;
-      } catch (error) {
-        // Ignore error
-      }
+        this.planName = plan_name;
+        this.agentCount = agent_count;
+        this.availableProductPrices = available_product_prices;
+      } catch (error) {}
+    },
+    submitSubscription(event) {
+      const payload = { product_price: event.target.value };
+      AccountAPI.startBillingSubscription(payload)
+        .then(response => {
+          window.location.href = response.data.url;
+        })
+        .catch(() => {});
     },
   },
 };

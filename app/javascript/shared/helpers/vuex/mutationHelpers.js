@@ -25,13 +25,17 @@ export const update = (state, data) => {
   });
 };
 
-/* when you don't want to overwrite the whole object */
+/* when you don't want to overwrite the whole object when not present */
 export const updateAttributes = (state, data) => {
-  state.records.forEach((element, index) => {
-    if (element.id === data.id) {
-      Vue.set(state.records, index, { ...state.records[index], ...data });
-    }
-  });
+  const recordIndex = state.records.findIndex(record => record.id === data.id);
+  if (recordIndex > -1) {
+    Vue.set(state.records, recordIndex, {
+      ...state.records[recordIndex],
+      ...data,
+    });
+  } else {
+    create(state, data);
+  }
 };
 
 export const updatePresence = (state, data) => {

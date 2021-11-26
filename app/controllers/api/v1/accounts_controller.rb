@@ -43,6 +43,17 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def billing_subscription
+    @billing_subscription = @account.account_billing_subscriptions.last
+    @available_product_prices = Enterprise::BillingProductPrice.all
+    render 'api/v1/accounts/ee/billing_subscription.json'
+  end
+
+  def start_billing_subscription
+    url = @account.create_checkout_link(Enterprise::BillingProductPrice.find(params[:product_price]))
+    render json: { url: url }
+  end
+
   private
 
   def fetch_account

@@ -18,7 +18,7 @@ class EE::Billing::SyncStripeProductsService
       billing_product_price = billing_product.billing_product_prices.find_or_create_by(price_stripe_id: plan['id'])
       billing_product_price.update({
         stripe_nickname: plan['nickname'],
-        unit_amount: plan['unit_amount'],
+        amount: plan['unit_amount'],
         active: plan['active']
       })
     end

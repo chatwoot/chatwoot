@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create, :show, :update] do
         member do
           post :update_active_at
+          get :billing_subscription
+          post :start_billing_subscription
         end
 
         scope module: :accounts do
@@ -205,12 +207,6 @@ Rails.application.routes.draw do
             get :teams
           end
         end
-      end
-    end
-
-    ChatwootApp.chatwoot_saas? do 
-      namespace :saas do
-        get 'billing_product_prices', to: 'billing_product_prices#index'
       end
     end
   end

@@ -204,7 +204,7 @@
       "CURRENT_PLAN" : {
         "TITLE": "Current Plan",
         "NOTE": "Your current Chatwoot Subscription Plan" ,
-        "TRIAL_NOTE": "You are currently under the Chatwoot trial Plan"
+        "PLAN_NOTE": "You are currently under the Chatwoot {plan} Plan"
       },
       "CHANGE_PLAN" : {
         "TITLE": "Change Plan",
