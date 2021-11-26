@@ -63,7 +63,7 @@ describe('#actions', () => {
       });
       await actions.updateAvailability(
         { commit, dispatch },
-        { availability: 'offline', account_id: 1 },
+        { availability: 'offline', account_id: 1 }
       );
       expect(setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
