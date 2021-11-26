@@ -126,7 +126,7 @@ export const actions = {
       await authAPI.deleteAvatar();
       commit(types.default.SET_CURRENT_USER);
     } catch (error) {
-      throw error;
+      // Ignore error
     }
   },
 
