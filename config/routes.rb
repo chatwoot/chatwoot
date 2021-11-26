@@ -166,10 +166,12 @@ Rails.application.routes.draw do
       end
 
       resource :profile, only: [:show, :update] do
+        delete :avatar, on: :collection
         member do
           post :availability
         end
       end
+
       resource :notification_subscriptions, only: [:create]
 
       namespace :widget do
