@@ -78,6 +78,20 @@
           </label>
         </div>
       </div>
+
+      <div class="profile--settings--row row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.TITLE') }}
+          </h4>
+          <p>
+            {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.NOTE') }}
+          </p>
+        </div>
+        <div class="columns small-9 medium-5">
+          <woot-code :script="getAccountId"></woot-code>
+        </div>
+      </div>
       <div class="current-version">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
@@ -166,6 +180,10 @@ export default {
 
     featureCustomDomainEmailEnabled() {
       return this.featureInboundEmailEnabled && !!this.customEmailDomainEnabled;
+    },
+
+    getAccountId() {
+      return this.id.toString();
     },
   },
   mounted() {

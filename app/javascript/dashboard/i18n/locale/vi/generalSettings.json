@@ -13,6 +13,10 @@
         "TITLE": "Cài đặt chung",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Tên tài khoản",
         "PLACEHOLDER": "Tên tài khoản của bạn",
