@@ -13,6 +13,10 @@
         "TITLE": "일반 설정",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "계정 이름",
         "PLACEHOLDER": "당신의 계정 이름",
