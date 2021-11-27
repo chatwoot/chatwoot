@@ -5,13 +5,26 @@ class ConversationDrop < BaseDrop
     @obj.try(:display_id)
   end
 
+  def contact_name
+    @obj.try(:contact).name.capitalize || 'Customer'
+  end
+
   def recent_messages
     @obj.try(:recent_messages).map do |message|
       {
-        'sender' => message.sender&.available_name || message.sender&.name,
+        'sender' => message_sender_name(message.sender),
         'content' => transform_user_mention_content(message.content),
         'attachments' => message.attachments.map(&:file_url)
       }
     end
+  end
+
+  private
+
+  def message_sender_name(sender)
+    return 'Bot' if sender.blank?
+    return contact_name if sender.instance_of?(Contact)
+
+    sender&.available_name || sender&.name
   end
 end
