@@ -98,7 +98,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if should_use_conversation_email_address?
-      "#{assignee_name} from #{@inbox.name} <reply+#{@conversation.uuid}@#{@account.inbound_email_domain}>"
+      I18n.t('conversations.reply.email.header.reply_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+                                                                 reply_email: "#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
       @inbox.email_address || @agent&.email
     end
@@ -106,9 +107,11 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email_with_name
     if should_use_conversation_email_address?
-      "#{assignee_name} from #{@inbox.name} <#{parse_email(@account.support_email)}>"
+      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+                                                                from_email: parse_email(@account.support_email))
     else
-      "#{assignee_name} from #{@inbox.name} <#{parse_email(inbox_from_email_address)}>"
+      I18n.t('conversations.reply.email.header.from_with_name', assignee_name: assignee_name, inbox_name: @inbox.name,
+                                                                from_email: parse_email(inbox_from_email_address))
     end
   end
 
