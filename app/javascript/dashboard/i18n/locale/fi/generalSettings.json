@@ -13,6 +13,10 @@
         "TITLE": "Yleiset asetukset",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Tilin nimi",
         "PLACEHOLDER": "Tilisi nimi",
