@@ -13,6 +13,10 @@
         "TITLE": "تنظیمات عمومی",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "عنوان حساب",
         "PLACEHOLDER": "عنوان حساب شما",
