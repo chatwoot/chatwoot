@@ -13,6 +13,10 @@
         "TITLE": "Paramètres généraux",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Nom du compte",
         "PLACEHOLDER": "Votre nom de compte",
