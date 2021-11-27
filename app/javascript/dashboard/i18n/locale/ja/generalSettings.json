@@ -13,6 +13,10 @@
         "TITLE": "全般設定",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "アカウント名",
         "PLACEHOLDER": "あなたのアカウント名",

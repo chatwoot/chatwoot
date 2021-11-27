@@ -13,6 +13,10 @@
         "TITLE": "Γενικές Ρυθμίσεις",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Ονομασία Λογαριασμού",
         "PLACEHOLDER": "Η ονομασία του Λογαριασμού σας",
