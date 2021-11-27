@@ -3,23 +3,27 @@ class AutomationRuleListener < BaseListener
     conversation = event_obj.data[:conversation]
     return unless rule_present?('conversation_status_changed', conversation)
 
-    conditions_match = ::AutomationRules::ConditionsFilterService.new(@rule, conversation).perform
-    AutomationRules::ActionService.new(@rule, conversation).perform if conditions_match
+    @rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      AutomationRules::ActionService.new(rule, conversation).perform if conditions_match.present?
+    end
   end
 
   def conversation_created_automation(event_obj)
     conversation = event_obj.data[:conversation]
     return unless rule_present?('conversation_created', conversation)
 
-    conditions_match = AutomationRule::ConditionsFilterService.new(@rule, conversation).perform
-    AutomationRule::ActionService.new(@rule, conversation).perform if conditions_match
+    @rules.each do |rule|
+      conditions_match = AutomationRule::ConditionsFilterService.new(rule, conversation).perform
+      AutomationRule::ActionService.new(rule, conversation).perform if conditions_match.present?
+    end
   end
 
   def rule_present?(event_name, conversation)
-    @rule = AutomationRule.find_by(
+    @rules = AutomationRule.where(
       event_name: event_name,
       account_id: conversation.account_id
     )
-    @rule.present?
+    @rules.any?
   end
 end

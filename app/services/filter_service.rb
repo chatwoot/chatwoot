@@ -62,3 +62,5 @@ class FilterService
     "NOT LIKE :value_#{current_index}"
   end
 end
+
+

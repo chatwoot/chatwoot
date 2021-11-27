@@ -35,13 +35,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
           event_name: 'conversation_created',
           conditions: [
             {
-              attribute: 'browser_language',
+              attribute_key: 'browser_language',
               filter_operator: 'equal_to',
               values: ['en'],
               query_operator: 'AND'
             },
             {
-              attribute: 'country',
+              attribute_key: 'country_code',
               filter_operator: 'equal_to',
               values: %w[USA UK],
               query_operator: nil
@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
               action_params: 'Welcome to the chatwoot platform.'
             },
             {
-              action_name: :assign_to_team,
+              action_name: :assign_team,
               action_params: [1]
             },
             {
@@ -61,8 +61,8 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
               action_params: %w[support priority_customer]
             },
             {
-              action_name: :assign_best_agents,
-              action_params: [1, 2, 3, 4]
+              action_name: :assign_best_agent,
+              action_params: [1]
             },
             {
               action_name: :update_additional_attributes,
@@ -72,7 +72,28 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         }.with_indifferent_access
       end
 
-      it 'Saves for automation_rules for account' do
+      it 'Saves for automation_rules for account with country_code and browser_language conditions' do
+        expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: agent.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(1)
+
+        Conversation.new(account: account, inbox: inbox, contact: contact, contact_inbox_id: contact_inbox.id)
+      end
+
+      it 'Saves for automation_rules for account with status conditions' do
+        params[:conditions] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['resolved'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
         expect(account.automation_rules.count).to eq(0)
 
         post "/api/v1/accounts/#{account.id}/automation_rules",

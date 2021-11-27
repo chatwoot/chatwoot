@@ -13,8 +13,8 @@ class AutomationRules::ConditionsFilterService < FilterService
     conversation_filters = @filters['conversations']
 
     @rule.conditions.each_with_index do |query_hash, current_index|
-      current_filter = conversation_filters[query_hash['attribute']]
-      @query_string += conversation_query_string(current_filter, query_hash, current_index)
+      current_filter = conversation_filters[query_hash['attribute_key']]
+      @query_string += conversation_query_string(current_filter, query_hash.with_indifferent_access, current_index)
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
@@ -22,7 +22,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def conversation_query_string(current_filter, query_hash, current_index)
-    attribute_key = query_hash['attribute']
+    attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
 
     filter_operator_value = filter_operation(query_hash, current_index)
@@ -40,6 +40,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def base_relation
-    @conversations.left_outer_joins(:labels)
+    Conversation.where(id: @conversation)
   end
 end

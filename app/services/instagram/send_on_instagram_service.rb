@@ -26,7 +26,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
-        text: message.content
+        text: 'hi there'
       }
     }
   end
@@ -51,7 +51,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def send_to_facebook_page(message_content)
     access_token = channel.page_access_token
     app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('FB_APP_SECRET', ''), access_token)
-
     query = { access_token: access_token }
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
