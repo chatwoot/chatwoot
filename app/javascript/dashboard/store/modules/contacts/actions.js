@@ -183,17 +183,17 @@ export const actions = {
   filter: async ({ commit }, { page = 1, sortAttr, queryPayload } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
-      // const {
-      //   data: { payload, meta },
-      // } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      const {
+        data: { payload, meta },
+      } = await ContactAPI.filter(page, sortAttr, queryPayload);
       // Simulate pagination until it is fixed.
 
-      const { data } = await ContactAPI.filter(page, sortAttr, queryPayload);
-      let payload = data;
-      const meta = {
-        count: 2,
-        current_page: 1,
-      };
+      // const { data } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      // let payload = data;
+      // const meta = {
+      //   count: 2,
+      //   current_page: 1,
+      // };
       // End Simulation
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
