@@ -11,7 +11,6 @@ module ActivityMessageHandler
 
   def status_change_activity(user_name)
     create_status_change_message(user_name)
-    queue_conversation_auto_resolution_job if open?
   end
 
   def activity_message_params(content)
