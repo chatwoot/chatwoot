@@ -13,6 +13,10 @@
         "TITLE": "Algemene instellingen",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "accountnaam",
         "PLACEHOLDER": "Uw accountnaam",
