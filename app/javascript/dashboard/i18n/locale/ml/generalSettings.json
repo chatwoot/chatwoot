@@ -13,6 +13,10 @@
         "TITLE": "പൊതുവായ ക്രമീകരണങ്ങൾ",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "അക്കൗണ്ടിന്റെ പേര്",
         "PLACEHOLDER": "നിങ്ങളുടെ അക്കൗണ്ടിന്റെ പേര്",
