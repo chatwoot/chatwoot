@@ -13,6 +13,10 @@
         "TITLE": "Általános beállítások",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Fióknév",
         "PLACEHOLDER": "A fiókneved",
