@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID аккаунта",
+        "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
       },
       "NAME": {
         "LABEL": "Имя аккаунта",
