@@ -36,6 +36,7 @@ export const actions = {
       commit('setUIFlag', { isUpdating: false });
 
       if (!userObject) return;
+      const { pubsub_token: pubsubToken } = userObject;
       const user = {
         email: userObject.email,
         name: userObject.name,

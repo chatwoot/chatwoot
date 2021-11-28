@@ -1,17 +1,4 @@
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import getUuid from '../../../helpers/uuid';
-
-export const createTemporaryMessage = ({ attachments, content }) => {
-  const timestamp = new Date().getTime() / 1000;
-  return {
-    id: getUuid(),
-    content,
-    attachments,
-    status: 'in_progress',
-    created_at: timestamp,
-    message_type: MESSAGE_TYPE.INCOMING,
-  };
-};
+import { createTemporaryMessage } from 'widget/store/modules/conversation/helpers';
 
 export const createTemporaryAttachmentMessage = ({
   thumbUrl,

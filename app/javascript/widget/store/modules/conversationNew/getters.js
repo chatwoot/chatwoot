@@ -115,8 +115,8 @@ export const getters = {
       messages: messagesInConversation,
     };
   },
-  unreadTextMessagesIn: (...getterArguments) => conversationId => {
-    const [_state, _getters, , _rootGetters] = getterArguments;
+  allMessagesIn: (...getterArguments) => conversationId => {
+    const [_state, , , _rootGetters] = getterArguments;
     const conversation = _state.conversations.byId[conversationId];
     if (!conversation) return [];
 
@@ -124,6 +124,12 @@ export const getters = {
     const messagesInConversation = messageIds.map(messageId =>
       _rootGetters['message/messageById'](messageId)
     );
+
+    return messagesInConversation;
+  },
+  unreadTextMessagesIn: (...getterArguments) => conversationId => {
+    const [, _getters] = getterArguments;
+    const messagesInConversation = _getters.allMessagesIn(conversationId);
     const { userLastSeenAt } = _getters.metaIn(conversationId);
 
     const messages = messagesInConversation.filter(message => {

@@ -28,11 +28,6 @@ export const groupConversationBySender = messagesByDay =>
     return { showAvatar, ...message };
   });
 
-export const findUndeliveredMessage = (messageInbox, { content }) =>
-  Object.values(messageInbox).filter(
-    message => message.content === content && message.status === 'in_progress'
-  );
-
 export const getNonDeletedMessages = ({ messages }) => {
   return messages.filter(
     item => !(item.content_attributes && item.content_attributes.deleted)

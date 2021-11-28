@@ -1,7 +1,7 @@
 import MessagePublicAPI from 'widget/api/messagePublic';
 import { refreshActionCableConnector } from 'widget/helpers/actionCable';
+import { createTemporaryMessage } from 'widget/store/modules/conversation/helpers';
 import {
-  createTemporaryMessage,
   createTemporaryAttachmentMessage,
   createAttachmentParams,
 } from './helpers';
