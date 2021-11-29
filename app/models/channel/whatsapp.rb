@@ -45,8 +45,8 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
-  def send_template(phone_number, name, namespace, lang_code, parameters)
-    send_template_message(phone_number, name, namespace, lang_code, parameters)
+  def send_template(phone_number, template_info)
+    send_template_message(phone_number, template_info)
   end
 
   def media_url(media_id)
@@ -102,13 +102,13 @@ class Channel::Whatsapp < ApplicationRecord
     response.success? ? response['messages'].first['id'] : nil
   end
 
-  def send_template_message(phone_number, name, namespace, lang_code, parameters)
+  def send_template_message(phone_number, template_info)
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
         to: phone_number,
-        template: template_body_parameters(name, namespace, lang_code, parameters),
+        template: template_body_parameters(template_info),
         type: 'template'
       }.to_json
     )
@@ -116,17 +116,17 @@ class Channel::Whatsapp < ApplicationRecord
     response.success? ? response['messages'].first['id'] : nil
   end
 
-  def template_body_parameters(name, namespace, lang_code, parameters)
+  def template_body_parameters(template_info)
     {
-      name: name,
-      namespace: namespace,
+      name: template_info[:name],
+      namespace: template_info[:namespace],
       language: {
         policy: 'deterministic',
-        code: lang_code
+        code: template_info[:lang_code]
       },
       components: [{
         type: 'body',
-        parameters: parameters
+        parameters: template_info[:parameters]
       }]
     }
   end

@@ -18,8 +18,12 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     name, namespace, lang_code, processed_parameters = processable_channel_message_template
     return if name.blank?
 
-    message_id = channel.send_template(message.conversation.contact_inbox.source_id, name, namespace, lang_code,
-                                       processed_parameters)
+    message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
+                                         name: name,
+                                         namespace: namespace,
+                                         lang_code: lang_code,
+                                         parameters: processed_parameters
+                                       })
     message.update!(source_id: message_id) if message_id.present?
   end
 
@@ -29,12 +33,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     # We want to iterate over these templates with our message body and see if we can fit it to any of the templates
     # Then we use regex to parse the template varibles and convert them into the proper payload
     channel.message_templates.each do |template|
-      body_object = validated_body_object(template)
-      next if body_object.blank?
-
-      template_match_regex = build_template_match_regex(body_object['text'])
-
-      match_obj = message.content.match(template_match_regex)
+      match_obj = template_match_object(template)
       next if match_obj.blank?
 
       # we have a match, now we need to parse the template variables and convert them into the wa recommended format
@@ -44,6 +43,14 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
       return [template['name'], template['namespace'], template['language'], processed_parameters]
     end
     [nil, nil, nil, nil]
+  end
+
+  def template_match_object(template)
+    body_object = validated_body_object(template)
+    return if body_object.blank?
+
+    template_match_regex = build_template_match_regex(body_object['text'])
+    message.content.match(template_match_regex)
   end
 
   def build_template_match_regex(template_text)
