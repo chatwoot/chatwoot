@@ -25,15 +25,21 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <woot-button
-          color-scheme="secondary"
-          icon="ion-ios-settings-strong"
-          class="margin-right-small"
-          data-testid="create-new-contact"
-          @click="onToggleFilter"
-        >
-          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
-        </woot-button>
+        <div class="filters__button-wrap">
+          <div
+            v-if="hasAppliedFilters"
+            class="filters__applied-indicator"
+          ></div>
+          <woot-button
+            color-scheme="secondary"
+            icon="ion-ios-settings-strong"
+            class="margin-right-small"
+            data-testid="create-new-contact"
+            @click="onToggleFilter"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
+          </woot-button>
+        </div>
         <woot-button
           color-scheme="success"
           icon="add-circle"
@@ -57,6 +63,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     headerTitle: {
@@ -97,6 +105,12 @@ export default {
   computed: {
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
+    },
+    ...mapGetters({
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
     },
   },
 };
@@ -165,6 +179,19 @@ export default {
     opacity: 1;
     transform: translateX(0);
     visibility: visible;
+  }
+}
+.filters__button-wrap {
+  position: relative;
+
+  .filters__applied-indicator {
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    background-color: white;
+    border-radius: 50%;
   }
 }
 </style>

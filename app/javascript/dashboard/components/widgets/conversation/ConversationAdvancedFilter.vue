@@ -51,7 +51,8 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../FilterInput.vue';
 import languages from './advancedFilterItems/languages';
-import countries from '../../../../shared/constants/countries';
+import countries from '/app/javascript/shared/constants/countries.js';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -98,9 +99,9 @@ export default {
         };
       });
     },
-    getAppliedConversationFilters() {
-      return this.$store.getters.getAppliedConversationFilters;
-    },
+    ...mapGetters({
+      getAppliedConversationFilters: 'getAppliedConversationFilters',
+    }),
   },
   mounted() {
     this.$store.dispatch('campaigns/get');

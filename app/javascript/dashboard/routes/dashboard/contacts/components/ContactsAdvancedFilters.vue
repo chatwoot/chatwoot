@@ -30,6 +30,7 @@
             {{ $t('CONTACTS_FILTER.ADD_NEW_FILTER') }}
           </woot-button>
           <woot-button
+            v-if="hasAppliedFilters"
             icon="ion-minus"
             color-scheme="alert"
             variant="smooth"
@@ -58,7 +59,8 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput.vue';
-import countries from '../../../../../shared/constants/countries';
+import countries from '/app/javascript/shared/constants/countries.js';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -100,8 +102,11 @@ export default {
         };
       });
     },
-    getAppliedContactFilters() {
-      return this.$store.getters['contacts/getAppliedContactFilters'];
+    ...mapGetters({
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
     },
   },
   mounted() {
