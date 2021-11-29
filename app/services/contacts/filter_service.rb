@@ -4,9 +4,7 @@ class Contacts::FilterService < FilterService
 
     {
       contacts: @contacts,
-      count: {
-        all_count: @contacts.count
-      }
+      count: @contacts.count
     }
   end
 
