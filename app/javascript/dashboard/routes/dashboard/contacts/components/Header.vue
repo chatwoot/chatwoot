@@ -185,13 +185,13 @@ export default {
   position: relative;
 
   .filters__applied-indicator {
-    height: 8px;
-    width: 8px;
     position: absolute;
-    top: 4px;
-    right: 12px;
-    background-color: white;
-    border-radius: 50%;
+    height: var(--space-small);
+    width: var(--space-small);
+    top: var(--space-smaller);
+    right: var(--space-slab);
+    background-color: var(--white);
+    border-radius: var(--border-radius-rounded);
   }
 }
 </style>
