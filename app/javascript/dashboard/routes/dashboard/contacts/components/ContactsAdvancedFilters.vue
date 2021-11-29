@@ -130,13 +130,12 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.filterOperators;
     },
-    // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
       switch (type) {
         case 'country_code':
           return countries;
         default:
-          break;
+          return undefined;
       }
     },
     appendNewFilter() {

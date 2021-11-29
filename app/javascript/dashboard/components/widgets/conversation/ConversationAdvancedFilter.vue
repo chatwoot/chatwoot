@@ -125,7 +125,6 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.filterOperators;
     },
-    // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
       switch (type) {
@@ -169,7 +168,7 @@ export default {
         case 'country_code':
           return countries;
         default:
-          break;
+          return undefined;
       }
     },
     appendNewFilter() {
