@@ -37,10 +37,22 @@ class Contacts::FilterService < FilterService
   end
 
   def filter_values(query_hash)
-    query_hash['values'][0]
+    if query_hash['attribute_key'] == 'phone_number'
+      "+#{query_hash['values'][0]}"
+    else
+      query_hash['values'][0].downcase
+    end
   end
 
   def base_relation
     Current.account.contacts.left_outer_joins(:labels)
+  end
+
+  private
+
+  def equals_to_filter_string(filter_operator, current_index)
+    return  "= :value_#{current_index}" if filter_operator == 'equal_to'
+
+    "!= :value_#{current_index}"
   end
 end
