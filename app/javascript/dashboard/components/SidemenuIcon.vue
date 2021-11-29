@@ -3,10 +3,12 @@
 </template>
 
 <script>
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 export default {
   methods: {
     onMenuItemClick() {
-      bus.$emit('sidemenu_icon_click');
+      bus.$emit(BUS_EVENTS.TOGGLE_SIDEMENU);
     },
   },
 };

@@ -29,12 +29,16 @@ export default {
   },
 
   mounted() {
-    bus.$on('newToastMessage', message => {
-      this.snackMessages.push({ key: new Date().getTime(), message });
-      window.setTimeout(() => {
-        this.snackMessages.splice(0, 1);
-      }, this.duration);
-    });
+    bus.$on('newToastMessage', this.onNewToastMessage);
+  },
+  beforeDestroy() {
+    bus.$off('newToastMessage', this.onNewToastMessage);
+  },
+  onNewToastMessage(message) {
+    this.snackMessages.push({ key: new Date().getTime(), message });
+    window.setTimeout(() => {
+      this.snackMessages.splice(0, 1);
+    }, this.duration);
   },
 };
 </script>
