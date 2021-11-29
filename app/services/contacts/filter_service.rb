@@ -37,10 +37,11 @@ class Contacts::FilterService < FilterService
   end
 
   def filter_values(query_hash)
+    current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'
-      "+#{query_hash['values'][0]}"
+      "+#{current_val}"
     else
-      query_hash['values'][0].downcase
+      current_val.is_a?(String) ? current_val.downcase : current_val
     end
   end
 
