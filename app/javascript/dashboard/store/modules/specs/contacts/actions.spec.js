@@ -6,8 +6,20 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from '../../../../../shared/helpers/CustomErrors';
+import { filterApiResponse } from './filterApiResponse';
 
 const { actions } = Contacts;
+
+const filterQueryData = {
+  payload: [
+    {
+      attribute_key: 'email',
+      filter_operator: 'contains',
+      values: ['fayaz'],
+      query_operator: null,
+    },
+  ],
+};
 
 const commit = jest.fn();
 global.axios = axios;
@@ -247,6 +259,24 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
     });
   });
+
+  describe('#fetchFilteredContacts', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: filterApiResponse,
+      });
+      await actions.filter({ commit }, filterQueryData);
+      expect(commit).toHaveBeenCalledTimes(5);
+      expect(commit.mock.calls).toEqual([
+        ['SET_CONTACT_UI_FLAG', { isFetching: true }],
+        ['CLEAR_CONTACTS'],
+        ['SET_CONTACTS', filterApiResponse.payload],
+        ['SET_CONTACT_META', filterApiResponse.meta],
+        ['SET_CONTACT_UI_FLAG', { isFetching: false }],
+      ]);
+    });
+  });
+
   describe('#setContactsFilter', () => {
     it('commits the correct mutation and sets filter state', () => {
       const filters = [
