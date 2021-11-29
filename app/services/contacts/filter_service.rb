@@ -52,7 +52,7 @@ class Contacts::FilterService < FilterService
   private
 
   def equals_to_filter_string(filter_operator, current_index)
-    return  "= :value_#{current_index}" if filter_operator == 'equal_to'
+    return "= :value_#{current_index}" if filter_operator == 'equal_to'
 
     "!= :value_#{current_index}"
   end
