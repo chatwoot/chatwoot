@@ -12,7 +12,7 @@ const campaigns = accountId => ({
       toStateName: 'settings_account_campaigns',
     },
     {
-      key: 'onOffCampaigns',
+      key: 'oneOffCampaigns',
       icon: 'ion-radio-waves',
       label: 'ONE_OFF',
       hasSubMenu: false,

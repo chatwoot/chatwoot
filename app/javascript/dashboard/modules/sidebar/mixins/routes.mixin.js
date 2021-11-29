@@ -5,26 +5,26 @@ export default {
     currentRoute() {
       return this.$store.state.route.name;
     },
-    sidemenuItems() {
+    sideMenuItems() {
       return getSidebarItems(this.accountId);
     },
     shouldShowConversationsSideMenu() {
-      return this.sidemenuItems.common.routes.includes(this.currentRoute);
+      return this.sideMenuItems.common.routes.includes(this.currentRoute);
     },
     shouldShowContactSideMenu() {
-      return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
+      return this.sideMenuItems.contacts.routes.includes(this.currentRoute);
     },
     shouldShowCampaignSideMenu() {
-      return this.sidemenuItems.campaigns.routes.includes(this.currentRoute);
+      return this.sideMenuItems.campaigns.routes.includes(this.currentRoute);
     },
     shouldShowSettingsSideMenu() {
-      return this.sidemenuItems.settings.routes.includes(this.currentRoute);
+      return this.sideMenuItems.settings.routes.includes(this.currentRoute);
     },
     shouldShowReportsSideMenu() {
-      return this.sidemenuItems.reports.routes.includes(this.currentRoute);
+      return this.sideMenuItems.reports.routes.includes(this.currentRoute);
     },
     shouldShowNotificationsSideMenu() {
-      return this.sidemenuItems.notifications.routes.includes(
+      return this.sideMenuItems.notifications.routes.includes(
         this.currentRoute
       );
     },

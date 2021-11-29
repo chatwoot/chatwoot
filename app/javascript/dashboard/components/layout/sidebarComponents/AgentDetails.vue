@@ -25,8 +25,6 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
-      allAgents: 'agents/getAgents',
-      currentRole: 'getCurrentRole',
       currentUserAvailability: 'getCurrentUserAvailability',
     }),
     statusOfAgent() {

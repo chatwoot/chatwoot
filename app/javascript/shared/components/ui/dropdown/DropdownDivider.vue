@@ -12,7 +12,6 @@ export default {};
 .dropdown-menu--divider {
   list-style: none;
   margin: var(--space-small) 0;
-
   border-bottom: 1px solid var(--s-50);
 }
 </style>

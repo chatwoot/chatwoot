@@ -94,6 +94,7 @@ export default {
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
+          truncateLabel: true,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
           type: inbox.channel_type,
           phoneNumber: inbox.phone_number,
@@ -130,7 +131,7 @@ export default {
         label: 'TAGGED_WITH',
         hasSubMenu: true,
         key: 'label',
-        newLink: false,
+        newLink: true,
         newLinkTag: 'NEW_LABEL',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -192,7 +193,7 @@ export default {
   methods: {
     getSubSectionByKey(subSectionKey) {
       const menuItems = Object.values(
-        this.sidemenuItems[subSectionKey].menuItems
+        this.sideMenuItems[subSectionKey].menuItems
       );
       const campaignItem = this.menuItems.find(
         ({ key }) => key === subSectionKey

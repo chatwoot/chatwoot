@@ -1,6 +1,6 @@
 <template>
   <woot-dropdown-menu>
-    <woot-dropdown-header title="Set yourself as" />
+    <woot-dropdown-header :title="$t('SIDEBAR.SET_AVAILABILITY_TITLE')" />
     <woot-dropdown-item
       v-for="status in availabilityStatuses"
       :key="status.value"

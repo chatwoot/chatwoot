@@ -97,7 +97,7 @@ export default {
       teams: 'teams/getMyTeams',
     }),
 
-    sidemenuItems() {
+    sideMenuItems() {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
@@ -111,7 +111,7 @@ export default {
       return this.$store.state.route.name;
     },
     shouldShowNotificationsSideMenu() {
-      return this.sidemenuItems.notifications.routes.includes(
+      return this.sideMenuItems.notifications.routes.includes(
         this.currentRoute
       );
     },
