@@ -14,12 +14,12 @@ describe Whatsapp::SendOnWhatsappService do
         conversation = create(:conversation, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox)
         # to handle the case of 24 hour window limit.
         create(:message, message_type: :incoming, content: 'test',
-                                   conversation: conversation)
+                         conversation: conversation)
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation)
         allow(HTTParty).to receive(:post).and_return(whatsapp_request)
         allow(whatsapp_request).to receive(:success?).and_return(true)
-        allow(whatsapp_request).to receive(:[]).with("messages").and_return([{'id' => '123456789'}])
+        allow(whatsapp_request).to receive(:[]).with('messages').and_return([{ 'id' => '123456789' }])
         expect(HTTParty).to receive(:post).with(
           'https://waba.360dialog.io/v1/messages',
           headers: { 'D360-API-KEY' => 'test_key', 'Content-Type' => 'application/json' },
@@ -38,19 +38,20 @@ describe Whatsapp::SendOnWhatsappService do
                                    conversation: conversation)
         allow(HTTParty).to receive(:post).and_return(whatsapp_request)
         allow(whatsapp_request).to receive(:success?).and_return(true)
-        allow(whatsapp_request).to receive(:[]).with("messages").and_return([{'id' => '123456789'}])
+        allow(whatsapp_request).to receive(:[]).with('messages').and_return([{ 'id' => '123456789' }])
         expect(HTTParty).to receive(:post).with(
           'https://waba.360dialog.io/v1/messages',
           headers: { 'D360-API-KEY' => 'test_key', 'Content-Type' => 'application/json' },
-          body: { 
-            to: '123456789', 
-            template: { 
-              name:"sample_shipping_confirmation", 
-              namespace:"23423423_2342423_324234234_2343224",
-              language:{"policy":"deterministic","code":"en_US"},
-              components:[{"type":"body","parameters":[{"type":"text","text":"3"}]}] 
+          body: {
+            to: '123456789',
+            template: {
+              name: 'sample_shipping_confirmation',
+              namespace: '23423423_2342423_324234234_2343224',
+              language: { 'policy': 'deterministic', 'code': 'en_US' },
+              components: [{ 'type': 'body', 'parameters': [{ 'type': 'text', 'text': '3' }] }]
             },
-          type: 'template' }.to_json
+            type: 'template'
+          }.to_json
         )
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
