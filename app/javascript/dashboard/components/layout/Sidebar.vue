@@ -115,8 +115,15 @@ export default {
         this.currentRoute
       );
     },
+    shouldShowProfileSideMenu() {
+      return (
+        this.currentRoute === 'profile_settings_index' ||
+        this.currentRoute === 'profile_settings'
+      );
+    },
     showSecondaryMenu() {
       if (this.shouldShowNotificationsSideMenu) return false;
+      if (this.shouldShowProfileSideMenu) return false;
       return true;
     },
   },

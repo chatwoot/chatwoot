@@ -15,7 +15,6 @@
             color-scheme="secondary"
             size="small"
             icon="ion-arrow-swap"
-            class=" change-accounts--button"
             @click="$emit('toggle-accounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
@@ -27,7 +26,6 @@
             color-scheme="secondary"
             size="small"
             icon="ion-help-buoy"
-            class=" change-accounts--button"
             @click="$emit('show-support-chat-window')"
           >
             {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
@@ -38,7 +36,6 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            class=" change-accounts--button"
             icon="ion-ios-bolt-outline"
             @click="handleKeyboardHelpClick"
           >
@@ -63,14 +60,6 @@
               </span>
             </a>
           </router-link>
-          <router-link
-            class="button clear small secondary change-accounts--button"
-          >
-            <i class="icon ion-person" />
-            <span class="button__content">
-              {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
-            </span>
-          </router-link>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button
@@ -78,7 +67,6 @@
             color-scheme="secondary"
             size="small"
             icon="ion-log-out"
-            class=" change-accounts--button"
             @click="logout"
           >
             {{ $t('SIDEBAR_ITEMS.LOGOUT') }}

@@ -2,6 +2,7 @@ import AgentDetails from '../AgentDetails';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
 import i18n from 'dashboard/i18n';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
@@ -11,6 +12,10 @@ localVue.use(Vuex);
 localVue.use(VueI18n);
 localVue.component('thumbnail', Thumbnail);
 localVue.component('woot-button', WootButton);
+localVue.component('woot-button', WootButton);
+localVue.use(VTooltip, {
+  defaultHtml: false,
+});
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -37,6 +42,7 @@ describe('agentDetails', () => {
         getters: {
           getCurrentUser: () => currentUser,
           getCurrentRole: () => currentRole,
+          getCurrentUserAvailability: () => currentUser.availability_status,
         },
       },
     };
