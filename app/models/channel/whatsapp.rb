@@ -134,7 +134,7 @@ class Channel::Whatsapp < ApplicationRecord
   def sync_templates
     # to prevent too many api calls
     last_updated = message_templates_last_updated || 1.day.ago
-    return if Time.current < (last_updated + 15.minutes)
+    return if Time.current < (last_updated + 12.hours)
 
     response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
     update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
