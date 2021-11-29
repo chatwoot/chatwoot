@@ -45,8 +45,8 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
-  def send_template(phone_number, name, namespace,lang_code, parameters)
-    send_template_message(phone_number, name, namespace,lang_code, parameters)
+  def send_template(phone_number, name, namespace, lang_code, parameters)
+    send_template_message(phone_number, name, namespace, lang_code, parameters)
   end
 
   def media_url(media_id)
@@ -66,8 +66,6 @@ class Channel::Whatsapp < ApplicationRecord
     super
   end
 
-
-
   private
 
   def send_text_message(phone_number, message)
@@ -81,7 +79,7 @@ class Channel::Whatsapp < ApplicationRecord
       }.to_json
     )
 
-    response.success? ? response['messages']&.first['id'] : nil
+    response.success? ? response['messages'].first['id'] : nil
   end
 
   def send_attachment_message(phone_number, message)
@@ -100,33 +98,37 @@ class Channel::Whatsapp < ApplicationRecord
         }
       }.to_json
     )
-     
-    response.success? ? response['messages']&.first['id'] : nil
+
+    response.success? ? response['messages'].first['id'] : nil
   end
 
-  def send_template_message(phone_number, name, namespace,lang_code, parameters)
+  def send_template_message(phone_number, name, namespace, lang_code, parameters)
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
         to: phone_number,
-        template: {
-          namespace: namespace,
-          name: name,
-          language: {
-    		    policy: "deterministic",
-    		    code: lang_code
-          },
-          components: [{
-            type: "body",
-            parameters: parameters
-          }]
-        },
+        template: template_body_parameters(name, namespace, lang_code, parameters),
         type: 'template'
       }.to_json
     )
 
-    response.success? ? response['messages']&.first['id'] : nil
+    response.success? ? response['messages'].first['id'] : nil
+  end
+
+  def template_body_parameters(name, namespace, lang_code, parameters)
+    {
+      name: name,
+      namespace: namespace,
+      language: {
+        policy: 'deterministic',
+        code: lang_code
+      },
+      components: [{
+        type: 'body',
+        parameters: parameters
+      }]
+    }
   end
 
   def sync_templates
@@ -135,7 +137,7 @@ class Channel::Whatsapp < ApplicationRecord
     return if Time.current < (last_updated + 15.minutes)
 
     response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
-    self.update(message_templates: response["waba_templates"], message_templates_last_updated: Time.now.utc) if response.success?
+    update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
   # Extract later into provider Service

@@ -23,7 +23,7 @@ class ContactInboxBuilder
 
   def wa_source_id
     return unless @contact.phone_number
-  
+
     # whatsapp doesn't want the + in e164 format
     "#{@contact.phone_number}.delete('+')"
   end
