@@ -27,12 +27,10 @@
 import { mapGetters } from 'vuex';
 import BackButton from '../../../components/widgets/BackButton';
 import adminMixin from '../../../mixins/isAdmin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
     BackButton,
-    FluentIcon,
   },
   mixins: [adminMixin],
   props: {

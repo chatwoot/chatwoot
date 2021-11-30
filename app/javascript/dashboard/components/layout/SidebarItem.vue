@@ -64,12 +64,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 export default {
-  components: { FluentIcon },
   mixins: [adminMixin],
   props: {
     menuItem: {

@@ -50,12 +50,8 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: {
-    FluentIcon,
-  },
   mixins: [inboxMixin],
   props: {
     sender: {

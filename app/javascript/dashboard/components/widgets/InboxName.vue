@@ -6,10 +6,8 @@
 </template>
 <script>
 import { getInboxClassByType } from 'dashboard/helper/inbox';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: { FluentIcon },
   props: {
     inbox: {
       type: Object,

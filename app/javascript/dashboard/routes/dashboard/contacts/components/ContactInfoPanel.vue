@@ -89,7 +89,7 @@ import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttr
 import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
   components: {
     AccordionItem,
@@ -99,7 +99,6 @@ export default {
     CustomAttributes,
     CustomAttributeSelector,
     draggable,
-    FluentIcon,
   },
   mixins: [uiSettingsMixin],
   props: {

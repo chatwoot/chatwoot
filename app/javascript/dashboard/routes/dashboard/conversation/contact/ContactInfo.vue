@@ -143,7 +143,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
@@ -156,7 +156,6 @@ export default {
   components: {
     ContactInfoRow,
     EditContact,
-    FluentIcon,
     Thumbnail,
     SocialIcons,
     NewConversation,

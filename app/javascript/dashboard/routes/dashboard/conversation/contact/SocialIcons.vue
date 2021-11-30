@@ -14,10 +14,7 @@
 </template>
 
 <script>
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
-
 export default {
-  components: { FluentIcon },
   props: {
     socialProfiles: {
       type: Object,

@@ -17,10 +17,8 @@
 </template>
 <script>
 import { getContrastingTextColor } from '@chatwoot/utils';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: { FluentIcon },
   props: {
     title: {
       type: String,

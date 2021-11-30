@@ -27,12 +27,10 @@
 
 <script>
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
     EmojiOrIcon,
-    FluentIcon,
   },
   props: {
     title: {

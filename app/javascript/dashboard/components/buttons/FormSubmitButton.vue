@@ -13,12 +13,10 @@
 </template>
 
 <script>
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
-    FluentIcon,
     Spinner,
   },
   props: {

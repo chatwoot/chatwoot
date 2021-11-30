@@ -11,10 +11,8 @@
 <script>
 import { hasEmojiSupport } from 'shared/helpers/emoji';
 import { mapGetters } from 'vuex';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: { FluentIcon },
   props: {
     icon: { type: String, default: '' },
     iconSize: { type: [Number, String], default: 20 },

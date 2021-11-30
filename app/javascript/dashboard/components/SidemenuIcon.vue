@@ -6,9 +6,8 @@
 
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
-  components: { FluentIcon },
   methods: {
     onMenuItemClick() {
       bus.$emit(BUS_EVENTS.TOGGLE_SIDEMENU);

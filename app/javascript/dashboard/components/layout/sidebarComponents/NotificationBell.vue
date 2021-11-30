@@ -6,10 +6,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: { FluentIcon },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',

@@ -89,10 +89,8 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
-  components: { FluentIcon },
   mixins: [clickaway],
   data() {
     return {

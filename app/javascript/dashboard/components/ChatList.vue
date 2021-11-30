@@ -106,7 +106,6 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 import {
   hasPressedAltAndJKey,
@@ -119,7 +118,6 @@ export default {
     ConversationCard,
     ChatFilter,
     ConversationAdvancedFilter,
-    FluentIcon,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {

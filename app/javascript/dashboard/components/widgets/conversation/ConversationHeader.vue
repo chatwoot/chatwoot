@@ -57,11 +57,9 @@ import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import wootConstants from '../../../constants';
 import differenceInHours from 'date-fns/differenceInHours';
 import InboxName from '../InboxName';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
-    FluentIcon,
     InboxName,
     MoreActions,
     Thumbnail,

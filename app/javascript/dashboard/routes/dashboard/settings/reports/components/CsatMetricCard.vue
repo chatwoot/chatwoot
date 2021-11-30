@@ -15,10 +15,7 @@
   </div>
 </template>
 <script>
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
-
 export default {
-  components: { FluentIcon },
   props: {
     label: {
       type: String,

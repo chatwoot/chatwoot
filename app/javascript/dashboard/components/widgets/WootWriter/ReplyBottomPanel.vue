@@ -87,12 +87,11 @@ import {
   hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
-  components: { FileUpload, FluentIcon },
+  components: { FileUpload },
   mixins: [eventListenerMixins],
   props: {
     mode: {

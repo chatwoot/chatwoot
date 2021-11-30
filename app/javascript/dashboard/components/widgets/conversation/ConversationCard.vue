@@ -91,7 +91,6 @@ import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -104,7 +103,6 @@ const ATTACHMENT_ICONS = {
 
 export default {
   components: {
-    FluentIcon,
     InboxName,
     Thumbnail,
   },

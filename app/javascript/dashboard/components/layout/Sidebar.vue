@@ -104,7 +104,6 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import router from '../../routes';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
@@ -113,7 +112,6 @@ export default {
     AddLabelModal,
     AgentDetails,
     AvailabilityStatus,
-    FluentIcon,
     NotificationBell,
     OptionsMenu,
     SidebarItem,
