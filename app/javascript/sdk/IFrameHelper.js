@@ -3,6 +3,7 @@ import {
   wootOn,
   addClass,
   loadCSS,
+  removeClass,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
@@ -195,6 +196,18 @@ export const IFrameHelper = {
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       removeUnreadClass();
+    },
+
+    handleNotificationDot: event => {
+      const bubbleElement = document.querySelector('.woot-widget-bubble');
+      if (
+        event.unreadMessageCount > 0 &&
+        !bubbleElement.classList.contains('unread-notification')
+      ) {
+        addClass(bubbleElement, 'unread-notification');
+      } else if (event.unreadMessageCount === 0) {
+        removeClass(bubbleElement, 'unread-notification');
+      }
     },
 
     closeChat: () => {

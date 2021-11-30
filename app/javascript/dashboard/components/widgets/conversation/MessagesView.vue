@@ -243,25 +243,31 @@ export default {
   },
 
   created() {
-    bus.$on('scrollToMessage', () => {
-      this.$nextTick(() => this.scrollToBottom());
-      this.makeMessagesRead();
-    });
-
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
-      this.selectedTweetId = selectedTweetId;
-    });
+    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
   mounted() {
     this.addScrollListener();
   },
 
-  unmounted() {
+  beforeDestroy() {
+    this.removeBusListeners();
     this.removeScrollListener();
   },
 
   methods: {
+    removeBusListeners() {
+      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    },
+    setSelectedTweet(tweetId) {
+      this.selectedTweetId = tweetId;
+    },
+    onScrollToMessage() {
+      this.$nextTick(() => this.scrollToBottom());
+      this.makeMessagesRead();
+    },
     showPopoutReplyBox() {
       this.isPopoutReplyBox = !this.isPopoutReplyBox;
     },
