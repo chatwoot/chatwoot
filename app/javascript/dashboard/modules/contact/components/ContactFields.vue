@@ -44,7 +44,7 @@
     <woot-button
       size="small"
       variant="link"
-      icon="ion-plus"
+      icon="add"
       @click="handleCustomCreate"
     >
       {{ $t('CUSTOM_ATTRIBUTES.ADD.TITLE') }}

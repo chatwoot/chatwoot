@@ -276,9 +276,6 @@ export default {
     white-space: nowrap;
     width: 60%;
   }
-  .ion-earth {
-    font-size: var(--font-size-mini);
-  }
 }
 
 .last-message-icon {

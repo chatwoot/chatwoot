@@ -150,10 +150,4 @@ export default {
   min-width: $space-normal;
   width: $space-normal;
 }
-
-.inbox-icon {
-  &.ion-ios-email {
-    font-size: var(--font-size-medium);
-  }
-}
 </style>

@@ -12,24 +12,27 @@
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
       icon="mail"
+      class="action--icon"
       size="16"
     />
     <fluent-icon
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
       icon="lock-closed"
+      class="action--icon"
       size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <fluent-icon
-      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
-      v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-      icon="arrow-reply"
-      class="cursor-pointer"
-      size="16"
-      @click="onTweetReply"
-    />
+    <button @click="onTweetReply">
+      <fluent-icon
+        v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
+        v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
+        icon="arrow-reply"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </button>
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
@@ -38,8 +41,8 @@
     >
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
-        class="cursor-pointer"
         icon="open"
+        class="action--icon cursor-pointer"
         size="16"
       />
     </a>
@@ -136,7 +139,7 @@ export default {
     }
   }
 
-  .icon {
+  .action--icon {
     color: var(--white);
   }
 }
@@ -150,7 +153,7 @@ export default {
 }
 
 .message-text--metadata {
-  align-items: flex-end;
+  align-items: flex-start;
   display: flex;
 
   .time {
@@ -160,10 +163,9 @@ export default {
     line-height: 1.8;
   }
 
-  i {
-    line-height: 1.4;
-    padding-right: var(--space-small);
-    padding-left: var(--space-small);
+  .action--icon {
+    margin-right: var(--space-small);
+    margin-left: var(--space-small);
     color: var(--s-900);
   }
 

@@ -354,11 +354,11 @@ export default {
   cursor: pointer;
   padding: $space-small $space-large;
 
-  .ion-ios-checkmark {
-    font-size: $font-size-big;
+  .selected--account {
+    margin-top: -$space-smaller;
 
     & + .account--details {
-      padding-left: $space-normal;
+      padding-left: $space-normal - $space-micro;
     }
   }
 

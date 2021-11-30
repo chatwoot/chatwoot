@@ -62,7 +62,7 @@
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
-          icon="ion-chatboxes"
+          icon="chat"
           icon-size="14"
           size="small expanded"
           @click="toggleConversationModal"
