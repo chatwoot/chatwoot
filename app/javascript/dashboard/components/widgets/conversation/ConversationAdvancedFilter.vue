@@ -106,7 +106,7 @@ export default {
   mounted() {
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
-      this.appliedFilters = this.getAppliedConversationFilters;
+      this.appliedFilters = [...this.getAppliedConversationFilters];
     } else {
       this.appliedFilters.push({
         attribute_key: 'status',
@@ -189,11 +189,11 @@ export default {
     submitFilterQuery() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$store.dispatch(
         'setConversationFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
+      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {
