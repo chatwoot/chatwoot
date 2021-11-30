@@ -23,6 +23,7 @@ import ChatList from '../../../components/ChatList';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -108,7 +109,7 @@ export default {
           return;
         }
         this.$store.dispatch('setActiveChat', chat).then(() => {
-          bus.$emit('scrollToMessage');
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
       } else {
         this.$store.dispatch('clearSelectedState');

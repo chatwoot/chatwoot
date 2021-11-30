@@ -11,6 +11,7 @@
 <script>
 import Sidebar from '../../components/layout/Sidebar';
 import CommandBar from './commands/commandbar.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -50,11 +51,10 @@ export default {
     this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-    bus.$on('sidemenu_icon_click', () => {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    });
+    bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
@@ -64,6 +64,9 @@ export default {
       } else {
         this.isOnDesktop = false;
       }
+    },
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
     },
   },
 };
