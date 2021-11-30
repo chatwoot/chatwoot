@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "ข้อความภาพ"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "ข้อความเสียง"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "ข้อความวิดิโอ"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "เเนบไฟล์"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "สถานที่"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ได้เเชร์ลิ้ง"
       }
     },

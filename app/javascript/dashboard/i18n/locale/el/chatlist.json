@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Μήνυμα εικόνας"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Μήνυμα ήχου"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Μήνυμα βίντεο"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Επισυναπτόμενο αρχείο"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Θέση"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
       }
     },
