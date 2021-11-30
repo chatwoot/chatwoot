@@ -33,7 +33,7 @@ const common = accountId => ({
       toStateName: 'contacts_dashboard',
     },
     notifications: {
-      icon: 'ion-ios-bell',
+      icon: 'alert',
       label: 'NOTIFICATIONS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/notifications`),

@@ -25,7 +25,7 @@
         class="child-icon"
         @click.prevent="newLinkClick(menuItem)"
       >
-        <fluent-icon icon="add-circle" />
+        <fluent-icon icon="add-circle" size="16" />
       </button>
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">

@@ -13,11 +13,11 @@
       @click="toggleQuotedContent"
     >
       <span v-if="showQuotedContent">
-        <i class="ion-chevron-up" />
+        <fluent-icon icon="chevron-up" />
         {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
       </span>
       <span v-else>
-        <i class="ion-chevron-down" />
+        <fluent-icon icon="chevron-down" />
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
@@ -25,7 +25,10 @@
 </template>
 
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
+  components: { FluentIcon },
   props: {
     message: {
       type: String,

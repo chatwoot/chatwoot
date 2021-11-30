@@ -4,7 +4,7 @@
     :class="{ 'border-left': showAvatar }"
   >
     <span v-if="showAvatar" class="close-button" @click="onClose">
-      <i class="ion-android-close close-icon" />
+      <fluent-icon icon="dismiss" class="close-icon" />
     </span>
     <contact-info
       :show-avatar="showAvatar"
@@ -89,7 +89,7 @@ import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttr
 import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 export default {
   components: {
     AccordionItem,
@@ -99,6 +99,7 @@ export default {
     CustomAttributes,
     CustomAttributeSelector,
     draggable,
+    FluentIcon,
   },
   mixins: [uiSettingsMixin],
   props: {

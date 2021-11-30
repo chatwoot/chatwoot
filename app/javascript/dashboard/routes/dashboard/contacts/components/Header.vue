@@ -8,7 +8,7 @@
       </div>
       <div class="right-aligned-wrap">
         <div class="search-wrap">
-          <i class="ion-ios-search-strong search-icon" />
+          <fluent-icon icon="search" class="search-icon" />
           <input
             type="text"
             :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
@@ -38,7 +38,7 @@
 
         <woot-button
           color-scheme="info"
-          icon="ion-android-upload"
+          icon="cloud-backup"
           @click="onToggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
@@ -49,7 +49,10 @@
 </template>
 
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
+  components: { FluentIcon },
   props: {
     headerTitle: {
       type: String,

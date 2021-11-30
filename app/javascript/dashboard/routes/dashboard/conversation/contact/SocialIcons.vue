@@ -8,13 +8,16 @@
       rel="noopener noreferrer nofollow"
       class="contact--social-icon"
     >
-      <i :class="`ion-social-${profile.icon}`" />
+      <fluent-icon :icon="`brand-${profile.key}`" size="16" />
     </a>
   </div>
 </template>
 
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
+  components: { FluentIcon },
   props: {
     socialProfiles: {
       type: Object,
@@ -43,10 +46,10 @@ export default {
 
 <style scoped lang="scss">
 .social--icons {
-  margin-bottom: var(--space-small);
+  margin: var(--space-small) 0 var(--space-smaller);
 }
+
 .contact--social-icon {
-  font-size: var(--font-size-medium);
   padding-right: var(--space-slab);
   color: var(--color-body);
 }

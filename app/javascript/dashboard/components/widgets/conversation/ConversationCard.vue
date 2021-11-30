@@ -24,7 +24,7 @@
           v-if="showAssignee && assignee.name"
           class="label assignee-label text-truncate"
         >
-          <i class="ion-person" />
+          <fluent-icon icon="person" size="14" />
           {{ assignee.name }}
         </span>
       </div>
@@ -66,7 +66,7 @@
         </span>
       </p>
       <p v-else class="conversation--message">
-        <i class="ion-android-alert"></i>
+        <fluent-icon size="16" class="message--attachment-icon" icon="info" />
         <span>
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>

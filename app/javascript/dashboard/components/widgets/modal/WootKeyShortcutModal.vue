@@ -16,7 +16,9 @@
               </p>
             </div>
           </div>
-          <i class="ion-android-close modal--close" @click="$emit('close')"></i>
+          <button class="cursor-pointer" @click="$emit('close')">
+            <fluent-icon icon="dismiss" />
+          </button>
         </div>
 
         <div class="shortcut__wrap">
@@ -87,8 +89,10 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
+  components: { FluentIcon },
   mixins: [clickaway],
   data() {
     return {
@@ -111,14 +115,14 @@ export default {
 }
 
 .header-wrap {
+  align-items: flex-start;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: var(--space-slab);
 }
 
 .title-shortcut-key__wrap {
   display: flex;
-  margin-bottom: var(--space-small);
 }
 
 .page-title {

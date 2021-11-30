@@ -2,27 +2,32 @@
   <div class="message-text--metadata">
     <span class="time">{{ readableTime }}</span>
     <span v-if="showSentIndicator" class="time">
-      <i
+      <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.SENT')"
-        class="icon ion-checkmark"
+        icon="checkmark"
+        size="16"
       />
     </span>
-    <i
+    <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
-      class="ion ion-android-mail"
+      icon="mail"
+      size="16"
     />
-    <i
+    <fluent-icon
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
-      class="icon ion-android-lock"
+      icon="lock-closed"
+      size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <i
+    <fluent-icon
       v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
       v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-      class="icon ion-reply cursor-pointer"
+      icon="arrow-reply"
+      class="cursor-pointer"
+      size="16"
       @click="onTweetReply"
     />
     <a
@@ -31,9 +36,11 @@
       target="_blank"
       rel="noopener noreferrer nofollow"
     >
-      <i
+      <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
-        class="icon ion-android-open cursor-pointer"
+        class="cursor-pointer"
+        icon="open"
+        size="16"
       />
     </a>
   </div>
@@ -43,8 +50,12 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
+  components: {
+    FluentIcon,
+  },
   mixins: [inboxMixin],
   props: {
     sender: {

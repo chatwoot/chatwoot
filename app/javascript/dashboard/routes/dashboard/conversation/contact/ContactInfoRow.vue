@@ -71,6 +71,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .contact-info--row {
+  margin-left: var(--space-minus-smaller);
+
   .contact-info--icon {
     font-size: var(--font-size-default);
     min-width: var(--space-medium);

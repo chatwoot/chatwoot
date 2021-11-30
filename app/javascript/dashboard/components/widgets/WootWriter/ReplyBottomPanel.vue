@@ -49,7 +49,7 @@
           v-show="$refs.upload && $refs.upload.dropActive"
           class="modal-mask"
         >
-          <i class="ion-ios-cloud-upload-outline icon"></i>
+          <fluent-icon icon="cloud-backup" />
           <h4 class="page-sub-title">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
@@ -87,11 +87,12 @@ import {
   hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
-  components: { FileUpload },
+  components: { FileUpload, FluentIcon },
   mixins: [eventListenerMixins],
   props: {
     mode: {

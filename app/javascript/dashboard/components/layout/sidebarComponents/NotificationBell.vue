@@ -1,11 +1,15 @@
 <template>
-  <span class="notifications icon ion-ios-bell" @click.stop="showNotification">
+  <span class="notifications" @click.stop="showNotification">
+    <fluent-icon icon="alert" />
     <span v-if="unreadCount" class="unread-badge">{{ unreadCount }}</span>
   </span>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
+  components: { FluentIcon },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
