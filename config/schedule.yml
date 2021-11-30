@@ -1,5 +1,6 @@
 # https://github.com/ondrejbartas/sidekiq-cron
 # use https://crontab.guru/ to validate
+# validations for this file exist in /spec/configs/schedule_spec.rb
 
 # executed At 12:00 on every day-of-month.
 internal_check_new_versions_job:
