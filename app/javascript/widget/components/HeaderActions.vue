@@ -26,7 +26,6 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-
   props: {
     showPopoutButton: {
       type: Boolean,

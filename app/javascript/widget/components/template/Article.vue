@@ -22,7 +22,6 @@ export default {
   components: {
     FluentIcon,
   },
-
   mixins: [messageFormatterMixin],
   props: {
     items: {
