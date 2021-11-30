@@ -19,6 +19,9 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
+  components: {
+    FluentIcon,
+  },
 
   mixins: [messageFormatterMixin],
   props: {

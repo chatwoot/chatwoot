@@ -25,7 +25,7 @@
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
-
+  components: { FluentIcon },
   props: {
     url: {
       type: String,
