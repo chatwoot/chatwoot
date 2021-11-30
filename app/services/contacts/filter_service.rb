@@ -26,12 +26,12 @@ class Contacts::FilterService < FilterService
 
     case current_filter['attribute_type']
     when 'additional_attributes'
-      " contacts.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+      "  LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
       else
-        " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
+        " LOWER(contacts.#{attribute_key}) #{filter_operator_value} #{query_operator} "
       end
     end
   end
