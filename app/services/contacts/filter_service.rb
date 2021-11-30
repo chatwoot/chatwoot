@@ -40,6 +40,8 @@ class Contacts::FilterService < FilterService
     current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'
       "+#{current_val}"
+    elsif query_hash['attribute_key'] == 'country_code'
+      current_val.upcase
     else
       current_val.is_a?(String) ? current_val.downcase : current_val
     end
