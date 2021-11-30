@@ -17,7 +17,7 @@ const common = accountId => ({
   ],
   menuItems: {
     assignedToMe: {
-      icon: 'ion-chatbox-working',
+      icon: 'chat',
       label: 'CONVERSATIONS',
       hasSubMenu: false,
       key: '',
@@ -26,7 +26,7 @@ const common = accountId => ({
       toStateName: 'home',
     },
     contacts: {
-      icon: 'ion-person',
+      icon: 'book-contacts',
       label: 'CONTACTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/contacts`),
@@ -40,21 +40,21 @@ const common = accountId => ({
       toStateName: 'notifications_dashboard',
     },
     report: {
-      icon: 'ion-arrow-graph-up-right',
+      icon: 'arrow-trending-lines',
       label: 'REPORTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports`),
       toStateName: 'settings_account_reports',
     },
     campaigns: {
-      icon: 'ion-speakerphone',
+      icon: 'megaphone',
       label: 'CAMPAIGNS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns`),
       toStateName: 'settings_account_campaigns',
     },
     settings: {
-      icon: 'ion-settings',
+      icon: 'settings',
       label: 'SETTINGS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings`),

@@ -14,7 +14,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'REPORT.HEADER',
-        icon: 'ion-arrow-graph-up-right',
+        icon: 'arrow-trending-lines',
         keepAlive: false,
       },
       children: [

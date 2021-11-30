@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
@@ -45,14 +45,14 @@
                 <woot-button
                   variant="link"
                   color-scheme="secondary"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(webHookItem)"
                 >
                   {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT') }}
                 </woot-button>
                 <woot-button
                   variant="link"
-                  icon="ion-close-circled"
+                  icon="dismiss-circle"
                   color-scheme="secondary"
                   @click="openDeletePopup(webHookItem, index)"
                 >

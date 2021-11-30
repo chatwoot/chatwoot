@@ -27,7 +27,7 @@ l<template>
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <i class="icon ion-ios-settings-strong" />
+          <fluent-icon icon="filter" />
         </woot-button>
       </div>
     </div>
@@ -106,6 +106,7 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 import {
   hasPressedAltAndJKey,
@@ -118,6 +119,7 @@ export default {
     ConversationCard,
     ChatFilter,
     ConversationAdvancedFilter,
+    FluentIcon,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {

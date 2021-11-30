@@ -28,7 +28,7 @@
 
         <woot-button
           color-scheme="success"
-          icon="ion-android-add-circle"
+          icon="add-circle"
           class="margin-right-small"
           data-testid="create-new-contact"
           @click="onToggleCreate"

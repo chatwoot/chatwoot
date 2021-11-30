@@ -6,17 +6,19 @@
     :class="computedClass"
     @click="onClick"
   >
-    <i v-if="!!iconClass" :class="iconClass" class="icon" />
+    <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
     <spinner v-if="loading" />
   </button>
 </template>
 
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
+    FluentIcon,
     Spinner,
   },
   props: {

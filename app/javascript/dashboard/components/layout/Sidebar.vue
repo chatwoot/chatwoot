@@ -173,7 +173,7 @@ export default {
     },
     inboxSection() {
       return {
-        icon: 'ion-folder',
+        icon: 'folder',
         label: 'INBOXES',
         hasSubMenu: true,
         newLink: true,
@@ -193,7 +193,7 @@ export default {
     },
     labelSection() {
       return {
-        icon: 'ion-pound',
+        icon: 'number-symbol',
         label: 'LABELS',
         hasSubMenu: true,
         newLink: true,
@@ -216,7 +216,7 @@ export default {
     },
     contactLabelSection() {
       return {
-        icon: 'ion-pound',
+        icon: 'number-symbol',
         label: 'TAGGED_WITH',
         hasSubMenu: true,
         key: 'label',
@@ -239,7 +239,7 @@ export default {
     },
     teamSection() {
       return {
-        icon: 'ion-ios-people',
+        icon: 'people-team',
         label: 'TEAMS',
         hasSubMenu: true,
         newLink: true,

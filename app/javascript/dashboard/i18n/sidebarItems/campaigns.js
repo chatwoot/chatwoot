@@ -4,7 +4,7 @@ const campaigns = accountId => ({
   routes: ['settings_account_campaigns', 'one_off'],
   menuItems: {
     back: {
-      icon: 'ion-ios-arrow-back',
+      icon: 'chevron-left',
       label: 'HOME',
       hasSubMenu: false,
       toStateName: 'home',

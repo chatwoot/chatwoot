@@ -13,14 +13,20 @@
       :title="menuItem.toolTip"
     >
       <div class="wrap">
-        <i :class="menuItem.icon" />
+        <fluent-icon
+          size="18"
+          :icon="menuItem.icon"
+          class="margin-right-small"
+        />
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </div>
-      <span
+      <button
         v-if="showItem(menuItem)"
-        class="child-icon ion-android-add-circle"
+        class="child-icon"
         @click.prevent="newLinkClick(menuItem)"
-      />
+      >
+        <fluent-icon icon="add-circle" />
+      </button>
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
       <router-link
@@ -57,11 +63,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 export default {
+  components: { FluentIcon },
   mixins: [adminMixin],
   props: {
     menuItem: {

@@ -11,21 +11,21 @@ const reports = accountId => ({
   ],
   menuItems: {
     back: {
-      icon: 'ion-ios-arrow-back',
+      icon: 'chevron-left',
       label: 'HOME',
       hasSubMenu: false,
       toStateName: 'home',
       toState: frontendURL(`accounts/${accountId}/dashboard`),
     },
     reportOverview: {
-      icon: 'ion-arrow-graph-up-right',
+      icon: 'arrow-trending-lines',
       label: 'REPORTS_OVERVIEW',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/overview`),
       toStateName: 'settings_account_reports',
     },
     csatReports: {
-      icon: 'ion-happy',
+      icon: 'emoji',
       label: 'CSAT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/csat`),

@@ -2,7 +2,12 @@
   <div class="medium-2 small-6 csat--metric-card">
     <h3 class="heading">
       <span>{{ label }}</span>
-      <i v-tooltip="infoText" class="csat--icon ion-ios-information" />
+      <fluent-icon
+        v-tooltip="infoText"
+        size="14"
+        icon="info"
+        class="csat--icon"
+      />
     </h3>
     <h4 class="metric">
       {{ value }}
@@ -10,7 +15,10 @@
   </div>
 </template>
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+
 export default {
+  components: { FluentIcon },
   props: {
     label: {
       type: String,
@@ -34,7 +42,9 @@ export default {
     var(--space-two);
 
   .heading {
+    align-items: center;
     color: var(--color-heading);
+    display: flex;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold);
     margin: 0;

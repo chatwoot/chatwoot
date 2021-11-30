@@ -1,9 +1,10 @@
 <template>
   <button :type="type" class="button nice" :class="variant" @click="onClick">
-    <i
+    <fluent-icon
       v-if="!isLoading && icon"
       class="icon"
-      :class="buttonIconClass + ' ' + icon"
+      :class="buttonIconClass"
+      :icon="icon"
     />
     <spinner v-if="isLoading" />
     <slot></slot>
@@ -11,7 +12,12 @@
 </template>
 
 <script>
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 export default {
+  components: {
+    FluentIcon,
+  },
   props: {
     isLoading: {
       type: Boolean,

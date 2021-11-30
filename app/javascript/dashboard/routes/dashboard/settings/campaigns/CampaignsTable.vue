@@ -195,7 +195,7 @@ export default {
               <div class="button-wrapper">
                 <WootButton
                   variant="clear"
-                  icon="ion-edit"
+                  icon="edit"
                   color-scheme="secondary"
                   classNames="grey-btn"
                   onClick={() => this.$emit('on-edit-click', row)}
@@ -204,7 +204,7 @@ export default {
                 </WootButton>
                 <WootButton
                   variant="link"
-                  icon="ion-close-circled"
+                  icon="dismiss-circle"
                   color-scheme="secondary"
                   onClick={() => this.$emit('on-delete-click', row)}
                 >
@@ -247,7 +247,7 @@ export default {
             <div class="button-wrapper">
               <WootButton
                 variant="link"
-                icon="ion-close-circled"
+                icon="dismiss-circle"
                 color-scheme="secondary"
                 onClick={() => this.$emit('on-delete-click', row)}
               >
