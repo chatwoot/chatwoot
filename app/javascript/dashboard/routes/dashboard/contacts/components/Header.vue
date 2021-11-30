@@ -19,6 +19,7 @@
           />
           <woot-button
             :is-loading="false"
+            class="clear"
             :class-names="searchButtonClass"
             @click="onSearchSubmit"
           >
@@ -26,25 +27,24 @@
           </woot-button>
         </div>
         <div class="filters__button-wrap">
-          <div
-            v-if="hasAppliedFilters"
-            class="filters__applied-indicator"
-          ></div>
+          <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
+            class="margin-right-small clear"
             color-scheme="secondary"
-            icon="ion-ios-settings-strong"
-            class="margin-right-small"
             data-testid="create-new-contact"
+            icon="ion-ios-settings-strong"
             @click="onToggleFilter"
           >
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
         </div>
         <woot-button
+          class="margin-right-small clear"
           color-scheme="success"
           icon="add-circle"
           class="margin-right-small"
           data-testid="create-new-contact"
+          icon="ion-android-add-circle"
           @click="onToggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
@@ -52,7 +52,8 @@
 
         <woot-button
           color-scheme="info"
-          icon="cloud-backup"
+          icon="ion-android-upload"
+          class="clear"
           @click="onToggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
@@ -190,7 +191,7 @@ export default {
     width: var(--space-small);
     top: var(--space-smaller);
     right: var(--space-slab);
-    background-color: var(--white);
+    background-color: var(--s-500);
     border-radius: var(--border-radius-rounded);
   }
 }
