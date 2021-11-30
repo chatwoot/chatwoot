@@ -38,10 +38,11 @@
       >
         <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
-            <i
+            <fluent-icon
               v-if="menuItem.key === 'inbox'"
               class="inbox-icon"
-              :class="computedInboxClass(child)"
+              size="14"
+              :icon="computedInboxClass(child)"
             />
             <span
               v-if="child.color"
@@ -152,8 +153,6 @@ export default {
 }
 
 .inbox-icon {
-  position: relative;
-  top: -1px;
   &.ion-ios-email {
     font-size: var(--font-size-medium);
   }

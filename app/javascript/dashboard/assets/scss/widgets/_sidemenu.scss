@@ -64,7 +64,7 @@
 .bottom-nav {
   @include flex;
   @include space-between-column;
-  @include padding($space-one $space-normal $space-one $space-one);
+  @include padding($space-one);
   @include border-normal-top;
   flex-direction: column;
   position: relative;

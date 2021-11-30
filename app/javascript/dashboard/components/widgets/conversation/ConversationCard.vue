@@ -24,7 +24,7 @@
           v-if="showAssignee && assignee.name"
           class="label assignee-label text-truncate"
         >
-          <fluent-icon icon="person" size="14" />
+          <fluent-icon icon="person" size="12" />
           {{ assignee.name }}
         </span>
       </div>
@@ -293,15 +293,16 @@ export default {
   padding-right: var(--space-normal);
 
   .label {
-    padding: var(--space-micro) 0 var(--space-micro) 0;
-    line-height: var(--space-slab);
-    font-weight: var(--font-weight-medium);
     background: none;
     color: var(--s-500);
     font-size: var(--font-size-mini);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--space-slab);
+    padding: var(--space-micro) 0 var(--space-micro) 0;
   }
 
   .assignee-label {
+    display: inline-flex;
     max-width: 50%;
   }
 }

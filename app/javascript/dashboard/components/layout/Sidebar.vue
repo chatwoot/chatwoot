@@ -45,7 +45,7 @@
     <div class="bottom-nav app-context-menu" @click="toggleOptions">
       <agent-details @show-options="toggleOptions" />
       <notification-bell />
-      <span class="current-user--options icon ion-android-more-vertical" />
+      <fluent-icon class="current-user--options" icon="more-vertical" />
       <options-menu
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
@@ -104,17 +104,19 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import router from '../../routes';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
   components: {
-    AgentDetails,
-    SidebarItem,
-    AvailabilityStatus,
-    NotificationBell,
-    OptionsMenu,
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
+    AgentDetails,
+    AvailabilityStatus,
+    FluentIcon,
+    NotificationBell,
+    OptionsMenu,
+    SidebarItem,
     WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],

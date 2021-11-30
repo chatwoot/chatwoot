@@ -23,7 +23,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'cloud';
 
     case INBOX_TYPES.EMAIL:
-      return 'email';
+      return 'mail';
 
     case INBOX_TYPES.TELEGRAM:
       return 'brand-telegram';

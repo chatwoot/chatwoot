@@ -11,10 +11,12 @@
       <div class="user--profile__meta">
         <h3 class="user--name text-truncate">
           <span class="margin-right-smaller">{{ currentContact.name }}</span>
-          <i
+          <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            class="ion-android-alert text-y-800 fs-default"
+            class="text-y-800"
+            size="14"
+            icon="info"
           />
         </h3>
         <div class="conversation--header--actions">
@@ -55,9 +57,11 @@ import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import wootConstants from '../../../constants';
 import differenceInHours from 'date-fns/differenceInHours';
 import InboxName from '../InboxName';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
+    FluentIcon,
     InboxName,
     MoreActions,
     Thumbnail,
