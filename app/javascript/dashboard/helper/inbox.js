@@ -28,6 +28,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.TELEGRAM:
       return 'brand-telegram';
 
+    case INBOX_TYPES.LINE:
+      return 'brand-line';
+
     default:
       return 'chat';
   }

@@ -16,7 +16,7 @@
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
             class="text-y-800"
             size="14"
-            icon="info"
+            icon="warning"
           />
         </h3>
         <div class="conversation--header--actions">
