@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Schimba",
     "CHANGE_ACCOUNTS": "Comută contul",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
     "INTEGRATIONS": "Integrări",
+    "PROFILE_SETTINGS": "Setări profil",
     "ACCOUNT_SETTINGS": "Setările contului",
     "APPLICATIONS": "Applications",
     "LABELS": "Etichete",
@@ -151,6 +153,9 @@
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanii",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Agenți",
     "REPORTS_LABEL": "Etichete",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
