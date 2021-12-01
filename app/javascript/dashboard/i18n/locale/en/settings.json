@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Change",
     "CHANGE_ACCOUNTS": "Switch Account",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile Settings",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
+    "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
@@ -151,6 +153,9 @@
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
