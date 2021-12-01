@@ -103,7 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar Conta",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
@@ -153,9 +153,9 @@
     "TEAMS": "Times",
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Novo time",
+    "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_OVERVIEW": "Visão geral",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
@@ -165,7 +165,7 @@
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Defina como"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
