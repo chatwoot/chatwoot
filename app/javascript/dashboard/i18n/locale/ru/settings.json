@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
     "CHANGE_ACCOUNTS": "Сменить Аккаунт",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
     "INTEGRATIONS": "Интеграции",
+    "PROFILE_SETTINGS": "Настройки профиля",
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
     "APPLICATIONS": "Приложения",
     "LABELS": "Категории",
@@ -151,6 +153,9 @@
     "TEAMS": "Команды",
     "ALL_CONTACTS": "Все контакты",
     "TAGGED_WITH": "С метками",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Обзор",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
-    "REPORTS_TEAM": "Команда"
+    "REPORTS_TEAM": "Команда",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
