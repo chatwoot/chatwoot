@@ -27,7 +27,7 @@ l<template>
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <i class="icon ion-ios-settings-strong" />
+          <fluent-icon icon="filter" />
         </woot-button>
       </div>
     </div>

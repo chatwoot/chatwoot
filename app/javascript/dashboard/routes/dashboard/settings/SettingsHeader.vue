@@ -7,7 +7,7 @@
         :button-label="backButtonLabel"
         :back-url="backUrl"
       />
-      <i v-if="icon" :class="iconClass"></i>
+      <fluent-icon v-if="icon" :icon="icon" :class="iconClass" />
       <slot></slot>
       <span>{{ headerTitle }}</span>
     </h1>
@@ -16,7 +16,7 @@
       :to="buttonRoute"
       class="button success button--fixed-right-top"
     >
-      <i class="icon ion-android-add-circle"></i>
+      <fluent-icon icon="add-circle" />
       <span class="button__content">
         {{ buttonText }}
       </span>

@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Görsel mesaj"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Sesli mesaj"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video mesajı"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Dosya eklentisi"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Yer"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "bir url paylaştı"
       }
     },

@@ -40,10 +40,11 @@
                   >
                     {{ option.name }}
                   </span>
-                  <i
+                  <fluent-icon
                     v-if="option.id === (selectedItem && selectedItem.id)"
-                    class="icon ion-checkmark-round"
-                  />
+                    icon="checkmark"
+                  >
+                  </fluent-icon>
                 </div>
               </div>
             </woot-button>
@@ -61,6 +62,7 @@
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
 export default {
   components: {
     WootDropdownItem,

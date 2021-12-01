@@ -31,6 +31,8 @@
 
       .wrap,
       .child-icon {
+        color: $color-gray;
+
         &:hover {
           color: $color-woot;
         }
@@ -62,7 +64,7 @@
 .bottom-nav {
   @include flex;
   @include space-between-column;
-  @include padding($space-one $space-normal $space-one $space-one);
+  @include padding($space-one);
   @include border-normal-top;
   flex-direction: column;
   position: relative;
@@ -109,16 +111,6 @@
   @include padding($space-micro null);
   color: $medium-gray;
   line-height: $global-lineheight;
-}
-
-.hamburger--menu {
-  cursor: pointer;
-  display: none;
-  margin-right: $space-normal;
-
-  @media screen and (max-width: 1200px) {
-    display: block;
-  }
 }
 
 .header--icon {
