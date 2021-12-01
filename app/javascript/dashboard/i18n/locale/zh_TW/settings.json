@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "變更",
     "CHANGE_ACCOUNTS": "切換帳戶",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
     "PROFILE_SETTINGS": "個人資料設定",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
+    "PROFILE_SETTINGS": "個人資料設定",
     "ACCOUNT_SETTINGS": "帳戶設定",
     "APPLICATIONS": "Applications",
     "LABELS": "標籤",
@@ -151,6 +153,9 @@
     "TEAMS": "團隊",
     "ALL_CONTACTS": "所有聯絡人",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "總覽",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "標籤",
     "REPORTS_INBOX": "收件匣",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
