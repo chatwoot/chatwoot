@@ -66,9 +66,9 @@ export default {
 }
 .cw-accordion--title {
   align-items: center;
-  background: var(--b-50);
-  border-bottom: 1px solid var(--color-border);
-  border-top: 1px solid var(--color-border);
+  background: var(--s-50);
+  border-bottom: 1px solid var(--s-100);
+  border-top: 1px solid var(--s-100);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
