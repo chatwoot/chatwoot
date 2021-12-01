@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "변경",
     "CHANGE_ACCOUNTS": "계정 전환",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
     "PROFILE_SETTINGS": "프로필 설정",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
+    "PROFILE_SETTINGS": "프로필 설정",
     "ACCOUNT_SETTINGS": "계정 설정",
     "APPLICATIONS": "Applications",
     "LABELS": "라벨",
@@ -151,6 +153,9 @@
     "TEAMS": "팀",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "에이전트",
     "REPORTS_LABEL": "라벨",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
