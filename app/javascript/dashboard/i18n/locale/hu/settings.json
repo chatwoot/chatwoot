@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
     "CHANGE_ACCOUNTS": "Fiókváltás",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
     "PROFILE_SETTINGS": "Profilbeállítások",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Értesítések",
     "CANNED_RESPONSES": "Mentett válaszok",
     "INTEGRATIONS": "Integrációk",
+    "PROFILE_SETTINGS": "Profilbeállítások",
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
     "APPLICATIONS": "Applications",
     "LABELS": "Cimkék",
@@ -151,6 +153,9 @@
     "TEAMS": "Csapatok",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Ügynökök",
     "REPORTS_LABEL": "Cimkék",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
