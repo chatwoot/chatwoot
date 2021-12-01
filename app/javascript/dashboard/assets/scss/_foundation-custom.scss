@@ -56,6 +56,10 @@ code {
 }
 
 
+.badge {
+  border-radius: var(--border-radius-normal);
+}
+
 .padding-right-small {
   padding-right: var(--space-one);
 }

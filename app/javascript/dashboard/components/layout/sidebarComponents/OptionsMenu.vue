@@ -2,15 +2,19 @@
   <transition name="menu-slide">
     <div
       v-if="show"
-      v-on-clickaway="() => $emit('close')"
-      class="dropdown-pane dropdowm--top"
+      v-on-clickaway="onClickAway"
+      class="dropdown-pane"
+      :class="{ 'dropdown-pane--open': show }"
     >
+      <availability-status />
+      <li class="divider" />
       <woot-dropdown-menu>
         <woot-dropdown-item v-if="showChangeAccountOption">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
-            class=" change-accounts--button"
+            icon="arrow-swap"
             @click="$emit('toggle-accounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
@@ -19,36 +23,50 @@
         <woot-dropdown-item v-if="globalConfig.chatwootInboxToken">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
-            class=" change-accounts--button"
+            icon="ion-help-buoy"
             @click="$emit('show-support-chat-window')"
           >
-            Contact Support
+            {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
-            class=" change-accounts--button"
-            @click="$emit('key-shortcut-modal')"
+            icon="keyboard"
+            @click="handleKeyboardHelpClick"
           >
             {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <router-link
+            v-slot="{ href, isActive, navigate }"
             :to="`/app/accounts/${accountId}/profile/settings`"
-            class="button clear small change-accounts--button"
+            custom
           >
-            {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+            <a
+              :href="href"
+              class="button small clear secondary"
+              :class="{ 'is-active': isActive }"
+              @click="e => handleProfileSettingClick(e, navigate)"
+            >
+              <fluent-icon icon="person" class="icon icon--font" />
+              <span class="button__content">
+                {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+              </span>
+            </a>
           </router-link>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button
             variant="clear"
+            color-scheme="secondary"
             size="small"
-            class=" change-accounts--button"
+            icon="power"
             @click="logout"
           >
             {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
@@ -63,13 +81,15 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus';
 
 export default {
   components: {
     WootDropdownMenu,
     WootDropdownItem,
+    AvailabilityStatus,
   },
   mixins: [clickaway],
   props: {
@@ -88,18 +108,34 @@ export default {
       if (this.globalConfig.createNewAccountFromDashboard) {
         return true;
       }
-      return this.currentUser.accounts.length > 1;
+
+      const { accounts = [] } = this.currentUser;
+      return accounts.length > 1;
     },
   },
   methods: {
+    handleProfileSettingClick(e, navigate) {
+      this.$emit('close');
+      navigate(e);
+    },
+    handleKeyboardHelpClick() {
+      this.$emit('key-shortcut-modal');
+      this.$emit('close');
+    },
     logout() {
       Auth.logout();
+    },
+    onClickAway() {
+      if (this.show) this.$emit('close');
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .dropdown-pane {
-  right: 0;
+  left: var(--space-slab);
+  bottom: var(--space-larger);
+  min-width: 16.8rem;
+  z-index: var(--z-index-much-higher);
 }
 </style>
