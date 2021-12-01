@@ -103,7 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
@@ -153,9 +153,9 @@
     "TEAMS": "تیم‌ها",
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "برچسب جدید",
+    "NEW_TEAM": "تیم جدید",
+    "NEW_INBOX": "صندوق ورودی جدید",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
@@ -165,7 +165,7 @@
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
