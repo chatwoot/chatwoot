@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
+    "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
     "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
@@ -151,6 +153,9 @@
     "TEAMS": "تیم‌ها",
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "ایجنت ها",
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",
-    "REPORTS_TEAM": "تیم‌"
+    "REPORTS_TEAM": "تیم‌",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
