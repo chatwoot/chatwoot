@@ -2,7 +2,7 @@
   <div v-if="menuConfig.menuItems.length" class="main-nav secondary-menu">
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
-        v-for="menuItem in menuConfig.menuItems"
+        v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
       />
@@ -129,6 +129,10 @@ export default {
       };
     },
     teamSection() {
+      if (!this.teams.length) {
+        return {};
+      }
+
       return {
         icon: 'people-team',
         label: 'TEAMS',
