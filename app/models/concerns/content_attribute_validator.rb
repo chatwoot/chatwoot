@@ -20,6 +20,9 @@ class ContentAttributeValidator < ActiveModel::Validator
     when 'article'
       validate_items!(record)
       validate_item_attributes!(record, ALLOWED_ARTICLE_KEYS)
+    when 'text'
+      validate_cc_emails!(record)
+      validate_bcc_emails!(record)
     end
   end
 
@@ -48,5 +51,13 @@ class ContentAttributeValidator < ActiveModel::Validator
     item_action_keys = record.items.collect { |item| item[:actions].collect(&:keys) }
     invalid_keys = item_action_keys.flatten.compact.map(&:to_sym) - ALLOWED_CARD_ITEM_ACTION_KEYS
     record.errors.add(:content_attributes, "contains invalid keys for actions:  #{invalid_keys}") if invalid_keys.present?
+  end
+
+  def validate_cc_emails!(record)
+    record.errors.add(:content_attributes, 'contains invalid cc_emails') if record.cc_emails&.grep_v(URI::MailTo::EMAIL_REGEXP).present?
+  end
+
+  def validate_bcc_emails!(record)
+    record.errors.add(:content_attributes, 'contains invalid bcc_emails') if record.bcc_emails&.grep_v(URI::MailTo::EMAIL_REGEXP).present?
   end
 end
