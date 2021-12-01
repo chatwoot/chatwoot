@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AUTOMATION.HEADER',
-        icon: 'ion-wrench',
+        icon: 'autocorrect',
         showNewButton: false,
       },
       children: [

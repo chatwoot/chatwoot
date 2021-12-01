@@ -61,9 +61,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      activeInbox: 'getSelectedInbox',
-    }),
+    ...mapGetters({ activeInbox: 'getSelectedInbox' }),
     getMenuItemClass() {
       return this.menuItem.cssClass
         ? `side-menu ${this.menuItem.cssClass}`

@@ -24,12 +24,11 @@
         </span>
       </div>
       <div class="remove-file-wrap">
-        <button
-          class="remove--attachment"
+        <woot-button
+          class="remove--attachment clear secondary"
+          icon="dismiss"
           @click="() => onRemoveAttachment(index)"
-        >
-          <i class="ion-android-close"></i>
-        </button>
+        />
       </div>
     </div>
   </div>

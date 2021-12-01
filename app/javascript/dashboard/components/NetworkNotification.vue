@@ -23,7 +23,7 @@
           {{ $t('NETWORK.BUTTON.REFRESH') }}
         </button>
         <button class="ui-close-button" @click="closeNotification">
-          <i class="ui-close-icon icon ion-ios-close-outline" />
+          <fluent-icon icon="dismiss-circle" class="ui-close-icon " />
         </button>
       </div>
     </div>

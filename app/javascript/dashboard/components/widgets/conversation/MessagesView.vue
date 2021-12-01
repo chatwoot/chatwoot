@@ -44,7 +44,11 @@
         class="banner-close-button"
         @click="removeTweetSelection"
       >
-        <i v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')" class="ion-close" />
+        <fluent-icon
+          v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')"
+          size="16"
+          icon="dismiss"
+        />
       </button>
     </div>
     <ul class="conversation-panel">

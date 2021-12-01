@@ -1,7 +1,7 @@
 <template>
   <div class="file message-text__wrap">
     <div class="icon-wrap">
-      <i class="ion-document-text"></i>
+      <fluent-icon icon="document" class="file--icon" />
     </div>
     <div class="meta">
       <h5 class="text-block-title">

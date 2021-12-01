@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_MGMT.HEADER',
-        icon: 'ion-person-stalker',
+        icon: 'people',
         showNewButton: false,
       },
       children: [

@@ -33,7 +33,7 @@
 
       <div class="child-contact-wrap">
         <div class="child-arrow">
-          <i class="ion-ios-arrow-up up" />
+          <fluent-icon icon="arrow-up" class="up" size="17" />
         </div>
         <div
           class="child-contact multiselect-wrap--medium"
@@ -213,8 +213,8 @@ export default {
 
 .up {
   position: absolute;
-  top: -11px;
-  left: var(--space-normal);
+  top: var(--space-minus-smaller);
+  left: var(--space-slab);
 }
 
 .footer {

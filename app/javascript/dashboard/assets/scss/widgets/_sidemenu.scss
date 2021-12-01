@@ -36,7 +36,7 @@
 .bottom-nav {
   @include flex;
   @include space-between-column;
-  @include padding($space-one $space-normal $space-one $space-one);
+  @include padding($space-one);
   @include border-normal-top;
   flex-direction: column;
   position: relative;
@@ -57,14 +57,32 @@
   }
 }
 
-.hamburger--menu {
-  cursor: pointer;
-  display: none;
-  margin-right: $space-normal;
+.main-nav {
+  @include flex-weight(1);
+  @include scroll-on-hover;
+  padding: 0 $space-medium - $space-one;
 
-  @media screen and (max-width: 1200px) {
-    display: block;
+  a {
+    &::before {
+      margin-right: $space-slab;
+    }
   }
+
+  .menu-title {
+    color: $color-gray;
+    font-size: $font-size-medium;
+    margin-top: $space-medium;
+
+    >span {
+      margin-left: $space-one;
+    }
+  }
+}
+
+.menu-title+ul>li>a {
+  @include padding($space-micro null);
+  color: $medium-gray;
+  line-height: $global-lineheight;
 }
 
 .header--icon {

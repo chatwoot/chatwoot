@@ -14,7 +14,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'REPORT.HEADER',
-        icon: 'ion-arrow-graph-up-right',
+        icon: 'arrow-trending-lines',
         keepAlive: false,
       },
       children: [
@@ -35,7 +35,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CSAT_REPORTS.HEADER',
-        icon: 'ion-happy-outline',
+        icon: 'emoji',
         keepAlive: false,
       },
       children: [
@@ -52,7 +52,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_REPORTS.HEADER',
-        icon: 'ion-ios-people',
+        icon: 'people',
         keepAlive: false,
       },
       children: [
@@ -69,7 +69,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'LABEL_REPORTS.HEADER',
-        icon: 'ion-pricetags',
+        icon: 'tag',
         keepAlive: false,
       },
       children: [
@@ -86,7 +86,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
-        icon: 'ion-archive',
+        icon: 'mail-inbox-all',
         keepAlive: false,
       },
       children: [
@@ -103,7 +103,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'TEAM_REPORTS.HEADER',
-        icon: 'ion-ios-people',
+        icon: 'people-team',
       },
       children: [
         {

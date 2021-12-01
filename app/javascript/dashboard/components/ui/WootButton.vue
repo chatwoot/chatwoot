@@ -11,6 +11,7 @@
       class="icon"
       :emoji="emoji"
       :icon="icon"
+      :icon-size="iconSize"
     />
     <span v-if="$slots.default" class="button__content"><slot></slot></span>
   </button>
@@ -34,6 +35,10 @@ export default {
     icon: {
       type: String,
       default: '',
+    },
+    iconSize: {
+      type: [Number, String],
+      default: 20,
     },
     emoji: {
       type: String,

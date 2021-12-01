@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Kuvaviesti"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Ääniviesti"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videoviesti"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Liite"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Sijainti"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "on jakanut URL-osoitteen"
       }
     },

@@ -5,8 +5,9 @@
         v-if="isOpen"
         class-names="resolve"
         color-scheme="success"
-        icon="ion-checkmark"
+        icon="checkmark"
         emoji="✅"
+        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
       >
@@ -16,8 +17,9 @@
         v-else-if="isResolved"
         class-names="resolve"
         color-scheme="warning"
-        icon="ion-refresh"
+        icon="arrow-redo"
         emoji="👀"
+        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       >
@@ -27,7 +29,8 @@
         v-else-if="showOpenButton"
         class-names="resolve"
         color-scheme="primary"
-        icon="ion-person"
+        icon="person"
+        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       >
@@ -38,7 +41,8 @@
         ref="arrowDownButton"
         :color-scheme="buttonClass"
         :disabled="isLoading"
-        icon="ion-arrow-down-b"
+        icon="chevron-down"
+        icon-size="16"
         emoji="🔽"
         @click="openDropdown"
       />

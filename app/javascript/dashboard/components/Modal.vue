@@ -7,7 +7,9 @@
       @click="onBackDropClick"
     >
       <div :class="modalContainerClassName" @click.stop>
-        <i class="ion-android-close modal--close" @click="close"></i>
+        <button class="modal--close" @click="close">
+          <fluent-icon icon="dismiss" />
+        </button>
         <slot />
       </div>
     </div>
