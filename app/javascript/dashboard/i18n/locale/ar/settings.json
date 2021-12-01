@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "تبديل الحساب",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
     "INTEGRATIONS": "خيارات الربط",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
     "APPLICATIONS": "التطبيقات",
     "LABELS": "الوسوم",
@@ -151,6 +153,9 @@
     "TEAMS": "الفرق",
     "ALL_CONTACTS": "جميع جهات الاتصال",
     "TAGGED_WITH": "مشار إليه بواسطة",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "موظف الدعم",
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
-    "REPORTS_TEAM": "الفريق"
+    "REPORTS_TEAM": "الفريق",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
