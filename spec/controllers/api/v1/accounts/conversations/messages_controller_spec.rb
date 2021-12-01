@@ -65,6 +65,33 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
+
+      context 'when inbox type is Email' do
+        let!(:inbox) { create(:inbox, account: account, channel: create(:channel_email)) }
+        let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+
+        it 'returns 422 status when invalid cc_emails' do
+          params = { content: 'test-message', cc_emails: ['foo@example.com', 'invalid'] }
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns 422 status when invalid bcc_emails' do
+          params = { content: 'test-message', bcc_emails: ['foo@example.com', 'invalid'] }
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
     end
 
     context 'when it is an authenticated agent bot' do
