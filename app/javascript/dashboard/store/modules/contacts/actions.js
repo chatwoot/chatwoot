@@ -60,8 +60,8 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      if (error.response?.data?.contact) {
-        throw new DuplicateContactException(error.response.data.contact);
+      if (error.response?.status === 422) {
+        throw new DuplicateContactException(error.response.data.attributes);
       } else {
         throw new Error(error);
       }
