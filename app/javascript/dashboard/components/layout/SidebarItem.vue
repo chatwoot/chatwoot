@@ -7,9 +7,10 @@
       aria-haspopup="true"
       :title="menuItem.toolTip"
     >
+      <fluent-icon v-if="!hasSubMenu" :icon="menuItem.icon" />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
     </a>
-    <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
+    <ul v-if="hasSubMenu" class="nested vertical menu">
       <secondary-nav-item
         v-for="child in menuItem.children"
         :key="child.id"
@@ -20,7 +21,7 @@
         :icon="computedInboxClass(child)"
       />
       <router-link
-        v-if="menuItem.newLink"
+        v-if="showItem(menuItem)"
         v-slot="{ href, isActive, navigate }"
         :to="menuItem.toState"
         custom
@@ -49,7 +50,7 @@ import { mapGetters } from 'vuex';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 
-import SecondaryNavItem from 'dashboard/modules/sidebar/components/SecondaryNavItem';
+import SecondaryNavItem from './sidebarComponents/SecondaryNavItem';
 
 export default {
   components: { SecondaryNavItem },
@@ -66,6 +67,9 @@ export default {
       return this.menuItem.cssClass
         ? `side-menu ${this.menuItem.cssClass}`
         : 'side-menu';
+    },
+    hasSubMenu() {
+      return !!this.menuItem.children?.length;
     },
     computedClass() {
       // If active Inbox is present
@@ -124,7 +128,6 @@ export default {
   color: var(--s-600);
   font-weight: var(--font-weight-bold);
   line-height: var(--space-two);
-  text-transform: uppercase;
 }
 
 .sub-menu-link {

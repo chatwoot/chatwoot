@@ -1,6 +1,7 @@
 const notifications = () => ({
+  parentNav: 'notifications',
   routes: ['notifications_index'],
-  menuItems: {},
+  menuItems: [],
 });
 
 export default notifications;
