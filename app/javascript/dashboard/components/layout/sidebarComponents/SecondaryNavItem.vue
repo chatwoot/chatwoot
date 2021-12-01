@@ -1,11 +1,12 @@
 <template>
-  <li :class="computedClass" class="sidebar-item">
+  <li class="sidebar-item">
     <span v-if="hasSubMenu" class="secondary-menu--title fs-small">
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
     </span>
     <router-link
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
+      :class="computedClass"
       :to="menuItem.toState"
     >
       <fluent-icon :icon="menuItem.icon" class="secondary-menu--icon" />
@@ -77,7 +78,7 @@ export default {
         this.$store.state.route.name === 'inbox_conversation' &&
         this.menuItem.toStateName === 'home'
       ) {
-        return 'active';
+        return 'is-active';
       }
       return ' ';
     },
@@ -133,7 +134,8 @@ export default {
     border-color: var(--w-300);
   }
 
-  &.router-link-exact-active {
+  &.router-link-exact-active,
+  &.is-active {
     background: var(--w-25);
     color: var(--w-500);
     border-color: var(--w-25);
