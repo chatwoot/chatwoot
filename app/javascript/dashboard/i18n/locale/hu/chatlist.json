@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Képüzenet"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Hangüzenet"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videoüzenet"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Csatolt file"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Hely"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "megosztott URL-t tartalmaz"
       }
     },

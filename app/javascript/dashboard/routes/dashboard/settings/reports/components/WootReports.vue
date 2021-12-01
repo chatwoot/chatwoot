@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-download"
+      icon="arrow-download"
       @click="downloadReports"
     >
       {{ downloadButtonLabel }}

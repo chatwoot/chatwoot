@@ -21,7 +21,8 @@
         />
         <div class="filter-actions">
           <woot-button
-            icon="ion-plus"
+            icon="add"
+            icon-size="16"
             color-scheme="success"
             variant="smooth"
             size="small"

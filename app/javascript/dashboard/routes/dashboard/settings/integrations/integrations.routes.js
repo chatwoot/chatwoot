@@ -17,7 +17,7 @@ export default {
             : '';
         return {
           headerTitle: 'INTEGRATION_SETTINGS.HEADER',
-          icon: 'ion-flash',
+          icon: 'flash-on',
           showBackButton,
           backUrl,
         };

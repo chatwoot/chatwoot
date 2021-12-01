@@ -3,7 +3,7 @@
     <woot-label
       color-scheme="secondary"
       :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON')"
-      icon="ion-plus-round"
+      icon="add-circle"
     />
   </woot-button>
 </template>

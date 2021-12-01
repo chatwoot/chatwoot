@@ -45,7 +45,7 @@
     <div class="bottom-nav app-context-menu" @click="toggleOptions">
       <agent-details @show-options="toggleOptions" />
       <notification-bell />
-      <span class="current-user--options icon ion-android-more-vertical" />
+      <fluent-icon class="current-user--options" icon="more-vertical" />
       <options-menu
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
@@ -107,14 +107,14 @@ import router from '../../routes';
 
 export default {
   components: {
-    AgentDetails,
-    SidebarItem,
-    AvailabilityStatus,
-    NotificationBell,
-    OptionsMenu,
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
+    AgentDetails,
+    AvailabilityStatus,
+    NotificationBell,
+    OptionsMenu,
+    SidebarItem,
     WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
@@ -173,7 +173,7 @@ export default {
     },
     inboxSection() {
       return {
-        icon: 'ion-folder',
+        icon: 'folder',
         label: 'INBOXES',
         hasSubMenu: true,
         newLink: true,
@@ -193,7 +193,7 @@ export default {
     },
     labelSection() {
       return {
-        icon: 'ion-pound',
+        icon: 'number-symbol',
         label: 'LABELS',
         hasSubMenu: true,
         newLink: true,
@@ -216,7 +216,7 @@ export default {
     },
     contactLabelSection() {
       return {
-        icon: 'ion-pound',
+        icon: 'number-symbol',
         label: 'TAGGED_WITH',
         hasSubMenu: true,
         key: 'label',
@@ -239,7 +239,7 @@ export default {
     },
     teamSection() {
       return {
-        icon: 'ion-ios-people',
+        icon: 'people-team',
         label: 'TEAMS',
         hasSubMenu: true,
         newLink: true,
@@ -354,11 +354,11 @@ export default {
   cursor: pointer;
   padding: $space-small $space-large;
 
-  .ion-ios-checkmark {
-    font-size: $font-size-big;
+  .selected--account {
+    margin-top: -$space-smaller;
 
     & + .account--details {
-      padding-left: $space-normal;
+      padding-left: $space-normal - $space-micro;
     }
   }
 

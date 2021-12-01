@@ -16,7 +16,7 @@ export default {
             : '';
         return {
           headerTitle: 'INTEGRATION_APPS.HEADER',
-          icon: 'ion-asterisk',
+          icon: 'star-emphasis',
           showBackButton,
           backUrl,
         };

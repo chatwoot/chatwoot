@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Tin nhắn hình ảnh"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Tin nhắn thoại"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Tin nhắn video"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Tập tin đính kèm"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Địa điểm"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "có một đường dẫn chia sẻ"
       }
     },

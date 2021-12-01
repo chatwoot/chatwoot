@@ -13,11 +13,11 @@
       @click="toggleQuotedContent"
     >
       <span v-if="showQuotedContent">
-        <i class="ion-chevron-up" />
+        <fluent-icon icon="chevron-up" class="fluent-icon" size="16" />
         {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
       </span>
       <span v-else>
-        <i class="ion-chevron-down" />
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="16" />
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
@@ -104,5 +104,9 @@ export default {
   font-size: var(--font-size-mini);
   padding-bottom: var(--space-small);
   padding-top: var(--space-small);
+
+  .fluent-icon {
+    margin-bottom: var(--space-minus-smaller);
+  }
 }
 </style>
