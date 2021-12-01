@@ -4,21 +4,21 @@ const campaigns = accountId => ({
   routes: ['settings_account_campaigns', 'one_off'],
   menuItems: {
     back: {
-      icon: 'ion-ios-arrow-back',
+      icon: 'chevron-left',
       label: 'HOME',
       hasSubMenu: false,
       toStateName: 'home',
       toState: frontendURL(`accounts/${accountId}/dashboard`),
     },
     ongoingCampaigns: {
-      icon: 'ion-arrow-swap',
+      icon: 'arrow-swap',
       label: 'ONGOING',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
       toStateName: 'settings_account_campaigns',
     },
     onOffCampaigns: {
-      icon: 'ion-radio-waves',
+      icon: 'sound-source',
       label: 'ONE_OFF',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),

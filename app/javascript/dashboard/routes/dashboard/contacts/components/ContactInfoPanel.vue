@@ -4,7 +4,7 @@
     :class="{ 'border-left': showAvatar }"
   >
     <span v-if="showAvatar" class="close-button" @click="onClose">
-      <i class="ion-android-close close-icon" />
+      <fluent-icon icon="dismiss" class="close-icon" />
     </span>
     <contact-info
       :show-avatar="showAvatar"

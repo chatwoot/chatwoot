@@ -68,7 +68,7 @@
                   >
                     <woot-button
                       v-if="isAdmin"
-                      icon="ion-gear-b"
+                      icon="settings"
                       variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
@@ -83,7 +83,7 @@
                     color-scheme="secondary"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
-                    icon="ion-close-circled"
+                    icon="dismiss-circle"
                     @click="openDelete(item)"
                   >
                     {{ $t('INBOX_MGMT.DELETE.BUTTON_TEXT') }}

@@ -8,14 +8,14 @@ const contacts = accountId => ({
   ],
   menuItems: {
     back: {
-      icon: 'ion-ios-arrow-back',
+      icon: 'chevron-left',
       label: 'HOME',
       hasSubMenu: false,
       toStateName: 'home',
       toState: frontendURL(`accounts/${accountId}/dashboard`),
     },
     contacts: {
-      icon: 'ion-person',
+      icon: 'contact-card-group',
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/contacts`),

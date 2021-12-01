@@ -4,20 +4,20 @@
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
       class="hollow secondary actions--button"
-      icon="ion-volume-mute"
+      icon="speaker-mute"
       @click="mute"
     />
     <woot-button
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
       class="hollow secondary actions--button"
-      icon="ion-volume-medium"
+      icon="speaker-1"
       @click="unmute"
     />
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
       class="hollow secondary actions--button"
-      icon="ion-share"
+      icon="share"
       @click="toggleEmailActionsModal"
     />
     <resolve-action

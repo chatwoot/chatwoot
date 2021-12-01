@@ -13,14 +13,20 @@
       :title="menuItem.toolTip"
     >
       <div class="wrap">
-        <i :class="menuItem.icon" />
+        <fluent-icon
+          size="18"
+          :icon="menuItem.icon"
+          class="margin-right-small"
+        />
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </div>
-      <span
+      <button
         v-if="showItem(menuItem)"
-        class="child-icon ion-android-add-circle"
+        class="child-icon"
         @click.prevent="newLinkClick(menuItem)"
-      />
+      >
+        <fluent-icon icon="add-circle" size="16" />
+      </button>
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
       <router-link
@@ -32,10 +38,11 @@
       >
         <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
-            <i
+            <fluent-icon
               v-if="menuItem.key === 'inbox'"
               class="inbox-icon"
-              :class="computedInboxClass(child)"
+              size="14"
+              :icon="computedInboxClass(child)"
             />
             <span
               v-if="child.color"
@@ -142,13 +149,5 @@ export default {
   margin-right: $space-small;
   min-width: $space-normal;
   width: $space-normal;
-}
-
-.inbox-icon {
-  position: relative;
-  top: -1px;
-  &.ion-ios-email {
-    font-size: var(--font-size-medium);
-  }
 }
 </style>

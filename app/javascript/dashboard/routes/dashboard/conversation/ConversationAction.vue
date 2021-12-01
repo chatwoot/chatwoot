@@ -8,7 +8,8 @@
         <template v-slot:button>
           <woot-button
             v-if="showSelfAssign"
-            icon="ion-arrow-right-c"
+            icon="arrow-right"
+            icon-size="14"
             variant="link"
             size="small"
             @click="onSelfAssign"

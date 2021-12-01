@@ -23,7 +23,7 @@
             variant="link"
             size="medium"
             color-scheme="secondary"
-            icon="ion-trash-a"
+            icon="delete"
             class-names="delete-button"
             @click="onDelete"
           />
@@ -44,7 +44,7 @@
             @keyup.enter="onUpdate"
           />
           <div class="input-group-button">
-            <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
+            <woot-button size="small" icon="checkmark" @click="onUpdate" />
           </div>
         </div>
         <span v-if="shouldShowErrorMessage" class="error-message">
@@ -75,7 +75,7 @@
             variant="link"
             size="small"
             color-scheme="secondary"
-            icon="ion-clipboard"
+            icon="clipboard"
             class-names="edit-button"
             @click="onCopy"
           />
@@ -85,7 +85,7 @@
             variant="link"
             size="small"
             color-scheme="secondary"
-            icon="ion-compose"
+            icon="edit"
             class-names="edit-button"
             @click="onEdit"
           />
