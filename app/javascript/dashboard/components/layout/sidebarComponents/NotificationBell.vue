@@ -21,7 +21,7 @@ export default {
     }),
     unreadCount() {
       if (!this.notificationMetadata.unreadCount) {
-        return '0';
+        return '';
       }
 
       return this.notificationMetadata.unreadCount < 100

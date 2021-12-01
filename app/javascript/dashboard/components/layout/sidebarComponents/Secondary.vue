@@ -1,12 +1,12 @@
 <template>
   <div v-if="menuConfig.menuItems.length" class="main-nav secondary-menu">
     <transition-group name="menu-list" tag="ul" class="menu vertical">
-      <sidebar-item
+      <secondary-nav-item
         v-for="menuItem in menuConfig.menuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
       />
-      <sidebar-item
+      <secondary-nav-item
         v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
         :key="menuItem.key"
         :menu-item="menuItem"
@@ -17,11 +17,11 @@
 </template>
 <script>
 import { frontendURL } from '../../../helper/URLHelper';
-import SidebarItem from '../SidebarItem';
+import SecondaryNavItem from './SecondaryNavItem.vue';
 
 export default {
   components: {
-    SidebarItem,
+    SecondaryNavItem,
   },
   props: {
     accountId: {
@@ -44,8 +44,23 @@ export default {
       type: Object,
       default: () => {},
     },
+    currentRole: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
+    accessibleMenuItems() {
+      if (!this.currentRole) {
+        return [];
+      }
+      return this.menuConfig.menuItems.filter(
+        menuItem =>
+          window.roleWiseRoutes[this.currentRole].indexOf(
+            menuItem.toStateName
+          ) > -1
+      );
+    },
     inboxSection() {
       return {
         icon: 'folder',
@@ -54,7 +69,6 @@ export default {
         newLink: true,
         newLinkTag: 'NEW_INBOX',
         key: 'inbox',
-        cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
         toStateName: 'settings_inbox_new',
         newLinkRouteName: 'settings_inbox_new',
@@ -76,7 +90,6 @@ export default {
         newLink: true,
         newLinkTag: 'NEW_LABEL',
         key: 'label',
-        cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
         showModalForNewItem: true,
@@ -100,7 +113,6 @@ export default {
         key: 'label',
         newLink: true,
         newLinkTag: 'NEW_LABEL',
-        cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
         showModalForNewItem: true,
@@ -124,7 +136,6 @@ export default {
         newLink: true,
         newLinkTag: 'NEW_TEAM',
         key: 'team',
-        cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams/new`),
         toStateName: 'settings_teams_new',
         newLinkRouteName: 'settings_teams_new',

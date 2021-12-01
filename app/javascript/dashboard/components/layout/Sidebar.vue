@@ -15,6 +15,7 @@
       :labels="labels"
       :teams="teams"
       :menu-config="activeSecondaryMenu"
+      :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
     <woot-key-shortcut-modal
