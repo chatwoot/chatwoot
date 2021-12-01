@@ -217,6 +217,7 @@ export default {
       this.showFiltersModal = !this.showFiltersModal;
     },
     onApplyFilter(payload) {
+      this.closeContactInfoPanel();
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });
