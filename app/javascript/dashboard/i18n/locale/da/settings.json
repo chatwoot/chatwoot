@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Skift",
     "CHANGE_ACCOUNTS": "Skift Konto",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Profilindstillinger",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
+    "PROFILE_SETTINGS": "Profilindstillinger",
     "ACCOUNT_SETTINGS": "Kontoindstillinger",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
@@ -151,6 +153,9 @@
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
