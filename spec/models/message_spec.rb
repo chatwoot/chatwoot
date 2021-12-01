@@ -9,6 +9,36 @@ RSpec.describe Message, type: :model do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'content_attributes validation' do
+    subject { message.valid? }
+
+    let(:message) { build(:message) }
+
+    context 'when cc_emails not contains invalid address' do
+      before { message.cc_emails = ['foo@example.com', 'bar@example.com'] }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context 'when cc_emails contains invalid invalid address' do
+      before { message.cc_emails = ['foo@example.com', 'invalid_one'] }
+
+      it { is_expected.to eq(false) }
+    end
+
+    context 'when bcc_emails not contains invalid address' do
+      before { message.bcc_emails = ['foo@example.com', 'bar@example.com'] }
+
+      it { is_expected.to eq(true) }
+    end
+
+    context 'when bcc_emails contains invalid invalid address' do
+      before { message.bcc_emails = ['foo@example.com', 'invalid_one'] }
+
+      it { is_expected.to eq(false) }
+    end
+  end
+
   describe '#reopen_conversation' do
     let(:conversation) { create(:conversation) }
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
