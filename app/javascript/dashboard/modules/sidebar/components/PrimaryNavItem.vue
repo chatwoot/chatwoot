@@ -7,7 +7,7 @@
       :class="{ 'is-active': isActive || isChildMenuActive }"
       @click="navigate"
     >
-      <i class="icon" :class="icon" />
+      <fluent-icon :icon="icon" />
       <span class="show-for-sr">{{ name }}</span>
       <span v-if="count" class="badge warning">{{ count }}</span>
     </a>

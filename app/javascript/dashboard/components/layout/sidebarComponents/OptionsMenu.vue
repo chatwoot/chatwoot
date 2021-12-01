@@ -14,7 +14,7 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="ion-arrow-swap"
+            icon="arrow-swap"
             @click="$emit('toggle-accounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
@@ -36,7 +36,7 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="ion-ios-bolt-outline"
+            icon="keyboard"
             @click="handleKeyboardHelpClick"
           >
             {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
@@ -54,7 +54,7 @@
               :class="{ 'is-active': isActive }"
               @click="e => handleProfileSettingClick(e, navigate)"
             >
-              <i class="icon ion-person" />
+              <fluent-icon icon="person" />
               <span class="button__content">
                 {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
               </span>
@@ -66,7 +66,7 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="ion-log-out"
+            icon="power"
             @click="logout"
           >
             {{ $t('SIDEBAR_ITEMS.LOGOUT') }}

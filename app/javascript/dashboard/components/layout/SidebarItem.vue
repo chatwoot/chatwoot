@@ -32,7 +32,7 @@
             :class="{ 'is-active': isActive }"
             @click="e => newLinkClick(e, navigate)"
           >
-            <i class="icon ion-plus-round" />
+            <fluent-icon icon="add" />
             <span class="button__content">
               {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
             </span>
@@ -147,9 +147,6 @@ export default {
 .inbox-icon {
   position: relative;
   top: -1px;
-  &.ion-ios-email {
-    font-size: var(--font-size-medium);
-  }
 }
 
 .sidebar-item .button.menu-item--new {

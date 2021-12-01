@@ -2,7 +2,7 @@
   <div class="notifications-link">
     <primary-nav-item
       name="NOTIFICATIONS"
-      icon="ion-ios-bell"
+      icon="alert"
       :to="`/app/accounts/${accountId}/notifications`"
       :count="unreadCount"
     />
