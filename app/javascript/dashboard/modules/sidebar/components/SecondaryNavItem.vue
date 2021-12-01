@@ -13,7 +13,7 @@
         @click="navigate"
       >
         <span v-if="icon" class="badge--icon">
-          <fluent-icon class="inbox-icon" :icon="icon" size="12" />
+          <fluent-icon class="inbox-icon" :icon="icon" size="10" />
         </span>
         <span
           v-if="labelColor"
