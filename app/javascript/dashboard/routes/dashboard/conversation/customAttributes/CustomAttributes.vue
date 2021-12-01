@@ -102,7 +102,7 @@ export default {
   &.odd {
     .conversation--attribute {
       &:nth-child(2n + 1) {
-        background: var(--b-50);
+        background: var(--s-25);
       }
     }
   }
@@ -110,7 +110,7 @@ export default {
   &.even {
     .conversation--attribute {
       &:nth-child(2n) {
-        background: var(--b-50);
+        background: var(--s-25);
       }
     }
   }
