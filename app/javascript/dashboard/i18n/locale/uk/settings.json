@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Змінити",
     "CHANGE_ACCOUNTS": "Змінити обліковий запис",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
     "INTEGRATIONS": "Інтеграції",
+    "PROFILE_SETTINGS": "Налаштування облікового запису",
     "ACCOUNT_SETTINGS": "Налаштування акаунту",
     "APPLICATIONS": "Додатки",
     "LABELS": "Мітки",
@@ -151,6 +153,9 @@
     "TEAMS": "Команди",
     "ALL_CONTACTS": "Усі контакти",
     "TAGGED_WITH": "З тегами",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Огляд",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Маркетингові кампанії",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Агенти",
     "REPORTS_LABEL": "Мітки",
     "REPORTS_INBOX": "Канал",
-    "REPORTS_TEAM": "Команда"
+    "REPORTS_TEAM": "Команда",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
