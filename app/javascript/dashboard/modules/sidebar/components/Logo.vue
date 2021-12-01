@@ -31,7 +31,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$logo-size: 40px;
+$logo-size: 32px;
 
 .logo {
   padding: var(--space-normal);
@@ -39,6 +39,8 @@ $logo-size: 40px;
   img {
     width: $logo-size;
     height: $logo-size;
+    object-fit: cover;
+    object-position: left center;
   }
 }
 </style>
