@@ -103,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
     "CHANGE_ACCOUNTS": "Ganti Akun",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
     "PROFILE_SETTINGS": "Pengaturan Profil",
     "KEYBOARD_SHORTCUTS": "Shortcut Keyboard",
@@ -143,6 +144,7 @@
     "NOTIFICATIONS": "Notifikasi",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
+    "PROFILE_SETTINGS": "Pengaturan Profil",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
     "APPLICATIONS": "Aplikasi",
     "LABELS": "Label",
@@ -151,6 +153,9 @@
     "TEAMS": "Tim",
     "ALL_CONTACTS": "Semua Kontak",
     "TAGGED_WITH": "Tandai dengan",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Gambaran",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",
@@ -159,7 +164,8 @@
     "REPORTS_AGENT": "Agen",
     "REPORTS_LABEL": "Label",
     "REPORTS_INBOX": "Kotak masuk",
-    "REPORTS_TEAM": "Tim"
+    "REPORTS_TEAM": "Tim",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
