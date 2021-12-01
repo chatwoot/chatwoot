@@ -215,5 +215,9 @@ export default {
   .user-online-status--offline {
     background: var(--s-500);
   }
+
+  .user-online-status--offline {
+    background: var(--s-500);
+  }
 }
 </style>
