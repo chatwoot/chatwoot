@@ -32,7 +32,7 @@
             class="margin-right-small clear"
             color-scheme="secondary"
             data-testid="create-new-contact"
-            icon="ion-ios-settings-strong"
+            icon="filter"
             @click="onToggleFilter"
           >
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
@@ -41,10 +41,8 @@
         <woot-button
           class="margin-right-small clear"
           color-scheme="success"
-          icon="add-circle"
-          class="margin-right-small"
+          icon="person-add"
           data-testid="create-new-contact"
-          icon="ion-android-add-circle"
           @click="onToggleCreate"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
@@ -52,7 +50,7 @@
 
         <woot-button
           color-scheme="info"
-          icon="ion-android-upload"
+          icon="upload"
           class="clear"
           @click="onToggleImport"
         >

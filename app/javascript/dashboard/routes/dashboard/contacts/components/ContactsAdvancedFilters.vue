@@ -21,7 +21,7 @@
         />
         <div class="filter-actions">
           <woot-button
-            icon="ion-plus"
+            icon="add"
             color-scheme="success"
             variant="smooth"
             size="small"
@@ -31,7 +31,7 @@
           </woot-button>
           <woot-button
             v-if="hasAppliedFilters"
-            icon="ion-minus"
+            icon="subtract"
             color-scheme="alert"
             variant="smooth"
             size="small"
