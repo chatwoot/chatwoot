@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "icon",
         "CONTENT": "Mesaj imagine"
       },
       "audio": {
-        "ICON": "icon volum mare",
         "CONTENT": "Mesaj audio"
       },
       "video": {
-        "ICON": "Icon ios videocam",
         "CONTENT": "Mesaj video"
       },
       "file": {
-        "ICON": "icon document",
         "CONTENT": "Fişier ataşat"
       },
       "location": {
-        "ICON": "icon ios-location",
         "CONTENT": "Locaţie"
       },
       "fallback": {
-        "ICON": "icon link",
         "CONTENT": "a partajat un URL"
       }
     },
