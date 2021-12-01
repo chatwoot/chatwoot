@@ -51,6 +51,7 @@
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
       />
+      <h1>{{ message }}</h1>
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview

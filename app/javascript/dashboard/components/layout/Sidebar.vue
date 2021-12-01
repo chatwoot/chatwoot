@@ -1,59 +1,23 @@
 <template>
-  <aside class="sidebar animated shrink columns">
-    <div class="logo">
-      <router-link :to="dashboardPath" replace>
-        <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
-      </router-link>
-    </div>
+  <aside class="woot-sidebar" :class="{ 'only-primary': !showSecondaryMenu }">
+    <primary-sidebar
+      :logo-source="globalConfig.logo"
+      :installation-name="globalConfig.installationName"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      @toggle-accounts="toggleAccountModal"
+      @key-shortcut-modal="toggleKeyShortcutModal"
+    />
 
-    <div class="main-nav">
-      <transition-group name="menu-list" tag="ul" class="menu vertical">
-        <sidebar-item
-          v-for="item in accessibleMenuItems"
-          :key="item.toState"
-          :menu-item="item"
-        />
-        <sidebar-item
-          v-if="shouldShowTeams"
-          :key="teamSection.toState"
-          :menu-item="teamSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="inboxSection.toState"
-          :menu-item="inboxSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="labelSection.toState"
-          :menu-item="labelSection"
-          @add-label="showAddLabelPopup"
-        />
-        <sidebar-item
-          v-if="showShowContactSideMenu"
-          :key="contactLabelSection.key"
-          :menu-item="contactLabelSection"
-          @add-label="showAddLabelPopup"
-        />
-      </transition-group>
-    </div>
-
-    <div class="bottom-nav">
-      <availability-status />
-    </div>
-
-    <div class="bottom-nav app-context-menu" @click="toggleOptions">
-      <agent-details @show-options="toggleOptions" />
-      <notification-bell />
-      <fluent-icon class="current-user--options" icon="more-vertical" />
-      <options-menu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @key-shortcut-modal="toggleKeyShortcutModal"
-        @close="toggleOptions"
-      />
-    </div>
+    <secondary-sidebar
+      v-if="showSecondaryMenu"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :account-labels="accountLabels"
+      :teams="teams"
+      :menu-items="primaryMenuItems"
+      @add-label="showAddLabelPopup"
+    />
 
     <woot-key-shortcut-modal
       v-if="showShortcutModal"
@@ -82,17 +46,14 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../mixins/isAdmin';
-import SidebarItem from './SidebarItem';
-import AvailabilityStatus from './AvailabilityStatus';
-import { frontendURL } from '../../helper/URLHelper';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
-import NotificationBell from './sidebarComponents/NotificationBell';
-import AgentDetails from './sidebarComponents/AgentDetails.vue';
-import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
+
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
+import PrimarySidebar from 'dashboard/modules/sidebar/components/Primary';
+import SecondarySidebar from 'dashboard/modules/sidebar/components/Secondary';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
@@ -110,11 +71,8 @@ export default {
     AccountSelector,
     AddAccountModal,
     AddLabelModal,
-    AgentDetails,
-    AvailabilityStatus,
-    NotificationBell,
-    OptionsMenu,
-    SidebarItem,
+    PrimarySidebar,
+    SecondarySidebar,
     WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
@@ -139,125 +97,34 @@ export default {
       teams: 'teams/getMyTeams',
     }),
 
-    sidemenuItems() {
+    sideMenuItems() {
       return getSidebarItems(this.accountId);
     },
-    accessibleMenuItems() {
-      // get all keys in menuGroup
-      const groupKey = Object.keys(this.sidemenuItems);
+    primaryMenuItems() {
+      const menuItems = Object.values(
+        getSidebarItems(this.accountId).common.menuItems
+      );
 
-      let menuItems = [];
-      // Iterate over menuGroup to find the correct group
-      for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = this.sidemenuItems[groupKey[i]];
-        // Check if current route is included
-        const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
-        if (isRouteIncluded) {
-          menuItems = Object.values(groupItem.menuItems);
-        }
-      }
-
-      return this.filterMenuItemsByRole(menuItems);
+      return menuItems;
     },
     currentRoute() {
       return this.$store.state.route.name;
     },
-    shouldShowSidebarItem() {
-      return this.sidemenuItems.common.routes.includes(this.currentRoute);
+    shouldShowNotificationsSideMenu() {
+      return this.sideMenuItems.notifications.routes.includes(
+        this.currentRoute
+      );
     },
-    showShowContactSideMenu() {
-      return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
+    shouldShowProfileSideMenu() {
+      return (
+        this.currentRoute === 'profile_settings_index' ||
+        this.currentRoute === 'profile_settings'
+      );
     },
-    shouldShowTeams() {
-      return this.shouldShowSidebarItem && this.teams.length;
-    },
-    inboxSection() {
-      return {
-        icon: 'folder',
-        label: 'INBOXES',
-        hasSubMenu: true,
-        newLink: true,
-        key: 'inbox',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
-        toStateName: 'settings_inbox_list',
-        newLinkRouteName: 'settings_inbox_new',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
-      };
-    },
-    labelSection() {
-      return {
-        icon: 'number-symbol',
-        label: 'LABELS',
-        hasSubMenu: true,
-        newLink: true,
-        key: 'label',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
-        toStateName: 'labels_list',
-        showModalForNewItem: true,
-        modalName: 'AddLabel',
-        children: this.accountLabels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/label/${label.title}`
-          ),
-        })),
-      };
-    },
-    contactLabelSection() {
-      return {
-        icon: 'number-symbol',
-        label: 'TAGGED_WITH',
-        hasSubMenu: true,
-        key: 'label',
-        newLink: false,
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
-        toStateName: 'labels_list',
-        showModalForNewItem: true,
-        modalName: 'AddLabel',
-        children: this.accountLabels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/labels/${label.title}/contacts`
-          ),
-        })),
-      };
-    },
-    teamSection() {
-      return {
-        icon: 'people-team',
-        label: 'TEAMS',
-        hasSubMenu: true,
-        newLink: true,
-        key: 'team',
-        cssClass: 'menu-title align-justify teams-sidebar-menu',
-        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
-        toStateName: 'teams_list',
-        newLinkRouteName: 'settings_teams_new',
-        children: this.teams.map(team => ({
-          id: team.id,
-          label: team.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
-        })),
-      };
-    },
-    dashboardPath() {
-      return frontendURL(`accounts/${this.accountId}/dashboard`);
+    showSecondaryMenu() {
+      if (this.shouldShowNotificationsSideMenu) return false;
+      if (this.shouldShowProfileSideMenu) return false;
+      return true;
     },
   },
   mounted() {
@@ -318,9 +185,7 @@ export default {
           ) > -1
       );
     },
-    toggleOptions() {
-      this.showOptionsMenu = !this.showOptionsMenu;
-    },
+
     toggleAccountModal() {
       this.showAccountModal = !this.showAccountModal;
     },
@@ -340,6 +205,27 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.woot-sidebar {
+  background: white;
+  display: flex;
+
+  &.only-primary {
+    width: auto;
+  }
+}
+
+.secondary-menu {
+  background: var(--white);
+  border-right: 1px solid var(--s-50);
+  height: 100vh;
+  width: 19rem;
+  flex-shrink: 0;
+  overflow: auto;
+  padding: var(--space-small);
+}
+</style>
 
 <style lang="scss">
 @import '~dashboard/assets/scss/variables';
@@ -405,7 +291,7 @@ export default {
   margin-top: auto;
 }
 
-.teams-sidebar-menu + .nested.vertical.menu {
-  padding-left: calc(var(--space-medium) - var(--space-one));
+.secondary-menu .nested.vertical.menu {
+  margin-left: var(--space-small);
 }
 </style>
