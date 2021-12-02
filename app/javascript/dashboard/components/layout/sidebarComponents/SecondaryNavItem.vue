@@ -1,16 +1,24 @@
 <template>
-  <li :class="computedClass" class="sidebar-item">
-    <a
-      class="sub-menu-title"
-      :class="getMenuItemClass"
-      data-tooltip
-      aria-haspopup="true"
-      :title="menuItem.toolTip"
-    >
+  <li class="sidebar-item">
+    <span v-if="hasSubMenu" class="secondary-menu--title fs-small">
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
-    </a>
-    <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
-      <secondary-nav-item
+    </span>
+    <router-link
+      v-else
+      class="secondary-menu--title secondary-menu--link fs-small"
+      :class="computedClass"
+      :to="menuItem.toState"
+    >
+      <fluent-icon
+        :icon="menuItem.icon"
+        class="secondary-menu--icon"
+        size="14"
+      />
+      {{ $t(`SIDEBAR.${menuItem.label}`) }}
+    </router-link>
+
+    <ul v-if="hasSubMenu" class="nested vertical menu">
+      <secondary-child-nav-item
         v-for="child in menuItem.children"
         :key="child.id"
         :to="child.toState"
@@ -20,7 +28,7 @@
         :icon="computedInboxClass(child)"
       />
       <router-link
-        v-if="menuItem.newLink"
+        v-if="showItem(menuItem)"
         v-slot="{ href, isActive, navigate }"
         :to="menuItem.toState"
         custom
@@ -46,13 +54,13 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import adminMixin from '../../mixins/isAdmin';
+import adminMixin from '../../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 
-import SecondaryNavItem from 'dashboard/modules/sidebar/components/SecondaryNavItem';
+import SecondaryChildNavItem from './SecondaryChildNavItem';
 
 export default {
-  components: { SecondaryNavItem },
+  components: { SecondaryChildNavItem },
   mixins: [adminMixin],
   props: {
     menuItem: {
@@ -62,10 +70,8 @@ export default {
   },
   computed: {
     ...mapGetters({ activeInbox: 'getSelectedInbox' }),
-    getMenuItemClass() {
-      return this.menuItem.cssClass
-        ? `side-menu ${this.menuItem.cssClass}`
-        : 'side-menu';
+    hasSubMenu() {
+      return !!this.menuItem.children;
     },
     computedClass() {
       // If active Inbox is present
@@ -76,7 +82,7 @@ export default {
         this.$store.state.route.name === 'inbox_conversation' &&
         this.menuItem.toStateName === 'home'
       ) {
-        return 'active';
+        return 'is-active';
       }
       return ' ';
     },
@@ -87,14 +93,6 @@ export default {
       if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
-    },
-    computedChildClass(child) {
-      if (!child.truncateLabel) return '';
-      return 'text-truncate';
-    },
-    computedChildTitle(child) {
-      if (!child.truncateLabel) return false;
-      return child.label;
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {
@@ -114,17 +112,46 @@ export default {
 </script>
 <style lang="scss" scoped>
 .sidebar-item {
-  margin: var(--space-small) 0;
+  margin: var(--space-smaller) 0 0;
 }
-.sub-menu-title {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 var(--space-small);
-  margin-bottom: var(--space-smaller);
+
+.secondary-menu--title {
   color: var(--s-600);
+  display: flex;
   font-weight: var(--font-weight-bold);
   line-height: var(--space-two);
-  text-transform: uppercase;
+  margin: var(--space-small) 0;
+  padding: 0 var(--space-small);
+}
+
+.secondary-menu--link {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: var(--space-small);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-normal);
+
+  &:hover {
+    background: var(--s-25);
+    color: var(--s-600);
+  }
+
+  &:focus {
+    border-color: var(--w-300);
+  }
+
+  &.router-link-exact-active,
+  &.is-active {
+    background: var(--w-25);
+    color: var(--w-500);
+    border-color: var(--w-25);
+  }
+}
+
+.secondary-menu--icon {
+  margin-right: var(--space-smaller);
+  min-width: var(--space-normal);
 }
 
 .sub-menu-link {

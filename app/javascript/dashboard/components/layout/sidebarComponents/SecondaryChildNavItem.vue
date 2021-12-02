@@ -13,7 +13,7 @@
         @click="navigate"
       >
         <span v-if="icon" class="badge--icon">
-          <fluent-icon class="inbox-icon" :icon="icon" size="10" />
+          <fluent-icon class="inbox-icon" :icon="icon" size="12" />
         </span>
         <span
           v-if="labelColor"
@@ -73,7 +73,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$badge-size: var(--space-slab);
+$badge-size: var(--space-normal);
+$label-badge-size: var(--space-slab);
 
 .button {
   margin: var(--space-small) 0;
@@ -117,8 +118,6 @@ $badge-size: var(--space-slab);
 .badge--label,
 .badge--icon {
   display: inline-flex;
-  min-width: $badge-size;
-  height: $badge-size;
   border-radius: var(--border-radius-small);
   margin-right: var(--space-smaller);
   background: var(--s-100);
@@ -126,7 +125,15 @@ $badge-size: var(--space-slab);
 
 .badge--icon {
   align-items: center;
+  height: $badge-size;
   justify-content: center;
+  min-width: $badge-size;
+}
+
+.badge--label {
+  height: $label-badge-size;
+  min-width: $label-badge-size;
+  margin-left: var(--space-smaller);
 }
 
 .badge.secondary {
