@@ -1,41 +1,37 @@
 <template>
-  <aside class="woot-sidebar" :class="{ 'only-primary': !showSecondaryMenu }">
+  <aside class="woot-sidebar">
     <primary-sidebar
       :logo-source="globalConfig.logo"
       :installation-name="globalConfig.installationName"
       :account-id="accountId"
       :menu-items="primaryMenuItems"
+      :active-menu-item="activePrimaryMenu.key"
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
     />
-
     <secondary-sidebar
-      v-if="showSecondaryMenu"
       :account-id="accountId"
       :inboxes="inboxes"
-      :account-labels="accountLabels"
+      :labels="labels"
       :teams="teams"
-      :menu-items="primaryMenuItems"
+      :menu-config="activeSecondaryMenu"
+      :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
-
     <woot-key-shortcut-modal
       v-if="showShortcutModal"
       @close="closeKeyShortcutModal"
       @clickaway="closeKeyShortcutModal"
     />
-
     <account-selector
       :show-account-modal="showAccountModal"
       @close-account-modal="toggleAccountModal"
       @show-create-account-modal="openCreateAccountModal"
     />
-
     <add-account-modal
       :show="showCreateAccountModal"
       @close-account-create-modal="closeCreateAccountModal"
     />
-
     <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
       <add-label-modal @close="hideAddLabelPopup" />
     </woot-modal>
@@ -46,14 +42,14 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../mixins/isAdmin';
-import { getSidebarItems } from '../../i18n/default-sidebar';
+import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
-import PrimarySidebar from 'dashboard/modules/sidebar/components/Primary';
-import SecondarySidebar from 'dashboard/modules/sidebar/components/Secondary';
+import PrimarySidebar from './sidebarComponents/Primary';
+import SecondarySidebar from './sidebarComponents/Secondary';
 import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
@@ -93,38 +89,34 @@ export default {
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
-      accountLabels: 'labels/getLabelsOnSidebar',
+      labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
-
-    sideMenuItems() {
+    sideMenuConfig() {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
-      const menuItems = Object.values(
-        getSidebarItems(this.accountId).common.menuItems
+      const menuItems = this.sideMenuConfig.primaryMenu;
+      return menuItems.filter(menuItem =>
+        menuItem.roles.includes(this.currentRole)
       );
+    },
+    activeSecondaryMenu() {
+      const { secondaryMenu } = this.sideMenuConfig;
+      const { name: currentRoute } = this.$route;
 
-      return menuItems;
+      const activeSecondaryMenu =
+        secondaryMenu.find(menuItem =>
+          menuItem.routes.includes(currentRoute)
+        ) || {};
+      return activeSecondaryMenu;
     },
-    currentRoute() {
-      return this.$store.state.route.name;
-    },
-    shouldShowNotificationsSideMenu() {
-      return this.sideMenuItems.notifications.routes.includes(
-        this.currentRoute
-      );
-    },
-    shouldShowProfileSideMenu() {
-      return (
-        this.currentRoute === 'profile_settings_index' ||
-        this.currentRoute === 'profile_settings'
-      );
-    },
-    showSecondaryMenu() {
-      if (this.shouldShowNotificationsSideMenu) return false;
-      if (this.shouldShowProfileSideMenu) return false;
-      return true;
+    activePrimaryMenu() {
+      const activePrimaryMenu =
+        this.primaryMenuItems.find(
+          menuItem => menuItem.key === this.activeSecondaryMenu.parentNav
+        ) || {};
+      return activePrimaryMenu;
     },
   },
   mounted() {
@@ -169,23 +161,11 @@ export default {
       }
     },
     isCurrentRouteSameAsNavigation(routeName) {
-      return router.currentRoute && router.currentRoute.name === routeName;
+      return this.$route.name === routeName;
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
-    filterMenuItemsByRole(menuItems) {
-      if (!this.currentRole) {
-        return [];
-      }
-      return menuItems.filter(
-        menuItem =>
-          window.roleWiseRoutes[this.currentRole].indexOf(
-            menuItem.toStateName
-          ) > -1
-      );
-    },
-
     toggleAccountModal() {
       this.showAccountModal = !this.showAccountModal;
     },
@@ -208,12 +188,8 @@ export default {
 
 <style lang="scss" scoped>
 .woot-sidebar {
-  background: white;
+  background: var(--white);
   display: flex;
-
-  &.only-primary {
-    width: auto;
-  }
 }
 
 .secondary-menu {

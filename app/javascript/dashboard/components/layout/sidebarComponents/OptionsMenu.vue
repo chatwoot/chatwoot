@@ -25,7 +25,7 @@
             variant="clear"
             color-scheme="secondary"
             size="small"
-            icon="ion-help-buoy"
+            icon="chat-help"
             @click="$emit('show-support-chat-window')"
           >
             {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
