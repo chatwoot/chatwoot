@@ -31,7 +31,6 @@ describe CampaignListener do
     context 'when rule matches' do
       it 'triggers automation rule to assign team' do
         expect(conversation.team_id).not_to eq(team.id)
-        expect(conversation.team_id).not_to eq(team.id)
 
         automation_rule
         listener.conversation_status_changed(event)
@@ -39,7 +38,6 @@ describe CampaignListener do
         conversation.reload
         expect(conversation.team_id).to eq(team.id)
       end
-
 
       it 'triggers automation rule to add label' do
         expect(conversation.labels).to eq([])
