@@ -9,7 +9,11 @@
       :class="computedClass"
       :to="menuItem.toState"
     >
-      <fluent-icon :icon="menuItem.icon" class="secondary-menu--icon" />
+      <fluent-icon
+        :icon="menuItem.icon"
+        class="secondary-menu--icon"
+        size="14"
+      />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
     </router-link>
 
@@ -121,9 +125,12 @@ export default {
 }
 
 .secondary-menu--link {
-  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
   margin: 0;
   padding: var(--space-small);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-normal);
 
   &:hover {
     background: var(--s-25);
@@ -143,7 +150,7 @@ export default {
 }
 
 .secondary-menu--icon {
-  margin-right: var(--space-small);
+  margin-right: var(--space-smaller);
   min-width: var(--space-normal);
 }
 
