@@ -50,7 +50,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
           actions: [
             {
               action_name: :send_message,
-              action_params: 'Welcome to the chatwoot platform.'
+              action_params: ['Welcome to the chatwoot platform.']
             },
             {
               action_name: :assign_team,
@@ -66,7 +66,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
             },
             {
               action_name: :update_additional_attributes,
-              action_params: { intiated_at: Time.now.utc }
+              action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
             }
           ]
         }.with_indifferent_access

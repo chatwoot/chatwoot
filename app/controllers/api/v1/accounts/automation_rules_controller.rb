@@ -10,9 +10,9 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def automation_rules_permit
     params.permit(
-      :name, :description, :event_name,
-      conditions: [:attribute, :filter_operator, :value, :query_operator],
-      actions: [assign_best_agents: [], send_message: [:message], assign_to_team: [], add_label: [], update_additional_attributes: [:intiated_at]]
+      :name, :description, :event_name, :account_id,
+      conditions: [:attribute_key, :filter_operator, :query_operator, values: []],
+      actions: [:action_name, action_params: [:intiated_at]]
     )
   end
 end

@@ -24,7 +24,7 @@ class AutomationRules::ActionService
     return unless team_belongs_to_account?(team_ids)
 
     @account.teams.find_by(id: team_ids)
-    @conversation.update!(team: @team)
+    @conversation.update!(team_id: team_ids[0])
   end
 
   def assign_best_agents(agent_ids = [])
