@@ -3,7 +3,7 @@
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
-        :key="menuItem.key"
+        :key="menuItem.toState"
         :menu-item="menuItem"
       />
       <secondary-nav-item
