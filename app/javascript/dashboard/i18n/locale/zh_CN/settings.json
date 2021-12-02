@@ -135,6 +135,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "会话",
+    "ALL_CONVERSATIONS": "All Conversations",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "Contacts",
