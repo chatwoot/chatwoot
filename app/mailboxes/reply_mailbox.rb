@@ -26,9 +26,11 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def conversation_uuid_from_to_address
-    return check_forwarded_for_email if mail.to.blank?
+    @mail = MailPresenter.new(mail)
 
-    mail.to.each do |email|
+    return if @mail.mail_receiver.blank?
+
+    @mail.mail_receiver.each do |email|
       username = email.split('@')[0]
       match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
       if match_result
@@ -37,10 +39,6 @@ class ReplyMailbox < ApplicationMailbox
       end
     end
     @conversation_uuid
-  end
-
-  def verify_decoded_params
-    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   # find conversation uuid from below pattern
@@ -75,19 +73,14 @@ class ReplyMailbox < ApplicationMailbox
     end
   end
 
+  def verify_decoded_params
+    raise 'Conversation uuid not found' if conversation_uuid.nil?
+  end
+
   def validate_resource(resource)
     raise "#{resource.class.name} not found" if resource.nil?
 
     resource
-  end
-
-  def check_forwarded_for_email
-    email = mail['X-Forwarded-For'].try(:value)
-    return if email.blank?
-
-    username = email.split('@')[0]
-    match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
-    @conversation_uuid = match_result.captures if match_result
   end
 
   def decorate_mail
