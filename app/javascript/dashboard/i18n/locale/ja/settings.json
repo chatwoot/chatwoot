@@ -135,6 +135,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "会話データ",
+    "ALL_CONVERSATIONS": "All Conversations",
     "REPORTS": "レポート",
     "SETTINGS": "設定",
     "CONTACTS": "Contacts",
