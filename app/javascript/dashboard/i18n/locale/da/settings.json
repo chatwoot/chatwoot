@@ -135,6 +135,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Samtaler",
+    "ALL_CONVERSATIONS": "All Conversations",
     "REPORTS": "Rapporter",
     "SETTINGS": "Indstillinger",
     "CONTACTS": "Kontakter",
