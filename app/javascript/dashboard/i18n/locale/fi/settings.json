@@ -135,6 +135,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Keskustelut",
+    "ALL_CONVERSATIONS": "All Conversations",
     "REPORTS": "Raportit",
     "SETTINGS": "Asetukset",
     "CONTACTS": "Yhteystiedot",
