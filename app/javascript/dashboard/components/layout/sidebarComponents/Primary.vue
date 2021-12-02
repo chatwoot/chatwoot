@@ -12,7 +12,7 @@
         :icon="menuItem.icon"
         :name="menuItem.label"
         :to="menuItem.toState"
-        :is-child-menu-active="isMenuActive(menuItem, $route.name)"
+        :is-child-menu-active="menuItem.key === activeMenuItem"
       />
     </nav>
     <div class="menu vertical user-menu">
@@ -31,9 +31,9 @@
 <script>
 import Logo from './Logo';
 import PrimaryNavItem from './PrimaryNavItem';
-import OptionsMenu from 'dashboard/components/layout/sidebarComponents/OptionsMenu';
-import AgentDetails from 'dashboard/components/layout/sidebarComponents/AgentDetails';
-import NotificationBell from 'dashboard/components/layout/sidebarComponents/NotificationBell';
+import OptionsMenu from './OptionsMenu';
+import AgentDetails from './AgentDetails';
+import NotificationBell from './NotificationBell';
 
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
@@ -62,6 +62,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    activeMenuItem: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -78,18 +82,6 @@ export default {
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
-    },
-    isMenuActive(menuItem, currentRouteName) {
-      const { key = '' } = menuItem;
-
-      if (currentRouteName === key) return true;
-      // Conversations route is defaulted as home
-      // TODO: Needs to ewfactor old statenames to follow a structure while key naming.
-      if (currentRouteName.includes('inbox') && key === 'conversations')
-        return true;
-      if (currentRouteName.includes('conversations') && key === 'conversations')
-        return true;
-      return false;
     },
   },
 };
