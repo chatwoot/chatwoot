@@ -1,6 +1,7 @@
-import { frontendURL } from '../../helper/URLHelper';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 const reports = accountId => ({
+  parentNav: 'reports',
   routes: [
     'settings_account_reports',
     'csat_reports',
