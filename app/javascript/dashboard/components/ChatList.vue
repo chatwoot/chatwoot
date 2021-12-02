@@ -133,6 +133,10 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -203,6 +207,9 @@ export default {
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId ? this.teamId : undefined,
+        conversationType: this.conversationType
+          ? this.conversationType
+          : undefined,
       };
     },
     pageTitle() {
@@ -249,6 +256,9 @@ export default {
       this.resetAndFetchData();
     },
     label() {
+      this.resetAndFetchData();
+    },
+    conversationType() {
       this.resetAndFetchData();
     },
   },

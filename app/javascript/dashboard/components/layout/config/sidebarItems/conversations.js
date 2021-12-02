@@ -12,6 +12,8 @@ const conversations = accountId => ({
     'conversations_through_label',
     'team_conversations',
     'conversations_through_team',
+    'conversation_mentions',
+    'conversation_through_mentions',
   ],
   menuItems: [
     {
@@ -21,6 +23,13 @@ const conversations = accountId => ({
       toState: frontendURL(`accounts/${accountId}/dashboard`),
       toolTip: 'Conversation from all subscribed inboxes',
       toStateName: 'home',
+    },
+    {
+      icon: 'mention',
+      label: 'MENTIONED_CONVERSATIONS',
+      key: 'conversation_mentions',
+      toState: frontendURL(`accounts/${accountId}/mentions/conversations`),
+      toStateName: 'conversation_mentions',
     },
   ],
 });
