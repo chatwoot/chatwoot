@@ -129,10 +129,6 @@ export default {
       };
     },
     teamSection() {
-      if (!this.teams.length) {
-        return {};
-      }
-
       return {
         icon: 'people-team',
         label: 'TEAMS',
@@ -152,8 +148,12 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
+      let conversationMenuItems = [this.inboxSection, this.labelSection];
+      if (this.teams.length) {
+        conversationMenuItems = [this.teamSection, ...conversationMenuItems];
+      }
       return {
-        conversations: [this.teamSection, this.inboxSection, this.labelSection],
+        conversations: conversationMenuItems,
         contacts: [this.contactLabelSection],
       };
     },
