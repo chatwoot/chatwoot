@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introduceți adresa de e-mail a persoanei de contact",
-        "LABEL": "Adresa Email"
+        "LABEL": "Adresa Email",
+        "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introduceți numărul de telefon al persoanei de contact",
         "LABEL": "Număr de telefon",
         "HELP": "Numărul de telefon trebuie să aibă formatul E.164, ex. +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Numărul de telefon trebuie să fie gol sau in format E.164"
+        "ERROR": "Numărul de telefon trebuie să fie gol sau in format E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Introduceți locația contactului",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",
-    "CONTACT_ALREADY_EXIST": "Această adresă de e-mail este folosită pentru un alt contact.",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "NEW_CONVERSATION": {
