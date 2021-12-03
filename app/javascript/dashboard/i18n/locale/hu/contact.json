@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "A kontakt e-mailjének megadása",
-        "LABEL": "Email cím"
+        "LABEL": "Email cím",
+        "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "A kontakt telefonszámának megadása",
         "LABEL": "Telefonszám",
         "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
-        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie"
+        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "A kontakt helyének megadása",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
-    "CONTACT_ALREADY_EXIST": "Az e-mailcím már egy másik kontakthoz tartozik.",
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
   "NEW_CONVERSATION": {
