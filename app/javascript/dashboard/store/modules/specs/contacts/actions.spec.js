@@ -94,9 +94,10 @@ describe('#actions', () => {
     it('sends correct actions if duplicate contact is found', async () => {
       axios.patch.mockRejectedValue({
         response: {
+          status: 422,
           data: {
             message: 'Incorrect header',
-            contact: { id: 1, name: 'contact-name' },
+            attributes: ['email'],
           },
         },
       });

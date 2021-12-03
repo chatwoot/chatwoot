@@ -37,7 +37,8 @@ module RequestExceptionHandler
 
   def render_record_invalid(exception)
     render json: {
-      message: exception.record.errors.full_messages.join(', ')
+      message: exception.record.errors.full_messages.join(', '),
+      attributes: exception.record.errors.attribute_names
     }, status: :unprocessable_entity
   end
 
