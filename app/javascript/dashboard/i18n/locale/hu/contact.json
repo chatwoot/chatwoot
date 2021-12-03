@@ -176,6 +176,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Keresés",
     "SEARCH_INPUT_PLACEHOLDER": "Kontaktok keresése",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Kontaktok betöltése...",
       "404": "Nincs a keresésnek megfelelő kontakt 🔍",
