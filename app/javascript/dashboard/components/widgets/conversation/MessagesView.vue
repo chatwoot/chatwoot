@@ -443,11 +443,12 @@ export default {
 .action-button {
   position: fixed;
   background: var(--white);
-  width: var(--space-two);
-  height: var(--space-two);
+  width: var(--space-medium);
+  height: var(--space-medium);
   top: var(--space-mega);
   z-index: var(--z-index-low);
-  margin-left: var(--space-half);
+  margin-left: var(--space-one);
+  padding-right: var(--space-half);
   border-color: var(--color-border);
   border-width: 0 0 0 1px;
   border-style: solid;
