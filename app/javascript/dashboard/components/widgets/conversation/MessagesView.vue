@@ -452,6 +452,6 @@ export default {
   border-color: var(--color-border);
   border-width: 0 0 0 1px;
   border-style: solid;
-  border-radius: 50%;
+  border-radius: var(--border-radius-rounded);
 }
 </style>
