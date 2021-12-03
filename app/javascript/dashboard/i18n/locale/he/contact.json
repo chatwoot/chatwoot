@@ -176,6 +176,7 @@
     "FIELDS": "שדות איש קשר",
     "SEARCH_BUTTON": "חפש",
     "SEARCH_INPUT_PLACEHOLDER": "חפש איש קשר",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "טוען אנשי קשר...",
       "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
