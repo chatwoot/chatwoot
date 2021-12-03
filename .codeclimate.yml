@@ -41,5 +41,6 @@ exclude_patterns:
   - "**/*.stories.js"
   - "stories/"
   - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js"
-  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/countries.js"
+  - "app/javascript/shared/constants/countries.js"
   - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js"
+  - "app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js"

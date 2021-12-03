@@ -115,8 +115,8 @@ describe('#getters', () => {
     });
   });
 
-  describe('#getAppliedFilters', () => {
-    it('getAppliedFilters', () => {
+  describe('#getAppliedConversationFilters', () => {
+    it('getAppliedConversationFilters', () => {
       const filtersList = [
         {
           attribute_key: 'status',
@@ -128,7 +128,7 @@ describe('#getters', () => {
       const state = {
         appliedFilters: filtersList,
       };
-      expect(getters.getAppliedFilters(state)).toEqual(filtersList);
+      expect(getters.getAppliedConversationFilters(state)).toEqual(filtersList);
     });
   });
 });
