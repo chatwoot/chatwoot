@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "TITLE": "Filtrar contatos",
+        "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
         "ADD_NEW_FILTER": "Adicionar filtro",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "CLEAR_ALL_FILTERS": "Limpar Filtros",
         "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
         "SUBMIT_BUTTON_LABEL": "Enviar",
         "CANCEL_BUTTON_LABEL": "Cancelar",
         "CLEAR_BUTTON_LABEL": "Limpar Filtros",
         "EMPTY_VALUE_ERROR": "Valor obrigatório",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "Filtrar contatos",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "OU",
             "OR": "ou"
@@ -26,7 +26,7 @@
             "NAME": "Nome",
             "EMAIL": "e-mail",
             "PHONE_NUMBER": "Número de telefone",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Identificador",
             "CITY": "Cidade",
             "COUNTRY": "País/região"
         }
