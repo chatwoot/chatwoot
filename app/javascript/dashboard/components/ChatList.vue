@@ -51,6 +51,7 @@ l<template>
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
       />
 
@@ -221,6 +222,9 @@ export default {
       }
       if (this.label) {
         return `#${this.label}`;
+      }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },

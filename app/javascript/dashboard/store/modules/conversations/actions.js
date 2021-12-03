@@ -5,6 +5,11 @@ import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
 
+const MENTION_ROUTES = [
+  'conversation_mentions',
+  'conversation_through_mentions',
+];
+
 const setPageFilter = ({ dispatch, filter, page, markEndReached }) => {
   dispatch('conversationPage/setCurrentPage', { filter, page }, { root: true });
   if (markEndReached) {
@@ -233,8 +238,13 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch }, conversation) {
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
+    const {
+      route: { name: routeName },
+    } = rootState;
+
+    const isOnMentionsView = MENTION_ROUTES.includes(routeName);
     const {
       inbox_id: inboxId,
       meta: { sender },
@@ -242,9 +252,21 @@ const actions = {
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
-    if (!hasAppliedFilters && isMatchingInboxFilter) {
+    if (!hasAppliedFilters && !isOnMentionsView && isMatchingInboxFilter) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
+    }
+  },
+
+  addMentions({ commit, dispatch, rootState }, conversation) {
+    const {
+      route: { name: routeName },
+    } = rootState;
+    const isOnMentionsView = MENTION_ROUTES.includes(routeName);
+
+    if (isOnMentionsView) {
+      commit(types.UPDATE_CONVERSATION, conversation);
+      dispatch('contacts/setContact', conversation.meta.sender);
     }
   },
 

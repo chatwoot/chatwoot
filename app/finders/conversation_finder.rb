@@ -128,10 +128,10 @@ class ConversationFinder
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
-    if params[:conversation_type] != 'mention'
-      @conversations.latest.page(current_page)
-    else
+    if params[:conversation_type] == 'mention'
       @conversations.page(current_page)
+    else
+      @conversations.latest.page(current_page)
     end
   end
 end

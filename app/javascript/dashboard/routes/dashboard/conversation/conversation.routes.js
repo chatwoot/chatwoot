@@ -94,7 +94,7 @@ export default {
       path: frontendURL(
         'accounts/:accountId/mentions/conversations/:conversationId'
       ),
-      name: 'conversations_through_mentions',
+      name: 'conversation_through_mentions',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => ({

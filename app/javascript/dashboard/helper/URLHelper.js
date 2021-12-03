@@ -11,6 +11,7 @@ export const conversationUrl = ({
   id,
   label,
   teamId,
+  conversationType = '',
 }) => {
   if (activeInbox) {
     return `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`;
@@ -20,6 +21,9 @@ export const conversationUrl = ({
   }
   if (teamId) {
     return `accounts/${accountId}/team/${teamId}/conversations/${id}`;
+  }
+  if (conversationType === 'mention') {
+    return `accounts/${accountId}/mentions/conversations/${id}`;
   }
   return `accounts/${accountId}/conversations/${id}`;
 };
