@@ -2,7 +2,7 @@ l<template>
   <div class="conversations-list-wrap">
     <slot></slot>
     <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
-      <h1 class="page-title text-truncate" :title="pageTitle">
+      <h1 class="page-sub-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
@@ -36,7 +36,6 @@ l<template>
       v-if="!hasAppliedFilters"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
-      class="tab--chat-type"
       @chatTabChange="updateAssigneeTab"
     />
 
@@ -382,7 +381,7 @@ export default {
     width: 35rem;
   }
   @include breakpoint(xxlarge up) {
-    width: 38rem;
+    width: 36rem;
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
@@ -406,5 +405,9 @@ export default {
 .filter__applied {
   padding: var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
+}
+
+.page-sub-title {
+  margin-left: var(--space-normal);
 }
 </style>

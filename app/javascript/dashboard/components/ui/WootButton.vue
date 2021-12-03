@@ -64,6 +64,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isRounded: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     variantClasses() {
@@ -86,6 +90,7 @@ export default {
         this.classNames,
         this.isDisabled ? 'disabled' : '',
         this.isExpanded ? 'expanded' : '',
+        this.isRounded ? '' : 'not-rounded',
       ];
     },
   },

@@ -217,10 +217,10 @@ $accordionmenu-arrow-size: 6px;
 
 $badge-background: $primary-color;
 $badge-color: $white;
-$badge-color-alt: $black;
+$badge-color-alt: $color-body;
 $badge-palette: $foundation-palette;
 $badge-padding: var(--space-smaller);
-$badge-minwidth: 2.1em;
+$badge-minwidth: var(--space-normal);
 $badge-font-size: var(--font-size-nano);
 
 // 10. Breadcrumbs

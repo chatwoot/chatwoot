@@ -3,14 +3,21 @@
     :class="{
       'tabs-title': true,
       'is-active': active,
+      [variant]: variant,
     }"
   >
-    <a @click="onTabClick">
+    <woot-button
+      :size="size"
+      :variant="buttonVariant"
+      :color-scheme="colorScheme"
+      :is-rounded="isRounded"
+      @click="onTabClick"
+    >
       {{ name }}
       <span v-if="showBadge" class="badge">
         {{ getItemCount }}
       </span>
-    </a>
+    </woot-button>
   </li>
 </template>
 <script>
@@ -39,6 +46,15 @@ export default {
       type: Boolean,
       default: true,
     },
+    variant: {
+      type: String,
+      default: '',
+      // Available variants: [ '', 'smooth']
+    },
+    size: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -54,6 +70,17 @@ export default {
 
     getItemCount() {
       return this.animatedNumber || this.count;
+    },
+    colorScheme() {
+      if (this.variant === 'smooth') return 'secondary';
+      return this.active ? '' : 'secondary';
+    },
+    buttonVariant() {
+      if (this.variant === 'smooth') return this.active ? 'smooth' : 'clear';
+      return 'clear';
+    },
+    isRounded() {
+      return this.variant === 'smooth';
     },
   },
 

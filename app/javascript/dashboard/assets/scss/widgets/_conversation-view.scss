@@ -86,11 +86,6 @@
     align-items: center;
     justify-content: space-between;
 
-    .page-title {
-      margin-bottom: $zero;
-      margin-left: $space-normal;
-    }
-
     .status--filter {
       @include padding($zero null $zero $space-normal);
       @include margin($zero);

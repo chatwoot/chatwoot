@@ -164,7 +164,7 @@ export default {
 .user--name {
   display: inline-block;
   font-size: var(--font-size-medium);
-  line-height: 1.3;
+  line-height: 1.2;
   margin: 0;
   text-transform: capitalize;
   width: 100%;
@@ -174,6 +174,7 @@ export default {
   align-items: center;
   display: flex;
   font-size: var(--font-size-mini);
+  padding-top: var(--space-smaller);
 
   .user--profile__button {
     padding: 0;

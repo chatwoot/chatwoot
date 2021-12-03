@@ -1,10 +1,12 @@
 <template>
-  <woot-tabs :index="activeTabIndex" @change="onTabChange">
+  <woot-tabs class="smooth" :index="activeTabIndex" @change="onTabChange">
     <woot-tabs-item
       v-for="item in items"
       :key="item.key"
       :name="item.name"
       :count="item.count"
+      variant="smooth"
+      size="small"
     />
   </woot-tabs>
 </template>
@@ -48,3 +50,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.smooth {
+  padding-bottom: var(--space-small);
+}
+</style>

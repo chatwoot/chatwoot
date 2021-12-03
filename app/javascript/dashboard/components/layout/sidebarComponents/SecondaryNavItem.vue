@@ -116,7 +116,7 @@ export default {
 }
 
 .secondary-menu--title {
-  color: var(--s-600);
+  color: var(--s-700);
   display: flex;
   font-weight: var(--font-weight-bold);
   line-height: var(--space-two);

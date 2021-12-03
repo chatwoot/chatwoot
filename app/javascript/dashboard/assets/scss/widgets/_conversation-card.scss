@@ -13,48 +13,22 @@
 .conversation {
   @include flex;
   @include flex-shrink;
-  @include padding(0 0 0 $space-normal);
-  border-bottom: 1px solid transparent;
-  border-left: $space-micro solid transparent;
-  border-top: 1px solid transparent;
+  padding: 0 var(--space-small);
+  margin: var(--space-small);
+  border-radius: var(--border-radius-large);
   cursor: pointer;
   position: relative;
 
   &.active {
     animation: left-shift-animation .25s $swift-ease-out-function;
-    background: $color-background;
-    border-bottom-color: $color-border-light;
-    border-left-color: $color-woot;
-    border-top-color: $color-border-light;
-
-    .conversation--details {
-      border-top-color: transparent;
-    }
-
-    +.conversation .conversation--details {
-      border-top-color: transparent;
-    }
+    background: var(--color-background);
   }
 
-  &:first-child {
-    .conversation--details {
-      border-top-color: transparent;
-    }
-  }
-
-  &:last-child {
-    .conversation--details {
-      border-bottom-color: $color-border-light;
-    }
-  }
 
 
   .conversation--details {
-    @include margin(0 0 0 $space-one);
-    @include border-light-bottom;
-    @include border-light-top;
-    @include padding($space-slab 0);
-    border-bottom-color: transparent;
+    @include margin(0 0 0 $space-small);
+    @include padding($space-small 0);
   }
 
   .conversation--user {
@@ -84,41 +58,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 27rem;
-  }
-
-  .conversation--meta {
-    @include flex;
-    flex-direction: column;
-    position: absolute;
-    right: $space-normal;
-    top: $space-normal;
-
-    .unread {
-      $unread-size: $space-normal;
-      @include round-corner;
-      @include light-shadow;
-      background: darken($success-color, 3%);
-      color: $color-white;
-      display: none;
-      font-size: $font-size-micro;
-      font-weight: $font-weight-black;
-      height: $unread-size;
-      line-height: $unread-size;
-      margin-left: auto;
-      margin-top: $space-smaller;
-      min-width: $unread-size;
-      padding: 0 $space-smaller;
-      text-align: center;
-    }
-
-    .timestamp {
-      color: $dark-gray;
-      font-size: $font-size-micro;
-      font-weight: $font-weight-normal;
-      line-height: $space-normal;
-      margin-left: auto;
-    }
+    width: auto;
+    flex-grow: 0;
   }
 
   &.unread-chat {

@@ -1,8 +1,10 @@
 <template>
-  <div class="inbox--name">
-    <fluent-icon class="inbox--icon" :icon="computedInboxClass" size="12" />
-    {{ inbox.name }}
-  </div>
+  <woot-label
+    :title="inbox.name"
+    :icon="computedInboxClass"
+    color-scheme="primary"
+    small
+  />
 </template>
 <script>
 import { getInboxClassByType } from 'dashboard/helper/inbox';

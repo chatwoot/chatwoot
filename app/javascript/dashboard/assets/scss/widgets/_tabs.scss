@@ -6,22 +6,7 @@
   border-top-width: 0;
 }
 
-// Tab chat type
-.tab--chat-type {
-  @include flex;
-
-  .tabs-title {
-    a {
-      font-size: $font-size-default;
-      font-weight: $font-weight-medium;
-      padding-bottom: $space-slab;
-      padding-top: $space-slab;
-    }
-  }
-}
-
 .tabs-title {
-  @include margin($zero $space-slab);
 
   .badge {
     background: $color-background;
@@ -33,41 +18,40 @@
     padding: $space-smaller;
   }
 
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &:hover,
-  &:focus {
-    a {
-      color: darken($medium-gray, 20%);
-    }
-  }
-
-  a {
+  a,
+  .button {
     @include position(relative, 1px null null null);
-    align-items: center;
     border-bottom: 2px solid transparent;
-    color: $medium-gray;
-    display: flex;
-    flex-direction: row;
-    font-size: $font-size-small;
     transition: border-color .15s $swift-ease-out-function;
   }
 
   &.is-active {
-    a {
+
+    a,
+    .button {
       border-bottom-color: $color-woot;
-      color: $color-woot;
     }
 
     .badge {
       background: $color-extra-light-blue;
       color: $color-woot;
+    }
+  }
+
+  // Sleek tabs
+  &.smooth {
+
+    a,
+    .button {
+      border-bottom: 0;
+      top: 0;
+    }
+
+    &.is-active {
+      .badge {
+        background: var(--s-100);
+        color: var(--s-600);
+      }
     }
   }
 }

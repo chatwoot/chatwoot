@@ -37,6 +37,10 @@ $default-button-height: 4.0rem;
     border-radius: $space-larger;
   }
 
+  &.not-rounded {
+    border-radius: 0;
+  }
+
   // @TODO Use with link
 
   &.compact {

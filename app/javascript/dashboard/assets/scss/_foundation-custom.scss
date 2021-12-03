@@ -55,10 +55,59 @@ code {
   padding-right: var(--space-normal);
 }
 
+$badge-size: var(--space-normal);
+$label-badge-size: var(--space-slab);
 
 .badge {
+  height: min-content;
+  line-height: 1;
+  font-weight: var(--font-weight-bold);
   border-radius: var(--border-radius-normal);
+
+  &.small {
+    font-size: var(--font-size-nano);
+    min-width: var(--space-slab);
+    padding: var(--space-micro);
+  }
+
+  &.rounded {
+    border-radius: var(--space-mega);
+  }
+
+
+  &.secondary {
+    min-width: unset;
+    background: var(--s-75);
+    color: var(--s-500);
+    font-weight: var(--font-weight-bold);
+  }
 }
+
+.badge--label,
+.badge--icon {
+  display: inline-flex;
+  border-radius: var(--border-radius-small);
+  margin-right: var(--space-smaller);
+  background: var(--s-100);
+}
+
+.badge--icon {
+  align-items: center;
+  height: $badge-size;
+  justify-content: center;
+  min-width: $badge-size;
+
+  .svg-icon {
+    color: inherit;
+  }
+}
+
+.badge--label {
+  height: $label-badge-size;
+  min-width: $label-badge-size;
+  margin-left: var(--space-smaller);
+}
+
 
 .padding-right-small {
   padding-right: var(--space-one);

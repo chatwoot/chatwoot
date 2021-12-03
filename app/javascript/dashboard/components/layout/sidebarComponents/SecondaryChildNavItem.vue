@@ -73,9 +73,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$badge-size: var(--space-normal);
-$label-badge-size: var(--space-slab);
-
 .button {
   margin: var(--space-small) 0;
 }
@@ -113,33 +110,5 @@ $label-badge-size: var(--space-slab);
 
 .inbox-icon {
   font-size: var(--font-size-nano);
-}
-
-.badge--label,
-.badge--icon {
-  display: inline-flex;
-  border-radius: var(--border-radius-small);
-  margin-right: var(--space-smaller);
-  background: var(--s-100);
-}
-
-.badge--icon {
-  align-items: center;
-  height: $badge-size;
-  justify-content: center;
-  min-width: $badge-size;
-}
-
-.badge--label {
-  height: $label-badge-size;
-  min-width: $label-badge-size;
-  margin-left: var(--space-smaller);
-}
-
-.badge.secondary {
-  min-width: unset;
-  background: var(--s-75);
-  color: var(--s-600);
-  font-weight: var(--font-weight-bold);
 }
 </style>
