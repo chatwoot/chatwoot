@@ -12,7 +12,7 @@
             :key="attribute.key"
             :value="attribute.key"
           >
-            {{ $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`) }}
+            {{ attribute.name }}
           </option>
         </select>
 
@@ -73,7 +73,6 @@
         </div>
         <woot-button
           icon="dismiss"
-          icon-size="16"
           variant="clear"
           color-scheme="secondary"
           @click="removeFilter"

@@ -161,7 +161,7 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
-      appliedFilters: 'getAppliedFilters',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
