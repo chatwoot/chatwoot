@@ -176,6 +176,7 @@
     "FIELDS": "Πεδία επαφής",
     "SEARCH_BUTTON": "Αναζήτηση",
     "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
