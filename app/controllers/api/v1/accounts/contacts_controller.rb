@@ -81,11 +81,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def update
     @contact.assign_attributes(contact_update_params)
     @contact.save!
-  rescue ActiveRecord::RecordInvalid => e
-    render json: {
-      message: e.record.errors.full_messages.join(', '),
-      contact: Current.account.contacts.find_by(email: contact_params[:email])
-    }, status: :unprocessable_entity
   end
 
   def destroy
