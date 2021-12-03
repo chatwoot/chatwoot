@@ -179,4 +179,27 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     }
   },
+
+  filter: async ({ commit }, { page = 1, sortAttr, queryPayload } = {}) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACTS, payload);
+      commit(types.SET_CONTACT_META, meta);
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    }
+  },
+
+  setContactFilters({ commit }, data) {
+    commit(types.SET_CONTACT_FILTERS, data);
+  },
+
+  clearContactFilters({ commit }) {
+    commit(types.CLEAR_CONTACT_FILTERS);
+  },
 };
