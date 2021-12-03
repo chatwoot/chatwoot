@@ -176,6 +176,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
