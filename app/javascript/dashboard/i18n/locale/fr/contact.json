@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Entrez l'adresse de courriel du contact",
-        "LABEL": "Adresse de courriel"
+        "LABEL": "Adresse de courriel",
+        "DUPLICATE": "Cette adresse de courriel est déjà utilisée pour un autre contact."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
         "LABEL": "Numéro de téléphone",
         "HELP": "Le numéro de téléphone doit être au format E.164. Ex. : +1415555555 [+][code pays][code régional][numéro de téléphone local]",
-        "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164"
+        "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Entrez l'emplacement du contact",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact enregistré avec succès",
-    "CONTACT_ALREADY_EXIST": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "NEW_CONVERSATION": {
