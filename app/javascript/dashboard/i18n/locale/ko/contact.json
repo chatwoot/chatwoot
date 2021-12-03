@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "연락처의 이메일 주소 입력",
-        "LABEL": "이메일 주소"
+        "LABEL": "이메일 주소",
+        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",
         "LABEL": "전화 번호",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "연락처 위치 입력",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
-    "CONTACT_ALREADY_EXIST": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
   "NEW_CONVERSATION": {
