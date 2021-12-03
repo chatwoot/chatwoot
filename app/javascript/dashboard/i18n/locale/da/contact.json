@@ -176,6 +176,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Søg",
     "SEARCH_INPUT_PLACEHOLDER": "Søg efter kontakter",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",
