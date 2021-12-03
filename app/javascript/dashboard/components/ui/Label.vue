@@ -100,6 +100,7 @@ export default {
   }
 
   .label--icon {
+    color: inherit;
     cursor: pointer;
     margin-right: var(--space-smaller);
   }
@@ -124,16 +125,14 @@ export default {
   /* Color Schemes */
   &.primary {
     background: var(--w-100);
-    color: var(--w-900);
-    border: 1px solid var(--w-200);
+    color: var(--w-700);
     a {
       color: var(--w-900);
     }
   }
   &.secondary {
     background: var(--s-100);
-    color: var(--s-900);
-    border: 1px solid var(--s-200);
+    color: var(--s-700);
     a {
       color: var(--s-900);
     }
@@ -141,7 +140,6 @@ export default {
   &.success {
     background: var(--g-100);
     color: var(--g-900);
-    border: 1px solid var(--g-200);
     a {
       color: var(--g-900);
     }
@@ -149,7 +147,7 @@ export default {
   &.alert {
     background: var(--r-100);
     color: var(--r-900);
-    border: 1px solid var(--r-200);
+
     a {
       color: var(--r-900);
     }
@@ -157,7 +155,7 @@ export default {
   &.warning {
     background: var(--y-100);
     color: var(--y-900);
-    border: 1px solid var(--y-300);
+
     a {
       color: var(--y-900);
     }
@@ -165,6 +163,7 @@ export default {
 }
 
 .label-action--button {
+  color: inherit;
   margin-bottom: var(--space-minus-micro);
 }
 </style>

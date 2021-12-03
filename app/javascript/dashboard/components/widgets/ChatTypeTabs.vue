@@ -6,7 +6,6 @@
       :name="item.name"
       :count="item.count"
       variant="smooth"
-      size="small"
     />
   </woot-tabs>
 </template>

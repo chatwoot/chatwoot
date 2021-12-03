@@ -2,7 +2,7 @@
   <woot-label
     :title="inbox.name"
     :icon="computedInboxClass"
-    color-scheme="primary"
+    color-scheme="secondary"
     small
   />
 </template>
@@ -38,5 +38,6 @@ export default {
 
 .inbox--icon {
   margin-right: var(--space-micro);
+  color: inherit;
 }
 </style>
