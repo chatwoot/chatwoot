@@ -176,6 +176,7 @@
     "FIELDS": "Campos de contatos",
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
+    "FILTER_CONTACTS": "Filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
