@@ -176,6 +176,7 @@
     "FIELDS": "Câmpuri de contact",
     "SEARCH_BUTTON": "Caută",
     "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
