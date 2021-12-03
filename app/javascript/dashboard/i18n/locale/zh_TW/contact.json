@@ -176,6 +176,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
