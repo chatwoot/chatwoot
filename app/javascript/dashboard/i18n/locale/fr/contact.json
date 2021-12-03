@@ -176,6 +176,7 @@
     "FIELDS": "Champs du contact",
     "SEARCH_BUTTON": "Rechercher",
     "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
+    "FILTER_CONTACTS": "Filtrer",
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",
