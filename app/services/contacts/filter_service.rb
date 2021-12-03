@@ -4,9 +4,7 @@ class Contacts::FilterService < FilterService
 
     {
       contacts: @contacts,
-      count: {
-        all_count: @contacts.count
-      }
+      count: @contacts.count
     }
   end
 
@@ -28,21 +26,36 @@ class Contacts::FilterService < FilterService
 
     case current_filter['attribute_type']
     when 'additional_attributes'
-      " contacts.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+      "  LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
       else
-        " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
+        " LOWER(contacts.#{attribute_key}) #{filter_operator_value} #{query_operator} "
       end
     end
   end
 
   def filter_values(query_hash)
-    query_hash['values'][0]
+    current_val = query_hash['values'][0]
+    if query_hash['attribute_key'] == 'phone_number'
+      "+#{current_val}"
+    elsif query_hash['attribute_key'] == 'country_code'
+      current_val.downcase
+    else
+      current_val.is_a?(String) ? current_val.downcase : current_val
+    end
   end
 
   def base_relation
     Current.account.contacts.left_outer_joins(:labels)
+  end
+
+  private
+
+  def equals_to_filter_string(filter_operator, current_index)
+    return "= :value_#{current_index}" if filter_operator == 'equal_to'
+
+    "!= :value_#{current_index}"
   end
 end

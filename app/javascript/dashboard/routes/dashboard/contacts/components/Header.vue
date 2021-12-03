@@ -19,17 +19,29 @@
           />
           <woot-button
             :is-loading="false"
+            class="clear"
             :class-names="searchButtonClass"
             @click="onSearchSubmit"
           >
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-
+        <div class="filters__button-wrap">
+          <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
+          <woot-button
+            class="margin-right-small clear"
+            color-scheme="secondary"
+            data-testid="create-new-contact"
+            icon="filter"
+            @click="onToggleFilter"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
+          </woot-button>
+        </div>
         <woot-button
+          class="margin-right-small clear"
           color-scheme="success"
-          icon="add-circle"
-          class="margin-right-small"
+          icon="person-add"
           data-testid="create-new-contact"
           @click="onToggleCreate"
         >
@@ -38,7 +50,8 @@
 
         <woot-button
           color-scheme="info"
-          icon="cloud-backup"
+          icon="upload"
+          class="clear"
           @click="onToggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
@@ -49,6 +62,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     headerTitle: {
@@ -75,6 +90,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onToggleFilter: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -85,6 +104,12 @@ export default {
   computed: {
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
+    },
+    ...mapGetters({
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
     },
   },
 };
@@ -153,6 +178,19 @@ export default {
     opacity: 1;
     transform: translateX(0);
     visibility: visible;
+  }
+}
+.filters__button-wrap {
+  position: relative;
+
+  .filters__applied-indicator {
+    position: absolute;
+    height: var(--space-small);
+    width: var(--space-small);
+    top: var(--space-smaller);
+    right: var(--space-slab);
+    background-color: var(--s-500);
+    border-radius: var(--border-radius-rounded);
   }
 }
 </style>
