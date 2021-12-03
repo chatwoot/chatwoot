@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Indtast e-mailadressen på kontaktpersonen",
-        "LABEL": "E-Mail Adresse"
+        "LABEL": "E-Mail Adresse",
+        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
         "LABEL": "Telefonnummer",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Angiv placeringen af kontaktpersonen",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "Denne e-mail adresse er i brug for en anden kontakt.",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "NEW_CONVERSATION": {
