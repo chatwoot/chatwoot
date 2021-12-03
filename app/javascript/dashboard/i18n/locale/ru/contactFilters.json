@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "TITLE": "Фильтровать контакты",
+        "SUBTITLE": "Добавьте фильтры и нажмите 'Отправить' для фильтрации контактов.",
         "ADD_NEW_FILTER": "Добавить фильтр",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "CLEAR_ALL_FILTERS": "Очистить фильтры",
         "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
         "SUBMIT_BUTTON_LABEL": "Отправить",
         "CANCEL_BUTTON_LABEL": "Отменить",
         "CLEAR_BUTTON_LABEL": "Очистить фильтры",
         "EMPTY_VALUE_ERROR": "Необходимо указать значение",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "Фильтровать контакты",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "И",
             "OR": "ИЛИ"
@@ -26,7 +26,7 @@
             "NAME": "Имя",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Номер телефона",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Идентификатор",
             "CITY": "Город",
             "COUNTRY": "Страна"
         }
