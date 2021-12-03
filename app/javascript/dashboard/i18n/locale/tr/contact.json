@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Kişinin e-posta adresini girin",
-        "LABEL": "E-posta adresi"
+        "LABEL": "E-posta adresi",
+        "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",
         "LABEL": "Telefon numarası",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Kişinin konumunu girin",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
-    "CONTACT_ALREADY_EXIST": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
