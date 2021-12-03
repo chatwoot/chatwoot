@@ -52,9 +52,9 @@
       </button>
     </div>
     <ul class="conversation-panel">
-      <div class="action-button__wrap" @click="onToggleContactPanel">
+      <button class="action-button__wrap" @click="onToggleContactPanel">
         <fluent-icon :icon="isRightOrLeftIcon" class="action-button" />
-      </div>
+      </button>
       <transition name="slide-up">
         <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
