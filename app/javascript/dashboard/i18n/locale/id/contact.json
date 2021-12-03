@@ -176,6 +176,7 @@
     "FIELDS": "Isian kontak",
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
