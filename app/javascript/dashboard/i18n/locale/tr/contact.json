@@ -176,6 +176,7 @@
     "FIELDS": "İletişim alanları",
     "SEARCH_BUTTON": "Arama",
     "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
