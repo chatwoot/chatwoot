@@ -1,0 +1,48 @@
+# {{- if and (.Values.jxRequirements.ingress.domain) (not .Values.knativeDeploy) }}
+# {{- $annotations := dict }}
+# {{- $_ := merge $annotations .Values.ingress.annotations .Values.jxRequirements.ingress.annotations  }}
+# {{- if not (hasKey $annotations "kubernetes.io/ingress.class") }}
+# {{- $_ := set $annotations "kubernetes.io/ingress.class" (.Values.ingress.classAnnotation | default "nginx") }}
+# {{- end }}
+# {{- if and (hasKey .Values.jxRequirements.ingress "serviceType") (.Values.jxRequirements.ingress.serviceType) (eq .Values.jxRequirements.ingress.serviceType "NodePort") (not (hasKey $annotations "jenkins.io/host")) }}
+# {{- $_ := set $annotations "jenkins.io/host" .Values.jxRequirements.ingress.domain }}
+# {{- end }}
+# apiVersion: {{ .Values.jxRequirements.ingress.apiVersion }}
+# kind: Ingress
+# metadata:
+#   annotations:
+# {{- if $annotations }}
+# {{ toYaml $annotations | indent 4 }}
+# {{- end }}
+#   name: {{ .Values.service.name }}
+# {{- if .Values.ingress.labels }}
+# {{ toYaml .Values.ingress.labels | indent 4 }}
+# {{- end }}
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - pathType: {{ .Values.ingress.pathType | default "ImplementationSpecific" }}
+#         backend:
+#           service:
+#             name: {{ .Values.service.name }}
+#             port:
+#               number: {{ .Values.service.externalPort }}
+# {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
+#         path: "/{{ .Release.Namespace }}/hook"
+# {{- else if .Values.jxRequirements.ingress.domain }}
+#     host: {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+# {{- end }}
+# {{- if .Values.jxRequirements.ingress.tls.enabled }}
+#   tls:
+#   - hosts:
+#     - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+# {{- if and (hasKey .Values.jxRequirements.ingress.tls "secretName") (.Values.jxRequirements.ingress.tls.secretName) }}
+#     secretName: "{{ .Values.jxRequirements.ingress.tls.secretName }}"
+# {{- else if .Values.jxRequirements.ingress.tls.production }}
+#     secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"
+# {{- else }}
+#     secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-s"
+# {{- end }}
+# {{- end }}
+# {{- end }}

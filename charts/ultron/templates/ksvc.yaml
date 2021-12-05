@@ -1,0 +1,51 @@
+{{- if .Values.knativeDeploy }}
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  {{- if .Values.service.name }}
+  name: {{ .Values.service.name }}
+  {{- else }}
+  name: {{ template "fullname" . }}
+  {{- end }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.service.labels }}
+{{ toYaml .Values.service.labels | indent 4 }}
+{{- end }}
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+{{- if .Values.podsLabels }}
+      labels:
+{{ toYaml .Values.podsLabels | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: VERSION
+            value: {{ .Chart.Version }}
+{{- range $pkey, $pval := .Values.env }}
+          - name: {{ $pkey }}
+            value: {{ quote $pval }}
+{{- end }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.probePath | default .Values.probePath }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            httpGet:
+              path: {{ .Values.readinessProbe.probePath | default .Values.probePath }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          resources:
+{{ toYaml .Values.resources | indent 14 }}
+{{- end }}

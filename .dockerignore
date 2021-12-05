@@ -18,3 +18,10 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+charts/
+preview/
+OWNERS
+OWNERS_ALIASES
+NOTICE
+LICENSE
+README.md

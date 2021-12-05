@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  sidekiq-healthcheck: |-
+    #!/bin/sh
+    if [ $(ps -x | grep sidekiq | grep busy | wc -l) -ne  1 ]; then exit 1; fi
+  sidekiq-safe-stop: |-
+    #!/bin/sh
+    kill -SIGTSTP $(ps -x | grep sidekiq | grep busy | awk '{ print $1 }')
+kind: ConfigMap
+metadata:
+  name: "{{ .Chart.Name }}-sidekiq-liveness"

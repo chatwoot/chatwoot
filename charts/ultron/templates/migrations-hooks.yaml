@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "fullname" . }}-migrate
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+  annotations:
+    "helm.sh/hook": {{ .Values.hooks.migrate.hookAnnotation }}
+    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
+    "helm.sh/hook-weight": "-1"
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      tolerations:
+{{- if .Values.web.tolerations }}
+{{ toYaml .Values.web.tolerations | indent 6 }}
+{{- end }}
+      affinity:
+{{- if .Values.web.affinity }}
+{{ toYaml .Values.web.affinity | indent 8 }}
+{{- end }}
+      restartPolicy: Never
+      containers:
+      - name: "db-migrate-job"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        args:
+        - bundle
+        - exec
+        - rails
+        - db:chatwoot_prepare
+        env:
+{{- range $pkey, $pval := .Values.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+{{- end }}
+        envFrom:
+{{ toYaml .Values.envFrom | indent 10 }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}

@@ -1,0 +1,66 @@
+{{- if .Values.canary.enabled }}
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.canary.labels }}
+{{ toYaml .Values.canary.labels | indent 4 }}
+{{- end }}
+spec:
+  provider: istio
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "fullname" . }}
+  progressDeadlineSeconds: {{ .Values.canary.progressDeadlineSeconds }}
+  {{- if .Values.hpa.enabled }}
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta1
+    kind: HorizontalPodAutoscaler
+    name: {{ template "fullname" . }}
+  {{- end }}
+  service:
+    port: {{ .Values.service.externalPort }}
+    targetPort: {{ .Values.service.internalPort }}
+    gateways:
+    - {{ template "fullname" . }}
+    hosts:
+    - {{ .Values.canary.host | default (printf "%s%s%s"  .Values.service.name .Values.jxRequirements.ingress.namespaceSubDomain .Values.jxRequirements.ingress.domain) }}
+  analysis:
+    interval: {{ .Values.canary.analysis.interval }}
+    threshold: {{ .Values.canary.analysis.threshold }}
+    maxWeight: {{ .Values.canary.analysis.maxWeight }}
+    stepWeight: {{ .Values.canary.analysis.stepWeight }}
+    metrics:
+    - name: latency
+      templateRef:
+        name: latency
+        namespace: istio-system
+      thresholdRange:
+        max: {{ .Values.canary.analysis.metrics.latency.threshold }}
+      interval: {{ .Values.canary.analysis.metrics.latency.interval | quote }}
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ template "fullname" . }}
+{{- if .Values.canary.gatewayLabels }}
+  labels:
+{{ toYaml .Values.canary.gatewayLabels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: {{ .Values.service.externalPort }}
+      name: http
+      protocol: HTTP
+    hosts:
+    - {{ .Values.canary.host | default (printf "%s%s%s"  .Values.service.name .Values.jxRequirements.ingress.namespaceSubDomain .Values.jxRequirements.ingress.domain) }}
+{{- end }}

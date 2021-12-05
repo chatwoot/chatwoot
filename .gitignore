@@ -41,6 +41,7 @@ public/packs*
 
 #VS Code files
 .vscode
+!.vscode/settings.json
 
 # ignore jetbrains IDE files
 .idea

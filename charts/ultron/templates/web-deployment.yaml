@@ -1,0 +1,99 @@
+{{- if .Values.knativeDeploy }}
+{{- else }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.web.deploymentLabels }}
+{{ toYaml .Values.web.deploymentLabels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+{{- if .Values.web.hpa.enabled }}
+{{- else }}
+  replicas: {{ .Values.web.replicaCount }}
+{{- end }}
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}
+{{- if .Values.web.podsLabels }}
+{{ toYaml .Values.web.podsLabels | indent 6 }}
+{{- end }}
+      annotations:
+        envChecksum: {{ include (print $.Template.BasePath "/env-secrets.yaml") . | sha256sum }}
+{{- if .Values.sidekiq.podAnnotations }}
+{{ toYaml .Values.sidekiq.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      tolerations:
+{{- if .Values.web.tolerations }}
+{{ toYaml .Values.web.tolerations | indent 6 }}
+{{- end }}
+      affinity:
+{{- if .Values.web.affinity }}
+{{ toYaml .Values.web.affinity | indent 8 }}
+{{- end }}
+{{- if .Values.serviceAccount.enabled }}
+{{- if .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+{{- else }}
+      serviceAccountName: {{ template "fullname" . }}
+{{- end }}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        args: 
+          - bundle
+          - exec
+          - rails
+          - s
+          - -p
+          - {{ .Values.service.internalPort | quote}}
+          - -b
+          - 0.0.0.0
+        command:
+          - docker/entrypoints/rails.sh
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: FRONTEND_URL
+          value: https://{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- range $pkey, $pval := .Values.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+{{- end }}
+        envFrom:
+{{ toYaml .Values.envFrom | indent 10 }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.internalPort }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.web.livenessProbe.probePath | default .Values.web.probePath }}
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: {{ .Values.web.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.web.livenessProbe.periodSeconds }}
+          successThreshold: {{ .Values.web.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.web.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.web.readinessProbe.probePath | default .Values.web.probePath }}
+            port: {{ .Values.service.internalPort }}
+          periodSeconds: {{ .Values.web.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.web.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.web.readinessProbe.timeoutSeconds }}
+        resources:
+{{ toYaml .Values.web.resources | indent 12 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      imagePullSecrets:
+{{- range $pval := .Values.jx.imagePullSecrets }}
+      - name: {{ quote $pval }}
+{{- end }}
+{{- end }}

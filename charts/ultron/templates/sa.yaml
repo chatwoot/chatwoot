@@ -1,0 +1,16 @@
+{{- if .Values.serviceAccount.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+{{- if .Values.serviceAccount.name }}
+  name: {{ .Values.serviceAccount.name }}
+{{- else }}
+  name: {{ template "fullname" . }}
+{{- end }}
+  {{- if .Values.serviceAccount.labels }}
+  labels: {{- toYaml .Values.serviceAccount.labels | nindent 4 }}
+  {{- end }}
+  {{- if .Values.serviceAccount.annotations }}
+  annotations: {{ toYaml .Values.serviceAccount.annotations | nindent 4 }}
+  {{- end }}
+{{- end }}

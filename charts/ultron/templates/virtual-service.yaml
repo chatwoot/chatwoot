@@ -1,0 +1,16 @@
+{{- if and (.Values.jxRequirements.ingress.domain) (not .Values.knativeDeploy) }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Values.service.name }}
+spec:
+  gateways:
+  - istio-system/ingress-gateway
+  hosts:
+  - {{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
+  - {{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  http:
+  - route:
+    - destination:
+        host: {{ .Values.service.name }}
+{{- end }}

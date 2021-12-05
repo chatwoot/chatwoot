@@ -1,0 +1,98 @@
+{{- if .Values.knativeDeploy }}
+{{- else }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-getmail
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.getmail.deploymentLabels }}
+{{ toYaml .Values.getmail.deploymentLabels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}-getmail
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}-getmail
+{{- if .Values.getmail.podsLabels }}
+{{ toYaml .Values.getmail.podsLabels | indent 6 }}
+{{- end }}
+      annotations:
+        sidecar.istio.io/inject: "false"
+        envChecksum: {{ include (print $.Template.BasePath "/getmail-env-secrets.yaml") . | sha256sum }}
+        configChecksum: {{ include (print $.Template.BasePath "/getmail-actionmail-configmap.yaml") . | sha256sum }}
+{{- if .Values.getmail.podAnnotations }}
+{{ toYaml .Values.getmail.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      tolerations:
+{{- if .Values.getmail.tolerations }}
+{{ toYaml .Values.getmail.tolerations | indent 6 }}
+{{- end }}
+      affinity:
+{{- if .Values.getmail.affinity }}
+{{ toYaml .Values.getmail.affinity | indent 8 }}
+{{- end }}
+{{- if .Values.serviceAccount.enabled }}
+{{- if .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+{{- else }}
+      serviceAccountName: {{ template "fullname" . }}
+{{- end }}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}-getmail6
+        image: galaxycard/getmail6
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+{{- range $pkey, $pval := .Values.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+{{- end }}
+        envFrom:
+{{ toYaml .Values.envFrom | indent 10 }}
+        # Not sure why these don't work
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - /scripts/getmail-healthcheck
+        #   initialDelaySeconds: {{ .Values.getmail.livenessProbe.initialDelaySeconds }}
+        #   periodSeconds: {{ .Values.getmail.livenessProbe.periodSeconds }}
+        #   successThreshold: {{ .Values.getmail.livenessProbe.successThreshold }}
+        #   timeoutSeconds: {{ .Values.getmail.livenessProbe.timeoutSeconds }}
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - /scripts/getmail-healthcheck
+        #   periodSeconds: {{ .Values.getmail.readinessProbe.periodSeconds }}
+        #   successThreshold: {{ .Values.getmail.readinessProbe.successThreshold }}
+        #   timeoutSeconds: {{ .Values.getmail.readinessProbe.timeoutSeconds }}
+        resources:
+{{ toYaml .Values.getmail.resources | indent 12 }}
+        volumeMounts:
+          - mountPath: /config
+            name: getmail-config
+            readOnly: true
+          - mountPath: /scripts
+            name: scripts
+            readOnly: true
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      imagePullSecrets:
+{{- range $pval := .Values.jx.imagePullSecrets }}
+      - name: {{ quote $pval }}
+{{- end }}
+      volumes:
+        - name: getmail-config
+          secret:
+            secretName: '{{ .Chart.Name }}-getmail-secrets'
+        - name: scripts
+          configMap:
+            name: '{{ .Chart.Name }}-scripts'
+            defaultMode: 0744
+{{- end }}

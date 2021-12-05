@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  process-emails: |-
+    #!/bin/sh
+    curl -sS -u "actionmailbox:$RAILS_INBOUND_EMAIL_PASSWORD" \
+    -A "Action Mailbox curl relayer" \
+    -H "Content-Type: message/rfc822" \
+    --data-binary @- \
+    http://{{ .Values.service.name }}.{{ .Release.Namespace }}/rails/action_mailbox/relay/inbound_emails
+  getmail-healthcheck: |-
+    #!/bin/sh
+    if [ $(ps -x | grep getmail | grep -v grep | wc -l) -ne  1 ]; then exit 1; fi
+kind: ConfigMap
+metadata:
+  name: "{{ .Chart.Name }}-scripts"

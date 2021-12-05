@@ -1,0 +1,103 @@
+{{- if .Values.knativeDeploy }}
+{{- else }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-sidekiq
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+{{- if .Values.sidekiq.deploymentLabels }}
+{{ toYaml .Values.sidekiq.deploymentLabels | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}-sidekiq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}-sidekiq
+{{- if .Values.sidekiq.podsLabels }}
+{{ toYaml .Values.sidekiq.podsLabels | indent 6 }}
+{{- end }}
+      annotations:
+        sidecar.istio.io/inject: "false"
+        envChecksum: {{ include (print $.Template.BasePath "/env-secrets.yaml") . | sha256sum }}
+{{- if .Values.sidekiq.podAnnotations }}
+{{ toYaml .Values.sidekiq.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+      tolerations:
+{{- if .Values.sidekiq.tolerations }}
+{{ toYaml .Values.sidekiq.tolerations | indent 6 }}
+{{- end }}
+      affinity:
+{{- if .Values.sidekiq.affinity }}
+{{ toYaml .Values.sidekiq.affinity | indent 8 }}
+{{- end }}
+{{- if .Values.serviceAccount.enabled }}
+{{- if .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+{{- else }}
+      serviceAccountName: {{ template "fullname" . }}
+{{- end }}
+{{- end }}
+      containers:
+      - name: {{ .Chart.Name }}-sidekiq
+        args:
+          - bundle
+          - exec
+          - sidekiq
+          - -C
+          - config/sidekiq.yml
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: FRONTEND_URL
+          value: https://{{ .Values.service.name }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- range $pkey, $pval := .Values.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+{{- end }}
+        envFrom:
+{{ toYaml .Values.envFrom | indent 10 }}
+        livenessProbe:
+          exec:
+            command:
+            - /scripts/sidekiq-healthcheck
+          initialDelaySeconds: {{ .Values.sidekiq.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.sidekiq.livenessProbe.periodSeconds }}
+          successThreshold: {{ .Values.sidekiq.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.sidekiq.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          exec:
+            command:
+            - /scripts/sidekiq-healthcheck
+          periodSeconds: {{ .Values.sidekiq.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.sidekiq.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.sidekiq.readinessProbe.timeoutSeconds }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /scripts/sidekiq-safe-stop
+        resources:
+{{ toYaml .Values.sidekiq.resources | indent 12 }}
+        volumeMounts:
+          - mountPath: /scripts
+            name: sidekiq-healthcheck
+            readOnly: true
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      imagePullSecrets:
+{{- range $pval := .Values.jx.imagePullSecrets }}
+      - name: {{ quote $pval }}
+{{- end }}
+      volumes:
+        - name: sidekiq-healthcheck
+          configMap:
+            name: '{{ .Chart.Name }}-sidekiq-liveness'
+            defaultMode: 0744
+{{- end }}

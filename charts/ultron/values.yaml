@@ -1,0 +1,276 @@
+web:
+  replicaCount: 1
+  podAnnotations: {}
+  podsLabels: {}
+  deploymentLabels: {}
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 6
+    cpuTargetAverageUtilization: 80
+    memoryTargetAverageUtilization: 80
+    # Add labels to the HPA
+    labels: {}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 25m
+      memory: 32Mi
+  probePath: /
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+    probePath: ""
+  readinessProbe:
+    failureThreshold: 1
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+    probePath: ""
+  tolerations:
+  - key: pool
+    operator: Equal
+    value: preemptible
+    effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: cloud.google.com/gke-preemptible
+                operator: Exists
+
+sidekiq:
+  podAnnotations: {}
+  podsLabels: {}
+  deploymentLabels: {}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 25m
+      memory: 32Mi
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 1
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  tolerations:
+  - key: pool
+    operator: Equal
+    value: preemptible
+    effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: cloud.google.com/gke-preemptible
+                operator: Exists
+
+getmail:
+  podAnnotations: {}
+  podsLabels: {}
+  deploymentLabels: {}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 25m
+      memory: 32Mi
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 1
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  tolerations:
+  - key: pool
+    operator: Equal
+    value: preemptible
+    effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: cloud.google.com/gke-preemptible
+                operator: Exists
+
+hooks:
+  tolerations:
+  - key: pool
+    operator: Equal
+    value: preemptible
+    effect: NoSchedule
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: cloud.google.com/gke-preemptible
+                operator: Exists
+  migrate:
+    env: []
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 25m
+        memory: 32Mi
+    # Defaults to performing the DB migration job after the install/upgrade.
+    # Can be overridden to "pre-install,pre-upgrade" with caution to perform migrations that are sometimes required for the deployment to become healthy
+    hookAnnotation: "post-install,post-upgrade"
+
+image:
+  repository: draft
+  tag: dev
+  pullPolicy: IfNotPresent
+
+fb:
+  verifyToken: ''
+  appSecret: ''
+  appId: ''
+
+database:
+  password: test
+  username: postgres
+  database: postgres
+  hostname: postgresql
+
+rails:
+  keyBase: ''
+
+imap:
+  gmail:
+    username: ''
+    password: ''
+    mailboxes: ("support", )
+
+smtp:
+  ses:
+    username: ''
+    password: ''
+
+gcs:
+  credentials: ''
+
+inboundEmail:
+  password: ''
+
+# optional list of image pull secrets to use to pull images
+jx:
+  # optional image pull secrets
+  imagePullSecrets: []
+
+  # whether to create a Release CRD when installing charts with Release CRDs included
+  releaseCRD: true
+
+# define environment variables here as a map of key: value
+env:
+  REDIS_URL: redis://redis
+  MAILER_SENDER_EMAIL: support@galaxycard.in
+  SMTP_DOMAIN: galaxycard.in
+  SMTP_ADDRESS: email-smtp.ap-south-1.amazonaws.com
+  SMTP_AUTHENTICATION: plain
+  SMTP_ENABLE_STARTTLS_AUTO: true
+  MAILER_INBOUND_EMAIL_DOMAIN: galaxycard.in
+  ACTIVE_STORAGE_SERVICE: google
+  GCS_BUCKET: galaxycard-support
+  AWS_REGION: ap-south-1
+  RAILS_INBOUND_EMAIL_SERVICE: relay
+
+envFrom:
+  - secretRef:
+      name: ultron-secrets
+
+# enable this flag to use knative serve to deploy the app
+knativeDeploy: false
+
+# Canary deployments
+# If enabled, Istio and Flagger need to be installed in the cluster
+canary:
+  enabled: false
+  progressDeadlineSeconds: 60
+  analysis:
+    interval: "1m"
+    threshold: 5
+    maxWeight: 60
+    stepWeight: 20
+    # WARNING: Canary deployments will fail and rollback if there is no traffic that will generate the below specified metrics.
+    metrics:
+      latency:
+        threshold: 500
+        interval: "1m"
+  # The host is using Istio Gateway or the underlying ingress mechanism
+  # This value is defaulted from the environments jx-requirements.yml ingress configuration
+  host: ""
+  # Add labels to the canary
+  labels: {}
+  # Add labels to the canary gateway
+  gatewayLabels: {}
+
+service:
+  name: ultron
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8080
+  annotations: {}
+  # Add labels to the service
+  labels: {}
+
+# custom ingress annotations on this service
+ingress:
+  annotations: {}
+  # defaults to nginx if no other ingress class annotation specified
+  classAnnotation: ""
+  # Add labels to the ingress
+  labels: {}
+
+  # ingress path type
+  pathType: ImplementationSpecific
+
+serviceAccount:
+  enabled: true
+  name: ""
+  annotations: {}
+  #    iam.gke.io/gcp-service-account: my-sa-in-gke
+  # Add labels to the SA
+  labels: {}
+#    my-custom-label: value
+
+# values we use from the `jx-requirements.yml` file if we are using helmfile and helm 3
+jxRequirements:
+  ingress:
+    # shared ingress annotations on all services
+    annotations: {}
+    #  kubernetes.io/ingress.class: nginx
+
+    apiVersion: "networking.k8s.io/v1"
+
+    # the domain for hosts
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: -jx.
+    serviceType: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+      secretName: ""
