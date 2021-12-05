@@ -7,8 +7,15 @@ class CannedResponse extends ApiClient {
     super('canned_responses', { accountScoped: true });
   }
 
-  get({ searchKey }) {
-    const url = searchKey ? `${this.url}?search=${searchKey}` : this.url;
+  get({ searchKey, chatId }) {
+    const queryParams = [];
+    if (searchKey) {
+      queryParams.push(`search=${searchKey}`);
+    }
+    if (chatId) {
+      queryParams.push(`conversation_id=${chatId}`);
+    }
+    const url = `${this.url}?${queryParams.join('&')}`;
     return axios.get(url);
   }
 }

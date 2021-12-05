@@ -1,6 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
-import * as types from '../mutation-types';
 import CannedResponseAPI from '../../api/cannedResponse';
+import * as types from '../mutation-types';
 
 const state = {
   records: [],
@@ -25,11 +25,11 @@ const getters = {
 const actions = {
   getCannedResponse: async function getCannedResponse(
     { commit },
-    { searchKey } = {}
+    { searchKey, chatId } = {}
   ) {
     commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: true });
     try {
-      const response = await CannedResponseAPI.get({ searchKey });
+      const response = await CannedResponseAPI.get({ searchKey, chatId });
       commit(types.default.SET_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     } catch (error) {
