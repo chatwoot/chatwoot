@@ -99,8 +99,9 @@ class MailPresenter < SimpleDelegator
       return [email_forwarded_for] if email_forwarded_for.present?
 
       []
+    else
+      @mail.to
     end
-    @mail.to
   end
 
   private

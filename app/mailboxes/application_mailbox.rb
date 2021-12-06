@@ -13,6 +13,7 @@ class ApplicationMailbox < ActionMailbox::Base
         is_a_reply_email = true if reply_uuid_mail?(email)
       end
       is_a_reply_email = true if in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
+
       is_a_reply_email
     end
   end

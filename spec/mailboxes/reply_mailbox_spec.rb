@@ -66,6 +66,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
     context 'without email to address' do
       let(:forwarder_email) { create_inbound_email_from_fixture('forwarder_email.eml') }
+      let(:in_reply_to_email) { create_inbound_email_from_fixture('in_reply_to.eml') }
       let(:described_subject) { described_class.receive forwarder_email }
       let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
       let(:conversation_1) do
@@ -84,6 +85,13 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       it 'find channel with forwarded to mail' do
         described_subject
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+      end
+
+      it 'find channel with in message source id stated in in_reply_to' do
+        conversation_1.messages.new(source_id: '0CB459E0-0336-41DA-BC88-E6E28C697DDB@chatwoot.com', account_id: account.id, message_type: 'incoming',
+                                    inbox_id: email_channel.inbox.id).save!
+        described_class.receive in_reply_to_email
         expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
       end
     end
