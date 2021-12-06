@@ -9,9 +9,9 @@
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
-      :move="checkMove"
       class="list-group"
       ghost-class="ghost"
+      handle=".drag-handle"
       @start="dragging = true"
       @end="onDragEnd"
     >
@@ -215,12 +215,6 @@ export default {
       this.updateUISettings({
         conversation_sidebar_items_order: this.conversationSidebarItems,
       });
-    },
-    checkMove(evt, event) {
-      if (event.target.className === 'cw-accordion--title') {
-        return true;
-      }
-      return false;
     },
   },
 };
