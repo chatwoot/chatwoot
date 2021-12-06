@@ -12,9 +12,8 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    # Disable EE using environment variables when testing
-    return if ENV.fetch('DISABLE_EE', false)
-
+    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+    
     @enterprise ||= root.join('enterprise').exist?
   end
 
