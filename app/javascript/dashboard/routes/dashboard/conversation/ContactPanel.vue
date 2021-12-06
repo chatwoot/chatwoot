@@ -11,6 +11,7 @@
       :disabled="!dragEnabled"
       class="list-group"
       ghost-class="ghost"
+      handle=".drag-handle"
       @start="dragging = true"
       @end="onDragEnd"
     >
