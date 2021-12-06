@@ -21,8 +21,8 @@
   a,
   .button {
     @include position(relative, 1px null null null);
-    height: var(--space-large);
     border-bottom: 2px solid transparent;
+    height: var(--space-large);
     transition: border-color .15s $swift-ease-out-function;
   }
 

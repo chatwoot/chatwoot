@@ -23,19 +23,10 @@
           {{ currentContact.name }}
         </h4>
         <div class="conversation--metadata">
-          <span
-            v-if="showInboxName"
-            :class="computedInboxClass"
-            class="badge small secondary badge--icon"
-          >
-            <fluent-icon
-              class="svg-icon"
-              :icon="computedInboxClass"
-              size="12"
-            />
-          </span>
+          <inbox-name v-if="showInboxName" :inbox="inbox" />
           <thumbnail
             v-if="showAssignee && assignee.name"
+            v-tooltip.top-end="assignee.name"
             class="assignee-avatar"
             :src="assignee.thumbnail"
             :username="assignee.name"
@@ -295,7 +286,7 @@ export default {
   justify-content: space-between;
 
   .timestamp {
-    color: var(--s-600);
+    color: var(--s-500);
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-normal);
     line-height: var(--space-normal);
@@ -349,6 +340,8 @@ export default {
     font-weight: var(--font-weight-medium);
     line-height: var(--space-slab);
     padding: var(--space-micro) 0 var(--space-micro) 0;
+    margin-bottom: 0;
+    margin-right: var(--space-smaller);
   }
 
   .assignee-avatar {

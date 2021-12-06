@@ -59,10 +59,10 @@ $badge-size: var(--space-normal);
 $label-badge-size: var(--space-slab);
 
 .badge {
+  border-radius: var(--border-radius-normal);
+  font-weight: var(--font-weight-bold);
   height: min-content;
   line-height: 1;
-  font-weight: var(--font-weight-bold);
-  border-radius: var(--border-radius-normal);
 
   &.small {
     font-size: var(--font-size-nano);
@@ -76,19 +76,19 @@ $label-badge-size: var(--space-slab);
 
 
   &.secondary {
-    min-width: unset;
     background: var(--s-75);
     color: var(--s-500);
     font-weight: var(--font-weight-bold);
+    min-width: unset;
   }
 }
 
 .badge--label,
 .badge--icon {
-  display: inline-flex;
-  border-radius: var(--border-radius-small);
-  margin-right: var(--space-smaller);
   background: var(--s-100);
+  border-radius: var(--border-radius-small);
+  display: inline-flex;
+  margin-right: var(--space-smaller);
 }
 
 .badge--icon {
@@ -104,8 +104,8 @@ $label-badge-size: var(--space-slab);
 
 .badge--label {
   height: $label-badge-size;
-  min-width: $label-badge-size;
   margin-left: var(--space-smaller);
+  min-width: $label-badge-size;
 }
 
 
