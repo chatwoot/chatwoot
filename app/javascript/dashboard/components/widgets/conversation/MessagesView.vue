@@ -52,6 +52,9 @@
       </button>
     </div>
     <ul class="conversation-panel">
+      <button class="action-button__wrap" @click="onToggleContactPanel">
+        <fluent-icon :icon="isRightOrLeftIcon" class="action-button" />
+      </button>
       <transition name="slide-up">
         <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
@@ -234,6 +237,12 @@ export default {
     },
     twilioWhatsAppReplyPolicy() {
       return REPLY_POLICY.TWILIO_WHATSAPP;
+    },
+    isRightOrLeftIcon() {
+      if (this.isContactPanelOpen) {
+        return 'arrow-chevron-right';
+      }
+      return 'arrow-chevron-left';
     },
   },
 
@@ -426,5 +435,24 @@ export default {
       bottom: var(--space-minus-slab);
     }
   }
+}
+.action-button__wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+.action-button {
+  position: fixed;
+  background: var(--white);
+  cursor: pointer;
+  width: var(--space-medium);
+  height: var(--space-medium);
+  top: var(--space-mega);
+  z-index: var(--z-index-low);
+  margin-left: var(--space-one);
+  padding: var(--space-micro) var(--space-half) var(--space-micro) 0;
+  border-color: var(--color-border);
+  border-width: 0 0 0 1px;
+  border-style: solid;
+  border-radius: var(--border-radius-rounded);
 }
 </style>
