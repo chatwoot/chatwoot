@@ -2,7 +2,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def index; end
 
   def create
-    AutomationRule.new(automation_rules_permit.merge(account_id: Current.account.id)).save!
+    Current.account.automation_rules.create(automation_rules_permit)
     head :ok
   end
 
