@@ -51,10 +51,18 @@
         />
       </button>
     </div>
+    <div class="sidebar-toggle__wrap">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="sidebar-toggle--button"
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      >
+      </woot-button>
+    </div>
     <ul class="conversation-panel">
-      <button class="action-button__wrap" @click="onToggleContactPanel">
-        <fluent-icon :icon="isRightOrLeftIcon" class="action-button" />
-      </button>
       <transition name="slide-up">
         <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
@@ -436,23 +444,28 @@ export default {
     }
   }
 }
-.action-button__wrap {
+.sidebar-toggle__wrap {
   display: flex;
   justify-content: flex-end;
-}
-.action-button {
-  position: fixed;
-  background: var(--white);
-  cursor: pointer;
-  width: var(--space-medium);
-  height: var(--space-medium);
-  top: var(--space-mega);
-  z-index: var(--z-index-low);
-  margin-left: var(--space-one);
-  padding: var(--space-micro) var(--space-half) var(--space-micro) 0;
-  border-color: var(--color-border);
-  border-width: 0 0 0 1px;
-  border-style: solid;
-  border-radius: var(--border-radius-rounded);
+
+  .sidebar-toggle--button {
+    position: fixed;
+
+    top: var(--space-mega);
+    z-index: var(--z-index-low);
+
+    background: var(--white);
+
+    padding: inherit 0;
+    border-top-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border-bottom-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border: 1px solid var(--color-border-light);
+    border-right: 0;
+    box-sizing: border-box;
+  }
 }
 </style>
