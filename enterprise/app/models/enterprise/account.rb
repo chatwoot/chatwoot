@@ -1,4 +1,4 @@
-module EE::Account
+module Enterprise::Account
   def usage_limits
     {
       agents: get_limits(:agents),

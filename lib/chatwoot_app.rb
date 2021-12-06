@@ -11,11 +11,11 @@ module ChatwootApp
     100_000
   end
 
-  def self.ee?
+  def self.enterprise?
     # Disable EE using environment variables when testing
     return if ENV.fetch('DISABLE_EE', false)
 
-    @ee ||= root.join('ee').exist?
+    @enterprise ||= root.join('enterprise').exist?
   end
 
   def self.custom?
@@ -24,9 +24,9 @@ module ChatwootApp
 
   def self.extensions
     if custom?
-      %w[ee custom]
-    elsif ee?
-      %w[ee]
+      %w[enterprise custom]
+    elsif enterprise?
+      %w[enterprise]
     else
       %w[]
     end
