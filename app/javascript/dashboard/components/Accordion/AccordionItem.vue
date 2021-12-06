@@ -1,6 +1,6 @@
 <template>
   <div class="cw-accordion">
-    <button class="cw-accordion--title" @click="$emit('click')">
+    <button class="cw-accordion--title drag-handle" @click="$emit('click')">
       <div class="cw-accordion--title-wrap">
         <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
         <h5>
@@ -69,7 +69,7 @@ export default {
   background: var(--s-50);
   border-bottom: 1px solid var(--s-100);
   border-top: 1px solid var(--s-100);
-  cursor: pointer;
+  cursor: grab;
   display: flex;
   justify-content: space-between;
   margin: 0;
