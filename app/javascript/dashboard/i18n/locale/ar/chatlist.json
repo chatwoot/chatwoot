@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "رسالة صورة"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "رسالة صوتية"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "رسالة فيديو"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "مرفقات"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "الموقع الجغرافي"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "قام بمشاركة رابط"
       }
     },

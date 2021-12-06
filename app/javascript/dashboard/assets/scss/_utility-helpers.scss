@@ -2,6 +2,14 @@
   margin-right: var(--space-small);
 }
 
+.margin-right-smaller {
+  margin-right: var(--space-smaller);
+}
+
+.margin-left-minus-slab {
+  margin-left: var(--space-minus-slab);
+}
+
 .fs-small {
   font-size: var(--font-size-small);
 }
@@ -41,4 +49,8 @@
 
 .bg-white {
   background-color: var(--white);
+}
+
+.text-y-800 {
+  color: var(--y-800);
 }

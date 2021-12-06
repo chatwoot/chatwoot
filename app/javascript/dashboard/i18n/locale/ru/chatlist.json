@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Изображение"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Аудиосообщение"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Видео"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Прикрепленный файл"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Местоположение"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "поделился ссылкой"
       }
     },

@@ -10,8 +10,8 @@
       <div class="button-icon--wrap">
         <slot name="button" />
         <div class="chevron-icon__wrap">
-          <i v-if="isOpen" class="ion-minus chevron-icon"></i>
-          <i v-else class="ion-plus chevron-icon"></i>
+          <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
+          <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
       </div>
     </button>
@@ -66,9 +66,9 @@ export default {
 }
 .cw-accordion--title {
   align-items: center;
-  background: var(--b-50);
-  border-bottom: 1px solid var(--color-border);
-  border-top: 1px solid var(--color-border);
+  background: var(--s-50);
+  border-bottom: 1px solid var(--s-100);
+  border-top: 1px solid var(--s-100);
   cursor: pointer;
   display: flex;
   justify-content: space-between;

@@ -57,7 +57,7 @@ Metrics/BlockLength:
     - db/schema.rb
 Metrics/ModuleLength:
   Exclude:
-    - lib/woot_message_seeder.rb
+    - lib/seeders/message_seeder.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'

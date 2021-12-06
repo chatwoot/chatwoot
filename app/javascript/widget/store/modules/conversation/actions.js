@@ -6,7 +6,6 @@ import {
   toggleTyping,
   setUserLastSeenAt,
 } from 'widget/api/conversation';
-import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
@@ -15,13 +14,9 @@ export const actions = {
     commit('setConversationUIFlag', { isCreating: true });
     try {
       const { data } = await createConversationAPI(params);
-      const {
-        contact: { pubsub_token: pubsubToken },
-        messages,
-      } = data;
+      const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
-      refreshActionCableConnector(pubsubToken);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
       // Ignore error

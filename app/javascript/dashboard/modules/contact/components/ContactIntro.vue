@@ -33,7 +33,7 @@
       <woot-button
         variant="hollow"
         size="small expanded"
-        icon="ion-compose"
+        icon="edit"
         @click="onEditClick"
       >
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}

@@ -22,7 +22,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#1f93ff',
+      default: '',
     },
     customStyle: {
       type: Object,
@@ -43,15 +43,21 @@ export default {
   },
   computed: {
     style() {
-      return {
+      let style = {
         width: `${this.size}px`,
         height: `${this.size}px`,
         borderRadius: this.rounded ? '50%' : 0,
         lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
-        backgroundColor: this.backgroundColor,
         fontSize: `${Math.floor(this.size / 2.5)}px`,
-        color: this.color,
       };
+
+      if (this.backgroundColor) {
+        style = { ...style, backgroundColor: this.backgroundColor };
+      }
+      if (this.color) {
+        style = { ...style, color: this.color };
+      }
+      return style;
     },
     userInitial() {
       return this.initials || this.initial(this.username);
@@ -81,6 +87,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  background-image: linear-gradient(to top, var(--w-100) 0%, var(--w-75) 100%);
+  color: var(--w-600);
 }
 </style>
