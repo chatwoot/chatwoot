@@ -26,7 +26,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
-        text: 'hi there'
+        text: message.content
       }
     }
   end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
   let(:account) { create(:account) }
-  let(:agent) { create(:user, account: account, role: :agent) }
+  let(:administrator) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let!(:contact) { create(:contact, account: account) }
   let!(:contact_inbox) { create(:contact_inbox, inbox_id: inbox.id, contact_id: contact.id) }
@@ -11,9 +11,17 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     context 'when it is an authenticated user' do
       it 'returns all records' do
         get "/api/v1/accounts/#{account.id}/automation_rules",
-            headers: agent.create_new_auth_token
+            headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/automation_rules"
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -31,7 +39,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       let(:params) do
         {
           name: 'Notify Conversation Created and mark priority query',
-          description: 'Notify all agent about conversation created and mark priority query',
+          description: 'Notify all administrator about conversation created and mark priority query',
           event_name: 'conversation_created',
           conditions: [
             {
@@ -61,7 +69,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
               action_params: %w[support priority_customer]
             },
             {
-              action_name: :assign_best_agent,
+              action_name: :assign_best_administrator,
               action_params: [1]
             },
             {
@@ -76,7 +84,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.count).to eq(0)
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
-             headers: agent.create_new_auth_token,
+             headers: administrator.create_new_auth_token,
              params: params
 
         expect(response).to have_http_status(:success)
@@ -97,7 +105,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.count).to eq(0)
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
-             headers: agent.create_new_auth_token,
+             headers: administrator.create_new_auth_token,
              params: params
 
         expect(response).to have_http_status(:success)

@@ -1,9 +1,10 @@
 class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseController
+  before_action :check_authorization
+
   def index; end
 
   def create
-    Current.account.automation_rules.create(automation_rules_permit)
-    head :ok
+    @automation_rule = Current.account.automation_rules.create(automation_rules_permit)
   end
 
   private

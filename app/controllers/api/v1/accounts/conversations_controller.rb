@@ -1,7 +1,6 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
-  include Wisper::Publisher
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :contact_inbox, only: [:create]
@@ -27,7 +26,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     ActiveRecord::Base.transaction do
       @conversation = ::Conversation.create!(conversation_params)
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
-      # AutomationRuleObserver.conversation_created(@conversation.id)
     end
   end
 
@@ -63,7 +61,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
-    Rails.configuration.dispatcher.dispatch('conversation.status_changed', Time.zone.now, conversation: @conversation)
   end
 
   def toggle_typing_status

@@ -9,7 +9,7 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def conversation_created_automation(event_obj)
+  def conversation_created(event_obj)
     conversation = event_obj.data[:conversation]
     return unless rule_present?('conversation_created', conversation)
 
