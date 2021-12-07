@@ -29,7 +29,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
     @message = message
     subject = "#{@agent.available_name}, You have been mentioned in conversation [ID - #{@conversation.display_id}]"
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: subject) and return
+    send_mail_with_liquid(to: @agent.email, subject: subject)
   end
 
   private
@@ -38,7 +38,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
     @agents.each do |agent|
       subject = "#{@agent.available_name}, A new conversation [ID - #{@conversation.display_id}] has been created in #{@conversation.inbox&.name}."
       @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-      send_mail_with_liquid(to: agent.email, subject: subject) and return
+      send_mail_with_liquid(to: agent.email, subject: subject)
     end
   end
 

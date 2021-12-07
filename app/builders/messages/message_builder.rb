@@ -9,10 +9,10 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
-    if params.class == ActionController::Parameters
-      @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
-      @items = params.to_unsafe_h&.dig(:content_attributes, :items)
-    end
+    return unless params.instance_of?(ActionController::Parameters)
+
+    @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
+    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
   end
 
   def perform

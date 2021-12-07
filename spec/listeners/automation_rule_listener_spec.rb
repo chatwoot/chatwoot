@@ -1,18 +1,26 @@
 require 'rails_helper'
-describe CampaignListener do
+describe AutomationRuleListener do
   let(:listener) { described_class.instance }
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account, identifier: '123') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
-  let(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: inbox) }
-  let(:automation_rule) { create(:automation_rule_staus_changes, account: account) }
-
+  let(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: inbox, account: account) }
+  let(:automation_rule) { create(:automation_rule, account: account) }
+  let(:team) { create(:team, account: account) }
+  let(:user_1) { create(:user, role: 0) }
+  let(:user_2) { create(:user, role: 0) }
   let!(:event) do
     Events::Base.new('conversation_status_changed', Time.zone.now, { conversation: conversation })
   end
 
   before do
+    create(:team_member, user: user_1, team: team)
+    create(:team_member, user: user_2, team: team)
+    create(:account_user, user: user_2, account: account)
+    create(:account_user, user: user_1, account: account)
+
+    conversation.resolved!
     automation_rule.update!(actions:
                                       [
                                         {
@@ -23,7 +31,7 @@ describe CampaignListener do
                                         },
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
-                                        { 'action_name' => 'assign_best_agents', 'action_params' => [user.id] }
+                                        { 'action_name' => 'assign_best_agents', 'action_params' => [user_1.id] }
                                       ])
   end
 
@@ -57,7 +65,7 @@ describe CampaignListener do
 
         conversation.reload
 
-        expect(conversation.assignee).to eq(user)
+        expect(conversation.assignee).to eq(user_1)
       end
     end
   end

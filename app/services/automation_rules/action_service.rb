@@ -45,14 +45,13 @@ class AutomationRules::ActionService
     when 'conversation_created', 'conversation_status_changed'
       TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])
     when 'conversation_updated'
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])
+      TeamNotifications::AutomationNotificationMailer.conversation_updated(@conversation, team, params[:message])
     end
   end
 
   def administrator
     @administrator ||= @account.administrators.first
   end
-
 
   def agent_belongs_to_account?(agent_ids)
     @account.agents.pluck(:id).include?(agent_ids[0])
@@ -61,5 +60,4 @@ class AutomationRules::ActionService
   def team_belongs_to_account?(team_ids)
     @account.team_ids.include?(team_ids[0])
   end
-
 end
