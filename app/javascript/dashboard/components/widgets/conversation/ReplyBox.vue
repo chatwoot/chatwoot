@@ -377,7 +377,7 @@ export default {
           this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
-        this.clearMails = false;
+        this.clearMails = true;
       }
     },
     replaceText(message) {

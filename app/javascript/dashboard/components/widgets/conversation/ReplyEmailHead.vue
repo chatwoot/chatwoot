@@ -79,24 +79,26 @@ export default {
       },
     },
   },
+  watch: {
+    clearMails(value) {
+      if (value) {
+        this.ccEmailsVal = '';
+        this.bccEmailsVal = '';
+      }
+    },
+  },
   methods: {
     handleAddBcc() {
       this.showBcc = true;
     },
     onBlur() {
       this.$v.$touch();
-      this.$emit("set-emails", { bccEmails: this.bccEmailsVal, ccEmails: this.ccEmailsVal });
+      this.$emit('set-emails', {
+        bccEmails: this.bccEmailsVal,
+        ccEmails: this.ccEmailsVal,
+      });
     },
   },
-  watch: {
-    clearMails: function(value){
-      if(value) {
-        this.ccEmailsVal = '';
-        this.bccEmailsVal = '';
-        this.clearMails = false;
-      }
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>
