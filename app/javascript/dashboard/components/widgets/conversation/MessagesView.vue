@@ -51,6 +51,17 @@
         />
       </button>
     </div>
+    <div class="sidebar-toggle__wrap">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="sidebar-toggle--button"
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      >
+      </woot-button>
+    </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
         <li class="spinner--container">
@@ -234,6 +245,12 @@ export default {
     },
     twilioWhatsAppReplyPolicy() {
       return REPLY_POLICY.TWILIO_WHATSAPP;
+    },
+    isRightOrLeftIcon() {
+      if (this.isContactPanelOpen) {
+        return 'arrow-chevron-right';
+      }
+      return 'arrow-chevron-left';
     },
   },
 
@@ -425,6 +442,30 @@ export default {
       left: 5px;
       bottom: var(--space-minus-slab);
     }
+  }
+}
+.sidebar-toggle__wrap {
+  display: flex;
+  justify-content: flex-end;
+
+  .sidebar-toggle--button {
+    position: fixed;
+
+    top: var(--space-mega);
+    z-index: var(--z-index-low);
+
+    background: var(--white);
+
+    padding: inherit 0;
+    border-top-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border-bottom-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border: 1px solid var(--color-border-light);
+    border-right: 0;
+    box-sizing: border-box;
   }
 }
 </style>
