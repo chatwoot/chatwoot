@@ -281,7 +281,7 @@ export default {
       return !this.message.trim().replace(/\n/g, '').length;
     },
     showReplyHead() {
-      return true || (!this.isOnPrivateNote && this.isAnEmailChannel);
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
   },
   watch: {
