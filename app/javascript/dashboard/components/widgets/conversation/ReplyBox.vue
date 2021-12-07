@@ -22,8 +22,8 @@
       />
       <reply-email-head
         v-if="showReplyHead"
-        :clear-mails="clearMails"
-        @set-emails="setCcEmails"
+        :cc-emails.sync="ccEmails"
+        :bcc-emails.sync="bccEmails"
       />
       <resizable-text-area
         v-if="!showRichContentEditor"
@@ -142,7 +142,8 @@ export default {
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
-      clearMails: false,
+      bccEmails: '',
+      ccEmails: '',
     };
   },
   computed: {
@@ -280,7 +281,7 @@ export default {
       return !this.message.trim().replace(/\n/g, '').length;
     },
     showReplyHead() {
-      return !this.isOnPrivateNote && this.isAnEmailChannel;
+      return true || (!this.isOnPrivateNote && this.isAnEmailChannel);
     },
   },
   watch: {
@@ -308,6 +309,9 @@ export default {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
+    },
+    ccEmails(newVal) {
+      console.log(newVal);
     },
   },
 
@@ -377,7 +381,6 @@ export default {
           this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
-        this.clearMails = true;
       }
     },
     replaceText(message) {
@@ -400,7 +403,8 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
-      this.clearMails = true;
+      this.ccEmails = '';
+      this.bccEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
