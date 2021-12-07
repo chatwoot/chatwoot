@@ -1,14 +1,14 @@
 <template>
   <div class="file message-text__wrap">
     <div class="icon-wrap">
-      <i class="ion-document-text"></i>
+      <fluent-icon icon="document" class="file--icon" size="32" />
     </div>
     <div class="meta">
       <h5 class="text-block-title">
         {{ decodeURI(fileName) }}
       </h5>
       <a
-        class="download clear button small"
+        class="download clear link button small"
         rel="noreferrer noopener nofollow"
         target="_blank"
         :href="url"

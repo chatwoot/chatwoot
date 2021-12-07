@@ -1,30 +1,26 @@
-import { frontendURL } from '../../helper/URLHelper';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 const campaigns = accountId => ({
+  parentNav: 'campaigns',
   routes: ['settings_account_campaigns', 'one_off'],
-  menuItems: {
-    back: {
-      icon: 'ion-ios-arrow-back',
-      label: 'HOME',
-      hasSubMenu: false,
-      toStateName: 'home',
-      toState: frontendURL(`accounts/${accountId}/dashboard`),
-    },
-    ongoingCampaigns: {
-      icon: 'ion-arrow-swap',
+  menuItems: [
+    {
+      icon: 'arrow-swap',
       label: 'ONGOING',
+      key: 'ongoingCampaigns',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
       toStateName: 'settings_account_campaigns',
     },
-    onOffCampaigns: {
-      icon: 'ion-radio-waves',
+    {
+      key: 'oneOffCampaigns',
+      icon: 'sound-source',
       label: 'ONE_OFF',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
       toStateName: 'one_off',
     },
-  },
+  ],
 });
 
 export default campaigns;

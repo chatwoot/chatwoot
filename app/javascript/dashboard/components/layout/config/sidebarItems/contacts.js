@@ -1,27 +1,21 @@
-import { frontendURL } from '../../helper/URLHelper';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 const contacts = accountId => ({
+  parentNav: 'contacts',
   routes: [
     'contacts_dashboard',
     'contact_profile_dashboard',
     'contacts_labels_dashboard',
   ],
-  menuItems: {
-    back: {
-      icon: 'ion-ios-arrow-back',
-      label: 'HOME',
-      hasSubMenu: false,
-      toStateName: 'home',
-      toState: frontendURL(`accounts/${accountId}/dashboard`),
-    },
-    contacts: {
-      icon: 'ion-person',
+  menuItems: [
+    {
+      icon: 'contact-card-group',
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/contacts`),
       toStateName: 'contacts_dashboard',
     },
-  },
+  ],
 });
 
 export default contacts;

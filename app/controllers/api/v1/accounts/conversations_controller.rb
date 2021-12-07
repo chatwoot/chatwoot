@@ -74,9 +74,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
-    @conversation.agent_last_seen_at = DateTime.now.utc
-    @conversation.assignee_last_seen_at = DateTime.now.utc if assignee?
-    @conversation.save!
+    # rubocop:disable Rails/SkipsModelValidations
+    @conversation.update_column(:agent_last_seen_at, DateTime.now.utc)
+    @conversation.update_column(:assignee_last_seen_at, DateTime.now.utc) if assignee?
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def custom_attributes

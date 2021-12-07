@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Billedbesked"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Lydbesked"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video besked"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Fil Vedhæftning"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Lokation"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delt en URL"
       }
     },

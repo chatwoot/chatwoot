@@ -1,4 +1,3 @@
-
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
@@ -9,7 +8,8 @@
   transition: all .3s $ease-out-cubic;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   opacity: 0;
   transform: translateX(10px);
 }
@@ -22,22 +22,33 @@
   transform: translateX($space-medium);
 }
 
-.conversations-list-enter-active, .conversations-list-leave-active {
+.conversations-list-enter-active,
+.conversations-list-leave-active {
   transition: all .25s $ease-out-cubic;
 }
 
-.conversations-list-enter, .conversations-list-leave-to /* .conversations-list-leave-active for <2.1.8 */ {
+.conversations-list-enter,
+.conversations-list-leave-to {
   opacity: 0;
   transform: translateX($space-medium);
 }
 
-.menu-list-enter-active, .menu-list-leave-active {
-  transition: all .2s $ease-out-cubic;
+.menu-list-enter-active,
+.menu-list-leave-active {
+  transition: opacity .3s $ease-out-cubic,
+    transform .2s $ease-out-cubic;
 }
 
-.menu-list-enter, .menu-list-leave-to /* .conversations-list-leave-active for <2.1.8 */ {
+
+.menu-list-leave-to {
   opacity: 0;
-  transform: translateX($space-medium);
+  position: absolute;
+  transform: translateX($space-small);
+}
+
+.menu-list-enter {
+  opacity: 0;
+  transform: translateX(-$space-small);
 }
 
 .slide-up-enter-active {
@@ -48,8 +59,8 @@
   transition: all .3s $ease-out-cubic;
 }
 
-.slide-up-enter, .slide-up-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
+.slide-up-enter,
+.slide-up-leave-to {
   transform: translateY(-$space-medium);
   opacity: 0;
 }
@@ -60,10 +71,10 @@
   transition: transform 0.25s $ease-in-cubic, opacity 0.15s $ease-in-cubic;
 }
 
-.menu-slide-enter, .menu-slide-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
-  transform: translateY($space-small);
+.menu-slide-enter,
+.menu-slide-leave-to {
   opacity: 0;
+  transform: translateY($space-small);
 }
 
 
@@ -75,10 +86,10 @@
   transition: all .1s $ease-out-sine;
 }
 
-.toast-fade-enter, .toast-fade-leave-to
-/* .toast-fade-leave-active for <2.1.8 */ {
-  transform: translateY(-$space-small);
+.toast-fade-enter,
+.toast-fade-leave-to {
   opacity: 0;
+  transform: translateY(-$space-small);
 }
 
 .modal-fade-enter-active {
@@ -89,8 +100,8 @@
   transition: all .1s $ease-out-sine;
 }
 
-.modal-fade-enter, .modal-fade-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
+.modal-fade-enter,
+.modal-fade-leave-to {
   opacity: 0;
 }
 

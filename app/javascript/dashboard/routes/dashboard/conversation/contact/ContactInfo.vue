@@ -18,7 +18,7 @@
             rel="noopener nofollow noreferrer"
           >
             {{ contact.name }}
-            <i class="ion-android-open open-link--icon" />
+            <fluent-icon size="16" icon="open" class="open-link--icon" />
           </a>
         </h3>
         <p v-if="additionalAttributes.description" class="contact--bio">
@@ -29,7 +29,7 @@
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
-            icon="ion-email"
+            icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
@@ -37,20 +37,20 @@
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
-            icon="ion-ios-telephone"
+            icon="call"
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
             :value="additionalAttributes.company_name"
-            icon="ion-briefcase"
+            icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
           <contact-info-row
             v-if="location || additionalAttributes.location"
             :value="location || additionalAttributes.location"
-            icon="ion-map"
+            icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
@@ -62,7 +62,8 @@
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
-          icon="ion-chatboxes"
+          icon="chat"
+          icon-size="14"
           size="small expanded"
           @click="toggleConversationModal"
         />
@@ -70,7 +71,8 @@
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           class="edit-contact"
-          icon="ion-edit"
+          icon="edit"
+          icon-size="14"
           variant="smooth"
           size="small expanded"
           @click="toggleEditModal"
@@ -80,7 +82,8 @@
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           class="merge-contact"
-          icon="ion-merge"
+          icon="merge"
+          icon-size="14"
           variant="smooth"
           size="small expanded"
           color-scheme="secondary"
@@ -92,7 +95,8 @@
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           class="delete-contact"
-          icon="ion-trash-a"
+          icon="delete"
+          icon-size="14"
           variant="smooth"
           size="small expanded"
           color-scheme="alert"
@@ -139,6 +143,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
+
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';

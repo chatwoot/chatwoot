@@ -27,7 +27,7 @@ l<template>
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <i class="icon ion-ios-settings-strong" />
+          <fluent-icon icon="filter" />
         </woot-button>
       </div>
     </div>
@@ -81,6 +81,7 @@ l<template>
     <woot-modal
       :show.sync="showAdvancedFilters"
       :on-close="onToggleAdvanceFiltersModal"
+      size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
@@ -155,7 +156,7 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
-      appliedFilters: 'getAppliedFilters',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;

@@ -34,6 +34,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
@@ -228,7 +229,7 @@ export default {
                         rel="noopener noreferrer nofollow"
                         href={`https://${profile}.com/${profiles[profile]}`}
                       >
-                        <i class={`ion-social-${profile}`} />
+                        <FluentIcon icon={`brand-${profile}`} />
                       </a>
                     )
                 )}

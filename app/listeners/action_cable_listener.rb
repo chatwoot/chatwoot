@@ -34,7 +34,7 @@ class ActionCableListener < BaseListener
 
   def conversation_status_changed(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact&.pubsub_token]
+    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
 
     broadcast(account, tokens, CONVERSATION_STATUS_CHANGED, conversation.push_event_data)
   end
@@ -137,6 +137,10 @@ class ActionCableListener < BaseListener
     return [] if message.activity?
     return [] if contact_inbox.nil?
 
+    contact_inbox_tokens(contact_inbox)
+  end
+
+  def contact_inbox_tokens(contact_inbox)
     contact = contact_inbox.contact
 
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
