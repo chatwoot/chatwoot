@@ -310,9 +310,6 @@ export default {
         this.showMentions = false;
       }
     },
-    ccEmails(newVal) {
-      console.log(newVal);
-    },
   },
 
   mounted() {
