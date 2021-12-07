@@ -73,8 +73,7 @@ export default {
   align-items: center;
   width: 100%;
 
-  background-color: var(--background-light);
-  border: 1px solid var(--color-border-light);
+  background-color: var(--y-100);
   border-radius: var(--border-radius-medium);
   box-shadow: var(--shadow-large);
 
@@ -83,7 +82,6 @@ export default {
 }
 
 .ui-notification-text {
-  margin: 0;
-  margin-left: var(--space-small);
+  margin: 0 var(--space-small);
 }
 </style>
