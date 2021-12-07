@@ -25,6 +25,8 @@ class Channel::TwitterProfile < ApplicationRecord
 
   before_destroy :unsubscribe
 
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
+
   def name
     'Twitter'
   end

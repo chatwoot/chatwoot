@@ -40,25 +40,18 @@
             <option :value="true">
               {{
                 $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                  'INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLED'
                 )
               }}
             </option>
             <option :value="false">
               {{
                 $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                  'INBOX_MGMT.ADD.TWITTER.TWEETS.DISABLED'
                 )
               }}
             </option>
           </select>
-          <p class="help-text">
-            {{
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
-              )
-            }}
-          </p>
         </label>
         <woot-input
           v-if="isAPIInbox"
@@ -593,6 +586,7 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.tweetsEnabled = this.inbox.tweets_enabled || false;
         this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;

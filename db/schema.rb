@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_09_143122) do
+ActiveRecord::Schema.define(version: 2021_12_08_085931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 2021_11_09_143122) do
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "tweets_enabled"
+    t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
   end
 
@@ -346,7 +346,7 @@ ActiveRecord::Schema.define(version: 2021_11_09_143122) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
