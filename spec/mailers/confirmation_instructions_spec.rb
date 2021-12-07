@@ -9,7 +9,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
     let(:inviter_val) { nil }
     let(:mail) { Devise::Mailer.confirmation_instructions(confirmable_user.reload, nil, {}) }
 
-    before do 
+    before do
       # to verify the token in email
       confirmable_user.send(:generate_confirmation_token)
     end
@@ -28,7 +28,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
       expect(mail.body).to_not match('has invited you to try out Chatwoot!')
     end
 
-    it 'sends a confirmation link' do 
+    it 'sends a confirmation link' do
       expect(mail.body).to include("app/auth/confirmation?confirmation_token=#{confirmable_user.confirmation_token}")
       expect(mail.body).not_to include('app/auth/password/edit')
     end
@@ -42,8 +42,8 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
         )
       end
 
-      it 'sends a password reset link' do 
-        expect(mail.body).to include("app/auth/password/edit?reset_password_token")
+      it 'sends a password reset link' do
+        expect(mail.body).to include('app/auth/password/edit?reset_password_token')
         expect(mail.body).not_to include('app/auth/confirmation')
       end
     end
