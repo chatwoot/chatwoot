@@ -15,7 +15,8 @@
   </div>
 
   <div>
-    <p style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; font-family: "Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+    <p>Previous messages:</p>
+    <p style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; text-align: start; unicode-bidi: plaintext;">
       {% if chat_message.content %}
         {{chat_message.content}}
       {% endif %}
@@ -28,5 +29,6 @@
     </p>
   </div>
 {% endfor %}
-
-<p><a href="{{ action_url }}">View Message</a></p>
+<p>
+  <a href="{{ action_url }}">View Message</a>
+</p>
