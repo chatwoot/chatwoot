@@ -68,10 +68,7 @@ export const mutations = {
     Vue.set(chat.meta, 'team', team);
   },
 
-  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](
-    _state,
-    custom_attributes
-  ) {
+  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'custom_attributes', custom_attributes);
   },
@@ -165,10 +162,7 @@ export const mutations = {
     Vue.set(chat.meta, 'assignee', payload.assignee);
   },
 
-  [types.UPDATE_CONVERSATION_CONTACT](
-    _state,
-    { conversationId, ...payload }
-  ) {
+  [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
       Vue.set(chat.meta, 'sender', payload);
@@ -179,10 +173,7 @@ export const mutations = {
     _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
 
-  [types.SET_CONVERSATION_CAN_REPLY](
-    _state,
-    { conversationId, canReply }
-  ) {
+  [types.SET_CONVERSATION_CAN_REPLY](_state, { conversationId, canReply }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
       Vue.set(chat, 'can_reply', canReply);
