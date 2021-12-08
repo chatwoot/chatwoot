@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_07_113102) do
+ActiveRecord::Schema.define(version: 2021_12_08_085931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -753,10 +753,10 @@ ActiveRecord::Schema.define(version: 2021_12_07_113102) do
   add_foreign_key "agent_bots", "accounts"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
-  add_foreign_key "contact_inboxes", "contacts"
-  add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
+  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversations", "campaigns"
-  add_foreign_key "conversations", "contact_inboxes"
+  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
   add_foreign_key "conversations", "teams"
   add_foreign_key "csat_survey_responses", "accounts"
   add_foreign_key "csat_survey_responses", "contacts"
