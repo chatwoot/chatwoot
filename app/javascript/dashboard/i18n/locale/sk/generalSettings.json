@@ -1,95 +1,95 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "Nastavenia účtu",
+    "SUBMIT": "Aktualizovať nastavenia",
+    "BACK": "Späť",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "Nastavenia sa nepodarilo aktualizovať, skúste to znova!",
+      "SUCCESS": "Úspešne aktualizované nastavenia účtu"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "Prosím, opravte chyby vo formulári",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Všeobecné nastavenia",
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID účtu",
+        "NOTE": "Toto ID je potrebné, ak vytvárate integráciu založenú na rozhraní API"
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "Názov účtu",
+        "PLACEHOLDER": "Názov vášho účtu",
+        "ERROR": "Zadajte platný názov účtu"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "Jazyk stránky (Beta)",
+        "PLACEHOLDER": "Názov vášho účtu",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Doména prichádzajúceho e-mailu",
+        "PLACEHOLDER": "Doména, na ktorú budete dostávať e-maily",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "E-mailová podpora",
+        "PLACEHOLDER": "E-mailová podpora vašej spoločnosti",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Počet dní po automatickom vyriešení tiketu, ak sa nevykonáva žiadna aktivita",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Zadajte platnú dobu kým sa tiket automaticky vyrieši (minimálne 1 deň)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Pre vaše konto je povolená kontinuita konverzácie s e-mailami.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Teraz môžete prijímať e-maily vo vlastnej doméne."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Stlačením tlačidla enter vyberte",
+      "ENTER_TO_REMOVE": "Stlačením tlačidla enter vymažte",
+      "SELECT_ONE": "Vyberte jeden"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Upozornenia",
+    "MARK_ALL_DONE": "Označiť všetky ako hotové",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Načítavajú sa notifikácie...",
+      "404": "Žiadne notifikácie",
       "TABLE_HEADER": [
-        "Name",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
+        "Meno",
+        "Telefónne číslo",
+        "Konverzácie",
+        "Naposledy kontaktovaný"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nová konverzácia",
+      "conversation_assignment": "Konverzácia pridelená",
+      "assigned_conversation_new_message": "Nová správa",
+      "conversation_mention": "Zmienka"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Chatwoot je odpojený"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Obnoviť"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Hľadať alebo ísť na",
     "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Reports",
-      "CONVERSATION": "Conversation",
+      "GENERAL": "Všeobecné",
+      "REPORTS": "Reporty",
+      "CONVERSATION": "Konverzácia",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
