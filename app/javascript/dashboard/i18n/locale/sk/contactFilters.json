@@ -5,8 +5,8 @@
         "ADD_NEW_FILTER": "Add Filter",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-        "SUBMIT_BUTTON_LABEL": "Submit",
-        "CANCEL_BUTTON_LABEL": "Cancel",
+        "SUBMIT_BUTTON_LABEL": "Odoslať",
+        "CANCEL_BUTTON_LABEL": "Zrušiť",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
@@ -23,12 +23,12 @@
             "is_not_present": "Is not present"
         },
         "ATTRIBUTES": {
-            "NAME": "Name",
+            "NAME": "Meno",
             "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
+            "PHONE_NUMBER": "Telefónne číslo",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country"
+            "CITY": "Mesto",
+            "COUNTRY": "Krajina"
         }
     }
 }
