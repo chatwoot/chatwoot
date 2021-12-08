@@ -5,7 +5,7 @@
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
-    "CANCEL_BUTTON_LABEL": "Cancel",
+    "CANCEL_BUTTON_LABEL": "Zrušiť",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
     "TOOLTIP_LABEL": "Filter conversations",
@@ -24,7 +24,7 @@
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Inbox Name",
+      "INBOX_NAME": "Meno schránky",
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
