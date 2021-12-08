@@ -1,5 +1,5 @@
 <template>
-  <div v-if="menuConfig.menuItems.length" class="main-nav secondary-menu">
+  <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -50,6 +50,9 @@ export default {
     },
   },
   computed: {
+    hasSecondaryMenu() {
+      return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
+    },
     accessibleMenuItems() {
       if (!this.currentRole) {
         return [];
