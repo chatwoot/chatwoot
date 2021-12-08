@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_29_120040) do
+ActiveRecord::Schema.define(version: 2021_12_07_113102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -368,7 +368,7 @@ ActiveRecord::Schema.define(version: 2021_11_29_120040) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "account_id"], name: "attribute_key_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
