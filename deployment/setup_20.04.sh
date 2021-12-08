@@ -154,7 +154,7 @@ echo "**************************************************************************
 fi
 
 
-if [ $install_pg_redis != "no" ]
+if [ $install_pg_redis == "no" ]
 then
 echo -en "\n\n***************************************************************************\n"
 echo "DB migrations are not run as pg and redis is not installed."
