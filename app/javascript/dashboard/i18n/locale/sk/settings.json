@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Prosím, opravte chyby vo formulári",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -120,11 +120,11 @@
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Stiahnuť",
       "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Odoslať"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -134,16 +134,16 @@
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
+    "CONVERSATIONS": "Rozhovory",
     "ALL_CONVERSATIONS": "All Conversations",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Kontakty",
     "HOME": "Home",
-    "AGENTS": "Agents",
+    "AGENTS": "Agenti",
     "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
+    "NOTIFICATIONS": "Upozornenia",
+    "CANNED_RESPONSES": "Uložené odpovede",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
@@ -162,7 +162,7 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
@@ -175,14 +175,14 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Account Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Odoslať"
     }
   },
   "KEYBOARD_SHORTCUTS": {
