@@ -30,6 +30,7 @@ module.exports = {
     "vue/no-v-html": 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/require-default-prop': 'off',
+    'vue/require-prop-types': 'off',
     'import/extensions': ['off']
 
   },

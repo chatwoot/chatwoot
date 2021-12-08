@@ -25,7 +25,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
   validates :attribute_key,
             presence: true,
-             uniqueness: { scope: :account_id }
+            uniqueness: { scope: :account_id }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
