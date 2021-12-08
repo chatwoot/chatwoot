@@ -16,7 +16,7 @@
 #
 # Indexes
 #
-#  attribute_key_index                               (attribute_key,account_id) UNIQUE
+#  attribute_key_model_index                         (attribute_key,attribute_model,account_id) UNIQUE
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
@@ -24,8 +24,7 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_display_name, presence: true
 
   validates :attribute_key,
-            presence: true,
-            uniqueness: { scope: :account_id }
+            presence: true
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
