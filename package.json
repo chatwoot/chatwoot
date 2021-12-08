@@ -118,7 +118,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\"",
+      "pre-commit": "lint-staged",
       "pre-push": "sh bin/validate_push"
     }
   },
