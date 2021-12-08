@@ -8,4 +8,12 @@ describe MessageFormatHelper, type: :helper do
       end
     end
   end
+
+  describe '#render_message_content' do
+    context 'when render_message_content called' do
+      it 'render text correctly' do
+        expect(helper.render_message_content('Hey there, how can I **help**?')).to eq '<p>Hey there, how can I <strong>help</strong>?</p>'
+      end
+    end
+  end
 end
