@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
+        "LABEL": "Meno schránky",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
       },
       "WEBSITE_NAME": {
@@ -40,88 +40,88 @@
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "INBOX_NAME": "Meno schránky",
+        "ADD_NAME": "Pridať meno pre vašu schránku",
+        "PICK_NAME": "Vyberte si meno pre svoju schránku",
+        "PICK_A_VALUE": "Vybrať hodnotu"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "HELP": "Ak chcete pridať svoj profil na Twitteri ako kanál, musíte overiť svoj profil Twitter kliknutím na \"Prihlásiť sa pomocou Twitteru\" ",
+        "ERROR_MESSAGE": "Pri pripájaní k službe Twitter došlo k chybe, skúste to prosím znova"
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Webový kanál",
+        "DESC": "Vytvorte si kanál pre svoje webové stránky a začnite podporovať svojich zákazníkov prostredníctvom nášho webového widgetu.",
+        "LOADING_MESSAGE": "Vytvorenie kanála webovej podpory",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Logo kanálu"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Zadajte svoju Webhook URL",
+          "ERROR": "Prosím zadajte platnú URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Webová doména",
+          "PLACEHOLDER": "Zadajte doménu svojej webovej stránky (napr.: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Uvítací nadpis",
+          "PLACEHOLDER": "Zdravím!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Uvítací slogan",
+          "PLACEHOLDER": "Spojenie s nami je jednoduché. Spýtajte sa nás na čokoľvek alebo sa podeľte o svoju spätnú väzbu."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Uvítacia správa kanála",
+          "PLACEHOLDER": "Acme zvyčajne odpovedá do niekoľkých hodín."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Povoliť pozdav v kanáli",
+          "HELP_TEXT": "Odošlite uvítaciu správu používateľovi pri začatí konverzácie.",
+          "ENABLED": "Zapnuté",
+          "DISABLED": "Vypnuté"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Nastaviť čas odpovede",
+          "IN_A_FEW_MINUTES": "O pár minút",
+          "IN_A_FEW_HOURS": "O pár hodín",
+          "IN_A_DAY": "O deň",
+          "HELP_TEXT": "Tento čas odpovede sa zobrazí na widgete živého chatu"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Farba widgetu",
+          "PLACEHOLDER": "Zmeniť farbu widgetu použitej vo widgete"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "Vytvoriť schránku"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Kanál Twilio SMS/WhatsApp",
+        "DESC": "Integrujte Twilio a začnite podporovať svojich zákazníkov prostredníctvom SMS alebo WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "SID účtu",
+          "PLACEHOLDER": "Zadajte prosím SID svojho účtu Twilio",
+          "ERROR": "Toto pole je povinné"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Typ kanálu",
+          "ERROR": "Prosím vyberte typ svojho kanálu"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "Autentifikačný token",
+          "PLACEHOLDER": "Zadajte svoj autentifikačný token pre Twilio",
+          "ERROR": "Toto pole je povinné"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Meno schránky",
+          "PLACEHOLDER": "Prosím vyplňte meno schránky",
+          "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Telefónne číslo",
+          "PLACEHOLDER": "Zadajte telefónne číslo, z ktorého bude správa odoslaná.",
+          "ERROR": "Zadajte platnú hodnotu. Telefónne číslo by malo začínať znakom `+`."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -145,14 +145,14 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Meno schránky",
           "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Telefónne číslo",
+          "PLACEHOLDER": "Zadajte telefónne číslo, z ktorého bude správa odoslaná.",
+          "ERROR": "Zadajte platnú hodnotu. Telefónne číslo by malo začínať znakom `+`."
         },
         "API_KEY": {
           "LABEL": "API key",
@@ -172,7 +172,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "ERROR": "Toto pole je povinné"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -190,7 +190,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "ERROR": "Toto pole je povinné"
         },
         "EMAIL": {
           "LABEL": "Email",
@@ -209,7 +209,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "ERROR": "Toto pole je povinné"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE Channel ID",
@@ -250,7 +250,7 @@
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Agenti",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
@@ -307,14 +307,14 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Vymazať",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -340,7 +340,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
