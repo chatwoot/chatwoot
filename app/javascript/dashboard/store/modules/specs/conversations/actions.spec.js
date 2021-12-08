@@ -410,3 +410,27 @@ describe('#deleteMessage', () => {
     });
   });
 });
+
+describe('#addMentions', () => {
+  it('does not send mutations if the view is not mentions', () => {
+    actions.addMentions(
+      { commit, dispatch, rootState: { route: { name: 'home' } } },
+      { id: 1 }
+    );
+    expect(commit.mock.calls).toEqual([]);
+    expect(dispatch.mock.calls).toEqual([]);
+  });
+
+  it('send mutations if the view is mentions', () => {
+    actions.addMentions(
+      {
+        dispatch,
+        rootState: { route: { name: 'conversation_mentions' } },
+      },
+      { id: 1, meta: { sender: { id: 1 } } }
+    );
+    expect(dispatch.mock.calls).toEqual([
+      ['updateConversation', { id: 1, meta: { sender: { id: 1 } } }],
+    ]);
+  });
+});
