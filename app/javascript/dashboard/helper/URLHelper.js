@@ -11,17 +11,19 @@ export const conversationUrl = ({
   id,
   label,
   teamId,
+  conversationType = '',
 }) => {
+  let url = `accounts/${accountId}/conversations/${id}`;
   if (activeInbox) {
-    return `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`;
+    url = `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`;
+  } else if (label) {
+    url = `accounts/${accountId}/label/${label}/conversations/${id}`;
+  } else if (teamId) {
+    url = `accounts/${accountId}/team/${teamId}/conversations/${id}`;
+  } else if (conversationType === 'mention') {
+    url = `accounts/${accountId}/mentions/conversations/${id}`;
   }
-  if (label) {
-    return `accounts/${accountId}/label/${label}/conversations/${id}`;
-  }
-  if (teamId) {
-    return `accounts/${accountId}/team/${teamId}/conversations/${id}`;
-  }
-  return `accounts/${accountId}/conversations/${id}`;
+  return url;
 };
 
 export const accountIdFromPathname = pathname => {
