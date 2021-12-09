@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'ATTRIBUTES_MGMT.HEADER',
-        icon: 'ion-code',
+        icon: 'code',
         showNewButton: false,
       },
       children: [

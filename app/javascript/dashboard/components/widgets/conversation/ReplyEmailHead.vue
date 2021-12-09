@@ -55,9 +55,13 @@
 import { validEmailsByComma } from './helpers/emailHeadHelper';
 export default {
   props: {
-    clearMails: {
-      type: Boolean,
-      default: false,
+    ccEmails: {
+      type: String,
+      default: '',
+    },
+    bccEmails: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -66,6 +70,18 @@ export default {
       ccEmailsVal: '',
       bccEmailsVal: '',
     };
+  },
+  watch: {
+    bccEmails(newVal) {
+      if (newVal !== this.bccEmailsVal) {
+        this.bccEmailsVal = newVal;
+      }
+    },
+    ccEmails(newVal) {
+      if (newVal !== this.ccEmailsVal) {
+        this.ccEmailsVal = newVal;
+      }
+    },
   },
   validations: {
     ccEmailsVal: {
@@ -85,18 +101,10 @@ export default {
     },
     onBlur() {
       this.$v.$touch();
-      this.$emit("set-emails", { bccEmails: this.bccEmailsVal, ccEmails: this.ccEmailsVal });
+      this.$emit('update:bccEmails', this.bccEmailsVal);
+      this.$emit('update:ccEmails', this.ccEmailsVal);
     },
   },
-  watch: {
-    clearMails: function(value){
-      if(value) {
-        this.ccEmailsVal = '';
-        this.bccEmailsVal = '';
-        this.clearMails = false;
-      }
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>

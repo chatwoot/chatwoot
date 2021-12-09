@@ -30,7 +30,7 @@
                       variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
-                      icon="ion-gear-b"
+                      icon="settings"
                     >
                       {{ $t('TEAMS_SETTINGS.LIST.EDIT_TEAM') }}
                     </woot-button>
@@ -39,7 +39,7 @@
                     v-if="isAdmin"
                     variant="link"
                     color-scheme="secondary"
-                    icon="ion-close-circled"
+                    icon="dismiss-circle"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"

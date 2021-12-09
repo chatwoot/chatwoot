@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Повідомлення з картинкою"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Аудіо-повідомлення"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Відеоповідомлення"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Повідомлення з файлом"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Місцезнаходження"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "поділився посиланням"
       }
     },

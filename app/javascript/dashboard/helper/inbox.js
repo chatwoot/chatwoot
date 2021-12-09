@@ -3,32 +3,35 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 export const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
     case INBOX_TYPES.WEB:
-      return 'ion-earth';
+      return 'globe-desktop';
 
     case INBOX_TYPES.FB:
-      return 'ion-social-facebook';
+      return 'brand-facebook';
 
     case INBOX_TYPES.TWITTER:
-      return 'ion-social-twitter';
+      return 'brand-twitter';
 
     case INBOX_TYPES.TWILIO:
       return phoneNumber.startsWith('whatsapp')
-        ? 'ion-social-whatsapp-outline'
-        : 'ion-android-textsms';
+        ? 'brand-whatsapp'
+        : 'brand-sms';
 
     case INBOX_TYPES.WHATSAPP:
-      return 'ion-social-whatsapp-outline';
+      return 'brand-whatsapp';
 
     case INBOX_TYPES.API:
-      return 'ion-cloud';
+      return 'cloud';
 
     case INBOX_TYPES.EMAIL:
-      return 'ion-ios-email';
+      return 'mail';
 
     case INBOX_TYPES.TELEGRAM:
-      return 'ion-ios-navigate';
+      return 'brand-telegram';
+
+    case INBOX_TYPES.LINE:
+      return 'brand-line';
 
     default:
-      return 'ion-ios-chatbubble';
+      return 'chat';
   }
 };

@@ -13,6 +13,11 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.update!(profile_params)
   end
 
+  def avatar
+    @user.avatar.attachment.destroy! if @user.avatar.attached?
+    head :ok
+  end
+
   def availability
     @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
   end

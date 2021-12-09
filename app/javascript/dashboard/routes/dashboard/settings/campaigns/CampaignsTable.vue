@@ -24,9 +24,9 @@ import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
-import InboxIconWithName from 'dashboard/components/widgets/InboxIconWithName';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import timeMixin from 'dashboard/mixins/time';
+import InboxName from 'dashboard/components/widgets/InboxName';
 
 export default {
   components: {
@@ -131,7 +131,7 @@ export default {
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.INBOX'),
           align: 'left',
           renderBodyCell: ({ row }) => {
-            return <InboxIconWithName inbox={row.inbox} />;
+            return <InboxName inbox={row.inbox} />;
           },
         },
       ];
@@ -195,7 +195,7 @@ export default {
               <div class="button-wrapper">
                 <WootButton
                   variant="clear"
-                  icon="ion-edit"
+                  icon="edit"
                   color-scheme="secondary"
                   classNames="grey-btn"
                   onClick={() => this.$emit('on-edit-click', row)}
@@ -204,7 +204,7 @@ export default {
                 </WootButton>
                 <WootButton
                   variant="link"
-                  icon="ion-close-circled"
+                  icon="dismiss-circle"
                   color-scheme="secondary"
                   onClick={() => this.$emit('on-delete-click', row)}
                 >
@@ -247,7 +247,7 @@ export default {
             <div class="button-wrapper">
               <WootButton
                 variant="link"
-                icon="ion-close-circled"
+                icon="dismiss-circle"
                 color-scheme="secondary"
                 onClick={() => this.$emit('on-delete-click', row)}
               >

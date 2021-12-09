@@ -2,8 +2,9 @@
   @include elegant-card;
   @include border-light;
   box-sizing: content-box;
+  padding: var(--space-small);
   width: fit-content;
-  z-index: 999;
+  z-index: var(--z-index-very-high);
 
   &.dropdown-pane--open {
     display: block;

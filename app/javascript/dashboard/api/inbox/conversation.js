@@ -6,7 +6,15 @@ class ConversationApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  get({ inboxId, status, assigneeType, page, labels, teamId }) {
+  get({
+    inboxId,
+    status,
+    assigneeType,
+    page,
+    labels,
+    teamId,
+    conversationType,
+  }) {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
@@ -15,6 +23,15 @@ class ConversationApi extends ApiClient {
         assignee_type: assigneeType,
         page,
         labels,
+        conversation_type: conversationType,
+      },
+    });
+  }
+
+  filter(payload) {
+    return axios.post(`${this.url}/filter`, payload.queryData, {
+      params: {
+        page: payload.page,
       },
     });
   }
@@ -54,7 +71,7 @@ class ConversationApi extends ApiClient {
   toggleTyping({ conversationId, status, isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
       typing_status: status,
-      is_private: isPrivate
+      is_private: isPrivate,
     });
   }
 
@@ -66,7 +83,7 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/unmute`);
   }
 
-  meta({ inboxId, status, assigneeType, labels, teamId }) {
+  meta({ inboxId, status, assigneeType, labels, teamId, conversationType }) {
     return axios.get(`${this.url}/meta`, {
       params: {
         inbox_id: inboxId,
@@ -74,6 +91,7 @@ class ConversationApi extends ApiClient {
         assignee_type: assigneeType,
         labels,
         team_id: teamId,
+        conversation_type: conversationType,
       },
     });
   }

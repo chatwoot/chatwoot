@@ -6,12 +6,6 @@
 }
 
 .sidebar {
-  @include border-normal-right;
-  @include background-white;
-  @include full-height;
-  @include margin(0);
-  @include space-between-column;
-  width: $nav-bar-width;
   z-index: 1024 - 1;
 
   //logo
@@ -19,26 +13,6 @@
     img {
       @include padding($woot-logo-padding);
       max-height: 108px;
-    }
-  }
-
-  .main-nav {
-    a {
-      border-radius: $space-smaller;
-      color: $color-gray;
-      font-size: $font-size-default;
-      font-weight: $font-weight-medium;
-
-      .wrap,
-      .child-icon {
-        &:hover {
-          color: $color-woot;
-        }
-      }
-    }
-
-    .active a .wrap {
-      color: $color-woot;
     }
   }
 
@@ -81,34 +55,6 @@
   .active {
     border-bottom: 2px solid $medium-gray;
   }
-}
-
-.main-nav {
-  @include flex-weight(1);
-  @include scroll-on-hover;
-  padding: 0 $space-medium - $space-one;
-
-  a {
-    &::before {
-      margin-right: $space-slab;
-    }
-  }
-
-  .menu-title {
-    color: $color-gray;
-    font-size: $font-size-medium;
-    margin-top: $space-medium;
-
-    >span {
-      margin-left: $space-one;
-    }
-  }
-}
-
-.menu-title+ul>li>a {
-  @include padding($space-micro null);
-  color: $medium-gray;
-  line-height: $global-lineheight;
 }
 
 .hamburger--menu {

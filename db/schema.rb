@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_061012) do
+ActiveRecord::Schema.define(version: 2021_12_08_085931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.jsonb "limits", default: {}
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -61,14 +62,6 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
-  create_table "actions", force: :cascade do |t|
-    t.string "name", null: false
-    t.jsonb "execution_list", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_actions_on_name"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -181,6 +174,21 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "imap_enabled", default: false
+    t.string "imap_address", default: ""
+    t.integer "imap_port", default: 0
+    t.string "imap_email", default: ""
+    t.string "imap_password", default: ""
+    t.boolean "imap_enable_ssl", default: true
+    t.datetime "imap_inbox_synced_at"
+    t.boolean "smtp_enabled", default: false
+    t.string "smtp_address", default: ""
+    t.integer "smtp_port", default: 0
+    t.string "smtp_email", default: ""
+    t.string "smtp_password", default: ""
+    t.string "smtp_domain", default: ""
+    t.boolean "smtp_enable_starttls_auto", default: true
+    t.string "smtp_authentication", default: "login"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -263,6 +271,8 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "message_templates", default: {}
+    t.datetime "message_templates_last_updated"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
@@ -357,8 +367,9 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "attribute_description"
+    t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -519,6 +530,19 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
+  end
+
+  create_table "mentions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "mentioned_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_mentions_on_account_id"
+    t.index ["conversation_id"], name: "index_mentions_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_mentions_on_user_id_and_conversation_id", unique: true
+    t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -743,10 +767,10 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
   add_foreign_key "agent_bots", "accounts"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
-  add_foreign_key "contact_inboxes", "contacts"
-  add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
+  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversations", "campaigns"
-  add_foreign_key "conversations", "contact_inboxes"
+  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
   add_foreign_key "conversations", "teams"
   add_foreign_key "csat_survey_responses", "accounts"
   add_foreign_key "csat_survey_responses", "contacts"
@@ -754,6 +778,8 @@ ActiveRecord::Schema.define(version: 2021_11_22_061012) do
   add_foreign_key "csat_survey_responses", "messages"
   add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id"
   add_foreign_key "data_imports", "accounts"
+  add_foreign_key "mentions", "conversations"
+  add_foreign_key "mentions", "users"
   add_foreign_key "notes", "accounts"
   add_foreign_key "notes", "contacts"
   add_foreign_key "notes", "users"
