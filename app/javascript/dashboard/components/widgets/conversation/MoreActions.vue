@@ -85,7 +85,6 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
     },
   },
 };
