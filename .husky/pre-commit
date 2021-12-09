@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+npm run eslint
+bundle exec rubocop -a
+git add

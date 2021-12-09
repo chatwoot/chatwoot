@@ -1,7 +1,13 @@
-
 <template>
   <label class="switch" :class="classObject">
-    <input class="switch-input" :name="name" :id="id" :disabled="disabled" v-model="value" type="checkbox">
+    <input
+      :id="id"
+      v-model="value"
+      class="switch-input"
+      :name="name"
+      :disabled="disabled"
+      type="checkbox"
+    />
     <div class="switch-paddle" :for="name">
       <span class="show-for-sr">on off</span>
     </div>
@@ -24,12 +30,6 @@ export default {
       value: null,
     };
   },
-  beforeMount() {
-    this.value = this.checked;
-  },
-  mounted() {
-    this.$emit('input', this.value = !!this.checked);
-  },
   computed: {
     classObject() {
       const { type, size, value } = this;
@@ -44,6 +44,12 @@ export default {
     value(val) {
       this.$emit('input', val);
     },
+  },
+  beforeMount() {
+    this.value = this.checked;
+  },
+  mounted() {
+    this.$emit('input', (this.value = !!this.checked));
   },
 };
 </script>
