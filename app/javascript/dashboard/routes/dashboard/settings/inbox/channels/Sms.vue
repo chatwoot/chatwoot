@@ -4,7 +4,7 @@
       :header-title="$t('INBOX_MGMT.ADD.SMS.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.SMS.DESC')"
     />
-		<twilio type="sms"></twilio>
+    <twilio type="sms"></twilio>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import Twilio from './Twilio';
 export default {
   components: {
     PageHeader,
-		Twilio,
+    Twilio,
   },
 };
 </script>
