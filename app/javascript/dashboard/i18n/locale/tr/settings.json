@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
