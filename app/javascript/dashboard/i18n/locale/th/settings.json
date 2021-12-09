@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "ผู้ติดต่อ",
