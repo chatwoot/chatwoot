@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
