@@ -4,6 +4,7 @@ export default {
       if (this.$route.name !== name) {
         return this.$router.replace({ name });
       }
+      return undefined;
     },
   },
 };
