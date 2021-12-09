@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",

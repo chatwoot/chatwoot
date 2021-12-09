@@ -120,6 +120,13 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONTACT_DELETED, contact.push_event_data)
   end
 
+  def conversation_mentioned(event)
+    conversation, account = extract_conversation_and_account(event)
+    user = event.data[:user]
+
+    broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
+  end
+
   private
 
   def typing_event_listener_tokens(account, conversation, user)
