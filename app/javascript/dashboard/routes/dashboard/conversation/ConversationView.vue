@@ -4,6 +4,7 @@
       :conversation-inbox="inboxId"
       :label="label"
       :team-id="teamId"
+      :conversation-type="conversationType"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -46,6 +47,10 @@ export default {
       default: '',
     },
     teamId: {
+      type: String,
+      default: '',
+    },
+    conversationType: {
       type: String,
       default: '',
     },

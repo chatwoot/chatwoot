@@ -20,7 +20,6 @@ ___
   <img src="https://img.shields.io/circleci/build/github/chatwoot/chatwoot" alt="CircleCI Badge">
     <a href="https://hub.docker.com/r/chatwoot/chatwoot/"><img src="https://img.shields.io/docker/pulls/chatwoot/chatwoot" alt="Docker Pull Badge"></a>
   <a href="https://hub.docker.com/r/chatwoot/chatwoot/"><img src="https://img.shields.io/docker/cloud/build/chatwoot/chatwoot" alt="Docker Build Badge"></a>
-  <img src="https://img.shields.io/github/license/chatwoot/chatwoot" alt="License">
   <img src="https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot" alt="Commits-per-month">
   <a title="Crowdin" target="_self" href="https://chatwoot.crowdin.com/chatwoot"><img src="https://badges.crowdin.net/e/37ced7eba411064bd792feb3b7a28b16/localized.svg"></a>
   <a href="https://discord.gg/cJXdrwS"><img src="https://img.shields.io/discord/647412545203994635" alt="Discord"></a>
@@ -29,34 +28,38 @@ ___
   <a href="https://status.chatwoot.com"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchatwoot%2Fstatus%2Fmaster%2Fapi%2Fchatwoot%2Fresponse-time.json" alt="response time"></a>
 </p>
 
-<img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/chatwoot-dashboard-assets.png" width="100%" alt="Chat dashboard"/>
+<img src="https://chatwoot-public-assets.s3.amazonaws.com/github/screenshot.png" width="100%" alt="Chat dashboard"/>
 
-Chatwoot is an open-source omnichannel customer support software. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
-Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
+
+Chatwoot is an open-source, self-hosted customer engagement suite. Chatwoot lets you view and manage your customer data, communicate with them irrespective of which medium they use, and re-engage them based on their profile.
 
 ## Features
 
-Chatwoot gives an integrated view of conversations happening in different communication channels.
-
-It supports the following conversation channels:
+Chatwoot supports the following conversation channels:
 
  - **Website**: Talk to your customers using our live chat widget and make use of our SDK to identify a user and provide contextual support.
  - **Facebook**: Connect your Facebook pages and start replying to the direct messages to your page.
+ - **Instagram**: Connect your Instagram profile and start replying to the direct messages.
  - **Twitter**: Connect your Twitter profiles and reply to direct messages or the tweets where you are mentioned.
- - **Whatsapp**: Connect your Whatsapp business account and manage the conversation in Chatwoot
- - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in Chatwoot
+ - **Telegram**: Connect your Telegram bot and reply to your customers right from a single dashboard.
+ - **WhatsApp**: Connect your WhatsApp business account and manage the conversation in Chatwoot.
+ - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in Chatwoot.
  - **API Channel**: Build custom communication channels using our API channel.
- - **Email (beta)**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
+ - **Email**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
+
+And more.
 
 Other features include:
 
-- **Multi-brand inboxes**: Manage multiple brands or pages using a single dashboard.
-- **Private notes**: Inter team communication is possible using private notes in a conversation.
+- **CRM**: Save all your customer information right inside Chatwoot, use contact notes to log emails, phone calls, or meeting notes.
+- **Custom Attributes**: Define custom attribute attributes to store information about a contact or a conversation and extend the product to match your workflow.
+- **Shared multi-brand inboxes**: Manage multiple brands or pages using a shared inbox.
+- **Private notes**: Use @mentions and private notes to communicate internally about a conversation.
 - **Canned responses (Saved replies)**: Improve the response rate by adding saved replies for frequently asked questions.
-- **Conversation Labels**: Use conversation labelling to create custom workflows.
+- **Conversation Labels**: Use conversation labels to create custom workflows.
 - **Auto assignment**: Chatwoot intelligently assigns a ticket to the agents who have access to the inbox depending on their availability and load.
-- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot would send an email to the customer under the agent name so that the user can continue the conversation over the email.
+- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot will send an email to the customer under the agent name so that the user can continue the conversation over the email.
 - **Multi-lingual support**: Chatwoot supports 10+ languages.
 - **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
 - **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
