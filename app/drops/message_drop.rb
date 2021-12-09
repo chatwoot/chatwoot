@@ -6,7 +6,7 @@ class MessageDrop < BaseDrop
   end
 
   def text_content
-    content = @obj.try(:content)
-    transform_user_mention_content content
+    content = @obj.try(:content) || ''
+    render_message_content(transform_user_mention_content(content))
   end
 end
