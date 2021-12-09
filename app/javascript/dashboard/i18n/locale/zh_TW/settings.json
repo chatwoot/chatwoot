@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "會話",
     "ALL_CONVERSATIONS": "所有對話",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "報表",
     "SETTINGS": "設定",
     "CONTACTS": "聯絡人",
