@@ -9,4 +9,4 @@
     </woot-button>
   </div>
 </template>
-<script>
+<script></script>
