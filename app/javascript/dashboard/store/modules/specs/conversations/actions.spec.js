@@ -59,7 +59,10 @@ describe('#actions', () => {
         messages: [],
         meta: { sender: { id: 1, name: 'john-doe' } },
       };
-      actions.updateConversation({ commit, dispatch }, conversation);
+      actions.updateConversation(
+        { commit, rootState: { route: { name: 'home' } }, dispatch },
+        conversation
+      );
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_CONVERSATION, conversation],
       ]);
@@ -86,6 +89,7 @@ describe('#actions', () => {
       actions.addConversation(
         {
           commit,
+          rootState: { route: { name: 'home' } },
           dispatch,
           state: { currentInbox: 1, appliedFilters: [] },
         },
@@ -105,6 +109,27 @@ describe('#actions', () => {
       actions.addConversation(
         {
           commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if the view is conversation mentions', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'conversation_mentions' } },
           dispatch,
           state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
         },
@@ -124,6 +149,7 @@ describe('#actions', () => {
       actions.addConversation(
         {
           commit,
+          rootState: { route: { name: 'home' } },
           dispatch,
           state: { currentInbox: 1, appliedFilters: [] },
         },
@@ -151,7 +177,12 @@ describe('#actions', () => {
         inbox_id: 1,
       };
       actions.addConversation(
-        { commit, dispatch, state: { appliedFilters: [] } },
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { appliedFilters: [] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([
@@ -377,5 +408,29 @@ describe('#deleteMessage', () => {
         [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, { order_d: '1001' }],
       ]);
     });
+  });
+});
+
+describe('#addMentions', () => {
+  it('does not send mutations if the view is not mentions', () => {
+    actions.addMentions(
+      { commit, dispatch, rootState: { route: { name: 'home' } } },
+      { id: 1 }
+    );
+    expect(commit.mock.calls).toEqual([]);
+    expect(dispatch.mock.calls).toEqual([]);
+  });
+
+  it('send mutations if the view is mentions', () => {
+    actions.addMentions(
+      {
+        dispatch,
+        rootState: { route: { name: 'conversation_mentions' } },
+      },
+      { id: 1, meta: { sender: { id: 1 } } }
+    );
+    expect(dispatch.mock.calls).toEqual([
+      ['updateConversation', { id: 1, meta: { sender: { id: 1 } } }],
+    ]);
   });
 });
