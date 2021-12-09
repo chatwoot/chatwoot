@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bericht met foto"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Audiobericht"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videobericht"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bestandsbijlage"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Locatie"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "heeft een url gedeeld"
       }
     },

@@ -70,7 +70,7 @@ describe('attributeMixin', () => {
         attribute_model: 'conversation_attribute',
         created_at: '2021-09-16T13:06:47.329Z',
         default_value: null,
-        icon: 'ion-calculator',
+        icon: 'fluent-calculator',
         id: 10,
         updated_at: '2021-09-22T10:42:25.873Z',
         value: 2021,

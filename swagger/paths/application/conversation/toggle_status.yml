@@ -12,11 +12,12 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - status
       properties:
         status:
           type: string
           enum: ["open", "resolved", "pending"]
-          required: true
           description: The status of the conversation
 responses:
   200:

@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "ചിത്ര സന്ദേശം"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "ഓഡിയോ സന്ദേശം"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "വീഡിയോ സന്ദേശം"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "ഫയൽ അറ്റാച്ചുമെന്റ്"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "സ്ഥാനം"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
       }
     },

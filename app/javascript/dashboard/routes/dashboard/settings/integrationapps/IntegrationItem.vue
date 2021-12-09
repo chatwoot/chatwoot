@@ -27,7 +27,7 @@
           )
         "
       >
-        <woot-button icon="ion-gear-b">
+        <woot-button icon="settings">
           {{ $t('INTEGRATION_APPS.CONFIGURE') }}
         </woot-button>
       </router-link>

@@ -3,7 +3,7 @@
     <div class="search" :class="{ 'is-active': showSearchBox }">
       <woot-sidemenu-icon />
       <div class="icon">
-        <i class="ion-ios-search-strong search--icon" />
+        <fluent-icon icon="search" class="search--icon" size="28" />
       </div>
       <input
         v-model="searchTerm"

@@ -8,7 +8,7 @@
   @include background-white;
   @include flex;
   @include flex-align($x: justify, $y: middle);
-  @include border-normal-bottom;
+  border-bottom: 1px solid var(--s-50);
   height: $header-height;
   min-height: $header-height;
 

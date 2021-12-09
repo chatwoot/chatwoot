@@ -19,6 +19,9 @@ describe VapidService do
         ENV['VAPID_PUBLIC_KEY'] = 'test'
         described_class.public_key
 
+        # this call will hit db as after_commit method will clear globalConfig cache
+        expect(InstallationConfig).to receive(:find_by)
+        described_class.public_key
         # subsequent calls should not hit DB
         expect(InstallationConfig).not_to receive(:find_by)
         described_class.public_key
@@ -30,10 +33,12 @@ describe VapidService do
         ENV['VAPID_PRIVATE_KEY'] = 'test'
         described_class.private_key
 
+        # this call will hit db as after_commit method will clear globalConfig cache
+        expect(InstallationConfig).to receive(:find_by)
+        described_class.private_key
         # subsequent calls should not hit DB
         expect(InstallationConfig).not_to receive(:find_by)
         described_class.private_key
-        ENV['VAPID_PRIVATE_KEY'] = nil
         ENV['VAPID_PRIVATE_KEY'] = nil
       end
 

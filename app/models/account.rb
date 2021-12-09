@@ -6,6 +6,7 @@
 #  auto_resolve_duration :integer
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
+#  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
@@ -19,6 +20,7 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
+  prepend_mod_with('Account')
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -32,40 +34,41 @@ class Account < ApplicationRecord
   validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
-  has_many :account_users, dependent: :destroy
-  has_many :agent_bot_inboxes, dependent: :destroy
-  has_many :agent_bots, dependent: :destroy
-  has_many :csat_survey_responses, dependent: :destroy
-  has_many :data_imports, dependent: :destroy
+  has_many :account_users, dependent: :destroy_async
+  has_many :agent_bot_inboxes, dependent: :destroy_async
+  has_many :agent_bots, dependent: :destroy_async
+  has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
+  has_many :campaigns, dependent: :destroy_async
+  has_many :canned_responses, dependent: :destroy_async
+  has_many :contacts, dependent: :destroy_async
+  has_many :conversations, dependent: :destroy_async
+  has_many :csat_survey_responses, dependent: :destroy_async
+  has_many :custom_attribute_definitions, dependent: :destroy_async
+  has_many :custom_filters, dependent: :destroy_async
+  has_many :data_imports, dependent: :destroy_async
+  has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
+  has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
+  has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  has_many :inboxes, dependent: :destroy_async
+  has_many :kbase_articles, dependent: :destroy_async, class_name: '::Kbase::Article'
+  has_many :kbase_categories, dependent: :destroy_async, class_name: '::Kbase::Category'
+  has_many :kbase_portals, dependent: :destroy_async, class_name: '::Kbase::Portal'
+  has_many :labels, dependent: :destroy_async
+  has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'
+  has_many :mentions, dependent: :destroy_async
+  has_many :messages, dependent: :destroy_async
+  has_many :notes, dependent: :destroy_async
+  has_many :notification_settings, dependent: :destroy_async
+  has_many :teams, dependent: :destroy_async
+  has_many :telegram_bots, dependent: :destroy_async
+  has_many :telegram_channels, dependent: :destroy_async, class_name: '::Channel::Telegram'
+  has_many :twilio_sms, dependent: :destroy_async, class_name: '::Channel::TwilioSms'
+  has_many :twitter_profiles, dependent: :destroy_async, class_name: '::Channel::TwitterProfile'
   has_many :users, through: :account_users
-  has_many :inboxes, dependent: :destroy
-  has_many :notes, dependent: :destroy
-  has_many :campaigns, dependent: :destroy
-  has_many :conversations, dependent: :destroy
-  has_many :messages, dependent: :destroy
-  has_many :contacts, dependent: :destroy
-  has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
-  has_many :telegram_bots, dependent: :destroy
-  has_many :twilio_sms, dependent: :destroy, class_name: '::Channel::TwilioSms'
-  has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'
-  has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
-  has_many :email_channels, dependent: :destroy, class_name: '::Channel::Email'
-  has_many :api_channels, dependent: :destroy, class_name: '::Channel::Api'
-  has_many :line_channels, dependent: :destroy, class_name: '::Channel::Line'
-  has_many :telegram_channels, dependent: :destroy, class_name: '::Channel::Telegram'
-  has_many :whatsapp_channels, dependent: :destroy, class_name: '::Channel::Whatsapp'
-  has_many :canned_responses, dependent: :destroy
-  has_many :webhooks, dependent: :destroy
-  has_many :labels, dependent: :destroy
-  has_many :notification_settings, dependent: :destroy
-  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
-  has_many :working_hours, dependent: :destroy
-  has_many :kbase_portals, dependent: :destroy, class_name: '::Kbase::Portal'
-  has_many :kbase_categories, dependent: :destroy, class_name: '::Kbase::Category'
-  has_many :kbase_articles, dependent: :destroy, class_name: '::Kbase::Article'
-  has_many :teams, dependent: :destroy
-  has_many :custom_filters, dependent: :destroy
-  has_many :custom_attribute_definitions, dependent: :destroy
+  has_many :web_widgets, dependent: :destroy_async, class_name: '::Channel::WebWidget'
+  has_many :webhooks, dependent: :destroy_async
+  has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
+  has_many :working_hours, dependent: :destroy_async
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
@@ -104,6 +107,13 @@ class Account < ApplicationRecord
 
   def support_email
     super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  end
+
+  def usage_limits
+    {
+      agents: ChatwootApp.max_limit,
+      inboxes: ChatwootApp.max_limit
+    }
   end
 
   private

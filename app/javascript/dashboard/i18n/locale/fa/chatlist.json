@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "پیام تصویری"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "پیام صوتی"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "پیام ویدیویی"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "فایل الصاقی"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "مکان"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
       }
     },

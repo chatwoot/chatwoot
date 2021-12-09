@@ -1,8 +1,7 @@
 <template>
   <div class="context-menu">
     <woot-button
-      icon="ion-more"
-      size="large"
+      icon="more-vertical"
       class="button--delete-message"
       color-scheme="secondary"
       variant="link"
@@ -19,7 +18,8 @@
           <woot-button
             variant="clear"
             size="small"
-            icon="ion-ios-copy-outline"
+            icon="clipboard"
+            icon-size="16"
             @click="handleCopy"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
@@ -30,7 +30,8 @@
             variant="clear"
             color-scheme="alert"
             size="small"
-            icon="ion-trash-a"
+            icon="delete"
+            icon-size="16"
             @click="handleDelete"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}

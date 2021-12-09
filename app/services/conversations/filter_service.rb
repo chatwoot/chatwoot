@@ -35,7 +35,7 @@ class Conversations::FilterService < FilterService
       " conversations.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.id #{filter_operator_value} #{query_operator} "
+        " tags.name #{filter_operator_value} #{query_operator} "
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
