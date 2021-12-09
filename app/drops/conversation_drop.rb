@@ -13,7 +13,7 @@ class ConversationDrop < BaseDrop
     @obj.try(:recent_messages).map do |message|
       {
         'sender' => message_sender_name(message.sender),
-        'content' => transform_user_mention_content(message.content),
+        'content' => render_message_content(transform_user_mention_content(message.content)),
         'attachments' => message.attachments.map(&:file_url)
       }
     end
