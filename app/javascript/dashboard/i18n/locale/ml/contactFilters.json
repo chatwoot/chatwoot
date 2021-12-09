@@ -18,7 +18,7 @@
             "equal_to": "Equal to",
             "not_equal_to": "Not equal to",
             "contains": "Contains",
-            "does_not_contain": "Does not contain",
+            "does_not_contain": "ഉൾപ്പെട്ടിട്ടില്ല",
             "is_present": "Is present",
             "is_not_present": "Is not present"
         },
