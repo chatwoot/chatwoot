@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Konverzace",
     "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Zprávy",
     "SETTINGS": "Nastavení",
     "CONTACTS": "Kontakty",
