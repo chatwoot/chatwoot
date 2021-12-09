@@ -136,6 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
