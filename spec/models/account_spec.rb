@@ -21,4 +21,12 @@ RSpec.describe Account do
   it { is_expected.to have_many(:kbase_portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:kbase_categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
+
+  describe 'usage_limits' do
+    let(:account) { create(:account) }
+
+    it 'returns ChatwootApp.max limits' do
+      expect(account.usage_limits).to eq({ agents: ChatwootApp.max_limit, inboxes: ChatwootApp.max_limit })
+    end
+  end
 end
