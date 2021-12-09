@@ -4,6 +4,10 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import {
+  buildConversationList,
+  isOnMentionsView,
+} from './helpers/actionHelpers';
 
 // actions
 const actions = {
@@ -20,30 +24,30 @@ const actions = {
   fetchAllConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const response = await ConversationApi.get(params);
       const {
-        data: { payload: chatList, meta: metaData },
-      } = response.data;
-      commit(types.SET_ALL_CONVERSATION, chatList);
-      dispatch('conversationStats/set', metaData);
-      dispatch('conversationLabels/setBulkConversationLabels', chatList);
-      commit(types.CLEAR_LIST_LOADING_STATUS);
-      commit(
-        `contacts/${types.SET_CONTACTS}`,
-        chatList.map(chat => chat.meta.sender)
+        data: { data },
+      } = await ConversationApi.get(params);
+      buildConversationList(
+        { commit, dispatch },
+        params,
+        data,
+        params.assigneeType
       );
-      dispatch(
-        'conversationPage/setCurrentPage',
-        { filter: params.assigneeType, page: params.page },
-        { root: true }
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+    commit(types.SET_LIST_LOADING_STATUS);
+    try {
+      const { data } = await ConversationApi.filter(params);
+      buildConversationList(
+        { commit, dispatch },
+        params,
+        data,
+        'appliedFilters'
       );
-      if (!chatList.length) {
-        dispatch(
-          'conversationPage/setEndReached',
-          { filter: params.assigneeType },
-          { root: true }
-        );
-      }
     } catch (error) {
       // Handle error
     }
@@ -197,15 +201,29 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch }, conversation) {
-    const { currentInbox } = state;
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
+    const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
-    if (!currentInbox || Number(currentInbox) === inboxId) {
+
+    const hasAppliedFilters = !!appliedFilters.length;
+    const isMatchingInboxFilter =
+      !currentInbox || Number(currentInbox) === inboxId;
+    if (
+      !hasAppliedFilters &&
+      !isOnMentionsView(rootState) &&
+      isMatchingInboxFilter
+    ) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
+    }
+  },
+
+  addMentions({ dispatch, rootState }, conversation) {
+    if (isOnMentionsView(rootState)) {
+      dispatch('updateConversation', conversation);
     }
   },
 
@@ -287,6 +305,14 @@ const actions = {
     } catch (error) {
       // Handle error
     }
+  },
+
+  setConversationFilters({ commit }, data) {
+    commit(types.SET_CONVERSATION_FILTERS, data);
+  },
+
+  clearConversationFilters({ commit }) {
+    commit(types.CLEAR_CONVERSATION_FILTERS);
   },
 };
 

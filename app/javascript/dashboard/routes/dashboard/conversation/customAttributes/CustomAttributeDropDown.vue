@@ -28,7 +28,7 @@
         </div>
         <woot-button
           class="add"
-          icon="ion-plus-round"
+          icon="add"
           size="tiny"
           @click="addNewAttribute"
         >

@@ -6,12 +6,13 @@ description: List all messages of a conversation
 responses:
   200:
     description: Success
-    type: array
-    description: Array of messages
     schema:
-      allOf:
-        - $ref: '#/definitions/generic_id'
-        - $ref: '#/definitions/message'
+      type: array
+      description: Array of messages
+      items:
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
   404:
     description: Conversation not found
   401:

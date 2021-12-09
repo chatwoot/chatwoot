@@ -6,8 +6,20 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from '../../../../../shared/helpers/CustomErrors';
+import { filterApiResponse } from './filterApiResponse';
 
 const { actions } = Contacts;
+
+const filterQueryData = {
+  payload: [
+    {
+      attribute_key: 'email',
+      filter_operator: 'contains',
+      values: ['fayaz'],
+      query_operator: null,
+    },
+  ],
+};
 
 const commit = jest.fn();
 global.axios = axios;
@@ -82,9 +94,10 @@ describe('#actions', () => {
     it('sends correct actions if duplicate contact is found', async () => {
       axios.patch.mockRejectedValue({
         response: {
+          status: 422,
           data: {
             message: 'Incorrect header',
-            contact: { id: 1, name: 'contact-name' },
+            attributes: ['email'],
           },
         },
       });
@@ -228,7 +241,7 @@ describe('#actions', () => {
       ]);
     });
   });
-   describe('#deleteCustomAttributes', () => {
+  describe('#deleteCustomAttributes', () => {
     it('sends correct mutations if API is success', async () => {
       axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
       await actions.deleteCustomAttributes(
@@ -245,6 +258,45 @@ describe('#actions', () => {
           { id: 1, customAttributes: ['cloud-customer'] }
         )
       ).rejects.toThrow(Error);
+    });
+  });
+
+  describe('#fetchFilteredContacts', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: filterApiResponse,
+      });
+      await actions.filter({ commit }, filterQueryData);
+      expect(commit).toHaveBeenCalledTimes(5);
+      expect(commit.mock.calls).toEqual([
+        ['SET_CONTACT_UI_FLAG', { isFetching: true }],
+        ['CLEAR_CONTACTS'],
+        ['SET_CONTACTS', filterApiResponse.payload],
+        ['SET_CONTACT_META', filterApiResponse.meta],
+        ['SET_CONTACT_UI_FLAG', { isFetching: false }],
+      ]);
+    });
+  });
+
+  describe('#setContactsFilter', () => {
+    it('commits the correct mutation and sets filter state', () => {
+      const filters = [
+        {
+          attribute_key: 'email',
+          filter_operator: 'contains',
+          values: ['fayaz'],
+          query_operator: 'and',
+        },
+      ];
+      actions.setContactFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTACT_FILTERS, filters]]);
+    });
+  });
+
+  describe('#clearContactFilters', () => {
+    it('commits the correct mutation and clears filter state', () => {
+      actions.clearContactFilters({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_CONTACT_FILTERS]]);
     });
   });
 });

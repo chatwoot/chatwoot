@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "பட செய்தி"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "ஆடியோ செய்தி"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "வீடியோ செய்தி"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "பைல் இணைப்புகள்"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "இருப்பிடம்"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
       }
     },

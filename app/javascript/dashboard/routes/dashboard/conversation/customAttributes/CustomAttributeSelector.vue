@@ -8,7 +8,7 @@
       <woot-button
         size="small"
         variant="link"
-        icon="ion-plus"
+        icon="add"
         @click="toggleAttributeDropDown"
       >
         {{ $t('CUSTOM_ATTRIBUTES.ADD_BUTTON_TEXT') }}

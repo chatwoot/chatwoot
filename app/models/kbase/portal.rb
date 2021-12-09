@@ -20,9 +20,9 @@
 #
 class Kbase::Portal < ApplicationRecord
   belongs_to :account
-  has_many :categories, dependent: :destroy
+  has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
-  has_many :articles, dependent: :destroy
+  has_many :articles, dependent: :destroy_async
 
   validates :account_id, presence: true
   validates :name, presence: true

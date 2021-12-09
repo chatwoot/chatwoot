@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
@@ -59,7 +59,7 @@
                       v-if="showEditAction(agent)"
                       variant="link"
                       color-scheme="secondary"
-                      icon="ion-edit"
+                      icon="edit"
                       class-names="grey-btn"
                       @click="openEditPopup(agent)"
                     >
@@ -69,7 +69,7 @@
                       v-if="showDeleteAction(agent)"
                       variant="link"
                       color-scheme="secondary"
-                      icon="ion-close-circled"
+                      icon="dismiss-circle"
                       class-names="grey-btn"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"

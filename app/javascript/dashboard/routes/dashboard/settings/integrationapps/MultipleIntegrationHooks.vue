@@ -26,7 +26,7 @@
               <woot-button
                 variant="link"
                 color-scheme="secondary"
-                icon="ion-close-circled"
+                icon="dismiss-circle"
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
               >

@@ -57,6 +57,11 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :resolvable, lambda { |auto_resolve_duration|
+    return [] if auto_resolve_duration.to_i.zero?
+
+    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
 
   belongs_to :account
   belongs_to :inbox
@@ -66,15 +71,16 @@ class Conversation < ApplicationRecord
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
 
-  has_many :messages, dependent: :destroy, autosave: true
-  has_one :csat_survey_response, dependent: :destroy
+  has_many :mentions, dependent: :destroy_async
+  has_many :messages, dependent: :destroy_async, autosave: true
+  has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
 
   after_update_commit :execute_after_update_commit_callbacks
-  after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
+  after_create_commit :notify_conversation_creation
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
@@ -147,6 +153,10 @@ class Conversation < ApplicationRecord
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
+  def recent_messages
+    messages.chat.last(5)
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -169,14 +179,6 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_creation
     dispatcher_dispatch(CONVERSATION_CREATED)
-  end
-
-  def queue_conversation_auto_resolution_job
-    # FIXME: Move this to one cronjob that iterates over accounts and enqueue resolution jobs
-    # Similar to how we handle campaigns
-    return unless auto_resolve_duration
-
-    AutoResolveConversationsJob.set(wait_until: (last_activity_at || created_at) + auto_resolve_duration.days).perform_later(id)
   end
 
   def self_assign?(assignee_id)

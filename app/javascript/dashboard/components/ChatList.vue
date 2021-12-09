@@ -1,14 +1,39 @@
-<template>
+l<template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top">
+    <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
-      <chat-filter @statusFilterChange="updateStatusType" />
+
+      <div class="filter--actions">
+        <chat-filter
+          v-if="!hasAppliedFilters"
+          @statusFilterChange="updateStatusType"
+        />
+        <woot-button
+          v-else
+          variant="clear"
+          color-scheme="danger"
+          class="btn-clear-filters"
+          @click="resetAndFetchData"
+        >
+          {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
+        </woot-button>
+        <woot-button
+          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          variant="clear"
+          color-scheme="secondary"
+          class="btn-filter"
+          @click="onToggleAdvanceFiltersModal"
+        >
+          <fluent-icon icon="filter" />
+        </woot-button>
+      </div>
     </div>
 
     <chat-type-tabs
+      v-if="!hasAppliedFilters"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -26,6 +51,7 @@
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
       />
 
@@ -37,7 +63,7 @@
         v-if="!hasCurrentPageEndReached && !chatListLoading"
         variant="clear"
         size="expanded"
-        @click="fetchConversations"
+        @click="loadMoreConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
       </woot-button>
@@ -53,6 +79,18 @@
         {{ $t('CHAT_LIST.EOF') }}
       </p>
     </div>
+    <woot-modal
+      :show.sync="showAdvancedFilters"
+      :on-close="onToggleAdvanceFiltersModal"
+      size="medium"
+    >
+      <conversation-advanced-filter
+        v-if="showAdvancedFilters"
+        :filter-types="advancedFilterTypes"
+        :on-close="onToggleAdvanceFiltersModal"
+        @applyFilter="onApplyFilter"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -60,12 +98,16 @@
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
+import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
+import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
+import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+
 import {
   hasPressedAltAndJKey,
   hasPressedAltAndKKey,
@@ -76,6 +118,7 @@ export default {
     ChatTypeTabs,
     ConversationCard,
     ChatFilter,
+    ConversationAdvancedFilter,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -91,11 +134,20 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
+      showAdvancedFilters: false,
+      advancedFilterTypes: advancedFilterTypes.map(filter => ({
+        ...filter,
+        attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+      })),
     };
   },
   computed: {
@@ -109,7 +161,11 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
+    hasAppliedFilters() {
+      return this.appliedFilters.length;
+    },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
         const count = this.conversationStats[item.COUNT_KEY] || 0;
@@ -131,9 +187,17 @@ export default {
         this.activeAssigneeTab
       );
     },
+    currentPageFilterKey() {
+      return this.hasAppliedFilters ? 'appliedFilters' : this.activeAssigneeTab;
+    },
+    currentFiltersPage() {
+      return this.$store.getters['conversationPage/getCurrentPageFilter'](
+        this.currentPageFilterKey
+      );
+    },
     hasCurrentPageEndReached() {
       return this.$store.getters['conversationPage/getHasEndReached'](
-        this.activeAssigneeTab
+        this.currentPageFilterKey
       );
     },
     conversationFilters() {
@@ -144,6 +208,9 @@ export default {
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId ? this.teamId : undefined,
+        conversationType: this.conversationType
+          ? this.conversationType
+          : undefined,
       };
     },
     pageTitle() {
@@ -156,17 +223,24 @@ export default {
       if (this.label) {
         return `#${this.label}`;
       }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
     conversationList() {
       let conversationList = [];
-      const filters = this.conversationFilters;
-      if (this.activeAssigneeTab === 'me') {
-        conversationList = [...this.mineChatsList(filters)];
-      } else if (this.activeAssigneeTab === 'unassigned') {
-        conversationList = [...this.unAssignedChatsList(filters)];
+      if (!this.hasAppliedFilters) {
+        const filters = this.conversationFilters;
+        if (this.activeAssigneeTab === 'me') {
+          conversationList = [...this.mineChatsList(filters)];
+        } else if (this.activeAssigneeTab === 'unassigned') {
+          conversationList = [...this.unAssignedChatsList(filters)];
+        } else {
+          conversationList = [...this.allChatList(filters)];
+        }
       } else {
-        conversationList = [...this.allChatList(filters)];
+        conversationList = [...this.chatLists];
       }
 
       return conversationList;
@@ -188,6 +262,9 @@ export default {
     label() {
       this.resetAndFetchData();
     },
+    conversationType() {
+      this.resetAndFetchData();
+    },
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
@@ -198,6 +275,17 @@ export default {
     });
   },
   methods: {
+    onApplyFilter(payload) {
+      if (this.$route.name !== 'home') {
+        this.$router.push({ name: 'home' });
+      }
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('emptyAllConversations');
+      this.fetchFilteredConversations(payload);
+    },
+    onToggleAdvanceFiltersModal() {
+      this.showAdvancedFilters = !this.showAdvancedFilters;
+    },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
         'div.conversations-list div.conversation'
@@ -245,12 +333,30 @@ export default {
     resetAndFetchData() {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
+      this.$store.dispatch('clearConversationFilters');
       this.fetchConversations();
     },
     fetchConversations() {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
         .then(() => this.$emit('conversation-load'));
+    },
+    loadMoreConversations() {
+      if (!this.hasAppliedFilters) {
+        this.fetchConversations();
+      } else {
+        this.fetchFilteredConversations(this.appliedFilters);
+      }
+    },
+    fetchFilteredConversations(payload) {
+      let page = this.currentFiltersPage + 1;
+      this.$store
+        .dispatch('fetchFilteredConversations', {
+          queryData: filterQueryGenerator(payload),
+          page,
+        })
+        .then(() => this.$emit('conversation-load'));
+      this.showAdvancedFilters = false;
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
@@ -273,6 +379,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
+
 .spinner {
   margin-top: var(--space-normal);
   margin-bottom: var(--space-normal);
@@ -294,5 +401,24 @@ export default {
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
   }
+}
+.filter--actions {
+  display: flex;
+  align-items: center;
+  .btn-filter {
+    cursor: pointer;
+    i {
+      font-size: var(--font-size-two);
+    }
+  }
+  .btn-clear-filters {
+    color: var(--r-500);
+    cursor: pointer;
+  }
+}
+
+.filter__applied {
+  padding: var(--space-slab) 0 !important;
+  border-bottom: 1px solid var(--color-border);
 }
 </style>
