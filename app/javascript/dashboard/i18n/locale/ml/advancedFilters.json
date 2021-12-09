@@ -17,7 +17,7 @@
       "equal_to": "Equal to",
       "not_equal_to": "Not equal to",
       "contains": "Contains",
-      "does_not_contain": "Does not contain",
+      "does_not_contain": "ഉൾപ്പെട്ടിട്ടില്ല",
       "is_present": "Is present",
       "is_not_present": "Is not present"
     },
@@ -25,12 +25,12 @@
       "STATUS": "സ്റ്റാറ്റസ്",
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
-      "TEAM_NAME": "Team Name",
+      "TEAM_NAME": "ടീമിന്റെ പേര്",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "CAMPAIGN_NAME": "പ്രചാരണ നാമം",
       "LABELS": "ലേബലുകൾ",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
+      "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
+      "COUNTRY_NAME": "രാജ്യത്തിന്റെ പേര്",
       "REFERER_LINK": "Referer link"
     }
   }
