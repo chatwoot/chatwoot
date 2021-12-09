@@ -56,7 +56,7 @@ export default {
     };
   },
   watch: {
-    value: function (newValue) {
+    value: function(newValue) {
       this.greetingsMessage = newValue;
     },
   },
