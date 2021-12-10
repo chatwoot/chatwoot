@@ -53,37 +53,37 @@
     "DESC": "Upraviť kontaktné detaily"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Nový kontakt",
+    "TITLE": "Vytvoriť nový kontakt",
+    "DESC": "Pridajte základné informácie o kontakte."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importovať",
+    "TITLE": "Importovať kontakty",
+    "DESC": "Importovať kontakty prostredníctvom súboru CSV.",
+    "DOWNLOAD_LABEL": "Stiahnite si ukážkový CSV súbor.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV súbor",
+      "SUBMIT": "Importovať",
       "CANCEL": "Zrušiť"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "Kontakty boli úspešne uložené",
+    "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Vymazať kontakt",
+    "TITLE": "Vymazať kontakt",
+    "DESC": "Odstrániť kontaktné údaje",
     "CONFIRM": {
       "TITLE": "Potvrdiť vymazanie",
       "MESSAGE": "Určite chcete vymazať ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "Prosím, zadajte {contactName} pre potvrdenie",
       "YES": "Áno, vymazať ",
       "NO": "Nie, ponechať "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Kontakt úspešne odstránený",
+      "ERROR_MESSAGE": "Nepodarilo sa vymazať kontakt. Skúste to prosím neskôr."
     }
   },
   "CONTACT_FORM": {
@@ -91,70 +91,70 @@
       "SUBMIT": "Odoslať",
       "CANCEL": "Zrušiť",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Fotka kontaktu"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Zadajte celé meno kontaktu",
+        "LABEL": "Celé meno"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Zadajte info o kontakte",
+        "LABEL": "Info"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Zadajte e-mailovú adresu kontaktu",
         "LABEL": "E-mailová adresa",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "Táto e-mailová adresa sa používa pre iný kontakt."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
+        "PLACEHOLDER": "Zadajte telefónne číslo kontaktu",
         "LABEL": "Telefónne číslo",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "Telefónne číslo by malo byť vo formáte E.164, napr: + 1415555555 [+][kód krajiny][smerové číslo oblasti][miestne telefónne číslo]",
+        "ERROR": "Telefónne číslo by malo byť prázdne alebo vo formáte E.164",
+        "DUPLICATE": "Toto telefónne číslo sa používa pre iný kontakt."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Zadajte adresu kontaktu",
         "LABEL": "Lokácia"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Zadajte názov spoločnosti",
+        "LABEL": "Názov spoločnosti"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Zadajte používateľské meno na Facebooku",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Zadajte používateľské meno na Twitteri",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Zadajte používateľské meno na LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Zadajte používateľské meno na Githube",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "Kontakt bol úspešne uložený",
+    "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Začať konverzáciu",
     "TITLE": "Nová konverzácia",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Začnite novú konverzáciu odoslaním novej správy.",
+    "NO_INBOX": "Nepodarilo sa nájsť schránku na začatie novej konverzácie s týmto kontaktom.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Pre"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Schránka",
+        "ERROR": "Vybrať schránku"
       },
       "SUBJECT": {
         "LABEL": "Predmet",
@@ -253,10 +253,10 @@
       "DESC": "Pridanie vlastných informácií k tomuto kontaktu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Pridať atribút",
       "CANCEL": "Zrušiť",
       "NAME": {
-        "LABEL": "Custom attribute name",
+        "LABEL": "Vlastný názov atribútu",
         "PLACEHOLDER": "Eg: shopify id",
         "ERROR": "Nesprávny názov vlastného atribútu"
       },
