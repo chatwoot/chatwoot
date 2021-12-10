@@ -90,6 +90,20 @@ class MailPresenter < SimpleDelegator
     @mail['X-Original-Sender'].try(:value) || from.first
   end
 
+  def email_forwarded_for
+    @mail['X-Forwarded-For'].try(:value)
+  end
+
+  def mail_receiver
+    if @mail.to.blank?
+      return [email_forwarded_for] if email_forwarded_for.present?
+
+      []
+    else
+      @mail.to
+    end
+  end
+
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
