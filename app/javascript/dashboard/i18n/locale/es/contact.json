@@ -83,7 +83,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "No se pudo eliminar el contacto. Inténtalo de nuevo más tarde."
     }
   },
   "CONTACT_FORM": {
@@ -111,7 +111,7 @@
         "LABEL": "Número telefónico",
         "HELP": "El número telefónico debe tener el formato E.164, por ejemplo: +753001234567 [+][código del país][código de área][número teléfonico]",
         "ERROR": "El número telefónico debe estar vacío o en formato E.164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Este número de teléfono está en uso para otro contacto."
       },
       "LOCATION": {
         "PLACEHOLDER": "Escriba la ubicación del contacto",
@@ -159,7 +159,7 @@
       "SUBJECT": {
         "LABEL": "Asunto",
         "PLACEHOLDER": "Asunto",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "El asunto no puede estar vacío"
       },
       "MESSAGE": {
         "LABEL": "Mensaje",
@@ -174,7 +174,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactos",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Campos de contacto",
     "SEARCH_BUTTON": "Buscar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "FILTER_CONTACTS": "Filtro",
@@ -198,7 +198,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contactos",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "Cargando perfil de contacto..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -211,7 +211,7 @@
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
+    "FETCHING_NOTES": "Obteniendo notas...",
     "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notas"
