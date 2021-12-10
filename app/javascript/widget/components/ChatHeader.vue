@@ -1,7 +1,7 @@
 <template>
   <header class="flex justify-between p-5 w-full">
     <div class="flex items-center">
-      <button @click="onBackButtonClick">
+      <button v-if="showBackButton" @click="onBackButtonClick">
         <fluent-icon icon="chevron-left" size="24" />
       </button>
       <img
@@ -54,6 +54,10 @@ export default {
       default: '',
     },
     showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+    showBackButton: {
       type: Boolean,
       default: false,
     },

@@ -259,11 +259,20 @@ export default {
           this.setBubbleLabel();
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
+
+          if (
+            ['home'].includes(this.$route.name) &&
+            message.isOpen &&
+            this.messageCount
+          ) {
+            this.replaceRoute('messages');
+          }
           if (
             !message.isOpen &&
             ['unread-messages', 'campaigns'].includes(this.$route.name)
           ) {
             this.$store.dispatch('conversation/setUserLastSeen');
+            this.unsetUnreadView();
             this.replaceRoute('home');
           }
           if (!message.isOpen) {
