@@ -65,7 +65,7 @@
       "TABLE_HEADER": [
         "Име",
         "Phone Number",
-        "Conversations",
+        "Разговори",
         "Last Contacted"
       ]
     },
@@ -89,7 +89,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Reports",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Разговор",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
