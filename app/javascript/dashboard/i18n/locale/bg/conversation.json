@@ -37,7 +37,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
+      "OPEN_ACTION": "Отворен",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -151,35 +151,35 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_LABELS": "Етикети на разговора",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations"
+      "PREVIOUS_CONVERSATION": "Предишни разговори"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Атрибута е обновен успешно",
+      "ERROR": "Атрибута не бе обновен. Моля, опитайте отново по-късно"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Добавяне",
+      "SUCCESS": "Атрибута е добавен успешно",
+      "ERROR": "Атрибута не бе добавен. Моля, опитайте отново по-късно"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Успешно изтриване на атрибута",
+      "ERROR": "Атрибута не бе изтрита. Моля, опитайте отново по-късно"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Добавяне на атрибут",
+      "PLACEHOLDER": "Търсене на атрибути",
+      "NO_RESULT": "Няма намерени атрибути"
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "TO": "До",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
