@@ -29,7 +29,7 @@ es:
       failed: Registro fallido
     contacts:
       import:
-        failed: File is blank
+        failed: Archivo está en blanco
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     agent_csv:
