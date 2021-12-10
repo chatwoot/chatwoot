@@ -178,12 +178,24 @@ export default {
           this.setIframeHeight(this.isMobile);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
+        this.setIframeHeight(this.isMobile);
+        this.handleUnreadNotificationDot();
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight();
+        this.handleUnreadNotificationDot();
+      }
+    },
+    handleUnreadNotificationDot() {
+      const { unreadMessageCount } = this;
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage({
+          event: 'handleNotificationDot',
+          unreadMessageCount,
+        });
       }
     },
     createWidgetEvents(message) {
@@ -204,7 +216,6 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
-        console.log(message);
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

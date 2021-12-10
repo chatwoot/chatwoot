@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "图片消息"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "音频消息"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "视频消息"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "附件"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "位置"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "分享了一个网址"
       }
     },

@@ -21,6 +21,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'presence.update': this.onPresenceUpdate,
       'contact.deleted': this.onContactDelete,
       'contact.updated': this.onContactUpdate,
+      'conversation.mentioned': this.onConversationMentioned,
     };
   }
 
@@ -95,6 +96,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversationId,
       user,
     });
+  };
+
+  onConversationMentioned = data => {
+    this.app.$store.dispatch('addMentions', data);
   };
 
   clearTimer = conversationId => {

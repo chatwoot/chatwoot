@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Pesan gambar"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Pesan audio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Pesan video"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Lampiran File"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Lokasi"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "telah membagikan url"
       }
     },

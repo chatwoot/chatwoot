@@ -1,5 +1,5 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
-  before_action :process_hmac
+  before_action :process_hmac, only: [:update]
 
   def show; end
 
@@ -8,7 +8,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
       contact: @contact,
       params: permitted_params.to_h.deep_symbolize_keys
     )
-    render json: contact_identify_action.perform
+    @contact = contact_identify_action.perform
   end
 
   # TODO : clean up this with proper routes delete contacts/custom_attributes
@@ -21,11 +21,20 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   private
 
   def process_hmac
-    return if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
+    return unless should_verify_hmac?
 
     render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless valid_hmac?
 
     @contact_inbox.update(hmac_verified: true)
+  end
+
+  def should_verify_hmac?
+    return false if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
+
+    # Taking an extra caution that the hmac is triggered whenever identifier is present
+    return false if params[:custom_attributes].present? && params[:identifier].blank?
+
+    true
   end
 
   def valid_hmac?

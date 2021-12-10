@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Messaggio immagine"
       },
       "audio": {
-        "ICON": "-quantità-alto",
         "CONTENT": "Messaggio audio"
       },
       "video": {
-        "ICON": "videocam",
         "CONTENT": "Messaggio video"
       },
       "file": {
-        "ICON": "e-documento",
         "CONTENT": "File Allegato"
       },
       "location": {
-        "ICON": "Posizione-ios",
         "CONTENT": "Localizzazione"
       },
       "fallback": {
-        "ICON": "e-link",
         "CONTENT": "ha condiviso un url"
       }
     },

@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "הודעת תמונה"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "הודעות קוליות"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "הודעות וידאו"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "קובץ מצורף"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "מיקום"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "שיתף קישור"
       }
     },

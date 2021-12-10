@@ -2,13 +2,20 @@ import AgentDetails from '../AgentDetails';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
 import i18n from 'dashboard/i18n';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import WootButton from 'dashboard/components/ui/WootButton';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
 localVue.component('thumbnail', Thumbnail);
+localVue.component('woot-button', WootButton);
+localVue.component('woot-button', WootButton);
+localVue.use(VTooltip, {
+  defaultHtml: false,
+});
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -16,7 +23,11 @@ const i18nConfig = new VueI18n({
 });
 
 describe('agentDetails', () => {
-  const currentUser = { name: 'Neymar Junior', avatar_url: '' };
+  const currentUser = {
+    name: 'Neymar Junior',
+    avatar_url: '',
+    availability_status: 'online',
+  };
   const currentRole = 'agent';
   let store = null;
   let actions = null;
@@ -31,6 +42,7 @@ describe('agentDetails', () => {
         getters: {
           getCurrentUser: () => currentUser,
           getCurrentRole: () => currentRole,
+          getCurrentUserAvailability: () => currentUser.availability_status,
         },
       },
     };
@@ -47,14 +59,8 @@ describe('agentDetails', () => {
     });
   });
 
-  it('shows the agent name', () => {
-    const agentTitle = agentDetails.find('.current-user--name');
-    expect(agentTitle.text()).toBe('Neymar Junior');
-  });
-
-  it('shows the agent role', () => {
-    const agentTitle = agentDetails.find('.current-user--role');
-    expect(agentTitle.text()).toBe('Agent');
+  it(' the agent status', () => {
+    expect(agentDetails.find('thumbnail-stub').vm.status).toBe('online');
   });
 
   it('agent thumbnail exists', () => {

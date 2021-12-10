@@ -27,7 +27,7 @@ l<template>
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <i class="icon ion-ios-settings-strong" />
+          <fluent-icon icon="filter" />
         </woot-button>
       </div>
     </div>
@@ -51,6 +51,7 @@ l<template>
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
       />
 
@@ -81,6 +82,7 @@ l<template>
     <woot-modal
       :show.sync="showAdvancedFilters"
       :on-close="onToggleAdvanceFiltersModal"
+      size="medium"
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
@@ -132,6 +134,10 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -155,7 +161,7 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
-      appliedFilters: 'getAppliedFilters',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
@@ -202,6 +208,9 @@ export default {
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId ? this.teamId : undefined,
+        conversationType: this.conversationType
+          ? this.conversationType
+          : undefined,
       };
     },
     pageTitle() {
@@ -213,6 +222,9 @@ export default {
       }
       if (this.label) {
         return `#${this.label}`;
+      }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -248,6 +260,9 @@ export default {
       this.resetAndFetchData();
     },
     label() {
+      this.resetAndFetchData();
+    },
+    conversationType() {
       this.resetAndFetchData();
     },
   },

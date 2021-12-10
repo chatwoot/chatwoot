@@ -30,7 +30,7 @@
       v-if="popoutReplyBox"
       variant="clear"
       size="large"
-      icon="ion-android-close"
+      icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
       @click="$emit('click')"
@@ -39,7 +39,7 @@
       v-else
       variant="clear"
       size="large"
-      icon="ion-arrow-resize"
+      icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
       @click="$emit('click')"

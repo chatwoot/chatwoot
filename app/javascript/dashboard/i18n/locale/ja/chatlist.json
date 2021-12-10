@@ -54,27 +54,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "画像メッセージ"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "音声メッセージ"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "ビデオ メッセージ"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "添付ファイル"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "場所"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "URLを共有しています"
       }
     },

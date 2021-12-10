@@ -44,8 +44,23 @@
         class="banner-close-button"
         @click="removeTweetSelection"
       >
-        <i v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')" class="ion-close" />
+        <fluent-icon
+          v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')"
+          size="16"
+          icon="dismiss"
+        />
       </button>
+    </div>
+    <div class="sidebar-toggle__wrap">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="sidebar-toggle--button"
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      >
+      </woot-button>
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
@@ -231,6 +246,12 @@ export default {
     twilioWhatsAppReplyPolicy() {
       return REPLY_POLICY.TWILIO_WHATSAPP;
     },
+    isRightOrLeftIcon() {
+      if (this.isContactPanelOpen) {
+        return 'arrow-chevron-right';
+      }
+      return 'arrow-chevron-left';
+    },
   },
 
   watch: {
@@ -243,25 +264,31 @@ export default {
   },
 
   created() {
-    bus.$on('scrollToMessage', () => {
-      this.$nextTick(() => this.scrollToBottom());
-      this.makeMessagesRead();
-    });
-
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
-      this.selectedTweetId = selectedTweetId;
-    });
+    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
   mounted() {
     this.addScrollListener();
   },
 
-  unmounted() {
+  beforeDestroy() {
+    this.removeBusListeners();
     this.removeScrollListener();
   },
 
   methods: {
+    removeBusListeners() {
+      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    },
+    setSelectedTweet(tweetId) {
+      this.selectedTweetId = tweetId;
+    },
+    onScrollToMessage() {
+      this.$nextTick(() => this.scrollToBottom());
+      this.makeMessagesRead();
+    },
     showPopoutReplyBox() {
       this.isPopoutReplyBox = !this.isPopoutReplyBox;
     },
@@ -415,6 +442,30 @@ export default {
       left: 5px;
       bottom: var(--space-minus-slab);
     }
+  }
+}
+.sidebar-toggle__wrap {
+  display: flex;
+  justify-content: flex-end;
+
+  .sidebar-toggle--button {
+    position: fixed;
+
+    top: var(--space-mega);
+    z-index: var(--z-index-low);
+
+    background: var(--white);
+
+    padding: inherit 0;
+    border-top-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border-bottom-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border: 1px solid var(--color-border-light);
+    border-right: 0;
+    box-sizing: border-box;
   }
 }
 </style>

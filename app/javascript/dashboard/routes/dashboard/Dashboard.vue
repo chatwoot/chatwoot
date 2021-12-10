@@ -11,6 +11,7 @@
 <script>
 import Sidebar from '../../components/layout/Sidebar';
 import CommandBar from './commands/commandbar.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -32,9 +33,9 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas is-open ';
+        return 'off-canvas position-left is-transition-push is-open';
       }
-      return 'off-canvas position-left is-transition-push is-closed';
+      return 'off-canvas is-transition-push is-closed';
     },
     contentClassName() {
       if (this.isOnDesktop) {
@@ -43,18 +44,17 @@ export default {
       if (this.isSidebarOpen) {
         return 'off-canvas-content is-open-left has-transition-push has-position-left';
       }
-      return 'off-canvas-content';
+      return 'off-canvas-content has-transition-push';
     },
   },
   mounted() {
     this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-    bus.$on('sidemenu_icon_click', () => {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    });
+    bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
@@ -65,6 +65,14 @@ export default {
         this.isOnDesktop = false;
       }
     },
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.off-canvas-content.is-open-left {
+  transform: translateX(25.4rem);
+}
+</style>
