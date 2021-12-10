@@ -2,28 +2,28 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "Добавяне на филтър",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-        "SUBMIT_BUTTON_LABEL": "Submit",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "FILTER_DELETE_ERROR": "За да запазите, трябва да имате поне един филтър",
+        "SUBMIT_BUTTON_LABEL": "Изпращане",
+        "CANCEL_BUTTON_LABEL": "Отмени",
+        "CLEAR_BUTTON_LABEL": "Изчисти филтрите",
+        "EMPTY_VALUE_ERROR": "Изисква се стойност",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "И",
+            "OR": "ИЛИ"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "equal_to": "Равно на",
+            "not_equal_to": "Различно от",
+            "contains": "Съдържа",
+            "does_not_contain": "Не съдържа",
+            "is_present": "Присъства",
+            "is_not_present": "Не присъства"
         },
         "ATTRIBUTES": {
-            "NAME": "Name",
+            "NAME": "Име",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Phone number",
             "IDENTIFIER": "Identifier",
