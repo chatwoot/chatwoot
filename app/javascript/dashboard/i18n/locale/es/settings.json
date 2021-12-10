@@ -136,7 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Menciones",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
@@ -151,7 +151,7 @@
     "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatización",
     "TEAMS": "Equipos",
     "ALL_CONTACTS": "Todos los contactos",
     "TAGGED_WITH": "Etiquetado con",
