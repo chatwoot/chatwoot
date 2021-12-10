@@ -141,6 +141,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
 
   computed: {
@@ -263,6 +267,7 @@ export default {
         id: chat.id,
         label: this.activeLabel,
         teamId: this.teamId,
+        conversationType: this.conversationType,
       });
       router.push({ path: frontendURL(path) });
     },

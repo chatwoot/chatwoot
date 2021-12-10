@@ -50,6 +50,7 @@ l<template>
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
       />
 
@@ -132,6 +133,10 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -202,6 +207,9 @@ export default {
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId ? this.teamId : undefined,
+        conversationType: this.conversationType
+          ? this.conversationType
+          : undefined,
       };
     },
     pageTitle() {
@@ -213,6 +221,9 @@ export default {
       }
       if (this.label) {
         return `#${this.label}`;
+      }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -248,6 +259,9 @@ export default {
       this.resetAndFetchData();
     },
     label() {
+      this.resetAndFetchData();
+    },
+    conversationType() {
       this.resetAndFetchData();
     },
   },

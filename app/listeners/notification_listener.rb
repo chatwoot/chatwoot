@@ -62,7 +62,10 @@ class NotificationListener < BaseListener
 
     return if mentioned_ids.blank?
 
-    get_valid_mentioned_ids(mentioned_ids, message.inbox).each do |user_id|
+    valid_mentioned_ids = get_valid_mentioned_ids(mentioned_ids, message.inbox)
+    Conversations::UserMentionJob.perform_later(valid_mentioned_ids, message.conversation.id, account.id)
+
+    valid_mentioned_ids.each do |user_id|
       NotificationBuilder.new(
         notification_type: 'conversation_mention',
         user: User.find(user_id),
