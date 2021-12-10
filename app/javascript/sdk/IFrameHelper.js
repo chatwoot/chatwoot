@@ -199,6 +199,10 @@ export const IFrameHelper = {
     },
 
     handleNotificationDot: event => {
+      if (window.$chatwoot.hideMessageBubble) {
+        return;
+      }
+
       const bubbleElement = document.querySelector('.woot-widget-bubble');
       if (
         event.unreadMessageCount > 0 &&
