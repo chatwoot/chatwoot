@@ -1,85 +1,85 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Извличане на разговори",
+    "LOAD_MORE_CONVERSATIONS": "Зареди още разговори",
+    "EOF": "Всички разговори са заредени 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Няма активни разговори в тази група."
     },
-    "TAB_HEADING": "Conversations",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "Разговори",
+    "MENTION_HEADING": "Споменавания",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Търсене на хора, чатове, запазени отговори .."
     },
-    "FILTER_ALL": "All",
+    "FILTER_ALL": "Всички",
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "Отворен",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "Разрешен",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mine",
+        "NAME": "Мой",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "Неназначен",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "Всички",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Отворен"
       },
       "resolved": {
-        "TEXT": "Resolved"
+        "TEXT": "Разрешен"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Предстоящ"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Отложен"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Picture message"
+        "CONTENT": "Съобщение със снимка"
       },
       "audio": {
-        "CONTENT": "Audio message"
+        "CONTENT": "Аудио съобщение"
       },
       "video": {
-        "CONTENT": "Video message"
+        "CONTENT": "Видео съобщение"
       },
       "file": {
-        "CONTENT": "File Attachment"
+        "CONTENT": "Прикачен файл"
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": "Локация"
       },
       "fallback": {
-        "CONTENT": "has shared a url"
+        "CONTENT": "сподели линк"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "RECEIVED_VIA_EMAIL": "Получено чрез имейл",
+    "VIEW_TWEET_IN_TWITTER": "Виж туита в Twitter",
+    "REPLY_TO_TWEET": "Отговори на този туит",
+    "SENT": "Успено изпратено",
+    "NO_MESSAGES": "Няма съобщения",
+    "NO_CONTENT": "Няма налично съдържание",
+    "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
+    "SHOW_QUOTED_TEXT": "Показване на цитирания текст"
   }
 }
