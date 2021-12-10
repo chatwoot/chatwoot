@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Агенти",
+    "HEADER_BTN_TXT": "Добави агент",
+    "LOADING": "Извличане на списък с агенти",
+    "SIDEBAR_TXT": "<p><b>Агенти</b></p> <p> <b>Агент</b> е член на вашия екип за поддръжка на клиенти. </p><p> Агентите ще могат да преглеждат и отговарят на съобщения от вашите потребители. Списъкът показва всички агенти във вашия акаунт. </p><p> Щракнете върху <b>Добавяне на агент</b>, за да добавите нов агент. Агентът, който добавите, ще получи имейл с връзка за потвърждение, за да активира акаунта си, след което те ще имат достъп до Chatwoot и ще могат да отговарят на съобщения. </p><p> Достъпът до функциите на Chatwoot се основава на следните роли. </p><p> <b>Агент</b> – Агентите с тази роля имат достъп само до входящи кутии, отчети и разговори. Те могат да присвояват разговори на други агенти или на себе си и да ги разрешават.</p><p> <b>Администратор</b> - Администраторът ще има достъп до всички функции на Chatwoot, активирани за вашия акаунт, включително настройки, заедно с всички нормални привилегии на агентите.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Администратор",
+      "AGENT": "Агент"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "Няма асоцирани агенти към този акаунт",
+      "TITLE": "Управлявайте агентите в екипа си",
+      "DESC": "Можете да добавите/премахнете агенти в/от екипа си.",
+      "NAME": "Име",
+      "EMAIL": "ИМЕЙЛ",
+      "STATUS": "Статус",
+      "ACTIONS": "Действия",
+      "VERIFIED": "Проверен",
+      "VERIFICATION_PENDING": "Предстои проверка"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Добави агент в екипа си",
+      "DESC": "Можете да добавите хора, които ще се заемат с поддръжката на вашите входящи пощенски кутии.",
+      "CANCEL_BUTTON_TEXT": "Отмени",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Име на агента",
+          "PLACEHOLDER": "Моля, въведете име на агента"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Роля",
+          "PLACEHOLDER": "Моля, изберете роля",
+          "ERROR": "Ролята е задължителна"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Имейл адрес",
+          "PLACEHOLDER": "Моля, въведете имейл адрес на агента"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Добави агент"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Агента е добавен успешно",
+        "EXIST_MESSAGE": "Имейл адреса на агента вече се използва, моля опитайте с друг имейл адрес",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Изтрий",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Агента е изтрит успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Потвърди изтриването",
+        "MESSAGE": "Сигурни ли сте за изтриването ",
+        "YES": "Да, изтрий ",
+        "NO": "Не, запази "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Редактирай агента",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Име на агента",
+          "PLACEHOLDER": "Моля, въведете име на агента"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Роля",
+          "PLACEHOLDER": "Моля, изберете роля",
+          "ERROR": "Ролята е задължителна"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Имейл адрес",
+          "PLACEHOLDER": "Моля, въведете имейл адрес на агента"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Редактирай агента"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Редактирай",
+      "CANCEL_BUTTON_TEXT": "Отмени",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Агента е обновен успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Нулиране на парола",
+        "ADMIN_SUCCESS_MESSAGE": "До агента е изпратен имейл с инструкции за нулиране на паролата",
+        "SUCCESS_MESSAGE": "Паролата на агента е нулирана успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Няма намерени резултати."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Нито един",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Изберете агент",
+        "TEAM": "Изберете екип"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Няма намерени агенти",
+          "TEAM": "Няма намерени екипи"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Търсете агенти",
+          "TEAM": "Търсете екипи"
         }
       }
     }
