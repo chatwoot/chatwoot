@@ -25,22 +25,22 @@
         "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Prístupový token",
+        "NOTE": "Tento token môžete použiť, ak vytvárate integráciu založenú na rozhraní API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Zvukové oznámenia",
+        "NOTE": "Povoliť zvukové upozornenia na paneli s novými správami a konverzáciami.",
+        "NONE": "Žiadne",
+        "ASSIGNED": "Pridelené konverzácie",
+        "ALL_CONVERSATIONS": "Všetky konverzácie"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "TITLE": "E-mailové notifikácie",
+        "NOTE": "Aktualizujte svoje preferencie e-mailových oznámení tu",
+        "CONVERSATION_ASSIGNMENT": "Odosielať e-mailové upozornenia, keď mi je priradená konverzácia",
+        "CONVERSATION_CREATION": "Odosielať e-mailové upozornenia pri vytvorení novej konverzácie",
+        "CONVERSATION_MENTION": "Odosielať e-mailové upozornenia keď som spomenutý v konverzácii",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -135,8 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Rozhovory",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Všetky konverzácie",
+    "MENTIONED_CONVERSATIONS": "Zmienky",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Kontakty",
@@ -158,14 +158,14 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "Prehľad",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Schránka",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
