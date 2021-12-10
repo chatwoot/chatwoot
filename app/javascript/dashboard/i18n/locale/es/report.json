@@ -57,8 +57,8 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "AGENT_REPORTS": {
@@ -116,20 +116,20 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Descargar reportes de etiquetas",
+    "FILTER_DROPDOWN_LABEL": "Seleecionar etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -179,12 +179,12 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "INBOX_REPORTS": {
@@ -246,8 +246,8 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "TEAM_REPORTS": {
@@ -309,8 +309,8 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "CSAT_REPORTS": {
