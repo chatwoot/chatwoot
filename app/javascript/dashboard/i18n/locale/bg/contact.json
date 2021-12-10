@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
+    "EMAIL_ADDRESS": "Имейл адрес",
     "PHONE_NUMBER": "Phone number",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -40,7 +40,7 @@
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "EDIT_LABEL": "Редактирай",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
@@ -65,7 +65,7 @@
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
-      "CANCEL": "Cancel"
+      "CANCEL": "Отмени"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
@@ -75,11 +75,11 @@
     "TITLE": "Delete contact",
     "DESC": "Delete contact details",
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
-      "MESSAGE": "Are you sure to delete ",
+      "TITLE": "Потвърди изтриването",
+      "MESSAGE": "Сигурни ли сте за изтриването ",
       "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Yes, Delete ",
-      "NO": "No, Keep "
+      "YES": "Да, изтрий ",
+      "NO": "Не, запази "
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -88,14 +88,14 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "Изпращане",
+      "CANCEL": "Отмени",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "Пълно име"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -103,7 +103,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
+        "LABEL": "Имейл адрес",
         "DUPLICATE": "This email address is in use for another contact."
       },
       "PHONE_NUMBER": {
@@ -162,12 +162,12 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Съобщение",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
+      "CANCEL": "Отмени",
       "SUCCESS_MESSAGE": "Message sent!",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
@@ -183,7 +183,7 @@
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "Name",
+        "NAME": "Име",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Last Activity",
@@ -191,7 +191,7 @@
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Company",
-        "EMAIL_ADDRESS": "Email Address"
+        "EMAIL_ADDRESS": "Имейл адрес"
       },
       "VIEW_DETAILS": "View details"
     }
@@ -254,7 +254,7 @@
     },
     "FORM": {
       "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CANCEL": "Отмени",
       "NAME": {
         "LABEL": "Custom attribute name",
         "PLACEHOLDER": "Eg: shopify id",
@@ -317,7 +317,7 @@
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "CANCEL": "Отмени",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
