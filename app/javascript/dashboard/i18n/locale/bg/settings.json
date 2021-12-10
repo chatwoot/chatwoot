@@ -121,10 +121,10 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Качване..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Изпращане"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -141,10 +141,10 @@
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "HOME": "Home",
-    "AGENTS": "Agents",
+    "AGENTS": "Агенти",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
+    "CANNED_RESPONSES": "Готови отговори",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
@@ -163,7 +163,7 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_AGENT": "Агенти",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
@@ -176,14 +176,14 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Account Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Изпращане"
     }
   },
   "KEYBOARD_SHORTCUTS": {
