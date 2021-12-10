@@ -6,7 +6,7 @@
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Разговори",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -69,7 +69,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Разговори",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -132,7 +132,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Разговори",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -195,7 +195,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Разговори",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -258,7 +258,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Разговори",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
