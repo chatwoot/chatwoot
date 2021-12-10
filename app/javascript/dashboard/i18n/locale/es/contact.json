@@ -7,7 +7,7 @@
     "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
     "CONVERSATION_TITLE": "Detalles de la conversación",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Ver perfil",
     "BROWSER": "Navegador",
     "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniciado desde",
@@ -33,8 +33,8 @@
         "NO_RESULT": "No se encontraron etiquetas"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Combinar contacto",
+    "CONTACT_ACTIONS": "Acciones de contacto",
     "MUTE_CONTACT": "Silenciar Conversación",
     "UNMUTE_CONTACT": "Dessilenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
@@ -58,22 +58,22 @@
     "DESC": "Añadir información básica sobre el contacto."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importar",
+    "TITLE": "Importar Contactos",
+    "DESC": "Importar contactos a través de un archivo CSV.",
+    "DOWNLOAD_LABEL": "Descarga un ejemplo de csv.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Archivo CSV",
+      "SUBMIT": "Importar",
       "CANCEL": "Cancelar"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Contacto guardado correctamente",
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Eliminar contacto",
+    "TITLE": "Eliminar contacto",
+    "DESC": "Eliminar datos de contacto",
     "CONFIRM": {
       "TITLE": "Confirmar eliminación",
       "MESSAGE": "¿Está seguro de eliminar ",
@@ -82,7 +82,7 @@
       "NO": "No, mantenerlo "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
       "ERROR_MESSAGE": "Could not delete contact. Please try again later."
     }
   },
@@ -157,8 +157,8 @@
         "ERROR": "Seleccione una bandeja de entrada"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Asunto",
+        "PLACEHOLDER": "Asunto",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
