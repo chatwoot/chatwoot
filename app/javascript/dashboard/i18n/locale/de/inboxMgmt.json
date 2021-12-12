@@ -403,17 +403,17 @@
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
+      "UPDATE": "IMAP-Einstellungen aktualisieren",
+      "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
+      "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP-Einstellungen erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "IMAP-Einstellungen können nicht aktualisiert werden"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Adresse",
+        "PLACE_HOLDER": "Adresse (Eg: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -427,21 +427,21 @@
         "LABEL": "Passwort",
         "PLACE_HOLDER": "Passwort"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL aktivieren"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Setzen Sie Ihre SMTP-Details",
+      "UPDATE": "SMTP-Einstellungen aktualisieren",
+      "TOGGLE_AVAILABILITY": "Die SMTP-Konfiguration für diesen Posteingang aktivieren",
+      "TOGGLE_HELP": "Das Aktivieren von SMTP hilft dem Benutzer beim Senden von E-Mails",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP-Einstellungen erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "SMTP-Einstellungen können nicht aktualisiert werden"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Adresse",
+        "PLACE_HOLDER": "Adresse (Eg: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
