@@ -21,7 +21,7 @@ fi
 
 apt update && apt upgrade -y
 apt install -y curl
-curl -sL https://deb.nodesource.com/setup_12.x | bash -
+curl -sL https://deb.nodesource.com/setup_16.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
@@ -77,7 +77,7 @@ fi
 bundle
 yarn
 
-cp .env.example .env
+mv .env.example .env
 sed -i -e "/SECRET_KEY_BASE/ s/=.*/=$secret/" .env
 sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
 sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
@@ -91,9 +91,9 @@ RAILS_ENV=production bundle exec rake db:reset
 rake assets:precompile RAILS_ENV=production
 EOF
 
-cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
-cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
-cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
+mv /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
+mv /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
+mv /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
 
 systemctl enable chatwoot.target
 systemctl start chatwoot.target
@@ -107,7 +107,7 @@ else
 
 curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
 wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
-cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
+mv nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
 certbot certonly --nginx -d $domain_name
 sed -i "s/chatwoot.domain.com/$domain_name/g" /etc/nginx/sites-available/nginx_chatwoot.conf
 ln -s /etc/nginx/sites-available/nginx_chatwoot.conf /etc/nginx/sites-enabled/nginx_chatwoot.conf
