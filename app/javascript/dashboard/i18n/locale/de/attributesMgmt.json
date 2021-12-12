@@ -16,12 +16,12 @@
         },
         "DESC": {
           "LABEL": "Beschreibung",
-          "PLACEHOLDER": "Enter custom attribute description",
+          "PLACEHOLDER": "Geben Sie eine benutzerdefinierte Attributbeschreibung ein",
           "ERROR": "Beschreibung wird benötigt"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "Gilt für",
+          "PLACEHOLDER": "Bitte wählen Sie eine aus",
           "ERROR": "Modell wird benötigt"
         },
         "TYPE": {
@@ -29,49 +29,49 @@
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Typ wird benötigt",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Listenwerte",
+            "PLACEHOLDER": "Bitte Wert eingeben und Eingabetaste drücken",
+            "ERROR": "Muss mindestens einen Wert haben"
           }
         },
         "KEY": {
           "LABEL": "Schlüssel",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "Benutzerdefinierten Attributschlüssel eingeben",
+          "ERROR": "Schlüssel ist erforderlich",
+          "IN_VALID": "Ungültiger Schlüssel"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen. Bitte versuchen Sie es später erneut"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuch es noch einmal."
       },
       "CONFIRM": {
         "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
         "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
         "YES": "Löschen ",
         "NO": "Stornieren"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Benutzerdefiniertes Attribut bearbeiten",
       "UPDATE_BUTTON_TEXT": "Aktualisieren",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Listenwerte",
+          "PLACEHOLDER": "Bitte Werte eingeben und Enter-Taste drücken"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Beim Aktualisieren des benutzerdefinierten Attributs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       }
     },
     "TABS": {
@@ -91,8 +91,8 @@
         "DELETE": "Löschen"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Es wurden keine benutzerdefinierten Attribute erstellt",
+        "NOT_FOUND": "Es sind keine benutzerdefinierten Attribute konfiguriert"
       }
     }
   }
