@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers wird nicht überprüft",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
     "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
     "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
@@ -158,7 +158,7 @@
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Attribut erstellen",
     "UPDATE": {
       "SUCCESS": "Attribut erfolgreich aktualisiert",
       "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
