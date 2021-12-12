@@ -106,7 +106,7 @@ echo "To configure a domain and SSL certificate, follow the guide at https://www
 else
 
 curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
-wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
+https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
 mv nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
 certbot certonly --nginx -d $domain_name
 sed -i "s/chatwoot.domain.com/$domain_name/g" /etc/nginx/sites-available/nginx_chatwoot.conf
