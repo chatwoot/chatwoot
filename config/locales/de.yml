@@ -79,8 +79,8 @@ de:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} von %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} von %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
       transcript_subject: "Gesprächsprotokoll"
     survey:
