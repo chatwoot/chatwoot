@@ -20,6 +20,7 @@ fi
 fi
 
 apt update && apt upgrade -y
+apt purge apache2 -y
 apt install -y curl
 curl -sL https://deb.nodesource.com/setup_16.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
