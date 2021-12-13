@@ -38,5 +38,25 @@ describe Webhooks::Twitter do
         expect(twitter_inbox.messages.count).to be 1
       end
     end
+
+    context 'with tweet_enabled flag disabled' do
+      before do
+        twitter_channel.update(tweets_enabled: false)
+      end
+
+      it 'does not create incoming message in the twitter inbox for tweet' do
+        twitter_webhook.new(tweet_params).consume
+        expect(twitter_inbox.contacts.count).to be 0
+        expect(twitter_inbox.conversations.count).to be 0
+        expect(twitter_inbox.messages.count).to be 0
+      end
+
+      it 'creates incoming message in the twitter inbox' do
+        twitter_webhook.new(dm_params).consume
+        expect(twitter_inbox.contacts.count).to be 1
+        expect(twitter_inbox.conversations.count).to be 1
+        expect(twitter_inbox.messages.count).to be 1
+      end
+    end
   end
 end

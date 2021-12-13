@@ -32,26 +32,13 @@
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
-        <label class="medium-9 columns">
-          {{
-            "Enable tweets in conversation feed"
-          }}
-          <select v-model="tweetsEnabled">
-            <option :value="true">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLED'
-                )
-              }}
-            </option>
-            <option :value="false">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.TWITTER.TWEETS.DISABLED'
-                )
-              }}
-            </option>
-          </select>
+        <label for="toggle-business-hours" class="toggle-input-wrap" v-if="isATwitterInbox">
+          <input
+            v-model="tweetsEnabled"
+            type="checkbox"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
         </label>
         <woot-input
           v-if="isAPIInbox"
@@ -645,6 +632,7 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             hmac_mandatory: this.hmacMandatory,
+            tweets_enabled: this.tweetsEnabled,
           },
         };
         if (this.avatarFile) {

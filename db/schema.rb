@@ -277,28 +277,6 @@ ActiveRecord::Schema.define(version: 2021_12_08_085931) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
-  create_table "companies", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "address"
-    t.string "city", null: false
-    t.string "state"
-    t.string "country", null: false
-    t.integer "no_of_employees", null: false
-    t.string "industry_type"
-    t.bigint "annual_revenue"
-    t.text "website"
-    t.string "office_phone_number"
-    t.string "facebook"
-    t.string "twitter"
-    t.string "linkedin"
-    t.jsonb "additional_attributes"
-    t.bigint "contact_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["contact_id"], name: "index_companies_on_contact_id"
-    t.index ["name"], name: "index_companies_on_name", unique: true
-  end
-
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
