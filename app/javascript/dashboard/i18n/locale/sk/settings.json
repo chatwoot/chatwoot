@@ -41,28 +41,28 @@
         "CONVERSATION_ASSIGNMENT": "Odosielať e-mailové upozornenia, keď mi je priradená konverzácia",
         "CONVERSATION_CREATION": "Odosielať e-mailové upozornenia pri vytvorení novej konverzácie",
         "CONVERSATION_MENTION": "Odosielať e-mailové upozornenia keď som spomenutý v konverzácii",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať e-mailové oznámenia pri vytvorení novej správy v priradenej konverzácii"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Vaše nastavenia oznámení sa úspešne aktualizovali",
+        "UPDATE_ERROR": "Pri aktualizácii nastavení došlo k chybe, skúste to prosím znova"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Oznámenia Push",
+        "NOTE": "Aktualizujte svoje predvoľby oznámení Push tu",
+        "CONVERSATION_ASSIGNMENT": "Odosielať Push oznámenia, keď mi je priradená konverzácia",
+        "CONVERSATION_CREATION": "Odosielať Push upozornenia pri vytvorení novej konverzácie",
+        "CONVERSATION_MENTION": "Odosielať Push upozornenia keď som spomenutý v konverzácii",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať Push oznámenia pri vytvorení novej správy v priradenej konverzácii",
+        "HAS_ENABLED_PUSH": "Pre tento prehliadač ste povolili oznámenia Push.",
+        "REQUEST_PUSH": "Povoliť oznámenia Push"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profilová fotka"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
+        "LABEL": "Vaše celé meno",
+        "ERROR": "Prosím zadajte platné celé meno",
         "PLACEHOLDER": "Please enter your full name"
       },
       "DISPLAY_NAME": {
