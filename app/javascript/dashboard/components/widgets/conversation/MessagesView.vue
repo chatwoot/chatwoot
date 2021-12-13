@@ -112,7 +112,7 @@
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
-        :popout-reply-box="isPopoutReplyBox"
+        :popout-reply-box.sync="isPopoutReplyBox"
         @click="showPopoutReplyBox"
         @scrollToMessage="scrollToBottom"
       />
