@@ -87,7 +87,7 @@ export default {
       return this.dynamicTime(this.timestamp);
     },
     hasMoreValue() {
-      return this.content.length > 210;
+      return this.content.length > 320;
     },
   },
   methods: {
@@ -98,7 +98,7 @@ export default {
         '<span class="searchkey--highlight">$1</span>'
       );
       if (this.hasMoreValue && this.isShowMore) {
-        return finalResult.substr(0, 400) + '...';
+        return `${finalResult.substr(0, 320)}...`;
       }
       if (this.hasMoreValue && !this.isShowMore) {
         return finalResult;
