@@ -63,49 +63,49 @@
       "NAME": {
         "LABEL": "Vaše celé meno",
         "ERROR": "Prosím zadajte platné celé meno",
-        "PLACEHOLDER": "Please enter your full name"
+        "PLACEHOLDER": "Prosím zadajte svoje celé meno"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Zobrazované meno",
+        "ERROR": "Prosím zadajte platné zobrazované meno",
+        "PLACEHOLDER": "Zadajte prosím zobrazované meno, ktoré sa bude zobrazovať v konverzáciách"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Dostupnosť",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Zaneprázdnený",
           "Offline"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Vaša e-mailová adresa",
+        "ERROR": "Prosím zadajte platnú e-mailovú adresu",
+        "PLACEHOLDER": "Zadajte prosím vašu e-mailovú adresu, ktorá sa bude zobrazovať v konverzáciách"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Momentálne heslo",
+        "ERROR": "Prosím zadajte momentálne heslo",
+        "PLACEHOLDER": "Prosím zadajte momentálne heslo"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Heslo",
+        "ERROR": "Zadajte heslo s dĺžkou 6 alebo viac",
+        "PLACEHOLDER": "Prosím zadajte nové heslo"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "Potvrďte nové heslo",
+        "ERROR": "Potvrdzovacie heslo by sa malo zhodovať s heslom",
+        "PLACEHOLDER": "Znovu zadajte svoje heslo"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "CHANGE_AVAILABILITY_STATUS": "Zmeniť",
+    "CHANGE_ACCOUNTS": "Prepnúť účet",
+    "CONTACT_SUPPORT": "Kontaktovať podporu",
+    "SELECTOR_SUBTITLE": "Vyberte účet z nasledujúceho zoznamu",
+    "PROFILE_SETTINGS": "Nastavenia profilu",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "LOGOUT": "Logout"
   },
@@ -121,7 +121,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stiahnuť",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Nahrávanie..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Odoslať"
@@ -197,13 +197,13 @@
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "MOVE_TO_NEXT_TAB": "Presun na ďalšiu kartu v zozname konverzácií",
+      "GO_TO_SETTINGS": "Prejsť na nastavenia",
+      "SWITCH_CONVERSATION_STATUS": "Prepnúť na ďalší stav konverzácie",
+      "SWITCH_TO_PRIVATE_NOTE": "Prepnúť na súkromnú poznámku",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Prepnúť na rozšírený editor",
+      "SWITCH_TO_REPLY": "Prepnúť na odpoveď",
+      "TOGGLE_SNOOZE_DROPDOWN": "Prepínanie módu \"snooze\""
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
