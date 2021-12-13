@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result" @click="onClick">
+  <div class="search-result">
     <div class="result-header">
       <div class="conversation--block">
         <fluent-icon icon="chat" class="icon--conversation-search-item" />
@@ -27,6 +27,7 @@
       :message-type="message.message_type"
       :content="message.content"
       :search-term="searchTerm"
+      @click="onClick"
     />
   </div>
 </template>

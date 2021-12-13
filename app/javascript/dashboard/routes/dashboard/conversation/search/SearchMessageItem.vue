@@ -1,7 +1,7 @@
 <template>
   <div class="message-item">
     <div class="search-message">
-      <div class="user-wrap">
+      <div class="user-wrap" @click="onClick">
         <div class="name-wrap">
           <span class="text-block-title">{{ userName }}</span>
           <div>
@@ -14,7 +14,30 @@
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
-      <p class="message-content" v-html="prepareContent(content)"></p>
+      <div @click="onClick">
+        <p
+          v-if="isShowMore"
+          class="message-content"
+          v-html="prepareContent(content.substr(0, 220))"
+        ></p>
+        <p v-else class="message-content" v-html="prepareContent(content)"></p>
+      </div>
+      <woot-button
+        v-if="hasMoreValue && isShowMore"
+        variant="link"
+        color-scheme="secondary"
+        @click="onClickShow()"
+      >
+        showMore
+      </woot-button>
+      <woot-button
+        v-if="hasMoreValue && !isShowMore"
+        variant="link"
+        color-scheme="secondary"
+        @click="onClickShow()"
+      >
+        showLess
+      </woot-button>
     </div>
   </div>
 </template>
@@ -50,6 +73,12 @@ export default {
     },
   },
 
+  data() {
+    return {
+      isShowMore: true,
+    };
+  },
+
   computed: {
     isOutgoingMessage() {
       return this.messageType === MESSAGE_TYPE.OUTGOING;
@@ -60,6 +89,9 @@ export default {
       }
       return this.dynamicTime(this.timestamp);
     },
+    hasMoreValue() {
+      return this.content.length > 210;
+    },
   },
   methods: {
     prepareContent(content = '') {
@@ -68,6 +100,12 @@ export default {
         new RegExp(`(${this.searchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );
+    },
+    onClickShow() {
+      this.isShowMore = !this.isShowMore;
+    },
+    onClick() {
+      this.$emit('click');
     },
   },
 };
