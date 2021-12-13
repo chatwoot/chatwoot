@@ -29,7 +29,6 @@
     <woot-button
       v-if="popoutReplyBox"
       variant="clear"
-      size="large"
       icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
@@ -38,7 +37,6 @@
     <woot-button
       v-else
       variant="clear"
-      size="large"
       icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
@@ -188,12 +186,5 @@ export default {
   .message-length {
     color: var(--s-600);
   }
-}
-
-.popout-button {
-  display: flex;
-  justify-content: flex-end;
-  height: auto;
-  padding-right: var(--space-normal);
 }
 </style>
