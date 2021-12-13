@@ -56,7 +56,7 @@
         "TITLE": "Are you sure want to delete - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Delete ",
+        "YES": "Vymazať ",
         "NO": "Zrušiť"
       }
     },
