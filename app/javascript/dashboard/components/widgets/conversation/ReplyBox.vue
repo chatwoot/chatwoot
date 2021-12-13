@@ -378,6 +378,7 @@ export default {
           this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
+        this.$emit('update:popoutReplyBox', false);
       }
     },
     replaceText(message) {
