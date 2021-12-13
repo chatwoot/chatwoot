@@ -44,6 +44,7 @@ Chatwoot supports the following conversation channels:
  - **Twitter**: Connect your Twitter profiles and reply to direct messages or the tweets where you are mentioned.
  - **Telegram**: Connect your Telegram bot and reply to your customers right from a single dashboard.
  - **WhatsApp**: Connect your WhatsApp business account and manage the conversation in Chatwoot.
+ - **Line**: Connect your Line account and manage the conversations in Chatwoot.
  - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in Chatwoot.
  - **API Channel**: Build custom communication channels using our API channel.
  - **Email**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
