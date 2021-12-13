@@ -23,7 +23,8 @@ class Attachment < ApplicationRecord
     audio/aac audio/midi audio/x-midi audio/mpeg audio/ogg audio/wav audio/webm audio/3gpp audio/3gpp2
     video/x-msvideo video/mp4 video/mpeg video/ogg video/webm video/3gpp video/3gpp2
     text/csv text/plain
-    application/json application/pdf application/zip application/x-7z-compressed
+    application/json application/pdf 
+    application/zip application/x-7z-compressed application/vnd.rar application/x-tar
     application/msword application/vnd.ms-excel application/vnd.ms-powerpoint
     application/vnd.oasis.opendocument.text
     application/vnd.openxmlformats-officedocument.presentationml.presentation
