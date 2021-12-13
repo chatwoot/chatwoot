@@ -50,22 +50,24 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
+                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
                   variant="link"
                   color-scheme="secondary"
                   class-names="grey-btn"
+                  icon-size="16"
                   icon="edit"
                   @click="openEditPopup(attribute)"
                 >
-                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT') }}
                 </woot-button>
                 <woot-button
+                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
                   variant="link"
                   color-scheme="secondary"
                   icon="dismiss-circle"
                   class-names="grey-btn"
+                  icon-size="16"
                   @click="openDelete(attribute)"
                 >
-                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE') }}
                 </woot-button>
               </td>
             </tr>

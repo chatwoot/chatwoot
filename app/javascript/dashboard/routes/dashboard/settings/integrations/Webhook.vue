@@ -43,20 +43,26 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')
+                  "
                   variant="link"
                   color-scheme="secondary"
                   icon="edit"
+                  icon-size="16"
                   @click="openEditPopup(webHookItem)"
                 >
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT') }}
                 </woot-button>
                 <woot-button
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+                  "
                   variant="link"
                   icon="dismiss-circle"
+                  icon-size="16"
                   color-scheme="secondary"
                   @click="openDeletePopup(webHookItem, index)"
                 >
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
                 </woot-button>
               </td>
             </tr>

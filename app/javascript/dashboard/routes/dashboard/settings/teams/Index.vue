@@ -27,24 +27,26 @@
                   >
                     <woot-button
                       v-if="isAdmin"
+                      v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
                       variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
+                      icon-size="16"
                       icon="settings"
                     >
-                      {{ $t('TEAMS_SETTINGS.LIST.EDIT_TEAM') }}
                     </woot-button>
                   </router-link>
                   <woot-button
                     v-if="isAdmin"
+                    v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
                     variant="link"
                     color-scheme="secondary"
                     icon="dismiss-circle"
                     class-names="grey-btn"
+                    icon-size="16"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
                   >
-                    {{ $t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT') }}
                   </woot-button>
                 </div>
               </td>

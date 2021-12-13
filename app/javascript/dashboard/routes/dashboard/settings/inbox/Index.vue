@@ -68,25 +68,27 @@
                   >
                     <woot-button
                       v-if="isAdmin"
+                      v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
                       icon="settings"
+                      icon-size="16"
                       variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
                     >
-                      {{ $t('INBOX_MGMT.SETTINGS') }}
                     </woot-button>
                   </router-link>
 
                   <woot-button
                     v-if="isAdmin"
+                    v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                     variant="link"
+                    icon-size="16"
                     color-scheme="secondary"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     icon="dismiss-circle"
                     @click="openDelete(item)"
                   >
-                    {{ $t('INBOX_MGMT.DELETE.BUTTON_TEXT') }}
                   </woot-button>
                 </div>
               </td>

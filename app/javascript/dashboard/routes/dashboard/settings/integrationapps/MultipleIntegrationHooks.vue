@@ -24,13 +24,14 @@
             </td>
             <td class="button-wrapper">
               <woot-button
+                v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
                 variant="link"
                 color-scheme="secondary"
                 icon="dismiss-circle"
+                icon-size="16"
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
               >
-                {{ $t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT') }}
               </woot-button>
             </td>
           </tr>

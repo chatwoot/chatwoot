@@ -50,23 +50,24 @@
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
+                  v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
                   variant="link"
                   color-scheme="secondary"
                   icon="edit"
-                  class-names="grey-btn"
+                  icon-size="16"
                   @click="openEditPopup(cannedItem)"
                 >
-                  {{ $t('CANNED_MGMT.EDIT.BUTTON_TEXT') }}
                 </woot-button>
                 <woot-button
+                  v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
                   variant="link"
                   color-scheme="secondary"
                   icon="dismiss-circle"
                   class-names="grey-btn"
+                  icon-size="16"
                   :is-loading="loading[cannedItem.id]"
                   @click="openDeletePopup(cannedItem, index)"
                 >
-                  {{ $t('CANNED_MGMT.DELETE.BUTTON_TEXT') }}
                 </woot-button>
               </td>
             </tr>

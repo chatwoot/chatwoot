@@ -57,24 +57,26 @@
                   <div class="button-wrapper">
                     <woot-button
                       v-if="showEditAction(agent)"
+                      v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
                       variant="link"
                       color-scheme="secondary"
                       icon="edit"
                       class-names="grey-btn"
+                      icon-size="16"
                       @click="openEditPopup(agent)"
                     >
-                      {{ $t('AGENT_MGMT.EDIT.BUTTON_TEXT') }}
                     </woot-button>
                     <woot-button
                       v-if="showDeleteAction(agent)"
+                      v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
                       variant="link"
                       color-scheme="secondary"
                       icon="dismiss-circle"
                       class-names="grey-btn"
+                      icon-size="16"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
                     >
-                      {{ $t('AGENT_MGMT.DELETE.BUTTON_TEXT') }}
                     </woot-button>
                   </div>
                 </td>

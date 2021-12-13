@@ -44,24 +44,26 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
                   variant="link"
                   color-scheme="secondary"
                   class-names="grey-btn"
+                  icon-size="16"
                   :is-loading="loading[label.id]"
                   icon="edit"
                   @click="openEditPopup(label)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.EDIT') }}
                 </woot-button>
                 <woot-button
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
                   variant="link"
                   color-scheme="secondary"
                   icon="dismiss-circle"
                   class-names="grey-btn"
+                  icon-size="16"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.DELETE') }}
                 </woot-button>
               </td>
             </tr>
