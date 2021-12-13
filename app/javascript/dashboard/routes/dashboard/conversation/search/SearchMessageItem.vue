@@ -14,21 +14,18 @@
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
-      <div @click="onClick">
-        <p
-          v-if="isShowMore"
-          class="message-content"
-          v-html="prepareContent(content.substr(0, 220))"
-        ></p>
-        <p v-else class="message-content" v-html="prepareContent(content)"></p>
-      </div>
+      <p
+        class="message-content"
+        @click="onClick"
+        v-html="prepareContent(content)"
+      ></p>
       <woot-button
         v-if="hasMoreValue && isShowMore"
         variant="link"
         color-scheme="secondary"
         @click="onClickShow()"
       >
-        showMore
+        {{ $t('CONVERSATION.SEARCH.SHOW_MORE') }}
       </woot-button>
       <woot-button
         v-if="hasMoreValue && !isShowMore"
@@ -36,7 +33,7 @@
         color-scheme="secondary"
         @click="onClickShow()"
       >
-        showLess
+        {{ $t('CONVERSATION.SEARCH.SHOW_LESS') }}
       </woot-button>
     </div>
   </div>
@@ -96,10 +93,17 @@ export default {
   methods: {
     prepareContent(content = '') {
       const plainTextContent = this.getPlainText(content);
-      return plainTextContent.replace(
+      const finalResult = plainTextContent.replace(
         new RegExp(`(${this.searchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );
+      if (this.hasMoreValue && this.isShowMore) {
+        return finalResult.substr(0, 400) + '...';
+      }
+      if (this.hasMoreValue && !this.isShowMore) {
+        return finalResult;
+      }
+      return finalResult;
     },
     onClickShow() {
       this.isShowMore = !this.isShowMore;
