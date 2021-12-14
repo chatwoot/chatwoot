@@ -35,6 +35,8 @@ class FilterService
       return Conversation.statuses.values if query_hash['values'].include?('all')
 
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
+    elsif query_hash['attribute_key'] == 'message_type'
+      query_hash['values'].map { |x| Message.message_types[x.to_sym] }
     else
       query_hash['values']
     end
