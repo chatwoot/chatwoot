@@ -1,23 +1,23 @@
 <template>
   <div class="top-box">
     <div class="mode-wrap button-group">
-      <button
-        class="button clear button--reply"
+      <woot-button
+        variant="clear"
+        class="button--reply"
         :class="replyButtonClass"
         @click="handleReplyClick"
       >
-        <emoji-or-icon icon="" emoji="💬" />
         {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </button>
+      </woot-button>
 
-      <button
-        class="button clear button--note"
+      <woot-button
+        class="button--note"
+        variant="clear"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
-        <emoji-or-icon icon="" emoji="📝" />
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </button>
+      </woot-button>
     </div>
     <div class="action-wrap">
       <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
@@ -47,7 +47,6 @@
 
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 import {
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
@@ -55,9 +54,6 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
-  components: {
-    EmojiOrIcon,
-  },
   mixins: [eventListenerMixins],
   props: {
     mode: {
