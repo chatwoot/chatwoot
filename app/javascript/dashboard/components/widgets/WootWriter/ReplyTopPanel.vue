@@ -147,7 +147,8 @@ export default {
     border-radius: 0;
     border-right: 1px solid var(--color-border);
 
-    &:hover {
+    &:hover,
+    &:focus {
       border-right: 1px solid var(--color-border);
     }
   }
