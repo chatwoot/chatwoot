@@ -13,6 +13,7 @@
       <woot-button
         class="button--note"
         variant="clear"
+        color-scheme="warning"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
