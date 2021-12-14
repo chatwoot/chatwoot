@@ -7,7 +7,6 @@
         color-scheme="success"
         icon="checkmark"
         emoji="✅"
-        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
       >
@@ -19,7 +18,6 @@
         color-scheme="warning"
         icon="arrow-redo"
         emoji="👀"
-        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       >
@@ -30,7 +28,6 @@
         class-names="resolve"
         color-scheme="primary"
         icon="person"
-        icon-size="16"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       >
@@ -42,7 +39,6 @@
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="chevron-down"
-        icon-size="16"
         emoji="🔽"
         @click="openDropdown"
       />

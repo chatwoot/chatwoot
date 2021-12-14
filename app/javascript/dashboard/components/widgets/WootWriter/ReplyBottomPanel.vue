@@ -8,7 +8,6 @@
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :icon-size="14"
         @click="toggleEmojiPicker"
       />
 
@@ -27,7 +26,6 @@
           :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
           icon="attach"
           emoji="📎"
-          :icon-size="14"
           color-scheme="secondary"
           variant="smooth"
           size="small"
@@ -37,7 +35,6 @@
         v-if="enableRichEditor && !isOnPrivateNote"
         icon="quote"
         emoji="🖊️"
-        :icon-size="16"
         color-scheme="secondary"
         variant="smooth"
         size="small"
