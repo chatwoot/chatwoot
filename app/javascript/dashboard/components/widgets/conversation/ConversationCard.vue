@@ -288,11 +288,11 @@ export default {
   flex-grow: 1;
   flex-shrink: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   .timestamp {
-    color: var(--s-500);
-    font-size: var(--font-size-micro);
+    color: var(--s-600);
+    font-size: var(--font-size-mini);
     font-weight: var(--font-weight-normal);
     line-height: var(--space-normal);
     margin-left: var(--space-small);
@@ -340,13 +340,11 @@ export default {
 
   .label {
     background: none;
-    color: var(--s-500);
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--space-slab);
-    padding: var(--space-micro) 0 var(--space-micro) 0;
+    color: var(--s-600);
+    padding: var(--space-micro) 0;
     margin-bottom: 0;
     margin-right: var(--space-smaller);
+    max-width: 12rem;
   }
 
   .assignee-avatar {

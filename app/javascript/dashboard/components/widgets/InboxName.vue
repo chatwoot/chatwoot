@@ -3,7 +3,6 @@
     :title="inbox.name"
     :icon="computedInboxClass"
     color-scheme="secondary"
-    small
   />
 </template>
 <script>
@@ -32,7 +31,7 @@ export default {
   line-height: var(--space-slab);
   font-weight: var(--font-weight-medium);
   background: none;
-  color: var(--s-500);
+  color: var(--s-700);
   font-size: var(--font-size-mini);
 }
 

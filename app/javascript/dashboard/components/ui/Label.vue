@@ -3,7 +3,7 @@
     <button v-if="icon" class="label-action--button" @click="onClick">
       <fluent-icon :icon="icon" size="12" class="label--icon" />
     </button>
-    <span v-if="!href">{{ title }}</span>
+    <span v-if="!href" class="label__title">{{ title }}</span>
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
     <button
       v-if="showClose"
@@ -165,5 +165,11 @@ export default {
 .label-action--button {
   color: inherit;
   margin-bottom: var(--space-minus-micro);
+}
+
+.label__title {
+  max-width: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
