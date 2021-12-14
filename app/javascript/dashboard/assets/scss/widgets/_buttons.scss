@@ -66,24 +66,29 @@ $default-button-height: 4.0rem;
     }
   }
 
-  &.clear.button--only-icon:hover {
-    background: var(--w-50);
-
-
-    &.secondary {
-      background: var(--s-50);
-    }
-
-    &.success {
-      background: var(--g-50);
-    }
-
-    &.alert {
-      background: var(--r-50);
-    }
-
+  &.clear {
     &.warning {
-      background: var(--y-100);
+      color: var(--y-800);
+    }
+
+    &.button--only-icon:hover {
+      background: var(--w-50);
+
+      &.secondary {
+        background: var(--s-50);
+      }
+
+      &.success {
+        background: var(--g-50);
+      }
+
+      &.alert {
+        background: var(--r-50);
+      }
+
+      &.warning {
+        background: var(--y-100);
+      }
     }
   }
 

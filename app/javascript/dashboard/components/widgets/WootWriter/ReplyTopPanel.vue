@@ -13,6 +13,7 @@
       <woot-button
         class="button--note"
         variant="clear"
+        color-scheme="warning"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
@@ -146,7 +147,8 @@ export default {
     border-radius: 0;
     border-right: 1px solid var(--color-border);
 
-    &:hover {
+    &:hover,
+    &:focus {
       border-right: 1px solid var(--color-border);
     }
   }
