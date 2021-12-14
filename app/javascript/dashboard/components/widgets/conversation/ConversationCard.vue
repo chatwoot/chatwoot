@@ -313,11 +313,6 @@ export default {
   }
 }
 
-.badge {
-  &.globe-desktop {
-  }
-}
-
 .conversation--details {
   .conversation--user {
     padding-top: var(--space-micro);

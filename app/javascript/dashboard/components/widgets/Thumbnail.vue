@@ -1,14 +1,15 @@
 <template>
   <div class="user-thumbnail-box" :style="{ height: size, width: size }">
     <img
-      v-if="!imgError && Boolean(src)"
+      v-show="shouldShowImage"
       id="image"
       :src="src"
       :class="thumbnailClass"
+      @load="() => onImgLoad()"
       @error="onImgError()"
     />
     <Avatar
-      v-else
+      v-show="!shouldShowImage"
       :username="username"
       :class="thumbnailClass"
       :size="avatarSize"
@@ -123,6 +124,7 @@ export default {
   data() {
     return {
       imgError: false,
+      hasImageLoaded: false,
     };
   },
   computed: {
@@ -147,6 +149,11 @@ export default {
       const classname = this.hasBorder ? 'border' : '';
       return `user-thumbnail ${classname}`;
     },
+    shouldShowImage() {
+      if (!this.src) return false;
+      if (this.hasImageLoaded) return !this.imgError;
+      return false;
+    },
   },
   watch: {
     src: {
@@ -160,6 +167,9 @@ export default {
   methods: {
     onImgError() {
       this.imgError = true;
+    },
+    onImgLoad() {
+      this.hasImageLoaded = true;
     },
   },
 };
