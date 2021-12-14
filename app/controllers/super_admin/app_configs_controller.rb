@@ -1,5 +1,5 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     def show
-        @config = InstallationConfig.first
+        @fb_config = InstallationConfig.where('name LIKE ?', "FB_" + '%')
     end
 end

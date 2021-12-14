@@ -34,6 +34,29 @@ It renders the `_table` partial to display details about the resources.
   </h1>
 </header>
 
-<%=@config%>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fb_config.each do |c| %>
+      <tr>
+        <td><%= c.name %></td>
+        <td><%= c.value %></td>
+        <%# <td><%= link_to "Show", c %></td> %>
+        <%# <td><%= link_to "Edit", edit_config_path(c) %></td> %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
 
 </section>
