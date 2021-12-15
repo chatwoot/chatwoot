@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_085931) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.jsonb "limits", default: {}
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
