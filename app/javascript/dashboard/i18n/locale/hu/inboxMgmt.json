@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Ahhoz hogy hozzáadd a twitter profilodat egy csatornaként, azonosítanod kell a Twitter fiókodat a 'Belépés Twitterrel' gomb megnyomásával ",
-        "ERROR_MESSAGE": "Hiba történt a Twitterrel való csatlakozáskor, kérjük próbáld később"
+        "ERROR_MESSAGE": "Hiba történt a Twitterrel való csatlakozáskor, kérjük próbáld később",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website csatorna",
