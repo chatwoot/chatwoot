@@ -36,10 +36,6 @@ export default {
       type: String,
       default: '',
     },
-    iconSize: {
-      type: [Number, String],
-      default: 20,
-    },
     emoji: {
       type: String,
       default: '',
@@ -76,10 +72,12 @@ export default {
       }
       return this.variant;
     },
-    hasOnlyIconClasses() {
+    hasOnlyIcon() {
       const hasEmojiOrIcon = this.emoji || this.icon;
-      if (!this.$slots.default && hasEmojiOrIcon) return 'button--only-icon';
-      return '';
+      return !this.$slots.default && hasEmojiOrIcon;
+    },
+    hasOnlyIconClasses() {
+      return this.hasOnlyIcon ? 'button--only-icon' : '';
     },
     buttonClasses() {
       return [
@@ -92,6 +90,41 @@ export default {
         this.isExpanded ? 'expanded' : '',
         this.isRounded ? '' : 'not-rounded',
       ];
+    },
+    withTextIconSize() {
+      switch (this.size) {
+        case 'tiny':
+          return 12;
+        case 'small':
+          return 14;
+        case 'medium':
+          return 16;
+        case 'large':
+          return 18;
+
+        default:
+          return 16;
+      }
+    },
+    withoutTextIconSize() {
+      switch (this.size) {
+        case 'tiny':
+          return 14;
+        case 'small':
+          return 16;
+        case 'medium':
+          return 18;
+        case 'large':
+          return 20;
+
+        default:
+          return 18;
+      }
+    },
+    iconSize() {
+      return this.hasOnlyIcon
+        ? this.withoutTextIconSize
+        : this.withTextIconSize;
     },
   },
   methods: {
