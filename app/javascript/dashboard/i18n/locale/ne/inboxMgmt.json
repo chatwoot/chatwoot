@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website channel",
