@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
-        "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз"
+        "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Канал Веб-сайт",
