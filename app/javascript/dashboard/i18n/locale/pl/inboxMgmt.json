@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Aby dodać swój profil na Twitterze jako kanał, musisz uwierzytelnić swój profil Twitter klikając na 'Zaloguj się przez Twittera' ",
-        "ERROR_MESSAGE": "Wystąpił błąd podczas łączenia z Twitterem, spróbuj ponownie"
+        "ERROR_MESSAGE": "Wystąpił błąd podczas łączenia z Twitterem, spróbuj ponownie",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kanał strony internetowej",
