@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' ",
-        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα σύνδεσης στο Twitter, παρακαλώ προσπαθήστε ξανά"
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα σύνδεσης στο Twitter, παρακαλώ προσπαθήστε ξανά",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Κανάλι Ιστοσελίδας",
