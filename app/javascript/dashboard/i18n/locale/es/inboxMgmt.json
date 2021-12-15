@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",
-        "ERROR_MESSAGE": "Se ha producido un error al conectar a Twitter, por favor inténtelo nuevamente"
+        "ERROR_MESSAGE": "Se ha producido un error al conectar a Twitter, por favor inténtelo nuevamente",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal del sitio web",
