@@ -1,13 +1,13 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "Vyberte si konverzáciu z ľavého panela",
+    "UNVERIFIED_SESSION": "Totožnosť tohto používateľa nie je overená",
+    "NO_MESSAGE_1": "Zdá sa, že v doručenej pošte nemáte žiadne správy od zákazníkov.",
+    "NO_MESSAGE_2": " poslať správu na svoju stránku!",
+    "NO_INBOX_1": "Vyzerá to, že ste ešte nepridali žiadnu schránku.",
+    "NO_INBOX_2": " na začiatok",
+    "NO_INBOX_AGENT": "Zdá sa, že nie ste súčasťou žiadnej schránky. Obráťte sa na svojho správcu",
+    "SEARCH_MESSAGES": "Vyhľadávanie správ v konverzáciách",
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
