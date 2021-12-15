@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. ",
-        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도해주세요."
+        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도해주세요.",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "웹사이트 채널",
