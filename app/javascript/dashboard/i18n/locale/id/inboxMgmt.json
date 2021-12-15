@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' ",
-        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Twitter, harap coba lagi"
+        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Twitter, harap coba lagi",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Channel Website",
