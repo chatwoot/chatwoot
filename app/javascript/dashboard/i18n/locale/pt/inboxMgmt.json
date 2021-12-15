@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
-        "ERROR_MESSAGE": "Houve um de ligação com o Twitter, por favor, tente novamente"
+        "ERROR_MESSAGE": "Houve um de ligação com o Twitter, por favor, tente novamente",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do site",
