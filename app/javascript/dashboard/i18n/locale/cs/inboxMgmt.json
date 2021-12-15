@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Chcete-li přidat svůj Twitter profil jako kanál, musíte ověřit svůj Twitter profil kliknutím na tlačítko 'Přihlásit se přes Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kanál webové stránky",
