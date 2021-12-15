@@ -13,9 +13,9 @@ l<template>
         />
         <woot-button
           v-else
+          size="small"
           variant="clear"
-          color-scheme="danger"
-          class="btn-clear-filters"
+          color-scheme="alert"
           @click="resetAndFetchData"
         >
           {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
@@ -24,10 +24,11 @@ l<template>
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
+          icon="filter"
+          size="small"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <fluent-icon icon="filter" />
         </woot-button>
       </div>
     </div>
@@ -405,16 +406,10 @@ export default {
 .filter--actions {
   display: flex;
   align-items: center;
-  .btn-filter {
-    cursor: pointer;
-    i {
-      font-size: var(--font-size-two);
-    }
-  }
-  .btn-clear-filters {
-    color: var(--r-500);
-    cursor: pointer;
-  }
+}
+
+.btn-filter {
+  margin: 0 var(--space-smaller);
 }
 
 .filter__applied {
