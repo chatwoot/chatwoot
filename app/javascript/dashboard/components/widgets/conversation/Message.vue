@@ -345,7 +345,7 @@ export default {
       this.showContextMenu = false;
     },
     async retrySendMessage() {
-      await this.$store.dispatch('retrySendMessage', this.data);
+      await this.$store.dispatch('sendMessageWithData', this.data);
     },
   },
 };
