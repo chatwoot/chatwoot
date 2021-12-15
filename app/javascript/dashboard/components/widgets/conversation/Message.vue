@@ -1,7 +1,7 @@
 <template>
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+      <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -72,8 +72,20 @@
           {{ sender.name }}
         </div>
       </a>
+      <p v-if="isFailed" class="message-failed--alert">
+        {{ errorMessage }}
+        <woot-button
+          size="small"
+          color-scheme="alert"
+          variant="link"
+          icon="arrow-clockwise"
+          @click="retrySendMessage"
+        >
+          {{ $t('CONVERSATION.TRY_AGAIN') }}
+        </woot-button>
+      </p>
     </div>
-    <div class="context-menu-wrap">
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
@@ -246,9 +258,12 @@ export default {
     hasText() {
       return !!this.data.content;
     },
-    sentByMessage() {
+    messageToolTip() {
       if (this.isMessageDeleted) {
         return false;
+      }
+      if (this.isFailed) {
+        return this.$t(`CONVERSATION.SEND_FAILED`);
       }
       const { sender } = this;
       return this.data.message_type === 1 && !isEmptyObject(sender)
@@ -263,6 +278,7 @@ export default {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
         'is-pending': this.isPending,
+        'is-failed': this.isFailed,
       };
     },
     bubbleClass() {
@@ -273,18 +289,29 @@ export default {
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
+        'is-failed': this.isFailed,
       };
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
+    isFailed() {
+      return this.data.status === MESSAGE_STATUS.FAILED;
+    },
     isSentByBot() {
-      if (this.isPending) return false;
+      if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     contextMenuPosition() {
       const { message_type: messageType } = this.data;
       return messageType ? 'right' : 'left';
+    },
+    shouldShowContextMenu() {
+      return !(this.isFailed || this.isPending);
+    },
+    errorMessage() {
+      const { meta } = this.data;
+      return meta ? meta.error : '';
     },
   },
   methods: {
@@ -316,6 +343,9 @@ export default {
       copy(this.data.content);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.showContextMenu = false;
+    },
+    async retrySendMessage() {
+      await this.$store.dispatch('retrySendMessage', this.data);
     },
   },
 };
@@ -383,6 +413,14 @@ export default {
         color: var(--v-50);
       }
     }
+
+    &.is-failed {
+      background: var(--r-200);
+
+      .message-text--metadata .time {
+        color: var(--r-50);
+      }
+    }
   }
 
   &.is-pending {
@@ -413,6 +451,13 @@ export default {
   }
 }
 
+.message-failed--alert {
+  color: var(--r-900);
+  flex-grow: 1;
+  text-align: right;
+  margin-top: var(--space-smaller);
+}
+
 .button--delete-message {
   visibility: hidden;
 }
@@ -438,6 +483,16 @@ li.right .context-menu-wrap {
 li.right {
   flex-direction: row-reverse;
   justify-content: flex-end;
+
+  .wrap.is-pending {
+    margin-left: auto;
+  }
+
+  .wrap.is-failed {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+  }
 }
 
 .has-context-menu {

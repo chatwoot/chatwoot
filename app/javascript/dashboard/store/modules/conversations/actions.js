@@ -160,8 +160,8 @@ const actions = {
 
   sendMessage: async ({ commit }, data) => {
     // eslint-disable-next-line no-useless-catch
+    const pendingMessage = createPendingMessage(data);
     try {
-      const pendingMessage = createPendingMessage(data);
       commit(types.ADD_MESSAGE, pendingMessage);
       const response = await MessageApi.create(pendingMessage);
       commit(types.ADD_MESSAGE, {
@@ -169,6 +169,42 @@ const actions = {
         status: MESSAGE_STATUS.SENT,
       });
     } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.error
+        : undefined;
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        meta: {
+          error: errorMessage,
+        },
+        status: MESSAGE_STATUS.FAILED,
+      });
+      throw error;
+    }
+  },
+
+  retrySendMessage: async ({ commit }, pendingMessage) => {
+    try {
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        status: MESSAGE_STATUS.PROGRESS,
+      });
+      const response = await MessageApi.create(pendingMessage);
+      commit(types.ADD_MESSAGE, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
+    } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.error
+        : undefined;
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        meta: {
+          error: errorMessage,
+        },
+        status: MESSAGE_STATUS.FAILED,
+      });
       throw error;
     }
   },
