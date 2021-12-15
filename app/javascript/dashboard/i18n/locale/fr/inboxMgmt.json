@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",
-        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer"
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal site Web",
