@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "For at tilføje din Twitter-profil som en kanal, skal du godkende din Twitter-profil ved at klikke på 'Log ind med Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Hjemmesidekanal",
