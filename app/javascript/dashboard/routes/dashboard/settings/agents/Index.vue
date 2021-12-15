@@ -62,7 +62,7 @@
                       color-scheme="secondary"
                       icon="edit"
                       class-names="grey-btn"
-                      icon-size="16"
+                      size="small"
                       @click="openEditPopup(agent)"
                     >
                     </woot-button>
@@ -73,7 +73,7 @@
                       color-scheme="secondary"
                       icon="dismiss-circle"
                       class-names="grey-btn"
-                      icon-size="16"
+                      size="small"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
                     >

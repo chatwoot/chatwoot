@@ -54,7 +54,7 @@
                   variant="link"
                   color-scheme="secondary"
                   icon="edit"
-                  icon-size="16"
+                  size="small"
                   @click="openEditPopup(cannedItem)"
                 >
                 </woot-button>
@@ -64,7 +64,7 @@
                   color-scheme="secondary"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  icon-size="16"
+                  size="small"
                   :is-loading="loading[cannedItem.id]"
                   @click="openDeletePopup(cannedItem, index)"
                 >

@@ -31,7 +31,7 @@
                       variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
-                      icon-size="16"
+                      size="small"
                       icon="settings"
                     >
                     </woot-button>
@@ -43,7 +43,7 @@
                     color-scheme="secondary"
                     icon="dismiss-circle"
                     class-names="grey-btn"
-                    icon-size="16"
+                    size="small"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
                   >

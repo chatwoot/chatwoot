@@ -28,7 +28,7 @@
                 variant="link"
                 color-scheme="secondary"
                 icon="dismiss-circle"
-                icon-size="16"
+                size="small"
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
               >

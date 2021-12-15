@@ -49,7 +49,7 @@
                   variant="link"
                   color-scheme="secondary"
                   icon="edit"
-                  icon-size="16"
+                  size="small"
                   @click="openEditPopup(webHookItem)"
                 >
                 </woot-button>
@@ -59,7 +59,7 @@
                   "
                   variant="link"
                   icon="dismiss-circle"
-                  icon-size="16"
+                  size="small"
                   color-scheme="secondary"
                   @click="openDeletePopup(webHookItem, index)"
                 >

@@ -54,7 +54,7 @@
                   variant="link"
                   color-scheme="secondary"
                   class-names="grey-btn"
-                  icon-size="16"
+                  size="small"
                   icon="edit"
                   @click="openEditPopup(attribute)"
                 >
@@ -65,7 +65,7 @@
                   color-scheme="secondary"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  icon-size="16"
+                  size="small"
                   @click="openDelete(attribute)"
                 >
                 </woot-button>
