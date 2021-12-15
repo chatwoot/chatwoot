@@ -257,7 +257,7 @@
       "CANCEL": "Zrušiť",
       "NAME": {
         "LABEL": "Vlastný názov atribútu",
-        "PLACEHOLDER": "Eg: shopify id",
+        "PLACEHOLDER": "Napr.: shopify id",
         "ERROR": "Nesprávny názov vlastného atribútu"
       },
       "VALUE": {
@@ -275,54 +275,54 @@
       },
       "DELETE": {
         "SUCCESS": "Aitribút úspešne vymazaný",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Nie je možné odstrániť atribút. Skúste to prosím neskôr"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Pridať atribúty",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "Hľadať atribúty",
+        "NO_RESULT": "Žiadne atribúty neboli nájdené"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Vybrať hodnotu",
+          "SEARCH_INPUT_PLACEHOLDER": "Vyhľadať hodnotu",
+          "NO_RESULT": "Žiadne výsledky neboli nájdené"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Vyžaduje sa platná hodnota",
+      "INVALID_URL": "Neplatná URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Zlúčiť kontakty",
+    "DESCRIPTION": "Zlúčením kontaktov spojíte dva profily do jedného vrátane všetkých atribútov a konverzácií. V prípade konfliktu budú mať prednosť atribúty primárneho kontaktu.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Primárny kontakt",
+      "HELP_LABEL": "Na uchovanie"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Kontakt na zlúčenie",
+      "PLACEHOLDER": "Hľadať kontakt",
+      "HELP_LABEL": "Na vymazanie"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Sumár",
+      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> bude vymazaný.",
+      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>%{childContactName}</strong> budú skopírované do <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Zlúčiť kontakty",
       "CANCEL": "Zrušiť",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Vyberte kontakt, ktorý chcete zlúčiť"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "Kontakt úspešne zlúčený",
+      "ERROR_MESSAGE": "Nepodarilo sa zlúčiť kontakty, skúste to znova!"
     }
   }
 }
