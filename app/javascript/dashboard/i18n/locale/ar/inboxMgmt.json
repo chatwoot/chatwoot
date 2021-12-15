@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
-        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى"
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "قناة الموقع",
