@@ -9,7 +9,6 @@
           <woot-button
             v-if="showSelfAssign"
             icon="arrow-right"
-            icon-size="14"
             variant="link"
             size="small"
             @click="onSelfAssign"
