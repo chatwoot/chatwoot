@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "כדי להוסיף את פרופיל הטוויטר שלך כערוץ, עליך לאמת את פרופיל הטוויטר שלך על ידי לחיצה על 'היכנס באמצעות טוויטר' ",
-        "ERROR_MESSAGE": "אירעה שגיאה בחיבור לטוויטר, אנא נסה שוב"
+        "ERROR_MESSAGE": "אירעה שגיאה בחיבור לטוויטר, אנא נסה שוב",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "ערוץ האתר",
