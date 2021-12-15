@@ -124,19 +124,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    case channel_type
-    when 'Channel::WebWidget'
-      Channel::WebWidget::EDITABLE_ATTRS
-    when 'Channel::Api'
-      Channel::Api::EDITABLE_ATTRS
-    when 'Channel::Email'
-      Channel::Email::EDITABLE_ATTRS
-    when 'Channel::Telegram'
-      Channel::Telegram::EDITABLE_ATTRS
-    when 'Channel::Line'
-      Channel::Line::EDITABLE_ATTRS
-    else
-      []
-    end
+    channel_type.constantize::EDITABLE_ATTRS.presence || []
   end
 end
