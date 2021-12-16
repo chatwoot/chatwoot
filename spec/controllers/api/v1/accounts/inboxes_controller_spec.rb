@@ -362,6 +362,19 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(api_channel.reload.webhook_url).to eq('webhook.test')
       end
 
+      it 'updates twitter inbox when administrator' do
+        api_channel = create(:channel_twitter_profile, account: account, tweets_enabled: true)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { tweets_enabled: false } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(api_channel.reload.tweets_enabled).to eq(false)
+      end
+
       it 'updates email inbox when administrator' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
