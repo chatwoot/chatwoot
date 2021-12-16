@@ -25,10 +25,10 @@
             <td class="button-wrapper">
               <woot-button
                 v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
-                variant="link"
-                color-scheme="secondary"
+                variant="smooth"
+                color-scheme="alert"
+                size="tiny"
                 icon="dismiss-circle"
-                size="small"
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
               >

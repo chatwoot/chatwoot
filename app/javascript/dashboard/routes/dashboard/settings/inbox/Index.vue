@@ -69,9 +69,9 @@
                     <woot-button
                       v-if="isAdmin"
                       v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
+                      variant="smooth"
+                      size="tiny"
                       icon="settings"
-                      size="small"
-                      variant="link"
                       color-scheme="secondary"
                       class-names="grey-btn"
                     >
@@ -81,9 +81,9 @@
                   <woot-button
                     v-if="isAdmin"
                     v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                    variant="link"
-                    size="small"
-                    color-scheme="secondary"
+                    variant="smooth"
+                    color-scheme="alert"
+                    size="tiny"
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     icon="dismiss-circle"

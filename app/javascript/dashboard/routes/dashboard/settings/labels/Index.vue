@@ -45,10 +45,10 @@
               <td class="button-wrapper">
                 <woot-button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
-                  variant="link"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
-                  size="small"
                   :is-loading="loading[label.id]"
                   icon="edit"
                   @click="openEditPopup(label)"
@@ -56,11 +56,11 @@
                 </woot-button>
                 <woot-button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
-                  variant="link"
-                  color-scheme="secondary"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  size="small"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 >

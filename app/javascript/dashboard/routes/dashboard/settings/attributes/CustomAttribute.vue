@@ -51,21 +51,21 @@
               <td class="button-wrapper">
                 <woot-button
                   v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
-                  variant="link"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
-                  size="small"
                   icon="edit"
                   @click="openEditPopup(attribute)"
                 >
                 </woot-button>
                 <woot-button
                   v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
-                  variant="link"
-                  color-scheme="secondary"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  size="small"
                   @click="openDelete(attribute)"
                 >
                 </woot-button>

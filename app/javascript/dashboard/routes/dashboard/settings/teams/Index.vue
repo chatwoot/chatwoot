@@ -28,10 +28,10 @@
                     <woot-button
                       v-if="isAdmin"
                       v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
-                      variant="link"
+                      variant="smooth"
+                      size="tiny"
                       color-scheme="secondary"
                       class-names="grey-btn"
-                      size="small"
                       icon="settings"
                     >
                     </woot-button>
@@ -39,11 +39,11 @@
                   <woot-button
                     v-if="isAdmin"
                     v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
-                    variant="link"
-                    color-scheme="secondary"
+                    variant="smooth"
+                    color-scheme="alert"
+                    size="tiny"
                     icon="dismiss-circle"
                     class-names="grey-btn"
-                    size="small"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
                   >

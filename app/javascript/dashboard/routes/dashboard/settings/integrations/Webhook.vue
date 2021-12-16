@@ -46,10 +46,10 @@
                   v-tooltip.top="
                     $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')
                   "
-                  variant="link"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   icon="edit"
-                  size="small"
                   @click="openEditPopup(webHookItem)"
                 >
                 </woot-button>
@@ -57,10 +57,10 @@
                   v-tooltip.top="
                     $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                   "
-                  variant="link"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
                   icon="dismiss-circle"
-                  size="small"
-                  color-scheme="secondary"
                   @click="openDeletePopup(webHookItem, index)"
                 >
                 </woot-button>
