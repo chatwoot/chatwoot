@@ -121,6 +121,9 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
+# parse email
+gem 'email_reply_trimmer'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'

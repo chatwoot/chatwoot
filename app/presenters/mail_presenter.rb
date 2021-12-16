@@ -107,7 +107,7 @@ class MailPresenter < SimpleDelegator
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
-  def encode_to_unicode(str)
+  def  encode_to_unicode(str)
     return '' if str.blank?
 
     current_encoding = str.encoding.name
@@ -124,6 +124,8 @@ class MailPresenter < SimpleDelegator
     index = @regex_arr.inject(content_length) do |min, regex|
       [(content.index(regex) || content_length), min].min
     end
+    content_body = EmailReplyTrimmer.trim(content)
+    content_length = content.length
 
     {
       reply: content[0..(index - 1)].strip,
