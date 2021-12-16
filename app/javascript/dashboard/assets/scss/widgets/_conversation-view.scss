@@ -135,7 +135,7 @@
 
   &.unread--toast {
     +.right {
-      margin-bottom: 0;
+      margin-bottom: var(--space-micro);
     }
 
     +.left {

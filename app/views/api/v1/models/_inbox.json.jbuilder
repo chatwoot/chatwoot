@@ -14,6 +14,8 @@ json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
 json.callback_webhook_url resource.callback_webhook_url
 
+json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
+
 ## Channel specific settings
 ## TODO : Clean up and move the attributes into channel sub section
 
