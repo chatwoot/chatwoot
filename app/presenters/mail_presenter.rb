@@ -107,7 +107,7 @@ class MailPresenter < SimpleDelegator
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
-  def encode_to_unicode(str)
+  def  encode_to_unicode(str)
     return '' if str.blank?
 
     current_encoding = str.encoding.name
