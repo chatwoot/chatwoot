@@ -49,7 +49,7 @@
         "HELP": "നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ ഒരു ചാനലായി ചേർക്കുന്നതിന്, 'ട്വിറ്ററിനൊപ്പം പ്രവേശിക്കുക' ക്ലിക്കുചെയ്ത് നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ പ്രാമാണീകരിക്കേണ്ടതുണ്ട് ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "സൂചിപ്പിച്ച ട്വീറ്റുകളിൽ നിന്ന് സംഭാഷണങ്ങൾ സൃഷ്ടിക്കുക"
         }
       },
       "WEBSITE_CHANNEL": {
