@@ -104,38 +104,38 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Voer het e-mailadres van de contactpersoon in",
         "LABEL": "Uw e-mailadres",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "PLACEHOLDER": "Voer het telefoonnummer van de contactpersoon in",
+        "LABEL": "Telefoonnummer",
+        "HELP": "Telefoonnummer moet van het E.164 formaat zijn: +14155555 [+][landcode][gebiedscode][lokaal telefoonnummer]",
+        "ERROR": "Telefoonnummer moet leeg of in E.164-formaat zijn",
+        "DUPLICATE": "Dit telefoonnummer wordt reeds gebruikt voor een ander contactpersoon."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Voer de locatie van het contact in",
         "LABEL": "Locatie"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Voer de bedrijfsnaam in",
+        "LABEL": "Bedrijfsnaam"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Voer de Facebook gebruikersnaam in",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Voer de Twitter gebruikersnaam in",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Voer de LinkedIn gebruikersnaam in",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Voer de Github gebruikersnaam in",
           "LABEL": "Github"
         }
       }
@@ -162,7 +162,7 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Bericht",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
