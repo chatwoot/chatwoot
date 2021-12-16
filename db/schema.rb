@@ -242,6 +242,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_085931) do
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
   end
 
