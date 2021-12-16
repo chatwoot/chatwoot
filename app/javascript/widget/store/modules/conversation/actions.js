@@ -24,10 +24,29 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ commit }, params) => {
+  sendMessage: async ({ dispatch }, params) => {
     const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    await sendMessageAPI(content);
+    const message = createTemporaryMessage({ content });
+
+    dispatch('sendMessageWithData', message);
+  },
+  sendMessageWithData: async ({ commit }, message) => {
+    const { id, content, meta = {} } = message;
+
+    commit('pushMessageToConversation', message);
+    commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
+    try {
+      const { data } = await sendMessageAPI(content);
+
+      commit('deleteMessage', message.id);
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
+    } catch (error) {
+      commit('pushMessageToConversation', { ...message, status: 'failed' });
+      commit('updateMessageMeta', {
+        id,
+        meta: { ...meta, error: '' },
+      });
+    }
   },
 
   sendAttachment: async ({ commit }, params) => {
