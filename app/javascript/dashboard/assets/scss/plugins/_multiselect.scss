@@ -51,6 +51,10 @@
         width: 100%;
       }
 
+      p {
+        margin-bottom: 0;
+      }
+
       &.multiselect__option--highlight {
         background: var(--white);
         color: var(--color-body);
