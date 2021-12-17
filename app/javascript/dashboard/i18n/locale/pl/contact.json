@@ -7,7 +7,7 @@
     "COMPANY": "Firma",
     "LOCATION": "Lokalizacja",
     "CONVERSATION_TITLE": "Szczegóły konwersacji",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Pokaż profil",
     "BROWSER": "Przeglądarki",
     "OS": "System operacyjny",
     "INITIATED_FROM": "Zainicjowano z",
@@ -33,8 +33,8 @@
         "NO_RESULT": "Nie znaleziono etykiet"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Połącz kontakty",
+    "CONTACT_ACTIONS": "Działania kontaktu",
     "MUTE_CONTACT": "Wycisz rozmowę",
     "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
     "MUTED_SUCCESS": "Ta rozmowa jest wyciszona na 6 godzin",
@@ -58,22 +58,22 @@
     "DESC": "Dodaj podstawowe informacje o kontakcie."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importuj",
+    "TITLE": "Importuj kontakty",
+    "DESC": "Importuj kontakty z pliku CSV.",
+    "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Plik CSV",
+      "SUBMIT": "Importuj",
       "CANCEL": "Anuluj"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontakty zapisane pomyślnie",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Usuń kontakt",
+    "TITLE": "Usuń kontakt",
+    "DESC": "Usuń dane kontaktowe",
     "CONFIRM": {
       "TITLE": "Potwierdź usunięcie",
       "MESSAGE": "Czy na pewno chcesz usunąć ",
