@@ -7,7 +7,6 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     context 'when it is an unauthenticated super admin' do
       it 'returns unauthorized' do
         get '/super_admin/app_config'
-        byebug
         expect(response).to have_http_status(:redirect)
       end
     end
@@ -18,7 +17,6 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
       it 'shows the app_config page' do
         sign_in super_admin
         get '/super_admin/app_config'
-        byebug
         expect(response).to have_http_status(:success)
         expect(response.body).to include(config.name)
       end
