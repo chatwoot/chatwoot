@@ -34,7 +34,7 @@
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
