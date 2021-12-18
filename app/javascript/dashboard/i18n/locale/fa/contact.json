@@ -39,7 +39,7 @@
     "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
     "UNMUTED_SUCCESS": "این گفتگو از حالت بی صدا خارج شده است",
-    "SEND_TRANSCRIPT": "ارسال متن",
+    "SEND_TRANSCRIPT": "ارسال رونوشت",
     "EDIT_LABEL": "ویرایش",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
@@ -53,7 +53,7 @@
     "DESC": "ویرایش اطلاعات مخاطب"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "تماس جدید",
+    "BUTTON_LABEL": "مخاطب جدید",
     "TITLE": "ایجاد مخاطب جدید",
     "DESC": "اطلاعات اولیه درباره مخاطب را اضافه کنید."
   },
@@ -63,7 +63,7 @@
     "DESC": "مخاطبین را از طریق یک فایل CSV وارد کنید.",
     "DOWNLOAD_LABEL": "نمونه csv را بارگیری کنید.",
     "FORM": {
-      "LABEL": "فایل CSV",
+      "LABEL": "پرونده CSV",
       "SUBMIT": "وارد كردن",
       "CANCEL": "انصراف"
     },
@@ -189,7 +189,7 @@
         "LAST_ACTIVITY": "آخرین فعالیت",
         "COUNTRY": "کشور",
         "CITY": "شهر",
-        "SOCIAL_PROFILES": "پروفایل‌های اجتماعی",
+        "SOCIAL_PROFILES": "پروفایل‌های شبکه‌های اجتماعی",
         "COMPANY": "شرکت",
         "EMAIL_ADDRESS": "ایمیل"
       },
@@ -214,7 +214,7 @@
     "FETCHING_NOTES": "درحال گرفتن یادداشت ها ... ",
     "NOT_AVAILABLE": "هیچ یادداشت برای این تماس ایجاد نشده است",
     "HEADER": {
-      "TITLE": "یادداشت"
+      "TITLE": "یادداشت‌ها"
     },
     "LIST": {
       "LABEL": "یک یادداشت اضافه شد"
@@ -230,17 +230,17 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "فعالیت ها"
+      "TITLE": "فعالیت‌ها"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "یادداشت",
+      "PILL_BUTTON_NOTES": "یادداشت‌ها",
       "PILL_BUTTON_EVENTS": "رویدادها",
       "PILL_BUTTON_CONVO": "گفتگوها"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "افزودن ویژگی‌ها",
-    "BUTTON": "اضافه کردن ویژگی سفارشی",
+    "BUTTON": "افزودن ویژگی سفارشی",
     "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
     "ACTIONS": {
