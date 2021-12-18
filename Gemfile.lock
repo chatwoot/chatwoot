@@ -291,6 +291,8 @@ GEM
     hashdiff (1.0.1)
     hashie (4.1.0)
     hkdf (0.3.0)
+    html2text (0.2.1)
+      nokogiri (~> 1.6)
     http-accept (1.7.0)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
@@ -684,6 +686,7 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
+  html2text
   image_processing
   jbuilder
   json_refs

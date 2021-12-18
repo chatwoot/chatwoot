@@ -123,6 +123,7 @@ gem 'procore-sift'
 
 # parse email
 gem 'email_reply_trimmer'
+gem 'html2text'
 
 group :production, :staging do
   # we dont want request timing out in development while using byebug
