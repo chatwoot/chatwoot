@@ -8,30 +8,49 @@ class MailPresenter < SimpleDelegator
   end
 
   def subject
-    encode_to_unicode(@mail.subject || '')
+    encode_to_unicode(@mail.subject)
   end
 
   def text_content
-    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || decoded_message || '')
+    @decoded_text_content = select_body || ''
+    encoding = @decoded_text_content.encoding
+
+    body = EmailReplyTrimmer.trim(@decoded_text_content)
 
     return {} if @decoded_text_content.blank?
 
     @text_content ||= {
-      full: @decoded_text_content,
-      reply: extract_reply(@decoded_text_content)[:reply],
-      quoted: extract_reply(@decoded_text_content)[:quoted_text]
+      full: select_body,
+      reply: @decoded_text_content,
+      quoted: body.force_encoding(encoding).encode('UTF-8')
     }
   end
 
+  def select_body
+    message = mail.text_part || mail.html_part || mail
+    decoded = encode_to_unicode(message.decoded)
+
+    # Certain trigger phrases that means we didn't parse correctly
+    return '' if %r{(Content-Type:|multipart/alternative|text/plain)}.match?(decoded)
+
+    if (mail.content_type || '').include? 'text/html'
+      HTMLParser.parse_reply(decoded)
+    else
+      decoded
+    end
+  end
+
   def html_content
-    @decoded_html_content ||= encode_to_unicode(html_part&.decoded)
+    @decoded_html_content = select_body || ''
 
     return {} if @decoded_html_content.blank?
 
+    body = EmailReplyTrimmer.trim(@decoded_html_content)
+
     @html_content ||= {
-      full: @decoded_html_content,
-      reply: extract_reply(@decoded_html_content)[:reply],
-      quoted: extract_reply(@decoded_html_content)[:quoted_text]
+      full: select_body,
+      reply: @decoded_html_content,
+      quoted: body
     }
   end
 
@@ -45,14 +64,6 @@ class MailPresenter < SimpleDelegator
       )
       { original: attachment, blob: blob }
     end
-  end
-
-  def decoded_message
-    if mail.multipart?
-      return mail.text_part ? mail.text_part.decoded : nil
-    end
-
-    mail.decoded
   end
 
   def number_of_attachments
@@ -107,20 +118,14 @@ class MailPresenter < SimpleDelegator
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
-  def  encode_to_unicode(str)
+  def encode_to_unicode(str)
     return '' if str.blank?
 
     current_encoding = str.encoding.name
     return str if current_encoding == 'UTF-8'
 
     str.encode(current_encoding, 'UTF-8', invalid: :replace, undef: :replace, replace: '?')
-  end
-
-  def extract_reply(content)
-    # NOTE: implement the reply parser over here
-    {
-      reply: content.strip,
-      quoted_text: content.strip
-    }
+  rescue StandardError
+    ''
   end
 end
