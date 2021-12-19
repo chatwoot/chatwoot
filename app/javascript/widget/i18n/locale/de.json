@@ -51,7 +51,7 @@
         "ERROR": "Nachricht ist zu kurz"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie das Gespräch beginnen"
   },
   "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
   "CHAT_FORM": {
