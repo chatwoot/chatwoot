@@ -66,7 +66,7 @@
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "درخواست رونوشت مکالمه",
-    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   }
 }
