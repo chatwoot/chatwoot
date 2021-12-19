@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
-        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى"
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "قناة الموقع",
@@ -58,7 +61,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "أدخل رابط Webhook",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
         "CHANNEL_DOMAIN": {
@@ -97,8 +100,8 @@
         "SUBMIT_BUTTON": "إنشاء قناة تواصل"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "قناة Twilio SMS/WhatsApp",
+        "DESC": "قم بإضافة قناة Twilio لتمكن عملائك من التواصل معك عبر الرسائل القصيرة SMS أو عبر واتساب.",
         "ACCOUNT_SID": {
           "LABEL": "معرف حساب Twilio (يعرف أيضاً بـ Account SID)",
           "PLACEHOLDER": "الرجاء إدخال معرف حساب Twilio الخاص بك (يعرف أيضاً بـ Account SID)",
@@ -115,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "اسم صندوق الوارد لقناة التواصل",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "الرجاء إدخال اسم القناة",
           "ERROR": "هذا الحقل مطلوب"
         },
         "PHONE_NUMBER": {
@@ -137,16 +140,16 @@
         "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة بإستخدام Twilio."
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "قناة واتساب",
+        "DESC": "ابدأ في دعم عملائك عبر واتس آب.",
         "PROVIDERS": {
           "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "360_DIALOG": "360Dialog"
+          "TWILIO": "تويليو",
+          "360_DIALOG": "360dialog"
         },
         "INBOX_NAME": {
           "LABEL": "اسم صندوق الوارد لقناة التواصل",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "الرجاء إدخال اسم القناة",
           "ERROR": "هذا الحقل مطلوب"
         },
         "PHONE_NUMBER": {
@@ -155,15 +158,15 @@
           "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "مفتاح API",
+          "SUBTITLE": "تكوين مفتاح واتسآب API.",
+          "PLACEHOLDER": "مفتاح API",
+          "APPLY_FOR_ACCESS": "ليس لديك أي مفتاح API؟ تقدم بطلب الوصول إلى هنا",
+          "ERROR": "الرجاء إدخال اسم صالح."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة واتساب"
         }
       },
       "API_CHANNEL": {
@@ -204,50 +207,50 @@
         "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "قناة LINE",
+        "DESC": "التكامل مع قناة LINE وبدء دعم عملائك.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
           "ERROR": "هذا الحقل مطلوب"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "معرف قناة LINE",
+          "PLACEHOLDER": "معرف قناة LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "سرية قناة LINE",
+          "PLACEHOLDER": "سرية قناة LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "رمز قناة LINE",
+          "PLACEHOLDER": "رمز قناة LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "لم نستطع حفظ قناة LINE"
         },
         "API_CALLBACK": {
           "TITLE": "عنوان Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "يجب عليك تكوين URL ويب هوك في تطبيق LINE مع عنوان URL المذكور هنا."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "قناة تيليجرام",
+        "DESC": "التكامل مع قناة تيليجرام والبدء في دعم عملائك.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "تكوين رمز البوت الذي حصلت عليه من Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة تيليجرام",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة التلجرام"
         }
       },
       "AUTH": {
         "TITLE": "اختر قناة",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "ندعم أداة الدردشة المباشرة، صفحة الفيسبوك، ملف تويتر الشخصي، واتسب، البريد الإلكتروني وما إلى ذلك، كقنوات. إذا كنت ترغب في إنشاء قناة مخصصة، يمكنك إنشاءها باستخدام قناة API. حدد قناة واحدة من الخيارات أدناه للمتابعة."
       },
       "AGENTS": {
         "TITLE": "موظف الدعم",
@@ -279,7 +282,7 @@
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
       "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة ",
       "BUTTON_TEXT": "خذني إلى هناك",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "المزيد من الإعدادات",
       "WEBSITE_SUCCESS": "لقد انتهيت بنجاح من إنشاء قناة دردشة مباشرة لموقعك. انسخ الرمز الموضح أدناه وقم بإضافته إلى موقع الويب الخاص بك. في المرة القادمة التي يستخدم فيها العميل الدردشة المباشرة، ستظهر المحادثة تلقائياً على صندوق الوارد الخاص بك."
     },
     "REAUTH": "إعادة التصريح",
@@ -303,24 +306,24 @@
         "DISABLED": "معطّل"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "تمكين"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "حذف الصورة الرمزية",
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "الرجاء كتابة {inboxName} للتأكيد",
         "YES": "نعم، احذف ",
         "NO": "لا، احتفظ "
       },
       "API": {
         "SUCCESS_MESSAGE": "تم حذف قناة التواصل بنجاح",
         "ERROR_MESSAGE": "تعذر حذف قناة التواصل. الرجاء المحاولة مرة أخرى لاحقاً.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "تم حذف الصورة الرمزية لصندوق الوارد بنجاح",
+        "AVATAR_ERROR_MESSAGE": "لا يمكن حذف الصورة الرمزية لصندوق الوارد. الرجاء المحاولة مرة أخرى لاحقاً."
       }
     },
     "TABS": {
@@ -343,21 +346,21 @@
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
       "UPDATE": "تحديث",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "تفعيل صندوق جمع البريد الإلكتروني",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "تمكين أو تعطيل مربع جمع البريد الإلكتروني في محادثة جديدة",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CSAT": "تمكين تقييم خدمة العملاء",
+      "ENABLE_CSAT_SUB_TEXT": "تمكين/تعطيل تقييم خدمة العملاء بعد إنتهاء المحادثة",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
       "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_DESCRIPTION": "من أجل التحقق من هوية المستخدم، يسمح لك SDK بتمرير 'المعرفة_hash' لكل مستخدم. يمكنك إنشاء HMAC باستخدام 'sha256' مع المفتاح المعروض هنا.",
+      "HMAC_MANDATORY_VERIFICATION": "فرض التحقق من هوية المستخدم",
+      "HMAC_MANDATORY_DESCRIPTION": "في حالة التمكين، لن تعمل طريقة حساب SDKs إلا إذا تم توفير `IDer_hash` لكل مستخدم.",
+      "INBOX_IDENTIFIER": "معرف صندوق الوارد",
+      "INBOX_IDENTIFIER_SUB_TEXT": "استخدم رمز 'inbox_identifier' المعروض هنا للمصادقة على عملاء API الخاص بك.",
+      "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -390,7 +393,7 @@
       "TIMEZONE_LABEL": "اختر المنطقة الزمنية",
       "UPDATE": "تحديث إعدادات ساعات العمل",
       "TOGGLE_AVAILABILITY": "تمكين توافر العمل لهذا البريد الوارد",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
       "UNAVAILABLE_MESSAGE_DEFAULT": "نحن غير متوفرين في هذه اللحظة. اترك رسالة سنرد عليها بمجرد عودتنا.",
       "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {
@@ -399,6 +402,65 @@
         "HOURS": "ساعات",
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
         "CHOOSE": "اختر"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
+      "UPDATE": "تحديث الإعدادات",
+      "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
+      "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "تم تحديث إعدادات IMAP بنجاح",
+        "ERROR_MESSAGE": "غير قادر على تحديث إعدادات IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "العنوان",
+        "PLACE_HOLDER": "العنوان (على سبيل المثال: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "المنفذ",
+        "PLACE_HOLDER": "المنفذ"
+      },
+      "EMAIL": {
+        "LABEL": "البريد الإلكتروني",
+        "PLACE_HOLDER": "البريد الإلكتروني"
+      },
+      "PASSWORD": {
+        "LABEL": "كلمة المرور",
+        "PLACE_HOLDER": "كلمة المرور"
+      },
+      "ENABLE_SSL": "تمكين SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
+      "UPDATE": "تحديث إعدادات SMTP",
+      "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
+      "TOGGLE_HELP": "تمكين SMTP سيساعد المستخدم على إرسال البريد الإلكتروني",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "تم تحديث إعدادات SMTP بنجاح",
+        "ERROR_MESSAGE": "غير قادر على تحديث إعدادات SMTP"
+      },
+      "ADDRESS": {
+        "LABEL": "العنوان",
+        "PLACE_HOLDER": "العنوان (على سبيل المثال: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "المنفذ",
+        "PLACE_HOLDER": "المنفذ"
+      },
+      "EMAIL": {
+        "LABEL": "البريد الإلكتروني",
+        "PLACE_HOLDER": "البريد الإلكتروني"
+      },
+      "PASSWORD": {
+        "LABEL": "كلمة المرور",
+        "PLACE_HOLDER": "كلمة المرور"
+      },
+      "DOMAIN": {
+        "LABEL": "الدومين",
+        "PLACE_HOLDER": "الدومين"
       }
     }
   }
