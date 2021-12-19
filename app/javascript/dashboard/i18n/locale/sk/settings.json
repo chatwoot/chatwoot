@@ -3,12 +3,15 @@
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
     "BTN_TEXT": "Update Profile",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Prosím, opravte chyby vo formulári",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -22,86 +25,87 @@
         "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Prístupový token",
+        "NOTE": "Tento token môžete použiť, ak vytvárate integráciu založenú na rozhraní API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Zvukové oznámenia",
+        "NOTE": "Povoliť zvukové upozornenia na paneli s novými správami a konverzáciami.",
+        "NONE": "Žiadne",
+        "ASSIGNED": "Pridelené konverzácie",
+        "ALL_CONVERSATIONS": "Všetky konverzácie"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "E-mailové notifikácie",
+        "NOTE": "Aktualizujte svoje preferencie e-mailových oznámení tu",
+        "CONVERSATION_ASSIGNMENT": "Odosielať e-mailové upozornenia, keď mi je priradená konverzácia",
+        "CONVERSATION_CREATION": "Odosielať e-mailové upozornenia pri vytvorení novej konverzácie",
+        "CONVERSATION_MENTION": "Odosielať e-mailové upozornenia keď som spomenutý v konverzácii",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať e-mailové oznámenia pri vytvorení novej správy v priradenej konverzácii"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Vaše nastavenia oznámení sa úspešne aktualizovali",
+        "UPDATE_ERROR": "Pri aktualizácii nastavení došlo k chybe, skúste to prosím znova"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Oznámenia Push",
+        "NOTE": "Aktualizujte svoje predvoľby oznámení Push tu",
+        "CONVERSATION_ASSIGNMENT": "Odosielať Push oznámenia, keď mi je priradená konverzácia",
+        "CONVERSATION_CREATION": "Odosielať Push upozornenia pri vytvorení novej konverzácie",
+        "CONVERSATION_MENTION": "Odosielať Push upozornenia keď som spomenutý v konverzácii",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať Push oznámenia pri vytvorení novej správy v priradenej konverzácii",
+        "HAS_ENABLED_PUSH": "Pre tento prehliadač ste povolili oznámenia Push.",
+        "REQUEST_PUSH": "Povoliť oznámenia Push"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profilová fotka"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Vaše celé meno",
+        "ERROR": "Prosím zadajte platné celé meno",
+        "PLACEHOLDER": "Prosím zadajte svoje celé meno"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Zobrazované meno",
+        "ERROR": "Prosím zadajte platné zobrazované meno",
+        "PLACEHOLDER": "Zadajte prosím zobrazované meno, ktoré sa bude zobrazovať v konverzáciách"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Dostupnosť",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Zaneprázdnený",
           "Offline"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Vaša e-mailová adresa",
+        "ERROR": "Prosím zadajte platnú e-mailovú adresu",
+        "PLACEHOLDER": "Zadajte prosím vašu e-mailovú adresu, ktorá sa bude zobrazovať v konverzáciách"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Momentálne heslo",
+        "ERROR": "Prosím zadajte momentálne heslo",
+        "PLACEHOLDER": "Prosím zadajte momentálne heslo"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Heslo",
+        "ERROR": "Zadajte heslo s dĺžkou 6 alebo viac",
+        "PLACEHOLDER": "Prosím zadajte nové heslo"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "Potvrďte nové heslo",
+        "ERROR": "Potvrdzovacie heslo by sa malo zhodovať s heslom",
+        "PLACEHOLDER": "Znovu zadajte svoje heslo"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "CHANGE_AVAILABILITY_STATUS": "Zmeniť",
+    "CHANGE_ACCOUNTS": "Prepnúť účet",
+    "CONTACT_SUPPORT": "Kontaktovať podporu",
+    "SELECTOR_SUBTITLE": "Vyberte účet z nasledujúceho zoznamu",
+    "PROFILE_SETTINGS": "Nastavenia profilu",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "LOGOUT": "Logout"
   },
@@ -116,11 +120,11 @@
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Stiahnuť",
+      "UPLOADING": "Nahrávanie..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Odoslať"
     }
   },
   "CONFIRM_EMAIL": "Verifying...",
@@ -130,32 +134,40 @@
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
+    "CONVERSATIONS": "Rozhovory",
+    "ALL_CONVERSATIONS": "Všetky konverzácie",
+    "MENTIONED_CONVERSATIONS": "Zmienky",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Kontakty",
     "HOME": "Home",
-    "AGENTS": "Agents",
+    "AGENTS": "Agenti",
     "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
+    "NOTIFICATIONS": "Upozornenia",
+    "CANNED_RESPONSES": "Uložené odpovede",
     "INTEGRATIONS": "Integrations",
+    "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
+    "AUTOMATION": "Automation",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_OVERVIEW": "Prehľad",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_INBOX": "Schránka",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
@@ -164,14 +176,14 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Account Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Odoslať"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -185,13 +197,13 @@
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "MOVE_TO_NEXT_TAB": "Presun na ďalšiu kartu v zozname konverzácií",
+      "GO_TO_SETTINGS": "Prejsť na nastavenia",
+      "SWITCH_CONVERSATION_STATUS": "Prepnúť na ďalší stav konverzácie",
+      "SWITCH_TO_PRIVATE_NOTE": "Prepnúť na súkromnú poznámku",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Prepnúť na rozšírený editor",
+      "SWITCH_TO_REPLY": "Prepnúť na odpoveď",
+      "TOGGLE_SNOOZE_DROPDOWN": "Prepínanie módu \"snooze\""
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
