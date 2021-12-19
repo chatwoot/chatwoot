@@ -40,7 +40,7 @@ rvm install "ruby-3.0.2"
 rvm use 3.0.2 --default
 
 git clone https://github.com/shaulirep/rep-live-chat.git
-cd chatwoot
+cd /home/chatwoot/rep-live-chat
 if [[ -z "$1" ]]; then
 git checkout master;
 else
@@ -58,7 +58,7 @@ sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
 echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
-cd rep-live-chat
+gem install bundler:2.2.25
 rake assets:precompile RAILS_ENV=production
 EOF
 
