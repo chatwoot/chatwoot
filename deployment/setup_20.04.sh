@@ -49,7 +49,7 @@ fi
 bundle
 yarn
 
-cp .env.example .env
+cp /home/chatwoot/rep-live-chat/.env.example .env
 sed -i -e "/SECRET_KEY_BASE/ s/=.*/=$secret/" .env
 sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
 sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
@@ -58,6 +58,7 @@ sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
 echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
+cd rep-live-chat
 rake assets:precompile RAILS_ENV=production
 EOF
 

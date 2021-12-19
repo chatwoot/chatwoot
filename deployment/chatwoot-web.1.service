@@ -5,7 +5,7 @@ PartOf=chatwoot.target
 [Service]
 Type=simple
 User=chatwoot
-WorkingDirectory=/home/chatwoot/chatwoot
+WorkingDirectory=/home/chatwoot/rep-live-chat
 
 ExecStart=/bin/bash -lc 'bin/rails server -p $PORT -e $RAILS_ENV'
 
