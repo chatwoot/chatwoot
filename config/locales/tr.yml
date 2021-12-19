@@ -77,6 +77,10 @@ tr:
       email_input_box_message_body: "E-posta ile haberdar olun"
       csat_input_message_body: "Lütfen konuşmayı oylayın"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:

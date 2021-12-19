@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
-        "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+        "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
@@ -399,6 +402,65 @@
         "HOURS": "Stunden",
         "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
         "CHOOSE": "Auswählen"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
+      "UPDATE": "IMAP-Einstellungen aktualisieren",
+      "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
+      "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP-Einstellungen erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "IMAP-Einstellungen können nicht aktualisiert werden"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresse",
+        "PLACE_HOLDER": "Adresse (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-Mail",
+        "PLACE_HOLDER": "E-Mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Passwort",
+        "PLACE_HOLDER": "Passwort"
+      },
+      "ENABLE_SSL": "SSL aktivieren"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Setzen Sie Ihre SMTP-Details",
+      "UPDATE": "SMTP-Einstellungen aktualisieren",
+      "TOGGLE_AVAILABILITY": "Die SMTP-Konfiguration für diesen Posteingang aktivieren",
+      "TOGGLE_HELP": "Das Aktivieren von SMTP hilft dem Benutzer beim Senden von E-Mails",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP-Einstellungen erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "SMTP-Einstellungen können nicht aktualisiert werden"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresse",
+        "PLACE_HOLDER": "Adresse (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-Mail",
+        "PLACE_HOLDER": "E-Mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Passwort",
+        "PLACE_HOLDER": "Passwort"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }
