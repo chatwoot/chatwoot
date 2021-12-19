@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
+        "LABEL": "Meno schránky",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
       },
       "WEBSITE_NAME": {
@@ -40,88 +40,91 @@
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "INBOX_NAME": "Meno schránky",
+        "ADD_NAME": "Pridať meno pre vašu schránku",
+        "PICK_NAME": "Vyberte si meno pre svoju schránku",
+        "PICK_A_VALUE": "Vybrať hodnotu"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "HELP": "Ak chcete pridať svoj profil na Twitteri ako kanál, musíte overiť svoj profil Twitter kliknutím na \"Prihlásiť sa pomocou Twitteru\" ",
+        "ERROR_MESSAGE": "Pri pripájaní k službe Twitter došlo k chybe, skúste to prosím znova",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Webový kanál",
+        "DESC": "Vytvorte si kanál pre svoje webové stránky a začnite podporovať svojich zákazníkov prostredníctvom nášho webového widgetu.",
+        "LOADING_MESSAGE": "Vytvorenie kanála webovej podpory",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Logo kanálu"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Zadajte svoju Webhook URL",
+          "ERROR": "Prosím zadajte platnú URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Webová doména",
+          "PLACEHOLDER": "Zadajte doménu svojej webovej stránky (napr.: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Uvítací nadpis",
+          "PLACEHOLDER": "Zdravím!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Uvítací slogan",
+          "PLACEHOLDER": "Spojenie s nami je jednoduché. Spýtajte sa nás na čokoľvek alebo sa podeľte o svoju spätnú väzbu."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Uvítacia správa kanála",
+          "PLACEHOLDER": "Acme zvyčajne odpovedá do niekoľkých hodín."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Povoliť pozdav v kanáli",
+          "HELP_TEXT": "Odošlite uvítaciu správu používateľovi pri začatí konverzácie.",
+          "ENABLED": "Zapnuté",
+          "DISABLED": "Vypnuté"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Nastaviť čas odpovede",
+          "IN_A_FEW_MINUTES": "O pár minút",
+          "IN_A_FEW_HOURS": "O pár hodín",
+          "IN_A_DAY": "O deň",
+          "HELP_TEXT": "Tento čas odpovede sa zobrazí na widgete živého chatu"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Farba widgetu",
+          "PLACEHOLDER": "Zmeniť farbu widgetu použitej vo widgete"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "Vytvoriť schránku"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Kanál Twilio SMS/WhatsApp",
+        "DESC": "Integrujte Twilio a začnite podporovať svojich zákazníkov prostredníctvom SMS alebo WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "SID účtu",
+          "PLACEHOLDER": "Zadajte prosím SID svojho účtu Twilio",
+          "ERROR": "Toto pole je povinné"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Typ kanálu",
+          "ERROR": "Prosím vyberte typ svojho kanálu"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "Autentifikačný token",
+          "PLACEHOLDER": "Zadajte svoj autentifikačný token pre Twilio",
+          "ERROR": "Toto pole je povinné"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Meno schránky",
+          "PLACEHOLDER": "Prosím vyplňte meno schránky",
+          "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Telefónne číslo",
+          "PLACEHOLDER": "Zadajte telefónne číslo, z ktorého bude správa odoslaná.",
+          "ERROR": "Zadajte platnú hodnotu. Telefónne číslo by malo začínať znakom `+`."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -145,14 +148,14 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Meno schránky",
           "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Telefónne číslo",
+          "PLACEHOLDER": "Zadajte telefónne číslo, z ktorého bude správa odoslaná.",
+          "ERROR": "Zadajte platnú hodnotu. Telefónne číslo by malo začínať znakom `+`."
         },
         "API_KEY": {
           "LABEL": "API key",
@@ -167,106 +170,106 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API kanál",
+        "DESC": "Integrujte sa s kanálom API a začnite podporovať svojich zákazníkov.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Názov kanálu",
+          "PLACEHOLDER": "Zadajte názov kanála",
+          "ERROR": "Toto pole je povinné"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Nakonfigurujte adresu URL, na ktorú chcete prijímať spätné volania (callback) pri udalostiach.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Vytvoriť API kanál",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Nepodarilo sa nám uložiť kanál API"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Emailový kanál",
+        "DESC": "Integrácia e-mailovej schránky.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Názov kanálu",
+          "PLACEHOLDER": "Zadajte názov kanála",
+          "ERROR": "Toto pole je povinné"
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "LABEL": "E-mail",
+          "SUBTITLE": "E-mail, na ktorý vám zákazníci posielajú podporné tikety",
+          "PLACEHOLDER": "E-mail"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Vytvoriť e-mailový kanál",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "E-mailový kanál sa nám nepodarilo uložiť"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Začnite preposielať e-maily na túto e-mailovú adresu."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE kanál",
+        "DESC": "Integrujte sa s kanálom LINE a začnite podporovať svojich zákazníkov.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Názov kanálu",
+          "PLACEHOLDER": "Zadajte názov kanála",
+          "ERROR": "Toto pole je povinné"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE kanál ID",
+          "PLACEHOLDER": "LINE kanál ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE kanál Secret",
+          "PLACEHOLDER": "LINE kanál Secret"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE kanál Token",
+          "PLACEHOLDER": "LINE kanál Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Vytvorenie kanála LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Kanál LINE sa nepodarilo uložiť"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Musíte nakonfigurovať adresu URL webhooku v aplikácii LINE pomocou adresy URL uvedenej tu."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegramový kanál",
+        "DESC": "Integrujte sa s kanálom Telegram a začnite podporovať svojich zákazníkov.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Token pre bota",
+          "SUBTITLE": "Nakonfigurujte token bota, ktorý ste získali od programu Telegram BotFather.",
+          "PLACEHOLDER": "Token pre bota"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Vytvoriť Telegram kanál",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Nepodarilo sa uložiť Telegramový kanál"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Vybrať kanál",
+        "DESC": "Chatwoot podporuje live-chat widget, Facebook stránku, Twitter profil, WhatsApp, E-mail atď., ako kanály. Ak chcete vytvoriť vlastný kanál, môžete ho vytvoriť pomocou kanála API. Ak chcete pokračovať, vyberte jeden kanál z nižšie uvedených možností."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Agenti",
+        "DESC": "Tu môžete pridať agentov na správu novovytvorenej schránky. Len títo vybraní agenti budú mať prístup k vašej schránke. Agenti, ktorí nie sú súčasťou tejto schránky, nebudú môcť po prihlásení vidieť správy v tejto schránke ani na ne reagovať. <br> <b>PS:</b> Ak ako správca potrebujete prístup ku všetkým schránkam, mali by ste sa pridať ako agent ku všetkým vytvoreným schránkam.",
+        "VALIDATION_ERROR": "Pridajte aspoň jedného agenta do novej schránky",
+        "PICK_AGENTS": "Vyberte agentov pre schránku"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Detaily schránky",
+        "DESC": "Z rozbaľovacieho zoznamu nižšie vyberte stránku na Facebooku, ktorú chcete pripojiť k službe Chatwoot. Pre lepšiu identifikáciu môžete schránke zadať aj vlastný názov."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Podarilo sa!",
+        "DESC": "Úspešne ste dokončili integráciu svojej stránky na Facebooku s Chatwoot. Pri ďalšej správe od zákazníka sa konverzácia automaticky zobrazí na vašej stránke.<br>Poskytujeme vám aj skript widgetu, ktorý môžete jednoducho pridať na svoju webovú stránku. Keď bude na vašej webovej stránke funkčný, zákazníci vám môžu posielať správy priamo z vašej webovej stránky bez pomoci akéhokoľvek externého nástroja a konverzácia sa objaví priamo tu, na Chatwoot.<br>Cool, čo? No, určite sa o to snažíme :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "LOADING_FB": "Spájame vás s Facebookom...",
+      "ERROR_FB_AUTH": "Niečo sa pokazilo, prosím, obnovte stránku...",
       "CREATING_CHANNEL": "Creating your Inbox...",
       "TITLE": "Configure Inbox Details",
       "DESC": ""
@@ -307,14 +310,14 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Vymazať",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -340,7 +343,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
@@ -352,53 +355,112 @@
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
+      "HMAC_DESCRIPTION": "Na overenie identity používateľa umožňuje SDK odovzdať pre každého používateľa `identifier_hash`. HMAC môžete vygenerovať pomocou 'sha256' s kľúčom uvedeným tu.",
+      "HMAC_MANDATORY_VERIFICATION": "Vynucovanie overovania totožnosti používateľa",
+      "HMAC_MANDATORY_DESCRIPTION": "Ak je táto funkcia zapnutá, metóda setUser nebude fungovať, pokiaľ nebude pre každého používateľa zadaný `identifier_hash`.",
+      "INBOX_IDENTIFIER": "Indetifikátor schránky",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Na overenie klientov API použite tu uvedený token `inbox_identifier`.",
+      "FORWARD_EMAIL_TITLE": "Preposlanť na e-mail",
+      "FORWARD_EMAIL_SUB_TEXT": "Začnite preposielať e-maily na túto e-mailovú adresu."
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "Znova autorizovať",
+      "SUBTITLE": "Vaše pripojenie k Facebooku vypršalo, pre pokračovanie v službách prosím znovu pripojte svoju stránku na Facebooku",
+      "MESSAGE_SUCCESS": "Opätovné pripojenie bolo úspešné",
+      "MESSAGE_ERROR": "Vyskytla sa chyba, skúste to prosím znova"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Formuláre pred konverzáciou vám umožnia zachytiť informácie o používateľovi ešte predtým, ako s vami začne konverzovať.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Povoliť formulár pred konverzáciou",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Áno",
+          "DISABLED": "Nie"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Správa pred konverzáciou",
+        "PLACEHOLDER": "Táto správa sa zobrazí používateľom spolu s formulárom"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Pred začatím chatu by mali návštevníci uviesť svoje meno a e-mailovú adresu"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "Nastavte svoju dostupnosť",
+      "SUBTITLE": "Nastavenie dostupnosti na widgete livechatu",
+      "WEEKLY_TITLE": "Nastaviť týždnový rozvrh",
+      "TIMEZONE_LABEL": "Vybrať časové pásmo",
+      "UPDATE": "Aktualizácia nastavení otváracích hodín",
+      "TOGGLE_AVAILABILITY": "Povoliť nastavenie otváracích hodín pre túto schránku",
+      "UNAVAILABLE_MESSAGE_LABEL": "Správa pre návštevníkov pri nedostupnosti",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Momentálne nie sme k dispozícii. Zanechajte nám správu a my vám odpovieme, keď sa vrátime.",
+      "TOGGLE_HELP": "Ak povolíte otváracie hodiny, na widgete živého chatu sa zobrazia dostupné hodiny, aj keď sú všetci agenti offline. Mimo dostupných hodín môžu byť návštevníci upozornení správou a formulárom pred konverzáciou.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Povolenie dostupnosti pre tento deň",
+        "UNAVAILABLE": "Neodstupné",
+        "HOURS": "hodiny",
+        "VALIDATION_ERROR": "Začiatočný čas by mal byť pred zatváracím časom.",
+        "CHOOSE": "Vybrať"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Nastaviť IMAP detaily",
+      "UPDATE": "Aktualizovať IMAP nastavenia",
+      "TOGGLE_AVAILABILITY": "Povolenie konfigurácie IMAP pre túto schránku",
+      "TOGGLE_HELP": "Povolenie protokolu IMAP pomôže používateľovi prijímať e-maily",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Úspešná aktualizácia nastavení IMAP",
+        "ERROR_MESSAGE": "Nebolo možné aktualizovať nastavenia IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresa",
+        "PLACE_HOLDER": "Adresa (napr. imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Heslo",
+        "PLACE_HOLDER": "Heslo"
+      },
+      "ENABLE_SSL": "Povoliť SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Nastaviť SMTP detaily",
+      "UPDATE": "Aktualizovať SMTP nastavenia",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresa",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

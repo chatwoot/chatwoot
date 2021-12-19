@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Ole hyvä ja valitse keskustelu vasemmasta paneelista",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Voi voi! Näyttää siltä, että postilaatikossasi ei ole viestejä.",
     "NO_MESSAGE_2": " jotta voit lähettää viestin sivullesi!",
     "NO_INBOX_1": "Hola! Näyttää siltä, että et ole vielä lisännyt yhtään saapuneet-kansiota.",

@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "نظرة عامة",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -41,11 +41,11 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "آخر 3 أشهر"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "آخر 6 أشهر"
       },
       {
         "id": 4,
@@ -62,7 +62,7 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "نظرة عامة للوكلاء",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -104,11 +104,11 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "آخر 3 أشهر"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "آخر 6 أشهر"
       },
       {
         "id": 4,
@@ -125,11 +125,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "نظرة عامة على التسميات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "تحميل تقارير التسمية",
+    "FILTER_DROPDOWN_LABEL": "حدد التسمية",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "المحادثات",
@@ -167,11 +167,11 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "آخر 3 أشهر"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "آخر 6 أشهر"
       },
       {
         "id": 4,
@@ -188,10 +188,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "نظرة عامة على صندوق الوارد",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
     "FILTER_DROPDOWN_LABEL": "اختر صندوق الوارد",
     "METRICS": {
       "CONVERSATIONS": {
@@ -230,11 +230,11 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "آخر 3 أشهر"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "آخر 6 أشهر"
       },
       {
         "id": 4,
@@ -251,11 +251,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "نظرة عامة للفريق",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "تحميل تقارير الفريق",
+    "FILTER_DROPDOWN_LABEL": "اختيار فريق",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "المحادثات",
@@ -293,11 +293,11 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "آخر 3 أشهر"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "آخر 6 أشهر"
       },
       {
         "id": 4,
