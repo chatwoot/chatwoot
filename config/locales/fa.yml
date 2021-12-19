@@ -25,11 +25,11 @@ fa:
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
-      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
+      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
       failed: ثبت نام ناموفق بود
     contacts:
       import:
-        failed: فایل خالی است
+        failed: پرونده خالی است
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
