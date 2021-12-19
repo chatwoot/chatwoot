@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "输入联系人的电子邮件地址",
-        "LABEL": "电子邮件地址"
+        "LABEL": "电子邮件地址",
+        "DUPLICATE": "This email address is in use for another contact."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "输入联系人的电话号码",
         "LABEL": "电话号码",
         "HELP": "电话号码应为E.164格式，例如：+14155555 [+] [国家代码][地区代码][本地电话号码]",
-        "ERROR": "电话号码应为空或E.164格式"
+        "ERROR": "电话号码应为空或E.164格式",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {
