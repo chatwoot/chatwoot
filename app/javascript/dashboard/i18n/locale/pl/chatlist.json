@@ -7,6 +7,7 @@
       "404": "W tej grupie nie ma aktywnych konwersacji."
     },
     "TAB_HEADING": "Rozmowy",
+    "MENTION_HEADING": "Wzmianki",
     "SEARCH": {
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
@@ -49,7 +50,7 @@
         "TEXT": "Oczekujące"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Odłożone"
       }
     },
     "ATTACHMENTS": {
@@ -75,10 +76,10 @@
     "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
     "VIEW_TWEET_IN_TWITTER": "Zobacz tweet na Twitterze",
     "REPLY_TO_TWEET": "Odpowiedz na ten tweet",
-    "SENT": "Sent successfully",
+    "SENT": "Wysłano pomyślnie",
     "NO_MESSAGES": "Brak wiadomości",
     "NO_CONTENT": "Brak treści",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "Ukryj cytat",
+    "SHOW_QUOTED_TEXT": "Pokaż cytat"
   }
 }
