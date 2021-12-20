@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Välj agent",
       "REMOVE": "Radera",
