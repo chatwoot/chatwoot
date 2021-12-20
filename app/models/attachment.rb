@@ -102,16 +102,16 @@ class Attachment < ApplicationRecord
   def acceptable_file
     return unless should_validate_file?
 
-    errors.add(:file, 'size is too big') unless valid_file_size?(file.byte_size)
-    errors.add(:file, 'type not supported') unless acceptable_file_content_type?(file.content_type)
+    validate_file_size(file.byte_size)
+    validate_file_content_type(file.content_type)
   end
 
-  def acceptable_file_content_type?(file_content_type)
-    media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+  def validate_file_content_type(file_content_type)
+    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
   end
 
-  def valid_file_size?(byte_size)
-    byte_size <= 40.megabytes
+  def validate_file_size(byte_size)
+    errors.add(:file, 'size is too big') if byte_size > 40.megabytes
   end
 
   def media_file?(file_content_type)
