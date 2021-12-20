@@ -13,7 +13,7 @@
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
     "INITIATED_AT": "ആരംഭിച്ച സമയം ",
     "IP_ADDRESS": "IP വിലാസം",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "പുതിയ സന്ദേശം",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല.",
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
@@ -21,19 +21,19 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല"
       },
       "CONVERSATION": {
         "TITLE": "സംഭാഷണ ലേബലുകൾ",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "ലേബലുകൾ ചേർക്കുക"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "ലേബലുകൾ ചേർക്കുക",
+        "PLACEHOLDER": "ലേബലുകൾ തിരയുക",
+        "NO_RESULT": "ലേബലുകളൊന്നും കണ്ടെത്തിയില്ല"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
+    "MERGE_CONTACT": "കോൺടാക്റ്റ് ലയിപ്പിക്കുക",
     "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "സംഭാഷണം ഒച്ചയിലാതാക്കുക",
     "UNMUTE_CONTACT": "സംഭാഷണം നിശബ്ദമാക്കുക",
@@ -55,7 +55,7 @@
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "New Contact",
     "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "DESC": "കോൺടാക്‌റ്റിനെക്കുറിച്ചുള്ള അടിസ്ഥാന വിവര വിശദാംശങ്ങൾ ചേർക്കുക."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Import",
@@ -72,18 +72,18 @@
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
+    "DESC": "ബന്ധപ്പെടാനുള്ള വിശദാംശങ്ങൾ ഇല്ലാതാക്കുക",
     "CONFIRM": {
       "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
       "MESSAGE": "<p><b>ഏജന്റുമാർ</b></p><p> ഒരു <b>ഏജൻറ്</b> നിങ്ങളുടെ ഉപഭോക്തൃ പിന്തുണാ ടീമിലെ ഒരു അംഗമാണ്. </p><p> ഏജന്റുമാർക്ക് നിങ്ങളുടെ ഉപയോക്താക്കളിൽ നിന്നുള്ള സന്ദേശങ്ങൾ കാണാനും മറുപടി നൽകാനും കഴിയും. നിങ്ങളുടെ അക്കൗണ്ടിലുള്ള എല്ലാ ഏജന്റുമാരെയും ഈ പട്ടിക കാണിക്കുന്നു. </ p> <p> ഒരു പുതിയ ഏജന്റിനെ ചേർക്കുന്നതിന് <b> ഏജന്റിനെ ചേർക്കുക </ b> ബട്ടൺ ക്ലിക്കുചെയ്യുക. നിങ്ങൾ ചേർത്ത ഏജന്റിന് അവരുടെ അക്കൗണ്ട് സജീവമാക്കുന്നതിന് ഒരു സ്ഥിരീകരണ ലിങ്കുള്ള ഇമെയിൽ ലഭിക്കും. അതിനുശേഷം അവർക്ക് ചാറ്റ് വൂട്ട് ആക്സസ് ചെയ്യാനും സന്ദേശങ്ങളോട് പ്രതികരിക്കാനും കഴിയും.</p> <p> ചാറ്റ് വൂട്ടിന്റെ സവിശേഷതകളിലേക്കുള്ള ആക്സസ് ഇനിപ്പറയുന്ന റോളുകളെ അടിസ്ഥാനമാക്കിയുള്ളതാണ്. </p><p> <b>ഏജൻറ്</ b> - ഈ റോൾ‌ ഉള്ള ഏജന്റുമാർ‌ക്ക് ഇൻ‌ബോക്‍സുകൾ‌, റിപ്പോർ‌ട്ടുകൾ‌, സംഭാഷണങ്ങൾ‌ എന്നിവ മാത്രമേ ആക്‌സസ് ചെയ്യാൻ‌ കഴിയൂ. അവർക്ക് മറ്റ് ഏജന്റുമാരുടെയോ അല്ലെങ്കിൽ‌ തങ്ങളുടേയോ സംഭാഷണങ്ങൾ‌ നിർ‌ണ്ണയിക്കാനും സംഭാഷണങ്ങൾ‌ പരിഹരിക്കാനും കഴിയും.</p><p> <b>അഡ്മിനിസ്ട്രേറ്റർ</b> - ഒരു സാധാരണ ഏജന്റിന്റെ പ്രത്യേകാവകാശങ്ങളോടൊപ്പം ക്രമീകരണങ്ങളും ബില്ലിംഗും ഉൾപ്പെടെ നിങ്ങളുടെ അക്കൗണ്ടിൽ ലഭ്യമായ എല്ലാ ചാറ്റ് വൂട്ട് സവിശേഷതകളിലേക്കും ആക്‌സസ് ഉണ്ടായിരിക്കുക. </ p> ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "സ്ഥിരീകരിക്കാൻ ദയവായി {contactName} എന്ന് ടൈപ്പ് ചെയ്യുക",
       "YES": "അതെ, ഇല്ലാതാക്കുക ",
       "NO": "ഇല്ല, സൂക്ഷിക്കുക"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
+      "ERROR_MESSAGE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
     }
   },
   "CONTACT_FORM": {
@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "കോൺ‌ടാക്റ്റിന്റെ ഇമെയിൽ വിലാസം നൽകുക",
-        "LABEL": "ഇമെയിൽ വിലാസം"
+        "LABEL": "ഇമെയിൽ വിലാസം",
+        "DUPLICATE": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ഫോൺ നമ്പർ നൽകുക",
         "LABEL": "ഫോൺ നമ്പർ",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "ഫോൺ നമ്പർ E.164 ഫോർമാറ്റ് ആയിരിക്കണം ഉദാ: +1415555555 [+][രാജ്യ കോഡ്][ഏരിയ കോഡ്][പ്രാദേശിക ഫോൺ നമ്പർ]",
+        "ERROR": "ഫോൺ നമ്പർ ശൂന്യമോ E.164 ഫോർമാറ്റിലുള്ളതോ ആയിരിക്കണം",
+        "DUPLICATE": "ഈ ഫോൺ നമ്പർ മറ്റൊരു കോൺടാക്റ്റിനായി ഉപയോഗിക്കുന്നു."
       },
       "LOCATION": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ സ്ഥാനം നൽകുക",
@@ -138,30 +140,29 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
+    "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "സംഭാഷണം ആരംഭിക്കുക",
+    "TITLE": "പുതിയ സംഭാഷണം",
+    "DESC": "ഒരു പുതിയ സന്ദേശം അയച്ചുകൊണ്ട് ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക.",
+    "NO_INBOX": "ഈ കോൺടാക്റ്റുമായി ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുന്നതിന് ഒരു ഇൻബോക്സ് കണ്ടെത്താനായില്ല.",
     "FORM": {
       "TO": {
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "ഇൻബോക്സ്",
+        "ERROR": "ഒരു ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "വിഷയം",
+        "PLACEHOLDER": "വിഷയം",
+        "ERROR": "വിഷയം ശൂന്യമാക്കാൻ പാടില്ല"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "സന്ദേശം",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "തിരയുക",
     "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
       "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

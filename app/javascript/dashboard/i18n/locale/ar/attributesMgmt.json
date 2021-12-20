@@ -1,71 +1,82 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "سمات مخصصة",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "إضافة سمة خاصة",
+    "LOADING": "جلب سمات مخصصة",
+    "SIDEBAR_TXT": "<p><b>السمات المخصصة</b> <p>سمة مخصصة تتبع الحقائق حول جهات الاتصال/المحادثة الخاصة بك - مثل خطة الاشتراك. أو عندما يطلبون العنصر الأول وما إلى ذلك. <br /><br />لإنشاء سمة مخصصة، فقط انقر فوق<b>أضف سمة مخصصة.</b> يمكنك أيضا تعديل أو حذف سمة مخصصة موجودة بالنقر على زر التحرير أو الحذف.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "إضافة سمة خاصة",
       "SUBMIT": "إنشاء",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "NAME": {
           "LABEL": "اسم العرض",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "أدخل اسم عرض السمة",
+          "ERROR": "الاسم مطلوب"
         },
         "DESC": {
           "LABEL": "الوصف",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "أدخل وصف السمة",
+          "ERROR": "الوصف مطلوب"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "ينطبق على",
+          "PLACEHOLDER": "الرجاء اختيار واحد",
           "ERROR": "النموذج مطلوب"
         },
         "TYPE": {
           "LABEL": "النوع",
           "PLACEHOLDER": "الرجاء تحديد نوع",
-          "ERROR": "النوع مطلوب"
+          "ERROR": "النوع مطلوب",
+          "LIST": {
+            "LABEL": "قائمة القيم",
+            "PLACEHOLDER": "الرجاء إدخال القيمة واضغط على مفتاح الإدخال",
+            "ERROR": "يجب أن يكون لديك قيمة واحدة على الأقل"
+          }
         },
         "KEY": {
           "LABEL": "المفتاح",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "أدخل مفتاح السمة المخصصة",
+          "ERROR": "المفتاح مطلوب",
+          "IN_VALID": "مفتاح غير صالح"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "تم إضافة سمة مخصصة بنجاح",
+        "ERROR_MESSAGE": "تعذر إنشاء سمة مخصصة، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "تم حذف السمة المخصصة بنجاح.",
+        "ERROR_MESSAGE": "تعذر حذف السمة المخصصة. حاول مرة أخرى."
       },
       "CONFIRM": {
         "TITLE": "هل أنت متأكد من أنك تريد حذف - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "PLACE_HOLDER": "الرجاء كتابة {attributeName} للتأكيد",
+        "MESSAGE": "حذف سوف يزيل السمة المخصصة",
         "YES": "حذف ",
         "NO": "إلغاء"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "تعديل سمة مخصصة",
       "UPDATE_BUTTON_TEXT": "تحديث",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "قائمة القيم",
+          "PLACEHOLDER": "الرجاء إدخال القيمة واضغط على مفتاح الإدخال"
+        }
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "تم تحديث السمة المخصصة بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ أثناء تحديث السمة المخصصة، الرجاء المحاولة مرة أخرى"
       }
     },
     "TABS": {
       "HEADER": "سمات مخصصة",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "المحادثات",
       "CONTACT": "جهات الاتصال"
     },
     "LIST": {
@@ -80,8 +91,8 @@
         "DELETE": "حذف"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "لا توجد سمات مخصصة تم إنشاؤها",
+        "NOT_FOUND": "لا توجد سمات مخصصة تم تكوينها"
       }
     }
   }

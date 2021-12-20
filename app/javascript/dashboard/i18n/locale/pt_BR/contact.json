@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Insira o endereço de e-mail do contato",
-        "LABEL": "Endereço de e-mail"
+        "LABEL": "Endereço de e-mail",
+        "DUPLICATE": "Esse endereço de e-mail já está sendo usado para outro contato."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
         "LABEL": "Número de Telefone",
         "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
-        "ERROR": "O número de telefone deve estar vazio ou no formato E.164"
+        "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
+        "DUPLICATE": "Este número de telefone está em uso para outro contato."
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contato salvo com sucesso",
-    "CONTACT_ALREADY_EXIST": "Esse endereço de e-mail já está sendo usado para outro contato.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Campos de contatos",
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
+    "FILTER_CONTACTS": "Filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
@@ -263,7 +265,7 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Criar novo atributo ",
         "SUCCESS": "Atributo adicionado com sucesso",
         "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
       },
@@ -279,6 +281,13 @@
         "TITLE": "Adicionar atributo",
         "PLACEHOLDER": "Procurar atributos",
         "NO_RESULT": "Nenhum atributo encontrado"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Selecione o valor",
+          "SEARCH_INPUT_PLACEHOLDER": "Pesquisar valor",
+          "NO_RESULT": "Nenhum resultado encontrado"
+        }
       }
     },
     "VALIDATIONS": {

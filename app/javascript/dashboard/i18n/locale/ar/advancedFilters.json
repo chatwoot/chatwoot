@@ -1,0 +1,37 @@
+{
+  "FILTER": {
+    "TITLE": "تصفية المحادثة",
+    "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية المحادثات.",
+    "ADD_NEW_FILTER": "إضافة فلتر",
+    "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
+    "SUBMIT_BUTTON_LABEL": "تطبيق الفلاتر",
+    "CANCEL_BUTTON_LABEL": "إلغاء",
+    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "EMPTY_VALUE_ERROR": "القيمة مطلوبة",
+    "TOOLTIP_LABEL": "تصفية المحادثة",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "أو"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "يساوي",
+      "not_equal_to": "لا يساوي",
+      "contains": "يحتوي",
+      "does_not_contain": "لا يحتوي",
+      "is_present": "موجود",
+      "is_not_present": "غير موجود"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "الحالة",
+      "ASSIGNEE_NAME": "اسم المحال إليه",
+      "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
+      "TEAM_NAME": "اسم الفريق",
+      "CONVERSATION_IDENTIFIER": "معرف المحادثة",
+      "CAMPAIGN_NAME": "اسم الحملة",
+      "LABELS": "الوسوم",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
+      "COUNTRY_NAME": "اسم الدولة",
+      "REFERER_LINK": "رابط المرجع"
+    }
+  }
+}

@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID аккаунта",
+        "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
       },
       "NAME": {
         "LABEL": "Имя аккаунта",
@@ -82,6 +82,50 @@
     },
     "BUTTON": {
       "REFRESH": "Обновить"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Искать или перейти к",
+    "SECTIONS": {
+      "GENERAL": "Главное",
+      "REPORTS": "Отчёты",
+      "CONVERSATION": "Диалоги",
+      "CHANGE_ASSIGNEE": "Изменить Назначенного",
+      "CHANGE_TEAM": "Изменить команду",
+      "ADD_LABEL": "Добавить метку в разговор",
+      "REMOVE_LABEL": "Удалить метку из разговора",
+      "SETTINGS": "Настройки"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
+      "GO_TO_REPORTS_OVERVIEW": "Перейти к обзору отчетов",
+      "GO_TO_AGENT_REPORTS": "Перейти к отчетам по сотрудникам",
+      "GO_TO_LABEL_REPORTS": "Перейти к отчетам по меткам",
+      "GO_TO_INBOX_REPORTS": "Перейти к отчётам по \"Входящим\"",
+      "GO_TO_TEAM_REPORTS": "Перейти к отчетам по командам",
+      "GO_TO_SETTINGS_AGENTS": "Перейти к настройкам сотрудников",
+      "GO_TO_SETTINGS_TEAMS": "Перейти к настройкам команд",
+      "GO_TO_SETTINGS_INBOXES": "Перейти к настройкам источников",
+      "GO_TO_SETTINGS_LABELS": "Перейти к настройкам меток",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Перейти к настройкам шаблонных ответов",
+      "GO_TO_SETTINGS_APPLICATIONS": "Перейти в настройки приложения",
+      "GO_TO_SETTINGS_ACCOUNT": "Перейти в настройки учетной записи",
+      "GO_TO_SETTINGS_PROFILE": "Перейти в настройки профиля",
+      "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
+      "ADD_LABELS_TO_CONVERSATION": "Добавить метку в разговор",
+      "ASSIGN_AN_AGENT": "Назначить сотрудника",
+      "ASSIGN_A_TEAM": "Назначить команду",
+      "MUTE_CONVERSATION": "Заглушить диалог",
+      "UNMUTE_CONVERSATION": "Включить диалог",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Удалить метку из разговора",
+      "REOPEN_CONVERSATION": "Переоткрыть разговор",
+      "RESOLVE_CONVERSATION": "Решить разговор",
+      "SEND_TRANSCRIPT": "Отправить историю переписки на email",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
+      "UNTIL_NEXT_REPLY": "До следующего ответа",
+      "UNTIL_NEXT_WEEK": "До следующей недели",
+      "UNTIL_TOMORROW": "До завтра"
     }
   }
 }

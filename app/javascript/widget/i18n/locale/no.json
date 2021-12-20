@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er pålogget",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Vi er for øyeblikket borte"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag"
   },
   "START_CONVERSATION": "Start samtale",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
     "CLOSE_MESSAGES_BUTTON": "Lukk",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "fra",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -38,34 +38,34 @@
       "FULL_NAME": {
         "LABEL": "Fullt navn",
         "PLACEHOLDER": "Skriv inn fullt navn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Fullt navn er påkrevd"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadresse",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
+        "ERROR": "Ugyldig e-postadresse"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Melding",
+        "PLACEHOLDER": "Skriv inn meldingen din",
+        "ERROR": "Meldingen er for kort"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Filens størrelse overskrider grensen på {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Ugyldig felt"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Vurder samtalen din",
+    "SUBMITTED_TITLE": "Takk for at du ga din vurdering",
+    "PLACEHOLDER": "Fortell oss mer..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Be om utskrift av samtalen",
     "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
     "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen"
   }
