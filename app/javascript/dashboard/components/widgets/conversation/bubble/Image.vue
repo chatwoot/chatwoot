@@ -5,7 +5,7 @@
       <img :src="url" class="modal-image" />
     </woot-modal>
   </div>
-  <bubble-file v-else :url="url"/>
+  <bubble-file v-else :url="url" />
 </template>
 
 <script>
