@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Tim"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Akun Baru",
     "SELECTOR_SUBTITLE": "Buat sebuah akun baru",
     "API": {
       "SUCCESS_MESSAGE": "Akun berhasil dibuat",
       "EXIST_MESSAGE": "Akun sudah ada",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Rep Live Chat, Silahkan coba lagi nanti"
     },
     "FORM": {
       "NAME": {

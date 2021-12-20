@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "إضافة webhook جديد",
       "LOADING": "جار جلب الـ Webhooks",
       "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Chatwoot. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Rep Live Chat. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
       "LIST": {
         "404": "لا توجد webhooks مكونة لهذا الحساب.",
         "TITLE": "إدارة الـ webhooks",
@@ -21,7 +21,7 @@
         "BUTTON_TEXT": "تعديل",
         "TITLE": "Edit webhook",
         "CANCEL": "إلغاء",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Rep Live Chat الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "رابط Webhook",
@@ -38,7 +38,7 @@
       "ADD": {
         "CANCEL": "إلغاء",
         "TITLE": "إضافة webhook جديد",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Rep Live Chat الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "رابط Webhook",
@@ -69,7 +69,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "BODY": "<br/><p>Rep Live Chat will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through Rep Live Chat.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in Rep Live Chat under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

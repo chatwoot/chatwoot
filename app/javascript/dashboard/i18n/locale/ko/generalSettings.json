@@ -74,7 +74,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from Rep Live Chat"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

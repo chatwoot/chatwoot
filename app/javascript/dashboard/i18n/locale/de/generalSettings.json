@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kannst E-Mails jetzt von der festgelegten Domain erhalten."
       }
     },
-    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisiere deine Installation."
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Rep Live Chat ist verfügbar. Bitte aktualisiere deine Installation."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -74,7 +74,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Verbindung zu Chatwoot getrennt"
+      "TEXT": "Verbindung zu Rep Live Chat getrennt"
     },
     "BUTTON": {
       "REFRESH": "Neu laden"

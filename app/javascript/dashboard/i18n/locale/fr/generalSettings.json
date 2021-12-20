@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
       }
     },
-    "UPDATE_CHATWOOT": "Une mise à jour %{latestChatwootVersion} de Chatwoot est disponible. Veuillez mettre à jour votre instance."
+    "UPDATE_CHATWOOT": "Une mise à jour %{latestChatwootVersion} de Rep Live Chat est disponible. Veuillez mettre à jour votre instance."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -74,7 +74,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from Rep Live Chat"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Cont Nou",
     "SELECTOR_SUBTITLE": "Creează un cont nou",
     "API": {
       "SUCCESS_MESSAGE": "Agent actualizat cu succes",
       "EXIST_MESSAGE": "Contul există deja",
-      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Rep Live Chat Server, încercați din nou mai târziu"
     },
     "FORM": {
       "NAME": {

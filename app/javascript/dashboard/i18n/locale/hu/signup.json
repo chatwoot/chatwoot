@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Fiók létrehozása",
     "TITLE": "Regisztrálás",
-    "TERMS_ACCEPT": "A feliratkozással megerősíted, hogy egyetértesz a <a href=\"https://www.chatwoot.com/terms\"> Felhasználói feltételekkel</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési politikával</a>",
+    "TERMS_ACCEPT": "A feliratkozással megerősíted, hogy egyetértesz a <a href=\"https://www.hellorep.ai/terms\"> Felhasználói feltételekkel</a> és az <a href=\"https://www.hellorep.ai/privacy-policy\">Adatkezelési politikával</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Fióknév",
       "PLACEHOLDER": "Fióknév hozzáadása. Pl.: Wayne Kft.",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Sikeres regisztráció",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Rep Live Chat szerverhez, kérjük próbáld később"
     },
     "SUBMIT": "Elküldés",
     "HAVE_AN_ACCOUNT": "Már van fiókod?"

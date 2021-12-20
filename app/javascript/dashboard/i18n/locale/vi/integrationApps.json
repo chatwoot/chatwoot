@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Rep Live Chat, Vui lòng thử lại sau"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Rep Live Chat, Vui lòng thử lại sau"
       }
     },
     "CONNECT": {

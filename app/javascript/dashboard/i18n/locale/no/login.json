@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Logg inn i Chatwoot",
+    "TITLE": "Logg inn i Rep Live Chat",
     "EMAIL": {
       "LABEL": "E-post",
       "PLACEHOLDER": "Eksempel: ola@nordmann.no"
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Innlogging vellykket",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere",
+      "ERROR_MESSAGE": "Kunne ikke koble til Rep Live Chat Server, vennligst prøv igjen senere",
       "UNAUTH": "Brukernavn eller passord er feil. Prøv igjen"
     },
     "FORGOT_PASSWORD": "Glemt passord?",

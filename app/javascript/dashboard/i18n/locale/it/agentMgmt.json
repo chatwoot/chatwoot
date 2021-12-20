@@ -3,7 +3,7 @@
     "HEADER": "Agenti",
     "HEADER_BTN_TXT": "Aggiungi Agente",
     "LOADING": "Recupero elenco Operatori",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>agente</b> è membro del tuo team di assistenza clienti. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi agente</b> per aggiungere un nuovo agente. Ogni agente che aggiungi riceverà un'email con un link di conferma per attivare il loro account, dopo di che possono accedere a Chatwoot e rispondere ai messaggi. </p><p> L'accesso alle funzionalità di Chatwoot si basa sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a messaggi, report e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Chatwoot abilitate per il tuo account, comprese le impostazioni, insieme a tutti i privilegi di un agente normale.</p>",
+    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>agente</b> è membro del tuo team di assistenza clienti. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi agente</b> per aggiungere un nuovo agente. Ogni agente che aggiungi riceverà un'email con un link di conferma per attivare il loro account, dopo di che possono accedere a Rep Live Chat e rispondere ai messaggi. </p><p> L'accesso alle funzionalità di Rep Live Chat si basa sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a messaggi, report e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Rep Live Chat abilitate per il tuo account, comprese le impostazioni, insieme a tutti i privilegi di un agente normale.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Amministratore",
       "AGENT": "Agente"
@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente: aggiunto correttamente",
         "EXIST_MESSAGE": "Agente: email già in uso, prova con un altro indirizzo email",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Cancellare",
       "API": {
         "SUCCESS_MESSAGE": "Agente: eliminato con successo",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
@@ -80,13 +80,13 @@
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
         "SUCCESS_MESSAGE": "Agente: aggiornato correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reimpostare la password",
         "ADMIN_SUCCESS_MESSAGE": "Un'email con le istruzioni per reimpostare la password è stata inviata all'agente",
         "SUCCESS_MESSAGE": "Agente: reimpostata correttamente",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       }
     },
     "SEARCH": {

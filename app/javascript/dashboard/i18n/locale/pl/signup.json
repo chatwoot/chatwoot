@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Załóż konto",
     "TITLE": "Rejestracja",
-    "TERMS_ACCEPT": "Rejestrując się, akceptujesz naszą <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politykę prywatności</a>",
+    "TERMS_ACCEPT": "Rejestrując się, akceptujesz naszą <a href=\"https://www.hellorep.ai/terms\">T & C</a> i <a href=\"https://www.hellorep.ai/privacy-policy\">politykę prywatności</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nazwa konta",
       "PLACEHOLDER": "Wprowadź nazwę konta, np. Wayne Enterprises",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Rejestracja powiodła się",
-      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      "ERROR_MESSAGE": "Nie można połączyć się z Rep Live Chat Server, spróbuj ponownie później"
     },
     "SUBMIT": "Prześlij",
     "HAVE_AN_ACCOUNT": "Masz już konto?"

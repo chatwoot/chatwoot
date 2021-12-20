@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Nytt konto",
     "SELECTOR_SUBTITLE": "Skapa ett nytt konto",
     "API": {
       "SUCCESS_MESSAGE": "Kontot har skapats",
       "EXIST_MESSAGE": "Konto finns redan",
-      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      "ERROR_MESSAGE": "Kunde inte ansluta till Rep Live Chat Server, försök igen senare"
     },
     "FORM": {
       "NAME": {

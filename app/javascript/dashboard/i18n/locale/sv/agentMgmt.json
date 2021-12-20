@@ -3,7 +3,7 @@
     "HEADER": "Agenter",
     "HEADER_BTN_TXT": "Lägg till agent",
     "LOADING": "Hämtar agentlista",
-    "SIDEBAR_TXT": "<p><b>Agenter</b></p> <p> En <b>Agent</b> är medlem i ditt kundsupportteam. </p><p> Agenter kommer att kunna se och svara på meddelanden från dina användare. Listan visar alla agenter som finns på ditt konto. </p><p> Klicka på <b>Lägg till agent</b> för att lägga till en ny agent. Agenter du lägger till kommer att få ett e-postmeddelande med en bekräftelselänk för att aktivera sitt konto, vartefter de kan komma åt Chatwoot och svara på meddelanden. </p><p> Åtkomst till Chatwoots funktioner baseras på följande roller: </p><p> <b>Agent</b> - Agenter med denna roll kan endast komma åt inkorgar, rapporter och konversationer. De kan tilldela konversationer till andra agenter eller sig själva och lösa konversationer.</p><p> <b>Administratör</b> - Administratörer kommer att ha tillgång till alla Chatwoot-funktioner som är aktiverade för ditt konto, inklusive inställningar, tillsammans med alla normala agenters privilegier.</p>",
+    "SIDEBAR_TXT": "<p><b>Agenter</b></p> <p> En <b>Agent</b> är medlem i ditt kundsupportteam. </p><p> Agenter kommer att kunna se och svara på meddelanden från dina användare. Listan visar alla agenter som finns på ditt konto. </p><p> Klicka på <b>Lägg till agent</b> för att lägga till en ny agent. Agenter du lägger till kommer att få ett e-postmeddelande med en bekräftelselänk för att aktivera sitt konto, vartefter de kan komma åt Rep Live Chat och svara på meddelanden. </p><p> Åtkomst till Chatwoots funktioner baseras på följande roller: </p><p> <b>Agent</b> - Agenter med denna roll kan endast komma åt inkorgar, rapporter och konversationer. De kan tilldela konversationer till andra agenter eller sig själva och lösa konversationer.</p><p> <b>Administratör</b> - Administratörer kommer att ha tillgång till alla Rep Live Chat-funktioner som är aktiverade för ditt konto, inklusive inställningar, tillsammans med alla normala agenters privilegier.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administratör",
       "AGENT": "Agent"
@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agenten har lagts till",
         "EXIST_MESSAGE": "E-postadressen används redan, försök med en annan e-postadress",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Rep Live Chat Server, försök igen senare"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
         "SUCCESS_MESSAGE": "Agenten har tagits bort",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Rep Live Chat Server, försök igen senare"
       },
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",
@@ -80,13 +80,13 @@
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "API": {
         "SUCCESS_MESSAGE": "Agenten uppdaterad",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Rep Live Chat Server, försök igen senare"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Återställ lösenord",
         "ADMIN_SUCCESS_MESSAGE": "Ett e-postmeddelande med instruktioner för att återställa lösenordet har skickats till agenten",
         "SUCCESS_MESSAGE": "Agentens lösenord återställd",
-        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        "ERROR_MESSAGE": "Kunde inte ansluta till Rep Live Chat Server, försök igen senare"
       }
     },
     "SEARCH": {

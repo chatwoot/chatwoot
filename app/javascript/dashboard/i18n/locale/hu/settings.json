@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Új fiók",
     "SELECTOR_SUBTITLE": "Új fiók létrehozása",
     "API": {
       "SUCCESS_MESSAGE": "Ügynök sikeresen létrehozva",
       "EXIST_MESSAGE": "A fiók már létezik",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Rep Live Chat szerverhez, kérjük próbáld később"
     },
     "FORM": {
       "NAME": {

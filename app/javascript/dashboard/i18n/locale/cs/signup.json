@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Registrovat účet",
     "TITLE": "Registrovat se",
-    "TERMS_ACCEPT": "Registrací souhlasíte s našimi <a href=\"https://www.chatwoot.com/terms\">T & C</a> a <a href=\"https://www.chatwoot.com/privacy-policy\">Zásadami ochrany osobních údajů</a>",
+    "TERMS_ACCEPT": "Registrací souhlasíte s našimi <a href=\"https://www.hellorep.ai/terms\">T & C</a> a <a href=\"https://www.hellorep.ai/privacy-policy\">Zásadami ochrany osobních údajů</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Název účtu",
       "PLACEHOLDER": "Zadejte název účtu. např.: Novákova společnost",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrace byla úspěšná",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "ERROR_MESSAGE": "Nelze se připojit k Rep Live Chat serveru, opakujte akci později"
     },
     "SUBMIT": "Odeslat",
     "HAVE_AN_ACCOUNT": "Máte již účet?"

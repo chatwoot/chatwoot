@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Đăng kí tài khoản",
     "TITLE": "Đăng kí",
-    "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.chatwoot.com/terms\">T & C</a> và <a href=\"https://www.chatwoot.com/privacy-policy\">Chính sách bảo mật</a>",
+    "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.hellorep.ai/terms\">T & C</a> và <a href=\"https://www.hellorep.ai/privacy-policy\">Chính sách bảo mật</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Tên tài khoản",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Rep Live Chat, Vui lòng thử lại sau."
     },
     "SUBMIT": "Gửi",
     "HAVE_AN_ACCOUNT": "Already have an account?"

@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Înregistrați un cont",
     "TITLE": "Inregistrare",
-    "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\"></a>",
+    "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.hellorep.ai/terms\">T & C</a> și <a href=\"https://www.hellorep.ai/privacy-policy\"></a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nume cont",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Înregistrare cu succes",
-      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Rep Live Chat Server, încercați din nou mai târziu"
     },
     "SUBMIT": "Trimite",
     "HAVE_AN_ACCOUNT": "Already have an account?"

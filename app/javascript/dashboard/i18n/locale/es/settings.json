@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Nueva cuenta",
     "SELECTOR_SUBTITLE": "Crear nueva cuenta",
     "API": {
       "SUCCESS_MESSAGE": "Cuenta creada con éxito",
       "EXIST_MESSAGE": "La cuenta ya existe",
-      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Rep Live Chat, por favor inténtelo de nuevo más tarde"
     },
     "FORM": {
       "NAME": {

@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {
       "SUCCESS_MESSAGE": "Hesap başarıyla oluşturuldu",
       "EXIST_MESSAGE": "Bu Hesap Zaten Mevcut",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      "ERROR_MESSAGE": "Rep Live Chat Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "FORM": {
       "NAME": {

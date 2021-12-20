@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Iniciar sesión en Chatwoot",
+    "TITLE": "Iniciar sesión en Rep Live Chat",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "Email por ejemplo: alguien@ejemplo.com"
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Inicio de sesión exitoso",
-      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Rep Live Chat, por favor inténtalo de nuevo más tarde",
       "UNAUTH": "Nombre de usuario / Contraseña incorrecto. Inténtelo de nuevo"
     },
     "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",

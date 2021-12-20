@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "اکنون می‌توانید ایمیل‌ها را در دامنه سفارشی خود دریافت کنید."
       }
     },
-    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید."
+    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Rep Live Chat در دسترس است. لطفا نمونه خود را به روز کنید."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -74,7 +74,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "قطع کردن Chatwoot"
+      "TEXT": "قطع کردن Rep Live Chat"
     },
     "BUTTON": {
       "REFRESH": "تازه کردن"

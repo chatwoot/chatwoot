@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Fiókok",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatwoot fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Rep Live Chat fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
     "LIST": {
       "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
     },
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
       },
       "FB": {
-        "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatwoot.",
+        "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Rep Live Chat.",
         "CHOOSE_PAGE": "Oldal kiválasztása",
         "CHOOSE_PLACEHOLDER": "Válaszd ki az oldalt a listából",
         "INBOX_NAME": "Fiók név",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Rep Live Chat supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Ügynökök",
@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "Felhasználói fiók validálás",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Rep Live Chat SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",

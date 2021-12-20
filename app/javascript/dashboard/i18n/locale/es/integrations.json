@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Añadir nuevo webhook",
       "LOADING": "Obteniendo webhooks adjuntos",
       "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en Chatwoot. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en Rep Live Chat. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
       "LIST": {
         "404": "No hay webhooks configurados para esta cuenta.",
         "TITLE": "Administrar webhooks",
@@ -21,7 +21,7 @@
         "BUTTON_TEXT": "Editar",
         "TITLE": "Editar Webhook",
         "CANCEL": "Cancelar",
-        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
+        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Rep Live Chat. Por favor, introduce una URL válida para configurar un callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "URL de Webhook",
@@ -32,13 +32,13 @@
         },
         "API": {
           "SUCCESS_MESSAGE": "URL del webhook actualizado correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Rep Live Chat, por favor inténtalo de nuevo más tarde"
         }
       },
       "ADD": {
         "CANCEL": "Cancelar",
         "TITLE": "Añadir nuevo webhook",
-        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
+        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Rep Live Chat. Por favor, introduce una URL válida para configurar un callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "URL de Webhook",
@@ -49,14 +49,14 @@
         },
         "API": {
           "SUCCESS_MESSAGE": "Webhook añadido correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Rep Live Chat, por favor inténtalo de nuevo más tarde"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Eliminar",
         "API": {
           "SUCCESS_MESSAGE": "Webhook eliminado correctamente",
-          "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+          "ERROR_MESSAGE": "No se pudo conectar al servidor Rep Live Chat, por favor inténtalo de nuevo más tarde"
         },
         "CONFIRM": {
           "TITLE": "Confirmar eliminación",
@@ -69,7 +69,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "BODY": "<br/><p>Rep Live Chat will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through Rep Live Chat.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in Rep Live Chat under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

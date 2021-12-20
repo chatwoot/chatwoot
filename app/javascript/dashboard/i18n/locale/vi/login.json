@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Đăng nhập Chatwoot",
+    "TITLE": "Đăng nhập Rep Live Chat",
     "EMAIL": {
       "LABEL": "Thư điện tử",
       "PLACEHOLDER": "Email : someone@example.com"
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Đăng nhập thành công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau",
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Rep Live Chat, Vui lòng thử lại sau",
       "UNAUTH": "Tài khoản/Mật khẩu không đúng. Vui lòng thử lại"
     },
     "FORGOT_PASSWORD": "Quên mật khẩu?",

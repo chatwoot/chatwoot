@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Daftar akun",
     "TITLE": "Daftar",
-    "TERMS_ACCEPT": "Dengan mendaftar, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">S&K</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a>",
+    "TERMS_ACCEPT": "Dengan mendaftar, Anda menyetujui <a href=\"https://www.hellorep.ai/terms\">S&K</a> dan <a href=\"https://www.hellorep.ai/privacy-policy\">Kebijakan Privasi</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nama Akun",
       "PLACEHOLDER": "Masukkan nama akun. cth: Wayne Enterprises",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Rep Live Chat, Silahkan coba lagi nanti"
     },
     "SUBMIT": "Kirim",
     "HAVE_AN_ACCOUNT": "Sudah punya akun?"

@@ -158,13 +158,13 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Compte nou",
     "SELECTOR_SUBTITLE": "Crear un compte nou",
     "API": {
       "SUCCESS_MESSAGE": "El compte s'ha creat correctament",
       "EXIST_MESSAGE": "El compte ja existeix",
-      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Rep Live Chat. Torna-ho a provar més endavant"
     },
     "FORM": {
       "NAME": {

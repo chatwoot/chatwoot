@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "アカウントを登録",
     "TITLE": "登録",
-    "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.chatwoot.com/terms\">T & C</a> および <a href=\"https://www.chatwoot.com/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
+    "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.hellorep.ai/terms\">T & C</a> および <a href=\"https://www.hellorep.ai/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
     "ACCOUNT_NAME": {
       "LABEL": "アカウント名",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
@@ -30,7 +30,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "登録に成功しました",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "Rep Live Chat Serverに接続できませんでした。後でもう一度お試しください。"
     },
     "SUBMIT": "送信",
     "HAVE_AN_ACCOUNT": "Already have an account?"

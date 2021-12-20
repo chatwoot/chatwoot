@@ -3,7 +3,7 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é um membro da sua equipa de Suporte ao Cliente. </p><p> Os agentes podem ver e responder às mensagens dos seus utilizadores. A lista mostra todos os agentes atualmente na sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. O agente que adicionar receberá um e-mail com um link de confirmação para ativar a sua conta, de forma a poderem aceder ao Chatwoot e responder às mensagens. </p><p> Os acessos aos recursos do Chatwoot têm como base as seguintes funções. </p><p> <b>Agentes</b> - Só podem aceder às caixas de entrada, relatórios e conversas. Podem atribuir conversas a outros agentes ou a eles próprios e responder a pedidos.</p><p> <b>Administrador</b> - Têm acesso a todos os recursos do Chatwoot ativados na sua conta, incluindo configurações e todos os privilégios que os Agentes normais têm.</p>",
+    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é um membro da sua equipa de Suporte ao Cliente. </p><p> Os agentes podem ver e responder às mensagens dos seus utilizadores. A lista mostra todos os agentes atualmente na sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. O agente que adicionar receberá um e-mail com um link de confirmação para ativar a sua conta, de forma a poderem aceder ao Rep Live Chat e responder às mensagens. </p><p> Os acessos aos recursos do Rep Live Chat têm como base as seguintes funções. </p><p> <b>Agentes</b> - Só podem aceder às caixas de entrada, relatórios e conversas. Podem atribuir conversas a outros agentes ou a eles próprios e responder a pedidos.</p><p> <b>Administrador</b> - Têm acesso a todos os recursos do Rep Live Chat ativados na sua conta, incluindo configurações e todos os privilégios que os Agentes normais têm.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
       "AGENT": "Representante"
@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Agente adicionado com sucesso",
         "EXIST_MESSAGE": "E-mail do representante já está em uso, por favor tente outro endereço de e-mail",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Rep Live Chat, por favor tente novamente mais tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Rep Live Chat, por favor tente novamente mais tarde"
       },
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
@@ -80,13 +80,13 @@
       "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Agente atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Rep Live Chat, por favor tente novamente mais tarde"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Redefinir a senha",
         "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções de redefinição de senha foi enviado para o agente",
         "SUCCESS_MESSAGE": "Senha do agente redefinida com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Rep Live Chat, por favor tente novamente mais tarde"
       }
     },
     "SEARCH": {

@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "로그인 성공",
-      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오.",
+      "ERROR_MESSAGE": "Rep Live Chat 서버에 연결할 수 없음. 나중에 다시 시도하십시오.",
       "UNAUTH": "사용자 이름/암호가 잘못됨. 다시 시도하십시오."
     },
     "FORGOT_PASSWORD": "암호를 잊으셨나요?",

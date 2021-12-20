@@ -9,7 +9,7 @@
       {
         "title": "Wählen Sie Kanal",
         "route": "settings_inbox_new",
-        "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
+        "body": "Wählen Sie den Anbieter, den Sie in Rep Live Chat integrieren möchten."
       },
       {
         "title": "Posteingang erstellen",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
+        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Rep Live Chat niemals zugreifen.",
         "CHOOSE_PAGE": "Seite auswählen",
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Wähle einen Kanal",
-        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
+        "DESC": "Rep Live Chat unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -257,11 +257,11 @@
       },
       "DETAILS": {
         "TITLE": "Posteingangsdetails",
-        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Chatwoot herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
+        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Rep Live Chat herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
       },
       "FINISH": {
         "TITLE": "Geschafft!",
-        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Chatwoot erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Chatwoot angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
+        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Rep Live Chat erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Rep Live Chat angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
       }
     },
     "DETAILS": {
@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
       "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden.",
       "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
-      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, funktioniert die setUser Methode der Chatwoot SDK nur, wenn ein `identifier_hash` für jeden Benutzer mitgeliefert wird.",
+      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, funktioniert die setUser Methode der Rep Live Chat SDK nur, wenn ein `identifier_hash` für jeden Benutzer mitgeliefert wird.",
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",

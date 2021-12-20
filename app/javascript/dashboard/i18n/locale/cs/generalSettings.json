@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Nyní můžete přijímat e-maily na vaši vlastní doménu."
       }
     },
-    "UPDATE_CHATWOOT": "Je dostupná aktualizace %{latestChatwootVersion} pro Chatwoot. Aktualizujte prosím svou instanci."
+    "UPDATE_CHATWOOT": "Je dostupná aktualizace %{latestChatwootVersion} pro Rep Live Chat. Aktualizujte prosím svou instanci."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -74,7 +74,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from Rep Live Chat"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

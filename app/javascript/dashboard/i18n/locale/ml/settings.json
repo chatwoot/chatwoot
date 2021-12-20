@@ -158,7 +158,7 @@
     "REPORTS_TEAM": "Team"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Rep Live Chat accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",
     "SELECTOR_SUBTITLE": "അക്കൗണ്ട് ഒരു പുതിയ അക്കൗണ്ട് വിജയകരമായി സൃഷ്ടിക്കുക",
     "API": {

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Accedi a Chatwoot",
+    "TITLE": "Accedi a Rep Live Chat",
     "EMAIL": {
       "LABEL": "email",
       "PLACEHOLDER": "E-mail es.: qualcuno@esempio.com"
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Accesso riuscito",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
+      "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi",
       "UNAUTH": "Nome utente / Password errati. Riprova"
     },
     "FORGOT_PASSWORD": "Password dimenticata?",

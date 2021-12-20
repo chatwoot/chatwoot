@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inkorgar",
-    "SIDEBAR_TXT": "<p><b>Inkorg</b></p> <p> När du ansluter en webbplats eller en Facebook-sida till Chatwoot, så kallas det för en <b>Inkorg</b>. Du kan ha obegränsad mängd inkorgar i ditt Chatwoot-konto. </p><p> Klicka på <b>Lägg till inkorg</b> för att ansluta en webbplats eller en Facebook-sida. </p><p> I instrumentpanelen kan du se alla konversationer från alla dina inkorgar på en enda plats och svara på dem under fliken \"Konversationer\". </p><p> Du kan också se konversationer specifika för en inkorg genom att klicka på inkorgnamnet i den vänstra rutan på instrumentbrädan. </p>",
+    "SIDEBAR_TXT": "<p><b>Inkorg</b></p> <p> När du ansluter en webbplats eller en Facebook-sida till Rep Live Chat, så kallas det för en <b>Inkorg</b>. Du kan ha obegränsad mängd inkorgar i ditt Rep Live Chat-konto. </p><p> Klicka på <b>Lägg till inkorg</b> för att ansluta en webbplats eller en Facebook-sida. </p><p> I instrumentpanelen kan du se alla konversationer från alla dina inkorgar på en enda plats och svara på dem under fliken \"Konversationer\". </p><p> Du kan också se konversationer specifika för en inkorg genom att klicka på inkorgnamnet i den vänstra rutan på instrumentbrädan. </p>",
     "LIST": {
       "404": "Det finns inga inkorgar kopplade till detta konto."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Välj kanal",
         "route": "settings_inbox_new",
-        "body": "Välj den leverantör du vill integrera med Chatwoot."
+        "body": "Välj den leverantör du vill integrera med Rep Live Chat."
       },
       {
         "title": "Skapa inkorg",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Rep Live Chat.",
         "CHOOSE_PAGE": "Välj sida",
         "CHOOSE_PLACEHOLDER": "Välj en sida från listan",
         "INBOX_NAME": "Inkorgsnamn",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Välj en kanal",
-        "DESC": "Chatwoot stöder live-chat widget, Facebook-sida, Twitter-profil, WhatsApp, E-post etc., som kanaler. Om du vill bygga en anpassad kanal kan du skapa den med hjälp av API-kanalen. Välj en kanal från alternativen nedan för att fortsätta."
+        "DESC": "Rep Live Chat stöder live-chat widget, Facebook-sida, Twitter-profil, WhatsApp, E-post etc., som kanaler. Om du vill bygga en anpassad kanal kan du skapa den med hjälp av API-kanalen. Välj en kanal från alternativen nedan för att fortsätta."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -257,11 +257,11 @@
       },
       "DETAILS": {
         "TITLE": "Inkorgsdetaljer",
-        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
+        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Rep Live Chat. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
       },
       "FINISH": {
         "TITLE": "Där satt den!",
-        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
+        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Rep Live Chat. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Rep Live Chat.<br>Cool, va? Tja, vi försöker säkert att vara :)"
       }
     },
     "DETAILS": {
@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "Validering av användaridentitet",
       "HMAC_DESCRIPTION": "För att validera användarens identitet låter SDKn dig att skicka en `identity_hash` för varje användare. Du kan generera HMAC med 'sha256' med nyckeln som visas här.",
       "HMAC_MANDATORY_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_MANDATORY_DESCRIPTION": "Om aktiverad, kommer Chatwoot SDKs setUser metod inte att fungera om inte `identifier_hash` tillhandahålls för varje användare.",
+      "HMAC_MANDATORY_DESCRIPTION": "Om aktiverad, kommer Rep Live Chat SDKs setUser metod inte att fungera om inte `identifier_hash` tillhandahålls för varje användare.",
       "INBOX_IDENTIFIER": "Identifierare för inkorgen",
       "INBOX_IDENTIFIER_SUB_TEXT": "Använd `inbox_identifier`-token som visas här för att autentisera dina API-klienter.",
       "FORWARD_EMAIL_TITLE": "Vidarebefordra till e-post",

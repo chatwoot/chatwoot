@@ -3,7 +3,7 @@
     "HEADER": "Kullanıcılar",
     "HEADER_BTN_TXT": "Kullanıcı Ekle",
     "LOADING": "Kullanıcı Listesi Alınıyor",
-    "SIDEBAR_TXT": "<p><b>Alanlar</b> </p> <p> Bir <b> Temsilci </b>, Müşteri Destek ekibinizin bir üyesidir. </p> <p> Temsilciler, kullanıcılarınızdan gelen mesajları görüntüleyebilecek ve yanıtlayabilecek. Liste, şu anda hesabınızda bulunan tüm aracıları gösterir. </p> <p> Yeni bir temsilci eklemek için <b> Temsilci Ekle </b> 'yi tıklayın. Eklediğiniz temsilci, hesabını etkinleştirmek için bir onay bağlantısı içeren bir e-posta alacak ve ardından Chatwoot'a erişebilecek ve mesajlara yanıt verebilecek. </p> <p> Chatwoot'un özelliklerine erişim aşağıdaki rollere bağlıdır. </p> <p> <b> Temsilci </b> - Bu role sahip temsilciler yalnızca gelen kutularına, raporlara ve konuşmalara erişebilir. Görüşmeleri başka aracılara veya kendilerine atayabilir ve görüşmeleri çözebilirler. </p> <p> <b> Yönetici </b> - Yönetici, ayarlar da dahil olmak üzere hesabınız için etkinleştirilmiş tüm Chatwoot özelliklerine ve tüm normal temsilcilerin ayrıcalıkları. </p>",
+    "SIDEBAR_TXT": "<p><b>Alanlar</b> </p> <p> Bir <b> Temsilci </b>, Müşteri Destek ekibinizin bir üyesidir. </p> <p> Temsilciler, kullanıcılarınızdan gelen mesajları görüntüleyebilecek ve yanıtlayabilecek. Liste, şu anda hesabınızda bulunan tüm aracıları gösterir. </p> <p> Yeni bir temsilci eklemek için <b> Temsilci Ekle </b> 'yi tıklayın. Eklediğiniz temsilci, hesabını etkinleştirmek için bir onay bağlantısı içeren bir e-posta alacak ve ardından Rep Live Chat'a erişebilecek ve mesajlara yanıt verebilecek. </p> <p> Rep Live Chat'un özelliklerine erişim aşağıdaki rollere bağlıdır. </p> <p> <b> Temsilci </b> - Bu role sahip temsilciler yalnızca gelen kutularına, raporlara ve konuşmalara erişebilir. Görüşmeleri başka aracılara veya kendilerine atayabilir ve görüşmeleri çözebilirler. </p> <p> <b> Yönetici </b> - Yönetici, ayarlar da dahil olmak üzere hesabınız için etkinleştirilmiş tüm Rep Live Chat özelliklerine ve tüm normal temsilcilerin ayrıcalıkları. </p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Yönetici",
       "AGENT": "Kullanıcı"
@@ -42,14 +42,14 @@
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
         "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Rep Live Chat Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Rep Live Chat Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",
@@ -80,13 +80,13 @@
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
         "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Rep Live Chat Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Şifreyi yenile",
         "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
         "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Rep Live Chat Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "SEARCH": {

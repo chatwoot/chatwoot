@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Přihlásit se do Chatwoot",
+    "TITLE": "Přihlásit se do Rep Live Chat",
     "EMAIL": {
       "LABEL": "E-mailová adresa",
       "PLACEHOLDER": "E-mail např: někdo@example.com"
@@ -11,7 +11,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Přihlášení úspěšné",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později",
+      "ERROR_MESSAGE": "Nelze se připojit k Rep Live Chat serveru, opakujte akci později",
       "UNAUTH": "Nesprávné uživatelské jméno / heslo. Zkuste to prosím znovu"
     },
     "FORGOT_PASSWORD": "Zapomněli jste heslo?",

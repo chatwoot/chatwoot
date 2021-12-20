@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Hộp thư đến",
-    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
+    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Rep Live Chat, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Rep Live Chat của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
     "LIST": {
       "404": "Không có hộp thư đến nào được đính kèm với tài khoản này."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Chọn kênh",
         "route": "settings_inbox_new",
-        "body": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
+        "body": "Chọn nhà cung cấp bạn muốn tích hợp với Rep Live Chat."
       },
       {
         "title": "Tạo Hộp thư đến",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
       },
       "FB": {
-        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
+        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Rep Live Chat không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
         "INBOX_NAME": "Tên hộp thư đến",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Rep Live Chat supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
@@ -257,11 +257,11 @@
       },
       "DETAILS": {
         "TITLE": "Chi tiết Hộp thư đến",
-        "DESC": "Từ menu thả xuống bên dưới, chọn Trang Facebook bạn muốn kết nối với Chatwoot. Bạn cũng có thể đặt tên tùy chỉnh cho hộp thư đến của mình để nhận dạng tốt hơn."
+        "DESC": "Từ menu thả xuống bên dưới, chọn Trang Facebook bạn muốn kết nối với Rep Live Chat. Bạn cũng có thể đặt tên tùy chỉnh cho hộp thư đến của mình để nhận dạng tốt hơn."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
+        "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Rep Live Chat. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Rep Live Chat.<br>Cool, huh? Well :)"
       }
     },
     "DETAILS": {
@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Rep Live Chat SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",

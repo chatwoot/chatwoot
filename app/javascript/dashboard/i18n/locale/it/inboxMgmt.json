@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posta",
-    "SIDEBAR_TXT": "<p><b>Posta in arrivo</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Posta in arrivo</b>. Puoi avere caselle di posta illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Posta in arrivo</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella di posta in arrivo facendo clic sul nome della casella di posta in arrivo nel riquadro sinistro del cruscotto. </p>",
+    "SIDEBAR_TXT": "<p><b>Posta in arrivo</b></p> <p> Quando colleghi un sito web o una pagina facebook a Rep Live Chat, si chiama <b>Posta in arrivo</b>. Puoi avere caselle di posta illimitate nel tuo account Rep Live Chat. </p><p> Clicca su <b>Aggiungi Posta in arrivo</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella di posta in arrivo facendo clic sul nome della casella di posta in arrivo nel riquadro sinistro del cruscotto. </p>",
     "LIST": {
       "404": "Non ci sono caselle allegate a questo account."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Scegli il canale",
         "route": "Nuovo",
-        "body": "Scegli il provider che vuoi integrare con Chatwoot."
+        "body": "Scegli il provider che vuoi integrare con Rep Live Chat."
       },
       {
         "title": "Crea Inbox",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
+        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Rep Live Chat, non potrà accedere ai tuoi messaggi privati.",
         "CHOOSE_PAGE": "Scegli una Pagina",
         "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
         "INBOX_NAME": "Nome Posta In Arrivo",
@@ -247,7 +247,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Rep Live Chat supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -257,11 +257,11 @@
       },
       "DETAILS": {
         "TITLE": "Dettagli Inbox",
-        "DESC": "Dal menu a tendina sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua posta in arrivo per una migliore identificazione."
+        "DESC": "Dal menu a tendina sotto, seleziona la pagina Facebook che vuoi collegare a Rep Live Chat. Puoi anche assegnare un nome personalizzato alla tua posta in arrivo per una migliore identificazione."
       },
       "FINISH": {
         "TITLE": "Lo Chioda!",
-        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella di posta.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di essere :)"
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Rep Live Chat. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella di posta.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Rep Live Chat.<br>Bello, eh? Beh, cerchiamo di essere :)"
       }
     },
     "DETAILS": {
@@ -354,7 +354,7 @@
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Rep Live Chat SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",

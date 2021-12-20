@@ -25,7 +25,7 @@
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       }
     },
     "LIST": {
@@ -46,7 +46,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+        "ERROR_MESSAGE": "Impossibile connettersi al server Rep Live Chat, riprova più tardi"
       }
     },
     "CONNECT": {
