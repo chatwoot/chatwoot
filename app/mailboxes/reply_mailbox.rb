@@ -26,7 +26,11 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def conversation_uuid_from_to_address
-    mail.to.each do |email|
+    @mail = MailPresenter.new(mail)
+
+    return if @mail.mail_receiver.blank?
+
+    @mail.mail_receiver.each do |email|
       username = email.split('@')[0]
       match_result = username.match(ApplicationMailbox::REPLY_EMAIL_UUID_PATTERN)
       if match_result
@@ -35,10 +39,6 @@ class ReplyMailbox < ApplicationMailbox
       end
     end
     @conversation_uuid
-  end
-
-  def verify_decoded_params
-    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   # find conversation uuid from below pattern
@@ -71,6 +71,10 @@ class ReplyMailbox < ApplicationMailbox
     else
       find_conversation_by_message_id(in_reply_to)
     end
+  end
+
+  def verify_decoded_params
+    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   def validate_resource(resource)

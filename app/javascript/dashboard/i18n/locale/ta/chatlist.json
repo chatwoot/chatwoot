@@ -7,6 +7,7 @@
       "404": "இந்த குழுவில் செயலில் உள்ள உரையாடல்கள் எதுவும் இல்லை."
     },
     "TAB_HEADING": "உரையாடல்கள்",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "நபர்கள், அரட்டைகள், சேமித்த பதில்களை தேட .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "பட செய்தி"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "ஆடியோ செய்தி"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "வீடியோ செய்தி"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "பைல் இணைப்புகள்"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "இருப்பிடம்"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
       }
     },

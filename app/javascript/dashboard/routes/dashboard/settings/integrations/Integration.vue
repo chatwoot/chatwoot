@@ -31,7 +31,7 @@
                 :button-text="
                   $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                 "
-                icon-class="ion-close-circled"
+                icon-class="dismiss-circle"
                 button-class="nice alert"
               />
             </div>

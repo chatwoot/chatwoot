@@ -234,8 +234,8 @@ export default {
       return {
         email: this.contentAttributes.email,
         cc: this.contentAttributes.cc_emails,
-        bcc: this.contentAttributes.bcc_emails
-      }
+        bcc: this.contentAttributes.bcc_emails,
+      };
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
@@ -354,7 +354,7 @@ export default {
     }
 
     &.is-private .file.message-text__wrap {
-      .ion-document-text {
+      .file--icon {
         color: var(--w-400);
       }
       .text-block-title {

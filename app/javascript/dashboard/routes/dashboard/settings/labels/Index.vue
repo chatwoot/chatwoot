@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup"
     >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
@@ -44,24 +44,26 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(label)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.EDIT') }}
                 </woot-button>
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.DELETE') }}
                 </woot-button>
               </td>
             </tr>

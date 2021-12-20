@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vælg venligst en samtale fra venstre rude",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Åh oh! Det ser ud til, at der ikke er nogen beskeder fra kunder i din indbakke.",
     "NO_MESSAGE_2": " for at sende en besked til din side!",
     "NO_INBOX_1": "Hola! Det ser ud til, at du endnu ikke har tilføjet indbakker.",

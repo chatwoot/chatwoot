@@ -3,8 +3,8 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
       @click="openAddPopup()"
+      icon="add-circle"
     >
       {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
     </woot-button>
@@ -44,5 +44,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

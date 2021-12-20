@@ -23,7 +23,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
       before do
         allow(ContactIdentifyAction).to receive(:new).and_return(identify_action)
-        allow(identify_action).to receive(:perform)
+        allow(identify_action).to receive(:perform).and_return(contact)
       end
 
       it 'calls contact identify' do
@@ -47,7 +47,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
       before do
         allow(ContactIdentifyAction).to receive(:new).and_return(identify_action)
-        allow(identify_action).to receive(:perform)
+        allow(identify_action).to receive(:perform).and_return(contact)
       end
 
       it 'returns success when correct identifier hash is provided' do

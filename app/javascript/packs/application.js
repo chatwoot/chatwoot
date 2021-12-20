@@ -39,6 +39,7 @@ import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
 } from '../dashboard/helper/scriptHelpers';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 Vue.config.env = process.env;
 
@@ -73,6 +74,7 @@ Vue.use(hljs.vuePlugin);
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
+Vue.component('fluent-icon', FluentIcon);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

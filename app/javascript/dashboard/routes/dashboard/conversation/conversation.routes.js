@@ -14,21 +14,21 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/inbox/:inbox_id'),
-      name: 'inbox_dashboard',
-      roles: ['administrator', 'agent'],
-      component: ConversationView,
-      props: route => {
-        return { inboxId: route.params.inbox_id };
-      },
-    },
-    {
       path: frontendURL('accounts/:accountId/conversations/:conversation_id'),
       name: 'inbox_conversation',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => {
         return { inboxId: 0, conversationId: route.params.conversation_id };
+      },
+    },
+    {
+      path: frontendURL('accounts/:accountId/inbox/:inbox_id'),
+      name: 'inbox_dashboard',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => {
+        return { inboxId: route.params.inbox_id };
       },
     },
     {
@@ -81,6 +81,25 @@ export default {
       props: route => ({
         conversationId: route.params.conversationId,
         teamId: route.params.teamId,
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/mentions/conversations'),
+      name: 'conversation_mentions',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ conversationType: 'mention' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/mentions/conversations/:conversationId'
+      ),
+      name: 'conversation_through_mentions',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'mention',
       }),
     },
   ],

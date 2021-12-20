@@ -20,6 +20,7 @@ import { default as _signup } from './signup.json';
 import { default as _teamsSettings } from './teamsSettings.json';
 import { default as _advancedFilters } from './advancedFilters.json';
 import { default as _automation } from './automation.json';
+import { default as _contactFilters } from './contactFilters.json';
 
 export default {
   ..._agentMgmt,
@@ -44,4 +45,5 @@ export default {
   ..._teamsSettings,
   ..._advancedFilters,
   ..._automation,
+  ..._contactFilters,
 };

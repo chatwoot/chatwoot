@@ -7,6 +7,7 @@
       "404": "Δεν υπάρχουν ενεργές συζητήσεις σε αυτήν την ομάδα."
     },
     "TAB_HEADING": "Συζητήσεις",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Αναζήτηση Ανθρώπων, συνομιλιών, αποθηκευμένων απαντήσεων .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Μήνυμα εικόνας"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Μήνυμα ήχου"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Μήνυμα βίντεο"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Επισυναπτόμενο αρχείο"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Θέση"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
       }
     },

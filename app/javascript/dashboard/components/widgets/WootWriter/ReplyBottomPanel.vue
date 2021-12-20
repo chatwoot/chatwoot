@@ -3,7 +3,7 @@
     <div class="left-wrap">
       <woot-button
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="ion-happy-outline"
+        icon="emoji"
         emoji="😊"
         color-scheme="secondary"
         variant="smooth"
@@ -24,7 +24,7 @@
           v-if="showAttachButton"
           class-names="button--upload"
           :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="ion-android-attach"
+          icon="attach"
           emoji="📎"
           color-scheme="secondary"
           variant="smooth"
@@ -33,7 +33,7 @@
       </file-upload>
       <woot-button
         v-if="enableRichEditor && !isOnPrivateNote"
-        icon="ion-quote"
+        icon="quote"
         emoji="🖊️"
         color-scheme="secondary"
         variant="smooth"
@@ -46,7 +46,7 @@
           v-show="$refs.upload && $refs.upload.dropActive"
           class="modal-mask"
         >
-          <i class="ion-ios-cloud-upload-outline icon"></i>
+          <fluent-icon icon="cloud-backup" />
           <h4 class="page-sub-title">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>

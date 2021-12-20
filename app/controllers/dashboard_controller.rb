@@ -26,14 +26,17 @@ class DashboardController < ActionController::Base
       'API_CHANNEL_THUMBNAIL',
       'ANALYTICS_TOKEN',
       'ANALYTICS_HOST'
-    ).merge(
-      APP_VERSION: Chatwoot.config[:version],
-      VAPID_PUBLIC_KEY: VapidService.public_key,
-      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
-    )
+    ).merge(app_config)
   end
 
   def ensure_installation_onboarding
     redirect_to '/installation/onboarding' if ::Redis::Alfred.get(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
+  end
+
+  def app_config
+    { APP_VERSION: Chatwoot.config[:version],
+      VAPID_PUBLIC_KEY: VapidService.public_key,
+      ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
+      FB_APP_ID: GlobalConfigService.load('FB_APP_ID', '') }
   end
 end

@@ -13,9 +13,9 @@ l<template>
         />
         <woot-button
           v-else
+          size="small"
           variant="clear"
-          color-scheme="danger"
-          class="btn-clear-filters"
+          color-scheme="alert"
           @click="resetAndFetchData"
         >
           {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
@@ -24,10 +24,11 @@ l<template>
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
+          icon="filter"
+          size="small"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
         >
-          <i class="icon ion-ios-settings-strong" />
         </woot-button>
       </div>
     </div>
@@ -51,6 +52,7 @@ l<template>
         :active-label="label"
         :team-id="teamId"
         :chat="chat"
+        :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
       />
 
@@ -133,6 +135,10 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -156,7 +162,7 @@ export default {
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
-      appliedFilters: 'getAppliedFilters',
+      appliedFilters: 'getAppliedConversationFilters',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
@@ -203,6 +209,9 @@ export default {
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId ? this.teamId : undefined,
+        conversationType: this.conversationType
+          ? this.conversationType
+          : undefined,
       };
     },
     pageTitle() {
@@ -214,6 +223,9 @@ export default {
       }
       if (this.label) {
         return `#${this.label}`;
+      }
+      if (this.conversationType === 'mention') {
+        return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -249,6 +261,9 @@ export default {
       this.resetAndFetchData();
     },
     label() {
+      this.resetAndFetchData();
+    },
+    conversationType() {
       this.resetAndFetchData();
     },
   },
@@ -391,16 +406,10 @@ export default {
 .filter--actions {
   display: flex;
   align-items: center;
-  .btn-filter {
-    cursor: pointer;
-    i {
-      font-size: var(--font-size-two);
-    }
-  }
-  .btn-clear-filters {
-    color: var(--r-500);
-    cursor: pointer;
-  }
+}
+
+.btn-filter {
+  margin: 0 var(--space-smaller);
 }
 
 .filter__applied {

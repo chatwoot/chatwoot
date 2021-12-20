@@ -7,6 +7,7 @@
       "404": "Tidak ada percakapan aktif di grup ini."
     },
     "TAB_HEADING": "Percakapan",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Pesan gambar"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Pesan audio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Pesan video"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Lampiran File"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Lokasi"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "telah membagikan url"
       }
     },

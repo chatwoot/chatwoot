@@ -31,7 +31,7 @@ const getters = {
       return isChatMine;
     });
   },
-  getAppliedFilters: _state => {
+  getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
   },
   getUnAssignedChats: _state => activeFilters => {

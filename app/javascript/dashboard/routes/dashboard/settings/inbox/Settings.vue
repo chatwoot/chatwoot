@@ -32,6 +32,14 @@
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
+        <label for="toggle-business-hours" class="toggle-input-wrap" v-if="isATwitterInbox">
+          <input
+            v-model="tweetsEnabled"
+            type="checkbox"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
+        </label>
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
@@ -401,6 +409,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      tweetsEnabled: true,
       hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
@@ -564,6 +573,7 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.tweetsEnabled = this.inbox.tweets_enabled || false;
         this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
@@ -622,6 +632,7 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             hmac_mandatory: this.hmacMandatory,
+            tweets_enabled: this.tweetsEnabled,
           },
         };
         if (this.avatarFile) {

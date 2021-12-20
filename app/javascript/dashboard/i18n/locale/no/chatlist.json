@@ -7,6 +7,7 @@
       "404": "Det er ingen aktive samtaler i denne gruppen."
     },
     "TAB_HEADING": "Samtaler",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildemelding"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Lydmelding"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video beskjed"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Vedlegg"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plassering"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delt en URL"
       }
     },

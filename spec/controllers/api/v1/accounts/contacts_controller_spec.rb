@@ -448,7 +448,19 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['contact']['id']).to eq(other_contact.id)
+        expect(JSON.parse(response.body)['attributes']).to include('email')
+      end
+
+      it 'prevents updating with an existing phone number' do
+        other_contact = create(:contact, account: account, phone_number: '+12000000')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params[:contact].merge({ phone_number: other_contact.phone_number }),
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['attributes']).to include('phone_number')
       end
     end
   end
