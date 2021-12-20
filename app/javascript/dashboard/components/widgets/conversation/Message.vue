@@ -72,18 +72,16 @@
           {{ sender.name }}
         </div>
       </a>
-      <p v-if="isFailed" class="message-failed--alert">
-        {{ errorMessage }}
+      <div v-if="isFailed" class="message-failed--alert">
         <woot-button
+          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="small"
           color-scheme="alert"
-          variant="link"
+          variant="clear"
           icon="arrow-clockwise"
           @click="retrySendMessage"
-        >
-          {{ $t('CONVERSATION.TRY_AGAIN') }}
-        </woot-button>
-      </p>
+        />
+      </div>
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
@@ -455,7 +453,7 @@ export default {
   color: var(--r-900);
   flex-grow: 1;
   text-align: right;
-  margin-top: var(--space-smaller);
+  margin-top: var(--space-smaller) var(--space-smaller) 0 0;
 }
 
 .button--delete-message {
@@ -490,7 +488,8 @@ li.right {
 
   .wrap.is-failed {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
+    align-items: flex-end;
     margin-left: auto;
   }
 }
