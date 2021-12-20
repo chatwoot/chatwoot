@@ -49,7 +49,7 @@
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
         "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
       "WEBSITE_CHANNEL": {
