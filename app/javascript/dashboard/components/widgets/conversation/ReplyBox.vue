@@ -369,7 +369,10 @@ export default {
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
-          await this.$store.dispatch('sendMessage', messagePayload);
+          await this.$store.dispatch(
+            'createPendingMessageAndSend',
+            messagePayload
+          );
           this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
