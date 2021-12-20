@@ -77,6 +77,10 @@ hu:
       email_input_box_message_body: "E-mail értesítés kérése"
       csat_input_message_body: "Kérlek értékeld a beszélgetést"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Új üzenet a beszélgetésben"
       transcript_subject: "Beszélgetés kivonat"
     survey:

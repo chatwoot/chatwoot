@@ -7,7 +7,7 @@
     "COMPANY": "Firma",
     "LOCATION": "Lokalizacja",
     "CONVERSATION_TITLE": "Szczegóły konwersacji",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Pokaż profil",
     "BROWSER": "Przeglądarki",
     "OS": "System operacyjny",
     "INITIATED_FROM": "Zainicjowano z",
@@ -33,8 +33,8 @@
         "NO_RESULT": "Nie znaleziono etykiet"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Połącz kontakty",
+    "CONTACT_ACTIONS": "Działania kontaktu",
     "MUTE_CONTACT": "Wycisz rozmowę",
     "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
     "MUTED_SUCCESS": "Ta rozmowa jest wyciszona na 6 godzin",
@@ -58,22 +58,22 @@
     "DESC": "Dodaj podstawowe informacje o kontakcie."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importuj",
+    "TITLE": "Importuj kontakty",
+    "DESC": "Importuj kontakty z pliku CSV.",
+    "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Plik CSV",
+      "SUBMIT": "Importuj",
       "CANCEL": "Anuluj"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontakty zapisane pomyślnie",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Usuń kontakt",
+    "TITLE": "Usuń kontakt",
+    "DESC": "Usuń dane kontaktowe",
     "CONFIRM": {
       "TITLE": "Potwierdź usunięcie",
       "MESSAGE": "Czy na pewno chcesz usunąć ",
@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Podaj adres e-mail kontaktu",
-        "LABEL": "Adres e-mail"
+        "LABEL": "Adres e-mail",
+        "DUPLICATE": "Ten adres e-mail jest już zajęty przez inny kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
         "LABEL": "Numer telefonu",
         "HELP": "Numer telefonu powinien mieć format E.164, np. +1415555555 [+][kod krajowy][kod kierunkowy][numer telefonu]",
-        "ERROR": "Numer telefonu powinien być pusty lub w formacie E.164"
+        "ERROR": "Numer telefonu powinien być pusty lub w formacie E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Wprowadź lokalizację kontaktu",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt zapisany pomyślnie",
-    "CONTACT_ALREADY_EXIST": "Ten adres e-mail jest już zajęty przez inny kontakt.",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Pola kontaktu",
     "SEARCH_BUTTON": "Szukaj",
     "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

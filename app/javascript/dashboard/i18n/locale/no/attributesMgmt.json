@@ -27,7 +27,12 @@
         "TYPE": {
           "LABEL": "Type",
           "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
         },
         "KEY": {
           "LABEL": "Key",
@@ -58,6 +63,12 @@
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Oppdater",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"

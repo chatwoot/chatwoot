@@ -38,7 +38,7 @@ sk:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
+      team_name: Názov tímu
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -60,40 +60,44 @@ sk:
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        assigned: "Pridelené %{assignee_name} od %{user_name}"
+        removed: "Konverzácia nepriradená %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Pridelené %{team_name} od %{user_name}"
+        assigned_with_assignee: "Pridelené %{assignee_name} prostredníctvom %{team_name} od %{user_name}"
+        removed: "Odpriradené z %{team_name} od %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} pridal %{labels}"
+        removed: "%{user_name} odobral %{labels}"
+      muted: "%{user_name} stlmil konverzáciu"
+      unmuted: "%{user_name} odtlmil konverzáciu"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
-      csat_input_message_body: "Please rate the conversation"
+      greeting_message_body: "%{account_name} zvyčajne odpovedá do niekoľkých hodín."
+      ways_to_reach_you_message_body: "Poskytnite tímu spôsob, ako sa s vami spojiť."
+      email_input_box_message_body: "Dostať upozornenie e-mailom"
+      csat_input_message_body: "Prosím, ohodnoťte konverzáciu"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email:
+        header:
+          from_with_name: '%{assignee_name} z %{inbox_name} <reply+%{from_email}>'
+          reply_with_name: '%{assignee_name} z %{inbox_name} <reply+%{reply_email}>'
+      email_subject: "Nové správy v tejto konverzácii"
+      transcript_subject: "Prepis konverzácie"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Prosím, ohodnoťte túto konverzáciu, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} je online, skúste to prosím neskôr"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack je chatovací nástroj, ktorý spája všetku vašu komunikáciu na jednom mieste. Integráciou služby Slack môžete dostávať upozornenia na všetky nové konverzácie vo vašom účte priamo v službe Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Udalosti Webhook vám poskytujú informácie v reálnom čase o tom, čo sa deje vo vašom účte. Webhook môžete využiť na oznamovanie udalostí svojim obľúbeným aplikáciám, ako je Slack alebo Github. Kliknutím na tlačidlo Konfigurovať nastavte svoje webhooky."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Vytvorte chatboty pomocou aplikácie Dialogflow a rýchlo ich pripojte k doručenej pošte. Nechajte botov spracovať otázky predtým, ako ich odovzdáte agentovi zákazníckeho servisu."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "Integrácia so službou FullContact pomáha obohatiť profily návštevníkov. Identifikujte používateľov hneď, ako zdieľajú svoju e-mailovú adresu, a ponúknite im zákaznícky servis šitý na mieru. Pripojte aplikáciu FullContact k svojmu účtu zdieľaním kľúča API FullContact."
