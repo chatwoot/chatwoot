@@ -4,7 +4,7 @@
     <div class="row modal-content">
       <div class="medium-12 columns">
         <woot-input
-          v-model="automationRuleName"
+          v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
           :class="{ error: $v.automationRuleName.$error }"
@@ -17,7 +17,7 @@
           @blur="$v.automationRuleName.$touch"
         />
         <woot-input
-          v-model="automationRuleDescription"
+          v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
           :class="{ error: $v.automationRuleDescription.$error }"
@@ -31,7 +31,7 @@
         />
         <label :class="{ error: $v.automationRuleEvent.$error }">
           {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-          <select v-model="automationRuleEvent" @change="onEventChange()">
+          <select v-model="automation.event_name" @change="onEventChange()">
             <option
               v-for="event in automationRuleEvents"
               :key="event.key"
@@ -44,45 +44,83 @@
             {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
           </span>
         </label>
-        <label>
-          {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
-        </label>
-        <div class="medium-12 columns filters-wrap">
-          <filter-input-box
-            v-for="(filter, i) in appliedFilters"
-            :key="i"
-            v-model="appliedFilters[i]"
-            :filter-attributes="filterAttributes"
-            :input-type="getInputType(appliedFilters[i].attribute_key)"
-            :operators="getOperators(appliedFilters[i].attribute_key)"
-            :dropdown-values="
-              getDropdownValues(appliedFilters[i].attribute_key)
-            "
-            :show-query-operator="i !== appliedFilters.length - 1"
-            :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-            :v="$v.appliedFilters.$each[i]"
-            @resetFilter="resetFilter(i, appliedFilters[i])"
-            @removeFilter="removeFilter(i)"
-          />
-          <div class="filter-actions">
-            <woot-button
-              icon="ion-plus"
-              color-scheme="success"
-              variant="smooth"
-              size="small"
-              @click="appendNewFilter"
-            >
-              {{ $t('FILTER.ADD_NEW_FILTER') }}
-            </woot-button>
+        <!-- // Conditions Start -->
+        <section>
+          <label>
+            {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
+          </label>
+          <div class="medium-12 columns filters-wrap">
+            <filter-input-box
+              v-for="(condition, i) in automation.conditions"
+              :key="i"
+              v-model="automation.conditions[i]"
+              :filter-attributes="filterAttributes"
+              :input-type="getInputType(automation.conditions[i].attribute_key)"
+              :operators="getOperators(automation.conditions[i].attribute_key)"
+              :dropdown-values="
+                getDropdownValues(automation.conditions[i].attribute_key)
+              "
+              :show-query-operator="i !== automation.conditions.length - 1"
+              :v="$v.automation.conditions.$each[i]"
+              @resetFilter="resetFilter(i, automation.conditions[i])"
+              @removeFilter="removeFilter(i)"
+            />
+            <div class="filter-actions">
+              <woot-button
+                icon="ion-plus"
+                color-scheme="success"
+                variant="smooth"
+                size="small"
+                @click="appendNewFilter"
+              >
+                {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
+              </woot-button>
+            </div>
           </div>
-        </div>
+        </section>
+        <!-- // Conditions End -->
+        <!-- // Actions End -->
+        <section>
+          <label>
+            {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
+          </label>
+          <div class="medium-12 columns filters-wrap">
+            <filter-input-box
+              v-for="(condition, i) in automation.conditions"
+              :key="i"
+              v-model="automation.conditions[i]"
+              :filter-attributes="filterAttributes"
+              :input-type="getInputType(automation.conditions[i].attribute_key)"
+              :operators="getOperators(automation.conditions[i].attribute_key)"
+              :dropdown-values="
+                getDropdownValues(automation.conditions[i].attribute_key)
+              "
+              :show-query-operator="i !== automation.conditions.length - 1"
+              :v="$v.automation.conditions.$each[i]"
+              @resetFilter="resetFilter(i, automation.conditions[i])"
+              @removeFilter="removeFilter(i)"
+            />
+            <div class="filter-actions">
+              <woot-button
+                icon="ion-plus"
+                color-scheme="success"
+                variant="smooth"
+                size="small"
+                @click="appendNewFilter"
+              >
+                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
+              </woot-button>
+            </div>
+          </div>
+        </section>
+        <!-- // Actions End -->
         <div class="medium-12 columns">
           <div class="modal-footer justify-content-end w-full">
             <woot-button class="button clear" @click.prevent="onClose">
-              {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
+              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
             <woot-button @click="submitFilterQuery">
-              {{ $t('FILTER.SUBMIT_BUTTON_LABEL') }}
+              {{ $t('AUTOMATION.ADD.SUBMIT') }}
             </woot-button>
           </div>
         </div>
@@ -122,16 +160,18 @@ export default {
     automationRuleEvent: {
       required,
     },
-    appliedFilters: {
-      required,
-      $each: {
-        values: {
-          required: requiredIf(prop => {
-            return !(
-              prop.filter_operator === 'is_present' ||
-              prop.filter_operator === 'is_not_present'
-            );
-          }),
+    automation: {
+      conditions: {
+        required,
+        $each: {
+          values: {
+            required: requiredIf(prop => {
+              return !(
+                prop.filter_operator === 'is_present' ||
+                prop.filter_operator === 'is_not_present'
+              );
+            }),
+          },
         },
       },
     },
@@ -149,7 +189,25 @@ export default {
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       show: true,
-      appliedFilters: [],
+      automation: {
+        name: null,
+        description: null,
+        event_name: 'conversation_created',
+        conditions: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          },
+        ],
+        actions: [
+          {
+            action_name: 'send_message',
+            action_params: ['Welcome to the chatwoot platform.'],
+          },
+        ],
+      },
     };
   },
   computed: {
@@ -162,22 +220,6 @@ export default {
         };
       });
     },
-    getAppliedFilters() {
-      return this.$store.getters.getAppliedFilters;
-    },
-  },
-  mounted() {
-    this.$store.dispatch('campaigns/get');
-    if (this.getAppliedFilters.length) {
-      this.appliedFilters = this.getAppliedFilters;
-    } else {
-      this.appliedFilters.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-      });
-    }
   },
   methods: {
     onEventChange() {
@@ -268,7 +310,7 @@ export default {
       }
     },
     appendNewFilter() {
-      this.appliedFilters.push({
+      this.automation.conditions.push({
         attribute_key: 'status',
         filter_operator: 'equal_to',
         values: '',
@@ -276,10 +318,10 @@ export default {
       });
     },
     removeFilter(index) {
-      if (this.appliedFilters.length <= 1) {
+      if (this.automation.conditions.length <= 1) {
         this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
       } else {
-        this.appliedFilters.splice(index, 1);
+        this.automation.conditions.splice(index, 1);
       }
     },
     submitFilterQuery() {

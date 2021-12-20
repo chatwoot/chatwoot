@@ -31,6 +31,8 @@
           "LABEL": "Actions"
         }
       },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule added successfully",
         "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
