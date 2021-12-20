@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ange e-postadressen till kontakten",
-        "LABEL": "E-postadress"
+        "LABEL": "E-postadress",
+        "DUPLICATE": "Den här e-postadressen används för en annan kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ange telefonnummer till kontakten",
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnumret bör ha formatet E.164, t.ex.: +1415555555 [+][landsnummer][riktnummer][lokalt telefonnummer]",
-        "ERROR": "Telefonnumret ska vara antingen tomt eller i E.164-format"
+        "ERROR": "Telefonnumret ska vara antingen tomt eller i E.164-format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Ange platsen för kontakten",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt har sparats",
-    "CONTACT_ALREADY_EXIST": "Den här e-postadressen används för en annan kontakt.",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Sök",
     "SEARCH_INPUT_PLACEHOLDER": "Sök kontakter",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Laddar kontakter...",
       "404": "Inga kontakter matchar din sökning 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {
