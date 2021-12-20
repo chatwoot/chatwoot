@@ -66,6 +66,32 @@ $default-button-height: 4.0rem;
     }
   }
 
+  &.clear {
+    &.warning {
+      color: var(--y-800);
+    }
+
+    &.button--only-icon:hover {
+      background: var(--w-50);
+
+      &.secondary {
+        background: var(--s-50);
+      }
+
+      &.success {
+        background: var(--g-50);
+      }
+
+      &.alert {
+        background: var(--r-50);
+      }
+
+      &.warning {
+        background: var(--y-100);
+      }
+    }
+  }
+
   // Sizes
   &.tiny {
     height: var(--space-medium);

@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Veuillez sélectionner une conversation à partir du panneau de gauche",
+    "UNVERIFIED_SESSION": "L'identité de cet utilisateur n'est pas vérifiée",
     "NO_MESSAGE_1": "Oh oh ! Il semble qu'il n'y ait aucun message de clients dans votre boîte de réception.",
     "NO_MESSAGE_2": " pour envoyer un message à votre page !",
     "NO_INBOX_1": "Oh ! On dirait que vous n'avez pas encore ajouté de boîte de réception.",
@@ -40,9 +41,9 @@
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marquer comme en attente",
@@ -87,7 +88,7 @@
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
@@ -157,24 +158,24 @@
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Créer un attribut",
     "UPDATE": {
       "SUCCESS": "Attribut mis à jour avec succès",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"
     },
     "ADD": {
       "TITLE": "Ajouter",
       "SUCCESS": "Attribut ajouté avec succès",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "Impossible d'ajouter l'attribut. Veuillez réessayer plus tard"
     },
     "DELETE": {
       "SUCCESS": "Attribut supprimé avec succès",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "ERROR": "Impossible de supprimer l'attribut. Veuillez réessayer plus tard"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Ajouter des attributs",
+      "PLACEHOLDER": "Rechercher des attributs",
+      "NO_RESULT": "Aucun attribut trouvé"
     }
   },
   "EMAIL_HEADER": {

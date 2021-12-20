@@ -5,7 +5,11 @@
         <div class="name-wrap">
           <span class="text-block-title">{{ userName }}</span>
           <div>
-            <i v-if="isOutgoingMessage" class="ion-headphone" />
+            <fluent-icon
+              v-if="isOutgoingMessage"
+              icon="arrow-reply"
+              class="icon-outgoing"
+            />
           </div>
         </div>
         <span class="timestamp">{{ readableTime }} </span>
@@ -84,7 +88,7 @@ export default {
       color: var(--white);
       text-decoration: underline;
     }
-    .ion-headphone {
+    .icon-outgoing {
       color: var(--white);
     }
   }
@@ -119,9 +123,8 @@ export default {
   }
 }
 
-.ion-headphone {
+.icon-outgoing {
   color: var(--w-500);
-  font-size: var(--font-size-mini);
   padding: var(--space-micro);
   padding-right: var(--space-smaller);
 }

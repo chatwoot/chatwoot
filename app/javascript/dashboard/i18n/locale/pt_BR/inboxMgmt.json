@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
-        "ERROR_MESSAGE": "Houve um erro ao conectar com o Twitter, por favor, tente novamente"
+        "ERROR_MESSAGE": "Houve um erro ao conectar com o Twitter, por favor, tente novamente",
+        "TWEETS": {
+          "ENABLE": "Criar conversas dos Tweets mencionados"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do website",
@@ -399,6 +402,65 @@
         "HOURS": "horas",
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Defina seus dados IMAP",
+      "UPDATE": "Atualizar configurações do IMAP",
+      "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para esta caixa de entrada",
+      "TOGGLE_HELP": "Habilitar o IMAP ajudará o usuário a receber e-mail",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
+        "ERROR_MESSAGE": "Não é possível atualizar as configurações IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Endereço",
+        "PLACE_HOLDER": "Endereço (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Porta",
+        "PLACE_HOLDER": "Porta"
+      },
+      "EMAIL": {
+        "LABEL": "e-mail",
+        "PLACE_HOLDER": "e-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Senha",
+        "PLACE_HOLDER": "Senha"
+      },
+      "ENABLE_SSL": "Habilitar o SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Defina seus detalhes do SMTP",
+      "UPDATE": "Atualizar configurações de SMTP",
+      "TOGGLE_AVAILABILITY": "Ativar a configuração SMTP para esta caixa de entrada",
+      "TOGGLE_HELP": "Habilitar o SMTP ajudará o usuário a enviar e-mail",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Configurações de SMTP atualizadas com sucesso",
+        "ERROR_MESSAGE": "Não é possível atualizar as configurações de SMTP"
+      },
+      "ADDRESS": {
+        "LABEL": "Endereço",
+        "PLACE_HOLDER": "Endereço (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Porta",
+        "PLACE_HOLDER": "Porta"
+      },
+      "EMAIL": {
+        "LABEL": "e-mail",
+        "PLACE_HOLDER": "e-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Senha",
+        "PLACE_HOLDER": "Senha"
+      },
+      "DOMAIN": {
+        "LABEL": "Domínio",
+        "PLACE_HOLDER": "Domínio"
       }
     }
   }

@@ -7,6 +7,7 @@
       "404": "V této skupině nejsou žádné aktivní konverzace."
     },
     "TAB_HEADING": "Konverzace",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Zpráva obrázku"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Zvuková zpráva"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video zpráva"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Přílohu souboru"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Poloha"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "sdílel URL"
       }
     },

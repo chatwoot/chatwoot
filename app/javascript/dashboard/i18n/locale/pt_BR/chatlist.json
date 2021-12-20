@@ -7,6 +7,7 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
+    "MENTION_HEADING": "Menções",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensagem de imagem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensagem de áudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Arquivo anexo"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Localização"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "compartilhou uma URL"
       }
     },

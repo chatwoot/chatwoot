@@ -200,12 +200,23 @@ export default {
           unreadMessageCount,
         });
         this.setIframeHeight(this.isMobile);
+        this.handleUnreadNotificationDot();
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight();
+        this.handleUnreadNotificationDot();
+      }
+    },
+    handleUnreadNotificationDot() {
+      const { unreadMessageCount } = this;
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage({
+          event: 'handleNotificationDot',
+          unreadMessageCount,
+        });
       }
     },
     createWidgetEvents(message) {
@@ -281,6 +292,7 @@ export default {
           }
           this.showUnreadView = false;
           this.showCampaignView = false;
+          this.handleUnreadNotificationDot();
         } else if (message.event === 'toggle-open') {
           this.isWidgetOpen = message.isOpen;
           this.toggleOpen();

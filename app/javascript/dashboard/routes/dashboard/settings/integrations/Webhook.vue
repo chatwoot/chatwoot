@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
@@ -43,20 +43,26 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')
+                  "
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(webHookItem)"
                 >
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT') }}
                 </woot-button>
                 <woot-button
-                  variant="link"
-                  icon="ion-close-circled"
-                  color-scheme="secondary"
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+                  "
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   @click="openDeletePopup(webHookItem, index)"
                 >
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
                 </woot-button>
               </td>
             </tr>

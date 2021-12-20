@@ -21,7 +21,7 @@
         />
         <div class="filter-actions">
           <woot-button
-            icon="ion-plus"
+            icon="add"
             color-scheme="success"
             variant="smooth"
             size="small"
@@ -48,9 +48,10 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import FilterInputBox from './components/FilterInput.vue';
+import FilterInputBox from '../FilterInput.vue';
 import languages from './advancedFilterItems/languages';
-import countries from './advancedFilterItems/countries';
+import countries from '/app/javascript/shared/constants/countries.js';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -93,19 +94,18 @@ export default {
       return this.filterTypes.map(type => {
         return {
           key: type.attributeKey,
-          name: type.attributeName,
-          attributeI18nKey: type.attributeI18nKey,
+          name: this.$t(`FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
         };
       });
     },
-    getAppliedFilters() {
-      return this.$store.getters.getAppliedFilters;
-    },
+    ...mapGetters({
+      getAppliedConversationFilters: 'getAppliedConversationFilters',
+    }),
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
-    if (this.getAppliedFilters.length) {
-      this.appliedFilters = this.getAppliedFilters;
+    if (this.getAppliedConversationFilters.length) {
+      this.appliedFilters = [...this.getAppliedConversationFilters];
     } else {
       this.appliedFilters.push({
         attribute_key: 'status',
@@ -124,7 +124,6 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.filterOperators;
     },
-    // eslint-disable-next-line consistent-return
     getDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
       switch (type) {
@@ -168,7 +167,7 @@ export default {
         case 'country_code':
           return countries;
         default:
-          break;
+          return undefined;
       }
     },
     appendNewFilter() {
@@ -189,11 +188,11 @@ export default {
     submitFilterQuery() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$store.dispatch(
         'setConversationFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
+      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {

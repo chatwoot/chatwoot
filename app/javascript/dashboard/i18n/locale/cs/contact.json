@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Zadejte e-mailovou adresu kontaktu",
-        "LABEL": "E-mailová adresa"
+        "LABEL": "E-mailová adresa",
+        "DUPLICATE": "Tuto e-mailovou adresu již používá jiný kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
         "LABEL": "Telefonní číslo",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Zadejte lokaci kontaktu",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
-    "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Hledat",
     "SEARCH_INPUT_PLACEHOLDER": "Hledat kontakty",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Načítání kontaktů...",
       "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

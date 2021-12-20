@@ -7,6 +7,7 @@
       "404": "Det finns inga aktiva konversationer i denna grupp."
     },
     "TAB_HEADING": "Konversationer",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildmeddelande"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Ljudmeddelande"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videomeddelande"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bifogad fil"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plats"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delat en webbadress"
       }
     },

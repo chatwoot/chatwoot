@@ -8,6 +8,7 @@
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
+        :on-toggle-filter="onToggleFilters"
         :header-title="label"
       />
       <contacts-table
@@ -34,6 +35,19 @@
     <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
       <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
+    <woot-modal
+      :show.sync="showFiltersModal"
+      :on-close="onToggleFilters"
+      size="medium"
+    >
+      <contacts-advanced-filters
+        v-if="showFiltersModal"
+        :on-close="onToggleFilters"
+        :filter-types="contactFilterItems"
+        @applyFilter="onApplyFilter"
+        @clearFilters="clearFilters"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -46,6 +60,9 @@ import ContactInfoPanel from './ContactInfoPanel';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 import ImportContacts from './ImportContacts.vue';
+import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
+import contactFilterItems from '../contactFilterItems';
+import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 
 const DEFAULT_PAGE = 1;
 
@@ -57,6 +74,7 @@ export default {
     ContactInfoPanel,
     CreateContact,
     ImportContacts,
+    ContactsAdvancedFilters,
   },
   props: {
     label: { type: String, default: '' },
@@ -68,6 +86,13 @@ export default {
       showImportModal: false,
       selectedContactId: '',
       sortConfig: { name: 'asc' },
+      showFiltersModal: false,
+      contactFilterItems: contactFilterItems.map(filter => ({
+        ...filter,
+        attributeName: this.$t(
+          `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
+        ),
+      })),
     };
   },
   computed: {
@@ -133,7 +158,7 @@ export default {
     fetchContacts(page) {
       this.updatePageParam(page);
       let value = '';
-      if(this.searchQuery.charAt(0) === '+') {
+      if (this.searchQuery.charAt(0) === '+') {
         value = this.searchQuery.substring(1);
       } else {
         value = this.searchQuery;
@@ -187,6 +212,20 @@ export default {
     onSortChange(params) {
       this.sortConfig = params;
       this.fetchContacts(this.meta.currentPage);
+    },
+    onToggleFilters() {
+      this.showFiltersModal = !this.showFiltersModal;
+    },
+    onApplyFilter(payload) {
+      this.closeContactInfoPanel();
+      this.$store.dispatch('contacts/filter', {
+        queryPayload: filterQueryGenerator(payload),
+      });
+      this.showFiltersModal = false;
+    },
+    clearFilters() {
+      this.$store.dispatch('contacts/clearContactFilters');
+      this.fetchContacts(this.pageParameter);
     },
   },
 };

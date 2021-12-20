@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_112607) do
+ActiveRecord::Schema.define(version: 2021_12_19_031453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
+    t.jsonb "limits", default: {}
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
   end
 
@@ -270,6 +272,8 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "message_templates", default: {}
+    t.datetime "message_templates_last_updated"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
@@ -366,7 +370,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -527,6 +531,19 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
+  end
+
+  create_table "mentions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "mentioned_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_mentions_on_account_id"
+    t.index ["conversation_id"], name: "index_mentions_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_mentions_on_user_id_and_conversation_id", unique: true
+    t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -744,30 +761,32 @@ ActiveRecord::Schema.define(version: 2021_11_22_112607) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
-  add_foreign_key "account_users", "accounts"
-  add_foreign_key "account_users", "users"
+  add_foreign_key "account_users", "accounts", on_delete: :cascade
+  add_foreign_key "account_users", "users", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_bots", "accounts"
-  add_foreign_key "campaigns", "accounts"
-  add_foreign_key "campaigns", "inboxes"
-  add_foreign_key "contact_inboxes", "contacts"
-  add_foreign_key "contact_inboxes", "inboxes"
-  add_foreign_key "conversations", "campaigns"
-  add_foreign_key "conversations", "contact_inboxes"
-  add_foreign_key "conversations", "teams"
-  add_foreign_key "csat_survey_responses", "accounts"
-  add_foreign_key "csat_survey_responses", "contacts"
-  add_foreign_key "csat_survey_responses", "conversations"
-  add_foreign_key "csat_survey_responses", "messages"
-  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id"
-  add_foreign_key "data_imports", "accounts"
-  add_foreign_key "notes", "accounts"
-  add_foreign_key "notes", "contacts"
-  add_foreign_key "notes", "users"
-  add_foreign_key "team_members", "teams"
-  add_foreign_key "team_members", "users"
-  add_foreign_key "teams", "accounts"
+  add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "campaigns", "accounts", on_delete: :cascade
+  add_foreign_key "campaigns", "inboxes", on_delete: :cascade
+  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
+  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
+  add_foreign_key "conversations", "campaigns", on_delete: :cascade
+  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
+  add_foreign_key "conversations", "teams", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "accounts", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "contacts", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
+  add_foreign_key "data_imports", "accounts", on_delete: :cascade
+  add_foreign_key "mentions", "conversations", on_delete: :cascade
+  add_foreign_key "mentions", "users", on_delete: :cascade
+  add_foreign_key "notes", "accounts", on_delete: :cascade
+  add_foreign_key "notes", "contacts", on_delete: :cascade
+  add_foreign_key "notes", "users", on_delete: :cascade
+  add_foreign_key "team_members", "teams", on_delete: :cascade
+  add_foreign_key "team_members", "users", on_delete: :cascade
+  add_foreign_key "teams", "accounts", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

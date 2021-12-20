@@ -12,7 +12,7 @@
   padding: var(--space-normal);
 }
 
-.button-wrapper .button.link.grey-btn {
+.button-wrapper .button.grey-btn {
   margin-left: var(--space-normal);
 }
 
@@ -55,6 +55,10 @@ code {
   padding-right: var(--space-normal);
 }
 
+
+.badge {
+  border-radius: var(--border-radius-normal);
+}
 
 .padding-right-small {
   padding-right: var(--space-one);

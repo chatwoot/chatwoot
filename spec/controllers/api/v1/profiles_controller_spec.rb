@@ -42,10 +42,9 @@ RSpec.describe 'Profile API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
 
-      it 'updates the name & email' do
-        new_email = Faker::Internet.email
+      it 'updates the name' do
         put '/api/v1/profile',
-            params: { profile: { name: 'test', email: new_email } },
+            params: { profile: { name: 'test' } },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -53,8 +52,8 @@ RSpec.describe 'Profile API', type: :request do
         json_response = JSON.parse(response.body)
         agent.reload
         expect(json_response['id']).to eq(agent.id)
-        expect(json_response['email']).to eq(agent.email)
-        expect(agent.email).to eq(new_email)
+        expect(json_response['name']).to eq(agent.name)
+        expect(agent.name).to eq('test')
       end
 
       it 'updates the password when current password is provided' do
@@ -98,6 +97,49 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['ui_settings']['is_contact_sidebar_open']).to eq(false)
+      end
+    end
+
+    context 'when an authenticated user updates email' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'populates the unconfirmed email' do
+        new_email = Faker::Internet.email
+        put '/api/v1/profile',
+            params: { profile: { email: new_email } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+
+        expect(agent.unconfirmed_email).to eq(new_email)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/profile/avatar' do
+    let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete '/api/v1/profile/avatar'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        agent.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'deletes the agent avatar' do
+        delete '/api/v1/profile/avatar',
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
       end
     end
   end

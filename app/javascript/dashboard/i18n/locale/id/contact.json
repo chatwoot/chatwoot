@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Masukkan alamat email kontak",
-        "LABEL": "Alamat email"
+        "LABEL": "Alamat email",
+        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
         "LABEL": "Nomor Telpon",
         "HELP": "Nomer telepon harus dalam format E.164 misalnya: +1415555555 [+][kode negara][kode area][nomer telepon]",
-        "ERROR": "Nomer telepon harus kosong atau dalam format E. 164"
+        "ERROR": "Nomer telepon harus kosong atau dalam format E. 164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Masukkan lokasi kontak",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
-    "CONTACT_ALREADY_EXIST": "Alamat email ini digunakan untuk kontak lain.",
     "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Isian kontak",
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {
