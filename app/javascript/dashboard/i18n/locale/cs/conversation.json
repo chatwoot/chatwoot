@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Odeslal:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
       "REMOVE": "Odebrat",
