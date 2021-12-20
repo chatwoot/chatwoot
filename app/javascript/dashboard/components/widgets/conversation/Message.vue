@@ -75,7 +75,7 @@
       <div v-if="isFailed" class="message-failed--alert">
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          size="small"
+          size="tiny"
           color-scheme="alert"
           variant="clear"
           icon="arrow-clockwise"
