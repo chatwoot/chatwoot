@@ -58,7 +58,9 @@
               :input-type="getInputType(automation.conditions[i].attribute_key)"
               :operators="getOperators(automation.conditions[i].attribute_key)"
               :dropdown-values="
-                getDropdownValues(automation.conditions[i].attribute_key)
+                getConditionDropdownValues(
+                  automation.conditions[i].attribute_key
+                )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
               :v="$v.automation.conditions.$each[i]"
@@ -67,11 +69,11 @@
             />
             <div class="filter-actions">
               <woot-button
-                icon="ion-plus"
+                icon="add"
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewFilter"
+                @click="appendNewCondition"
               >
                 {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
               </woot-button>
@@ -79,34 +81,29 @@
           </div>
         </section>
         <!-- // Conditions End -->
-        <!-- // Actions End -->
+        <!-- // Actions Start -->
         <section>
           <label>
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
           </label>
           <div class="medium-12 columns filters-wrap">
-            <filter-input-box
-              v-for="(condition, i) in automation.conditions"
+            <automation-action-input
+              v-for="(action, i) in automation.actions"
               :key="i"
-              v-model="automation.conditions[i]"
-              :filter-attributes="filterAttributes"
-              :input-type="getInputType(automation.conditions[i].attribute_key)"
-              :operators="getOperators(automation.conditions[i].attribute_key)"
+              v-model="automation.actions[i]"
+              :action-types="automationActionTypes"
               :dropdown-values="
-                getDropdownValues(automation.conditions[i].attribute_key)
+                getActionDropdownValues(automation.actions[i].action_name)
               "
-              :show-query-operator="i !== automation.conditions.length - 1"
-              :v="$v.automation.conditions.$each[i]"
-              @resetFilter="resetFilter(i, automation.conditions[i])"
-              @removeFilter="removeFilter(i)"
+              :v="$v.automation.actions.$each[i]"
             />
             <div class="filter-actions">
               <woot-button
-                icon="ion-plus"
+                icon="add"
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewFilter"
+                @click="appendNewCondition"
               >
                 {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
               </woot-button>
@@ -132,16 +129,18 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import filterInputBox from 'dashboard/components/widgets/conversation/components/FilterInput.vue';
+import filterInputBox from 'dashboard/components/widgets/FilterInput.vue';
+import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from 'dashboard/components/widgets/conversation/advancedFilterItems/countries';
-import { AUTOMATION_RULE_EVENTS } from './constants';
+import countries from '/app/javascript/shared/constants/countries.js';
+import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 import { getAutomationCondition } from './automationConditions';
 
 export default {
   components: {
     filterInputBox,
+    automationActionInput,
   },
   mixins: [alertMixin],
   props: {
@@ -174,6 +173,14 @@ export default {
           },
         },
       },
+      actions: {
+        required,
+        $each: {
+          action_params: {
+            required,
+          },
+        },
+      },
     },
   },
   data() {
@@ -188,6 +195,7 @@ export default {
       automationRuleDescription: '',
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
+      automationActionTypes: AUTOMATION_ACTION_TYPES,
       show: true,
       automation: {
         name: null,
@@ -203,8 +211,8 @@ export default {
         ],
         actions: [
           {
-            action_name: 'send_message',
-            action_params: ['Welcome to the chatwoot platform.'],
+            action_name: 'assign_team',
+            action_params: [],
           },
         ],
       },
@@ -262,8 +270,7 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.filterOperators;
     },
-    // eslint-disable-next-line consistent-return
-    getDropdownValues(type) {
+    getConditionDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
       switch (type) {
         case 'status':
@@ -306,10 +313,26 @@ export default {
         case 'country_code':
           return countries;
         default:
-          break;
+          return undefined;
       }
     },
-    appendNewFilter() {
+    getActionDropdownValues(type) {
+      switch (type) {
+        case 'assign_team':
+        case 'send_message':
+          return this.$store.getters['teams/getTeams'];
+        case 'add_label':
+          return this.$store.getters['labels/getLabels'].map(i => {
+            return {
+              id: i.id,
+              name: i.title,
+            };
+          });
+        default:
+          return undefined;
+      }
+    },
+    appendNewCondition() {
       this.automation.conditions.push({
         attribute_key: 'status',
         filter_operator: 'equal_to',
