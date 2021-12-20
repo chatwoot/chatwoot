@@ -338,7 +338,7 @@ export default {
     color: var(--s-600);
     padding: var(--space-micro) 0;
     margin-bottom: 0;
-    margin-right: var(--space-smaller);
+    margin-right: 0;
     max-width: 12rem;
   }
 
