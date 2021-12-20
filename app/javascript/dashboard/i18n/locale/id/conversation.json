@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Dikirim oleh:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",
       "REMOVE": "Hapus",
