@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Selecteer een gesprek in het linker paneel",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Oh oh! Het lijkt erop dat er geen berichten van klanten in uw inbox staan.",
     "NO_MESSAGE_2": " om een bericht naar uw pagina te sturen!",
     "NO_INBOX_1": "Hola! Het lijkt erop dat je nog geen postvakken hebt toegevoegd.",

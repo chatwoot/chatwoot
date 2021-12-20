@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Kérjük válassz egy beszélgetést a bal sávból",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Jajj ne! Úgy tűnik, hogy nincs több ügyfélbeszélgetés az inboxodban.",
     "NO_MESSAGE_2": "egy üzenet küldéséhez az oldaladra!",
     "NO_INBOX_1": "Hola! Úgy tűnik, hogy még nem adtál hozzá fiókokat.",

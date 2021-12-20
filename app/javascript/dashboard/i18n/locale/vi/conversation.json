@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
     "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
     "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",

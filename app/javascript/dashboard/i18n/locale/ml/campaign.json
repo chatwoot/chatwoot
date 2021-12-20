@@ -1,78 +1,78 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER": "പ്രചാരണങ്ങൾ",
+    "SIDEBAR_TXT": "സജീവമായ സന്ദേശങ്ങൾ ഉപഭോക്താവിനെ അവരുടെ കോൺടാക്‌റ്റുകളിലേക്ക് ഔട്ട്‌ബൗണ്ട് സന്ദേശങ്ങൾ അയയ്‌ക്കാൻ അനുവദിക്കുന്നു, ഇത് കൂടുതൽ സംഭാഷണങ്ങൾക്ക് കാരണമാകും. ഒരു പുതിയ കാമ്പെയ്‌ൻ സൃഷ്‌ടിക്കാൻ <b>കാമ്പെയ്‌ൻ ചേർക്കുക</b> എന്നതിൽ ക്ലിക്കുചെയ്യുക. എഡിറ്റ് അല്ലെങ്കിൽ ഡിലീറ്റ് ബട്ടണിൽ ക്ലിക്കുചെയ്തുകൊണ്ട് നിങ്ങൾക്ക് നിലവിലുള്ള ഒരു കാമ്പെയ്‌ൻ എഡിറ്റ് ചെയ്യാനോ ഇല്ലാതാക്കാനോ കഴിയും.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "ഒറ്റത്തവണ കാമ്പെയ്‌ൻ സൃഷ്‌ടിക്കുക",
+      "ONGOING": "നടന്നുകൊണ്ടിരിക്കുന്ന ഒരു കാമ്പെയ്‌ൻ സൃഷ്‌ടിക്കുക"
     },
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "ഒരു കാമ്പെയ്‌ൻ സൃഷ്‌ടിക്കുക",
+      "DESC": "സജീവമായ സന്ദേശങ്ങൾ ഉപഭോക്താവിനെ അവരുടെ കോൺടാക്‌റ്റുകളിലേക്ക് ഔട്ട്‌ബൗണ്ട് സന്ദേശങ്ങൾ അയയ്‌ക്കാൻ അനുവദിക്കുന്നു, ഇത് കൂടുതൽ സംഭാഷണങ്ങൾക്ക് കാരണമാകും.",
       "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
       "CREATE_BUTTON_TEXT": "സൃഷ്ടിക്കുക",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "തലക്കെട്ട്",
+          "PLACEHOLDER": "കാമ്പെയ്‌നിന്റെ പേര് നൽകുക",
+          "ERROR": "ശീർഷകം ആവശ്യമാണ്"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "ഷെഡ്യൂൾ ചെയ്ത സമയം",
+          "PLACEHOLDER": "ദയവായി സമയം തിരഞ്ഞെടുക്കുക",
+          "CONFIRM": "സ്ഥിരീകരിക്കുക",
+          "ERROR": "ഷെഡ്യൂൾ ചെയ്ത സമയം ആവശ്യമാണ്"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
+          "LABEL": "പ്രേക്ഷകർ",
           "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "ERROR": "പ്രേക്ഷകർ ആവശ്യമാണ്"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+          "PLACEHOLDER": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+          "ERROR": "ഇൻബോക്സ് ആവശ്യമാണ്"
         },
         "MESSAGE": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "LABEL": "സന്ദേശം",
+          "PLACEHOLDER": "ദയവായി പ്രചാരണ സന്ദേശം നൽകുക",
+          "ERROR": "സന്ദേശം ആവശ്യമാണ്"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "അയച്ചത്",
+          "PLACEHOLDER": "കാമ്പെയ്‌നിന്റെ ഉള്ളടക്കം തിരഞ്ഞെടുക്കുക",
+          "ERROR": "അയച്ചയാളെ ആവശ്യമുണ്ട്"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
+          "PLACEHOLDER": "ദയവായി URL നൽകുക",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "പേജിലെ സമയം (സെക്കൻഡ്)",
+          "PLACEHOLDER": "ദയവായി സമയം നൽകുക",
+          "ERROR": "പേജിൽ സമയം ആവശ്യമാണ്"
         },
         "ENABLED": "Enable campaign",
         "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Add Campaign"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "കാമ്പെയ്‌ൻ വിജയകരമായി സൃഷ്‌ടിച്ചു",
+        "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
       "CONFIRM": {
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-        "MESSAGE": "Are you sure to delete?",
+        "MESSAGE": "ഇല്ലാതാക്കുമെന്ന് ഉറപ്പാണോ?",
         "YES": "അതെ, ഇല്ലാതാക്കുക ",
         "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "കാമ്പെയ്‌ൻ വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
+        "ERROR_MESSAGE": "കാമ്പെയ്‌ൻ ഇല്ലാതാക്കാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
       }
     },
     "EDIT": {
@@ -87,26 +87,26 @@
       "LOADING_MESSAGE": "Loading campaigns...",
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
-        "INBOX": "Inbox",
+        "TITLE": "തലക്കെട്ട്",
+        "MESSAGE": "സന്ദേശം",
+        "INBOX": "ഇൻബോക്സ്",
         "STATUS": "സ്റ്റാറ്റസ്",
-        "SENDER": "Sender",
+        "SENDER": "അയച്ചയാൾ",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SCHEDULED_AT": "ഷെഡ്യൂൾ ചെയ്ത സമയം",
+        "TIME_ON_PAGE": "സമയം(സെക്കൻഡ്)",
+        "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "ചേർക്കുക",
         "EDIT": "എഡിറ്റുചെയ്യുക",
         "DELETE": "ഇല്ലാതാക്കുക"
       },
       "STATUS": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "പൂർത്തിയാക്കി",
+        "ACTIVE": "സജീവമാണ്"
       },
       "SENDER": {
         "BOT": "ബോട്ട്"
@@ -115,10 +115,10 @@
     "ONE_OFF": {
       "HEADER": "One off campaigns",
       "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "INBOXES_NOT_FOUND": "ദയവായി ഒരു എസ്എംഎസ് ഇൻബോക്സ് സൃഷ്ടിച്ച് കാമ്പെയ്‌നുകൾ ചേർക്കാൻ ആരംഭിക്കുക"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
+      "HEADER": "നടന്നുകൊണ്ടിരിക്കുന്ന പ്രചാരണങ്ങൾ",
       "404": "There are no ongoing campaigns created",
       "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }

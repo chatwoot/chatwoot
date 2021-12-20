@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vyberte prosím konverzaci z levého panelu",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Ale ne! Vypadá to, že ve vaší schránce nejsou žádné zprávy od zákazníků.",
     "NO_MESSAGE_2": " pro odeslání zprávy na vaši stránku!",
     "NO_INBOX_1": "Hola! Zdá se, že jste ještě nepřidali žádné schránky.",
