@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
+    "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
+    "TRY_AGAIN": "neu versuchen",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
