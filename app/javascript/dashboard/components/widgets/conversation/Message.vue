@@ -24,9 +24,10 @@
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
-              v-if="attachment.file_type === 'image'"
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
             <audio v-else-if="attachment.file_type === 'audio'" controls>
               <source :src="attachment.data_url" />
@@ -133,6 +134,7 @@ export default {
   data() {
     return {
       showContextMenu: false,
+      hasImageError: false,
     };
   },
   computed: {
@@ -287,12 +289,20 @@ export default {
       return messageType ? 'right' : 'left';
     },
   },
+  watch: {
+    data() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
   methods: {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
-        return fileType === type;
+        return fileType === type && !this.hasImageError;
       }
       return false;
     },
@@ -316,6 +326,9 @@ export default {
       copy(this.data.content);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.showContextMenu = false;
+    },
+    onImageLoadError() {
+      this.hasImageError = true;
     },
   },
 };

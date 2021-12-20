@@ -3,6 +3,9 @@
     "LINK": "Profileinstellungen",
     "TITLE": "Profileinstellungen",
     "BTN_TEXT": "Profil aktualisieren",
+    "DELETE_AVATAR": "Avatar löschen",
+    "AVATAR_DELETE_SUCCESS": "Avatar wurde erfolgreich gelöscht",
+    "AVATAR_DELETE_FAILED": "Beim Löschen des Avatars ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
     "UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert",
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
@@ -100,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ändern",
     "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
+    "CONTACT_SUPPORT": "Support kontaktieren",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
@@ -108,7 +112,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
     "TRAIL_BUTTON": "Jetzt kaufen",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Gelöschter Benutzer"
   },
   "COMPONENTS": {
     "CODE": {
@@ -131,6 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Gespräche",
+    "ALL_CONVERSATIONS": "Alle Unterhaltungen",
+    "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
@@ -140,13 +146,18 @@
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
+    "PROFILE_SETTINGS": "Profileinstellungen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
     "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
+    "AUTOMATION": "Automatisierung",
     "TEAMS": "Teams",
     "ALL_CONTACTS": "Alle Kontakte",
     "TAGGED_WITH": "Markiert mit",
+    "NEW_LABEL": "Neues Label",
+    "NEW_TEAM": "Neues Team",
+    "NEW_INBOX": "Neuer Posteingang",
     "REPORTS_OVERVIEW": "Übersicht",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampagnen",
@@ -155,7 +166,8 @@
     "REPORTS_AGENT": "Agenten",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Posteingang",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Setzen Sie sich als"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",

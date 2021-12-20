@@ -1,38 +1,39 @@
 {
   "CONVERSATION": {
     "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "UNVERIFIED_SESSION": "Identitatea acestui utilizator nu este verificată",
     "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
     "NO_MESSAGE_2": " pentru a trimite un mesaj către pagina ta!",
     "NO_INBOX_1": "Hola! Se pare că nu ai adăugat încă nici o căsuță poștală.",
     "NO_INBOX_2": " pentru a începe",
     "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Caută mesaje în conversații",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Caută mesaje",
+      "RESULT_TITLE": "Rezultate căutare",
+      "LOADING_MESSAGE": "Ridicarea datelor...",
+      "PLACEHOLDER": "Introduceți orice text pentru a căuta mesaje",
+      "NO_MATCHING_RESULTS": "Niciun rezultat găsit."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Mesaje necitite",
+    "UNREAD_MESSAGE": "Mesaj necitit",
     "CLICK_HERE": "Click aici",
     "LOADING_INBOXES": "Încărcare mesaje primite",
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Poți răspunde la această conversație doar folosind un mesaj șablon datorat",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "SELECT_A_TWEET_TO_REPLY": "Te rugăm să selectezi un tweet pentru a răspunde.",
+    "REPLYING_TO": "Răspundeți la:",
+    "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
+    "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
+    "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
+    "NO_RESPONSE": "Niciun răspuns",
+    "RATING_TITLE": "Evaluare",
+    "FEEDBACK_TITLE": "Păreri",
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
       "REOPEN_ACTION": "Redeschide",
@@ -40,17 +41,17 @@
       "OPEN": "Mai mult",
       "CLOSE": "Închide",
       "DETAILS": "detalii",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Marchează ca în așteptare",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Amânare până la",
+        "NEXT_REPLY": "Următorul răspuns",
+        "TOMORROW": "Mâine",
+        "NEXT_WEEK": "Săptămâna viitoare"
       }
     },
     "FOOTER": {
@@ -63,36 +64,36 @@
       "SEND": "Trimite",
       "CREATE": "Adaugă Notă",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_FORMAT_ICON": "Arată editorul de text",
+      "TIP_EMOJI_ICON": "Arată emoji",
+      "TIP_ATTACH_ICON": "Ataşează fişiere",
+      "ENTER_TO_SEND": "Introduceţi pentru a trimite",
+      "DRAG_DROP": "Trageți și plasați aici pentru atașare",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Adaugă bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-mailuri separate prin virgulă",
+          "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-mailuri separate prin virgulă",
+          "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
     "CHANGE_STATUS": "Stare conversație schimbată",
     "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Echipa de conversație schimbată",
+    "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
+    "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
+    "SENT_BY": "Trimis de:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Selectează agent",
       "REMOVE": "Elimină",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Atribuiți"
     },
     "CONTEXT_MENU": {
       "COPY": "Copiază",
@@ -100,15 +101,15 @@
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Trimite transcrierea conversației",
+    "DESC": "Trimite o copie a transcrisului de conversație la adresa de e-mail specificată",
     "SUBMIT": "Trimite",
     "CANCEL": "Renunță",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
     "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_CONTACT": "Trimite transcrierea către client",
+      "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
@@ -159,26 +160,26 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atribut actualizat cu succes",
+      "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Adaugă",
+      "SUCCESS": "Atribut adăugat cu succes",
+      "ERROR": "Imposibil de adăugat atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atribut sters cu succes",
+      "ERROR": "Imposibil de șters atributul. Vă rugăm să încercați din nou mai târziu"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Adaugă atributii",
+      "PLACEHOLDER": "Cauta atributii",
+      "NO_RESULT": "Nu s-au găsit atributii"
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "TO": "către",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
