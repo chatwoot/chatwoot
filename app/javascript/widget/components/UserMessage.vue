@@ -30,20 +30,19 @@
             />
           </div>
         </div>
+        <div
+          v-if="isFailed"
+          class="flex justify-end align-middle px-4 py-2 text-red-700"
+        >
+          <button
+            :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
+            class="inline-flex justify-center items-center ml-2"
+            @click="retrySendMessage"
+          >
+            <fluent-icon icon="arrow-clockwise" size="14" />
+          </button>
+        </div>
       </div>
-    </div>
-    <div
-      v-if="isFailed"
-      class="flex justify-end align-middle px-4 py-2 text-red-700"
-    >
-      <span class="text-sm ">{{ errorMessage }}</span>
-      <button
-        :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
-        class="inline-flex justify-center items-center ml-2"
-        @click="retrySendMessage"
-      >
-        <fluent-icon icon="arrow-clockwise" size="14" />
-      </button>
     </div>
   </div>
 </template>

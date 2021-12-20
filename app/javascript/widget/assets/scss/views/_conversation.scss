@@ -102,6 +102,12 @@
     .is-failed {
       opacity: 0.6;
     }
+
+    .is-failed {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-end;
+    }
   }
 
 
