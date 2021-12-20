@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "تعديل",
-        "TITLE": "Edit webhook",
+        "TITLE": "تعديل webhook",
         "CANCEL": "إلغاء",
         "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "مثال: https://example/api/webhook",
             "ERROR": "الرجاء إدخال عنوان URL صالح"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "تعديل webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "تم تحديث رابط Webhook بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "استخدام تكامل Slack",
+        "BODY": "<br/><p>ستتم الآن مزامنة جميع المحادثات الواردة إلى <b><i>محادثة الزبائن</i></b> داخل مكان العمل الخاص بك.</p><p>الرد على موضوع محادثة في <b><i>محادثة العملاء</i></b> قناة الركود سوف تقوم بإنشاء رد على العميل من خلال المحادثة.</p><p>ابدأ الردود ب <b><i>ملاحظة:</i></b> لإنشاء ملاحظات خاصة بدلاً من الردود.</p><p>إذا كان للرد على slack ملف تعريف الوكيل في الدردشة تحت نفس البريد الإلكتروني، فسيتم ربط الردود وفقا لذلك.</p><p>عندما لا يكون للرد ملف شخصي للوكيل المرتبط، ستتم الردود من ملف بوت الشخصي.</p>"
       }
     },
     "DELETE": {

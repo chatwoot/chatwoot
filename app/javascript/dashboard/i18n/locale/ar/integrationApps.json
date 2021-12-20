@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "جلب التكاملات",
+    "NO_HOOK_CONFIGURED": "لا يوجد %{integrationId} تكاملات مكونة في هذا الحساب.",
+    "HEADER": "التطبيقات",
     "STATUS": {
       "ENABLED": "مفعل",
       "DISABLED": "معطّل"
     },
     "CONFIGURE": "تهيئة",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "إضافة ربط جديد",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "تأكيد الحذف",
+        "ACCOUNT": "قطع الاتصال"
       },
       "MESSAGE": {
         "INBOX": "هل أنت متأكد من الحذف?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "هل أنت متأكد من قطع الاتصال؟"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "نعم، احذف",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "نعم، قطع الاتصال"
       },
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "تم حذف الربط بنجاح",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "جلب روابط التكامل",
       "INBOX": "صندوق الوارد",
       "DELETE": {
         "BUTTON_TEXT": "حذف"
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "اختر صندوق الوارد",
+          "PLACEHOLDER": "اختر صندوق الوارد"
         },
         "SUBMIT": "إنشاء",
         "CANCEL": "إلغاء"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "تم حذف التكامل بنجاح",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "ربط الاتصال"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "قطع الاتصال"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "تدفق الحوار هو منصة لفهم اللغة الطبيعية التي تجعل من السهل تصميم ودمج واجهة المستخدم للمحادثة في تطبيق الهاتف المحمول الخاص بك، تطبيق الويب، الجهاز، البوت، نظام الاستجابة الصوتية التفاعلي، وما إلى ذلك. <br /> <br /> تكامل تدفق الحوار مع %{installationName} يسمح لك بتكوين بوت تدفق الحوار مع صناديق الوارد الخاصة بك والذي يتيح للبوت التعامل مع الاستفسارات في البداية وتسليمها إلى وكيل عند الحاجة. ويمكن استخدام تدفق البيانات لتأهيل الخيوط وتقليل عبء العمل الملقى على عاتق الوكلاء عن طريق طرح الأسئلة المتكررة وما إلى ذلك. <br /> <br /> لإضافة تدفق الحوار، تحتاج إلى إنشاء حساب خدمة في وحدة تحكم مشروع جوجل الخاص بك ومشاركة بيانات الاعتماد. يرجى الرجوع إلى مستندات Dialogflow للحصول على مزيد من المعلومات."
     }
   }
 }

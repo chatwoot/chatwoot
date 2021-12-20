@@ -1,316 +1,316 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "Prehľad",
+    "LOADING_CHART": "Načítanie grafu...",
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
+    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Rozhovory",
+        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Prichádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odchádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do prvej reakcie",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do riešenia",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Počet vyriešených problémov",
+        "DESC": "( Spolu )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Posledných 7 dní"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Posledných 30 dní"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Posledné 3 mesiace"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Posledných 6 mesiacov"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Posledný rok"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Vlastný rozsah dátumov"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Prehľad agentov",
+    "LOADING_CHART": "Načítanie grafu...",
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
+    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
+    "FILTER_DROPDOWN_LABEL": "Vybrat agenta",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Rozhovory",
+        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Prichádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odchádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do prvej reakcie",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do riešenia",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Počet vyriešených problémov",
+        "DESC": "( Spolu )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Posledných 7 dní"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Posledných 30 dní"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Posledné 3 mesiace"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Posledných 6 mesiacov"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Posledný rok"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Vlastný rozsah dátumov"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     }
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "LOADING_CHART": "Načítanie grafu...",
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Rozhovory",
+        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Prichádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odchádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do prvej reakcie",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do riešenia",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Počet vyriešených problémov",
+        "DESC": "( Spolu )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Posledných 7 dní"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Posledných 30 dní"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Posledné 3 mesiace"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Posledných 6 mesiacov"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Posledný rok"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Vlastný rozsah dátumov"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     }
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "LOADING_CHART": "Načítanie grafu...",
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Rozhovory",
+        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Prichádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odchádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do prvej reakcie",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do riešenia",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Počet vyriešených problémov",
+        "DESC": "( Spolu )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Posledných 7 dní"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Posledných 30 dní"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Posledné 3 mesiace"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Posledných 6 mesiacov"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Posledný rok"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Vlastný rozsah dátumov"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     }
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "LOADING_CHART": "Načítanie grafu...",
+    "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Rozhovory",
+        "DESC": "( Spolu )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Prichádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odchádzajúce správy",
+        "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do prvej reakcie",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Čas do riešenia",
+        "DESC": "( Priemer )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Počet vyriešených problémov",
+        "DESC": "( Spolu )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Posledných 7 dní"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Posledných 30 dní"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Posledné 3 mesiace"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Posledných 6 mesiacov"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Posledný rok"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Vlastný rozsah dátumov"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Použiť",
+      "PLACEHOLDER": "Vybrať rozsah dátumov"
     }
   },
   "CSAT_REPORTS": {
@@ -320,7 +320,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Hodnotenia",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },

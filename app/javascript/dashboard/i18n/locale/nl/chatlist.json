@@ -7,6 +7,7 @@
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
     "TAB_HEADING": "Gesprekken",
+    "MENTION_HEADING": "Vermeldingen",
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
@@ -75,10 +76,10 @@
     "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
     "REPLY_TO_TWEET": "Antwoord op deze tweet",
-    "SENT": "Sent successfully",
+    "SENT": "Succesvol verzonden",
     "NO_MESSAGES": "Geen berichten",
     "NO_CONTENT": "Geen inhoud beschikbaar",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst"
   }
 }
