@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
       "REMOVE": "Supprimer",
