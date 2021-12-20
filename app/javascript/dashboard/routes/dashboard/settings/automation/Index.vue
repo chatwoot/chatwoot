@@ -3,8 +3,8 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      @click="openAddPopup()"
       icon="add-circle"
+      @click="openAddPopup()"
     >
       {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
     </woot-button>
