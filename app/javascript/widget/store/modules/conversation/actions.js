@@ -52,6 +52,7 @@ export const actions = {
   sendAttachment: async ({ commit }, params) => {
     const {
       attachment: { thumbUrl, fileType },
+      meta = {},
     } = params;
     const attachment = {
       thumb_url: thumbUrl,
@@ -69,7 +70,13 @@ export const actions = {
         message: data,
         tempId: tempMessage.id,
       });
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
+      commit('updateMessageMeta', {
+        id: tempMessage.id,
+        meta: { ...meta, error: '' },
+      });
       // Show error
     }
   },

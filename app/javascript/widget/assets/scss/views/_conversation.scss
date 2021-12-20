@@ -107,6 +107,11 @@
       align-items: flex-end;
       display: flex;
       flex-direction: row-reverse;
+
+      .chat-bubble.user {
+        background: $color-error !important;
+        // TODO: Remove the important
+      }
     }
   }
 
