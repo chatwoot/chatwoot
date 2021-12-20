@@ -35,6 +35,7 @@
           class="flex justify-end align-middle px-4 py-2 text-red-700"
         >
           <button
+            v-if="!hasAttachments"
             :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
             class="inline-flex justify-center items-center ml-2"
             @click="retrySendMessage"
