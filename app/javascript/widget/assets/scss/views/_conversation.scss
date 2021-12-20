@@ -104,9 +104,9 @@
     }
 
     .is-failed {
+      align-items: flex-end;
       display: flex;
       flex-direction: row-reverse;
-      align-items: flex-end;
     }
   }
 
