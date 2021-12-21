@@ -10,7 +10,6 @@ class AsyncDispatcher < BaseDispatcher
 
   def listeners
     [
-      AgentBotListener.instance,
       CampaignListener.instance,
       CsatSurveyListener.instance,
       EventListener.instance,
