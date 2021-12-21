@@ -8,8 +8,8 @@
       "SUBMIT": "ثبت"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "دوباره پیام بدید",
+      "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
   "TEAM_AVAILABILITY": {
