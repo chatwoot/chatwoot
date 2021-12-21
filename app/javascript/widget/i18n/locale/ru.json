@@ -8,8 +8,8 @@
       "SUBMIT": "Отправить"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Отправить сообщение еще раз",
+      "ERROR_MESSAGE": "Не удалось отправить! Попробуйте еще раз"
     }
   },
   "TEAM_AVAILABILITY": {
