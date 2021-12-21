@@ -17,16 +17,17 @@
           :style="{ backgroundColor: widgetColor }"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-              :is-in-progress="isInProgress"
-            />
             <image-bubble
-              v-else
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :thumb="attachment.thumb_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
+            />
+            <file-bubble
+              v-else
+              :url="attachment.data_url"
+              :is-in-progress="isInProgress"
             />
           </div>
         </div>
@@ -72,6 +73,11 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      hasImageError: false,
+    };
+  },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -100,12 +106,23 @@ export default {
         : this.$t('COMPONENTS.MESSAGE_BUBBLE.ERROR_MESSAGE');
     },
   },
+  watch: {
+    message() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
   methods: {
     async retrySendMessage() {
       await this.$store.dispatch(
         'conversation/sendMessageWithData',
         this.message
       );
+    },
+    onImageLoadError() {
+      this.hasImageError = true;
     },
   },
 };
