@@ -15,6 +15,7 @@ class AsyncDispatcher < BaseDispatcher
       EventListener.instance,
       HookListener.instance,
       InstallationWebhookListener.instance,
+      NotificationListener.instance,
       WebhookListener.instance
     ]
   end
