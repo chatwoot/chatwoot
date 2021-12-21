@@ -10,12 +10,14 @@
 #
 # Indexes
 #
-#  index_inbox_members_on_inbox_id  (inbox_id)
+#  index_inbox_members_on_inbox_id              (inbox_id)
+#  index_inbox_members_on_inbox_id_and_user_id  (inbox_id,user_id) UNIQUE
 #
 
 class InboxMember < ApplicationRecord
   validates :inbox_id, presence: true
   validates :user_id, presence: true
+  validates :user_id, uniqueness: { scope: :inbox_id }
 
   belongs_to :user
   belongs_to :inbox
