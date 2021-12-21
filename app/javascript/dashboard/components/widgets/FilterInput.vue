@@ -1,6 +1,6 @@
 <template>
   <div class="filters">
-    <div class="filter">
+    <div class="filter" :class="{ error: v.values.$dirty && v.values.$error }">
       <div class="filter-inputs">
         <select
           v-model="attributeKey"
@@ -191,6 +191,10 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
+}
+
+.filter.error {
+  background: var(--r-50);
 }
 
 .filter-inputs {

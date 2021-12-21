@@ -1,5 +1,8 @@
 <template>
-  <div class="filter">
+  <div
+    class="filter"
+    :class="{ error: v.action_params.$dirty && v.action_params.$error }"
+  >
     <div class="filter-inputs">
       <select
         v-model="action_name"
@@ -106,6 +109,10 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
+}
+
+.filter.error {
+  background: var(--r-50);
 }
 
 .filter-inputs {

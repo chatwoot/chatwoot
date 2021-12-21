@@ -123,6 +123,7 @@
         </div>
       </div>
     </div>
+    <confirm-modal ref="confirmDialog"></confirm-modal>
   </div>
 </template>
 
@@ -133,6 +134,7 @@ import filterInputBox from 'dashboard/components/widgets/FilterInput.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from '/app/javascript/shared/constants/countries.js';
+import confirmModal from 'dashboard/components/widgets/ConfirmModal.vue';
 import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 import { getAutomationCondition } from './automationConditions';
@@ -141,6 +143,7 @@ export default {
   components: {
     filterInputBox,
     automationActionInput,
+    confirmModal,
   },
   mixins: [alertMixin],
   props: {
@@ -191,8 +194,6 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
-      automationRuleName: '',
-      automationRuleDescription: '',
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationActionTypes: AUTOMATION_ACTION_TYPES,
@@ -216,6 +217,7 @@ export default {
           },
         ],
       },
+      showDeleteConfirmationModal: false,
     };
   },
   computed: {
@@ -230,37 +232,31 @@ export default {
     },
   },
   methods: {
-    onEventChange() {
-      if (this.automationRuleEvent === 'conversation_created') {
-        this.filterTypes = getAutomationCondition({
-          actionType: 'conversation_created',
-        }).map(filter => ({
-          ...filter,
-          attributeName: this.$t(
-            `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
-          ),
-        }));
+    async onEventChange() {
+      const ok = await this.$refs.confirmDialog.showConfirmation();
+      if (ok) {
+        switch (this.automation.event_name) {
+          case 'conversation_created':
+            this.changeAutomationCondition('conversation_created');
+            break;
+          case 'conversation_updated':
+            this.changeAutomationCondition('conversation_updated');
+            break;
+          case 'messaged_created':
+            this.changeAutomationCondition('messaged_created');
+            break;
+          default:
+            break;
+        }
       }
-      if (this.automationRuleEvent === 'conversation_updated') {
-        this.filterTypes = getAutomationCondition({
-          actionType: 'conversation_updated',
-        }).map(filter => ({
-          ...filter,
-          attributeName: this.$t(
-            `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
-          ),
-        }));
-      }
-      if (this.automationRuleEvent === 'messaged_created') {
-        this.filterTypes = getAutomationCondition({
-          actionType: 'messaged_created',
-        }).map(filter => ({
-          ...filter,
-          attributeName: this.$t(
-            `FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
-          ),
-        }));
-      }
+    },
+    changeAutomationCondition(condition) {
+      this.filterTypes = getAutomationCondition({
+        actionType: condition,
+      }).map(filter => ({
+        ...filter,
+        attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+      }));
     },
     getInputType(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
