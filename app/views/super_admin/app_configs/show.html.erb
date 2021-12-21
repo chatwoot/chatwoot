@@ -8,7 +8,7 @@
 </header>
 <section class="main-content__body">
   <%= form_with url: super_admin_app_config_url , method: :post do |form| %>
-    <% ['FB_APP_ID', 'FB_VERIFY_TOKEN',  'FB_TOKEN'].each do |c| %>
+    <% @allowed_configs.each do |c| %>
       <div class="field-unit">
         <div class="field-unit__label">
           <%= form.label "app_config[#{c}]", c %>

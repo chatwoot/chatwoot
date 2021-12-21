@@ -1,6 +1,7 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   def show
-    @fb_config = InstallationConfig.where(name: %w[FB_APP_ID FB_VERIFY_TOKEN FB_TOKEN])
+    @allowed_configs = %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET]
+    @fb_config = InstallationConfig.where(name: @allowed_configs)
                                    .pluck(:name, :serialized_value)
                                    .map { |name, serialized_value| [name, serialized_value['value']] }
                                    .to_h
