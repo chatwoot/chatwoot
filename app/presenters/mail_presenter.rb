@@ -29,12 +29,11 @@ class MailPresenter < SimpleDelegator
   def select_body
     message = mail.text_part || mail.html_part || mail
     decoded = encode_to_unicode(message.decoded)
-
     # Certain trigger phrases that means we didn't parse correctly
-    return '' if %r{(Content-Type:|multipart/alternative|text/plain)}.match?(decoded)
+    return '' if %r{(Content-Type: multipart/alternative|text/plain)}.match?(decoded)
 
     if (mail.content_type || '').include? 'text/html'
-      HTMLParser.parse_reply(decoded)
+      ::HtmlParser.parse_reply(decoded)
     else
       decoded
     end

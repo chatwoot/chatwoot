@@ -1,4 +1,4 @@
-class HTMLParser
+class HtmlParser
   def self.parse_reply(raw_body)
     new(raw_body).filtered_text
   end
