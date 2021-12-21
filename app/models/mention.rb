@@ -19,8 +19,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (conversation_id => conversations.id)
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
+#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
 #
 class Mention < ApplicationRecord
   before_validation :ensure_account_id
