@@ -19,7 +19,6 @@
             variant="clear"
             size="small"
             icon="clipboard"
-            icon-size="16"
             @click="handleCopy"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.COPY') }}
@@ -31,7 +30,6 @@
             color-scheme="alert"
             size="small"
             icon="delete"
-            icon-size="16"
             @click="handleDelete"
           >
             {{ $t('CONVERSATION.CONTEXT_MENU.DELETE') }}

@@ -8,7 +8,6 @@
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :icon-size="14"
         @click="toggleEmojiPicker"
       />
 
@@ -16,7 +15,7 @@
       <file-upload
         ref="upload"
         :size="4096 * 4096"
-        accept="image/png, image/jpeg, image/gif, image/bmp, image/tiff, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+        :accept="allowedFileTypes"
         :drop="true"
         :drop-directory="false"
         @input-file="onFileUpload"
@@ -27,7 +26,6 @@
           :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
           icon="attach"
           emoji="📎"
-          :icon-size="14"
           color-scheme="secondary"
           variant="smooth"
           size="small"
@@ -37,7 +35,6 @@
         v-if="enableRichEditor && !isOnPrivateNote"
         icon="quote"
         emoji="🖊️"
-        :icon-size="16"
         color-scheme="secondary"
         variant="smooth"
         size="small"
@@ -87,6 +84,7 @@ import {
   hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
@@ -163,6 +161,9 @@ export default {
     },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
+    },
+    allowedFileTypes() {
+      return ALLOWED_FILE_TYPES;
     },
   },
   methods: {

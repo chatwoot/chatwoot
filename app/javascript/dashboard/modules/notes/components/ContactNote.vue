@@ -20,7 +20,6 @@
           variant="smooth"
           size="tiny"
           icon="delete"
-          icon-size="16"
           color-scheme="secondary"
           @click="onDelete"
         />

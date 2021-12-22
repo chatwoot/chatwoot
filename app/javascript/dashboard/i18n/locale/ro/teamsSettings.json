@@ -1,20 +1,20 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "Crează o echipă nouă",
+    "HEADER": "Echipe",
+    "SIDEBAR_TXT": "<p><b>Echipele</b></p> <p>vă permit să organizați agenții în grupuri în funcție de responsabilitățile lor. <br /> Un utilizator poate face parte din mai multe echipe. Poți atribui conversații unei echipe atunci când lucrezi colaborativ. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Nu există echipe create în acest cont.",
+      "EDIT_TEAM": "Editează echipa"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Crează o echipă nouă",
+        "DESC": "Adaugă un titlu și o descriere noii tale echipe."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "BUTTON_TEXT": "Adaugă agenți în echipă",
+        "TITLE": "Adăugați agenți în echipă - %{teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
       "WIZARD": [
@@ -43,7 +43,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Adăugați agenți în echipă - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
@@ -77,7 +77,7 @@
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
+      "TITLE": "Adăugați agenți în echipă - %{teamName}",
       "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",

@@ -1,0 +1,37 @@
+{
+  "FILTER": {
+    "TITLE": "Gespräche filtern",
+    "SUBTITLE": "Füge unten Filter hinzu und klicke auf 'Filter anwenden', um Konversationen zu filtern.",
+    "ADD_NEW_FILTER": "Filter hinzufügen",
+    "FILTER_DELETE_ERROR": "Du solltest mindestens einen Filter zum Speichern haben",
+    "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
+    "CANCEL_BUTTON_LABEL": "Stornieren",
+    "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
+    "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
+    "TOOLTIP_LABEL": "Gespräche filtern",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "UND",
+      "OR": "ODER"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Gleich",
+      "not_equal_to": "Nicht gleich",
+      "contains": "Enthält",
+      "does_not_contain": "Beinhaltet nicht",
+      "is_present": "Ist anwesend",
+      "is_not_present": "Ist nicht anwesend"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Name des Bevollmächtigten",
+      "INBOX_NAME": "Posteingang-Name",
+      "TEAM_NAME": "Teamname",
+      "CONVERSATION_IDENTIFIER": "Gesprächsidentifikation",
+      "CAMPAIGN_NAME": "Kampagnenname",
+      "LABELS": "Labels",
+      "BROWSER_LANGUAGE": "Browsersprache",
+      "COUNTRY_NAME": "Ländername",
+      "REFERER_LINK": "Referrer-Link"
+    }
+  }
+}
