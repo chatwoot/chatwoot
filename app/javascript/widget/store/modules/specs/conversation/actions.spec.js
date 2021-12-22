@@ -6,6 +6,7 @@ jest.mock('../../../../helpers/uuid');
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
+const dispatch = jest.fn();
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -92,7 +93,7 @@ describe('#actions', () => {
   });
 
   describe('#sendMessage', () => {
-    it('sends correct mutations', () => {
+    it('sends correct mutations', async () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
@@ -109,15 +110,16 @@ describe('#actions', () => {
           search: '?param=1',
         },
       }));
-      actions.sendMessage({ commit }, { content: 'hello' });
+      await actions.sendMessage({ commit, dispatch }, { content: 'hello' });
       spy.mockRestore();
       windowSpy.mockRestore();
-      expect(commit).toBeCalledWith('pushMessageToConversation', {
-        id: '1111',
+      expect(dispatch).toBeCalledWith('sendMessageWithData', {
+        attachments: undefined,
         content: 'hello',
-        status: 'in_progress',
         created_at: 1466424490,
+        id: '1111',
         message_type: 0,
+        status: 'in_progress',
       });
     });
   });
@@ -130,7 +132,7 @@ describe('#actions', () => {
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 
-      actions.sendAttachment({ commit }, { attachment });
+      actions.sendAttachment({ commit, dispatch }, { attachment });
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
