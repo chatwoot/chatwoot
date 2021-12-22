@@ -3,6 +3,7 @@
 # Table name: channel_twitter_profiles
 #
 #  id                          :bigint           not null, primary key
+#  tweets_enabled              :boolean          default(TRUE)
 #  twitter_access_token        :string           not null
 #  twitter_access_token_secret :string           not null
 #  created_at                  :datetime         not null
@@ -23,6 +24,8 @@ class Channel::TwitterProfile < ApplicationRecord
   validates :profile_id, uniqueness: { scope: :account_id }
 
   before_destroy :unsubscribe
+
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
 
   def name
     'Twitter'

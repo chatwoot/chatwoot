@@ -15,7 +15,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "NOTE": "Diese ID ist erforderlich, wenn Sie eine API-basierte Integration erstellen"
       },
       "NAME": {
         "LABEL": "Kontobezeichnung",
@@ -82,6 +82,50 @@
     },
     "BUTTON": {
       "REFRESH": "Neu laden"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Suchen oder springen zu",
+    "SECTIONS": {
+      "GENERAL": "Generell",
+      "REPORTS": "Berichte",
+      "CONVERSATION": "Unterhaltung",
+      "CHANGE_ASSIGNEE": "Beauftragten ändern",
+      "CHANGE_TEAM": "Team wechseln",
+      "ADD_LABEL": "Label zur Unterhaltung hinzufügen",
+      "REMOVE_LABEL": "Label aus der Unterhaltung entfernen",
+      "SETTINGS": "die Einstellungen"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Gehe zur Konversationsübersicht",
+      "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
+      "GO_TO_REPORTS_OVERVIEW": "Zur Berichtsübersicht",
+      "GO_TO_AGENT_REPORTS": "Zu den Agentenberichten",
+      "GO_TO_LABEL_REPORTS": "Zu den Label-Berichten",
+      "GO_TO_INBOX_REPORTS": "Zu den Posteingangsberichten",
+      "GO_TO_TEAM_REPORTS": "Zu den Teamberichten",
+      "GO_TO_SETTINGS_AGENTS": "Zu den Agenten-Einstellungen",
+      "GO_TO_SETTINGS_TEAMS": "Zu den Team Einstellungen",
+      "GO_TO_SETTINGS_INBOXES": "Zu den Posteingangseinstellungen",
+      "GO_TO_SETTINGS_LABELS": "Zu den Labeleinstellungen",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Zu den Einstellungen für vorgefertigte Antworten",
+      "GO_TO_SETTINGS_APPLICATIONS": "Zu den Anwendungseinstellungen",
+      "GO_TO_SETTINGS_ACCOUNT": "Zu den Kontoeinstellungen",
+      "GO_TO_SETTINGS_PROFILE": "Zu Profileinstellungen",
+      "GO_TO_NOTIFICATIONS": "Zu Benachrichtigungen",
+      "ADD_LABELS_TO_CONVERSATION": "Label zur Unterhaltung hinzufügen",
+      "ASSIGN_AN_AGENT": "Einen Agent zuweisen",
+      "ASSIGN_A_TEAM": "Ein Team zuweisen",
+      "MUTE_CONVERSATION": "Konversation stummschalten",
+      "UNMUTE_CONVERSATION": "Konversation entstummen",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Label aus der Unterhaltung entfernen",
+      "REOPEN_CONVERSATION": "Unterhaltung wieder öffnen",
+      "RESOLVE_CONVERSATION": "Unterhaltung lösen",
+      "SEND_TRANSCRIPT": "Gesprächsprotokoll per E-Mail senden",
+      "SNOOZE_CONVERSATION": "Snooze-Konversation",
+      "UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort",
+      "UNTIL_NEXT_WEEK": "Bis nächste Woche",
+      "UNTIL_TOMORROW": "Bis morgen"
     }
   }
 }

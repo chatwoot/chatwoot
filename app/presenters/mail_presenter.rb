@@ -90,6 +90,20 @@ class MailPresenter < SimpleDelegator
     @mail['X-Original-Sender'].try(:value) || from.first
   end
 
+  def email_forwarded_for
+    @mail['X-Forwarded-For'].try(:value)
+  end
+
+  def mail_receiver
+    if @mail.to.blank?
+      return [email_forwarded_for] if email_forwarded_for.present?
+
+      []
+    else
+      @mail.to
+    end
+  end
+
   private
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
@@ -103,37 +117,10 @@ class MailPresenter < SimpleDelegator
   end
 
   def extract_reply(content)
-    @regex_arr ||= quoted_text_regexes
-
-    content_length = content.length
-    # calculates the matching regex closest to top of page
-    index = @regex_arr.inject(content_length) do |min, regex|
-      [(content.index(regex) || content_length), min].min
-    end
-
+    # NOTE: implement the reply parser over here
     {
-      reply: content[0..(index - 1)].strip,
-      quoted_text: content[index..].strip
+      reply: content.strip,
+      quoted_text: content.strip
     }
-  end
-
-  def quoted_text_regexes
-    return sender_agnostic_regexes if @account.nil? || @account.support_email.blank?
-
-    [
-      Regexp.new("From:\s* #{Regexp.escape(@account.support_email)}", Regexp::IGNORECASE),
-      Regexp.new("<#{Regexp.escape(@account.support_email)}>", Regexp::IGNORECASE),
-      Regexp.new("#{Regexp.escape(@account.support_email)}\s+wrote:", Regexp::IGNORECASE),
-      Regexp.new("On(.*)#{Regexp.escape(@account.support_email)}(.*)wrote:", Regexp::IGNORECASE)
-    ] + sender_agnostic_regexes
-  end
-
-  def sender_agnostic_regexes
-    @sender_agnostic_regexes ||= [
-      Regexp.new("^.*On.*(\n)?wrote:$", Regexp::IGNORECASE),
-      Regexp.new('^.*On(.*)(.*)wrote:$', Regexp::IGNORECASE),
-      Regexp.new("-+original\s+message-+\s*$", Regexp::IGNORECASE),
-      Regexp.new("from:\s*$", Regexp::IGNORECASE)
-    ]
   end
 end
