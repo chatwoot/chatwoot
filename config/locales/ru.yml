@@ -77,6 +77,10 @@ ru:
       email_input_box_message_body: "Получать уведомления по email"
       csat_input_message_body: "Пожалуйста, оцените разговор"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} от %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} от %{inbox_name} <%{reply_email}>'
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
     survey:
