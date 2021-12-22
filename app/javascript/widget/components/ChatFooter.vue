@@ -60,7 +60,7 @@ export default {
     hideReplyBox() {
       const { allowMessagesAfterResolved } = window.chatwootWebChannel;
       const { status } = this.conversationAttributes;
-      return allowMessagesAfterResolved && status === 'resolved';
+      return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
       return this.currentUser && this.currentUser.email;
