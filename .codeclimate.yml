@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 plugins:
   rubocop:
     enabled: false
@@ -17,30 +17,30 @@ checks:
   method-count:
     enabled: true
     config:
-      threshold: 30
+      threshold: 32
   file-lines:
     enabled: true
     config:
       threshold: 300
 exclude_patterns:
-  - "spec/"
-  - "**/specs/"
-  - "db/*"
-  - "bin/**/*"
-  - "db/**/*"
-  - "config/**/*"
-  - "public/**/*"
-  - "vendor/**/*"
-  - "node_modules/**/*"
-  - "lib/tasks/auto_annotate_models.rake"
-  - "app/test-matchers.js"
-  - "docs/*"
-  - "**/*.md"
-  - "**/*.yml"
-  - "app/javascript/dashboard/i18n/locale"
-  - "**/*.stories.js"
-  - "stories/"
-  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js"
-  - "app/javascript/shared/constants/countries.js"
-  - "app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js"
-  - "app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js"
+  - 'spec/'
+  - '**/specs/'
+  - 'db/*'
+  - 'bin/**/*'
+  - 'db/**/*'
+  - 'config/**/*'
+  - 'public/**/*'
+  - 'vendor/**/*'
+  - 'node_modules/**/*'
+  - 'lib/tasks/auto_annotate_models.rake'
+  - 'app/test-matchers.js'
+  - 'docs/*'
+  - '**/*.md'
+  - '**/*.yml'
+  - 'app/javascript/dashboard/i18n/locale'
+  - '**/*.stories.js'
+  - 'stories/'
+  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/index.js'
+  - 'app/javascript/shared/constants/countries.js'
+  - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js'
+  - 'app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js'

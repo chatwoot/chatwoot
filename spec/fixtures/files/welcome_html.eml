@@ -1,0 +1,1061 @@
+Delivered-To: tejaswini@chatwoot.com
+Received: by 2002:a05:7110:a0a6:b0:11b:be8b:591e with SMTP id o6csp4217866gee;
+        Mon, 20 Dec 2021 22:29:33 -0800 (PST)
+X-Received: by 2002:a05:6638:38a0:: with SMTP id b32mr1050456jav.200.1640068173387;
+        Mon, 20 Dec 2021 22:29:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1640068173; cv=none;
+        d=google.com; s=arc-20160816;
+        b=TEtBl28WlEfNA6zQhv0ABl/8Xlo51uARUwc86zoaCZtl6VhLOhBCiKprg6RYeIddU2
+         vuk9jJ/a5UbSGbAHm7sul59AtWpBgG70ncaxgoDbzCcmIvF3eiVmqL/86mLcdg8iw7qv
+         y5G0cGGAS90QmpHGI1NpbrqsaMSYGNxdBAbKEc8MptMNX6YMRtxkBHys2RytYZnAKDMK
+         6Z7/Rw5dTqTNOsEAAIpEuWt+OkUFueYUUxzQWjvzoKJLxeXwaEcoDA7zNvgcfX1Vi0gt
+         2ACeODiEw32nf8OFHOzL1GHZ1KORR0k/EBa5JiA3yuyzO2T6E6x8eMLXN0RE8Sz510vB
+         798w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=INv+/+ALDvIppLZlFlmI+SEvYemXp/p7klJURJIMI7U=;
+        b=xaXEv4tduwW8acrwdMgVs/zoy/LFkjVa6E37T+DWjKmxh8ded438RPxOKfASoIUd/X
+         3hZu8ZHoVjuaUNYt2YfnD9svbO9lbMc2nlZr8mfop8RenXkJaPqt4q3sNXWItgNdLv5b
+         MmiPtCRb2oxq3u7VR7clEu0SAdvdett5AqwEFaZEMsT6yMoDdAyKRg3XyyB9c43/91kY
+         +MZSbDHv7OI3FZCgYlhCRkRWhjbLOi4mSqAnuEAS8Iwjmcn9pIaNcgkDhrHm8wp2SpDQ
+         GRVxyacJ/pTLS4azOPZOQ0zDslevdf/dCyKvCePv2QA+eMkCK8gLquQRQoss2B4uej36
+         AuXg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=CGxGg1rV;
+       spf=pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@chatwoot.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <Sony@chatwoot.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id i11sor5238056ilu.143.2021.12.20.22.29.33
+        for <tejaswini@chatwoot.com>
+        (Google Transport Security);
+        Mon, 20 Dec 2021 22:29:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=CGxGg1rV;
+       spf=pass (google.com: domain of Sony@chatwoot.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=Sony@chatwoot.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=INv+/+ALDvIppLZlFlmI+SEvYemXp/p7klJURJIMI7U=;
+        b=CGxGg1rVQBWFB2A0GDOx2F9M6C/QkZayZTseFV0GEsO/Ok+7KsEA+mOHZdUOXqTEfw
+         WXwE9r9B5JxpYMq1u6a79LHQTV4kTNbAVmDO3fJP3h+GM0LW+szDkfzOW2waDri6CtD9
+         9hk940kOJhl19cBrLcrGOE9wNvwP6yYAJxh5ZVtgV0pUhUEoHOZfDNI22kGeEXzwco2T
+         ZfdSoWxmp75Hg7rIgJBLMkFN9/2qtPLy0aEcvAEsbE+c9vmIDaqvHegvOiSC+mDOtdo0
+         OdJZJzLraA7ZYGxHmfBWVYq/9Ros1Q15A2L5aSdKJLvQgRQl26/vO+Bht1ZqyH22et+r
+         oIiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=INv+/+ALDvIppLZlFlmI+SEvYemXp/p7klJURJIMI7U=;
+        b=XEJl7va2s8ZPhCO1d+h4a217L/ByFYd8DHqr6oPMiNhkj/kiHzOLKQuvwOQb66nIXq
+         IRcLnzzlsoGe3POF+mAWvCHV0fNzMm6qHPGG8QzGXAx4QRiWsJI+0xNhQVmfGKj0/2/c
+         gvcyIfPJisv229IR3pZXh4mpc9yqZYDIbp1OK90ROmBSBG9uKL5FVhdc7AxbM9zy59vz
+         5QjuI0FZlIlq7rJzyTrsf1wMUtSRd2e3aRzg1luChyH57+kSDaEO8Qrfw/6+c63/ljQw
+         Ou00pgxPi6BStcD5ZyD+qHQ5XrmGX5GERitxA5bWa5JyC41pZsx3sQNkE2iT8nktJr+j
+         I7rA==
+X-Gm-Message-State: AOAM531I6Run21O8HiwUKEvIBbxxAhubJ3AyHQHSvq0u84taQpvrSh9+ h7itpdokByTLuqgMSj7/qr6R0KouqD0f8RVGiQiKS3xkZfw=
+X-Google-Smtp-Source: ABdhPJyaWpa+kXiDLdmNH4G5TUlfMxiwd1kgrcVXB6LB3QvhdnFkKm/tbQPzzhbutpnAOPWu+oXKU2Pj/hVH2XoPsoc=
+X-Received: by 2002:a92:db51:: with SMTP id w17mr849806ilq.213.1640068172521; Mon, 20 Dec 2021 22:29:32 -0800 (PST)
+MIME-Version: 1.0
+References: <mW2kUpR9gPvKQwucWUfXr0NM9ZJM8Zef4VLQ0itNtJYsB0O9fHpB6wHrckNJXMAmpIfYWkt-X11WxL2ohnxm6_ysGjHg4-9e-WVOlxg7hYOQiHNy_YpqN9Nr4i59Lq3B8DKlK_tPTbsq7y54XplAAAECAA==@t1.msgid.testmail.com>
+In-Reply-To: <mW2kUpR9gPvKQwucWUfXr0NM9ZJM8Zef4VLQ0itNtJYsB0O9fHpB6wHrckNJXMAmpIfYWkt-X11WxL2ohnxm6_ysGjHg4-9e-WVOlxg7hYOQiHNy_YpqN9Nr4i59Lq3B8DKlK_tPTbsq7y54XplAAAECAA==@t1.msgid.testmail.com>
+From: Sony Mathew <Sony@chatwoot.com>
+Date: Tue, 21 Dec 2021 11:29:20 +0500
+Message-ID: <CA+SD1Kyr7pCMgB=Z-fJ_a4v=MyisAZsgZSMr9Ji4zhFmF+mcgA@mail.gmail.com>
+Subject: Fwd: How good are you in English? How did you improve your English?
+To: tejaswini@chatwoot.com
+Content-Type: multipart/alternative; boundary="000000000000d4a5b005d3a220ef"
+
+--000000000000d4a5b005d3a220ef
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I'm learning English as a first language for the past 13 years, but to be
+honest, my English was drastically improved only in the past 3 years. I did
+my kindergarten in an ICSC school in Madura=E2=80=A6
+[image: test]
+<https://www.test.com/qemail/tc?aoid&aoty=3D7&aty=3D4&cp=3D0&et=3D2&id=3Dc=
+e78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+Test's Digest
+Top Stories For You
+
+How good are you in English? How did you improve your English?
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D1&aoid=3D1zN8hNmnuvy&a=
+oty=3D2&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&q_aid=
+=3DdU7XIw3qD61&uid=3DdoCdkaXtR9U>
+
+*Nakul Sethuram
+<https://www.test.com/qemail/tc?aoid=3DmpGiw94xgLK&aoty=3D3&aty=3D4&cp=3D1=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>*,
+Student =E2=80=A2 Updated March 26
+<https://www.test.com/qemail/tc?aoid=3DdU7XIw3qD61&aoty=3D1&aty=3D4&cp=3D1=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+I'm learning English as a first language for the past 13 years, but to be
+honest, my English was drastically improved only in the past 3 years.
+
+I did my kindergarten in an I...
+
+Read More =C2=BB
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image: View]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+7.2M
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Upvote]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+770
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Comment]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+93
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&al_pri=3D0&aoid=3DdU7XIw3qD61&a=
+oty=3D1&aty=3D4&cp=3D1&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+A new software developer spent 4 days to make a simple HTML button and CSS,
+should I fire him?
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D1&aoid=3D4eWouczfzMK=
+&aoty=3D2&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&q_aid=
+=3Da25mKlVfEJr&uid=3DdoCdkaXtR9U>
+
+*Gee Fishel
+<https://www.test.com/qemail/tc?aoid=3DFjT7OxPjgod&aoty=3D3&aty=3D4&cp=3D2=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>*,
+20+ years of software development, from gaming to government to the
+enterprise. =E2=80=A2 Answered December 6, 2017
+<https://www.test.com/qemail/tc?aoid=3Da25mKlVfEJr&aoty=3D1&aty=3D4&cp=3D2=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+Maybe, but probably not.
+
+First it depends on what you mean by =E2=80=9Cmake a simple HTML button and=
+ CSS.=E2=80=9D
+
+If it took him 4 days to create a new html page with just a simple button
+a...
+
+Read More =C2=BB
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+[image: View]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+
+919.5K
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+[image:
+Upvote]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+
+5.2K
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+[image:
+Comment]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+
+133
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&al_pri=3D0&aoid=3Da25mKlVfEJr=
+&aoty=3D1&aty=3D4&cp=3D2&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=
+=3DdoCdkaXtR9U>
+
+How do I get great Instagram followers?
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D1&aoid=3DVuNmVf8olh1&a=
+oty=3D2&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&q_aid=
+=3D3TBVTr7aNnK&uid=3DdoCdkaXtR9U>
+
+Mary Parr
+<https://www.test.com/qemail/tc?aoid=3DzL95jqPAysK&aoty=3D3&aty=3D4&cp=3D3=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+=E2=80=A2 Answered April 23
+<https://www.test.com/qemail/tc?aoid=3D3TBVTr7aNnK&aoty=3D1&aty=3D4&cp=3D3=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+Here are the most popular ways to get Instagram followers:
+
+   1. Join mutual PR groups
+
+To quickly gain the first 1k followers, join mutual PR groups. The
+advantage of this method i...
+
+Read More =C2=BB
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image: View]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+348.3K
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Upvote]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+25
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Comment]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+1
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&al_pri=3D0&aoid=3D3TBVTr7aNnK&a=
+oty=3D1&aty=3D4&cp=3D3&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+Did Kim Taehyung of BTS (Tae(V) & his family receive any threats?
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D1&aoid=3D8b0lpstPOL4&a=
+oty=3D2&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&q_aid=
+=3DoBfvMdLpFVj&uid=3DdoCdkaXtR9U>
+
+*Nyx Amara
+<https://www.test.com/qemail/tc?aoid=3Db7mqFvtX5Sx&aoty=3D3&aty=3D4&cp=3D4=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>*,
+=F0=9D=93=AD=F0=9D=93=B2=F0=9D=93=B0=F0=9D=93=B2=F0=9D=93=BD=F0=9D=93=AA=F0=
+=9D=93=B5 =F0=9D=93=AA=F0=9D=93=BB=F0=9D=93=BD=F0=9D=93=B2=F0=9D=93=BC=F0=
+=9D=93=BD =E2=80=A2 Updated January 21
+<https://www.test.com/qemail/tc?aoid=3DoBfvMdLpFVj&aoty=3D1&aty=3D4&cp=3D4=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+RM And V got death threats from people after V commented on a picture
+asking where he was in the photo. Of course it was meant as a joke but
+people hated his comment. Rm, V...
+
+Read More =C2=BB
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image: View]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+1.3M
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Upvote]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+588
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Comment]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+8
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&al_pri=3D0&aoid=3DoBfvMdLpFVj&a=
+oty=3D1&aty=3D4&cp=3D4&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+Why is 0.1+0.2 not equal to 0.3 in most programming languages?
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D1&aoid=3Do50IhuDxEr8&a=
+oty=3D2&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&q_aid=
+=3DYpw2TI1aZu8&uid=3DdoCdkaXtR9U>
+
+*Joe Zbiciak
+<https://www.test.com/qemail/tc?aoid=3DYdiKvzkbPXU&aoty=3D3&aty=3D4&cp=3D5=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>*,
+Developed practical algorithms actually used in production. =E2=80=A2 Updat=
+ed
+September 12
+<https://www.test.com/qemail/tc?aoid=3DYpw2TI1aZu8&aoty=3D1&aty=3D4&cp=3D5=
+&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+
+Computers implement a wide range of arithmetic schemes. In some, such as
+decimal floating point and rational arithmetic, 0.1 + 0.2 does equal 0.3.
+One computer I own uses r...
+
+Read More =C2=BB
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image: View]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+1.6M
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Upvote]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+218
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+[image:
+Comment]
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+
+20
+<https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&al_pri=3D0&aoid=3DYpw2TI1aZu8&a=
+oty=3D1&aty=3D4&cp=3D5&et=3D2&id=3Dce78432ee0f54fb1be4bb5e816968625&uid=3Dd=
+oCdkaXtR9U>
+Read More in Your Feed
+<https://www.test.com/qemail/tc?aoid&aoty=3D7&aty=3D4&cp=3D0&et=3D2&id=3Dc=
+e78432ee0f54fb1be4bb5e816968625&uid=3DdoCdkaXtR9U>
+Never miss a story. Designed for readers on the go.
+[image: Download on the App Store]
+<https://www.test.com/app?campaign=3Demail_footer_links_experiment&inject=
+=3D1&landing_url=3Dhttps%3A%2F%2Fwww.test.com%2Fqemail%2Ftc%3Faoid%26aoty%=
+3D7%26aty%3D4%26cp%3D0%26et%3D2%26id%3Dce78432ee0f54fb1be4bb5e816968625%26u=
+id%3DdoCdkaXtR9U&source=3Ddigest&target=3Diphone>[image:
+Get it on Google Play]
+<https://www.test.com/app?campaign=3Demail_footer_links_experiment&inject=
+=3D1&landing_url=3Dhttps%3A%2F%2Fwww.test.com%2Fqemail%2Ftc%3Faoid%26aoty%=
+3D7%26aty%3D4%26cp%3D0%26et%3D2%26id%3Dce78432ee0f54fb1be4bb5e816968625%26u=
+id%3DdoCdkaXtR9U&source=3Ddigest&target=3Dandroid>
+Missing out on test emails? Be sure to add us to your primary inbox.
+This email was sent by test (605 Castro Street, Mountain View, CA 94041).
+If you don't want to receive this type of email in the future, please
+unsubscribe
+<https://www.test.com/email_optout/qemail_unsubscribe?email_track_id=3Dce7=
+8432ee0f54fb1be4bb5e816968625&t=3D1639910639243823&token=3D462466940b4ecaa1=
+d4ad0d51f41ab2415009aec54c2aa54e78f49706faa61b821b638e3c9a6bc26fd74f47ad0cb=
+13eae6eda63010e32115dfb054ae12fb995fb&type=3D2&uid=3D1683895160>
+.
+https://www.test.com
+
+--000000000000d4a5b005d3a220ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div class=3D"gmail_attr">Hi te=
+jas, it&#39;s the sample of html email. we talk about it on discord.</div><=
+br><u></u><div style=3D"word-spacing:normal;background-color:#ffffff"><div =
+style=3D"display:none;font-size:1px;color:#ffffff;line-height:1px;max-heigh=
+t:0px;max-width:0px;opacity:0;overflow:hidden">I&#39;m learning English as =
+a first language for the past 13 years, but to be honest, my English was dr=
+astically improved only in the past 3 years. I did my kindergarten in an IC=
+SC school in Madura=E2=80=A6</div><div style=3D"max-width:525px;margin:0 au=
+to;text-align:center;background-color:#ffffff;padding:0 8px 16px"><table st=
+yle=3D"width:100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
+"presentation" align=3D"center"><tbody><tr><td><div style=3D"margin:0px aut=
+o;max-width:525px"><table style=3D"width:100%" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" role=3D"presentation" align=3D"center"><tbody><tr><td =
+style=3D"direction:ltr;font-size:0px;padding:0px;padding-bottom:24px;paddin=
+g-top:16px;text-align:center"><div style=3D"font-size:0;line-height:0;displ=
+ay:inline-block;width:100%;direction:ltr;text-align:center" class=3D"m_-313=
+6652589902579683mj-column-per-100"><div style=3D"font-size:0px;text-align:l=
+eft;direction:ltr;display:inline-block;vertical-align:top;width:100%" class=
+=3D"m_-3136652589902579683mj-column-per-100"><table style=3D"vertical-align=
+:top" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation=
+" width=3D"100%"><tbody><tr><td style=3D"font-size:0px;padding:0px;word-bre=
+ak:break-word" align=3D"center"><table style=3D"border-collapse:collapse;bo=
+rder-spacing:0px" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"=
+presentation"><tbody><tr><td style=3D"width:104px"><a href=3D"https://www.q=
+uora.com/qemail/tc?aoid&amp;aoty=3D7&amp;aty=3D4&amp;cp=3D0&amp;et=3D2&amp;=
+id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" target=3D"_bla=
+nk"><img alt=3D"test" height=3D"35.13513513513514" src=3D"http://qsf.fs.qu=
+oracdn.net/-4-images.logo.WordmarkLogo_592x200_4x.png-26-b469cd653dba282b.p=
+ng" style=3D"object-fit:contain;border:0;display:block;outline:none;text-de=
+coration:none;height:35.13513513513514px;width:100%;font-size:13px" width=
+=3D"104"></a></td></tr></tbody></table></td></tr><tr><td style=3D"font-size=
+:0px;padding:0px;word-break:break-word" align=3D"center"><table style=3D"bo=
+rder-collapse:collapse;border-spacing:0px" border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation"><tbody><tr><td style=3D"width:1px"><=
+img alt=3D"" height=3D"1" src=3D"https://www.test.com/qemail/mark_read?ct=
+=3D1639910639224715&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&am=
+p;request_id=3D1072810637337218477&amp;src=3D1&amp;st=3D1639910639224715&am=
+p;stories=3D1_dU7XIw3qD61%7C1_a25mKlVfEJr%7C1_3TBVTr7aNnK%7C1_oBfvMdLpFVj%7=
+C1_Ypw2TI1aZu8&amp;uid=3DdoCdkaXtR9U&amp;v=3D0" style=3D"object-fit:contain=
+;border:0;display:block;outline:none;text-decoration:none;height:1px;width:=
+100%;font-size:13px" width=3D"1"></td></tr></tbody></table></td></tr><tr><t=
+d style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"center=
+"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:19px;li=
+ne-height:1.2;text-align:center;color:#333333">Test&#39;s Digest</div></t=
+d></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word"><d=
+iv style=3D"height:5px;line-height:5px">=E2=80=8A</div></td></tr><tr><td st=
+yle=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"left"><div=
+ style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:12px;letter-s=
+pacing:-0.5px;line-height:1.5;text-align:left;text-transform:uppercase;colo=
+r:#171717">Top Stories For You</div></td></tr><tr><td style=3D"font-size:0p=
+x;padding:0px;padding-top:4px;padding-bottom:8px;word-break:break-word" ali=
+gn=3D"center"><p style=3D"border-top:solid 1px #dee0e1;font-size:1px;width:=
+100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;padding:0px;wor=
+d-break:break-word"><div style=3D"height:16px;line-height:16px">=E2=80=8A</=
+div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-bottom:8px=
+;word-break:break-word" align=3D"left"><div style=3D"font-family:system-ui,=
+Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.5px;li=
+ne-height:1.4;text-align:left;color:#333333"><a href=3D"https://www.test.c=
+om/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0N=
+zd8MXwxfDI3MjQwMjA0MSJ9&amp;al_pri=3D1&amp;aoid=3D1zN8hNmnuvy&amp;aoty=3D2&=
+amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625=
+&amp;q_aid=3DdU7XIw3qD61&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:no=
+ne;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><span>How=
+ good are you in English? How did you improve your English?</span></span></=
+a></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:bre=
+ak-word" align=3D"left"><table style=3D"color:#000000;font-family:system-ui=
+,Segoe UI,sans-serif;font-size:13px;line-height:22px;table-layout:auto;widt=
+h:100%;border:none" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=
+=3D"100%"><tbody><tr><td valign=3D"middle"><div style=3D"padding:0;padding-=
+bottom:4px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-ser=
+if;font-size:13px;line-height:1.2;color:#333333;text-align:left;margin:0"><=
+b><a href=3D"https://www.test.com/qemail/tc?aoid=3DmpGiw94xgLK&amp;aoty=3D=
+3&amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e8169686=
+25&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none;color:inherit" targ=
+et=3D"_blank"><span style=3D"color:#333333"><span style=3D"font-weight:700"=
+>Nakul Sethuram</span></span></a></b><span>, </span><span>Student </span><s=
+pan style=3D"color:#939598"> =E2=80=A2 </span><a href=3D"https://www.test.=
+com/qemail/tc?aoid=3DdU7XIw3qD61&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&amp;et=
+=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=
+=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=3D"co=
+lor:#939598">Updated March 26</span></a></p></div></td></tr></tbody></table=
+></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word=
+" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;fo=
+nt-size:16px;line-height:1.6;text-align:left;color:#333333"><a href=3D"http=
+s://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MT=
+A2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&amp;al_pri=3D0&amp;aoid=3DdU7XIw3qD6=
+1&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1b=
+e4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none;color:=
+#333333" target=3D"_blank"><span style=3D"color:#333333"><img alt=3D"" heig=
+ht=3D"auto" src=3D"http://qph.fs.testcdn.net/main-qimg-045760009c6de9a1461=
+e1fc9d2f93bbd-lq" style=3D"text-decoration:none;display:block;border:0;outl=
+ine:none;max-height:100px;max-width:200px;float:right;padding:0;padding-lef=
+t:4px;margin:auto" align=3D"right"><div style=3D"padding:0;padding-bottom:1=
+6px;display:inline" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,=
+sans-serif;font-size:16px;line-height:1.6;color:#333333;text-align:left;dis=
+play:inline;margin:0"><span>I&#39;m learning English as a first language fo=
+r the past 13 years, but to be honest, my English was drastically improved =
+only in the past 3 years.</span></p></div><span> </span><div style=3D"paddi=
+ng:0;padding-bottom:16px;display:inline" dir=3D"ltr"><p style=3D"font-famil=
+y:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;color:#33333=
+3;text-align:left;display:inline;margin:0"><span>I did my kindergarten in a=
+n I...</span></p></div><span> </span><div style=3D"padding:0;display:inline=
+" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:16px;line-height:1.6;color:#168de9;text-align:left;display:inline;margin=
+:0">Read More =C2=BB</p></div></span></a><br><div style=3D"float:left;paddi=
+ng-top:8px"><table><tbody><tr><td><a href=3D"https://www.test.com/qemail/t=
+c?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3=
+MjQwMjA0MSJ9&amp;al_pri=3D0&amp;aoid=3DdU7XIw3qD61&amp;aoty=3D1&amp;aty=3D4=
+&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3D=
+doCdkaXtR9U" style=3D"text-decoration:underline" target=3D"_blank"><img alt=
+=3D"View" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_=
+assets.icons.eye_20_retina.png-26-8e7c57fe61587d46.png" style=3D"text-decor=
+ation:none;display:block;border:0;outline:none;height:20px;float:none;paddi=
+ng:0;margin:auto" align=3D"none"></a></td><td style=3D"padding-right:16px">=
+<a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXN=
+oIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&amp;al_pri=3D0&amp;ao=
+id=3DdU7XIw3qD61&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce=
+78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decorat=
+ion:none" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.=
+2;color:#636466;text-align:left;margin:0">7.2M</p></div></a></td><td><a hre=
+f=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogI=
+jEwNzI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&amp;al_pri=3D0&amp;aoid=3Dd=
+U7XIw3qD61&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432e=
+e0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:un=
+derline" target=3D"_blank"><img alt=3D"Upvote" height=3D"20" src=3D"https:/=
+/qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.upvote_20_retina.png-26-3=
+d9494ab59c37e56.png" style=3D"text-decoration:none;display:block;border:0;o=
+utline:none;height:20px;float:none;padding:0;margin:auto" align=3D"none"></=
+a></td><td style=3D"padding-right:16px"><a href=3D"https://www.test.com/qe=
+mail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MX=
+wxfDI3MjQwMjA0MSJ9&amp;al_pri=3D0&amp;aoid=3DdU7XIw3qD61&amp;aoty=3D1&amp;a=
+ty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;=
+uid=3DdoCdkaXtR9U" style=3D"text-decoration:none" target=3D"_blank"><div st=
+yle=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sa=
+ns-serif;font-size:13px;line-height:1.2;color:#636466;text-align:left;margi=
+n:0">770</p></div></a></td><td><a href=3D"https://www.test.com/qemail/tc?a=
+l_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQ=
+wMjA0MSJ9&amp;al_pri=3D0&amp;aoid=3DdU7XIw3qD61&amp;aoty=3D1&amp;aty=3D4&am=
+p;cp=3D1&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoC=
+dkaXtR9U" style=3D"text-decoration:underline" target=3D"_blank"><img alt=3D=
+"Comment" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_=
+assets.icons.comment_20_retina.png-26-4dbd4e9124f23bec.png" style=3D"text-d=
+ecoration:none;display:block;border:0;outline:none;height:20px;float:none;p=
+adding:0;margin:auto" align=3D"none"></a></td><td style=3D"padding-right:16=
+px"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJ=
+oYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MXwxfDI3MjQwMjA0MSJ9&amp;al_pri=3D0&am=
+p;aoid=3DdU7XIw3qD61&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&amp;et=3D2&amp;id=
+=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-de=
+coration:none" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p st=
+yle=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height=
+:1.2;color:#636466;text-align:left;margin:0">93</p></div></a></td></tr></tb=
+ody></table></div></div></td></tr><tr><td style=3D"font-size:0px;padding:0p=
+x;padding-top:16px;padding-right:25%;padding-bottom:0px;padding-left:25%;wo=
+rd-break:break-word" align=3D"center"><p style=3D"border-top:solid 0.5px #d=
+ee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"fon=
+t-size:0px;padding:0px;word-break:break-word"><div style=3D"height:16px;lin=
+e-height:16px">=E2=80=8A</div></td></tr><tr><td style=3D"font-size:0px;padd=
+ing:0px;padding-bottom:8px;word-break:break-word" align=3D"left"><div style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:70=
+0;letter-spacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a h=
+ref=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjo=
+gIjEwNzI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=3D1&amp;aoid=
+=3D4eWouczfzMK&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78=
+432ee0f54fb1be4bb5e816968625&amp;q_aid=3Da25mKlVfEJr&amp;uid=3DdoCdkaXtR9U"=
+ style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=
+=3D"color:#333333"><span>A new software developer spent 4 days to make a si=
+mple HTML button and CSS, should I fire him?</span></span></a></div></td></=
+tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=
+=3D"left"><table style=3D"color:#000000;font-family:system-ui,Segoe UI,sans=
+-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:=
+none" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%"><tbod=
+y><tr><td valign=3D"middle"><div style=3D"padding:0;padding-bottom:4px" dir=
+=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13=
+px;line-height:1.2;color:#333333;text-align:left;margin:0"><b><a href=3D"ht=
+tps://www.test.com/qemail/tc?aoid=3DFjT7OxPjgod&amp;aoty=3D3&amp;aty=3D4&a=
+mp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3Ddo=
+CdkaXtR9U" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><=
+span style=3D"color:#333333"><span style=3D"font-weight:700">Gee Fishel</sp=
+an></span></a></b><span>, </span><span>20+ years of software development, f=
+rom gaming to government to the enterprise.</span><span style=3D"color:#939=
+598"> =E2=80=A2 </span><a href=3D"https://www.test.com/qemail/tc?aoid=3Da2=
+5mKlVfEJr&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee=
+0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:non=
+e;color:inherit" target=3D"_blank"><span style=3D"color:#939598">Answered D=
+ecember 6, 2017</span></a></p></div></td></tr></tbody></table></td></tr><tr=
+><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"lef=
+t"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:16px;l=
+ine-height:1.6;text-align:left;color:#333333"><a href=3D"https://www.test.=
+com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0=
+Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=3D0&amp;aoid=3Da25mKlVfEJr&amp;aoty=
+=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e8169=
+68625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none;color:#333333" t=
+arget=3D"_blank"><span style=3D"color:#333333"><div style=3D"padding:0;padd=
+ing-bottom:16px;display:inline" dir=3D"ltr"><p style=3D"font-family:system-=
+ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;color:#333333;text-al=
+ign:left;display:inline;margin:0"><span>Maybe, but probably not.</span></p>=
+</div><span> </span><div style=3D"padding:0;padding-bottom:16px;display:inl=
+ine" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font=
+-size:16px;line-height:1.6;color:#333333;text-align:left;display:inline;mar=
+gin:0"><span>First it depends on what you mean by =E2=80=9Cmake a simple HT=
+ML button and CSS.=E2=80=9D</span></p></div><span> </span><div style=3D"pad=
+ding:0;padding-bottom:16px;display:inline" dir=3D"ltr"><p style=3D"font-fam=
+ily:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;color:#333=
+333;text-align:left;display:inline;margin:0"><span>If it took him 4 days to=
+ create a new html page with just a simple button a...</span></p></div><spa=
+n> </span><div style=3D"padding:0;display:inline" dir=3D"ltr"><p style=3D"f=
+ont-family:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;col=
+or:#168de9;text-align:left;display:inline;margin:0">Read More =C2=BB</p></d=
+iv></span></a><br><div style=3D"float:left;padding-top:8px"><table><tbody><=
+tr><td><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMs=
+ICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=
+=3D0&amp;aoid=3Da25mKlVfEJr&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&=
+amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"t=
+ext-decoration:underline" target=3D"_blank"><img alt=3D"View" height=3D"20"=
+ src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.eye_20_ret=
+ina.png-26-8e7c57fe61587d46.png" style=3D"text-decoration:none;display:bloc=
+k;border:0;outline:none;height:20px;float:none;padding:0;margin:auto" align=
+=3D"none"></a></td><td style=3D"padding-right:16px"><a href=3D"https://www.=
+test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMz=
+cyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=3D0&amp;aoid=3Da25mKlVfEJr&amp;=
+aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e=
+816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none" target=3D"_=
+blank"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-=
+ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#636466;text-al=
+ign:left;margin:0">919.5K</p></div></a></td><td><a href=3D"https://www.quor=
+a.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMT=
+g0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=3D0&amp;aoid=3Da25mKlVfEJr&amp;aoty=
+=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e8169=
+68625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:underline" target=3D"=
+_blank"><img alt=3D"Upvote" height=3D"20" src=3D"https://qsf.fs.testcdn.ne=
+t/-4-ans_frontend_assets.icons.upvote_20_retina.png-26-3d9494ab59c37e56.png=
+" style=3D"text-decoration:none;display:block;border:0;outline:none;height:=
+20px;float:none;padding:0;margin:auto" align=3D"none"></a></td><td style=3D=
+"padding-right:16px"><a href=3D"https://www.test.com/qemail/tc?al_imp=3Dey=
+J0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3=
+D&amp;al_pri=3D0&amp;aoid=3Da25mKlVfEJr&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2=
+&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U=
+" style=3D"text-decoration:none" target=3D"_blank"><div style=3D"padding:0"=
+ dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-siz=
+e:13px;line-height:1.2;color:#636466;text-align:left;margin:0">5.2K</p></di=
+v></a></td><td><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBl=
+IjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;=
+al_pri=3D0&amp;aoid=3Da25mKlVfEJr&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;e=
+t=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" styl=
+e=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"Comment" heig=
+ht=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.c=
+omment_20_retina.png-26-4dbd4e9124f23bec.png" style=3D"text-decoration:none=
+;display:block;border:0;outline:none;height:20px;float:none;padding:0;margi=
+n:auto" align=3D"none"></a></td><td style=3D"padding-right:16px"><a href=3D=
+"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwN=
+zI4MTA2MzczMzcyMTg0Nzd8MnwxfDY1NTE0NTk1In0%3D&amp;al_pri=3D0&amp;aoid=3Da25=
+mKlVfEJr&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;et=3D2&amp;id=3Dce78432ee0=
+f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none=
+" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-f=
+amily:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#6=
+36466;text-align:left;margin:0">133</p></div></a></td></tr></tbody></table>=
+</div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-to=
+p:16px;padding-right:25%;padding-bottom:0px;padding-left:25%;word-break:bre=
+ak-word" align=3D"center"><p style=3D"border-top:solid 0.5px #dee0e1;font-s=
+ize:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;p=
+adding:0px;word-break:break-word"><div style=3D"height:16px;line-height:16p=
+x">=E2=80=8A</div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padd=
+ing-bottom:8px;word-break:break-word" align=3D"left"><div style=3D"font-fam=
+ily:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-spa=
+cing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a href=3D"https=
+://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA=
+2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&amp;al_pri=3D1&amp;aoid=3DVuNmVf8olh1=
+&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be=
+4bb5e816968625&amp;q_aid=3D3TBVTr7aNnK&amp;uid=3DdoCdkaXtR9U" style=3D"text=
+-decoration:none;color:inherit" target=3D"_blank"><span style=3D"color:#333=
+333"><span>How do I get great Instagram followers?</span></span></a></div><=
+/td></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" =
+align=3D"left"><table style=3D"color:#000000;font-family:system-ui,Segoe UI=
+,sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;bo=
+rder:none" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">=
+<tbody><tr><td valign=3D"middle"><div style=3D"padding:0;padding-bottom:4px=
+" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:13px;line-height:1.2;color:#333333;text-align:left;margin:0"><a href=3D"=
+https://www.test.com/qemail/tc?aoid=3DzL95jqPAysK&amp;aoty=3D3&amp;aty=3D4=
+&amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3D=
+doCdkaXtR9U" style=3D"text-decoration:none;color:inherit" target=3D"_blank"=
+><span style=3D"color:#333333"><span style=3D"font-weight:700">Mary Parr</s=
+pan></span></a><span style=3D"color:#939598"> =E2=80=A2 </span><a href=3D"h=
+ttps://www.test.com/qemail/tc?aoid=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&=
+amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3Dd=
+oCdkaXtR9U" style=3D"text-decoration:none;color:inherit" target=3D"_blank">=
+<span style=3D"color:#939598">Answered April 23</span></a></p></div></td></=
+tr></tbody></table></td></tr><tr><td style=3D"font-size:0px;padding:0px;wor=
+d-break:break-word" align=3D"left"><div style=3D"font-family:system-ui,Sego=
+e UI,sans-serif;font-size:16px;line-height:1.6;text-align:left;color:#33333=
+3"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJo=
+YXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&amp;al_pri=3D0&amp=
+;aoid=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D3&amp;et=3D2&amp;id=
+=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-de=
+coration:none;color:#333333" target=3D"_blank"><span style=3D"color:#333333=
+"><div style=3D"padding:0;padding-bottom:16px;display:inline" dir=3D"ltr"><=
+p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:16px;line-he=
+ight:1.6;color:#333333;text-align:left;display:inline;margin:0"><span>Here =
+are the most popular ways to get Instagram followers:</span></p></div><span=
+> </span><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:=
+15px;line-height:1.6;padding-right:16px;color:#333333;padding-left:32px;pad=
+ding-bottom:16px"><ol style=3D"padding:0;margin:0"><li dir=3D"ltr" style=3D=
+"margin:0"><span>Join mutual PR groups</span></li></ol></div><div style=3D"=
+padding:0;padding-bottom:16px;display:inline" dir=3D"ltr"><p style=3D"font-=
+family:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;color:#=
+333333;text-align:left;display:inline;margin:0"><span>To quickly gain the f=
+irst 1k followers, join mutual PR groups. The advantage of this method i...=
+</span></p></div><span> </span><div style=3D"padding:0;display:inline" dir=
+=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:16=
+px;line-height:1.6;color:#168de9;text-align:left;display:inline;margin:0">R=
+ead More =C2=BB</p></div></span></a><br><div style=3D"float:left;padding-to=
+p:8px"><table><tbody><tr><td><a href=3D"https://www.test.com/qemail/tc?al_=
+imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4O=
+TI1OSJ9&amp;al_pri=3D0&amp;aoid=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;=
+cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdk=
+aXtR9U" style=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"V=
+iew" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_asset=
+s.icons.eye_20_retina.png-26-8e7c57fe61587d46.png" style=3D"text-decoration=
+:none;display:block;border:0;outline:none;height:20px;float:none;padding:0;=
+margin:auto" align=3D"none"></a></td><td style=3D"padding-right:16px"><a hr=
+ef=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjog=
+IjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&amp;al_pri=3D0&amp;aoid=3D=
+3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432=
+ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:n=
+one" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"fon=
+t-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color=
+:#636466;text-align:left;margin:0">348.3K</p></div></a></td><td><a href=3D"=
+https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNz=
+I4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&amp;al_pri=3D0&amp;aoid=3D3TBVTr=
+7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54=
+fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:underli=
+ne" target=3D"_blank"><img alt=3D"Upvote" height=3D"20" src=3D"https://qsf.=
+fs.testcdn.net/-4-ans_frontend_assets.icons.upvote_20_retina.png-26-3d9494=
+ab59c37e56.png" style=3D"text-decoration:none;display:block;border:0;outlin=
+e:none;height:20px;float:none;padding:0;margin:auto" align=3D"none"></a></t=
+d><td style=3D"padding-right:16px"><a href=3D"https://www.test.com/qemail/=
+tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI=
+3ODA4OTI1OSJ9&amp;al_pri=3D0&amp;aoid=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D=
+4&amp;cp=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=
+=3DdoCdkaXtR9U" style=3D"text-decoration:none" target=3D"_blank"><div style=
+=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-=
+serif;font-size:13px;line-height:1.2;color:#636466;text-align:left;margin:0=
+">25</p></div></a></td><td><a href=3D"https://www.test.com/qemail/tc?al_im=
+p=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI=
+1OSJ9&amp;al_pri=3D0&amp;aoid=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;cp=
+=3D3&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaX=
+tR9U" style=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"Com=
+ment" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_asse=
+ts.icons.comment_20_retina.png-26-4dbd4e9124f23bec.png" style=3D"text-decor=
+ation:none;display:block;border:0;outline:none;height:20px;float:none;paddi=
+ng:0;margin:auto" align=3D"none"></a></td><td style=3D"padding-right:16px">=
+<a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXN=
+oIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8M3wxfDI3ODA4OTI1OSJ9&amp;al_pri=3D0&amp;ao=
+id=3D3TBVTr7aNnK&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D3&amp;et=3D2&amp;id=3Dce=
+78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decorat=
+ion:none" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.=
+2;color:#636466;text-align:left;margin:0">1</p></div></a></td></tr></tbody>=
+</table></div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;pa=
+dding-top:16px;padding-right:25%;padding-bottom:0px;padding-left:25%;word-b=
+reak:break-word" align=3D"center"><p style=3D"border-top:solid 0.5px #dee0e=
+1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"font-si=
+ze:0px;padding:0px;word-break:break-word"><div style=3D"height:16px;line-he=
+ight:16px">=E2=80=8A</div></td></tr><tr><td style=3D"font-size:0px;padding:=
+0px;padding-bottom:8px;word-break:break-word" align=3D"left"><div style=3D"=
+font-family:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;le=
+tter-spacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a href=
+=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIj=
+EwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&amp;al_pri=3D1&amp;aoid=3D8b=
+0lpstPOL4&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78432ee=
+0f54fb1be4bb5e816968625&amp;q_aid=3DoBfvMdLpFVj&amp;uid=3DdoCdkaXtR9U" styl=
+e=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=3D"c=
+olor:#333333"><span>Did Kim Taehyung of BTS (Tae(V) &amp; his family receiv=
+e any threats?</span></span></a></div></td></tr><tr><td style=3D"font-size:=
+0px;padding:0px;word-break:break-word" align=3D"left"><table style=3D"color=
+:#000000;font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-heig=
+ht:22px;table-layout:auto;width:100%;border:none" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" width=3D"100%"><tbody><tr><td valign=3D"middle"><d=
+iv style=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-fami=
+ly:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#3333=
+33;text-align:left;margin:0"><b><a href=3D"https://www.test.com/qemail/tc?=
+aoid=3Db7mqFvtX5Sx&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3D=
+ce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decor=
+ation:none;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><=
+span style=3D"font-weight:700">Nyx Amara</span></span></a></b><span>, </spa=
+n><span>=F0=9D=93=AD=F0=9D=93=B2=F0=9D=93=B0=F0=9D=93=B2=F0=9D=93=BD=F0=9D=
+=93=AA=F0=9D=93=B5 =F0=9D=93=AA=F0=9D=93=BB=F0=9D=93=BD=F0=9D=93=B2=F0=9D=
+=93=BC=F0=9D=93=BD</span><span style=3D"color:#939598"> =E2=80=A2 </span><a=
+ href=3D"https://www.test.com/qemail/tc?aoid=3DoBfvMdLpFVj&amp;aoty=3D1&am=
+p;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&a=
+mp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none;color:inherit" target=
+=3D"_blank"><span style=3D"color:#939598">Updated January 21</span></a></p>=
+</div></td></tr></tbody></table></td></tr><tr><td style=3D"font-size:0px;pa=
+dding:0px;word-break:break-word" align=3D"left"><div style=3D"font-family:s=
+ystem-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;text-align:left=
+;color:#333333"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXB=
+lIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&amp;a=
+l_pri=3D0&amp;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;et=
+=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=
+=3D"text-decoration:none;color:#333333" target=3D"_blank"><span style=3D"co=
+lor:#333333"><img alt=3D"" height=3D"auto" src=3D"http://qph.fs.testcdn.ne=
+t/main-qimg-f51ad4f002fc4c336bbb200876c61f1c-lq" style=3D"text-decoration:n=
+one;display:block;border:0;outline:none;max-height:100px;max-width:200px;fl=
+oat:right;padding:0;padding-left:4px;margin:auto" align=3D"right"><div styl=
+e=3D"padding:0;padding-bottom:16px;display:inline" dir=3D"ltr"><p style=3D"=
+font-family:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.6;co=
+lor:#333333;text-align:left;display:inline;margin:0"><span>RM And V got dea=
+th threats from people after V commented on a picture asking where he was i=
+n the photo. Of course it was meant as a joke but people hated his comment.=
+ Rm, V...</span></p></div><span> </span><div style=3D"padding:0;display:inl=
+ine" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font=
+-size:16px;line-height:1.6;color:#168de9;text-align:left;display:inline;mar=
+gin:0">Read More =C2=BB</p></div></span></a><br><div style=3D"float:left;pa=
+dding-top:8px"><table><tbody><tr><td><a href=3D"https://www.test.com/qemai=
+l/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxf=
+DI2MDQ2OTIxOSJ9&amp;al_pri=3D0&amp;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=
+=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;ui=
+d=3DdoCdkaXtR9U" style=3D"text-decoration:underline" target=3D"_blank"><img=
+ alt=3D"View" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_front=
+end_assets.icons.eye_20_retina.png-26-8e7c57fe61587d46.png" style=3D"text-d=
+ecoration:none;display:block;border:0;outline:none;height:20px;float:none;p=
+adding:0;margin:auto" align=3D"none"></a></td><td style=3D"padding-right:16=
+px"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJ=
+oYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&amp;al_pri=3D0&am=
+p;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=
+=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-de=
+coration:none" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p st=
+yle=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height=
+:1.2;color:#636466;text-align:left;margin:0">1.3M</p></div></a></td><td><a =
+href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIj=
+ogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&amp;al_pri=3D0&amp;aoid=
+=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78=
+432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoratio=
+n:underline" target=3D"_blank"><img alt=3D"Upvote" height=3D"20" src=3D"htt=
+ps://qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.upvote_20_retina.png-=
+26-3d9494ab59c37e56.png" style=3D"text-decoration:none;display:block;border=
+:0;outline:none;height:20px;float:none;padding:0;margin:auto" align=3D"none=
+"></a></td><td style=3D"padding-right:16px"><a href=3D"https://www.test.co=
+m/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nz=
+d8NHwxfDI2MDQ2OTIxOSJ9&amp;al_pri=3D0&amp;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&a=
+mp;aty=3D4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&=
+amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none" target=3D"_blank"><di=
+v style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe U=
+I,sans-serif;font-size:13px;line-height:1.2;color:#636466;text-align:left;m=
+argin:0">588</p></div></a></td><td><a href=3D"https://www.test.com/qemail/=
+tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI=
+2MDQ2OTIxOSJ9&amp;al_pri=3D0&amp;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=3D=
+4&amp;cp=3D4&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=
+=3DdoCdkaXtR9U" style=3D"text-decoration:underline" target=3D"_blank"><img =
+alt=3D"Comment" height=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_fro=
+ntend_assets.icons.comment_20_retina.png-26-4dbd4e9124f23bec.png" style=3D"=
+text-decoration:none;display:block;border:0;outline:none;height:20px;float:=
+none;padding:0;margin:auto" align=3D"none"></a></td><td style=3D"padding-ri=
+ght:16px"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogM=
+zMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NHwxfDI2MDQ2OTIxOSJ9&amp;al_pri=
+=3D0&amp;aoid=3DoBfvMdLpFVj&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;et=3D2&=
+amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"t=
+ext-decoration:none" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"=
+><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-=
+height:1.2;color:#636466;text-align:left;margin:0">8</p></div></a></td></tr=
+></tbody></table></div></div></td></tr><tr><td style=3D"font-size:0px;paddi=
+ng:0px;padding-top:16px;padding-right:25%;padding-bottom:0px;padding-left:2=
+5%;word-break:break-word" align=3D"center"><p style=3D"border-top:solid 0.5=
+px #dee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><td style=
+=3D"font-size:0px;padding:0px;word-break:break-word"><div style=3D"height:1=
+6px;line-height:16px">=E2=80=8A</div></td></tr><tr><td style=3D"font-size:0=
+px;padding:0px;padding-bottom:8px;word-break:break-word" align=3D"left"><di=
+v style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:19px;font-we=
+ight:700;letter-spacing:-0.5px;line-height:1.4;text-align:left;color:#33333=
+3"><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJo=
+YXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp;al_pri=3D1&amp=
+;aoid=3Do50IhuDxEr8&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;id=
+=3Dce78432ee0f54fb1be4bb5e816968625&amp;q_aid=3DYpw2TI1aZu8&amp;uid=3DdoCdk=
+aXtR9U" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><spa=
+n style=3D"color:#333333"><span>Why is 0.1+0.2 not equal to 0.3 in most pro=
+gramming languages?</span></span></a></div></td></tr><tr><td style=3D"font-=
+size:0px;padding:0px;word-break:break-word" align=3D"left"><table style=3D"=
+color:#000000;font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line=
+-height:22px;table-layout:auto;width:100%;border:none" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" width=3D"100%"><tbody><tr><td valign=3D"middle=
+"><div style=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-=
+family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#=
+333333;text-align:left;margin:0"><b><a href=3D"https://www.test.com/qemail=
+/tc?aoid=3DYdiKvzkbPXU&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;i=
+d=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-d=
+ecoration:none;color:inherit" target=3D"_blank"><span style=3D"color:#33333=
+3"><span style=3D"font-weight:700">Joe Zbiciak</span></span></a></b><span>,=
+ </span><span>Developed practical algorithms actually used in production.</=
+span><span style=3D"color:#939598"> =E2=80=A2 </span><a href=3D"https://www=
+.test.com/qemail/tc?aoid=3DYpw2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5=
+&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U=
+" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span styl=
+e=3D"color:#939598">Updated September 12</span></a></p></div></td></tr></tb=
+ody></table></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-break=
+:break-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sa=
+ns-serif;font-size:16px;line-height:1.6;text-align:left;color:#333333"><a h=
+ref=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjo=
+gIjEwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp;al_pri=3D0&amp;aoid=
+=3DYpw2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;id=3Dce78=
+432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoratio=
+n:none;color:#333333" target=3D"_blank"><span style=3D"color:#333333"><div =
+style=3D"padding:0;padding-bottom:16px;display:inline" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:16px;line-height:1.=
+6;color:#333333;text-align:left;display:inline;margin:0"><span>Computers im=
+plement a wide range of arithmetic schemes. In some, such as decimal floati=
+ng point and rational arithmetic, 0.1 + 0.2 </span><span style=3D"font-styl=
+e:italic">does</span><span> equal 0.3. One computer I own uses r...</span><=
+/p></div><span> </span><div style=3D"padding:0;display:inline" dir=3D"ltr">=
+<p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:16px;line-h=
+eight:1.6;color:#168de9;text-align:left;display:inline;margin:0">Read More =
+=C2=BB</p></div></span></a><br><div style=3D"float:left;padding-top:8px"><t=
+able><tbody><tr><td><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ=
+0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&a=
+mp;al_pri=3D0&amp;aoid=3DYpw2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&am=
+p;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" s=
+tyle=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"View" heig=
+ht=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.e=
+ye_20_retina.png-26-8e7c57fe61587d46.png" style=3D"text-decoration:none;dis=
+play:block;border:0;outline:none;height:20px;float:none;padding:0;margin:au=
+to" align=3D"none"></a></td><td style=3D"padding-right:16px"><a href=3D"htt=
+ps://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4M=
+TA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp;al_pri=3D0&amp;aoid=3DYpw2TI1aZ=
+u8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;id=3Dce78432ee0f54fb1=
+be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:none" targ=
+et=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:=
+system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#636466;=
+text-align:left;margin:0">1.6M</p></div></a></td><td><a href=3D"https://www=
+.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczM=
+zcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp;al_pri=3D0&amp;aoid=3DYpw2TI1aZu8&amp;a=
+oty=3D1&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e8=
+16968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:underline" target=
+=3D"_blank"><img alt=3D"Upvote" height=3D"20" src=3D"https://qsf.fs.testcd=
+n.net/-4-ans_frontend_assets.icons.upvote_20_retina.png-26-3d9494ab59c37e56=
+.png" style=3D"text-decoration:none;display:block;border:0;outline:none;hei=
+ght:20px;float:none;padding:0;margin:auto" align=3D"none"></a></td><td styl=
+e=3D"padding-right:16px"><a href=3D"https://www.test.com/qemail/tc?al_imp=
+=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1=
+MCJ9&amp;al_pri=3D0&amp;aoid=3DYpw2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=
+=3D5&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaX=
+tR9U" style=3D"text-decoration:none" target=3D"_blank"><div style=3D"paddin=
+g:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font=
+-size:13px;line-height:1.2;color:#636466;text-align:left;margin:0">218</p><=
+/div></a></td><td><a href=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0e=
+XBlIjogMzMsICJoYXNoIjogIjEwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp=
+;al_pri=3D0&amp;aoid=3DYpw2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;=
+et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" sty=
+le=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"Comment" hei=
+ght=3D"20" src=3D"https://qsf.fs.testcdn.net/-4-ans_frontend_assets.icons.=
+comment_20_retina.png-26-4dbd4e9124f23bec.png" style=3D"text-decoration:non=
+e;display:block;border:0;outline:none;height:20px;float:none;padding:0;marg=
+in:auto" align=3D"none"></a></td><td style=3D"padding-right:16px"><a href=
+=3D"https://www.test.com/qemail/tc?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIj=
+EwNzI4MTA2MzczMzcyMTg0Nzd8NXwxfDI5MjAzMzc1MCJ9&amp;al_pri=3D0&amp;aoid=3DYp=
+w2TI1aZu8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;et=3D2&amp;id=3Dce78432ee=
+0f54fb1be4bb5e816968625&amp;uid=3DdoCdkaXtR9U" style=3D"text-decoration:non=
+e" target=3D"_blank"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-=
+family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#=
+636466;text-align:left;margin:0">20</p></div></a></td></tr></tbody></table>=
+</div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-to=
+p:32px;padding-bottom:32px;word-break:break-word" align=3D"center"><table s=
+tyle=3D"border-collapse:separate;line-height:100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation"><tbody><tr><td style=3D"bord=
+er:1px solid null;border-radius:25px;height:50px;background:#2e69ff" align=
+=3D"center" bgcolor=3D"#2e69ff" role=3D"presentation" valign=3D"middle"><a =
+href=3D"https://www.test.com/qemail/tc?aoid&amp;aoty=3D7&amp;aty=3D4&amp;c=
+p=3D0&amp;et=3D2&amp;id=3Dce78432ee0f54fb1be4bb5e816968625&amp;uid=3DdoCdka=
+XtR9U" style=3D"display:inline-block;background:#2e69ff;color:#ffffff;font-=
+family:system-ui,Segoe UI,sans-serif;font-size:14px;font-weight:500;line-he=
+ight:120%;margin:0;text-decoration:none;text-transform:none;padding:8px 32p=
+x;border-radius:25px" target=3D"_blank">Read More in Your Feed</a></td></tr=
+></tbody></table></td></tr></tbody></table></div></div></td></tr></tbody></=
+table></div></td></tr></tbody></table><table style=3D"background:#ebf0ff;ba=
+ckground-color:#ebf0ff;width:100%;border-radius:3px" border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" role=3D"presentation" align=3D"center"><tbody><t=
+r><td><div style=3D"margin:0px auto;border-radius:3px;max-width:525px"><tab=
+le style=3D"width:100%;border-radius:3px" border=3D"0" cellpadding=3D"0" ce=
+llspacing=3D"0" role=3D"presentation" align=3D"center"><tbody><tr><td style=
+=3D"direction:ltr;font-size:0px;padding:24px;padding-bottom:16px;padding-to=
+p:32px;text-align:center"><div style=3D"font-size:0px;text-align:left;direc=
+tion:ltr;display:inline-block;vertical-align:top;width:100%" class=3D"m_-31=
+36652589902579683mj-column-per-100"><table style=3D"vertical-align:top" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" width=
+=3D"100%"><tbody><tr><td style=3D"font-size:0px;padding:0px;word-break:brea=
+k-word" align=3D"center"><div style=3D"font-family:system-ui,Segoe UI,sans-=
+serif;font-size:17px;font-weight:700;line-height:1.4;text-align:center;colo=
+r:#333333">Never miss a story. Designed for readers on the go.</div></td></=
+tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word"><div s=
+tyle=3D"height:16px;line-height:16px">=E2=80=8A</div></td></tr><tr><td><tab=
+le style=3D"text-align:center;margin:0 auto" align=3D"center"><tbody><tr><t=
+d><table><tbody><tr><td style=3D"text-align:center"><div style=3D"width:100=
+%;display:inline-block"><span><a href=3D"https://www.test.com/app?campaign=
+=3Demail_footer_links_experiment&amp;inject=3D1&amp;landing_url=3Dhttps%3A%=
+2F%2Fwww.test.com%2Fqemail%2Ftc%3Faoid%26aoty%3D7%26aty%3D4%26cp%3D0%26et%=
+3D2%26id%3Dce78432ee0f54fb1be4bb5e816968625%26uid%3DdoCdkaXtR9U&amp;source=
+=3Ddigest&amp;target=3Diphone" target=3D"_blank"><img alt=3D"Download on th=
+e App Store" height=3D"40" src=3D"https://qsf.fs.testcdn.net/-4-images.app=
+le_app_store_badges.en.png-26-4e3b66753949d78b.png" style=3D"height:40px;ma=
+x-height:40px;margin-bottom:10px"></a></span><span><a href=3D"https://www.q=
+uora.com/app?campaign=3Demail_footer_links_experiment&amp;inject=3D1&amp;la=
+nding_url=3Dhttps%3A%2F%2Fwww.test.com%2Fqemail%2Ftc%3Faoid%26aoty%3D7%26a=
+ty%3D4%26cp%3D0%26et%3D2%26id%3Dce78432ee0f54fb1be4bb5e816968625%26uid%3Ddo=
+CdkaXtR9U&amp;source=3Ddigest&amp;target=3Dandroid" target=3D"_blank"><img =
+alt=3D"Get it on Google Play" height=3D"60" src=3D"https://play.google.com/=
+intl/en_us/badges/images/generic/en_badge_web_generic.png" style=3D"height:=
+60px;max-height:60px"></a></span></div></td></tr></tbody></table></td></tr>=
+</tbody></table></td></tr></tbody></table></div></td></tr></tbody></table><=
+/div></td></tr></tbody></table><table style=3D"width:100%" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0" role=3D"presentation" align=3D"center"><tb=
+ody><tr><td><div style=3D"margin:0px auto;max-width:525px"><table style=3D"=
+width:100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presen=
+tation" align=3D"center"><tbody><tr><td style=3D"direction:ltr;font-size:0p=
+x;padding:24px;padding-left:0px;padding-right:0px;padding-top:0px;text-alig=
+n:center"><div style=3D"font-size:0px;text-align:left;direction:ltr;display=
+:inline-block;vertical-align:top;width:100%" class=3D"m_-313665258990257968=
+3mj-column-per-100"><table style=3D"vertical-align:top" border=3D"0" cellpa=
+dding=3D"0" cellspacing=3D"0" role=3D"presentation" width=3D"100%"><tbody><=
+tr><td style=3D"font-size:0px;padding:0px;word-break:break-word"><div style=
+=3D"height:64px;line-height:64px">=E2=80=8A</div></td></tr><tr><td style=3D=
+"font-size:0px;padding:0px;padding-bottom:8px;word-break:break-word" align=
+=3D"center"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:11px;line-height:1.6;text-align:center;color:#939598"><div style=3D"font=
+-weight:bold">Missing out on test emails? Be sure to add us to your primar=
+y inbox.</div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;pa=
+dding-top:16px;padding-bottom:8px;word-break:break-word" align=3D"center"><=
+div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:11px;line-=
+height:1.6;text-align:center;color:#939598">This email was sent by test (6=
+05 Castro Street, Mountain View, CA 94041).<br>If you don&#39;t want to rec=
+eive this type of email in the future, please<span> </span><a href=3D"https=
+://www.test.com/email_optout/qemail_unsubscribe?email_track_id=3Dce78432ee=
+0f54fb1be4bb5e816968625&amp;t=3D1639910639243823&amp;token=3D462466940b4eca=
+a1d4ad0d51f41ab2415009aec54c2aa54e78f49706faa61b821b638e3c9a6bc26fd74f47ad0=
+cb13eae6eda63010e32115dfb054ae12fb995fb&amp;type=3D2&amp;uid=3D1683895160" =
+style=3D"text-decoration:underline;color:inherit" target=3D"_blank">unsubsc=
+ribe</a>.</div></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-br=
+eak:break-word" align=3D"center"><div style=3D"font-family:system-ui,Segoe =
+UI,sans-serif;font-size:11px;line-height:1.6;text-align:center;color:#93959=
+8"><a href=3D"https://www.test.com" style=3D"text-decoration:underline;col=
+or:inherit" target=3D"_blank">https://www.test.com</a></div></td></tr></tb=
+ody></table></div></td></tr></tbody></table></div></td></tr></tbody></table=
+></div></div></div></div>
+
+--000000000000d4a5b005d3a220ef--

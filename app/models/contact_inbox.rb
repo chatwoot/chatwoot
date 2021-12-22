@@ -21,8 +21,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (contact_id => contacts.id)
-#  fk_rails_...  (inbox_id => inboxes.id)
+#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
+#  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
 
 class ContactInbox < ApplicationRecord

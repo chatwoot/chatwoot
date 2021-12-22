@@ -1,13 +1,13 @@
 <p>Welcome, <%= @resource.name %>!</p>
 
 <% account_user = @resource&.account_users&.first %>
-<% if account_user&.inviter.present? %>
+<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
   <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out Chatwoot! </p>
 <% end %>
 
 <p>You can confirm your account email through the link below:</p>
 
-<% if account_user&.inviter.present? %>
+<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank?  %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
 <% else %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>

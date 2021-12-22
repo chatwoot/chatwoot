@@ -1,84 +1,85 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Nahrávam konverzácie",
+    "LOAD_MORE_CONVERSATIONS": "Načítavam viac konverzácií",
+    "EOF": "Všetky konverzácie boli načítané 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "V tejto skupine neprebiehajú žiadne aktívne rozhovory."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Rozhovory",
+    "MENTION_HEADING": "Zmienky",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Vyhľadávanie ľudí, konverzácií, uložených odpovedí.."
     },
-    "FILTER_ALL": "All",
+    "FILTER_ALL": "Všetko",
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "Otvorené",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "Vyriešené",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mine",
+        "NAME": "Moje",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "Nepriradené",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "Všetko",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Otvorené"
       },
       "resolved": {
-        "TEXT": "Resolved"
+        "TEXT": "Vyriešené"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Čaká sa na"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Odložené"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Picture message"
+        "CONTENT": "Obrázková správa"
       },
       "audio": {
-        "CONTENT": "Audio message"
+        "CONTENT": "Hlasová správa"
       },
       "video": {
-        "CONTENT": "Video message"
+        "CONTENT": "Video správa"
       },
       "file": {
-        "CONTENT": "File Attachment"
+        "CONTENT": "Súbor v prílohe"
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": "Lokácia"
       },
       "fallback": {
-        "CONTENT": "has shared a url"
+        "CONTENT": "zdieľal/a url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "RECEIVED_VIA_EMAIL": "Prijaté emailom",
+    "VIEW_TWEET_IN_TWITTER": "Zobraz tweet na Twitteri",
+    "REPLY_TO_TWEET": "Odpovedať na tento Tweet",
+    "SENT": "Úspešne odoslané",
+    "NO_MESSAGES": "Žiadne správy",
+    "NO_CONTENT": "Žiaden obsah nie je k dispozícii",
+    "HIDE_QUOTED_TEXT": "Skryť citovaný text",
+    "SHOW_QUOTED_TEXT": "Ukázať citovaný text"
   }
 }
