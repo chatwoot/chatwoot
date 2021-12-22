@@ -5,6 +5,7 @@ import {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  toggleStatus,
 } from 'widget/api/conversation';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
@@ -103,5 +104,9 @@ export const actions = {
     } catch (error) {
       // IgnoreError
     }
+  },
+
+  resolveConversation: async (_, websiteToken) => {
+    await toggleStatus(websiteToken);
   },
 };

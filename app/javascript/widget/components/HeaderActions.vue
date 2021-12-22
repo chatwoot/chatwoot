@@ -31,6 +31,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    onResolveConversation: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     isIframe() {
@@ -73,6 +77,10 @@ export default {
       } else if (RNHelper.isRNWebView) {
         RNHelper.sendMessage({ type: 'close-widget' });
       }
+    },
+    resolveConversation() {
+      const { websiteToken } = window.chatwootWebChannel;
+      this.onResolveConversation(websiteToken);
     },
   },
 };
