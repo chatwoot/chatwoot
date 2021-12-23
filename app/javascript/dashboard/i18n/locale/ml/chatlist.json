@@ -47,10 +47,10 @@
         "TEXT": "പരിഹരിച്ചത്"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "കെട്ടിക്കിടക്കുന്നു"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "സ്‌നൂസ് ചെയ്തു"
       }
     },
     "ATTACHMENTS": {
