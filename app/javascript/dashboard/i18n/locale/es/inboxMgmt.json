@@ -355,7 +355,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
