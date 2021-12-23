@@ -63,11 +63,11 @@
     "DESC": "Import contacts through a CSV file.",
     "DOWNLOAD_LABEL": "Download a sample csv.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "CSV ഫയൽ",
       "SUBMIT": "Import",
       "CANCEL": "റദ്ദാക്കുക"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "കോൺടാക്റ്റുകൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "DELETE_CONTACT": {
@@ -163,13 +163,13 @@
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
-        "PLACEHOLDER": "Write your message here",
+        "PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക",
         "ERROR": "Message can't be empty"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "സന്ദേശം അയയ്ക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "സന്ദേശം അയച്ചു!",
+      "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക"
     }
   },
   "CONTACTS_PAGE": {
@@ -187,13 +187,13 @@
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",
         "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
         "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "COUNTRY": "രാജ്യം",
+        "CITY": "നഗരം",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "കമ്പനി",
         "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക"
     }
   },
   "CONTACT_PROFILE": {
@@ -202,7 +202,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
+      "BUTTON": "ചേർക്കുക",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -220,7 +220,7 @@
       "LABEL": "added a note"
     },
     "ADD": {
-      "BUTTON": "Add",
+      "BUTTON": "ചേർക്കുക",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
@@ -230,7 +230,7 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "പ്രവർത്തനങ്ങൾ"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notes",
