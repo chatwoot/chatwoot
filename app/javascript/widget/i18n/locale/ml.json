@@ -8,8 +8,8 @@
       "SUBMIT": "സമർപ്പിക്കുക"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "വീണ്ടും സന്ദേശം അയയ്‌ക്കുക",
+      "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല, വീണ്ടും ശ്രമിക്കുക"
     }
   },
   "TEAM_AVAILABILITY": {
