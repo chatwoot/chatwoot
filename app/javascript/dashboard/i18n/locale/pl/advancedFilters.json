@@ -1,7 +1,7 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "TITLE": "Filtruj rozmowy",
+    "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
