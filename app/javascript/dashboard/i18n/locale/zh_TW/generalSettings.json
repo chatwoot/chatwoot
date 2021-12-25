@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帳戶啟用了電子信箱與對話的持續性功能。",
