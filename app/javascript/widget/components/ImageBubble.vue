@@ -6,7 +6,12 @@
     class="image"
   >
     <div class="wrap">
-      <img :src="thumb" alt="Picture message" />
+      <img
+        :src="thumb"
+        alt="Picture message"
+        @click="onClick"
+        @error="onImgError"
+      />
       <span class="time">{{ readableTime }}</span>
     </div>
   </a>
@@ -15,6 +20,11 @@
 <script>
 export default {
   props: ['url', 'thumb', 'readableTime'],
+  methods: {
+    onImgError() {
+      this.$emit('error');
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
