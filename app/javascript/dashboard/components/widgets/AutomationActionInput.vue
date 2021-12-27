@@ -109,6 +109,7 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
+  margin-bottom: var(--space-small);
 }
 
 .filter.error {

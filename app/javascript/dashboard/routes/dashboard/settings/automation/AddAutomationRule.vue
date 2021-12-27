@@ -103,7 +103,7 @@
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewCondition"
+                @click="appendNewAction"
               >
                 {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
               </woot-button>
@@ -334,6 +334,12 @@ export default {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+      });
+    },
+    appendNewAction() {
+      this.automation.actions.push({
+        action_name: 'assign_team',
+        action_params: [],
       });
     },
     removeFilter(index) {
