@@ -96,6 +96,7 @@
                 getActionDropdownValues(automation.actions[i].action_name)
               "
               :v="$v.automation.actions.$each[i]"
+              @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
               <woot-button
@@ -347,6 +348,13 @@ export default {
         this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
       } else {
         this.automation.conditions.splice(index, 1);
+      }
+    },
+    removeAction(index) {
+      if (this.automation.actions.length <= 1) {
+        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
+      } else {
+        this.automation.actions.splice(index, 1);
       }
     },
     submitFilterQuery() {

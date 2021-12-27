@@ -38,7 +38,7 @@
         icon="dismiss"
         variant="clear"
         color-scheme="secondary"
-        @click="removeFilter"
+        @click="removeAction"
       />
     </div>
     <p
@@ -93,8 +93,8 @@ export default {
     },
   },
   methods: {
-    removeFilter() {
-      this.$emit('removeFilter');
+    removeAction() {
+      this.$emit('removeAction');
     },
     resetFilter() {
       this.$emit('resetFilter');
