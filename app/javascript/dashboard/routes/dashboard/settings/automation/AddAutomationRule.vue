@@ -7,29 +7,29 @@
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
-          :class="{ error: $v.automationRuleName.$error }"
+          :class="{ error: $v.automation.name.$error }"
           :error="
-            $v.automationRuleName.$error
+            $v.automation.name.$error
               ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
               : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="$v.automationRuleName.$touch"
+          @blur="$v.automation.name.$touch"
         />
         <woot-input
           v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
-          :class="{ error: $v.automationRuleDescription.$error }"
+          :class="{ error: $v.automation.description.$error }"
           :error="
-            $v.automationRuleDescription.$error
+            $v.automation.description.$error
               ? $t('AUTOMATION.ADD.FORM.DESC.ERROR')
               : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-          @blur="$v.automationRuleDescription.$touch"
+          @blur="$v.automation.description.$touch"
         />
-        <label :class="{ error: $v.automationRuleEvent.$error }">
+        <label :class="{ error: $v.automation.event_name.$error }">
           {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
           <select v-model="automation.event_name" @change="onEventChange()">
             <option
@@ -40,7 +40,7 @@
               {{ event.value }}
             </option>
           </select>
-          <span v-if="$v.automationRuleEvent.$error" class="message">
+          <span v-if="$v.automation.event_name.$error" class="message">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
           </span>
         </label>
@@ -117,7 +117,7 @@
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
-            <woot-button @click="submitFilterQuery">
+            <woot-button @click="submitAutomation">
               {{ $t('AUTOMATION.ADD.SUBMIT') }}
             </woot-button>
           </div>
@@ -137,6 +137,7 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
 import countries from '/app/javascript/shared/constants/countries.js';
 import confirmModal from 'dashboard/components/widgets/ConfirmModal.vue';
 import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
+import actionQueryGenerator from '../../../../../dashboard/helper/actionQueryGenerator';
 
 import { getAutomationCondition } from './automationConditions';
 
@@ -154,16 +155,16 @@ export default {
     },
   },
   validations: {
-    automationRuleName: {
-      required,
-    },
-    automationRuleDescription: {
-      required,
-    },
-    automationRuleEvent: {
-      required,
-    },
     automation: {
+      name: {
+        required,
+      },
+      description: {
+        required,
+      },
+      event_name: {
+        required,
+      },
       conditions: {
         required,
         $each: {
@@ -357,15 +358,13 @@ export default {
         this.automation.actions.splice(index, 1);
       }
     },
-    submitFilterQuery() {
+    submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
-      this.$store.dispatch(
-        'setConversationFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
-      );
-      this.$emit('applyFilter', this.appliedFilters);
+      this.automation.conditions[
+        this.automation.conditions.length - 1
+      ].query_operator = null;
+      this.$emit('applyFilter', actionQueryGenerator(this.automation));
     },
     resetFilter(index, currentFilter) {
       this.appliedFilters[index].filter_operator = this.filterTypes.find(

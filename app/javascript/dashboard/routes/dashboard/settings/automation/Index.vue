@@ -40,7 +40,10 @@ export default {
     hideAddPopup() {
       this.showAddPopup = false;
     },
-    onApplyFilter() {},
+    onApplyFilter(payload) {
+      // This is a test action to send the automation data to the server
+      this.$store.dispatch('automation/saveAutomation', payload);
+    },
   },
 };
 </script>
