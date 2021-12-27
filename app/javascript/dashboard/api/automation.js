@@ -1,16 +1,26 @@
 /* global axios */
-import ApiClient from '../ApiClient';
+import ApiClient from './ApiClient';
 
-class AutomationApi extends ApiClient {
+export class AutomationsAPI extends ApiClient {
   constructor() {
-    super('conversations', { accountScoped: true });
+    super('teams', { accountScoped: true });
   }
 
-  saveAutomation({ automation }) {
-    return axios.post(`${this.url}/automation`, {
-      automation,
+  getAgents({ teamId }) {
+    return axios.get(`${this.url}/${teamId}/team_members`);
+  }
+
+  addAgents({ teamId, agentsList }) {
+    return axios.post(`${this.url}/${teamId}/team_members`, {
+      user_ids: agentsList,
+    });
+  }
+
+  updateAgents({ teamId, agentsList }) {
+    return axios.patch(`${this.url}/${teamId}/team_members`, {
+      user_ids: agentsList,
     });
   }
 }
 
-export default new AutomationApi();
+export default new AutomationsAPI();

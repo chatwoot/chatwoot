@@ -16,7 +16,7 @@
       <add-automation-rule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @applyFilter="onApplyFilter"
+        @applyFilter="onCreateAutomation"
       />
     </woot-modal>
   </div>
@@ -40,9 +40,15 @@ export default {
     hideAddPopup() {
       this.showAddPopup = false;
     },
-    onApplyFilter(payload) {
+    async onCreateAutomation(payload) {
       // This is a test action to send the automation data to the server
-      this.$store.dispatch('automation/saveAutomation', payload);
+      // this.$store.dispatch('automations/create', payload);
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      };
+      await fetch('https://reqres.in/api/automations', requestOptions);
     },
   },
 };
