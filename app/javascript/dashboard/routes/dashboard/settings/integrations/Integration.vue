@@ -68,14 +68,17 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   mixins: [alertMixin, globalConfigMixin],
-  props: [
-    'integrationId',
-    'integrationLogo',
-    'integrationName',
-    'integrationDescription',
-    'integrationEnabled',
-    'integrationAction',
-  ],
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+    integrationLogo: { type: String, default: '' },
+    integrationName: { type: String, default: '' },
+    integrationDescription: { type: String, default: '' },
+    integrationEnabled: { type: Boolean, default: false },
+    integrationAction: { type: String, default: '' },
+  },
   data() {
     return {
       showDeleteConfirmationPopup: false,
