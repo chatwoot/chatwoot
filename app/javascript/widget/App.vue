@@ -166,7 +166,7 @@ export default {
         !isEmptyObject(activeCampaign) && !messageCount;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.replaceRoute('campaigns').then(() => {
-          this.setIframeHeight(this.isMobile);
+          this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
       }
@@ -175,17 +175,16 @@ export default {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
         this.replaceRoute('unread-messages').then(() => {
-          this.setIframeHeight(this.isMobile);
+          this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
-        this.setIframeHeight(this.isMobile);
         this.handleUnreadNotificationDot();
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
-        this.setIframeHeight();
+        this.setIframeHeight(false);
         this.handleUnreadNotificationDot();
       }
     },
@@ -260,17 +259,18 @@ export default {
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
-          if (
+          const shouldShowMessageView =
             ['home'].includes(this.$route.name) &&
             message.isOpen &&
-            this.messageCount
-          ) {
+            this.messageCount;
+          const shouldShowHomeView =
+            !message.isOpen &&
+            ['unread-messages', 'campaigns'].includes(this.$route.name);
+
+          if (shouldShowMessageView) {
             this.replaceRoute('messages');
           }
-          if (
-            !message.isOpen &&
-            ['unread-messages', 'campaigns'].includes(this.$route.name)
-          ) {
+          if (shouldShowHomeView) {
             this.$store.dispatch('conversation/setUserLastSeen');
             this.unsetUnreadView();
             this.replaceRoute('home');

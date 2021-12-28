@@ -19,7 +19,7 @@ export const getExtraSpaceToScroll = () => {
   if (!unreadMessageWrap) return 0;
 
   // 24px to compensate the paddings
-  let extraHeight = 24 + unreadMessageWrap.scrollHeight;
+  let extraHeight = 48 + unreadMessageWrap.scrollHeight;
   if (unreadCloseWrap) extraHeight += unreadCloseWrap.scrollHeight;
   if (readViewWrap) extraHeight += readViewWrap.scrollHeight;
 

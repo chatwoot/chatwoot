@@ -169,7 +169,6 @@ export const IFrameHelper = {
     },
     updateIframeHeight: message => {
       const { extraHeight = 0, isFixedHeight } = message;
-      if (!extraHeight) return;
 
       IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
