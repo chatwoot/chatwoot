@@ -12,7 +12,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def text_content
-    @decoded_text_content = select_body || ''
+    @decoded_text_content = select_body(text_part) || ''
     encoding = @decoded_text_content.encoding
 
     body = EmailReplyTrimmer.trim(@decoded_text_content)
@@ -20,17 +20,19 @@ class MailPresenter < SimpleDelegator
     return {} if @decoded_text_content.blank?
 
     @text_content ||= {
-      full: select_body,
+      full: select_body(text_part),
       reply: @decoded_text_content,
       quoted: body.force_encoding(encoding).encode('UTF-8')
     }
   end
 
-  def select_body
-    message = mail.text_part || mail.html_part || mail
+  def select_body(mail_part)
+    return '' unless mail_part
+
+    message = mail_part
     decoded = encode_to_unicode(message.decoded)
-    # Certain trigger phrases that means we didn't parse correctly
-    return '' if %r{(Content-Type: multipart/alternative|text/plain)}.match?(decoded)
+
+    return decoded if mail.text_part
 
     if (mail.content_type || '').include? 'text/html'
       ::HtmlParser.parse_reply(decoded)
@@ -40,14 +42,14 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_content
-    @decoded_html_content = select_body || ''
+    @decoded_html_content = select_body(html_part) || ''
 
     return {} if @decoded_html_content.blank?
 
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
-      full: select_body,
+      full: select_body(html_part),
       reply: @decoded_html_content,
       quoted: body
     }
