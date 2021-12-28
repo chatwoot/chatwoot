@@ -1,7 +1,7 @@
 <template>
   <file-upload
     :size="4096 * 2048"
-    accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+    :accept="allowedFileTypes"
     @input-file="onFileUpload"
   >
     <button class="icon-button flex items-center justify-center">
@@ -15,7 +15,10 @@
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import {
+  MAXIMUM_FILE_UPLOAD_SIZE,
+  ALLOWED_FILE_TYPES,
+} from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 export default {
@@ -32,6 +35,9 @@ export default {
   computed: {
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
+    },
+    allowedFileTypes() {
+      return ALLOWED_FILE_TYPES;
     },
   },
   methods: {

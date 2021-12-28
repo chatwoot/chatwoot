@@ -77,6 +77,10 @@ zh_CN:
       email_input_box_message_body: "通过电子邮件得到通知"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "此对话中的新消息"
       transcript_subject: "Conversation Transcript"
     survey:

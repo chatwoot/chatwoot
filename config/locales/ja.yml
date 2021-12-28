@@ -77,6 +77,10 @@ ja:
       email_input_box_message_body: "Eメールで通知を受ける"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "この会話に新着メッセージがあります"
       transcript_subject: "会話の記録"
     survey:

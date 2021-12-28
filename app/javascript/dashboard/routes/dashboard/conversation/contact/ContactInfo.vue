@@ -63,8 +63,7 @@
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
           icon="chat"
-          icon-size="14"
-          size="small expanded"
+          size="small"
           @click="toggleConversationModal"
         />
         <woot-button
@@ -72,9 +71,8 @@
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           class="edit-contact"
           icon="edit"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           @click="toggleEditModal"
         />
         <woot-button
@@ -83,9 +81,8 @@
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           class="merge-contact"
           icon="merge"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="secondary"
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
@@ -96,9 +93,8 @@
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           class="delete-contact"
           icon="delete"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="alert"
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
