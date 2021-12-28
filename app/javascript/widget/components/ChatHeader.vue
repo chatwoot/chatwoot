@@ -23,15 +23,12 @@
         </div>
       </div>
     </div>
-    <header-actions
-      :show-popout-button="showPopoutButton"
-      :on-resolve-conversation="handleResolveConversation"
-    />
+    <header-actions :show-popout-button="showPopoutButton" />
   </header>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions';
 import availabilityMixin from 'widget/mixins/availability';
 
@@ -76,12 +73,6 @@ export default {
       return this.isOnline
         ? this.replyTimeStatus
         : this.$t('TEAM_AVAILABILITY.OFFLINE');
-    },
-  },
-  methods: {
-    ...mapActions('conversation', ['resolveConversation']),
-    async handleResolveConversation(websiteToken) {
-      this.resolveConversation(websiteToken);
     },
   },
 };

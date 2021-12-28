@@ -48,9 +48,9 @@ const sendEmailTranscript = async ({ email }) => {
     { email }
   );
 };
-const toggleStatus = async token => {
+const toggleStatus = async () => {
   return API.get(
-    `/api/v1/widget/conversations/toggle_status?website_token=${token}`
+    `/api/v1/widget/conversations/toggle_status${window.location.search}`
   );
 };
 

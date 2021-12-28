@@ -1,13 +1,6 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="showPopoutButton"
-      class="button transparent compact new-window--button "
-      @click="popoutWindow"
-    >
-      <fluent-icon icon="open" size="22" class="text-black-900" />
-    </button>
-    <button
       class="button transparent compact close-button"
       :class="{
         'rn-close-button': isRNWebView,
@@ -16,27 +9,59 @@
     >
       <fluent-icon icon="dismiss" size="24" class="text-black-900" />
     </button>
+    <dropdown-menu
+      v-if="widgetOptions"
+      menu-placement="right"
+      :open="showDropdown"
+      :toggle-menu="handleMenuClick"
+    >
+      <!-- Button content -->
+      <template v-slot:button>
+        <fluent-icon icon="more-vertical" size="24" class="text-black-900" />
+      </template>
+
+      <!-- Opened dropdown content -->
+      <template v-slot:content>
+        <dropdown-menu-item
+          v-if="showPopoutButton"
+          :action="popoutWindow"
+          text="Open in a new window"
+          icon-name="open"
+        />
+        <dropdown-menu-item
+          v-if="!isResolved"
+          :action="resolveConversation"
+          text="End conversation"
+          icon-name="delete"
+        />
+      </template>
+    </dropdown-menu>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import DropdownMenu from './dropdown/DropdownMenu';
+import DropdownMenuItem from './dropdown/DropdownMenuItem';
 
 export default {
   name: 'HeaderActions',
-  components: { FluentIcon },
+  components: { FluentIcon, DropdownMenu, DropdownMenuItem },
   props: {
     showPopoutButton: {
       type: Boolean,
       default: false,
     },
-    onResolveConversation: {
-      type: Function,
-      default: () => {},
-    },
   },
+  data: () => ({
+    showDropdown: false,
+  }),
   computed: {
+    ...mapGetters({
+      conversationAttributes: 'conversationAttributes/getConversationParams',
+    }),
     isIframe() {
       return IFrameHelper.isIFrame();
     },
@@ -45,6 +70,15 @@ export default {
     },
     showHeaderActions() {
       return this.isIframe || this.isRNWebView;
+    },
+    isResolved() {
+      if (this.conversationAttributes.status) {
+        return this.conversationAttributes.status === 'resolved';
+      }
+      return true;
+    },
+    widgetOptions() {
+      return this.showPopoutButton || !this.isResolved;
     },
   },
   methods: {
@@ -70,6 +104,7 @@ export default {
       popoutWindow.focus();
     },
     closeWindow() {
+      this.showDropdown = false;
       if (IFrameHelper.isIFrame()) {
         IFrameHelper.sendMessage({
           event: 'toggleBubble',
@@ -78,9 +113,12 @@ export default {
         RNHelper.sendMessage({ type: 'close-widget' });
       }
     },
+    handleMenuClick() {
+      this.showDropdown = !this.showDropdown;
+    },
     resolveConversation() {
-      const { websiteToken } = window.chatwootWebChannel;
-      this.onResolveConversation(websiteToken);
+      this.showDropdown = false;
+      this.$store.dispatch('conversation/resolveConversation');
     },
   },
 };

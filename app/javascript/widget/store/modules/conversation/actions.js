@@ -106,7 +106,7 @@ export const actions = {
     }
   },
 
-  resolveConversation: async (_, websiteToken) => {
-    await toggleStatus(websiteToken);
+  resolveConversation: async () => {
+    await toggleStatus();
   },
 };

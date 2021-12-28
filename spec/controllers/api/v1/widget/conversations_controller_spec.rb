@@ -118,4 +118,19 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/widget/conversations/toggle_status' do
+    context 'when user end conversation from widget' do
+      it 'resolves the conversation' do
+        expect(conversation.open?).to be true
+        get '/api/v1/widget/conversations/toggle_status',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.resolved?).to be true
+      end
+    end
+  end
 end
