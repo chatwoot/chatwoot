@@ -42,13 +42,7 @@ export default {
     },
     async onCreateAutomation(payload) {
       // This is a test action to send the automation data to the server
-      // this.$store.dispatch('automations/create', payload);
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      };
-      await fetch('https://reqres.in/api/automations', requestOptions);
+      this.$store.dispatch('automations/create', payload);
     },
   },
 };

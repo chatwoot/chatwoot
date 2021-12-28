@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 export class AutomationsAPI extends ApiClient {
   constructor() {
-    super('teams', { accountScoped: true });
+    super('automations', { accountScoped: true });
   }
 
   getAgents({ teamId }) {
