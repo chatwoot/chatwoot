@@ -142,9 +142,9 @@ class Conversation < ApplicationRecord
   end
 
   def notifiable_assignee_change?
-    return false if self_assign?(assignee_id)
     return false unless saved_change_to_assignee_id?
     return false if assignee_id.blank?
+    return false if self_assign?(assignee_id)
 
     true
   end
@@ -202,7 +202,7 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name)
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?)
   end
 
   def conversation_status_changed_to_open?
