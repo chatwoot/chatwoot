@@ -16,7 +16,7 @@ class NotificationListener < BaseListener
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
-    return unless event.data[:notifiable_assignee_change].present?
+    return if event.data[:notifiable_assignee_change].blank?
     return if conversation.pending?
 
     NotificationBuilder.new(
