@@ -28,7 +28,7 @@ module ActivityMessageHandler
                 I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
               end
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_label_added(user_name, labels = [])
@@ -37,7 +37,7 @@ module ActivityMessageHandler
     params = { user_name: user_name, labels: labels.join(', ') }
     content = I18n.t('conversations.activity.labels.added', **params)
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_label_removed(user_name, labels = [])
@@ -46,7 +46,7 @@ module ActivityMessageHandler
     params = { user_name: user_name, labels: labels.join(', ') }
     content = I18n.t('conversations.activity.labels.removed', **params)
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_muted_message
@@ -55,7 +55,7 @@ module ActivityMessageHandler
     params = { user_name: Current.user.name }
     content = I18n.t('conversations.activity.muted', **params)
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_unmuted_message
@@ -64,7 +64,7 @@ module ActivityMessageHandler
     params = { user_name: Current.user.name }
     content = I18n.t('conversations.activity.unmuted', **params)
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def generate_team_change_activity_key
@@ -86,7 +86,7 @@ module ActivityMessageHandler
     params[:team_name] = generate_team_name_for_activity if key == 'removed'
     content = I18n.t("conversations.activity.team.#{key}", **params)
 
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def generate_assignee_change_activity_content(user_name)
@@ -100,6 +100,6 @@ module ActivityMessageHandler
     return unless user_name
 
     content = generate_assignee_change_activity_content(user_name)
-    Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 end

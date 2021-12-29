@@ -1,0 +1,72 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Изтегляне",
+      "UPLOADING": "Качване..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Изпращане"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "На линия сме",
+    "OFFLINE": "В момента не сме на линия"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Обикновено отговаряме до няколко минути",
+    "IN_A_FEW_HOURS": "Обикновено отговаряме до няколко часа",
+    "IN_A_DAY": "Обикновено отговаряме до един ден"
+  },
+  "START_CONVERSATION": "Започнете разговор",
+  "START_NEW_CONVERSATION": "Започнете нов разговор",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Вижте новите съобщения",
+    "CLOSE_MESSAGES_BUTTON": "Затвори",
+    "COMPANY_FROM": "от",
+    "BOT": "Бот"
+  },
+  "BUBBLE": {
+    "LABEL": "Чатете с нас"
+  },
+  "POWERED_BY": "Осъществено от Chatwoot",
+  "EMAIL_PLACEHOLDER": "Моля, въведете имейла адреса си",
+  "CHAT_PLACEHOLDER": "Напишете вашето съобщение",
+  "TODAY": "Днес",
+  "YESTERDAY": "Вчера",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Пълно име",
+        "PLACEHOLDER": "Моля, въведете пълното си име",
+        "ERROR": "Пълното име е задължително"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Имейл адрес",
+        "PLACEHOLDER": "Моля, въведете имейл адреса си",
+        "ERROR": "Невалиден имейл адрес"
+      },
+      "MESSAGE": {
+        "LABEL": "Съобщение",
+        "PLACEHOLDER": "Моля, въведете вашето съобщение",
+        "ERROR": "Съобщението е прекалено кратко"
+      }
+    },
+    "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес"
+  },
+  "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Невалидно поле"
+    }
+  },
+  "CSAT": {
+    "TITLE": "Оценете този разговор",
+    "SUBMITTED_TITLE": "Благодарим ви, че оценихте разговора",
+    "PLACEHOLDER": "Разкажете ни повече..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Поискайте копие от разговора",
+    "SEND_EMAIL_SUCCESS": "Копието от разговора бе изпратено успешно",
+    "SEND_EMAIL_ERROR": "Възникна грешка, моля опитайте отново"
+  }
+}

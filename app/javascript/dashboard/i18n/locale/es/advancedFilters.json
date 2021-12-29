@@ -1,0 +1,37 @@
+{
+  "FILTER": {
+    "TITLE": "Filtrar Conversaciones",
+    "SUBTITLE": "Añada filtros a continuación y pulse 'Aplicar filtros' para las conversaciones de filtro.",
+    "ADD_NEW_FILTER": "Añadir Filtro",
+    "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
+    "CANCEL_BUTTON_LABEL": "Cancelar",
+    "CLEAR_BUTTON_LABEL": "Limpiar filtros",
+    "EMPTY_VALUE_ERROR": "El valor es requerido",
+    "TOOLTIP_LABEL": "Filtrar conversaciones",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "Y",
+      "OR": "O"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Igual a",
+      "not_equal_to": "No igual a",
+      "contains": "Contiene",
+      "does_not_contain": "No contiene",
+      "is_present": "Está presente",
+      "is_not_present": "No está presente"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Estado",
+      "ASSIGNEE_NAME": "Nombre Asignado",
+      "INBOX_NAME": "Nombre de la bandeja de entrada",
+      "TEAM_NAME": "Nombre del equipo",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
+      "CAMPAIGN_NAME": "Nombre de Campaña",
+      "LABELS": "Etiquetas",
+      "BROWSER_LANGUAGE": "Idioma del navegador",
+      "COUNTRY_NAME": "Nombre del país",
+      "REFERER_LINK": "Enlace de referencia"
+    }
+  }
+}
