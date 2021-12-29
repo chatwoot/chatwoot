@@ -1,4 +1,4 @@
-l<template>
+<template>
   <div class="conversations-list-wrap">
     <slot></slot>
     <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
@@ -11,15 +11,24 @@ l<template>
           v-if="!hasAppliedFilters"
           @statusFilterChange="updateStatusType"
         />
-        <woot-button
-          v-else
-          size="small"
-          variant="clear"
-          color-scheme="alert"
-          @click="resetAndFetchData"
-        >
-          {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
-        </woot-button>
+        <div v-else>
+          <woot-button
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="save"
+            @click="showAddCustomViewsModal = true"
+          >
+          </woot-button>
+          <woot-button
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="dismiss-circle"
+            @click="resetAndFetchData"
+          >
+          </woot-button>
+        </div>
         <woot-button
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
@@ -32,6 +41,12 @@ l<template>
         </woot-button>
       </div>
     </div>
+
+    <add-custom-views
+      v-if="showAddCustomViewsModal"
+      :on-close="onCloseAddCustomViewsModal"
+      :reset-data="resetAndFetchData"
+    />
 
     <chat-type-tabs
       v-if="!hasAppliedFilters"
@@ -108,6 +123,7 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 
 import {
   hasPressedAltAndJKey,
@@ -116,6 +132,7 @@ import {
 
 export default {
   components: {
+    AddCustomViews,
     ChatTypeTabs,
     ConversationCard,
     ChatFilter,
@@ -149,6 +166,7 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      showAddCustomViewsModal: false,
     };
   },
   computed: {
@@ -283,6 +301,9 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
+    },
+    onCloseAddCustomViewsModal() {
+      this.showAddCustomViewsModal = false;
     },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;

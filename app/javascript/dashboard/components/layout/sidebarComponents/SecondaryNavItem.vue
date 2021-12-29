@@ -7,7 +7,7 @@
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
       :class="computedClass"
-      :to="menuItem.toState"
+      :to="menuItem && menuItem.toState"
     >
       <fluent-icon
         :icon="menuItem.icon"
