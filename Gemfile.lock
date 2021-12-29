@@ -179,6 +179,7 @@ GEM
       addressable (~> 2.8)
     ecma-re-validator (0.3.0)
       regexp_parser (~> 2.0)
+    email_reply_trimmer (0.1.13)
     erubi (1.10.0)
     erubis (2.7.0)
     et-orbi (1.2.5)
@@ -290,6 +291,8 @@ GEM
     hashdiff (1.0.1)
     hashie (4.1.0)
     hkdf (0.3.0)
+    html2text (0.2.1)
+      nokogiri (~> 1.6)
     http-accept (1.7.0)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
@@ -668,6 +671,7 @@ DEPENDENCIES
   devise_token_auth
   dotenv-rails
   down (~> 5.0)
+  email_reply_trimmer
   facebook-messenger
   factory_bot_rails
   faker
@@ -682,6 +686,7 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
+  html2text
   image_processing
   jbuilder
   json_refs
