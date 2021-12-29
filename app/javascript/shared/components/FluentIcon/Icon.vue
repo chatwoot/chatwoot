@@ -15,13 +15,14 @@
   </svg>
 </template>
 <script>
-import icons from './dashboard-icons.json';
-
 export default {
-  name: 'FluentIcon',
   props: {
     icon: {
       type: String,
+      required: true,
+    },
+    icons: {
+      type: Object,
       required: true,
     },
     size: {
@@ -33,9 +34,7 @@ export default {
       default: 'outline',
     },
   },
-  data() {
-    return { icons };
-  },
+
   computed: {
     pathSource() {
       // To support icons with multiple paths
