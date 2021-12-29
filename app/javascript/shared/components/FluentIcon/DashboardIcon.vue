@@ -1,24 +1,15 @@
 <template>
-  <svg
-    :width="size"
-    :height="size"
-    fill="none"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      v-for="source in pathSource"
-      :key="source"
-      :d="source"
-      fill="currentColor"
-    />
-  </svg>
+  <base-icon :size="size" :icon="icon" :type="type" :icons="icons" />
 </template>
 <script>
+import BaseIcon from './Icon';
 import icons from './dashboard-icons.json';
 
 export default {
   name: 'FluentIcon',
+  components: {
+    BaseIcon,
+  },
   props: {
     icon: {
       type: String,
@@ -35,16 +26,6 @@ export default {
   },
   data() {
     return { icons };
-  },
-  computed: {
-    pathSource() {
-      // To support icons with multiple paths
-      const path = this.icons[`${this.icon}-${this.type}`];
-      if (path.constructor === Array) {
-        return path;
-      }
-      return [path];
-    },
   },
 };
 </script>
