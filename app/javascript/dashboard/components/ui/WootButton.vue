@@ -91,7 +91,7 @@ export default {
         this.isRounded ? '' : 'not-rounded',
       ];
     },
-    withTextIconSize() {
+    iconSize() {
       switch (this.size) {
         case 'tiny':
           return 12;
@@ -105,26 +105,6 @@ export default {
         default:
           return 16;
       }
-    },
-    withoutTextIconSize() {
-      switch (this.size) {
-        case 'tiny':
-          return 14;
-        case 'small':
-          return 16;
-        case 'medium':
-          return 18;
-        case 'large':
-          return 20;
-
-        default:
-          return 18;
-      }
-    },
-    iconSize() {
-      return this.hasOnlyIcon
-        ? this.withoutTextIconSize
-        : this.withTextIconSize;
     },
   },
   methods: {

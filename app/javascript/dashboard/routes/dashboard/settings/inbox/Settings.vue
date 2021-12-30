@@ -32,7 +32,11 @@
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
-        <label for="toggle-business-hours" class="toggle-input-wrap" v-if="isATwitterInbox">
+        <label
+          v-if="isATwitterInbox"
+          for="toggle-business-hours"
+          class="toggle-input-wrap"
+        >
           <input
             v-model="tweetsEnabled"
             type="checkbox"
