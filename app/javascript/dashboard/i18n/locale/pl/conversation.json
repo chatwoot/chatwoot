@@ -175,7 +175,7 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "Dodaj atrybuty",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
