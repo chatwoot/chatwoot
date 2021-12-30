@@ -95,7 +95,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Brak",
       "TITLE": {
-        "AGENT": "Wybierz konsultanta",
+        "AGENT": "Wybierz agenta",
         "TEAM": "Wybierz zespół"
       },
       "SEARCH": {
