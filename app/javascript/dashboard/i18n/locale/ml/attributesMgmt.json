@@ -11,18 +11,18 @@
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ട് പ്രദർശന നാമം നൽകുക",
           "ERROR": "നാമം ആവശ്യമാണ്"
         },
         "DESC": {
           "LABEL": "വിവരണം",
           "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "ERROR": "വിവരണം ആവശ്യമാണ്"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "ബാധകമാണ്",
+          "PLACEHOLDER": "ദയവായി തിരഞ്ഞെടുക്കുക",
+          "ERROR": "മോഡൽ ആവശ്യമാണ്"
         },
         "TYPE": {
           "LABEL": "Type",
@@ -30,14 +30,14 @@
           "ERROR": "Type is required",
           "LIST": {
             "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "PLACEHOLDER": "ദയവായി മൂല്യം നൽകി എന്റർ കീ അമർത്തുക",
+            "ERROR": "കുറഞ്ഞത് ഒരു മൂല്യമെങ്കിലും ഉണ്ടായിരിക്കണം"
           }
         },
         "KEY": {
           "LABEL": "കീ",
           "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
+          "ERROR": "കീ ആവശ്യമാണ്",
           "IN_VALID": "Invalid key"
         }
       },
@@ -66,11 +66,11 @@
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "PLACEHOLDER": "ദയവായി മൂല്യങ്ങൾ നൽകി എന്റർ കീ അമർത്തുക"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ട് വിജയകരമായി അപ്‌ഡേറ്റ് ചെയ്‌തു",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
@@ -83,7 +83,7 @@
       "TABLE_HEADER": [
         "പേര്",
         "വിവരണം",
-        "Type",
+        "തരം",
         "കീ"
       ],
       "BUTTONS": {
