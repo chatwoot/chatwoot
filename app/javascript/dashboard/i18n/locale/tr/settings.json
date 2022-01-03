@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Parola",
+        "LABEL": "New password",
         "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
         "PLACEHOLDER": "Lütfen yeni bir şifre girin"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Yeni şifreyi onayla",
         "ERROR": "Onay parolası, parolayla eşleşmelidir",
-        "PLACEHOLDER": "lütfen şifrenizi tekrar girin"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
