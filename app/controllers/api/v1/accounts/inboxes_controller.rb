@@ -1,4 +1,5 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
+  include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   # we are already handling the authorization in fetch inbox
@@ -41,11 +42,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update
     @inbox.update(permitted_params.except(:channel))
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
-
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
     # Inbox update doesn't necessarily need channel attributes
     return if permitted_params(channel_attributes)[:channel].blank?
+
+    validate_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
@@ -122,17 +124,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    case channel_type
-    when 'Channel::WebWidget'
-      Channel::WebWidget::EDITABLE_ATTRS
-    when 'Channel::Api'
-      Channel::Api::EDITABLE_ATTRS
-    when 'Channel::Email'
-      Channel::Email::EDITABLE_ATTRS
-    when 'Channel::Telegram'
-      Channel::Telegram::EDITABLE_ATTRS
-    when 'Channel::Line'
-      Channel::Line::EDITABLE_ATTRS
+    if channel_type.constantize.const_defined?('EDITABLE_ATTRS')
+      channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
     end

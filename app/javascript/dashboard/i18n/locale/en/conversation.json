@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Please select a conversation from left pane",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
@@ -89,6 +90,8 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "Remove",

@@ -7,6 +7,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
+    let(:mail_with_quote) { create_inbound_email_from_fixture('mail_with_quote.eml') }
     let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
     let(:serialized_attributes) do
@@ -60,6 +61,38 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       it 'find channel with reply to mail' do
         described_subject
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+      end
+    end
+
+    context 'without email to address' do
+      let(:forwarder_email) { create_inbound_email_from_fixture('forwarder_email.eml') }
+      let(:in_reply_to_email) { create_inbound_email_from_fixture('in_reply_to.eml') }
+      let(:described_subject) { described_class.receive forwarder_email }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:conversation_1) do
+        create(
+          :conversation,
+          assignee: agent,
+          inbox: email_channel.inbox,
+          account: account,
+          additional_attributes: { mail_subject: "Discussion: Let's debate these attachments" }
+        )
+      end
+
+      before do
+        conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+      end
+
+      it 'find channel with forwarded to mail' do
+        described_subject
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+      end
+
+      it 'find channel with in message source id stated in in_reply_to' do
+        conversation_1.messages.new(source_id: '0CB459E0-0336-41DA-BC88-E6E28C697DDB@chatwoot.com', account_id: account.id, message_type: 'incoming',
+                                    inbox_id: email_channel.inbox.id).save!
+        described_class.receive in_reply_to_email
         expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
       end
     end

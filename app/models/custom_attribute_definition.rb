@@ -8,15 +8,15 @@
 #  attribute_display_type :integer          default("text")
 #  attribute_key          :string
 #  attribute_model        :integer          default("conversation_attribute")
+#  attribute_values       :jsonb
 #  default_value          :integer
-#  values                 :jsonb
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :bigint
 #
 # Indexes
 #
-#  attribute_key_model_index                         (attribute_key,attribute_model) UNIQUE
+#  attribute_key_model_index                         (attribute_key,attribute_model,account_id) UNIQUE
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
@@ -25,7 +25,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: :attribute_model }
+            uniqueness: { scope: [:account_id, :attribute_model] }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true

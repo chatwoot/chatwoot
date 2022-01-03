@@ -32,6 +32,18 @@
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
+        <label
+          v-if="isATwitterInbox"
+          for="toggle-business-hours"
+          class="toggle-input-wrap"
+        >
+          <input
+            v-model="tweetsEnabled"
+            type="checkbox"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
+        </label>
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
@@ -353,6 +365,8 @@
             <woot-code :script="inbox.forward_to_email"></woot-code>
           </settings-section>
         </div>
+        <imap-settings :inbox="inbox" />
+        <smtp-settings :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -378,6 +392,8 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
+import ImapSettings from './ImapSettings';
+import SmtpSettings from './SmtpSettings';
 
 export default {
   components: {
@@ -387,6 +403,8 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     GreetingsEditor,
+    ImapSettings,
+    SmtpSettings,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -395,6 +413,7 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      tweetsEnabled: true,
       hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
@@ -558,6 +577,7 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.tweetsEnabled = this.inbox.tweets_enabled || false;
         this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
@@ -616,6 +636,7 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             hmac_mandatory: this.hmacMandatory,
+            tweets_enabled: this.tweetsEnabled,
           },
         };
         if (this.avatarFile) {

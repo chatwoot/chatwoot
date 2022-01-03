@@ -26,6 +26,12 @@ describe ::Contacts::FilterService do
             attribute_key: 'browser_language',
             filter_operator: 'equal_to',
             values: ['en'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'name',
+            filter_operator: 'equal_to',
+            values: [contact.name],
             query_operator: nil
           }.with_indifferent_access
         ]
@@ -37,7 +43,7 @@ describe ::Contacts::FilterService do
         expect(result.length).to be 2
       end
 
-      it 'filter conversations by tags' do
+      it 'filter contact by tags' do
         Contact.last.update_labels('support')
         params[:payload] = [
           {

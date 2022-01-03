@@ -1,14 +1,17 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <span class="close-button" @click="onPanelToggle">
-      <i class="ion-chevron-right" />
-    </span>
+    <woot-button
+      icon="chevron-right"
+      class="close-button clear secondary"
+      @click="onPanelToggle"
+    />
     <contact-info :contact="contact" :channel-type="channelType" />
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
       class="list-group"
       ghost-class="ghost"
+      handle=".drag-handle"
       @start="dragging = true"
       @end="onDragEnd"
     >
@@ -254,7 +257,7 @@ export default {
 .close-button {
   position: absolute;
   right: $space-two;
-  top: $space-slab + $space-two;
+  top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
   z-index: 9989;

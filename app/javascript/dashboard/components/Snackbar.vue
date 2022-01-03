@@ -1,16 +1,17 @@
 <template>
   <div>
     <div class="ui-snackbar">
-      <div class="ui-snackbar-text">{{ message }}</div>
+      <div class="ui-snackbar-text">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   props: {
-    message: String,
+    message: { type: String, default: '' },
     showButton: Boolean,
     duration: {
       type: [String, Number],
@@ -22,9 +23,7 @@ export default {
       toggleAfterTimeout: false,
     };
   },
-  methods: {
-  },
-  mounted() {
-  },
+  mounted() {},
+  methods: {},
 };
 </script>

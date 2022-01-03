@@ -11,6 +11,7 @@
       class="icon"
       :emoji="emoji"
       :icon="icon"
+      :icon-size="iconSize"
     />
     <span v-if="$slots.default" class="button__content"><slot></slot></span>
   </button>
@@ -67,10 +68,12 @@ export default {
       }
       return this.variant;
     },
-    hasOnlyIconClasses() {
+    hasOnlyIcon() {
       const hasEmojiOrIcon = this.emoji || this.icon;
-      if (!this.$slots.default && hasEmojiOrIcon) return 'button--only-icon';
-      return '';
+      return !this.$slots.default && hasEmojiOrIcon;
+    },
+    hasOnlyIconClasses() {
+      return this.hasOnlyIcon ? 'button--only-icon' : '';
     },
     buttonClasses() {
       return [
@@ -82,6 +85,21 @@ export default {
         this.isDisabled ? 'disabled' : '',
         this.isExpanded ? 'expanded' : '',
       ];
+    },
+    iconSize() {
+      switch (this.size) {
+        case 'tiny':
+          return 12;
+        case 'small':
+          return 14;
+        case 'medium':
+          return 16;
+        case 'large':
+          return 18;
+
+        default:
+          return 16;
+      }
     },
   },
   methods: {

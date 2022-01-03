@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "אנא בחר שיחה מהחלונית השמאלית",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
     "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
     "NO_INBOX_1": "שלום! נראה שעדיין לא הוספת תיבות דואר נכנס.",

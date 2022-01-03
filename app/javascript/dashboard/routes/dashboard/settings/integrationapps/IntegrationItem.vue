@@ -27,7 +27,7 @@
           )
         "
       >
-        <woot-button icon="ion-gear-b">
+        <woot-button icon="settings">
           {{ $t('INTEGRATION_APPS.CONFIGURE') }}
         </woot-button>
       </router-link>
@@ -47,8 +47,8 @@ export default {
   mixins: [globalConfigMixin],
   props: {
     integrationId: {
-      type: String,
-      default: '',
+      type: [String, Number],
+      required: true,
     },
     integrationLogo: {
       type: String,

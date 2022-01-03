@@ -3,21 +3,24 @@
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-mute"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
       @click="mute"
     />
     <woot-button
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-medium"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
       @click="unmute"
     />
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      class="hollow secondary actions--button"
-      icon="ion-share"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
       @click="toggleEmailActionsModal"
     />
     <resolve-action
@@ -79,7 +82,6 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
     },
   },
 };
@@ -88,11 +90,8 @@ export default {
 .actions--container {
   align-items: center;
 
-  .button {
-    font-size: var(--font-size-large);
-    margin-right: var(--space-small);
-    border-color: var(--color-border);
-    color: var(--s-400);
+  .resolve-actions {
+    margin-left: var(--space-small);
   }
 }
 

@@ -27,16 +27,14 @@
           :class="wrapClass"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-            />
             <image-bubble
-              v-else
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :thumb="attachment.thumb_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
+            <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
         <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
@@ -82,6 +80,11 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      hasImageError: false,
+    };
   },
   computed: {
     shouldDisplayAgentMessage() {
@@ -145,8 +148,9 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [selectionOption = {}] =
-            this.messageContentAttributes.submitted_values;
+          const [
+            selectionOption = {},
+          ] = this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }
@@ -169,80 +173,18 @@ export default {
       };
     },
   },
+  watch: {
+    message() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
+  methods: {
+    onImageLoadError() {
+      this.hasImageError = true;
+    },
+  },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.conversation-wrap {
-  .agent-message {
-    align-items: flex-end;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin: 0 0 $space-micro $space-small;
-    max-width: 88%;
-
-    .avatar-wrap {
-      height: $space-medium;
-      width: $space-medium;
-      flex-shrink: 0;
-
-      .user-thumbnail-box {
-        margin-top: -$space-large;
-      }
-    }
-
-    .message-wrap {
-      flex-grow: 1;
-      flex-shrink: 0;
-      margin-left: $space-small;
-      max-width: 90%;
-    }
-  }
-
-  .agent-name {
-    color: $color-body;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin: $space-small 0;
-    padding-left: $space-micro;
-  }
-
-  .has-attachment {
-    padding: 0;
-    overflow: hidden;
-
-    &.has-text {
-      margin-top: $space-smaller;
-    }
-  }
-
-  .agent-message-wrap {
-    + .agent-message-wrap {
-      margin-top: $space-micro;
-
-      .agent-message .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    + .user-message-wrap {
-      margin-top: $space-normal;
-    }
-
-    &.has-response + .user-message-wrap {
-      margin-top: $space-micro;
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-
-    &.has-response + .agent-message-wrap {
-      margin-top: $space-normal;
-    }
-  }
-}
-</style>

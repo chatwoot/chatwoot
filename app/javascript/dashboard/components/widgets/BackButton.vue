@@ -1,7 +1,8 @@
 <template>
-  <span class="back-button ion-ios-arrow-left" @click.capture="goBack">
+  <button class="back-button" @click.capture="goBack">
+    <fluent-icon icon="chevron-left" />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
-  </span>
+  </button>
 </template>
 <script>
 import router from '../../routes/index';
@@ -28,3 +29,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>

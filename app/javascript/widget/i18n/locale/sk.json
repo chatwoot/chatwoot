@@ -1,53 +1,53 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Stiahnuť",
+      "UPLOADING": "Nahrávanie..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Odoslať"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Sme online",
+    "OFFLINE": "Momentálne nie sme k dispozícii"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Zvyčajne odpovedá do niekoľkých minút",
+    "IN_A_FEW_HOURS": "Zvyčajne odpovedá do niekoľkých hodín",
+    "IN_A_DAY": "Zvyčajne odpovedá do dňa"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Začať konverzáciu",
+  "START_NEW_CONVERSATION": "Začať novú konverzáciu",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close",
-    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
+    "CLOSE_MESSAGES_BUTTON": "Zatvoriť",
+    "COMPANY_FROM": "od",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Četujte s nami"
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "EMAIL_PLACEHOLDER": "Zadajte svoj e-mail",
+  "CHAT_PLACEHOLDER": "Zadajte svoju správu",
+  "TODAY": "Dnes",
+  "YESTERDAY": "Včera",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "Celé meno",
+        "PLACEHOLDER": "Prosím zadajte svoje celé meno",
+        "ERROR": "Vyžaduje sa celé meno"
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Email Address",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "LABEL": "E-mailová adresa",
+        "PLACEHOLDER": "Zadajte svoj e-mail",
+        "ERROR": "Neplatná e-mailová adresa"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
+        "LABEL": "Správa",
+        "PLACEHOLDER": "Zadajte svoju správu",
         "ERROR": "Message too short"
       }
     },
@@ -66,7 +66,7 @@
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
     "SEND_EMAIL_ERROR": "There was an error, please try again"
   }
 }

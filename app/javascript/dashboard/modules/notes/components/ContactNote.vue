@@ -19,7 +19,7 @@
           v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
           variant="smooth"
           size="tiny"
-          icon="ion-trash-b"
+          icon="delete"
           color-scheme="secondary"
           @click="onDelete"
         />

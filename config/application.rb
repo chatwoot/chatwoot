@@ -14,9 +14,9 @@ module Chatwoot
     config.load_defaults 6.0
 
     config.eager_load_paths << Rails.root.join('lib')
-    config.eager_load_paths << Rails.root.join('ee/lib')
+    config.eager_load_paths << Rails.root.join('enterprise/lib')
     # rubocop:disable Rails/FilePath
-    config.eager_load_paths += Dir["#{Rails.root}/ee/app/**"]
+    config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
     # rubocop:enable Rails/FilePath
 
     # Settings in config/environments/* take precedence over those specified here.

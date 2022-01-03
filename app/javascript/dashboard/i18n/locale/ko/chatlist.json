@@ -7,6 +7,7 @@
       "404": "이 그룹에는 활성 대화가 없습니다."
     },
     "TAB_HEADING": "대화",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "사람 검색, 채팅, 저장된 응답..."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "사진 메시지"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "음성 메시지"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "영상 메시지"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "파일 첨부"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "장소"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "URL을 공유함"
       }
     },

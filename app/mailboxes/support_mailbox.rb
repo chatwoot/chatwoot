@@ -78,21 +78,6 @@ class SupportMailbox < ApplicationMailbox
     end
   end
 
-  def create_contact
-    @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
-      inbox: @inbox,
-      contact_attributes: {
-        name: identify_contact_name,
-        email: @processed_mail.original_sender,
-        additional_attributes: {
-          source_id: "email:#{processed_mail.message_id}"
-        }
-      }
-    ).perform
-    @contact = @contact_inbox.contact
-  end
-
   def identify_contact_name
     processed_mail.sender_name || processed_mail.from.first.split('@').first
   end

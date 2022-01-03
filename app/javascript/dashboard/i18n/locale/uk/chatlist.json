@@ -7,6 +7,7 @@
       "404": "В цій групі немає активних бесід."
     },
     "TAB_HEADING": "Бесіди",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
@@ -54,27 +55,21 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Повідомлення з картинкою"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Аудіо-повідомлення"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Відеоповідомлення"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Повідомлення з файлом"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Місцезнаходження"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "поділився посиланням"
       }
     },
