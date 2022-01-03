@@ -20,7 +20,7 @@
           />
         </h3>
         <div class="conversation--header--actions">
-          <inbox-name :inbox="inbox" class="margin-right-small" />
+          <inbox-name :inbox="inbox" class="header__inbox-name" />
           <span
             v-if="isSnoozed"
             class="snoozed--display-text margin-right-small"
@@ -184,5 +184,11 @@ export default {
     font-weight: var(--font-weight-medium);
     color: var(--y-900);
   }
+}
+
+.header__inbox-name {
+  margin: 0;
+  margin-right: var(--space-small);
+  background: transparent;
 }
 </style>

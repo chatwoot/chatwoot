@@ -3,6 +3,7 @@
     :title="inbox.name"
     :icon="computedInboxClass"
     color-scheme="secondary"
+    class="inbox--name"
   />
 </template>
 <script>
@@ -24,19 +25,14 @@ export default {
   },
 };
 </script>
-<style scoped>
-.inbox--name {
-  display: inline-flex;
-  padding: var(--space-micro) 0;
-  line-height: var(--space-slab);
-  font-weight: var(--font-weight-medium);
+<style lang="scss" scoped>
+.label.secondary.inbox--name {
   background: none;
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
-}
+  color: var(--s-600);
+  padding: 0;
 
-.inbox--icon {
-  margin-right: var(--space-micro);
-  color: inherit;
+  .label__title {
+    line-height: 1.2;
+  }
 }
 </style>

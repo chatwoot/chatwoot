@@ -456,16 +456,15 @@ export default {
 
     background: var(--white);
 
-    padding: inherit 0;
-    border-top-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
-    border-bottom-left-radius: calc(
-      var(--space-medium) + 1px
-    ); /* 100px of height + 10px of border */
+    border-top-left-radius: calc(var(--space-medium) + 1px);
+    border-bottom-left-radius: calc(var(--space-medium) + 1px);
     border: 1px solid var(--color-border-light);
     border-right: 0;
     box-sizing: border-box;
+
+    &:hover {
+      padding: var(--space-small);
+    }
   }
 }
 </style>

@@ -20,11 +20,15 @@ export default {
 
 <style lang="scss" scoped>
 .label--add {
+  margin-bottom: var(--space-smaller);
+  margin-top: var(--space-smaller);
+  border: 0;
+
   &::v-deep .label {
     cursor: pointer;
+    margin-bottom: 0;
     background: transparent;
-    border-color: var(--s-600);
-    margin: 0;
+    border: 1px solid var(--s-600);
 
     &:hover {
       background: var(--s-50);

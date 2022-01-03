@@ -15,8 +15,8 @@
   @include flex-shrink;
   border-radius: var(--border-radius-large);
   cursor: pointer;
-  margin: var(--space-small);
-  padding: 0 var(--space-small);
+  margin: var(--space-smaller) var(--space-small);
+  padding: var(--space-small);
   position: relative;
 
   &.active {
@@ -27,8 +27,7 @@
 
 
   .conversation--details {
-    @include margin(0 0 0 $space-small);
-    @include padding($space-small 0);
+    margin-left: var(--space-small);
   }
 
   .conversation--user {

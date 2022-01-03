@@ -41,19 +41,19 @@
         <p v-if="lastMessageInChat" class="conversation--message">
           <fluent-icon
             v-if="isMessagePrivate"
-            size="16"
+            size="14"
             class="message--attachment-icon last-message-icon"
             icon="lock-closed"
           />
           <fluent-icon
             v-else-if="messageByAgent"
-            size="16"
+            size="14"
             class="message--attachment-icon last-message-icon"
             icon="arrow-reply"
           />
           <fluent-icon
             v-else-if="isMessageAnActivity"
-            size="16"
+            size="14"
             class="message--attachment-icon last-message-icon"
             icon="info"
           />
@@ -62,7 +62,7 @@
           </span>
           <span v-else-if="lastMessageInChat.attachments">
             <fluent-icon
-              size="16"
+              size="14"
               class="message--attachment-icon"
               :icon="attachmentIcon"
             />
@@ -73,7 +73,7 @@
           </span>
         </p>
         <p v-else class="conversation--message">
-          <fluent-icon size="16" class="message--attachment-icon" icon="info" />
+          <fluent-icon size="14" class="message--attachment-icon" icon="info" />
           <span>
             {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
           </span>

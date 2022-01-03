@@ -164,12 +164,13 @@ export default {
 
 .label-action--button {
   color: inherit;
+  display: inline-flex;
+  align-items: center;
 }
 
 .label__title {
   max-width: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.2;
 }
 </style>
