@@ -89,14 +89,14 @@
         "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
       },
       "PASSWORD": {
-        "LABEL": "رمز عبور",
+        "LABEL": "New password",
         "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
         "PLACEHOLDER": "لطفا رمز عبور جدیدی وارد کنید"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "تکرار رمز عبور",
         "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد",
-        "PLACEHOLDER": "لطفا رمز عبور را مجددا وارد کنید"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
