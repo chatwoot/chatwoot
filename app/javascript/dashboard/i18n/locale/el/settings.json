@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης"
       },
       "PASSWORD": {
-        "LABEL": "Κωδικός (Password)",
+        "LABEL": "New password",
         "ERROR": "Παρακαλώ εισάγετε κωδικό τουλάχιστον 6 χαρακτήρων",
         "PLACEHOLDER": "Παρακαλώ εισάγετε ένα νέο κωδικό (password)"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Επιβεβαίωση νέου κωδικού",
         "ERROR": "Η Επιβεβαίωση κωδικού θα πρέπει να ταιριάζει με τον κωδικό",
-        "PLACEHOLDER": "Παρακαλώ εισάγετε ξανά τον νέο κωδικό (password)"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
