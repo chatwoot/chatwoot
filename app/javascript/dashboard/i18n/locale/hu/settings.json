@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Jelszó",
+        "LABEL": "New password",
         "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
         "PLACEHOLDER": "Kérjük adj meg egy új jelszót"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Jelszó megerősítése",
         "ERROR": "A két jelszónak egyeznie kell",
-        "PLACEHOLDER": "Kérjük add meg egy ismét a jelszót"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
