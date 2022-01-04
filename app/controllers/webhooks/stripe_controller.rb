@@ -7,7 +7,7 @@ class Webhooks::StripeController < ActionController::API
     # Attempt to verify the signature. If successful, we'll handle the event
     begin
       event = Stripe::Webhook.construct_event(payload, sig_header, ENV["STRIPE_WEBHOOK_SECRET"])
-      ::EE::Billing::HandleStripeEventService.new.call(event: event)
+      ::Enterprise::Billing::HandleStripeEventService.new.call(event: event)
     # If we fail to verify the signature, then something was wrong with the request
     rescue JSON::ParserError => e
       # Invalid payload

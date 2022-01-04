@@ -1,4 +1,4 @@
-class EE::Billing::HandleStripeEventService
+class Enterprise::Billing::HandleStripeEventService
   def call(event:)
     case event.type
     when 'customer.subscription.created'

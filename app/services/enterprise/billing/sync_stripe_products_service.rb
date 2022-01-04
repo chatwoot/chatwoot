@@ -1,4 +1,4 @@
-class EE::Billing::SyncStripeProductsService
+class Enterprise::Billing::SyncStripeProductsService
   def self.perform
     # Fetch all of our active products from Stripe
     Stripe::Product.list['data'].each do |product|

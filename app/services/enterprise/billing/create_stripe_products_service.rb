@@ -1,4 +1,4 @@
-class EE::Billing::CreateStripeProductsService
+class Enterprise::Billing::CreateStripeProductsService
   PRODUCTS = [
     { 
       name: 'Hacker',
