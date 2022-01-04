@@ -20,7 +20,7 @@
         "SCHEDULED_AT": {
           "LABEL": "Scheduled time",
           "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
+          "CONFIRM": "ยืนยัน",
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
