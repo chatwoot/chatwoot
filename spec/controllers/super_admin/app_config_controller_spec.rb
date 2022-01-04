@@ -26,7 +26,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
   describe 'POST /super_admin/app_config' do
     context 'when it is an unauthenticated super admin' do
       it 'returns unauthorized' do
-        post '/super_admin/app_config', params: { app_config: { name: 'TESTKEY', value: 'TESTVALUE' } }
+        post '/super_admin/app_config', params: { app_config: { TESTKEY: 'TESTVALUE' } }
         expect(response).to have_http_status(:redirect)
       end
     end
@@ -34,9 +34,13 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     context 'when it is an aunthenticated super admin' do
       it 'shows the app_config page' do
         sign_in super_admin
-        post '/super_admin/app_config', params: { app_config: { name: 'TESTKEY', value: 'TESTVALUE' } }
+        post '/super_admin/app_config', params: { app_config: { TESTKEY: 'TESTVALUE' } }
+
         expect(response.status).to eq(302)
         expect(response).should redirect_to(super_admin_app_config_path)
+
+        config = GlobalConfig.get('TESTKEY')
+        expect(config['TESTKEY']).to eq('TESTVALUE')
       end
     end
   end
