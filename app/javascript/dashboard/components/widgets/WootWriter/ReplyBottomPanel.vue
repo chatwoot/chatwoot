@@ -7,7 +7,7 @@
         emoji="😊"
         color-scheme="secondary"
         variant="smooth"
-        size="small"
+        size="tiny"
         @click="toggleEmojiPicker"
       />
 
@@ -28,7 +28,7 @@
           emoji="📎"
           color-scheme="secondary"
           variant="smooth"
-          size="small"
+          size="tiny"
         />
       </file-upload>
       <woot-button
@@ -37,7 +37,7 @@
         emoji="🖊️"
         color-scheme="secondary"
         variant="smooth"
-        size="small"
+        size="tiny"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       />

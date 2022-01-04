@@ -24,7 +24,7 @@
     <div class="contact-actions">
       <woot-button
         class="new-message"
-        size="small expanded"
+        size="tiny expanded"
         icon="ion-paper-airplane"
         @click="onNewMessageClick"
       >
@@ -32,7 +32,7 @@
       </woot-button>
       <woot-button
         variant="hollow"
-        size="small expanded"
+        size="tiny expanded"
         icon="edit"
         @click="onEditClick"
       >

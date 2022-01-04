@@ -289,6 +289,7 @@ export default {
   flex-shrink: 0;
   align-items: center;
   justify-content: flex-end;
+  padding-left: var(--space-normal);
 
   .timestamp {
     color: var(--s-600);
