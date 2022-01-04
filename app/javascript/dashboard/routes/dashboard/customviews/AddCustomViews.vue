@@ -31,9 +31,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
 
 export default {
   mixins: [alertMixin],
@@ -42,28 +40,24 @@ export default {
       type: Function,
       default: () => {},
     },
-    resetData: {
-      type: Function,
+    filterType: {
+      type: Number,
+      default: 0,
+    },
+    customViewsQuery: {
+      type: Object,
       default: () => {},
     },
   },
 
   data() {
     return {
-      name: '',
-      filterType: 0,
       show: true,
+      name: '',
     };
   },
 
   computed: {
-    ...mapGetters({
-      uiFlags: 'getUIFlags',
-      appliedFilters: 'getAppliedConversationFilters',
-    }),
-    customViewsQuery() {
-      return filterQueryGenerator(this.appliedFilters);
-    },
     isButtonDisabled() {
       return this.$v.name.$invalid;
     },
@@ -92,7 +86,7 @@ export default {
           'FILTER.CUSTOM_VIEWS.ADD.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.resetData();
+        this.$emit('resetData');
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =

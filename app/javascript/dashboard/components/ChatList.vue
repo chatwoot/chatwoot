@@ -45,7 +45,8 @@
     <add-custom-views
       v-if="showAddCustomViewsModal"
       :on-close="onCloseAddCustomViewsModal"
-      :reset-data="resetAndFetchData"
+      :custom-views-query="customViewsQuery"
+      @resetData="resetAndFetchData"
     />
 
     <chat-type-tabs
@@ -184,6 +185,9 @@ export default {
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
+    },
+    customViewsQuery() {
+      return filterQueryGenerator(this.appliedFilters);
     },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
