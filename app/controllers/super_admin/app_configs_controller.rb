@@ -1,10 +1,13 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   def show
     @allowed_configs = %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET]
+    # ref: https://github.com/rubocop/rubocop/issues/7767
+    # rubocop:disable Style/HashTransformValues
     @fb_config = InstallationConfig.where(name: @allowed_configs)
                                    .pluck(:name, :serialized_value)
                                    .map { |name, serialized_value| [name, serialized_value['value']] }
                                    .to_h
+    # rubocop:enable Style/HashTransformValues
   end
 
   def create
