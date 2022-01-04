@@ -295,6 +295,8 @@ Rails.application.routes.draw do
     namespace :super_admin do
       root to: 'dashboard#index'
 
+      resource :app_config, only: [:show, :create]
+
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
