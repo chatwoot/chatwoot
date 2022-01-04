@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "പുതിയ പാസ്‌വേഡ്",
         "ERROR": "ദയവായി 6 അല്ലെങ്കിൽ അതിൽ കൂടുതൽ ദൈർഘ്യമുള്ള പാസ്‌വേഡ് നൽകുക",
         "PLACEHOLDER": "ദയവായി ഒരു പുതിയ പാസ്‌വേഡ് നൽകുക"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "പുതിയ പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",
         "ERROR": "പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "നിങ്ങളുടെ പുതിയ പാസ്‌വേഡ് വീണ്ടും നൽകുക"
       }
     }
   },
