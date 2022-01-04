@@ -7,6 +7,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
+    let(:mail_with_quote) { create_inbound_email_from_fixture('mail_with_quote.eml') }
     let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
     let(:serialized_attributes) do

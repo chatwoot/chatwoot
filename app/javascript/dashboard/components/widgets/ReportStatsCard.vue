@@ -18,12 +18,12 @@
 <script>
 export default {
   props: {
-    heading: String,
-    point: [Number, String],
-    index: Number,
-    desc: String,
+    heading: { type: String, default: '' },
+    point: { type: [Number, String], default: '' },
+    index: { type: Number, default: null },
+    desc: { type: String, default: '' },
     selected: Boolean,
-    onClick: Function,
+    onClick: { type: Function, default: () => {} },
   },
 };
 </script>
