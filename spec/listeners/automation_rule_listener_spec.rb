@@ -6,7 +6,7 @@ describe AutomationRuleListener do
   let(:contact) { create(:contact, account: account, identifier: '123') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
   let(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: inbox, account: account) }
-  let(:automation_rule) { create(:automation_rule, account: account) }
+  let(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
   let(:team) { create(:team, account: account) }
   let(:user_1) { create(:user, role: 0) }
   let(:user_2) { create(:user, role: 0) }

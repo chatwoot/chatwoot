@@ -10,7 +10,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
   describe 'GET /api/v1/accounts/{account.id}/automation_rules' do
     context 'when it is an authenticated user' do
       it 'returns all records' do
-        automation_rule = create(:automation_rule, account: account)
+        automation_rule = create(:automation_rule, account: account, name: 'Test Automation Rule')
 
         get "/api/v1/accounts/#{account.id}/automation_rules",
             headers: administrator.create_new_auth_token
