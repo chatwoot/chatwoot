@@ -16,13 +16,12 @@
         />
 
         <div class="modal-footer">
-          <woot-submit-button
-            :disabled="isButtonDisabled"
-            :button-text="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE')"
-          />
-          <button class="button clear" @click.prevent="onClose">
+          <woot-button :disabled="isButtonDisabled">
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE') }}
+          </woot-button>
+          <woot-button variant="clear" @click.prevent="onClose">
             {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL') }}
-          </button>
+          </woot-button>
         </div>
       </div>
     </form>
@@ -36,10 +35,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 export default {
   mixins: [alertMixin],
   props: {
-    onClose: {
-      type: Function,
-      default: () => {},
-    },
     filterType: {
       type: Number,
       default: 0,
@@ -71,6 +66,9 @@ export default {
   },
 
   methods: {
+    onClose() {
+      this.$emit('close');
+    },
     async saveCustomViews() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -86,7 +84,6 @@ export default {
           'FILTER.CUSTOM_VIEWS.ADD.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$emit('resetData');
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =

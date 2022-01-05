@@ -17,17 +17,15 @@
             variant="smooth"
             color-scheme="secondary"
             icon="save"
-            @click="showAddCustomViewsModal = true"
-          >
-          </woot-button>
+            @click="onClickOpenAddCustomViewsModal"
+          />
           <woot-button
             size="tiny"
             variant="smooth"
             color-scheme="alert"
             icon="dismiss-circle"
             @click="resetAndFetchData"
-          >
-          </woot-button>
+          />
         </div>
         <woot-button
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
@@ -44,9 +42,8 @@
 
     <add-custom-views
       v-if="showAddCustomViewsModal"
-      :on-close="onCloseAddCustomViewsModal"
       :custom-views-query="customViewsQuery"
-      @resetData="resetAndFetchData"
+      @close="onCloseAddCustomViewsModal"
     />
 
     <chat-type-tabs
@@ -305,6 +302,9 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
+    },
+    onClickOpenAddCustomViewsModal() {
+      this.showAddCustomViewsModal = true;
     },
     onCloseAddCustomViewsModal() {
       this.showAddCustomViewsModal = false;
