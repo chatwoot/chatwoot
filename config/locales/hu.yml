@@ -29,7 +29,7 @@ hu:
       failed: Feliratkozás sikertelen
     contacts:
       import:
-        failed: File is blank
+        failed: A fájl üres
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
     agent_csv:
