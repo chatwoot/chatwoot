@@ -11,12 +11,13 @@ describe(`when there are NO errors loading the thumbnail`, () => {
       data() {
         return {
           imgError: false,
+          hasImageLoaded: true,
         };
       },
     });
     expect(wrapper.find('#image').exists()).toBe(true);
     const avatarComponent = wrapper.findComponent(Avatar);
-    expect(avatarComponent.exists()).toBe(false);
+    expect(avatarComponent.isVisible()).toBe(false);
   });
 });
 
@@ -29,12 +30,13 @@ describe(`when there ARE errors loading the thumbnail`, () => {
       data() {
         return {
           imgError: true,
+          hasImageLoaded: true,
         };
       },
     });
-    expect(wrapper.find('#image').exists()).toBe(false);
+    expect(wrapper.find('#image').isVisible()).toBe(false);
     const avatarComponent = wrapper.findComponent(Avatar);
-    expect(avatarComponent.exists()).toBe(true);
+    expect(avatarComponent.isVisible()).toBe(true);
   });
 });
 

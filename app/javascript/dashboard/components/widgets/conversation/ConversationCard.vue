@@ -24,14 +24,6 @@
         </h4>
         <div class="conversation--metadata">
           <inbox-name v-if="showInboxName" :inbox="inbox" />
-          <thumbnail
-            v-if="showAssignee && assignee.name"
-            v-tooltip.top-end="assignee.name"
-            class="assignee-avatar"
-            :src="assignee.thumbnail"
-            :username="assignee.name"
-            size="16px"
-          />
         </div>
       </div>
       <div class="message-details">
@@ -82,6 +74,14 @@
           <span class="timestamp">
             {{ dynamicTime(chat.timestamp) }}
           </span>
+          <thumbnail
+            v-if="showAssignee && assignee.name"
+            v-tooltip.top-end="assignee.name"
+            class="assignee-avatar"
+            :src="assignee.thumbnail"
+            :username="assignee.name"
+            size="14px"
+          />
         </div>
       </div>
     </div>
@@ -298,6 +298,10 @@ export default {
     line-height: var(--space-normal);
     margin-left: var(--space-small);
   }
+
+  .assignee-avatar {
+    margin-left: var(--space-small);
+  }
 }
 .details-meta {
   display: flex;
@@ -341,10 +345,6 @@ export default {
     margin-bottom: 0;
     margin-right: 0;
     max-width: 12rem;
-  }
-
-  .assignee-avatar {
-    margin-left: var(--space-micro);
   }
 }
 

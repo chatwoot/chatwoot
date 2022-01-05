@@ -43,12 +43,14 @@ export default {
   },
   computed: {
     style() {
+      const fontSize = Math.floor(this.size / 2.5);
+      const lineHeight = this.size + Math.floor(this.size / 20);
       let style = {
         width: `${this.size}px`,
         height: `${this.size}px`,
         borderRadius: this.rounded ? '50%' : 0,
-        lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
-        fontSize: `${Math.floor(this.size / 2.5)}px`,
+        lineHeight: `${Math.max(lineHeight, 12)}px`,
+        fontSize: `${Math.max(fontSize, 8)}px`,
       };
 
       if (this.backgroundColor) {
