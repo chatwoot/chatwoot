@@ -191,16 +191,6 @@ export default {
   background: var(--white);
   display: flex;
 }
-
-.secondary-menu {
-  background: var(--white);
-  border-right: 1px solid var(--s-50);
-  height: 100vh;
-  width: 19rem;
-  flex-shrink: 0;
-  overflow: auto;
-  padding: var(--space-small);
-}
 </style>
 
 <style lang="scss">
