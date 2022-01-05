@@ -166,7 +166,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "Hozzáadás",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
@@ -181,7 +181,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "TO": "Ide",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
