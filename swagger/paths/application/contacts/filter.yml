@@ -1,8 +1,8 @@
 tags:
-  - Conversation
-operationId: conversationFilter
-description: Filter conversations with custom filter options and pagination
-summary: Conversations Filter
+  - Contact
+operationId: contactFilter
+description: Filter contacts with custom filter options and pagination
+summary: Contact Filter
 security:
   - userApiKey: []
   - agentBotApiKey: []
@@ -35,20 +35,20 @@ parameters:
             description: query operator name
             enum: [ AND, OR ]
       example:
-        - attribute_key: 'browser_language'
-          filter_operator: 'not_eq'
+        - attribute_key: 'name'
+          filter_operator: 'equal_to'
           values: ['en']
           query_operator: 'AND'
-        - attribute_key: 'status'
-          filter_operator: 'eq'
-          values: ['pending']
+        - attribute_key: 'country_code'
+          filter_operator: 'equal_to'
+          values: ['us']
           query_operator: nil
 
 responses:
   200:
     description: Success
     schema:
-      $ref: '#/definitions/conversation_list'
+      $ref: '#/definitions/contact_list'
   400:
     description: Bad Request Error
     schema:

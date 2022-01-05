@@ -1,0 +1,25 @@
+<% content_for(:title) do %>
+  App Config
+<% end %>
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title" id="page-title">
+    <%= content_for(:title) %>
+  </h1>
+</header>
+<section class="main-content__body">
+  <%= form_with url: super_admin_app_config_url , method: :post do |form| %>
+    <% @allowed_configs.each do |c| %>
+      <div class="field-unit">
+        <div class="field-unit__label">
+          <%= form.label "app_config[#{c}]", c %>
+        </div>
+        <div class="field-unit__field">
+          <%= form.text_field "app_config[#{c}]", value: @fb_config[c] %>
+        </div>
+      </div>
+    <% end %>
+    <div class="form-actions">
+      <%= form.submit "Submit" %>
+    </div>
+  <% end %>
+</section>
