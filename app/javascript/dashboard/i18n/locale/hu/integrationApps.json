@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Fiók",
       "DELETE": {
         "BUTTON_TEXT": "Törlés"
       }
