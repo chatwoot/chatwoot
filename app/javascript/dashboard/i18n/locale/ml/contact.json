@@ -7,7 +7,7 @@
     "COMPANY": "കമ്പനി",
     "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "വ്യക്തിവിവരങ്ങൾ കാണുക",
     "BROWSER": "ബ്രൗസർ",
     "OS": "ഓപ്പറേറ്റിംഗ് സിസ്റ്റം",
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
@@ -71,7 +71,7 @@
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
+    "BUTTON_LABEL": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "DESC": "ബന്ധപ്പെടാനുള്ള വിശദാംശങ്ങൾ ഇല്ലാതാക്കുക",
     "CONFIRM": {
@@ -164,7 +164,7 @@
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
         "PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക",
-        "ERROR": "Message can't be empty"
+        "ERROR": "സന്ദേശം ശൂന്യമാക്കാൻ കഴിയില്ല"
       },
       "SUBMIT": "സന്ദേശം അയയ്ക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
@@ -186,10 +186,10 @@
         "NAME": "പേര്",
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",
         "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
-        "LAST_ACTIVITY": "Last Activity",
+        "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
         "COUNTRY": "രാജ്യം",
         "CITY": "നഗരം",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ",
         "COMPANY": "കമ്പനി",
         "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
       },
@@ -222,10 +222,10 @@
     "ADD": {
       "BUTTON": "ചേർക്കുക",
       "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "TITLE": "ഒരു കുറിപ്പ് സൃഷ്ടിക്കാൻ Shift + Enter"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "കുറിപ്പ് ഇല്ലാതാക്കുക"
     }
   },
   "EVENTS": {
