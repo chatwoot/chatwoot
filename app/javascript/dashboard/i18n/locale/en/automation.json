@@ -37,6 +37,14 @@
         "SUCCESS_MESSAGE": "Automation rule added successfully",
         "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
       }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Description",
+        "Times triggered",
+        "Created on"
+      ]
     }
   }
 }
