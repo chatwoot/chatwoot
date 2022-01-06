@@ -41,7 +41,8 @@ export default {
     },
     itemClass: {
       type: String,
-      default: 'flex items-center p-3 cursor-pointer ml-0',
+      default:
+        'flex items-center p-3 cursor-pointer ml-0 border-b border-slate-100',
     },
     action: {
       type: Function,
@@ -54,7 +55,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .menu-item {
-  border-bottom: 1.5px solid $color-border;
   margin-left: $zero !important;
   outline: none;
   &:last-child {

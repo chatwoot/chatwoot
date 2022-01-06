@@ -6,7 +6,7 @@
 
     <!-- to close when clicked on space around it-->
     <button
-      v-if="open"
+      v-if="isOpen"
       tabindex="-1"
       class="fixed inset-0 h-full w-full cursor-default focus:outline-none"
       @click="toggleMenu"
@@ -22,8 +22,8 @@
       leave-to-class="opacity-0 scale-75"
     >
       <div
-        v-if="open"
-        class="menu-content absolute shadow-xl rounded-md mt-1 py-1 px-2 bg-white z-10"
+        v-if="isOpen"
+        class="menu-content absolute shadow-xl rounded-md border-solid border border-slate-100 mt-1 py-1 px-2 bg-white z-10"
         :class="menuPlacement === 'right' ? 'right-0' : 'left-0'"
       >
         <slot name="content"></slot>
@@ -49,14 +49,29 @@ export default {
       default: () => {},
     },
   },
-  mounted() {
-    const onEscape = e => {
-      if (e.key === 'Esc' || e.key === 'Escape') {
-        this.open = false;
-      }
+  data() {
+    return {
+      isOpen: false,
     };
-
-    document.addEventListener('keydown', onEscape);
+  },
+  watch: {
+    // eslint-disable-next-line func-names
+    open: function() {
+      this.isOpen = !this.isOpen;
+    },
+  },
+  mounted() {
+    document.addEventListener('keydown', this.onEscape);
+  },
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.onEscape);
+  },
+  methods: {
+    onEscape(e) {
+      if (e.key === 'Esc' || e.key === 'Escape') {
+        this.isOpen = false;
+      }
+    },
   },
 };
 </script>
@@ -65,6 +80,5 @@ export default {
 
 .menu-content {
   width: max-content;
-  border: 1.5px solid $color-border;
 }
 </style>

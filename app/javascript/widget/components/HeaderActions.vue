@@ -29,10 +29,10 @@
           icon-name="open"
         />
         <dropdown-menu-item
-          v-if="!isResolved"
+          v-if="conversationStatus === 'open'"
           :action="resolveConversation"
           text="End conversation"
-          icon-name="delete"
+          icon-name="checkmark"
         />
       </template>
     </dropdown-menu>
@@ -71,14 +71,11 @@ export default {
     showHeaderActions() {
       return this.isIframe || this.isRNWebView;
     },
-    isResolved() {
-      if (this.conversationAttributes.status) {
-        return this.conversationAttributes.status === 'resolved';
-      }
-      return true;
+    conversationStatus() {
+      return this.conversationAttributes.status;
     },
     widgetOptions() {
-      return this.showPopoutButton || !this.isResolved;
+      return this.showPopoutButton || this.conversationStatus === 'open';
     },
   },
   methods: {
