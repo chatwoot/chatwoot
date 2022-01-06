@@ -19,7 +19,8 @@
         :multiple="enableMultipleFileUpload"
         :drop="true"
         :drop-directory="false"
-        @input-file="onFileUpload"
+        :data="{direct_upload_url: '/some/url', direct_upload: true}"
+        @input-file="onDirectFileUpload"
       >
         <woot-button
           v-if="showAttachButton"
@@ -109,7 +110,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    onFileUpload: {
+    onDirectFileUpload: {
       type: Function,
       default: () => {},
     },
