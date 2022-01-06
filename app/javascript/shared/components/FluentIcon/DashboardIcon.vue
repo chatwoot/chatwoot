@@ -1,19 +1,15 @@
 <template>
-  <svg
-    :width="size"
-    :height="size"
-    fill="none"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path :d="icons[`${icon}-${type}`]" fill="currentColor" />
-  </svg>
+  <base-icon :size="size" :icon="icon" :type="type" :icons="icons" />
 </template>
 <script>
+import BaseIcon from './Icon';
 import icons from './dashboard-icons.json';
 
 export default {
   name: 'FluentIcon',
+  components: {
+    BaseIcon,
+  },
   props: {
     icon: {
       type: String,

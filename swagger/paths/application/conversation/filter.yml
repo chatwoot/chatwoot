@@ -24,6 +24,7 @@ parameters:
           filter_operator:
             type: string
             description: filter operator name
+            enum: [ equal_to, not_equal_to, contains, does_not_contain ]
           values:
             type: array
             items:
@@ -32,6 +33,17 @@ parameters:
           query_operator:
             type: string
             description: query operator name
+            enum: [ AND, OR ]
+      example:
+        - attribute_key: 'browser_language'
+          filter_operator: 'not_eq'
+          values: ['en']
+          query_operator: 'AND'
+        - attribute_key: 'status'
+          filter_operator: 'eq'
+          values: ['pending']
+          query_operator: nil
+
 responses:
   200:
     description: Success
