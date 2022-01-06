@@ -61,7 +61,7 @@
     <reply-bottom-panel
       :mode="replyType"
       :send-button-text="replyButtonLabel"
-      :on-file-upload="onFileUpload"
+      :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -438,6 +438,20 @@ export default {
         conversationId,
         isPrivate,
       });
+    },
+    onDirectFileUpload(file) {
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(file.file, file.data['direct_upload_url'], token, attachmentName)
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
     },
     onFileUpload(file) {
       if (!file) {
