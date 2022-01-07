@@ -172,7 +172,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :notification_subscriptions, only: [:create]
+      resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
         resource :config, only: [:create]
