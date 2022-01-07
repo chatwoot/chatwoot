@@ -6,9 +6,9 @@ class AddAllowMessagesAfterResolvedToInbox < ActiveRecord::Migration[6.1]
   end
 
   def update_csat_enabled_inboxes
-    ::Inbox.find_in_batches do |inboxes_batch|
+    ::Inbox.where(channel_type: 'Channel::WebWidget', csat_survey_enabled: true).find_in_batches do |inboxes_batch|
       inboxes_batch.each do |inbox|
-        inbox.allow_messages_after_resolved = false if inbox.channel_type == 'Channel::WebWidget' && inbox.csat_survey_enabled?
+        inbox.allow_messages_after_resolved = false
         inbox.save!
       end
     end
