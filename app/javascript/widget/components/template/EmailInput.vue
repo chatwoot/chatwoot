@@ -11,7 +11,7 @@
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
-        @keyup.enter="onSubmit"
+        @keydown.enter="onSubmit"
       />
       <button
         class="button small"

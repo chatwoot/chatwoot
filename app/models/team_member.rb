@@ -16,10 +16,11 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (team_id => teams.id)
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
+#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
 #
 class TeamMember < ApplicationRecord
   belongs_to :user
   belongs_to :team
+  validates :user_id, uniqueness: { scope: :team_id }
 end
