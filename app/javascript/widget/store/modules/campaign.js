@@ -101,7 +101,7 @@ export const actions = {
   executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
     try {
       await triggerCampaign({ campaignId, websiteToken });
-      commit('setCampaignExecuted');
+      commit('setCampaignExecuted', true);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -109,6 +109,7 @@ export const actions = {
   },
   resetCampaign: async ({ commit }) => {
     try {
+      commit('setCampaignExecuted', false);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -129,8 +130,8 @@ export const mutations = {
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
   },
-  setCampaignExecuted($state) {
-    Vue.set($state, 'campaignHasExecuted', true);
+  setCampaignExecuted($state, data) {
+    Vue.set($state, 'campaignHasExecuted', data);
   },
 };
 
