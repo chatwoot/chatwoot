@@ -1,6 +1,6 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 
 export default {
   methods: {
@@ -10,7 +10,7 @@ export default {
     },
     dynamicTime(time) {
       const unixTime = fromUnixTime(time);
-      return formatDistanceToNow(unixTime, { addSuffix: true });
+      return formatDistanceToNowStrict(unixTime, { addSuffix: true });
     },
   },
 };

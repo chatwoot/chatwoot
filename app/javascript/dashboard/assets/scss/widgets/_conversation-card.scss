@@ -11,78 +11,10 @@
 }
 
 .conversation {
-  @include flex;
-  @include flex-shrink;
-  border-radius: var(--border-radius-large);
-  cursor: pointer;
-  margin: var(--space-smaller) var(--space-small);
-  padding: var(--space-small);
-  position: relative;
 
   &.active {
     animation: left-shift-animation .25s $swift-ease-out-function;
-    background: var(--color-background);
   }
 
 
-
-  .conversation--details {
-    margin-left: var(--space-small);
-  }
-
-  .conversation--user {
-    font-size: $font-size-small;
-    margin-bottom: 0;
-    text-transform: capitalize;
-
-    .label {
-      left: $space-micro;
-      max-width: $space-jumbo;
-      overflow: hidden;
-      position: relative;
-      text-overflow: ellipsis;
-      top: $space-micro;
-      white-space: nowrap;
-    }
-  }
-
-  .conversation--message {
-    color: $color-body;
-    flex-grow: 0;
-    font-size: $font-size-small;
-    font-weight: $font-weight-normal;
-    height: $space-medium;
-    line-height: $space-medium;
-    margin: 0;
-    max-width: 96%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: auto;
-  }
-
-  &.unread-chat {
-    .unread {
-      display: inline-block;
-    }
-
-    .conversation--message {
-      font-weight: $font-weight-bold;
-    }
-
-    .conversation--user {
-      font-weight: $font-weight-bold;
-    }
-  }
-
-  &.compact {
-    padding-left: 0;
-
-    .conversation--details {
-      border-radius: var(--border-radius-small);
-      margin-left: 0;
-      padding-left: var(--space-two);
-      padding-right: var(--space-small);
-    }
-  }
 }

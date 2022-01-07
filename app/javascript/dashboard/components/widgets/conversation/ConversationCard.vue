@@ -4,7 +4,6 @@
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
-      'has-inbox-name': showInboxName,
     }"
     @click="cardClick(chat)"
   >
@@ -12,76 +11,69 @@
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
       size="40px"
     />
-    <div class="conversation--details columns">
-      <div class="details-meta">
-        <h4 class="conversation--user">
-          {{ currentContact.name }}
-        </h4>
-        <div class="conversation--metadata">
-          <inbox-name v-if="showInboxName" :inbox="inbox" />
-        </div>
-      </div>
-      <div class="message-details">
-        <span v-if="unreadCount" class="unread small badge success">
-          {{ unreadCount > 9 ? '9+' : unreadCount }}
-        </span>
-        <p v-if="lastMessageInChat" class="conversation--message">
-          <fluent-icon
-            v-if="isMessagePrivate"
-            size="14"
-            class="message--attachment-icon last-message-icon"
-            icon="lock-closed"
-          />
-          <fluent-icon
-            v-else-if="messageByAgent"
-            size="14"
-            class="message--attachment-icon last-message-icon"
-            icon="arrow-reply"
-          />
-          <fluent-icon
-            v-else-if="isMessageAnActivity"
-            size="14"
-            class="message--attachment-icon last-message-icon"
-            icon="info"
-          />
-          <span v-if="lastMessageInChat.content">
-            {{ parsedLastMessage }}
-          </span>
-          <span v-else-if="lastMessageInChat.attachments">
-            <fluent-icon
-              size="14"
-              class="message--attachment-icon"
-              :icon="attachmentIcon"
-            />
-            {{ this.$t(`${attachmentMessageContent}`) }}
-          </span>
-          <span v-else>
-            {{ $t('CHAT_LIST.NO_CONTENT') }}
-          </span>
-        </p>
-        <p v-else class="conversation--message">
-          <fluent-icon size="14" class="message--attachment-icon" icon="info" />
-          <span>
-            {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
-          </span>
-        </p>
-        <div class="conversation--meta">
-          <span class="timestamp">
-            {{ dynamicTime(chat.timestamp) }}
-          </span>
+    <div class="message">
+      <div class="header">
+        <div v-if="showAssignee && assignee.name" class="assignee-wrap">
           <thumbnail
-            v-if="showAssignee && assignee.name"
             v-tooltip.top-end="assignee.name"
             class="assignee-avatar"
             :src="assignee.thumbnail"
             :username="assignee.name"
             size="14px"
           />
+          <fluent-icon size="10" icon="chevron-right" />
+        </div>
+        <h4 class="user-name text-truncate">
+          {{ currentContact.name }}
+        </h4>
+
+        <div class="inbox-name-wrap">
+          <inbox-name v-if="showInboxName" :inbox="inbox" />
+        </div>
+      </div>
+      <div class="content">
+        <span v-if="unreadCount" class="unread small badge success">
+          {{ unreadCount > 9 ? '9+' : unreadCount }}
+        </span>
+        <p v-if="lastMessageInChat" class="message__content text-truncate">
+          <fluent-icon v-if="isMessagePrivate" size="12" icon="lock-closed" />
+          <fluent-icon
+            v-else-if="messageByAgent"
+            size="12"
+            icon="arrow-reply"
+          />
+          <fluent-icon v-else-if="isMessageAnActivity" size="12" icon="info" />
+          <span
+            v-if="lastMessageInChat.content"
+            class="content--text text-truncate"
+          >
+            {{ parsedLastMessage }}
+          </span>
+          <span
+            v-else-if="lastMessageInChat.attachments"
+            class="message--with-icon"
+          >
+            <fluent-icon size="12" :icon="attachmentIcon" />
+            {{ $t(`${attachmentMessageContent}`) }}
+          </span>
+          <span v-else class="content--text text-truncate">
+            {{ $t('CHAT_LIST.NO_CONTENT') }}
+          </span>
+        </p>
+        <p v-else class="message__content">
+          <fluent-icon size="12" icon="info" />
+          <span class="content--text text-truncate">
+            {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
+          </span>
+        </p>
+        <div class="meta">
+          <span class="timestamp">
+            {{ dynamicTime(chat.timestamp) }}
+          </span>
         </div>
       </div>
     </div>
@@ -90,7 +82,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
@@ -241,22 +232,6 @@ export default {
         this.inboxesList.length > 1
       );
     },
-
-    inboxName() {
-      const stateInbox = this.inbox;
-      return stateInbox.name || '';
-    },
-
-    inboxChannelType() {
-      const { channel_type: type } = this.inbox;
-      return `badge--${type}`;
-    },
-
-    computedInboxClass() {
-      const { phone_number: phoneNumber, channel_type: type } = this.inbox;
-      const classByType = getInboxClassByType(type, phoneNumber);
-      return classByType;
-    },
   },
   methods: {
     cardClick(chat) {
@@ -276,67 +251,128 @@ export default {
 </script>
 <style lang="scss" scoped>
 .conversation {
-  align-items: center;
+  display: flex;
+  position: relative;
+  border-radius: var(--border-radius-large);
+  cursor: pointer;
+  margin: var(--space-smaller) var(--space-small);
+  padding: var(--space-small);
 
   &:hover {
     background: var(--color-background-light);
   }
+
+  &.active {
+    background: var(--color-background);
+  }
+
+  &.unread-chat {
+    .message__content {
+      font-weight: var(--font-weight-medium);
+    }
+
+    .user-name {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  &.compact {
+    padding-left: 0;
+    margin: var(--space-smaller);
+
+    .message {
+      margin-left: 0;
+      padding-left: var(--space-small);
+    }
+  }
 }
 
-.conversation--meta {
+.message {
+  width: 100%;
+  min-width: 0;
+  margin-left: var(--space-small);
+}
+
+.message__content {
+  display: flex;
+  align-items: center;
+  color: var(--color-body);
+  flex-grow: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-normal);
+  height: var(--font-size-medium);
+  line-height: var(--font-size-medium);
+  margin: 0;
+  max-width: 100%;
+  width: auto;
+
+  .fluent-icon {
+    flex-shrink: 0;
+    margin-right: var(--space-micro);
+  }
+}
+
+.user-name {
+  font-size: var(--font-size-small);
+  line-height: var(--font-size-medium);
+  margin-bottom: 0;
+  text-transform: capitalize;
+  max-width: 60%;
+}
+
+.meta {
   display: flex;
   flex-grow: 1;
   flex-shrink: 0;
   align-items: center;
   justify-content: flex-end;
-  padding-left: var(--space-normal);
+  padding-left: var(--space-medium);
 
   .timestamp {
     color: var(--s-600);
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-normal);
-    line-height: var(--space-normal);
-    margin-left: var(--space-small);
-  }
-
-  .assignee-avatar {
-    margin-left: var(--space-small);
+    line-height: var(--font-size-medium);
   }
 }
-.details-meta {
+
+.header {
   display: flex;
   justify-content: space-between;
+  padding-top: var(--space-micro);
 }
-.message-details {
+.content {
   display: flex;
   align-items: center;
+  padding-top: var(--space-smaller);
 
   .badge {
     color: var(--white);
-    /* margin-left: var(--space-medium); */
     margin-right: var(--space-smaller);
   }
 }
 
-.conversation--details {
-  .conversation--user {
-    padding-top: var(--space-micro);
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 90%;
-  }
+.assignee-wrap {
+  display: flex;
+  align-items: center;
+  margin-right: var(--space-micro);
 }
 
-.last-message-icon {
-  color: var(--s-600);
+.assignee-avatar {
+  margin-right: var(--space-micro);
 }
 
-.conversation--metadata {
+.message--with-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.inbox-name-wrap {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-left: var(--space-normal);
+  padding-left: var(--space-normal);
+  margin-left: auto;
 
   .label {
     background: none;
@@ -346,10 +382,5 @@ export default {
     margin-right: 0;
     max-width: 12rem;
   }
-}
-
-.message--attachment-icon {
-  margin-top: var(--space-minus-micro);
-  vertical-align: middle;
 }
 </style>

@@ -187,6 +187,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     object-fit: cover;
+    vertical-align: initial;
 
     &.border {
       border: 1px solid white;
