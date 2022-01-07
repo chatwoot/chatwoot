@@ -39,6 +39,7 @@ export const actions = {
         id: contactId,
         data,
       });
+      return data;
     } catch (error) {
       throw new Error(error);
     } finally {

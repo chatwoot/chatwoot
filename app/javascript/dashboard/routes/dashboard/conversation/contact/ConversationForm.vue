@@ -174,7 +174,15 @@ export default {
     onSuccess() {
       this.$emit('success');
     },
-
+    getConversationAlert(conversationData) {
+      return `${this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE')}
+           </br> <a href="/app/accounts/${
+             conversationData.account_id
+           }/conversations/${conversationData.id}">${this.$t(
+        'NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'
+      )}</a>
+        `;
+    },
     async handleSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -182,9 +190,9 @@ export default {
       }
       try {
         const payload = this.getNewConversation;
-        await this.onSubmit(payload);
+        const data = await this.onSubmit(payload);
         this.onSuccess();
-        this.showAlert(this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'));
+        this.showAlert(this.getConversationAlert(data));
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);

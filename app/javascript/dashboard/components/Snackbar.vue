@@ -2,7 +2,7 @@
   <div>
     <div class="ui-snackbar">
       <div class="ui-snackbar-text">
-        {{ message }}
+        <span v-html="message"></span>
       </div>
     </div>
   </div>
