@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "SHORT_CODE": {
