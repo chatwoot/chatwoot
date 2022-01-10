@@ -7,6 +7,12 @@ class Api::V1::NotificationSubscriptionsController < Api::BaseController
     render json: notification_subscription
   end
 
+  def destroy
+    notification_subscription = NotificationSubscription.where(["subscription_attributes->>'push_token' = ?", params[:push_token]]).first
+    notification_subscription.destroy
+    head :ok
+  end
+
   private
 
   def set_user
