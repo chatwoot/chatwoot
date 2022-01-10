@@ -79,6 +79,7 @@ describe AutomationRuleListener do
         conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }]
       )
     end
+
     let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
     let!(:event) do
       Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })

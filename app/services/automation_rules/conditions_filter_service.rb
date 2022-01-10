@@ -21,7 +21,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   end
 
-  def message_conditions(message)
+  def message_conditions(_message)
     message_filters = @filters['messages']
 
     @rule.conditions.each_with_index do |query_hash, current_index|
