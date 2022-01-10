@@ -14,11 +14,11 @@
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
         >
-          {{ $t('LABEL_MGMT.LIST.404') }}
+          {{ $t('AUTOMATION.LIST.404') }}
         </p>
         <woot-loading-state
           v-if="uiFlags.isFetching"
-          :message="$t('LABEL_MGMT.LOADING')"
+          :message="$t('AUTOMATION.LOADING')"
         />
         <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
           <thead>
@@ -30,10 +30,18 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(label, index) in records" :key="label.title">
-              <td>{{ label.title }}</td>
-              <td>{{ label.description }}</td>
-              <td>44</td>
+            <tr v-for="(automation, index) in records" :key="automation.title">
+              <td>{{ automation.title }}</td>
+              <td>{{ automation.description }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked
+                  value="enabled"
+                  name="enabled"
+                  class="automation__status-checkbox"
+                />
+              </td>
               <td>2 Jan 2022</td>
               <td class="button-wrapper">
                 <woot-button
@@ -42,9 +50,9 @@
                   size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
-                  :is-loading="loading[label.id]"
+                  :is-loading="loading[automation.id]"
                   icon="edit"
-                  @click="openEditPopup(label)"
+                  @click="openEditPopup(automation)"
                 >
                 </woot-button>
                 <woot-button
@@ -54,8 +62,8 @@
                   size="tiny"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  :is-loading="loading[label.id]"
-                  @click="openDeletePopup(label, index)"
+                  :is-loading="loading[automation.id]"
+                  @click="openDeletePopup(automation, index)"
                 >
                 </woot-button>
               </td>
@@ -153,7 +161,7 @@ export default {
     },
     deleteLabel(id) {
       this.$store
-        .dispatch('labels/delete', id)
+        .dispatch('automation/delete', id)
         .then(() => {
           this.showAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
@@ -171,3 +179,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.automation__status-checkbox {
+  margin: 0;
+}
+</style>

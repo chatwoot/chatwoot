@@ -42,9 +42,10 @@
       "TABLE_HEADER": [
         "Name",
         "Description",
-        "Times triggered",
+        "Status",
         "Created on"
-      ]
+      ],
+      "404": "No automation rules found"
     }
   }
 }
