@@ -103,6 +103,7 @@ import {
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
 
 export default {
   components: {
@@ -361,6 +362,7 @@ export default {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     async sendMessage() {
+      debugger
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -444,7 +446,20 @@ export default {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(file.file, file.data['direct_upload_url'], token, attachmentName)
+        const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(
+              "Not able to upload the file."
+            );
+          } else {
+            const hiddenField = document.createElement('input')
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("value", blob.signed_id);
+            hiddenField.name = input.name
+            document.querySelector('form').appendChild(hiddenField)
+          }
+        });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {

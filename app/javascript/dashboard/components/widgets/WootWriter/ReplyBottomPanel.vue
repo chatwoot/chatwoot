@@ -18,7 +18,7 @@
         :accept="allowedFileTypes"
         :drop="true"
         :drop-directory="false"
-        :data="{direct_upload_url: '/some/url', direct_upload: true}"
+        :data="{direct_upload_url: '', direct_upload: true}"
         @input-file="onDirectFileUpload"
       >
         <woot-button
@@ -80,6 +80,7 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import * as ActiveStorage from "activestorage";
 import {
   hasPressedAltAndWKey,
   hasPressedAltAndAKey,
@@ -145,6 +146,9 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  mounted() {
+    ActiveStorage.start();
   },
   computed: {
     isNote() {
