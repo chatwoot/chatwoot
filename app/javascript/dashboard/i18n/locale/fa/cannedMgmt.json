@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "اضافه کردن پاسخ آماده",
     "LOADING": "دریافت پاسخ‌های آماده",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
-    "SIDEBAR_TXT": "<p><b>پاسخ‌های آماده</b> </p>\n<p> پاسخ‌های آماده قالب‌هایی متنی هستند که برای جواب دادن سریع به یک گفتگو به کار می‌آیند. </p><p> برای ساختن یک جواب آماده، روی دکمه <b>اضافه کردن جواب آماده</b> کلیک کنید. همچنین با زدن روی دکمه «تغییر» یا «حذف» می‌توانید یک پاسخ آماده را تغییر داده یا حذف کنید. </p><p> پاسخ‌های آماده با استفاده و با کمک <b>کدهای کوتاه</b> ساخته شده‌اند. ایجنت ها با زدن کلید  <b>'/'</b> از صفحه کلید می‌توانند به لیست پاسخ‌های آماده دسترسی پیدا کنند. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "هیچ پاسخ آماده‌ای برای این حساب تعریف نشده است",
       "TITLE": "مدیریت پاسخ‌های آماده",
@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "اضافه کردن پاسخ آماده",
-      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "FORM": {
         "SHORT_CODE": {
