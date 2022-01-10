@@ -172,7 +172,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :notification_subscriptions, only: [:create]
+      resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
         resource :config, only: [:create]
@@ -294,6 +294,8 @@ Rails.application.routes.draw do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
       root to: 'dashboard#index'
+
+      resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts

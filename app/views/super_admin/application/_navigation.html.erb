@@ -32,8 +32,14 @@ as defined by the routes in the `admin/` namespace
       <i class="ion ion-ios-keypad"></i>
       <%= link_to "Dashboard", super_admin_root_url %>
     </li>
+
+  <li class="navigation__link">
+      <i class="ion ion-android-settings"></i>
+      <%= link_to "App Config", super_admin_app_config_url %>
+    </li>
+
     <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "agent_bots", "dashboard", "devise/sessions"].include?  resource.resource %>
+      <% next if ["account_users", "agent_bots", "dashboard", "devise/sessions", "app_configs" ].include?  resource.resource %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(

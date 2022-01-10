@@ -1,7 +1,7 @@
 <template>
   <aside class="woot-sidebar">
     <primary-sidebar
-      :logo-source="globalConfig.logo"
+      :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :account-id="accountId"
       :menu-items="primaryMenuItems"
@@ -190,16 +190,6 @@ export default {
 .woot-sidebar {
   background: var(--white);
   display: flex;
-}
-
-.secondary-menu {
-  background: var(--white);
-  border-right: 1px solid var(--s-50);
-  height: 100vh;
-  width: 19rem;
-  flex-shrink: 0;
-  overflow: auto;
-  padding: var(--space-small);
 }
 </style>
 
