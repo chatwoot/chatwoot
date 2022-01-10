@@ -5,6 +5,7 @@
     :no-auto-load-md-icons="true"
     hideBreadcrumbs
     :placeholder="placeholder"
+    @selected="setCommandbarData"
   />
 </template>
 
