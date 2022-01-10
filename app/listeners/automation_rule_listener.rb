@@ -31,6 +31,8 @@ class AutomationRuleListener < BaseListener
   end
 
   def rule_present?(event_name, conversation)
+    return if conversation.blank?
+
     @rules = AutomationRule.where(
       event_name: event_name,
       account_id: conversation.account_id
