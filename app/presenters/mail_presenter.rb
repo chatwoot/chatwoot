@@ -26,6 +26,8 @@ class MailPresenter < SimpleDelegator
     }
   end
 
+  # returns encoded mail body text_part if available.
+  # else returns parsed the html body if contains text/html content.
   def select_body(mail_part)
     return '' unless mail_part
 
