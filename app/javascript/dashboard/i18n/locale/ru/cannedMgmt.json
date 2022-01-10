@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Добавить шаблонный ответ",
     "LOADING": "Загружаем шаблонные ответы",
     "SEARCH_404": "Нет шаблонных ответов, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>Шаблонные ответы</b> </p><p> Шаблонные ответы – это сохраненные шаблоны сообщений, которые можно быстро использовать в диалоге. </p><p> Нажмите <b>Добавить шаблонный ответ</b> для добавления шаблонного ответа. Вы также можете редактировать или удалять существующие шаблонные ответы с помощью кнопок Редактировать или Удалить. </p><p> Шаблонные ответы используются с помощью <b>команд</b>. Операторы могут отправить шаблонные ответ по нажатию <b>'/'</b>, после чего требуется ввести команду. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "У вас нет шаблонных ответов.",
       "TITLE": "Управление шаблонными ответами",
@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Добавить шаблонный ответ",
-      "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Отменить",
       "FORM": {
         "SHORT_CODE": {
