@@ -10,7 +10,7 @@
       <fluent-icon icon="dismiss" size="24" class="text-black-900" />
     </button>
     <dropdown-menu
-      v-if="widgetOptions"
+      v-if="hasWidgetOptions"
       menu-placement="right"
       :open="showDropdown"
       :toggle-menu="handleMenuClick"
@@ -69,12 +69,12 @@ export default {
       return RNHelper.isRNWebView();
     },
     showHeaderActions() {
-      return this.isIframe || this.isRNWebView;
+      return this.isIframe || this.isRNWebView || this.hasWidgetOptions;
     },
     conversationStatus() {
       return this.conversationAttributes.status;
     },
-    widgetOptions() {
+    hasWidgetOptions() {
       return this.showPopoutButton || this.conversationStatus === 'open';
     },
   },
