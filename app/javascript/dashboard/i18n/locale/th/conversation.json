@@ -129,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "เชิญสมาชิกในทีมของคุณ",
-      "DESCRIPTION": "เมื่อคุณพร้อมที่จะคุยกับลูกค้าของคุณ กรุณาให้เพื่อนในทีมมาช่วยคุณ คุณสามารถเชิญเพื่อนในทีมได้โดยการใส่อีเมลของเขาใน Agent List",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
     "INBOXES": {
