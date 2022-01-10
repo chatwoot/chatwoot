@@ -127,7 +127,7 @@ describe('#actions', () => {
       API.post.mockResolvedValue({});
       await actions.executeCampaign({ commit }, params);
       expect(commit.mock.calls).toEqual([
-        ['setCampaignExecuted'],
+        ['setCampaignExecuted', true],
         ['setActiveCampaign', {}],
       ]);
     });
@@ -143,7 +143,10 @@ describe('#actions', () => {
     it('sends correct actions if  execute campaign API is success', async () => {
       API.post.mockResolvedValue({});
       await actions.resetCampaign({ commit });
-      expect(commit.mock.calls).toEqual([['setActiveCampaign', {}]]);
+      expect(commit.mock.calls).toEqual([
+        ['setCampaignExecuted', false],
+        ['setActiveCampaign', {}],
+      ]);
     });
   });
 });

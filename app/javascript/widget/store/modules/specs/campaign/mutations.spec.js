@@ -37,7 +37,7 @@ describe('#mutations', () => {
   describe('#setCampaignExecuted', () => {
     it('set campaign executed flag', () => {
       const state = { records: [], uiFlags: {}, campaignHasExecuted: false };
-      mutations.setCampaignExecuted(state);
+      mutations.setCampaignExecuted(state, true);
       expect(state.campaignHasExecuted).toEqual(true);
     });
   });
