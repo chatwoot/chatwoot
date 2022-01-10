@@ -129,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Hívd meg csapattagjaidat",
-      "DESCRIPTION": "Mivel éppen ügyféllel készülsz beszélni, hívd meg a csapattagjaidat, hogy segítségül legyenek. Az e-mailcímük ügynöklistába való megadásával tudod meghívni őket.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kattints ide csapattag meghívásához"
     },
     "INBOXES": {
