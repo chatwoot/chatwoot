@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Adicionar Atalho",
     "LOADING": "Buscando Atalhos",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p> <b> Atalho </b> </p> <p> são modelos de resposta pré-configuradas que poderão ser utilizadas ​​para enviar rapidamente uma resposta em uma conversa. </p> <p> Para criar um Atalho, basta clicar em <b> Adicionar Atalho </b>. Você também pode editar ou excluir um Atalho, clicando no botão Editar ou Excluir. </p> <p> Os atalhos são usadas com a ajuda de um <b> código </b>. Durante a conversa, os agentes podem acessar a lista dos atalhos digitando <b> '/' </b> . </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",
@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Adicionar Atalho",
-      "DESC": "Atalhos são modelos de resposta que podem ser usados ​​para enviar rapidamente respostas à conversa.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
