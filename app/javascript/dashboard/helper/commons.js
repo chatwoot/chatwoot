@@ -46,7 +46,7 @@ export const createPendingMessage = data => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
   const { message, file } = data;
-  const tempAttachments = [{ id: tempMessageId }];
+  const tempAttachments = [{ signedId: file.signed_id, contentType: file.content_type }];
   const pendingMessage = {
     ...data,
     content: message || null,

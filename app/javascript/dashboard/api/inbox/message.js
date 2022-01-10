@@ -14,9 +14,7 @@ export const buildCreatePayload = ({
   let payload;
   if (files && files.length !== 0) {
     payload = new FormData();
-    files.forEach(file => {
-      payload.append('attachments[]', file, file.name);
-    });
+    payload.append('attachments[]', { signedId: file.signed_id, contentType: file.content_type });
     if (message) {
       payload.append('content', message);
     }

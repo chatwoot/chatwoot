@@ -26,6 +26,7 @@ class Messages::MessageBuilder
   private
 
   def process_attachments
+    binding.pry
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
