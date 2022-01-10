@@ -42,10 +42,25 @@
       "TABLE_HEADER": [
         "Name",
         "Description",
-        "Status",
+        "Active",
         "Created on"
       ],
       "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Delete",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edit",
+      "CREATE": "Create",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel"
     }
   }
 }

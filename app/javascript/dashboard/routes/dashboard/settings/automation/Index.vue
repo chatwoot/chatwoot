@@ -11,7 +11,7 @@
     <div class="row">
       <div class="small-8 columns with-right-space ">
         <p
-          v-if="!uiFlags.isFetching && !records.length"
+          v-if="!uiFlags.isFetching && !records.data.length"
           class="no-items-error-message"
         >
           {{ $t('AUTOMATION.LIST.404') }}
@@ -20,7 +20,10 @@
           v-if="uiFlags.isFetching"
           :message="$t('AUTOMATION.LOADING')"
         />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+        <table
+          v-if="!uiFlags.isFetching && records.data.length"
+          class="woot-table"
+        >
           <thead>
             <th
               v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
@@ -30,8 +33,11 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(automation, index) in records" :key="automation.title">
-              <td>{{ automation.title }}</td>
+            <tr
+              v-for="(automation, index) in records.data"
+              :key="automation.title"
+            >
+              <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
                 <input
@@ -45,7 +51,7 @@
               <td>2 Jan 2022</td>
               <td class="button-wrapper">
                 <woot-button
-                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                  v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
                   variant="smooth"
                   size="tiny"
                   color-scheme="secondary"
@@ -56,7 +62,7 @@
                 >
                 </woot-button>
                 <woot-button
-                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                  v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
                   color-scheme="alert"
                   size="tiny"
@@ -110,28 +116,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'labels/getLabels',
-      uiFlags: 'labels/getUIFlags',
+      records: ['automations/getAutomations'],
+      uiFlags: 'automations/getUIFlags',
     }),
     // Delete Modal
     deleteConfirmText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.YES')} ${
+      return `${this.$t('AUTOMATION.DELETE.CONFIRM.YES')} ${
         this.selectedResponse.title
       }`;
     },
     deleteRejectText() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.NO')} ${
+      return `${this.$t('AUTOMATION.DELETE.CONFIRM.NO')} ${
         this.selectedResponse.title
       }`;
     },
     deleteMessage() {
-      return `${this.$t('LABEL_MGMT.DELETE.CONFIRM.MESSAGE')} ${
+      return `${this.$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedResponse.title
       } ?`;
     },
   },
   mounted() {
-    this.$store.dispatch('labels/get');
+    this.$store.dispatch('automations/get');
   },
   methods: {
     openAddPopup() {
@@ -157,16 +163,16 @@ export default {
     confirmDeletion() {
       this.loading[this.selectedResponse.id] = true;
       this.closeDeletePopup();
-      this.deleteLabel(this.selectedResponse.id);
+      this.deleteAutomation(this.selectedResponse.id);
     },
-    deleteLabel(id) {
+    deleteAutomation(id) {
       this.$store
         .dispatch('automation/delete', id)
         .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
         })
         .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.DELETE.API.ERROR_MESSAGE'));
+          this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
           this.loading[this.selectedResponse.id] = false;
