@@ -306,6 +306,10 @@
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -362,7 +366,9 @@
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
