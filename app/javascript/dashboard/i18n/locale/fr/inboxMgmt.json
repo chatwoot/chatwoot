@@ -305,6 +305,10 @@
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Activer"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
       "FORWARD_EMAIL_TITLE": "Transférer par e-mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante."
+      "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Réautoriser",
