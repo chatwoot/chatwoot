@@ -118,7 +118,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def permitted_params(channel_attributes = [])
     params.permit(
       :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
-      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone,
+      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
       channel: [:type, *channel_attributes]
     )
   end
