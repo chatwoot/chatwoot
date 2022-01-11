@@ -45,7 +45,7 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
 
-  before_validation :prepare_email_attribute
+  before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -146,10 +146,19 @@ class Contact < ApplicationRecord
     ContactIpLookupJob.perform_later(self)
   end
 
+  def prepare_contact_attributes
+    prepare_email_attribute
+    prepare_jsonb_attributes
+  end
+
   def prepare_email_attribute
     # So that the db unique constraint won't throw error when email is ''
-    self.email = nil if email.blank?
-    email.downcase! if email.present?
+    self.email = email.present? ? email.downcase : nil
+  end
+
+  def prepare_jsonb_attributes
+    self.additional_attributes = {} if additional_attributes.blank?
+    self.custom_attributes = {} if custom_attributes.blank?
   end
 
   def dispatch_create_event
