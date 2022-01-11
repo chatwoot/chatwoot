@@ -2,7 +2,12 @@
   <div>
     <div class="ui-snackbar">
       <div class="ui-snackbar-text">
-        <span v-html="message"></span>
+        {{ message }}
+      </div>
+      <div v-if="action" class="ui-snackbar-action">
+        <router-link v-if="action.type == 'link'" :to="action.to">
+          {{ action.message }}
+        </router-link>
       </div>
     </div>
   </div>
@@ -12,6 +17,10 @@
 export default {
   props: {
     message: { type: String, default: '' },
+    action: {
+      type: Object,
+      default: () => {},
+    },
     showButton: Boolean,
     duration: {
       type: [String, Number],

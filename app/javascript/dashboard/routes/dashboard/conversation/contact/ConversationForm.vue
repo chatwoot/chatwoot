@@ -174,15 +174,6 @@ export default {
     onSuccess() {
       this.$emit('success');
     },
-    getConversationAlert(conversationData) {
-      return `${this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE')}
-           </br> <a href="/app/accounts/${
-             conversationData.account_id
-           }/conversations/${conversationData.id}">${this.$t(
-        'NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'
-      )}</a>
-        `;
-    },
     async handleSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -191,8 +182,16 @@ export default {
       try {
         const payload = this.getNewConversation;
         const data = await this.onSubmit(payload);
+        const action = {
+          type: 'link',
+          to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
+          message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+        };
         this.onSuccess();
-        this.showAlert(this.getConversationAlert(data));
+        this.showAlert(
+          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
+          action
+        );
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);
