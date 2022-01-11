@@ -305,6 +305,10 @@
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
       "ENABLE_HMAC": {
         "LABEL": "فعال"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
-      "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید."
+      "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
