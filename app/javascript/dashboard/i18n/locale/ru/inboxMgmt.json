@@ -305,6 +305,10 @@
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Идентификатор входящего канала",
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email."
+      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
