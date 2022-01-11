@@ -1,13 +1,3 @@
-// saveAutomation: async ({ commit }, payload) => {
-//     commit(types.SET_LIST_LOADING_STATUS);
-//     try {
-//       const { data } = await AutomationApi.saveAutomation(payload);
-//       console.log('data', data);
-//     } catch (error) {
-//       // Handle error
-//     }
-//   },
-
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import AutomationAPI from '../../api/automation';
@@ -37,7 +27,7 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: true });
     try {
       const response = await AutomationAPI.get();
-      commit(types.SET_AUTOMATIONS, response.data);
+      commit(types.SET_AUTOMATIONS, response.data.data);
     } catch (error) {
       // Ignore error
     } finally {
@@ -48,8 +38,10 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: true });
     try {
       const response = await AutomationAPI.create(automationObj);
+      console.log(response.data);
       commit(types.ADD_AUTOMATION, response.data);
     } catch (error) {
+      console.log(error);
       throw new Error(error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });

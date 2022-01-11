@@ -11,7 +11,7 @@
     <div class="row">
       <div class="small-8 columns with-right-space ">
         <p
-          v-if="!uiFlags.isFetching && !records.data.length"
+          v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
         >
           {{ $t('AUTOMATION.LIST.404') }}
@@ -20,10 +20,7 @@
           v-if="uiFlags.isFetching"
           :message="$t('AUTOMATION.LOADING')"
         />
-        <table
-          v-if="!uiFlags.isFetching && records.data.length"
-          class="woot-table"
-        >
+        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
           <thead>
             <th
               v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
@@ -33,10 +30,7 @@
             </th>
           </thead>
           <tbody>
-            <tr
-              v-for="(automation, index) in records.data"
-              :key="automation.title"
-            >
+            <tr v-for="(automation, index) in records" :key="automation.title">
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
@@ -179,8 +173,8 @@ export default {
         });
     },
     async onCreateAutomation(payload) {
-      // This is a test action to send the automation data to the server
       this.$store.dispatch('automations/create', payload);
+      this.hideAddPopup();
     },
   },
 };
