@@ -124,6 +124,18 @@ ActiveRecord::Schema.define(version: 2021_12_21_125545) do
     t.string "extension"
   end
 
+  create_table "automation_rules", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "event_name", null: false
+    t.jsonb "conditions", default: "{}", null: false
+    t.jsonb "actions", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_automation_rules_on_account_id"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
