@@ -52,6 +52,7 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :automation_rules, only: [:create, :index]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
           namespace :channels do
@@ -172,7 +173,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :notification_subscriptions, only: [:create]
+      resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
         resource :config, only: [:create]
