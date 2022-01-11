@@ -157,6 +157,9 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations"
+    },
+    "INBOX_MEMBERS": {
+      "ERROR": "Error fetching inbox members"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

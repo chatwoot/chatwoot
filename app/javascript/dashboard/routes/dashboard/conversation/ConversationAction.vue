@@ -18,7 +18,7 @@
         </template>
       </contact-details-item>
       <multiselect-dropdown
-        :options="agentsList"
+        :options="inboxMembers"
         :selected-item="assignedAgent"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
@@ -84,6 +84,11 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      inboxMembers: [],
+    };
+  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -133,6 +138,16 @@ export default {
       return false;
     },
   },
+  watch: {
+    inboxId() {
+      this.inboxMembers = [];
+      this.loadInboxMembers();
+    },
+  },
+  mounted() {
+    this.inboxMembers = [];
+    this.loadInboxMembers();
+  },
   methods: {
     onSelfAssign() {
       const {
@@ -170,6 +185,22 @@ export default {
         this.assignedTeam = null;
       } else {
         this.assignedTeam = selectedItemTeam;
+      }
+    },
+    async loadInboxMembers() {
+      try {
+        const response = await this.$store.dispatch('inboxMembers/get', {
+          inboxId: this.inboxId,
+        });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        this.inboxMembers = inboxMembers;
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message ||
+          this.$t('CONVERSATION_SIDEBAR.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
   },
