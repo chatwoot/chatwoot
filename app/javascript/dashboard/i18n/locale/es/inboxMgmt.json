@@ -305,6 +305,10 @@
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Habilitar"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Reenviar al correo",
-      "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email."
+      "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
