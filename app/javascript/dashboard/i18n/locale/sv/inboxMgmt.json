@@ -305,6 +305,10 @@
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivera"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Identifierare för inkorgen",
       "INBOX_IDENTIFIER_SUB_TEXT": "Använd `inbox_identifier`-token som visas här för att autentisera dina API-klienter.",
       "FORWARD_EMAIL_TITLE": "Vidarebefordra till e-post",
-      "FORWARD_EMAIL_SUB_TEXT": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress."
+      "FORWARD_EMAIL_SUB_TEXT": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Återauktorisera",
