@@ -15,7 +15,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'calls account builder' do
-        with_modified_env ENABLE_ACCOUNT_SIGNUP: nil do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
           params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
@@ -31,7 +31,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'renders error response on invalid params' do
-        with_modified_env ENABLE_ACCOUNT_SIGNUP: nil do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
 
           params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
