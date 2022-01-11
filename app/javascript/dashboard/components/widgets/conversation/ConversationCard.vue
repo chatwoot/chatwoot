@@ -25,7 +25,7 @@
             :username="assignee.name"
             size="14px"
           />
-          <fluent-icon size="10" icon="chevron-right" />
+          <fluent-icon size="10" icon="chevron-right" class="assignee-arrow" />
         </div>
         <h4 class="user-name text-truncate">
           {{ currentContact.name }}
@@ -329,7 +329,7 @@ export default {
   padding-left: var(--space-medium);
 
   .timestamp {
-    color: var(--s-600);
+    color: var(--s-500);
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-normal);
     line-height: var(--font-size-medium);
@@ -356,6 +356,10 @@ export default {
   display: flex;
   align-items: center;
   margin-right: var(--space-micro);
+}
+
+.assignee-arrow {
+  color: var(--s-500);
 }
 
 .assignee-avatar {
