@@ -308,6 +308,17 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('Line Inbox')
         expect(response.body).to include('callback_webhook_url')
       end
+
+      it 'creates the webwidget inbox that allow messages after conversation is resolved' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['allow_messages_after_resolved']).to be true
+      end
     end
   end
 
@@ -466,6 +477,16 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         inbox.reload
         expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
+      end
+
+      it 'updates the webwidget inbox to disallow the messages after conversation is resolved' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge({ allow_messages_after_resolved: false }),
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.allow_messages_after_resolved).to be_falsey
       end
     end
   end
