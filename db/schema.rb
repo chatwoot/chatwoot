@@ -461,6 +461,7 @@ ActiveRecord::Schema.define(version: 2021_12_21_125545) do
     t.string "timezone", default: "UTC"
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
+    t.boolean 'allow_messages_after_resolved', default: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
