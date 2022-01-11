@@ -11,6 +11,7 @@ Metrics/ClassLength:
   Max: 125
   Exclude:
     - 'app/models/conversation.rb'
+    - 'app/models/contact.rb'
     - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
     - 'app/builders/messages/facebook/message_builder.rb'
