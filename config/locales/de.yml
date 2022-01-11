@@ -53,8 +53,8 @@ de:
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:
-        resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
-        open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
+        resolved: "Das Gespräch wurde von %{user_name} gelöst"
+        open: "Das Gespräch wurde von %{user_name} wieder eröffnet"
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
         auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
