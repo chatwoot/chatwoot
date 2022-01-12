@@ -42,7 +42,7 @@
     "lodash.groupby": "^4.6.0",
     "marked": "2.0.3",
     "md5": "^2.3.0",
-    "ninja-keys": "https://github.com/chatwoot/ninja-keys.git#b4c3233f676780af90c607866fa85e404c835902",
+    "ninja-keys": "^1.1.9",
     "posthog-js": "^1.13.7",
     "prosemirror-markdown": "1.5.1",
     "prosemirror-state": "1.3.4",
