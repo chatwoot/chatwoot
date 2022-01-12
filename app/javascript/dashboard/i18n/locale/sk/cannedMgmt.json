@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Pridať Uloženú odpoveď",
     "LOADING": "Uložené odpovede sa načítavajú",
     "SEARCH_404": "Neexistujú žiadne položky, ktoré by zodpovedali tejto požiadavke",
-    "SIDEBAR_TXT": "<p><b>Uložené odpovede</b> </p><p> Uložené odpovede sú uložené šablóny odpovedí, ktoré môžete použiť na rýchle odoslanie odpovede na konverzáciu . </p><p> Na vytvorenie Uloženej odpovede kliknite na <b>Pridať uloženú odpoveď</b>. Existujúcu uloženú odpoveď môžete tiež upraviť alebo vymazať kliknutím na tlačidlo Upraviť alebo Vymazať </p><p>Uložené odpovede sa používajú pomocou <b>krátkych kódov</b>. Agenti môžu pristupovať k uloženým odpovediam počas chatu zadaním <b>'/'</b>, za ktorou nasleduje krátky kód. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Žiadne uložené odpovede nie sú k dispozícii pre tento účet.",
       "TITLE": "Manažuj uložené odpovede",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Pridať Uloženú odpoveď",
-      "DESC": "Uložené odpovede sú uložené šablóny odpovedí, ktoré môžete použiť na rýchle odoslanie odpovede na konverzáciu .",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Zrušiť",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Krátky kód",
-          "PLACEHOLDER": "Prosím zadajte krátky kód",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Vyžaduje sa krátky kód"
         },
         "CONTENT": {
