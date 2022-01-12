@@ -305,6 +305,10 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
       "ENABLE_HMAC": {
         "LABEL": "אפשר"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
       "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
       "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
-      "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה."
+      "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "הרשאה מחדש",
