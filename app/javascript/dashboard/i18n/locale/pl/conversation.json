@@ -24,7 +24,7 @@
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
     "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Wybierz tweeta, na który chcesz odpowiedzieć.",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Wysłane przez:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Wybierz Agenta",
       "REMOVE": "Usuń",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Zaproś członków swojego zespołu",
-      "DESCRIPTION": "Ponieważ jesteś gotów porozmawiać ze swoim klientem, przynieś swoich kolegów z drużyny, aby Ci pomóc. Możesz zaprosić znajomych z drużyny, dodając ich adres e-mail do listy agentów.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknij tutaj, aby zaprosić członka zespołu"
     },
     "INBOXES": {
@@ -173,7 +175,7 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "Dodaj atrybuty",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
