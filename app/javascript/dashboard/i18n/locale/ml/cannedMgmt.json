@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
     "LOADING": "ക്യാൻഡ് പ്രതികരണങ്ങൾ ലഭ്യമാക്കുന്നു",
     "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
-    "SIDEBAR_TXT": "<p><b>ക്യാൻഡ് പ്രതികരണങ്ങൾ</b> </p><p> ക്യാൻഡ് പ്രതികരണങ്ങൾ എന്നാൽ മുൻ‌നിശ്ചയിച്ച മറുപടി ടെം‌പ്ലേറ്റുകൾ ആണ്. ഇവ ഒരു സംഭാഷണത്തിന് വേഗത്തിൽ മറുപടി അയയ്‌ക്കാൻ ഉപയോഗിക്കാം. </p><p> ഒരു ക്യാൻഡ് പ്രതികരണം സൃഷ്ടിക്കുന്നതിന് <b>ക്യാൻഡ് പ്രതികരണം ചേർക്കുക</b> എന്നതിൽ ക്ലിക്കുചെയ്യുക. എഡിറ്റുചെയ്യുക അല്ലെങ്കിൽ ഇല്ലാതാക്കുക ബട്ടൺ ക്ലിക്കുചെയ്ത് നിങ്ങൾക്ക് നിലവിലുള്ള ക്യാൻഡ് പ്രതികരണം എഡിറ്റുചെയ്യാനോ ഇല്ലാതാക്കാനോ കഴിയും</p><p> ക്യാൻഡ് പ്രതികരണങ്ങൾ <b> ഹ്രസ്വ കോഡുകളുടെ </b> സഹായത്തോടെ ഉപയോഗിക്കുന്നു. ചാറ്റിൽ ആയിരിക്കുമ്പോൾ ഏജന്റുമാർക്ക് ക്യാൻഡ് പ്രതികരണങ്ങൾ ആക്സസ് ചെയ്യാൻ കഴിയും. ഇതിനായി  <b>'/'</b> എന്ന് ടൈപ്പ് ചെയ്ത ശേഷം ഹ്രസ്വ കോഡ് നൽകുക.</p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിൽ ക്യാൻഡ് പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
       "TITLE": "ക്യാൻഡ് പ്രതികരണങ്ങൾ നിയന്ത്രിക്കുക",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
-      "DESC": "മുൻ‌നിശ്ചയിച്ച മറുപടി ടെം‌പ്ലേറ്റുകളാണ് ക്യാൻഡ് പ്രതികരണങ്ങൾ‌, അവ സംഭാഷണങ്ങൾക് വേഗത്തിൽ‌ മറുപടികൾ‌ അയയ്‌ക്കാൻ‌ ഉപയോഗിക്കാം.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "ഹ്രസ്വ കോഡ്",
-          "PLACEHOLDER": "ദയവായി ഒരു ഹ്രസ്വ കോഡ് നൽകുക",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "ഹ്രസ്വ കോഡ് ആവശ്യമാണ്"
         },
         "CONTENT": {
