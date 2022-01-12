@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Nachricht erneut senden",
+      "ERROR_MESSAGE": "Senden nicht möglich, versuchen Sie es noch einmal"
     }
   },
   "TEAM_AVAILABILITY": {
