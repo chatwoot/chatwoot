@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Heslo",
+        "LABEL": "New password",
         "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
         "PLACEHOLDER": "Zadejte prosím nové heslo"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Potvrdit nové heslo",
         "ERROR": "Potvrzení hesla by mělo odpovídat heslu",
-        "PLACEHOLDER": "Zadejte prosím znovu své heslo"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
