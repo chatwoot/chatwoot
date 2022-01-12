@@ -16,7 +16,8 @@
         ref="upload"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
-        :drop="true"
+        :multiple="enableMultipleFileUpload"
+        drop
         :drop-directory="false"
         @input-file="onFileUpload"
       >
@@ -141,6 +142,10 @@ export default {
       default: false,
     },
     enterToSendEnabled: {
+      type: Boolean,
+      default: true,
+    },
+    enableMultipleFileUpload: {
       type: Boolean,
       default: true,
     },
