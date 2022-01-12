@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Adgangskode",
+        "LABEL": "New password",
         "ERROR": "Indtast en adgangskode med længde 6 eller flere",
         "PLACEHOLDER": "Indtast venligst en ny adgangskode"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekræft ny adgangskode",
         "ERROR": "Bekræftelses adgangskoden skal matche adgangskoden",
-        "PLACEHOLDER": "Indtast venligst din adgangskode igen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
