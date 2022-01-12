@@ -90,6 +90,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
+      isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
     showAttachment() {
       return this.hasAttachmentsEnabled && this.userInput.length === 0;
@@ -97,13 +98,10 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
-    isOpen() {
-      return this.$store.state.events.isOpen;
-    },
   },
   watch: {
-    isOpen(isOpen) {
-      if (isOpen) {
+    isWidgetOpen(isWidgetOpen) {
+      if (isWidgetOpen) {
         this.focusInput();
       }
     },
@@ -113,7 +111,7 @@ export default {
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
-    if (this.isOpen) {
+    if (this.isWidgetOpen) {
       this.focusInput();
     }
   },
