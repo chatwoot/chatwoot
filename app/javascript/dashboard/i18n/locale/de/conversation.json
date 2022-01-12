@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
+    "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
+    "TRY_AGAIN": "neu versuchen",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Laden Sie Ihre Teammitglieder ein",
-      "DESCRIPTION": "Du bist nun bereit, mit deinen Kunden zu kommunizieren. Besorge dir nun Unterstützung. Du kannst deine Teamkollegen einladen, indem du die E-Mail-Adresse der Agentenliste hinzufügst.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Klicke hier, um ein Teammitglied einzuladen"
     },
     "INBOXES": {
