@@ -89,14 +89,14 @@
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD": {
-        "LABEL": "كلمة المرور",
+        "LABEL": "New password",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "تأكيد كلمة المرور الجديدة",
         "ERROR": "تأكيد كلمة المرور يجب أن تتطابق",
-        "PLACEHOLDER": "الرجاء إعادة إدخال كلمة المرور"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
