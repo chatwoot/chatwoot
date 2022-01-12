@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Por favor, introduzca su contraseña actual"
       },
       "PASSWORD": {
-        "LABEL": "Contraseña",
+        "LABEL": "New password",
         "ERROR": "Por favor, introduzca una contraseña de longitud 6 o más",
         "PLACEHOLDER": "Por favor, introduzca una nueva contraseña"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmar nueva contraseña",
         "ERROR": "Confirmar contraseña debe coincidir con la contraseña",
-        "PLACEHOLDER": "Por favor, vuelva a introducir su contraseña"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
