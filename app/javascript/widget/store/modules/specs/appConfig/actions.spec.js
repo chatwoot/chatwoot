@@ -13,10 +13,8 @@ describe('#actions', () => {
 
   describe('#setWidgetColor', () => {
     it('creates actions properly', () => {
-      actions.setWidgetColor({ commit }, { widgetColor: '#eaeaea' });
-      expect(commit.mock.calls).toEqual([
-        ['SET_WIDGET_COLOR', { widgetColor: '#eaeaea' }],
-      ]);
+      actions.setWidgetColor({ commit }, '#eaeaea');
+      expect(commit.mock.calls).toEqual([['SET_WIDGET_COLOR', '#eaeaea']]);
     });
   });
 });
