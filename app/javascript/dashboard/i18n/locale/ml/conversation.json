@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "അയച്ചത്:",
+    "SEND_FAILED": "സന്ദേശം അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക",
+    "TRY_AGAIN": "വീണ്ടും ശ്രമിക്കുക",
     "ASSIGNMENT": {
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
       "REMOVE": "നീക്കം ചെയ്യുക",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -164,7 +166,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "ചേർക്കുക",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
