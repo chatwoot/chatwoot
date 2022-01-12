@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "دوباره پیام بدید",
+      "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -66,7 +70,7 @@
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "درخواست رونوشت مکالمه",
-    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   }
 }
