@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Команда",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Пожалуйста, введите сокращение",
           "ERROR": "Команда обязательна"
         },
         "CONTENT": {
