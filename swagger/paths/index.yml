@@ -164,6 +164,11 @@
   $ref: ./application/contacts/conversations.yml
 /api/v1/accounts/{account_id}/contacts/search:
   $ref: ./application/contacts/search.yml
+/api/v1/accounts/{account_id}/contacts/filter:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  post:
+    $ref: ./application/contacts/filter.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes:
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
