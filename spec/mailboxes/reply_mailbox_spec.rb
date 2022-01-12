@@ -108,7 +108,29 @@ RSpec.describe ReplyMailbox, type: :mailbox do
 
       it 'add the mail content as new message on the conversation' do
         described_subject
-        expect(conversation.messages.last.content).to eq(
+        current_message = conversation.messages.last
+        expect(current_message.content).to eq(
+          <<-BODY.strip_heredoc.chomp
+            Yes, I am providing you step how to reproduce this issue
+
+            On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
+
+            > Any update on this?
+            >
+            >
+
+            --
+            * Sony Mathew*
+            Software developer
+            *Mob:9999999999
+          BODY
+        )
+      end
+
+      it 'add the mail content as new message on the conversation with broken html' do
+        described_subject
+        current_message = conversation.messages.last
+        expect(current_message.reload.content_attributes[:email][:text_content][:reply]).to eq(
           <<-BODY.strip_heredoc.chomp
             Yes, I am providing you step how to reproduce this issue
 
