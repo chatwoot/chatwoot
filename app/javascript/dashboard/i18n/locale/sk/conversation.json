@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "Remove",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvite členov svojho tímu",
-      "DESCRIPTION": "Keďže sa pripravujete na rozhovor so zákazníkom, pozvite si na pomoc kolegov z tímu. Svojich tímových kolegov môžete pozvať pridaním ich e-mailovej adresy do zoznamu agentov.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknite sem pre pozvanie člena tímu"
     },
     "INBOXES": {
