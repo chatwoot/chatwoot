@@ -305,6 +305,10 @@
         "ENABLED": "Diaktifkan",
         "DISABLED": "Nonaktif"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Nonaktif"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Pengenal Kotak Masuk",
       "INBOX_IDENTIFIER_SUB_TEXT": "Gunakan token inbox_identifier` yang terlihat disini untuk mengautentikasi klien API Anda.",
       "FORWARD_EMAIL_TITLE": "Teruskan ke Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Mulailah meneruskan email Anda ke alamat email berikut."
+      "FORWARD_EMAIL_SUB_TEXT": "Mulailah meneruskan email Anda ke alamat email berikut.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Otorisasi ulang",
