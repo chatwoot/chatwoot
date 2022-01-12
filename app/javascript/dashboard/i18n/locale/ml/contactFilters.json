@@ -27,8 +27,8 @@
             "EMAIL": "ഇമെയിൽ",
             "PHONE_NUMBER": "ഫോൺ നമ്പർ",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country"
+            "CITY": "നഗരം",
+            "COUNTRY": "രാജ്യം"
         }
     }
 }
