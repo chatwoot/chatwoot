@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Επιλογή πράκτορα",
       "REMOVE": "Διαγραφή",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Προσκαλέστε τα μέλη της ομάδας σας",
-      "DESCRIPTION": "Δεδομένου ότι ετοιμάζεστε να μιλήσετε με τον πελάτη σας, φέρτε τους συνάδελφους σας για να σας βοηθήσουν. Μπορείτε να προσκαλέσετε τους συνάδελφους σας προσθέτοντας τη διεύθυνση email τους στη λίστα αντιπροσώπων.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Κάντε κλικ εδώ για να καλέσετε ένα μέλος της ομάδας"
     },
     "INBOXES": {
