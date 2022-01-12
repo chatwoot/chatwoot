@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_21_125545) do
+ActiveRecord::Schema.define(version: 2022_01_11_223630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -122,6 +122,18 @@ ActiveRecord::Schema.define(version: 2021_12_21_125545) do
     t.datetime "updated_at", null: false
     t.string "fallback_title"
     t.string "extension"
+  end
+
+  create_table "automation_rules", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "event_name", null: false
+    t.jsonb "conditions", default: "{}", null: false
+    t.jsonb "actions", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -449,6 +461,7 @@ ActiveRecord::Schema.define(version: 2021_12_21_125545) do
     t.string "timezone", default: "UTC"
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
+    t.boolean "allow_messages_after_resolved", default: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
