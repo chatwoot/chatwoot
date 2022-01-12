@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Salasana",
+        "LABEL": "New password",
         "ERROR": "Anna salasana jonka pituus on 6 tai enemmän",
         "PLACEHOLDER": "Anna uusi salasana"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Vahvista salasana",
         "ERROR": "Salasanat eivät täsmää",
-        "PLACEHOLDER": "Syötä salasana uudelleen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
