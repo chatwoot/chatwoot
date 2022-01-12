@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
     "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
+    "SEND_FAILED": "پیام ارسال نشد! دوباره امتحان کنید",
+    "TRY_AGAIN": "دوباره امتحان کنید",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
       "REMOVE": "حذف",
