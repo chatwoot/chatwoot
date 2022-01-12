@@ -4,22 +4,23 @@
 #
 # Table name: inboxes
 #
-#  id                     :integer          not null, primary key
-#  channel_type           :string
-#  csat_survey_enabled    :boolean          default(FALSE)
-#  email_address          :string
-#  enable_auto_assignment :boolean          default(TRUE)
-#  enable_email_collect   :boolean          default(TRUE)
-#  greeting_enabled       :boolean          default(FALSE)
-#  greeting_message       :string
-#  name                   :string           not null
-#  out_of_office_message  :string
-#  timezone               :string           default("UTC")
-#  working_hours_enabled  :boolean          default(FALSE)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  account_id             :integer          not null
-#  channel_id             :integer          not null
+#  id                            :integer          not null, primary key
+#  allow_messages_after_resolved :boolean          default(TRUE)
+#  channel_type                  :string
+#  csat_survey_enabled           :boolean          default(FALSE)
+#  email_address                 :string
+#  enable_auto_assignment        :boolean          default(TRUE)
+#  enable_email_collect          :boolean          default(TRUE)
+#  greeting_enabled              :boolean          default(FALSE)
+#  greeting_message              :string
+#  name                          :string           not null
+#  out_of_office_message         :string
+#  timezone                      :string           default("UTC")
+#  working_hours_enabled         :boolean          default(FALSE)
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  account_id                    :integer          not null
+#  channel_id                    :integer          not null
 #
 # Indexes
 #
