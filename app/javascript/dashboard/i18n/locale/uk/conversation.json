@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Виберіть агента",
       "REMOVE": "Видалити",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Запросити членів команди",
-      "DESCRIPTION": "Оскільки Ви готуєтеся поговорити зі своїм клієнтом, запросіть ваших партнерів по команді, щоб допомогти вам. Ви можете запросити ваших товаришів по команді, додавши їх адреси електронної пошти до списку співробітників.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Натисніть тут, щоб запросити учасника"
     },
     "INBOXES": {
