@@ -90,6 +90,8 @@
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ กรุณาลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",
       "REMOVE": "ลบออก",
@@ -127,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "เชิญสมาชิกในทีมของคุณ",
-      "DESCRIPTION": "เมื่อคุณพร้อมที่จะคุยกับลูกค้าของคุณ กรุณาให้เพื่อนในทีมมาช่วยคุณ คุณสามารถเชิญเพื่อนในทีมได้โดยการใส่อีเมลของเขาใน Agent List",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
     "INBOXES": {
