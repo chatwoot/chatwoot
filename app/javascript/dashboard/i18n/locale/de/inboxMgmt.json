@@ -49,7 +49,7 @@
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
         "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -305,6 +305,10 @@
         "ENABLED": "Aktiviert",
         "DISABLED": "Deaktiviert"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Deaktiviert"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivieren"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
+      "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
