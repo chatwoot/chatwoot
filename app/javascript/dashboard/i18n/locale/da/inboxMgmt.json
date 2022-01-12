@@ -305,6 +305,10 @@
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Aktiveret",
+        "DISABLED": "Deaktiveret"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -361,7 +365,9 @@
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Begynd at videresende dine e-mails til følgende e-mailadresse."
+      "FORWARD_EMAIL_SUB_TEXT": "Begynd at videresende dine e-mails til følgende e-mailadresse.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Genautorisér",
