@@ -1,24 +1,42 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import ViewWithHeader from './components/layouts/ViewWithHeader.vue';
 
 Vue.use(Router);
 
 export default new Router({
+  mode: 'hash',
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home,
+      path: '/unread-messages',
+      name: 'unread-messages',
+      component: () => import('./views/UnreadMessages.vue'),
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ './views/About.vue'),
-    // },
+    {
+      path: '/campaigns',
+      name: 'campaigns',
+      component: () => import('./views/Campaigns.vue'),
+    },
+    {
+      path: '/',
+      component: ViewWithHeader,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('./views/Home.vue'),
+        },
+        {
+          path: '/prechat-form',
+          name: 'prechat-form',
+          component: () => import('./views/PreChatForm.vue'),
+        },
+        {
+          path: '/messages',
+          name: 'messages',
+          component: () => import('./views/Messages.vue'),
+        },
+      ],
+    },
   ],
 });
