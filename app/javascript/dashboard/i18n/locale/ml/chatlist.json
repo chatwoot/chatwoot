@@ -7,7 +7,7 @@
       "404": "ഈ ഗ്രൂപ്പിൽ സജീവ സംഭാഷണങ്ങളൊന്നുമില്ല."
     },
     "TAB_HEADING": "സംഭാഷണങ്ങൾ",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "പരാമർശിക്കുന്നു",
     "SEARCH": {
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
@@ -47,10 +47,10 @@
         "TEXT": "പരിഹരിച്ചത്"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "കെട്ടിക്കിടക്കുന്നു"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "സ്‌നൂസ് ചെയ്തു"
       }
     },
     "ATTACHMENTS": {
@@ -79,7 +79,7 @@
     "SENT": "വിജയകരമായി അയച്ചു",
     "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
     "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
+    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക"
   }
 }
