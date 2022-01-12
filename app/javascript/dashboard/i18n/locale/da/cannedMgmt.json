@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Tilføj Standardsvar",
     "LOADING": "Henter Standardsvar",
     "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
-    "SIDEBAR_TXT": "<p><b>Standardsvar</b> </p><p> Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende et svar på en samtale. </p><p> For at oprette et standardsvar, klik blot på <b>Tilføj standardsvar</b>. Du kan også redigere eller slette et eksisterende standardsvar ved at klikke på Rediger eller Slet knappen </p><p> Standardsvar bruges ved hjælp af <b>Short Codes</b>. Agenter kan tilgå standardsvar på en chat ved at skrive <b>'/'</b> efterfulgt af din short code </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Der er ingen tilgængelige standardsvar på denne konto.",
       "TITLE": "Administrer standardsvar",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Tilføj Standardsvar",
-      "DESC": "Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende svar til samtalen .",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
-          "PLACEHOLDER": "Indtast venligst en shortcode",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Short Code er påkrævet"
         },
         "CONTENT": {
