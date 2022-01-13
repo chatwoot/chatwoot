@@ -28,9 +28,9 @@ class Whatsapp::IncomingMessageService
 
   def message_content(message)
     # TODO: map interactive messages back to button messages in chatwoot
-    message.dig(:text, :body) || 
-    message.dig(:interactive, :button_reply, :title) || 
-    message.dig(:interactive, :list_reply, :title)
+    message.dig(:text, :body) ||
+      message.dig(:interactive, :button_reply, :title) ||
+      message.dig(:interactive, :list_reply, :title)
   end
 
   def account
@@ -77,7 +77,7 @@ class Whatsapp::IncomingMessageService
 
   def attach_files
     message_type = params[:messages].first[:type]
-    return if ['text', 'interactive'].include?(message_type)
+    return if %w[text interactive].include?(message_type)
 
     attachment_payload = params[:messages].first[message_type.to_sym]
     attachment_file = Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
