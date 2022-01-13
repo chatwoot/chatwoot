@@ -18,6 +18,8 @@ export const SDK_CSS = `.woot-widget-holder {
 
 .woot-widget-holder.has-unread-view {
   border-radius: 0 !important;
+  min-height: 80px;
+  height: auto;
   bottom: 94px;
   box-shadow: none !important;
 }
