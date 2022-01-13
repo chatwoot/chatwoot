@@ -169,6 +169,7 @@
       "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
       "SUCCESS_MESSAGE": "Mesaj trimis!",
+      "GO_TO_CONVERSATION": "Vizualizare",
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
