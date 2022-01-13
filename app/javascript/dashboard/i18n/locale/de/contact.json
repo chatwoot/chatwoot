@@ -169,6 +169,7 @@
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
+      "GO_TO_CONVERSATION": "Aussicht",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
