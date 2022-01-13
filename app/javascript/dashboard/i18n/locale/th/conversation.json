@@ -155,20 +155,20 @@
       "CONVERSATION_ACTIONS": "การดำเนินการสนทนา",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_ATTRIBUTES": "แอตทริบิวต์การติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "สร้างแอตทริบิวต์",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
     },
     "ADD": {
       "TITLE": "เพิ่ม",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
     },
     "DELETE": {
       "SUCCESS": "Attribute deleted successfully",
