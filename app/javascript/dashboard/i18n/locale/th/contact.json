@@ -169,6 +169,7 @@
       "SUBMIT": "ส่วข้อความ",
       "CANCEL": "ยกเลิก",
       "SUCCESS_MESSAGE": "ส่งข้อความเเล้ว",
+      "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "ไม่สามารถส่งข้อความได้กรุณาลองอีกครั้ง"
     }
   },
