@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "กรุณาเลือกการสนทนาจากด้านซ้าย",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "ข้อมูลประจำตัวของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
     "NO_INBOX_1": "โฮล่า! ดูเหมือนว่าคุณยังไม่ได้เพิ่มกล่องจดหมายเลยนะ",
@@ -41,9 +41,9 @@
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "ปิดการแจ้งเตือนจนถึงพรุ่งนี้",
+      "SNOOZED_UNTIL_NEXT_WEEK": "ปิดการแจ้งเตือนจนถึงอาทิตย์หน้า",
+      "SNOOZED_UNTIL_NEXT_REPLY": "ปิดการแจ้งเตือนจนการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างการรอ",
@@ -90,8 +90,8 @@
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ กรุณาลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "ไม่สามารถส่งข้อความได้กรุณาลองอีกครั้ง",
+    "TRY_AGAIN": "กรุณาลองอีกครั้ง",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",
       "REMOVE": "ลบออก",
@@ -129,12 +129,12 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "เชิญสมาชิกในทีมของคุณ",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "เมื่อคุณพร้อมที่จะคุยกับลูกค้าของคุณ กรุณาให้เพื่อนในทีมมาช่วยคุณ คุณสามารถเชิญเพื่อนในทีมได้โดยการใส่อีเมลของเขาใน Agent List",
       "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
     "INBOXES": {
       "TITLE": "เชื่อมต่อกล่องข้อความ",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "DESCRIPTION": "เชื่อมต่อช่องทางต่างๆ ที่ลูกค้าของคุณจะพูดคุยกับคุณ อาจเป็นเว็บไซต์แชทสด หน้า Facebook หรือ Twitter ของคุณ หรือแม้แต่หมายเลข WhatsApp ของคุณ",
       "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
     },
     "LABELS": {
@@ -144,14 +144,14 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "ตัวแทนที่ได้รับมอบหมาย",
+    "SELF_ASSIGN": "มอบหมายให้ฉัน",
+    "TEAM_LABEL": "ทีมที่ได้รับมอบหมาย",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "ไม่มี"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
+      "CONTACT_DETAILS": "รายละเอียดการติดต่อ",
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "Conversation Information",
