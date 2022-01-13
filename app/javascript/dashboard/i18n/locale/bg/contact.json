@@ -169,6 +169,7 @@
       "SUBMIT": "Изпрати съобщение",
       "CANCEL": "Отмени",
       "SUCCESS_MESSAGE": "Съобщението е изпратено!",
+      "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Не може да се изпрати! Опитайте пак"
     }
   },
