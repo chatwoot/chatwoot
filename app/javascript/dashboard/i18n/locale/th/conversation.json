@@ -79,7 +79,7 @@
         "BCC": {
           "LABEL": "BCC",
           "PLACEHOLDER": "อีเมล์ถูกเเยกโดยคอมม่า",
-          "ERROR": "กรุณากรอกอีเมล์มห้ถูกต้อง"
+          "ERROR": "กรุณากรอกอีเมล์ให้ถูกต้อง"
         }
       }
     },
@@ -152,9 +152,9 @@
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "รายละเอียดการติดต่อ",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_ACTIONS": "การดำเนินการสนทนา",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
-      "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
     }
