@@ -22,6 +22,27 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when valid interactive message params' do
+      it 'creates appropriate conversations, message and contacts' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
+                           'interactive': {
+                             'button_reply': {
+                               'id': '1',
+                               'title': 'First Button'
+                             },
+                             'type': 'button_reply'
+                           },
+                           'timestamp' => '1633034394', 'type' => 'interactive' }]
+        }.with_indifferent_access
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('First Button')
+      end
+    end
+
     context 'when valid attachment message params' do
       it 'creates appropriate conversations, message and contacts' do
         stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683')).to_return(

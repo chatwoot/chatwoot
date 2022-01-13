@@ -17,7 +17,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
-        expect(body[:data].first[:id]).to eq(automation_rule.id)
+        expect(body[:payload].first[:id]).to eq(automation_rule.id)
       end
     end
 
