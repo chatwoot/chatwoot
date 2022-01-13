@@ -171,19 +171,19 @@
       "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "ทำการลบเรียบร้อย",
+      "ERROR": "ไม่สามารถลบได้ กรุณาลองใหม่อีกครั้ง"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "เพิ่มแอตทริบิวต์",
+      "PLACEHOLDER": "ค้นหาแอตทริบิวต์",
+      "NO_RESULT": "ไม่พบข้อมูล"
     }
   },
   "EMAIL_HEADER": {
     "TO": "ถึง",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "BCC": "สำเนาลับ",
+    "CC": "สำเนา",
+    "SUBJECT": "หัวเรื่อง"
   }
 }
