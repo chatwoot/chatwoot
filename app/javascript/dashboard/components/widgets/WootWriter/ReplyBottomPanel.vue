@@ -17,7 +17,7 @@
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
-        drop
+        :drop="true"
         :drop-directory="false"
         @input-file="onFileUpload"
       >
