@@ -169,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "Peruuta",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Näytä",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
