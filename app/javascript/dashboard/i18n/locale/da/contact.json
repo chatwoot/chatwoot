@@ -169,6 +169,7 @@
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
       "SUCCESS_MESSAGE": "Besked sendt!",
+      "GO_TO_CONVERSATION": "Vis",
       "ERROR_MESSAGE": "Kunne ikke sendes! prøv igen"
     }
   },
