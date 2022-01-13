@@ -169,6 +169,7 @@
       "SUBMIT": "Wyślij wiadomość",
       "CANCEL": "Anuluj",
       "SUCCESS_MESSAGE": "Wiadomość wysłana!",
+      "GO_TO_CONVERSATION": "Widok",
       "ERROR_MESSAGE": "Nie udało się wysłać! Spróbuj ponownie"
     }
   },
