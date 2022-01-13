@@ -5,3 +5,5 @@ json.description automation_rule.description
 json.event_name automation_rule.event_name
 json.conditions automation_rule.conditions
 json.actions automation_rule.actions
+json.created_on automation_rule.created_at
+json.active automation_rule.active?
