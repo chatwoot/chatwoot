@@ -150,11 +150,14 @@ export const IFrameHelper = {
       onBubbleClick(bubbleState);
     },
 
+    closeWindow: () => {
+      onBubbleClick({ toggleValue: false });
+      removeUnreadClass();
+    },
+
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
-      if (!isOpen) {
-        IFrameHelper.events.resetUnreadMode();
-      } else {
+      if (isOpen) {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
@@ -164,40 +167,18 @@ export const IFrameHelper = {
         referrerHost,
       });
     },
-
-    setUnreadMode: message => {
-      const { unreadMessageCount } = message;
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-
-      if (!isOpen && unreadMessageCount > 0) {
-        IFrameHelper.sendMessage('set-unread-view');
-        onBubbleClick({ toggleValue });
-        addUnreadClass();
-      }
-    },
-
-    setCampaignMode: () => {
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-      if (!isOpen) {
-        onBubbleClick({ toggleValue });
-        addUnreadClass();
-      }
-    },
-
     updateIframeHeight: message => {
       const { extraHeight = 0, isFixedHeight } = message;
-      if (!extraHeight) return;
 
       IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
 
-    resetUnreadMode: () => {
-      IFrameHelper.sendMessage('unset-unread-view');
-      removeUnreadClass();
+    setUnreadMode: () => {
+      addUnreadClass();
+      onBubbleClick({ toggleValue: true });
     },
 
+    resetUnreadMode: () => removeUnreadClass(),
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
@@ -253,14 +234,10 @@ export const IFrameHelper = {
     }
   },
   toggleCloseButton: () => {
+    let isMobile = false;
     if (window.matchMedia('(max-width: 668px)').matches) {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: true,
-      });
-    } else {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: false,
-      });
+      isMobile = true;
     }
+    IFrameHelper.sendMessage('toggle-close-button', { isMobile });
   },
 };
