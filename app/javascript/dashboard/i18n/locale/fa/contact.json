@@ -169,6 +169,7 @@
       "SUBMIT": "ارسال پیام",
       "CANCEL": "انصراف",
       "SUCCESS_MESSAGE": "پیام ارسال شد!",
+      "GO_TO_CONVERSATION": "نمایش",
       "ERROR_MESSAGE": "ارسال نشد! دوباره امتحان کنید"
     }
   },
