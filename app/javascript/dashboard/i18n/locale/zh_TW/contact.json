@@ -169,6 +169,7 @@
       "SUBMIT": "傳送訊息",
       "CANCEL": "取消",
       "SUCCESS_MESSAGE": "訊息已傳送",
+      "GO_TO_CONVERSATION": "查看",
       "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
