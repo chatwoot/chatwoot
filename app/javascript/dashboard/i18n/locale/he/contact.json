@@ -169,6 +169,7 @@
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
       "SUCCESS_MESSAGE": "הודעה נשלחה!",
+      "GO_TO_CONVERSATION": "צפה",
       "ERROR_MESSAGE": "לא ניתן לשלוח! נסה שוב"
     }
   },
