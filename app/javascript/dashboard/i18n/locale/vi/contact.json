@@ -169,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "Huỷ",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Xem",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
