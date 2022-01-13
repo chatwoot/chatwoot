@@ -169,6 +169,7 @@
       "SUBMIT": "Üzenet elküldése",
       "CANCEL": "Mégse",
       "SUCCESS_MESSAGE": "Üzenet elküldve!",
+      "GO_TO_CONVERSATION": "Megtekintés",
       "ERROR_MESSAGE": "Nem sikerült az elküldés! Kérjük próbáld később"
     }
   },
