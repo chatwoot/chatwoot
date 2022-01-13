@@ -169,6 +169,7 @@
       "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
       "SUCCESS_MESSAGE": "Mesaj yollandı!",
+      "GO_TO_CONVERSATION": "Görünüm",
       "ERROR_MESSAGE": "Yollanamıyor! lütfen tekrar deneyin"
     }
   },
