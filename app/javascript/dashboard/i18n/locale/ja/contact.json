@@ -169,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "キャンセル",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "表示",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
