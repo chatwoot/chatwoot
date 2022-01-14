@@ -85,10 +85,10 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/custom_view/:id'),
-      name: 'custom_view',
+      name: 'custom_view_conversations',
       roles: ['administrator', 'agent'],
       component: ConversationView,
-      props: route => ({ id: route.params.id }),
+      props: route => ({ customViewsId: route.params.id }),
     },
     {
       path: frontendURL(
@@ -99,7 +99,7 @@ export default {
       component: ConversationView,
       props: route => ({
         conversationId: route.params.conversation_id,
-        id: route.params.id,
+        customViewsId: route.params.id,
       }),
     },
     {
