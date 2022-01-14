@@ -13,6 +13,7 @@ json.out_of_office_message resource.out_of_office_message
 json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
 json.callback_webhook_url resource.callback_webhook_url
+json.allow_messages_after_resolved resource.allow_messages_after_resolved
 
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
 

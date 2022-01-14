@@ -1,7 +1,7 @@
 <template>
   <aside class="woot-sidebar">
     <primary-sidebar
-      :logo-source="globalConfig.logo"
+      :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :account-id="accountId"
       :menu-items="primaryMenuItems"

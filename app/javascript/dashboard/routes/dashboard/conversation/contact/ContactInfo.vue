@@ -340,6 +340,9 @@ export default {
 .merege-summary--card {
   padding: var(--space-normal);
 }
+.contact--bio {
+  word-wrap: break-word;
+}
 
 .button--contact-menu {
   position: absolute;
