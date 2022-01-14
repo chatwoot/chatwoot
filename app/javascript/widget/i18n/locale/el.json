@@ -8,8 +8,8 @@
       "SUBMIT": "Καταχώρηση"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Επαναποστολή μηνύματος",
+      "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,7 +22,7 @@
     "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
   },
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "CONTINUE_CONVERSATION": "Συνέχιση συνομιλίας",
   "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
@@ -56,7 +56,7 @@
         "ERROR": "Πολύ σύντομο μήνυμα"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Παρακαλώ δώστε το όνομα και το email σας πριν ξεκινήσετε την συνομιλία"
   },
   "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
