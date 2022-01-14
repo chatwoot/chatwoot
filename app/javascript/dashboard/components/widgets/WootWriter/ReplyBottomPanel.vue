@@ -19,7 +19,7 @@
         :multiple="enableMultipleFileUpload"
         :drop="true"
         :drop-directory="false"
-        :data="{direct_upload_url: '', direct_upload: true}"
+        :data="{ direct_upload_url: '/rails/active_storage/direct_uploads', direct_upload: true }"
         @input-file="onDirectFileUpload"
       >
         <woot-button

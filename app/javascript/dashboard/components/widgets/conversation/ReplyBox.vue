@@ -378,7 +378,6 @@ export default {
             'createPendingMessageAndSend',
             messagePayload
           );
-          debugger
           this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
