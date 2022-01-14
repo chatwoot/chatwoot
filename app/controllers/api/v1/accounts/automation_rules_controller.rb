@@ -2,7 +2,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   before_action :check_authorization
 
   def index
-    @automation_rules = Current.account.automation_rules
+    @automation_rules = Current.account.automation_rules.active
   end
 
   def create

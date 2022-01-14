@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
