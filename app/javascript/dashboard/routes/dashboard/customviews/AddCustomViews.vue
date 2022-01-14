@@ -17,10 +17,10 @@
 
         <div class="modal-footer">
           <woot-button :disabled="isButtonDisabled">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE') }}
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
           </woot-button>
           <woot-button variant="clear" @click.prevent="onClose">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL') }}
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
           </woot-button>
         </div>
       </div>
