@@ -34,15 +34,14 @@
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
-                <input
-                  type="checkbox"
-                  checked
-                  value="enabled"
-                  name="enabled"
-                  class="automation__status-checkbox"
+                <fluent-icon
+                  v-if="automation.active"
+                  icon="checkmark-square"
+                  type="solid"
                 />
+                <fluent-icon v-else icon="square" />
               </td>
-              <td>2 Jan 2022</td>
+              <td>{{ readableTime(automation.created_on) }}</td>
               <td class="button-wrapper">
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
@@ -93,12 +92,13 @@
 import { mapGetters } from 'vuex';
 import AddAutomationRule from './AddAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     AddAutomationRule,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, timeMixin],
   data() {
     return {
       loading: {},
@@ -175,6 +175,9 @@ export default {
     async onCreateAutomation(payload) {
       this.$store.dispatch('automations/create', payload);
       this.hideAddPopup();
+    },
+    readableTime(date) {
+      return this.messageStamp(new Date(date), 'LLL d, h:mm a');
     },
   },
 };
