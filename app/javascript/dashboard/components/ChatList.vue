@@ -1,18 +1,22 @@
 <template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
+    <div
+      class="chat-list__top"
+      :class="{ filter__applied: hasAppliedFiltersOrActiveCustomViews }"
+    >
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
       <div class="filter--actions">
         <chat-filter
-          v-if="!hasAppliedFilters"
+          v-if="!hasAppliedFiltersOrActiveCustomViews"
           @statusFilterChange="updateStatusType"
         />
-        <div v-else>
+        <div v-if="hasAppliedFilters && !hasActiveCustomViews">
           <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
             size="tiny"
             variant="smooth"
             color-scheme="secondary"
@@ -20,6 +24,7 @@
             @click="onClickOpenAddCustomViewsModal"
           />
           <woot-button
+            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
             size="tiny"
             variant="smooth"
             color-scheme="alert"
@@ -28,6 +33,7 @@
           />
         </div>
         <woot-button
+          v-if="!hasActiveCustomViews"
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
@@ -47,7 +53,7 @@
     />
 
     <chat-type-tabs
-      v-if="!hasAppliedFilters"
+      v-if="!hasAppliedFiltersOrActiveCustomViews"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -64,6 +70,7 @@
         :key="chat.id"
         :active-label="label"
         :team-id="teamId"
+        :custom-views-id="customViewsId"
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
@@ -154,6 +161,10 @@ export default {
       type: String,
       default: '',
     },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -164,6 +175,7 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      customViewsQuery: {},
       showAddCustomViewsModal: false,
     };
   },
@@ -179,12 +191,23 @@ export default {
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
+      customViews: 'customViews/getCustomViews',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
     },
-    customViewsQuery() {
-      return filterQueryGenerator(this.appliedFilters);
+    hasActiveCustomViews() {
+      return this.activeCustomView.length > 0 && this.customViewsId !== 0;
+    },
+    hasAppliedFiltersOrActiveCustomViews() {
+      return this.hasAppliedFilters || this.hasActiveCustomViews;
+    },
+    savedCustomViewsValue() {
+      if (this.hasActiveCustomViews) {
+        const payload = this.activeCustomView[0].query;
+        this.fetchSavedFilteredConversations(payload);
+      }
+      return {};
     },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
@@ -208,7 +231,9 @@ export default {
       );
     },
     currentPageFilterKey() {
-      return this.hasAppliedFilters ? 'appliedFilters' : this.activeAssigneeTab;
+      return this.hasAppliedFiltersOrActiveCustomViews
+        ? 'appliedFilters'
+        : this.activeAssigneeTab;
     },
     currentFiltersPage() {
       return this.$store.getters['conversationPage/getCurrentPageFilter'](
@@ -231,6 +256,9 @@ export default {
         conversationType: this.conversationType
           ? this.conversationType
           : undefined,
+        customViews: this.hasActiveCustomViews
+          ? this.savedCustomViewsValue
+          : undefined,
       };
     },
     pageTitle() {
@@ -246,11 +274,14 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
+      if (this.hasActiveCustomViews) {
+        return this.activeCustomView[0].name;
+      }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
     conversationList() {
       let conversationList = [];
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFiltersOrActiveCustomViews) {
         const filters = this.conversationFilters;
         if (this.activeAssigneeTab === 'me') {
           conversationList = [...this.mineChatsList(filters)];
@@ -264,6 +295,14 @@ export default {
       }
 
       return conversationList;
+    },
+    activeCustomView() {
+      if (this.customViewsId) {
+        return this.customViews.filter(
+          view => view.id === Number(this.customViewsId)
+        );
+      }
+      return {};
     },
     activeTeam() {
       if (this.teamId) {
@@ -285,6 +324,9 @@ export default {
     conversationType() {
       this.resetAndFetchData();
     },
+    activeCustomView() {
+      this.resetAndFetchData();
+    },
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
@@ -299,6 +341,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+      this.customViewsQuery = { payload: payload };
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
@@ -360,6 +403,13 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
+      if (this.hasActiveCustomViews) {
+        const payload = this.activeCustomView[0].query;
+        this.fetchSavedFilteredConversations(payload);
+      }
+      if (this.customViewsId) {
+        return;
+      }
       this.fetchConversations();
     },
     fetchConversations() {
@@ -368,8 +418,12 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFiltersOrActiveCustomViews) {
         this.fetchConversations();
+      }
+      if (this.hasActiveCustomViews) {
+        const payload = this.activeCustomView[0].query;
+        this.fetchSavedFilteredConversations(payload);
       } else {
         this.fetchFilteredConversations(this.appliedFilters);
       }
@@ -383,6 +437,15 @@ export default {
         })
         .then(() => this.$emit('conversation-load'));
       this.showAdvancedFilters = false;
+    },
+    fetchSavedFilteredConversations(payload) {
+      let page = this.currentFiltersPage + 1;
+      this.$store
+        .dispatch('fetchFilteredConversations', {
+          queryData: payload,
+          page,
+        })
+        .then(() => this.$emit('conversation-load'));
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
