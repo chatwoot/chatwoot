@@ -29,21 +29,27 @@
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
           @blur="$v.automation.description.$touch"
         />
-        <label :class="{ error: $v.automation.event_name.$error }">
-          {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-          <select v-model="automation.event_name" @change="onEventChange()">
-            <option
-              v-for="event in automationRuleEvents"
-              :key="event.key"
-              :value="event.key"
-            >
-              {{ event.value }}
-            </option>
-          </select>
-          <span v-if="$v.automation.event_name.$error" class="message">
-            {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
-          </span>
-        </label>
+        <div class="event_wrapper">
+          <label :class="{ error: $v.automation.event_name.$error }">
+            {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
+            <select v-model="automation.event_name" @change="onEventChange()">
+              <option
+                v-for="event in automationRuleEvents"
+                :key="event.key"
+                :value="event.key"
+              >
+                {{ event.value }}
+              </option>
+            </select>
+            <span v-if="$v.automation.event_name.$error" class="message">
+              {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
+            </span>
+          </label>
+          <p v-if="hasAutomationMutated" class="info-message">
+            Changing event type will reset the conditions and events you have
+            added below
+          </p>
+        </div>
         <!-- // Conditions Start -->
         <section>
           <label>
@@ -54,7 +60,7 @@
               v-for="(condition, i) in automation.conditions"
               :key="i"
               v-model="automation.conditions[i]"
-              :filter-attributes="filterAttributes"
+              :filter-attributes="getAttributes(automation.event_name)"
               :input-type="getInputType(automation.conditions[i].attribute_key)"
               :operators="getOperators(automation.conditions[i].attribute_key)"
               :dropdown-values="
@@ -124,7 +130,6 @@
         </div>
       </div>
     </div>
-    <confirm-modal ref="confirmDialog"></confirm-modal>
   </div>
 </template>
 
@@ -135,8 +140,11 @@ import filterInputBox from 'dashboard/components/widgets/FilterInput.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from '/app/javascript/shared/constants/countries.js';
-import confirmModal from 'dashboard/components/widgets/ConfirmModal.vue';
-import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
+import {
+  AUTOMATION_RULE_EVENTS,
+  AUTOMATION_ACTION_TYPES,
+  AUTOMATIONS,
+} from './constants';
 import actionQueryGenerator from '../../../../../dashboard/helper/actionQueryGenerator';
 
 import { getAutomationCondition } from './automationConditions';
@@ -145,7 +153,6 @@ export default {
   components: {
     filterInputBox,
     automationActionInput,
-    confirmModal,
   },
   mixins: [alertMixin],
   props: {
@@ -196,9 +203,11 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      automationTypes: AUTOMATIONS,
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationActionTypes: AUTOMATION_ACTION_TYPES,
+      automationMutated: false,
       show: true,
       automation: {
         name: null,
@@ -223,6 +232,12 @@ export default {
     };
   },
   computed: {
+    conditions() {
+      return this.automationTypes[this.automation.event_name].conditions;
+    },
+    actions() {
+      return this.automationTypes[this.automation.event_name].actions;
+    },
     filterAttributes() {
       return this.filterTypes.map(type => {
         return {
@@ -232,40 +247,56 @@ export default {
         };
       });
     },
+    hasAutomationMutated() {
+      if (
+        this.automation.conditions[0].values ||
+        this.automation.actions[0].action_params.length
+      )
+        return true;
+      return false;
+    },
   },
   methods: {
-    async onEventChange() {
-      const ok = await this.$refs.confirmDialog.showConfirmation();
-      if (ok) {
-        switch (this.automation.event_name) {
-          case 'conversation_created':
-            this.changeAutomationCondition('conversation_created');
-            break;
-          case 'conversation_updated':
-            this.changeAutomationCondition('conversation_updated');
-            break;
-          case 'messaged_created':
-            this.changeAutomationCondition('messaged_created');
-            break;
-          default:
-            break;
-        }
+    onEventChange() {
+      if (this.automation.event_name === 'message_created') {
+        this.automation.conditions = [
+          {
+            attribute_key: 'message_type',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          },
+        ];
+      } else {
+        this.automation.conditions = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          },
+        ];
       }
+      this.automation.actions = [
+        {
+          action_name: 'assign_team',
+          action_params: [],
+        },
+      ];
     },
-    changeAutomationCondition(condition) {
-      this.filterTypes = getAutomationCondition({
-        actionType: condition,
-      }).map(filter => ({
-        ...filter,
-        attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
-      }));
+    getAttributes(key) {
+      return this.automationTypes[key].conditions;
     },
     getInputType(key) {
-      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      const type = this.automationTypes[
+        this.automation.event_name
+      ].conditions.find(condition => condition.key === key);
       return type.inputType;
     },
     getOperators(key) {
-      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      const type = this.automationTypes[
+        this.automation.event_name
+      ].conditions.find(condition => condition.key === key);
       return type.filterOperators;
     },
     getConditionDropdownValues(type) {
@@ -310,6 +341,17 @@ export default {
           return languages;
         case 'country_code':
           return countries;
+        case 'message_type':
+          return [
+            {
+              id: 'incoming',
+              name: 'Incoming Message',
+            },
+            {
+              id: 'outgoing',
+              name: 'Outgoing Message',
+            },
+          ];
         default:
           return undefined;
       }
@@ -366,11 +408,13 @@ export default {
       ].query_operator = null;
       this.$emit('applyFilter', actionQueryGenerator(this.automation));
     },
-    resetFilter(index, currentFilter) {
-      this.appliedFilters[index].filter_operator = this.filterTypes.find(
-        filter => filter.attributeKey === currentFilter.attribute_key
+    resetFilter(index, currentCondition) {
+      this.automation.conditions[index].filter_operator = this.automationTypes[
+        this.automation.event_name
+      ].conditions.find(
+        condition => condition.key === currentCondition.attribute_key
       ).filterOperators[0].value;
-      this.appliedFilters[index].values = '';
+      this.automation.conditions[index].values = '';
     },
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
@@ -391,5 +435,16 @@ export default {
 
 .filter-actions {
   margin-top: var(--space-normal);
+}
+.event_wrapper {
+  select {
+    margin: 0;
+  }
+  .info-message {
+    font-size: var(--font-size-mini);
+    color: #868686;
+    text-align: right;
+  }
+  margin-bottom: 1.6rem;
 }
 </style>

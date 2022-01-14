@@ -5,7 +5,6 @@ export const set = (state, data) => {
 };
 
 export const create = (state, data) => {
-  console.log(state, data);
   state.records.push(data);
 };
 
