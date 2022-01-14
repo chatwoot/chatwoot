@@ -190,7 +190,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo) {
+      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
         return true;
       }
 
