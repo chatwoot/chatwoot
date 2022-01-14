@@ -260,6 +260,7 @@ export default {
       this.selectedTweetId = null;
     },
   },
+
   updated() {
     this.$nextTick(() => this.scrollToEndOfMessages());
   },
@@ -268,17 +269,13 @@ export default {
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
-  mounted() {
-    this.$nextTick(() => this.scrollToEndOfMessages());
-  },
-
   beforeDestroy() {
     this.removeBusListeners();
   },
 
   methods: {
     scrollToEndOfMessages() {
-      var panel = this.$refs.conversationPanel;
+      const panel = this.$refs.conversationPanel;
       panel.scrollTop = panel.scrollHeight;
     },
     removeBusListeners() {
