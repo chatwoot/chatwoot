@@ -103,9 +103,7 @@ export default {
     closeWindow() {
       this.showDropdown = false;
       if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'toggleBubble',
-        });
+        IFrameHelper.sendMessage({ event: 'closeWindow' });
       } else if (RNHelper.isRNWebView) {
         RNHelper.sendMessage({ type: 'close-widget' });
       }
