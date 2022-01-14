@@ -11,7 +11,7 @@ const generatePayload = data => {
     }
     return item;
   });
-
+  payload[payload.length - 1].query_operator = null;
   return { payload };
 };
 
