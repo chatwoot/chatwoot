@@ -423,6 +423,9 @@ export default {
       .message-text--metadata .time {
         color: var(--v-50);
       }
+      &.is-private .message-text--metadata .time {
+        color: var(--s-400);
+      }
     }
 
     &.is-failed {
