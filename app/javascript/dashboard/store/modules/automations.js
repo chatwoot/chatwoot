@@ -27,7 +27,7 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: true });
     try {
       const response = await AutomationAPI.get();
-      commit(types.SET_AUTOMATIONS, response.data.data);
+      commit(types.SET_AUTOMATIONS, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {
@@ -38,10 +38,8 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: true });
     try {
       const response = await AutomationAPI.create(automationObj);
-      console.log(response.data);
       commit(types.ADD_AUTOMATION, response.data);
     } catch (error) {
-      console.log(error);
       throw new Error(error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });
