@@ -93,7 +93,6 @@ import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/cons
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import {
   isEscape,
@@ -373,7 +372,6 @@ export default {
             'createPendingMessageAndSend',
             messagePayload
           );
-          this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
             error?.response?.data?.error ||
