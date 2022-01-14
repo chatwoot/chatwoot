@@ -302,7 +302,7 @@ export default {
           view => view.id === Number(this.customViewsId)
         );
       }
-      return {};
+      return [];
     },
     activeTeam() {
       if (this.teamId) {
