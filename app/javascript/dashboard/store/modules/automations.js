@@ -17,9 +17,6 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getAllAutomations: _state => {
-    return _state.records;
-  },
 };
 
 export const actions = {

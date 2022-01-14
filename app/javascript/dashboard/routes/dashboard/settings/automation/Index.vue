@@ -55,6 +55,17 @@
                 >
                 </woot-button>
                 <woot-button
+                  v-tooltip.top="'Clone'"
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="primary"
+                  class-names="grey-btn"
+                  :is-loading="loading[automation.id]"
+                  icon="copy"
+                  @click="openEditPopup(automation)"
+                >
+                </woot-button>
+                <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
                   color-scheme="alert"
