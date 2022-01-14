@@ -501,7 +501,7 @@ export default {
 }
 
 .filter__applied {
-  padding: var(--space-slab) 0 !important;
+  padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
 }
 </style>
