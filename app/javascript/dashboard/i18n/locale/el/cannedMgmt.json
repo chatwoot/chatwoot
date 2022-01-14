@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Προσθήκη Έτοιμης Απάντησης",
     "LOADING": "Λήψη Έτοιμων Απαντήσεων",
     "SEARCH_404": "Δεν υπάρχουν αντικείμενα να ταιριάζουν με αυτό το ερώτημα",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Τυποποιημένες απαντήσεις</b> </p><p> Οι Τυποποιημένες απαντήσεις αποθηκεύονται πρότυπα απάντησης που μπορούν να χρησιμοποιηθούν για την γρήγορη αποστολή απάντησης σε μια συνομιλία. </p><p> Για τη δημιουργία μιας Αυτοματοποιημένης Απάντησης, απλά κάντε κλικ στο <b>Προσθήκη Αυτοματοποιημένης Απάντησης</b>. Μπορείτε επίσης να επεξεργαστείτε ή να διαγράψετε μια υπάρχουσα Αυτοματοποιημένη Απάντηση κάνοντας κλικ στο κουμπί Επεξεργασία ή Διαγραφή </p><p> Οι Τυποποιημένες απαντήσεις χρησιμοποιούνται με τη βοήθεια των <b>Σύντομοι Κώδικες</b>. Οι πράκτορες μπορούν να έχουν πρόσβαση σε τυποποιημένες απαντήσεις ενώ βρίσκονται σε μια συνομιλία πληκτρολογώντας <b>'/'</b> ακολουθούμενο από τον σύντομο κώδικα. </p>",
     "LIST": {
       "404": "Δεν υπάρχουν τυποποιημένες απαντήσεις σε αυτόν τον λογαριασμό.",
       "TITLE": "Διαχείριση έτοιμων απαντήσεων",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Προσθήκη Έτοιμης Απάντησης",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Οι Τυποποιημένες Απαντήσεις είναι πρότυπα απαντήσεων με τα οποία μπορούμε να απαντήσουμε γρήγορα σε συνηθισμένα ερωτήματα.",
       "CANCEL_BUTTON_TEXT": "Άκυρο",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Σύντομος Κώδικας",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε σύντομο κώδικα",
           "ERROR": "Ο Σύντομος Κώδικας είναι απαραίτητος"
         },
         "CONTENT": {
