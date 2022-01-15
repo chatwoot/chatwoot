@@ -55,8 +55,7 @@ export default {
     };
   },
   watch: {
-    // eslint-disable-next-line func-names
-    open: function() {
+    open() {
       this.isOpen = !this.isOpen;
     },
   },
