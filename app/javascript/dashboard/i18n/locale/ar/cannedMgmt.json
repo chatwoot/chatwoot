@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "إضافة رد جاهز",
     "LOADING": "جاري جلب الردود الجاهزة",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>الردود الجاهزة</b> </p><p> الردود الجاهزة هي عبارة عن قوالب يتم إعدادها مسبقاً لاستخدامها في كتابة الرسائل والردود للإجابة على اكثر الاسئلة شيوعاً. </p><p> لإضافة قالب جديد، فقط انقر على <b>إضافة رد جاهز</b>. يمكنك أيضاً تعديل أو حذف الردود الجاهزة الأخرى بالنقر على زر التحرير أو الحذف </p><p> يتم تسهيل استخدام الردود المسبقة بواسطة <b>رموز مختصرة</b> لتسريع البحث والوصول إليها. يمكن للموظفين الوصول إلى قوالب الردود الجاهزة أثناء الدردشة عن طريق الضغط على زر <b>'/'</b> ومن ثم الاختصار الخاص بالقالب المراد إدخاله في مربع النص. </p>",
     "LIST": {
       "404": "لا توجد ردود جاهزة متوفرة في هذا الحساب.",
       "TITLE": "إدارة الردود الجاهزة",
@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "إضافة رد جاهز",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "الردود الجاهزة هي قوالب رسائل معدة مسبقاً يمكن استخدامها لتسريع كتابة الردود في المحادثات.",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
