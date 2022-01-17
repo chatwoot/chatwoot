@@ -35,15 +35,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "هل تريد حفظ هذا الفلتر؟",
+        "LABEL": "تسمية هذا الفلتر",
+        "PLACEHOLDER": "أدخل اسم لهذا الفلتر",
         "ERROR_MESSAGE": "الاسم مطلوب",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "حفظ الفلتر",
         "CANCEL_BUTTON": "إلغاء",
         "API": {
-          "SUCCESS_MESSAGE": "Custom view created successfully",
-          "ERROR_MESSAGE": "Error while creating custom view"
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
         }
       }
     }
