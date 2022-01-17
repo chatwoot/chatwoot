@@ -32,6 +32,20 @@
       "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
       "COUNTRY_NAME": "രാജ്യത്തിന്റെ പേര്",
       "REFERER_LINK": "റഫറർ ലിങ്ക്"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "നാമം ആവശ്യമാണ്",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "റദ്ദാക്കുക",
+        "API": {
+          "SUCCESS_MESSAGE": "Custom view created successfully",
+          "ERROR_MESSAGE": "Error while creating custom view"
+        }
+      }
     }
   }
 }
