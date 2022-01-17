@@ -28,7 +28,7 @@ export default {
     },
     activeCustomView: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     customViewsId: {
       type: [String, Number],
@@ -76,5 +76,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
