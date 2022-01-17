@@ -145,9 +145,7 @@ import {
   AUTOMATION_ACTION_TYPES,
   AUTOMATIONS,
 } from './constants';
-import actionQueryGenerator from '../../../../../dashboard/helper/actionQueryGenerator';
-
-import { getAutomationCondition } from './automationConditions';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
 
 export default {
   components: {
@@ -197,12 +195,6 @@ export default {
   },
   data() {
     return {
-      filterTypes: getAutomationCondition({
-        actionType: 'conversation_created',
-      }).map(filter => ({
-        ...filter,
-        attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
-      })),
       automationTypes: AUTOMATIONS,
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
@@ -406,7 +398,10 @@ export default {
       this.automation.conditions[
         this.automation.conditions.length - 1
       ].query_operator = null;
-      this.$emit('applyFilter', actionQueryGenerator(this.automation));
+      this.automation.conditions = filterQueryGenerator(
+        this.automation.conditions
+      );
+      this.$emit('saveAutomation', this.automation);
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[

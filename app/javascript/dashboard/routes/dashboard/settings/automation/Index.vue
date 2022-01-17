@@ -94,7 +94,7 @@
       <add-automation-rule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @applyFilter="onCreateAutomation"
+        @saveAutomation="onCreateAutomation"
       />
     </woot-modal>
   </div>
