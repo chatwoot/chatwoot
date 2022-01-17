@@ -16,6 +16,7 @@ export const getters = {
     return _state.uiFlags;
   },
   getCustomViews(_state) {
+    // console.log('getCustomViews', _state.records);
     return _state.records;
   },
 };
@@ -24,7 +25,7 @@ export const actions = {
   get: async function getCustomViews({ commit }) {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: true });
     try {
-      const response = await CustomViewsAPI.getCustomViews();
+      const response = await CustomViewsAPI.get();
       commit(types.SET_CUSTOM_VIEW, response.data);
     } catch (error) {
       // Ignore error

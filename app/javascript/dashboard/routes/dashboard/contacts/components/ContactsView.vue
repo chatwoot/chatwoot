@@ -9,6 +9,7 @@
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
+        :on-toggle-custom-views-modal="onCLickOpenCustomViewsModal"
         :header-title="label"
       />
       <contacts-table
@@ -26,6 +27,12 @@
         :total-count="meta.count"
       />
     </div>
+    <add-custom-views
+      v-if="showAddCustomViewsModal"
+      :custom-views-query="customViewsQuery"
+      :filter-type="filterType"
+      @close="onCloseAddCustomViewsModal"
+    />
     <contact-info-panel
       v-if="showContactViewPane"
       :contact="selectedContact"
@@ -63,6 +70,7 @@ import ImportContacts from './ImportContacts.vue';
 import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
 import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 
 const DEFAULT_PAGE = 1;
 
@@ -75,6 +83,7 @@ export default {
     CreateContact,
     ImportContacts,
     ContactsAdvancedFilters,
+    AddCustomViews,
   },
   props: {
     label: { type: String, default: '' },
@@ -93,6 +102,9 @@ export default {
           `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
         ),
       })),
+      customViewsQuery: {},
+      filterType: 1,
+      showAddCustomViewsModal: false,
     };
   },
   computed: {
@@ -100,7 +112,9 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
+
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
@@ -206,6 +220,12 @@ export default {
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
     },
+    onCLickOpenCustomViewsModal() {
+      this.showAddCustomViewsModal = true;
+    },
+    onCloseAddCustomViewsModal() {
+      this.showAddCustomViewsModal = false;
+    },
     onToggleImport() {
       this.showImportModal = !this.showImportModal;
     },
@@ -218,6 +238,7 @@ export default {
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
+      this.customViewsQuery = { payload: payload };
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });
@@ -226,6 +247,9 @@ export default {
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
+    },
+    onCloseCustomViewsModal() {
+      this.showAddCustomViewsModal = false;
     },
   },
 };

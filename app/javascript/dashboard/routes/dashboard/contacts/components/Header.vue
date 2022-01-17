@@ -39,6 +39,15 @@
           </woot-button>
         </div>
         <woot-button
+          v-if="hasAppliedFilters"
+          class="margin-right-small clear"
+          color-scheme="alert"
+          icon="save"
+          @click="onToggleCustomViewsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
+        </woot-button>
+        <woot-button
           class="margin-right-small clear"
           color-scheme="success"
           icon="person-add"
@@ -91,6 +100,10 @@ export default {
       default: () => {},
     },
     onToggleFilter: {
+      type: Function,
+      default: () => {},
+    },
+    onToggleCustomViewsModal: {
       type: Function,
       default: () => {},
     },
