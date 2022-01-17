@@ -42,28 +42,28 @@ export const actions = {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });
     }
   },
-  update: async ({ commit }, { id, ...updateObj }) => {
-    commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: true });
-    try {
-      const response = await AutomationAPI.update(id, updateObj);
-      commit(types.EDIT_AUTOMATION, response.data);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
-    }
-  },
-  delete: async ({ commit }, id) => {
-    commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: true });
-    try {
-      await AutomationAPI.delete(id);
-      commit(types.DELETE_AUTOMATION, id);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: false });
-    }
-  },
+  // update: async ({ commit }, { id, ...updateObj }) => {
+  //   commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: true });
+  //   try {
+  //     const response = await AutomationAPI.update(id, updateObj);
+  //     commit(types.EDIT_AUTOMATION, response.data);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   } finally {
+  //     commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
+  //   }
+  // },
+  // delete: async ({ commit }, id) => {
+  //   commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: true });
+  //   try {
+  //     await AutomationAPI.delete(id);
+  //     commit(types.DELETE_AUTOMATION, id);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   } finally {
+  //     commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: false });
+  //   }
+  // },
 };
 
 export const mutations = {
@@ -76,8 +76,8 @@ export const mutations = {
 
   [types.ADD_AUTOMATION]: MutationHelpers.create,
   [types.SET_AUTOMATIONS]: MutationHelpers.set,
-  [types.EDIT_AUTOMATION]: MutationHelpers.update,
-  [types.DELETE_AUTOMATION]: MutationHelpers.destroy,
+  // [types.EDIT_AUTOMATION]: MutationHelpers.update,
+  // [types.DELETE_AUTOMATION]: MutationHelpers.destroy,
 };
 
 export default {
