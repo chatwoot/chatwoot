@@ -49,7 +49,7 @@
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
         "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "إنشاء محادثات من التغريدات المشار إليها"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -366,8 +366,8 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "استخدم رمز 'inbox_identifier' المعروض هنا للمصادقة على عملاء API الخاص بك.",
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
