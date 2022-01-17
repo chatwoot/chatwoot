@@ -31,7 +31,7 @@ const testData = [
     attribute_key: 'id',
     filter_operator: 'equal_to',
     values: 'This is a test',
-    query_operator: null,
+    query_operator: 'or',
   },
 ];
 
@@ -53,7 +53,6 @@ const finalResult = {
       attribute_key: 'id',
       filter_operator: 'equal_to',
       values: ['This is a test'],
-      query_operator: null,
     },
   ],
 };

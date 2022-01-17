@@ -160,7 +160,6 @@ export default {
         'contacts/setContactFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))
       );
-      this.appliedFilters[this.appliedFilters.length - 1].query_operator = null;
       this.$emit('applyFilter', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {
