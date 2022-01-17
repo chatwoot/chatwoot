@@ -32,6 +32,20 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
       "REFERER_LINK": "Referer link"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "Name is required",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "Cancel",
+        "API": {
+          "SUCCESS_MESSAGE": "Custom view created successfully",
+          "ERROR_MESSAGE": "Error while creating custom view"
+        }
+      }
     }
   }
 }
