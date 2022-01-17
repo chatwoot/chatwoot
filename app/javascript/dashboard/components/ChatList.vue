@@ -32,8 +32,20 @@
             @click="resetAndFetchData"
           />
         </div>
+        <div v-if="hasActiveCustomViews">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="delete"
+            class="delete-custom-view__button"
+            @click="onClickOpenDeleteCustomViewsModal"
+          />
+        </div>
+
         <woot-button
-          v-if="!hasActiveCustomViews"
+          v-else
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
@@ -50,6 +62,14 @@
       v-if="showAddCustomViewsModal"
       :custom-views-query="customViewsQuery"
       @close="onCloseAddCustomViewsModal"
+    />
+
+    <delete-custom-views
+      v-if="showDeleteCustomViewsModal"
+      :show-delete-popup.sync="showDeleteCustomViewsModal"
+      :close-delete-popup="onCloseDeleteCustomViewsModal"
+      :active-custom-view="activeCustomView"
+      :custom-views-id="customViewsId"
     />
 
     <chat-type-tabs
@@ -129,6 +149,7 @@ import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 
 import {
   hasPressedAltAndJKey,
@@ -142,6 +163,7 @@ export default {
     ConversationCard,
     ChatFilter,
     ConversationAdvancedFilter,
+    DeleteCustomViews,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -177,6 +199,7 @@ export default {
       })),
       customViewsQuery: {},
       showAddCustomViewsModal: false,
+      showDeleteCustomViewsModal: false,
     };
   },
   computed: {
@@ -352,6 +375,12 @@ export default {
     onCloseAddCustomViewsModal() {
       this.showAddCustomViewsModal = false;
     },
+    onClickOpenDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = true;
+    },
+    onCloseDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = false;
+    },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
     },
@@ -503,5 +532,9 @@ export default {
 .filter__applied {
   padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
+}
+
+.delete-custom-view__button {
+  margin-right: var(--space-normal);
 }
 </style>
