@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "معرف الحساب",
+        "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
       },
       "NAME": {
         "LABEL": "اسم الحساب",
