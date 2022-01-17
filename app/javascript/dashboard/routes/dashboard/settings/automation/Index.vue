@@ -30,7 +30,7 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(automation, index) in records" :key="automation.title">
+            <tr v-for="(automation, index) in records" :key="index">
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
@@ -42,7 +42,7 @@
                 <fluent-icon v-else icon="square" />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
-              <td class="button-wrapper">
+              <!-- <td class="button-wrapper">
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
                   variant="smooth"
@@ -76,7 +76,7 @@
                   @click="openDeletePopup(automation, index)"
                 >
                 </woot-button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
