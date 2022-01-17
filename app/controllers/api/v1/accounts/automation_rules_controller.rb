@@ -36,7 +36,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     params.permit(
       :name, :description, :event_name, :account_id,
       conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
-      actions: [:action_name, { action_params: [:intiated_at] }]
+      actions: [:action_name, { action_params: [] }]
     )
   end
 
