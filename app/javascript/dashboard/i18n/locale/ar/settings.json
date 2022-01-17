@@ -89,21 +89,21 @@
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "كلمة مرور جديدة",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "تأكيد كلمة المرور الجديدة",
         "ERROR": "تأكيد كلمة المرور يجب أن تتطابق",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "الرجاء إعادة إدخال كلمة المرور"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "تبديل الحساب",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
@@ -153,11 +153,11 @@
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
-    "CUSTOM_VIEWS": "Folders",
+    "CUSTOM_VIEWS": "المجلدات",
     "ALL_CONTACTS": "جميع جهات الاتصال",
     "TAGGED_WITH": "مشار إليه بواسطة",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
+    "NEW_LABEL": "علامة جديدة",
+    "NEW_TEAM": "فريق جديد",
     "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "CSAT": "CSAT",
