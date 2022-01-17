@@ -14,6 +14,8 @@ const conversations = accountId => ({
     'conversations_through_team',
     'conversation_mentions',
     'conversation_through_mentions',
+    'custom_view_conversations',
+    'conversations_through_custom_view',
   ],
   menuItems: [
     {

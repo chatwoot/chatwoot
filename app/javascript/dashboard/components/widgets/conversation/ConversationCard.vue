@@ -130,6 +130,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
+    },
     showAssignee: {
       type: Boolean,
       default: false,
@@ -248,6 +252,7 @@ export default {
         id: chat.id,
         label: this.activeLabel,
         teamId: this.teamId,
+        customViewsId: this.customViewsId,
         conversationType: this.conversationType,
       });
       router.push({ path: frontendURL(path) });
