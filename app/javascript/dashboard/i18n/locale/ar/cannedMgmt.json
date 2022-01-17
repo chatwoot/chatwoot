@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "الرمز المختصر",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "الرجاء إدخال رمز مختصر",
           "ERROR": "الرمز المختصر مطلوب"
         },
         "CONTENT": {
