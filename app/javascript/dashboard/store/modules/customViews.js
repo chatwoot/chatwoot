@@ -25,7 +25,7 @@ export const actions = {
   get: async function getCustomViews({ commit }) {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: true });
     try {
-      const response = await CustomViewsAPI.get();
+      const response = await CustomViewsAPI.getCustomViews();
       commit(types.SET_CUSTOM_VIEW, response.data);
     } catch (error) {
       // Ignore error
