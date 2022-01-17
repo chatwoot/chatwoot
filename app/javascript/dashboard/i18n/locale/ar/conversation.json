@@ -90,8 +90,8 @@
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "تعذر إرسال الرسالة! حاول مرة أخرى",
+    "TRY_AGAIN": "إعادة المحاولة",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
@@ -129,7 +129,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "قم بدعوة أعضاء فريقك",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "عندما تصبح جاهز للتخاطب مع عميلك، احضر زملائك في الفريق لمساعدتك. يمكنك دعوة زملائك في الفريق بإضافة عنوان البريد الإلكتروني الخاص بهم إلى قائمة الوكيل.",
       "NEW_LINK": "انقر هنا لدعوة عضو في الفريق"
     },
     "INBOXES": {
