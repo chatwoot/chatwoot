@@ -22,10 +22,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    closeDeletePopup: {
-      type: Function,
-      default: () => {},
-    },
     activeCustomView: {
       type: Array,
       default: () => [],
@@ -72,6 +68,9 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+    },
+    closeDeletePopup() {
+      this.$emit('close');
     },
   },
 };

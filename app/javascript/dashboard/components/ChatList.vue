@@ -67,9 +67,9 @@
     <delete-custom-views
       v-if="showDeleteCustomViewsModal"
       :show-delete-popup.sync="showDeleteCustomViewsModal"
-      :close-delete-popup="onCloseDeleteCustomViewsModal"
       :active-custom-view="activeCustomView"
       :custom-views-id="customViewsId"
+      @close="onCloseDeleteCustomViewsModal"
     />
 
     <chat-type-tabs
