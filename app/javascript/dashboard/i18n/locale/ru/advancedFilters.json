@@ -35,15 +35,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "Вы хотите сохранить этот фильтр?",
+        "LABEL": "Название фильтра",
+        "PLACEHOLDER": "Введите имя для этого фильтра",
         "ERROR_MESSAGE": "Необходимо указать имя",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "Сохранить фильтр",
         "CANCEL_BUTTON": "Отменить",
         "API": {
-          "SUCCESS_MESSAGE": "Custom view created successfully",
-          "ERROR_MESSAGE": "Error while creating custom view"
+          "SUCCESS_MESSAGE": "Пользовательское представление успешно создано",
+          "ERROR_MESSAGE": "Ошибка при создании пользовательского представления"
         }
       }
     }
