@@ -11,10 +11,6 @@ const generatePayload = data => {
     }
     return item;
   });
-// For every query added, the query_operator is set default to and so the
-// last query will have an extra query_operator, this would break the api. 
-// Setting this to null for all query payload
-
   payload[payload.length - 1].query_operator = undefined;
   return { payload };
 };
