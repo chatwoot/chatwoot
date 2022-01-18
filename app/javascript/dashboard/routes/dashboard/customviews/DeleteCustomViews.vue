@@ -23,7 +23,7 @@ export default {
       default: false,
     },
     activeCustomView: {
-      type: Array,
+      type: Object,
       default: () => {},
     },
     customViewsId: {
