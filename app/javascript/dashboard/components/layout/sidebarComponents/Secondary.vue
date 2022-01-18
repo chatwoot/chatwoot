@@ -157,7 +157,7 @@ export default {
     customViewsSection() {
       return {
         icon: 'folder',
-        label: 'CUSTOM_VIEWS_FOLDER',
+        label: 'CUSTOM_VIEWS',
         hasSubMenu: true,
         key: 'custom_view',
         children: this.customViews

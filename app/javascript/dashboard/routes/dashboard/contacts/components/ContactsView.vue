@@ -246,9 +246,6 @@ export default {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
     },
-    onCloseCustomViewsModal() {
-      this.showAddCustomViewsModal = false;
-    },
   },
 };
 </script>
