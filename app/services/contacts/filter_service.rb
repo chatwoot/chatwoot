@@ -33,6 +33,10 @@ class Contacts::FilterService < FilterService
       else
         " LOWER(contacts.#{attribute_key}) #{filter_operator_value} #{query_operator} "
       end
+    else
+      if Current.account.custom_attribute_definitions.find_by(attribute_key: attribute_key)
+        " contacts.custom_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+      end
     end
   end
 
