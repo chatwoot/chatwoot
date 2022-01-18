@@ -16,7 +16,6 @@ export const getters = {
     return _state.uiFlags;
   },
   getCustomViews(_state) {
-    // console.log('getCustomViews', _state.records);
     return _state.records;
   },
 };

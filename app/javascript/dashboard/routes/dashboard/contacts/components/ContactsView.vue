@@ -9,7 +9,7 @@
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
-        :on-toggle-custom-views-modal="onCLickOpenCustomViewsModal"
+        :on-toggle-custom-views-modal="onClickOpenCustomViewsModal"
         :header-title="label"
       />
       <contacts-table
@@ -112,9 +112,7 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
-      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
-
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
@@ -220,7 +218,7 @@ export default {
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
     },
-    onCLickOpenCustomViewsModal() {
+    onClickOpenCustomViewsModal() {
       this.showAddCustomViewsModal = true;
     },
     onCloseAddCustomViewsModal() {

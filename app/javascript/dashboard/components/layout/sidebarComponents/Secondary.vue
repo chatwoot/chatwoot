@@ -57,9 +57,6 @@ export default {
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
     },
-    contactCustomViews() {
-      return this.customViews.filter(view => view.filter_type === 'contact');
-    },
     accessibleMenuItems() {
       if (!this.currentRole) {
         return [];
@@ -160,7 +157,7 @@ export default {
     customViewsSection() {
       return {
         icon: 'folder',
-        label: 'CUSTOM_VIEWS',
+        label: 'CUSTOM_VIEWS_FOLDER',
         hasSubMenu: true,
         key: 'custom_view',
         children: this.customViews
@@ -175,27 +172,8 @@ export default {
           })),
       };
     },
-    contactCustomViewsSection() {
-      return {
-        icon: 'folder',
-        label: 'CUSTOM_VIEWS',
-        hasSubMenu: true,
-        key: 'custom_view',
-        children: this.customViews
-          .filter(view => view.filter_type === 'contact')
-          .map(view => ({
-            id: view.id,
-            label: view.name,
-            truncateLabel: true,
-            toState: frontendURL(
-              `accounts/${this.accountId}/custom_view/${view.id}`
-            ),
-          })),
-      };
-    },
     additionalSecondaryMenuItems() {
       let conversationMenuItems = [this.inboxSection, this.labelSection];
-      let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];
       }
@@ -205,15 +183,9 @@ export default {
           ...conversationMenuItems,
         ];
       }
-      if (this.contactCustomViews.length) {
-        contactMenuItems = [
-          this.contactCustomViewsSection,
-          ...contactMenuItems,
-        ];
-      }
       return {
         conversations: conversationMenuItems,
-        contacts: contactMenuItems,
+        contacts: [this.contactLabelSection],
       };
     },
   },
