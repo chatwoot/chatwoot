@@ -220,14 +220,14 @@ export default {
       return this.appliedFilters.length;
     },
     hasActiveCustomViews() {
-      return this.activeCustomView.length > 0 && this.customViewsId !== 0;
+      return this.activeCustomView && this.customViewsId !== 0;
     },
     hasAppliedFiltersOrActiveCustomViews() {
       return this.hasAppliedFilters || this.hasActiveCustomViews;
     },
     savedCustomViewsValue() {
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
@@ -298,7 +298,7 @@ export default {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       if (this.hasActiveCustomViews) {
-        return this.activeCustomView[0].name;
+        return this.activeCustomView.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -321,11 +321,13 @@ export default {
     },
     activeCustomView() {
       if (this.customViewsId) {
-        return this.customViews.filter(
+        const activeView = this.customViews.filter(
           view => view.id === Number(this.customViewsId)
         );
+        const [firstValue] = activeView;
+        return firstValue;
       }
-      return [];
+      return undefined;
     },
     activeTeam() {
       if (this.teamId) {
@@ -433,7 +435,7 @@ export default {
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       }
       if (this.customViewsId) {
@@ -451,7 +453,7 @@ export default {
         this.fetchConversations();
       }
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       } else {
         this.fetchFilteredConversations(this.appliedFilters);

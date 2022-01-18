@@ -24,7 +24,7 @@ export default {
     },
     activeCustomView: {
       type: Array,
-      default: () => [],
+      default: () => {},
     },
     customViewsId: {
       type: [String, Number],
@@ -36,15 +36,15 @@ export default {
     deleteMessage() {
       return `${this.$t(
         'FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE'
-      )} ${this.activeCustomView[0] && this.activeCustomView[0].name} ?`;
+      )} ${this.activeCustomView && this.activeCustomView.name} ?`;
     },
     deleteConfirmText() {
       return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.YES')} ${this
-        .activeCustomView[0] && this.activeCustomView[0].name}`;
+        .activeCustomView && this.activeCustomView.name}`;
     },
     deleteRejectText() {
       return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.NO')} ${this
-        .activeCustomView[0] && this.activeCustomView[0].name}`;
+        .activeCustomView && this.activeCustomView.name}`;
     },
   },
 
