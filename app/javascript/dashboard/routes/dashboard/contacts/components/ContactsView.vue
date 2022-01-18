@@ -10,7 +10,7 @@
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
         :header-title="label"
-        @open-customview-modal="onClickOpenCustomViewsModal"
+        @on-toggle-save-filter="onToggleSaveFilters"
       />
       <contacts-table
         :contacts="records"
@@ -73,6 +73,7 @@ import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 
 const DEFAULT_PAGE = 1;
+const FILTER_TYPE_CONTACT = 1;
 
 export default {
   components: {
@@ -103,7 +104,7 @@ export default {
         ),
       })),
       customViewsQuery: {},
-      filterType: 1,
+      filterType: FILTER_TYPE_CONTACT,
       showAddCustomViewsModal: false,
     };
   },
@@ -218,7 +219,7 @@ export default {
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
     },
-    onClickOpenCustomViewsModal() {
+    onToggleSaveFilters() {
       this.showAddCustomViewsModal = true;
     },
     onCloseAddCustomViewsModal() {
@@ -236,7 +237,7 @@ export default {
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
-      this.customViewsQuery = { payload: payload };
+      this.customViewsQuery = { payload };
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });

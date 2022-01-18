@@ -42,6 +42,7 @@
           v-if="hasAppliedFilters"
           class="margin-right-small clear"
           color-scheme="alert"
+          variant="clear"
           icon="save"
           @click="onToggleCustomViewsModal"
         >
@@ -123,7 +124,7 @@ export default {
   },
   methods: {
     onToggleCustomViewsModal() {
-      this.$emit('open-customview-modal');
+      this.$emit('on-toggle-save-filter');
     },
   },
 };
