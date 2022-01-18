@@ -9,8 +9,8 @@
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
-        :on-toggle-custom-views-modal="onClickOpenCustomViewsModal"
         :header-title="label"
+        @open-customview-modal="onClickOpenCustomViewsModal"
       />
       <contacts-table
         :contacts="records"

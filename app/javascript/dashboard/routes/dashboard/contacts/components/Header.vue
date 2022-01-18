@@ -103,10 +103,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    onToggleCustomViewsModal: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
@@ -123,6 +119,11 @@ export default {
     }),
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
+    },
+  },
+  methods: {
+    onToggleCustomViewsModal() {
+      this.$emit('open-customview-modal');
     },
   },
 };
