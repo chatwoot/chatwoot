@@ -7,13 +7,30 @@
           class="filter__question"
           @change="resetFilter()"
         >
-          <option
-            v-for="attribute in filterAttributes"
-            :key="attribute.key"
-            :value="attribute.key"
-          >
-            {{ attribute.name }}
-          </option>
+          <template v-if="hasGroups">
+            <optgroup
+              v-for="(group, i) in filterAttributes"
+              :key="i"
+              :label="group.groupLabel"
+            >
+              <option
+                v-for="attribute in group.items"
+                :key="attribute.key"
+                :value="attribute.key"
+              >
+                {{ attribute.name }}
+              </option>
+            </optgroup>
+          </template>
+          <template v-else>
+            <option
+              v-for="attribute in filterAttributes"
+              :key="attribute.key"
+              :value="attribute.key"
+            >
+              {{ attribute.name }}
+            </option>
+          </template>
         </select>
 
         <select v-model="filterOperator" class="filter__operator">
@@ -173,6 +190,10 @@ export default {
         const payload = this.value || {};
         this.$emit('input', { ...payload, query_operator: value });
       },
+    },
+    hasGroups() {
+      // eslint-disable-next-line no-prototype-builtins
+      return this.filterAttributes[0].hasOwnProperty('groupLabel');
     },
   },
   methods: {

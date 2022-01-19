@@ -31,7 +31,11 @@
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link"
     },
     "CUSTOM_VIEWS": {
       "ADD": {

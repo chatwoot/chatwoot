@@ -52,6 +52,7 @@ import FilterInputBox from '../FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from '/app/javascript/shared/constants/countries.js';
 import { mapGetters } from 'vuex';
+import { altSchema } from './advancedFilterItems';
 
 export default {
   components: {
@@ -91,10 +92,15 @@ export default {
   },
   computed: {
     filterAttributes() {
-      return this.filterTypes.map(type => {
+      return altSchema.map(filter => {
         return {
-          key: type.attributeKey,
-          name: this.$t(`FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
+          groupLabel: filter.group,
+          items: filter.items.map(item => {
+            return {
+              key: item.attributeKey,
+              name: this.$t(`FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
+            };
+          }),
         };
       });
     },
