@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Funktionscode",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Bitte geben Sie einen Shortcode ein",
           "ERROR": "Funktionscode ist erforderlich"
         },
         "CONTENT": {
