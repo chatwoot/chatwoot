@@ -3,7 +3,7 @@
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
         <h1 class="page-title">
-          {{ headerTitle ? `#${headerTitle}` : $t('CONTACTS_PAGE.HEADER') }}
+          {{ headerTitle }}
         </h1>
       </div>
       <div class="right-aligned-wrap">
