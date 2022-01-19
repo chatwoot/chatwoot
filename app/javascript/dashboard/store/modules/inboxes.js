@@ -14,8 +14,7 @@ const buildInboxData = inboxParams => {
   });
   const { selectedFeatureFlags, ...channelParams } = channel;
   // selectedFeatureFlags needs to be empty when creating a website channel
-  if (selectedFeatureFlags !== undefined) {
-    if (selectedFeatureFlags.length) {
+  if (selectedFeatureFlags && selectedFeatureFlags.length) {
       selectedFeatureFlags.forEach(featureFlag => {
         formData.append(`channel[selected_feature_flags][]`, featureFlag);
       });
