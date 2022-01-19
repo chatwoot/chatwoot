@@ -47,18 +47,18 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "حذف الفلتر",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "تأكيد الحذف",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
             "YES": "نعم، احذف ",
             "NO": "لا، احتفظ "
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة"
         }
       }
     }
