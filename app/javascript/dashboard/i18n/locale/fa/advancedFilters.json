@@ -47,18 +47,18 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "حذف فیلتر",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "تاییدیه حذف",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
             "YES": "بله، حذف شود ",
             "NO": "نه، بماند "
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "نمایش سفارشی با موفقیت حذف شد",
+          "ERROR_MESSAGE": "در هنگام حذف نمایش سفارشی خطایی رخ داد"
         }
       }
     }
