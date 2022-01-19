@@ -45,6 +45,21 @@
           "SUCCESS_MESSAGE": "Пользовательское представление успешно создано",
           "ERROR_MESSAGE": "Ошибка при создании пользовательского представления"
         }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Подтвердите удаление",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "Да, удалить ",
+            "NO": "Нет, не удалять "
+          }
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Custom view deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting custom view"
+        }
       }
     }
   }
