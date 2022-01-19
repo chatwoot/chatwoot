@@ -66,6 +66,7 @@
         </div>
       </div>
     </form>
+    <email-signature />
     <change-password />
     <notification-settings />
     <div class="profile--settings--row row">
@@ -95,13 +96,15 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChangePassword from './ChangePassword.vue';
+import ChangePassword from './ChangePassword';
+import EmailSignature from './EmailSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
+    EmailSignature,
   },
   mixins: [alertMixin, globalConfigMixin],
   data() {
