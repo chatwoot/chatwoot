@@ -20,7 +20,6 @@ const buildInboxData = inboxParams => {
       });
     } else {
       formData.append('channel[selected_feature_flags][]', '');
-    }
   }
   Object.keys(channelParams).forEach(key => {
     formData.append(`channel[${key}]`, channel[key]);
