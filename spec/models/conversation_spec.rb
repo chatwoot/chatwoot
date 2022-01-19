@@ -54,7 +54,7 @@ RSpec.describe Conversation, type: :model do
     it 'runs after_create callbacks' do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false)
     end
   end
 
@@ -85,11 +85,11 @@ RSpec.describe Conversation, type: :model do
         label_list: [label.title]
       )
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation)
+        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation)
+        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
     it 'creates conversation activities' do
