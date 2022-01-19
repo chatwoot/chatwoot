@@ -119,10 +119,14 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
       customViews: 'customViews/getCustomViews',
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
+    },
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
     },
     hasActiveCustomViews() {
       return this.activeCustomView && this.customViewsId !== 0;
@@ -178,7 +182,9 @@ export default {
         const payload = this.activeCustomView.query;
         this.fetchSavedFilteredContact(payload);
       }
-      return {};
+      if (!this.hasActiveCustomViews) {
+        this.fetchContacts(DEFAULT_PAGE);
+      }
     },
   },
   mounted() {
@@ -226,6 +232,9 @@ export default {
       }
     },
     fetchSavedFilteredContact(payload) {
+      if (this.hasAppliedFilters) {
+        this.clearFilters();
+      }
       this.$store.dispatch('contacts/filter', {
         queryPayload: payload,
       });
