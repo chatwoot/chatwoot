@@ -45,6 +45,21 @@
           "SUCCESS_MESSAGE": "Custom view created successfully",
           "ERROR_MESSAGE": "Error while creating custom view"
         }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "삭제 확인",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "예, 삭제합니다. ",
+            "NO": "아니요, 유지해주세요. "
+          }
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Custom view deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting custom view"
+        }
       }
     }
   }
