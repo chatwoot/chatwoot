@@ -35,30 +35,30 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "Möchten Sie diesen Filter speichern?",
+        "LABEL": "Diesen Filter benennen",
+        "PLACEHOLDER": "Geben Sie einen Namen für diesen Filter ein",
         "ERROR_MESSAGE": "Name wird benötigt",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "Filter speichern",
         "CANCEL_BUTTON": "Stornieren",
         "API": {
-          "SUCCESS_MESSAGE": "Custom view created successfully",
-          "ERROR_MESSAGE": "Error while creating custom view"
+          "SUCCESS_MESSAGE": "Benutzerdefinierte Aussicht erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen der benutzerdefinierten Ansicht"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Filter löschen",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Löschung bestätigen",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Möchten Sie den Filter wirklich löschen ",
             "YES": "Ja, löschen ",
             "NO": "Nein, behalten "
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "Benutzerdefinierte Aussicht erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen der benutzerdefinierten Ansicht"
         }
       }
     }
