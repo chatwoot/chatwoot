@@ -366,8 +366,8 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Erlaube Nachrichten nach aufgelösten Konversationen",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
