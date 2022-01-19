@@ -47,18 +47,18 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Excluir filtro",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirmar exclusão",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Tem certeza que deseja excluir o filtro ",
             "YES": "Sim, excluir ",
             "NO": "Não, Mantenha "
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "Visualização personalizada excluída com sucesso",
+          "ERROR_MESSAGE": "Erro ao excluir a visualização personalizada"
         }
       }
     }
