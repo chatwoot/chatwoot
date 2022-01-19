@@ -45,6 +45,21 @@
           "SUCCESS_MESSAGE": "نمایش سفارشی با موفقیت ایجاد شد",
           "ERROR_MESSAGE": "در هنگام ایجاد نمایش سفارشی خطایی رخ داد"
         }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تاییدیه حذف",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "بله، حذف شود ",
+            "NO": "نه، بماند "
+          }
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Custom view deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting custom view"
+        }
       }
     }
   }
