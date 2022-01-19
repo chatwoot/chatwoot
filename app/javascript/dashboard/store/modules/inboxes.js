@@ -14,12 +14,14 @@ const buildInboxData = inboxParams => {
   });
   const { selectedFeatureFlags, ...channelParams } = channel;
   // selectedFeatureFlags needs to be empty when creating a website channel
-  if (selectedFeatureFlags && selectedFeatureFlags.length) {
+  if (selectedFeatureFlags) {
+    if (selectedFeatureFlags.length) {
       selectedFeatureFlags.forEach(featureFlag => {
         formData.append(`channel[selected_feature_flags][]`, featureFlag);
       });
     } else {
       formData.append('channel[selected_feature_flags][]', '');
+    }
   }
   Object.keys(channelParams).forEach(key => {
     formData.append(`channel[${key}]`, channel[key]);
