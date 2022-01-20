@@ -47,18 +47,18 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Удалить фильтр",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Подтвердите удаление",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Вы уверены, что хотите удалить фильтр ",
             "YES": "Да, удалить ",
             "NO": "Нет, не удалять "
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "Пользовательское представление успешно удалено",
+          "ERROR_MESSAGE": "Ошибка при удалении пользовательского представления"
         }
       }
     }
