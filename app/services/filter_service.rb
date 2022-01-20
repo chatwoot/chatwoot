@@ -31,10 +31,13 @@ class FilterService
   end
 
   def filter_values(query_hash)
-    if query_hash['attribute_key'] == 'status'
+    case query_hash['attribute_key']
+    when 'status'
       return Conversation.statuses.values if query_hash['values'].include?('all')
 
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
+    when 'message_type'
+      query_hash['values'].map { |x| Message.message_types[x.to_sym] }
     else
       query_hash['values']
     end

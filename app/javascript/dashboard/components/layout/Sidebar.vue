@@ -14,6 +14,7 @@
       :inboxes="inboxes"
       :labels="labels"
       :teams="teams"
+      :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
@@ -87,6 +88,7 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
+      customViews: 'customViews/getCustomViews',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       labels: 'labels/getLabelsOnSidebar',
@@ -122,6 +124,7 @@ export default {
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('customViews/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
