@@ -164,10 +164,9 @@ export default {
     },
     activeCustomView() {
       if (this.customViewsId) {
-        const activeView = this.customViews.filter(
+        const [firstValue] = this.customViews.filter(
           view => view.id === Number(this.customViewsId)
         );
-        const [firstValue] = activeView;
         return firstValue;
       }
       return undefined;
@@ -181,8 +180,7 @@ export default {
       if (this.hasActiveCustomViews) {
         const payload = this.activeCustomView.query;
         this.fetchSavedFilteredContact(payload);
-      }
-      if (!this.hasActiveCustomViews) {
+      } else {
         this.fetchContacts(DEFAULT_PAGE);
       }
     },

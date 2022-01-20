@@ -93,15 +93,21 @@ export default {
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
-    activeCustomViewsFilterType() {
-      return this.activePrimaryMenuAndCustomView();
+    activeCustomView() {
+      if (this.activePrimaryMenu.key === 'contacts') {
+        return 'contact';
+      }
+      if (this.activePrimaryMenu.key === 'conversations') {
+        return 'conversation';
+      }
+      return '';
     },
     customViews() {
       return this.$store.getters['customViews/getCustomViewsByFilterType'](
-        this.activeCustomViewsFilterType
+        this.activeCustomView
       );
     },
-    isActivePrimaryMenuConversationsOrContact() {
+    isConversationOrContactActive() {
       return (
         this.activePrimaryMenu.key === 'contacts' ||
         this.activePrimaryMenu.key === 'conversations'
@@ -136,7 +142,7 @@ export default {
   },
 
   watch: {
-    activeCustomViewsFilterType() {
+    activeCustomView() {
       this.fetchCustomViews();
     },
   },
@@ -151,21 +157,9 @@ export default {
 
   methods: {
     fetchCustomViews() {
-      if (this.isActivePrimaryMenuConversationsOrContact) {
-        this.$store.dispatch(
-          'customViews/get',
-          this.activeCustomViewsFilterType
-        );
+      if (this.isConversationOrContactActive) {
+        this.$store.dispatch('customViews/get', this.activeCustomView);
       }
-    },
-    activePrimaryMenuAndCustomView() {
-      if (this.activePrimaryMenu.key === 'contacts') {
-        return 'contact';
-      }
-      if (this.activePrimaryMenu.key === 'conversations') {
-        return 'conversation';
-      }
-      return '';
     },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
