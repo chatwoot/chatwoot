@@ -1,11 +1,11 @@
 <tr>
   <td>
-    <p>
-      <p>Hello <%= @contact.name %>,</p>
+    <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+      Hello <%= @contact.name %>,
       Here's the summary of conversation with <%= account.name %> through <%= inbox.channel_name %>,
+      <br />
+      View converation on <a href="<%= conversation_url %>"><%= conversation_origin %></a>
     </p>
-    View converation on <a href="<%= conversation_url %>"><%= conversation_origin %></a>
-    <br />
   </td>
 </tr>
 <% @messages.each do |message| %>
