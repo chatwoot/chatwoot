@@ -1,6 +1,16 @@
 require 'json'
 
 class FilterService
+  ATTRIBUTE_MODEL = 'conversation_attribute'
+  ATTRIBUTE_TYPES = {
+    date: 'date',
+    text: 'text',
+    number: 'numeric',
+    link: 'text',
+    list: 'text',
+    checkbox: 'boolean'
+  }.with_indifferent_access
+
   def initialize(params, user)
     @params = params
     @user = user
@@ -24,6 +34,10 @@ class FilterService
       @filter_values["value_#{current_index}"] = 'IS NOT NULL'
     when 'is_not_present'
       @filter_values["value_#{current_index}"] = 'IS NULL'
+    when 'is_greater_than'
+      @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
+    when 'is_less_than'
+      @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -43,6 +57,12 @@ class FilterService
     end
   end
 
+  def lt_gt_filter_values(query_hash)
+    value = query_hash['values'][0]
+    operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
+    "#{operator} '#{value}'::date"
+  end
+
   def set_count_for_all_conversations
     [
       @conversations.assigned_to(@user).count,
@@ -52,6 +72,12 @@ class FilterService
   end
 
   private
+
+  def custom_attribute(attribute_key)
+    @custom_attribute = Current.account.custom_attribute_definitions.where(
+      attribute_model: self.class::ATTRIBUTE_MODEL,
+    ).find_by(attribute_key: attribute_key)
+  end
 
   def equals_to_filter_string(filter_operator, current_index)
     return  "IN (:value_#{current_index})" if filter_operator == 'equal_to'

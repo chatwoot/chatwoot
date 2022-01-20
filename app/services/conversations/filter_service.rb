@@ -1,4 +1,6 @@
 class Conversations::FilterService < FilterService
+  ATTRIBUTE_MODEL = 'conversation_attribute'
+
   def perform
     @conversations = conversation_query_builder
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
@@ -30,6 +32,8 @@ class Conversations::FilterService < FilterService
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
+    return custom_attribute_query(query_hash, current_index) if current_filter.nil?
+
     case current_filter['attribute_type']
     when 'additional_attributes'
       " conversations.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
@@ -38,10 +42,6 @@ class Conversations::FilterService < FilterService
         " tags.name #{filter_operator_value} #{query_operator} "
       else
         " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
-      end
-    else
-      if Current.account.custom_attribute_definitions.find_by(attribute_key: attribute_key)
-        " conversations.custom_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
       end
     end
   end
@@ -59,5 +59,19 @@ class Conversations::FilterService < FilterService
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
     @conversations.latest.page(current_page)
+  end
+
+  private
+
+  def custom_attribute_query(query_hash, current_index)
+    attribute_key = query_hash[:attribute_key]
+    query_operator = query_hash[:query_operator]
+    filter_operator_value = filter_operation(query_hash, current_index)
+
+    if custom_attribute(attribute_key)
+      " conversations.custom_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+    else
+      " "
+    end
   end
 end
