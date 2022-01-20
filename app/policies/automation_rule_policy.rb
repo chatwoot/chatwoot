@@ -11,10 +11,6 @@ class AutomationRulePolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def edit?
-    @account_user.administrator?
-  end
-
   def update?
     @account_user.administrator?
   end

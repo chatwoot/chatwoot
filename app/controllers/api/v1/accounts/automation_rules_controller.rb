@@ -1,6 +1,6 @@
 class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :fetch_automation_rule, only: [:show, :edit, :update, :destroy, :clone]
+  before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
 
   def index
     @automation_rules = Current.account.automation_rules.active
@@ -9,8 +9,6 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def create
     @automation_rule = Current.account.automation_rules.create(automation_rules_permit)
   end
-
-  def edit; end
 
   def show; end
 
