@@ -1,6 +1,13 @@
-<p>Hi <%= @contact.name %>,</p>
-
-<p>You have new messages on your conversation.</p>
+<tr>
+  <td>
+    <p>
+      <p>Hello <%= @contact.name %>,</p>
+      Here's the summary of conversation with <%= account.name %> through <%= inbox.channel_name %>,
+    </p>
+    View converation on <a href="<%= conversation_url %>"><%= conversation_origin %></a>
+    <br />
+  </td>
+</tr>
 
 <% @messages.each do |message| %>
   <tr>

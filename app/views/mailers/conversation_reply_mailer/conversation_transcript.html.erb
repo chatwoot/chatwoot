@@ -1,3 +1,13 @@
+<tr>
+  <td>
+    <p>
+      Hello, <br/>
+      Here's the summary of conversation with <%= account.name %> through <%= inbox.channel_name %>,
+    </p>
+    View converation on <a href="<%= conversation_url %>"><%= conversation_origin %></a>
+    <br />
+  </td>
+</tr>
 <% @messages.each do |message| %>
   <tr>
     <td>
