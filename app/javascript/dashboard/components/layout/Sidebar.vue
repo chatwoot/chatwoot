@@ -88,12 +88,31 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
-      customViews: 'customViews/getCustomViews',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
+    activeCustomView() {
+      if (this.activePrimaryMenu.key === 'contacts') {
+        return 'contact';
+      }
+      if (this.activePrimaryMenu.key === 'conversations') {
+        return 'conversation';
+      }
+      return '';
+    },
+    customViews() {
+      return this.$store.getters['customViews/getCustomViewsByFilterType'](
+        this.activeCustomView
+      );
+    },
+    isConversationOrContactActive() {
+      return (
+        this.activePrimaryMenu.key === 'contacts' ||
+        this.activePrimaryMenu.key === 'conversations'
+      );
+    },
     sideMenuConfig() {
       return getSidebarItems(this.accountId);
     },
@@ -121,16 +140,27 @@ export default {
       return activePrimaryMenu;
     },
   },
+
+  watch: {
+    activeCustomView() {
+      this.fetchCustomViews();
+    },
+  },
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
-    this.$store.dispatch('customViews/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
+    this.fetchCustomViews();
   },
 
   methods: {
+    fetchCustomViews() {
+      if (this.isConversationOrContactActive) {
+        this.$store.dispatch('customViews/get', this.activeCustomView);
+      }
+    },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
     },

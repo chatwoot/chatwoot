@@ -3,13 +3,14 @@
     <div class="left-wrap" :class="wrapClas">
       <contacts-header
         :search-query="searchQuery"
+        :custom-views-id="customViewsId"
         :on-search-submit="onSearchSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
-        :header-title="label"
+        :header-title="pageTitle"
         @on-toggle-save-filter="onToggleSaveFilters"
       />
       <contacts-table
@@ -88,6 +89,10 @@ export default {
   },
   props: {
     label: { type: String, default: '' },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -113,10 +118,27 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
+      customViews: 'customViews/getCustomViews',
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
+    },
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
+    },
+    hasActiveCustomViews() {
+      return this.activeCustomView && this.customViewsId !== 0;
+    },
+    pageTitle() {
+      if (this.hasActiveCustomViews) {
+        return this.activeCustomView.name;
+      }
+      if (this.label) {
+        return `#${this.label}`;
+      }
+      return this.$t('CONTACTS_PAGE.HEADER');
     },
     selectedContact() {
       if (this.selectedContactId) {
@@ -140,10 +162,27 @@ export default {
         ? selectedPageNumber
         : DEFAULT_PAGE;
     },
+    activeCustomView() {
+      if (this.customViewsId) {
+        const [firstValue] = this.customViews.filter(
+          view => view.id === Number(this.customViewsId)
+        );
+        return firstValue;
+      }
+      return undefined;
+    },
   },
   watch: {
     label() {
       this.fetchContacts(DEFAULT_PAGE);
+    },
+    activeCustomView() {
+      if (this.hasActiveCustomViews) {
+        const payload = this.activeCustomView.query;
+        this.fetchSavedFilteredContact(payload);
+      } else {
+        this.fetchContacts(DEFAULT_PAGE);
+      }
     },
   },
   mounted() {
@@ -189,6 +228,14 @@ export default {
           ...requestParams,
         });
       }
+    },
+    fetchSavedFilteredContact(payload) {
+      if (this.hasAppliedFilters) {
+        this.clearFilters();
+      }
+      this.$store.dispatch('contacts/filter', {
+        queryPayload: payload,
+      });
     },
     onInputSearch(event) {
       const newQuery = event.target.value;
