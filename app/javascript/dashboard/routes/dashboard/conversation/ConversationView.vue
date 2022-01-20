@@ -5,6 +5,7 @@
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
+      :custom-views-id="customViewsId"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -53,6 +54,10 @@ export default {
     conversationType: {
       type: String,
       default: '',
+    },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
     },
   },
   data() {
