@@ -94,7 +94,7 @@ export default {
       teams: 'teams/getMyTeams',
     }),
     activeCustomViewsFilterType() {
-      return this.activeSecondaryMenuAndCustomView();
+      return this.activePrimaryMenuAndCustomView();
     },
     customViews() {
       return this.$store.getters['customViews/getCustomViewsByFilterType'](
@@ -158,7 +158,7 @@ export default {
         );
       }
     },
-    activeSecondaryMenuAndCustomView() {
+    activePrimaryMenuAndCustomView() {
       if (this.activePrimaryMenu.key === 'contacts') {
         return 'contact';
       }
