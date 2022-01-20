@@ -8,13 +8,13 @@
       "SUBMIT": "Invia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Invia di nuovo il messaggio",
+      "ERROR_MESSAGE": "Impossibile inviare, riprova"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
-    "OFFLINE": "Al momento non è disponibile nessun operatore"
+    "OFFLINE": "Siamo offline in questo momento"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
@@ -22,7 +22,7 @@
     "IN_A_DAY": "In genere le risposte in un giorno"
   },
   "START_CONVERSATION": "Avvia Conversazione",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "CONTINUE_CONVERSATION": "Continua la conversazione",
   "START_NEW_CONVERSATION": "Avvia una nuova conversazione",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
@@ -56,7 +56,7 @@
         "ERROR": "Messaggio troppo corto"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione"
   },
   "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {
@@ -67,7 +67,7 @@
   "CSAT": {
     "TITLE": "Valuta la conversazione",
     "SUBMITTED_TITLE": "Grazie per aver inviato la valutazione",
-    "PLACEHOLDER": "Dicci di più..."
+    "PLACEHOLDER": "Raccontaci di più..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
