@@ -32,8 +32,20 @@
             @click="resetAndFetchData"
           />
         </div>
+        <div v-if="hasActiveCustomViews">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="delete"
+            class="delete-custom-view__button"
+            @click="onClickOpenDeleteCustomViewsModal"
+          />
+        </div>
+
         <woot-button
-          v-if="!hasActiveCustomViews"
+          v-else
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
@@ -50,6 +62,14 @@
       v-if="showAddCustomViewsModal"
       :custom-views-query="customViewsQuery"
       @close="onCloseAddCustomViewsModal"
+    />
+
+    <delete-custom-views
+      v-if="showDeleteCustomViewsModal"
+      :show-delete-popup.sync="showDeleteCustomViewsModal"
+      :active-custom-view="activeCustomView"
+      :custom-views-id="customViewsId"
+      @close="onCloseDeleteCustomViewsModal"
     />
 
     <chat-type-tabs
@@ -129,6 +149,7 @@ import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 
 import {
   hasPressedAltAndJKey,
@@ -142,6 +163,7 @@ export default {
     ConversationCard,
     ChatFilter,
     ConversationAdvancedFilter,
+    DeleteCustomViews,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -177,6 +199,7 @@ export default {
       })),
       customViewsQuery: {},
       showAddCustomViewsModal: false,
+      showDeleteCustomViewsModal: false,
     };
   },
   computed: {
@@ -197,14 +220,14 @@ export default {
       return this.appliedFilters.length;
     },
     hasActiveCustomViews() {
-      return this.activeCustomView.length > 0 && this.customViewsId !== 0;
+      return this.activeCustomView && this.customViewsId !== 0;
     },
     hasAppliedFiltersOrActiveCustomViews() {
       return this.hasAppliedFilters || this.hasActiveCustomViews;
     },
     savedCustomViewsValue() {
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
@@ -275,7 +298,7 @@ export default {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       if (this.hasActiveCustomViews) {
-        return this.activeCustomView[0].name;
+        return this.activeCustomView.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -298,11 +321,13 @@ export default {
     },
     activeCustomView() {
       if (this.customViewsId) {
-        return this.customViews.filter(
+        const activeView = this.customViews.filter(
           view => view.id === Number(this.customViewsId)
         );
+        const [firstValue] = activeView;
+        return firstValue;
       }
-      return [];
+      return undefined;
     },
     activeTeam() {
       if (this.teamId) {
@@ -351,6 +376,12 @@ export default {
     },
     onCloseAddCustomViewsModal() {
       this.showAddCustomViewsModal = false;
+    },
+    onClickOpenDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = true;
+    },
+    onCloseDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = false;
     },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
@@ -404,7 +435,7 @@ export default {
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       }
       if (this.customViewsId) {
@@ -422,7 +453,7 @@ export default {
         this.fetchConversations();
       }
       if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView[0].query;
+        const payload = this.activeCustomView.query;
         this.fetchSavedFilteredConversations(payload);
       } else {
         this.fetchFilteredConversations(this.appliedFilters);
@@ -503,5 +534,9 @@ export default {
 .filter__applied {
   padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
+}
+
+.delete-custom-view__button {
+  margin-right: var(--space-normal);
 }
 </style>
