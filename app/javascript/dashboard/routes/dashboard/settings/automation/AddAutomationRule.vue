@@ -400,7 +400,7 @@ export default {
       ].query_operator = null;
       this.automation.conditions = filterQueryGenerator(
         this.automation.conditions
-      );
+      ).payload;
       this.$emit('saveAutomation', this.automation);
     },
     resetFilter(index, currentCondition) {
