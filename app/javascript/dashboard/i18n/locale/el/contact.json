@@ -179,6 +179,7 @@
     "SEARCH_BUTTON": "Αναζήτηση",
     "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
     "FILTER_CONTACTS": "Φίλτρο",
+    "FILTER_CONTACTS_SAVE": "Αποθήκευση φίλτρου",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
