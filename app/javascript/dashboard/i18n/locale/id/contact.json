@@ -179,6 +179,7 @@
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
     "FILTER_CONTACTS": "Saring",
+    "FILTER_CONTACTS_SAVE": "Save filter",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
