@@ -1,7 +1,7 @@
 require 'json'
 
 class FilterService
-  ATTRIBUTE_MODEL = 'conversation_attribute'
+  ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
     date: 'date',
     text: 'text',
@@ -34,9 +34,7 @@ class FilterService
       @filter_values["value_#{current_index}"] = 'IS NOT NULL'
     when 'is_not_present'
       @filter_values["value_#{current_index}"] = 'IS NULL'
-    when 'is_greater_than'
-      @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
-    when 'is_less_than'
+    when 'is_greater_than', 'is_less_than'
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
@@ -75,7 +73,7 @@ class FilterService
 
   def custom_attribute(attribute_key)
     @custom_attribute = Current.account.custom_attribute_definitions.where(
-      attribute_model: self.class::ATTRIBUTE_MODEL,
+      attribute_model: self.class::ATTRIBUTE_MODEL
     ).find_by(attribute_key: attribute_key)
   end
 

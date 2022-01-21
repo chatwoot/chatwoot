@@ -1,5 +1,5 @@
 class Conversations::FilterService < FilterService
-  ATTRIBUTE_MODEL = 'conversation_attribute'
+  ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
   def perform
     @conversations = conversation_query_builder
@@ -71,7 +71,7 @@ class Conversations::FilterService < FilterService
     if custom_attribute(attribute_key)
       " conversations.custom_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     else
-      " "
+      ' '
     end
   end
 end

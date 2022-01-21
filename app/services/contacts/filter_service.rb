@@ -1,5 +1,5 @@
 class Contacts::FilterService < FilterService
-  ATTRIBUTE_MODEL = 'contact_attribute'
+  ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
   def perform
     @contacts = contact_query_builder
@@ -68,11 +68,12 @@ class Contacts::FilterService < FilterService
     query_operator = query_hash[:query_operator]
     attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
     filter_operator_value = filter_operation(query_hash, current_index)
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
 
     if custom_attribute(attribute_key)
-      "  LOWER(contacts.custom_attributes ->> '#{attribute_key}')::#{self.class::ATTRIBUTE_TYPES[attribute_type]} #{filter_operator_value} #{query_operator} "
+      "  LOWER(contacts.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
     else
-      " "
+      ' '
     end
   end
 end

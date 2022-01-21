@@ -7,6 +7,9 @@ describe ::Contacts::FilterService do
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let(:custom_attribute_definition) do
+    create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute', attribute_display_type: 'text')
+  end
   let!(:contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
 
   before do
@@ -40,22 +43,37 @@ describe ::Contacts::FilterService do
       it 'filter contacts by additional_attributes' do
         params[:payload] = payload
         result = filter_service.new(params, user_1).perform
-        expect(result.length).to be 2
+        expect(result[:contacts].length).to be 1
       end
 
       it 'filter contact by tags' do
         Contact.last.update_labels('support')
+        label_id = Contact.last.labels.last.id
         params[:payload] = [
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
-            values: [1],
+            values: [label_id],
             query_operator: nil
           }.with_indifferent_access
         ]
 
         result = filter_service.new(params, user_1).perform
-        expect(result.length).to be 2
+        expect(result[:contacts].length).to be 1
+      end
+
+      it 'filter by custom_attributes' do
+        Contact.last.update!(custom_attributes: { custom_attribute_definition.attribute_key.to_sym => 'test custom data' })
+        params[:payload] = [
+          {
+            attribute_key: custom_attribute_definition.attribute_key,
+            filter_operator: 'equal_to',
+            values: ['test custom data'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:contacts].length).to be 1
       end
     end
   end
