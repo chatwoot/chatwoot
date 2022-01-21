@@ -20,8 +20,8 @@ class AutomationRuleListener < BaseListener
   end
 
   def message_created(event_obj)
-    conversation = event_obj.data[:conversation]
     message = event_obj.data[:message]
+    conversation = message.conversation
     return unless rule_present?('message_created', conversation)
 
     @rules.each do |rule|
