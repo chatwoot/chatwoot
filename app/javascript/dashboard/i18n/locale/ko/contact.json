@@ -179,6 +179,7 @@
     "SEARCH_BUTTON": "검색",
     "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",
