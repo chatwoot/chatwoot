@@ -10,6 +10,7 @@ class Messages::MessageBuilder
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
     return unless params.instance_of?(ActionController::Parameters)
+
     @files = params[:files]
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)

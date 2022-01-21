@@ -453,7 +453,7 @@ export default {
         upload.create((error, blob) => {
           if (error) {
             this.showAlert(
-              "Not able to upload the file."
+              error
             );
           } else {
             this.attachedFiles.push({
