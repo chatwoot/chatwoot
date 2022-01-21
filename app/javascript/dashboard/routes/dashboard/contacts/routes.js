@@ -11,6 +11,15 @@ export const routes = [
     component: ContactsView,
   },
   {
+    path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
+    name: 'contacts_through_custom_view',
+    roles: ['administrator', 'agent'],
+    component: ContactsView,
+    props: route => {
+      return { customViewsId: route.params.id };
+    },
+  },
+  {
     path: frontendURL('accounts/:accountId/labels/:label/contacts'),
     name: 'contacts_labels_dashboard',
     roles: ['administrator', 'agent'],
