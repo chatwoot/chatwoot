@@ -1,7 +1,7 @@
 export default [
   {
     name: 'Custom view',
-    filter_type: 'conversation',
+    filter_type: 0,
     query: {
       payload: [
         {
@@ -21,20 +21,14 @@ export default [
   },
   {
     name: 'Custom view 1',
-    filter_type: 'conversation',
+    filter_type: 1,
     query: {
       payload: [
         {
-          attribute_key: 'browser_language',
+          attribute_key: 'name',
           filter_operator: 'equal_to',
-          values: ['eng'],
-          query_operator: 'or',
-        },
-        {
-          attribute_key: 'campaign_id',
-          filter_operator: 'equal_to',
-          values: [15],
-          query_operator: 'and',
+          values: ['john doe'],
+          query_operator: null,
         },
       ],
     },

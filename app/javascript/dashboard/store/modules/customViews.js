@@ -18,13 +18,18 @@ export const getters = {
   getCustomViews(_state) {
     return _state.records;
   },
+  getCustomViewsByFilterType: _state => filterType => {
+    return _state.records.filter(record => record.filter_type === filterType);
+  },
 };
 
 export const actions = {
-  get: async function getCustomViews({ commit }) {
+  get: async function getCustomViews({ commit }, filterType) {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: true });
     try {
-      const response = await CustomViewsAPI.getCustomViews();
+      const response = await CustomViewsAPI.getCustomViewsByFilterType(
+        filterType
+      );
       commit(types.SET_CUSTOM_VIEW, response.data);
     } catch (error) {
       // Ignore error

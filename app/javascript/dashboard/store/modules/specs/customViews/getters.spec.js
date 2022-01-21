@@ -7,7 +7,7 @@ describe('#getters', () => {
     expect(getters.getCustomViews(state)).toEqual([
       {
         name: 'Custom view',
-        filter_type: 'conversation',
+        filter_type: 0,
         query: {
           payload: [
             {
@@ -27,20 +27,34 @@ describe('#getters', () => {
       },
       {
         name: 'Custom view 1',
-        filter_type: 'conversation',
+        filter_type: 1,
         query: {
           payload: [
             {
-              attribute_key: 'browser_language',
+              attribute_key: 'name',
               filter_operator: 'equal_to',
-              values: ['eng'],
-              query_operator: 'or',
+              values: ['john doe'],
+              query_operator: null,
             },
+          ],
+        },
+      },
+    ]);
+  });
+
+  it('getCustomViewsByFilterType', () => {
+    const state = { records: customViewList };
+    expect(getters.getCustomViewsByFilterType(state)(1)).toEqual([
+      {
+        name: 'Custom view 1',
+        filter_type: 1,
+        query: {
+          payload: [
             {
-              attribute_key: 'campaign_id',
+              attribute_key: 'name',
               filter_operator: 'equal_to',
-              values: [15],
-              query_operator: 'and',
+              values: ['john doe'],
+              query_operator: null,
             },
           ],
         },
