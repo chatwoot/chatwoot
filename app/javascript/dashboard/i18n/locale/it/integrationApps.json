@@ -7,7 +7,7 @@
       "ENABLED": "Abilitato",
       "DISABLED": "Disabilitato"
     },
-    "CONFIGURE": "Configurare",
+    "CONFIGURE": "Configura",
     "ADD_BUTTON": "Add a new hook",
     "DELETE": {
       "TITLE": {
@@ -22,7 +22,7 @@
         "INBOX": "Sì, elimina",
         "ACCOUNT": "Yes, Disconnect"
       },
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
@@ -32,7 +32,7 @@
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
       "DELETE": {
-        "BUTTON_TEXT": "Cancellare"
+        "BUTTON_TEXT": "Elimina"
       }
     },
     "ADD": {
@@ -42,7 +42,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Crea",
-        "CANCEL": "annulla"
+        "CANCEL": "Annulla"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
