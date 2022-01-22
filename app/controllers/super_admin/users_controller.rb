@@ -41,4 +41,7 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
+  def find_resource(param)
+    super.becomes(User)
+  end
 end

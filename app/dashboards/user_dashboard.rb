@@ -30,6 +30,7 @@ class UserDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     pubsub_token: Field::String,
+    type: Field::Select.with_options(collection: [nil, 'SuperAdmin']),
     accounts: CountField
   }.freeze
 
@@ -44,6 +45,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     email
     accounts
+    type
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -53,6 +55,7 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     unconfirmed_email
     name
+    type
     display_name
     email
     created_at
@@ -67,7 +70,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     display_name
     email
-    password
+    type
   ].freeze
 
   # COLLECTION_FILTERS
