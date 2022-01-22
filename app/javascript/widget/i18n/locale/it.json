@@ -19,13 +19,13 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
     "IN_A_FEW_HOURS": "In genere risponde in poche ore",
-    "IN_A_DAY": "In genere le risposte in un giorno"
+    "IN_A_DAY": "In genere risponde in un giorno"
   },
-  "START_CONVERSATION": "Avvia Conversazione",
-  "CONTINUE_CONVERSATION": "Continua la conversazione",
+  "START_CONVERSATION": "Avvia conversazione",
+  "CONTINUE_CONVERSATION": "Continua conversazione",
   "START_NEW_CONVERSATION": "Avvia una nuova conversazione",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
+    "VIEW_MESSAGES_BUTTON": "Vedi i nuovi messaggi",
     "CLOSE_MESSAGES_BUTTON": "Chiudi",
     "COMPANY_FROM": "da",
     "BOT": "Bot"
@@ -33,7 +33,7 @@
   "BUBBLE": {
     "LABEL": "Chatta con noi"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Offerto da Chatwoot",
   "EMAIL_PLACEHOLDER": "Inserisci la tua email",
   "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
   "TODAY": "Oggi",
@@ -41,13 +41,13 @@
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Nome Completo",
-        "PLACEHOLDER": "Per favore inserisci il nome completo",
-        "ERROR": "Nome completo è richiesto"
+        "LABEL": "Nome completo",
+        "PLACEHOLDER": "Per favore inserisci il tuo nome completo",
+        "ERROR": "Il nome completo è richiesto"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Indirizzo email",
-        "PLACEHOLDER": "Inserisci il tuo indirizzo e-mail",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo email",
         "ERROR": "Indirizzo email non valido"
       },
       "MESSAGE": {
