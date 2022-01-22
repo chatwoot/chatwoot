@@ -28,7 +28,7 @@
         "ADD_BUTTON": "Label hinzufügen"
       },
       "LABEL_SELECT": {
-        "TITLE": "Label hinzufügen",
+        "TITLE": "Labels hinzufügen",
         "PLACEHOLDER": "Labels suchen",
         "NO_RESULT": "Keine Labels gefunden"
       }
@@ -114,7 +114,7 @@
         "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
+        "PLACEHOLDER": "Standort des Kontakts eingeben",
         "LABEL": "Ort"
       },
       "COMPANY_NAME": {
@@ -135,7 +135,7 @@
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Gitub-Benutzernamen eingeben",
+          "PLACEHOLDER": "GitHub-Benutzernamen eingeben",
           "LABEL": "Github"
         }
       }
