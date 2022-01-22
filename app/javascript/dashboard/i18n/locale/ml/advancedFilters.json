@@ -35,15 +35,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "നിങ്ങൾക്ക് ഈ ഫിൽട്ടർ സേവ് ചെയ്യണോ?",
+        "LABEL": "ഈ ഫിൽട്ടറിന് പേര് നൽകുക",
+        "PLACEHOLDER": "ഈ ഫിൽട്ടറിന് ഒരു പേര് നൽകുക",
         "ERROR_MESSAGE": "നാമം ആവശ്യമാണ്",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "ഫിൽട്ടർ സേവ് ചെയുക",
         "CANCEL_BUTTON": "റദ്ദാക്കുക",
         "API": {
-          "SUCCESS_MESSAGE": "Custom view created successfully",
-          "ERROR_MESSAGE": "Error while creating custom view"
+          "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്‌ച വിജയകരമായി സൃഷ്ടിച്ചിരിക്കുന്നു",
+          "ERROR_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്ച സൃഷ്ടിച്ചിരിക്കുന്നതിൽ പിശക്"
         }
       },
       "DELETE": {
@@ -51,14 +51,14 @@
         "MODAL": {
           "CONFIRM": {
             "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "ഫിൽട്ടർ ഇല്ലാതാക്കുമെന്ന് ഉറപ്പാണോ ",
             "YES": "അതെ, ഇല്ലാതാക്കുക ",
             "NO": "ഇല്ല, സൂക്ഷിക്കുക"
           }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+          "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്‌ച വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
+          "ERROR_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്ച ഇല്ലാതാക്കുന്നതിൽ പിശക്"
         }
       }
     }
