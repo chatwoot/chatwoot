@@ -1,13 +1,13 @@
 {
   "CONVERSATION": {
     "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
-    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers wird nicht überprüft",
+    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
     "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
     "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
-    "SEARCH_MESSAGES": "Nachrichten durchsuchen",
+    "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
       "RESULT_TITLE": "Suchergebnisse",
@@ -37,7 +37,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
       "REOPEN_ACTION": "Wieder öffnen",
-      "OPEN_ACTION": "Offen",
+      "OPEN_ACTION": "Öffnen",
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
@@ -48,7 +48,7 @@
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
       "SNOOZE": {
-        "TITLE": "Erinnern",
+        "TITLE": "Schlummern bis",
         "NEXT_REPLY": "Bei Antwort",
         "TOMORROW": "Morgen",
         "NEXT_WEEK": "Nächste Woche"
