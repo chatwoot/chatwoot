@@ -6,7 +6,7 @@
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Invia",
-        "CANCEL_BUTTON_LABEL": "annulla",
+        "CANCEL_BUTTON_LABEL": "Annulla",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
@@ -23,8 +23,8 @@
             "is_not_present": "Is not present"
         },
         "ATTRIBUTES": {
-            "NAME": "nome",
-            "EMAIL": "email",
+            "NAME": "Nome",
+            "EMAIL": "Email",
             "PHONE_NUMBER": "Numero di telefono",
             "IDENTIFIER": "Identifier",
             "CITY": "City",
