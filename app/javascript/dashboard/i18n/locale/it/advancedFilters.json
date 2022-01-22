@@ -5,7 +5,7 @@
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
-    "CANCEL_BUTTON_LABEL": "annulla",
+    "CANCEL_BUTTON_LABEL": "Annulla",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
     "TOOLTIP_LABEL": "Filter conversations",
@@ -24,7 +24,7 @@
     "ATTRIBUTES": {
       "STATUS": "Stato",
       "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Nome Posta In Arrivo",
+      "INBOX_NAME": "Nome Posta in arrivo",
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
@@ -40,7 +40,7 @@
         "PLACEHOLDER": "Enter a name for this filter",
         "ERROR_MESSAGE": "Il nome è obbligatorio",
         "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "annulla",
+        "CANCEL_BUTTON": "Annulla",
         "API": {
           "SUCCESS_MESSAGE": "Custom view created successfully",
           "ERROR_MESSAGE": "Error while creating custom view"
@@ -53,7 +53,7 @@
             "TITLE": "Conferma eliminazione",
             "MESSAGE": "Are you sure to delete the filter ",
             "YES": "Sì, elimina ",
-            "NO": "No, Conserva "
+            "NO": "No, conserva "
           }
         },
         "API": {
