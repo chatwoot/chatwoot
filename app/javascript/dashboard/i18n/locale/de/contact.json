@@ -24,7 +24,7 @@
         "ERROR": "Labels konnten nicht aktualisiert werden"
       },
       "CONVERSATION": {
-        "TITLE": "Konversationsetiketten",
+        "TITLE": "Konversationslabels",
         "ADD_BUTTON": "Label hinzufügen"
       },
       "LABEL_SELECT": {
@@ -36,7 +36,7 @@
     "MERGE_CONTACT": "Kontakte zusammenführen",
     "CONTACT_ACTIONS": "Kontakt-Aktionen",
     "MUTE_CONTACT": "Unterhaltung stummschalten",
-    "UNMUTE_CONTACT": "Unterhaltung entmuten",
+    "UNMUTE_CONTACT": "Unterhaltung entstummen",
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
     "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
     "SEND_TRANSCRIPT": "Transkript senden",
