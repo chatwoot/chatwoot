@@ -38,5 +38,4 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 class SuperAdmin < User
-  
 end
