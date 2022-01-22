@@ -127,7 +127,7 @@
       "SUBMIT": "Abschicken"
     }
   },
-  "CONFIRM_EMAIL": "Überprüft...",
+  "CONFIRM_EMAIL": "Überprüfen...",
   "SETTINGS": {
     "INBOXES": {
       "NEW_INBOX": "Posteingang hinzufügen"
@@ -194,7 +194,7 @@
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
       "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
       "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
-      "GO_TO_CONVERSATION_DASHBOARD": "Gehe zur Konversationsübersicht",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
       "ADD_ATTACHMENT": "Anhang hinzufügen",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
