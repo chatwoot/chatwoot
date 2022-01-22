@@ -2,6 +2,7 @@ class AddTypeToUsers < ActiveRecord::Migration[6.1]
   def change
     add_column :users, :type, :string
     migrate_existing_super_admins
+    drop_table :super_admins
   end
 
   private
@@ -18,7 +19,7 @@ class AddTypeToUsers < ActiveRecord::Migration[6.1]
 
   def migrate_existing_super_admins
     old_super_admins.each do |super_admin|
-      user = User.find(super_admin['email'])
+      user = User.find_by(email: super_admin['email'])
       if user.present?
         user.update(type: 'SuperAdmin')
       else
