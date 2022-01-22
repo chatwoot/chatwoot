@@ -20,13 +20,13 @@ it:
   hello: "Ciao mondo"
   messages:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
-    reset_password_failure: Ciao! Non siamo riusciti a trovare alcun utente con l'email specificata.
+    reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
   errors:
     signup:
-      disposable_email: Non consentiamo email disponibili
+      disposable_email: Non consentiamo email usa e getta
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
-      failed: Iscrizione fallita
+      failed: Registrazione non riuscita
     contacts:
       import:
         failed: Il file è vuoto
@@ -53,11 +53,11 @@ it:
       deleted: Questo messaggio è stato eliminato
     activity:
       status:
-        resolved: "Conversazione segnata da %{user_name}"
+        resolved: "La conversazione è stata contrassegnata come risolta da %{user_name}"
         open: "La conversazione è stata riaperta da %{user_name}"
         pending: "La conversazione è stata contrassegnata come in attesa da %{user_name}"
         snoozed: "La conversazione è stata posticipata da %{user_name}"
-        auto_resolved: "La conversazione è stata contrassegnata come risolta dal sistema a causa di %{duration} giorni di inattività"
+        auto_resolved: "La conversazione è stata contrassegnata come risolta dal sistema a causa di %{duration} giorni d'inattività"
       assignee:
         self_assigned: "%{user_name} si è assegnato a questa conversazione"
         assigned: "Assegnato a %{assignee_name} da %{user_name}"
@@ -73,8 +73,8 @@ it:
       unmuted: "%{user_name} ha riattivato l'audio della conversazione"
     templates:
       greeting_message_body: "%{account_name}, in genere, risponde in poche ore."
-      ways_to_reach_you_message_body: "Offri alla squadra un modo per raggiungerti."
-      email_input_box_message_body: "Ricevi una notifica via email"
+      ways_to_reach_you_message_body: "Offri al team un modo per raggiungerti."
+      email_input_box_message_body: "Ricevi notifiche via email"
       csat_input_message_body: "Valuta la conversazione"
     reply:
       email:
