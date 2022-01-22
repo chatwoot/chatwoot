@@ -429,12 +429,12 @@
         "PLACE_HOLDER": "Port"
       },
       "EMAIL": {
-        "LABEL": "email",
-        "PLACE_HOLDER": "email"
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
       },
       "PASSWORD": {
-        "LABEL": "password",
-        "PLACE_HOLDER": "password"
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
       },
       "ENABLE_SSL": "Enable SSL"
     },
@@ -457,12 +457,12 @@
         "PLACE_HOLDER": "Port"
       },
       "EMAIL": {
-        "LABEL": "email",
-        "PLACE_HOLDER": "email"
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
       },
       "PASSWORD": {
-        "LABEL": "password",
-        "PLACE_HOLDER": "password"
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
       },
       "DOMAIN": {
         "LABEL": "Dominio",
