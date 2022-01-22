@@ -70,6 +70,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     display_name
     email
+    password
     type
   ].freeze
 
