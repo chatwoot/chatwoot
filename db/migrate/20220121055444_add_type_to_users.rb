@@ -2,7 +2,18 @@ class AddTypeToUsers < ActiveRecord::Migration[6.1]
   def change
     add_column :users, :type, :string
     migrate_existing_super_admins
-    drop_table :super_admins
+
+    drop_table :super_admins do |t|
+      t.string :email,              null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
+      t.datetime :remember_created_at
+      t.integer  :sign_in_count, default: 0, null: false
+      t.datetime :current_sign_in_at
+      t.datetime :last_sign_in_at
+      t.inet     :current_sign_in_ip
+      t.inet     :last_sign_in_ip
+      t.timestamps null: false
+    end
   end
 
   private
