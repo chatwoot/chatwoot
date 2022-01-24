@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Bekräfta borttagning",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Ja, ta bort ",
-            "NO": "Nej, behåll "
+            "YES": "Ja, ta bort",
+            "NO": "Nej, behåll"
           }
         },
         "API": {
