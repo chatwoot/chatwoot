@@ -9,6 +9,10 @@ class CustomViewsAPI extends ApiClient {
   getCustomViewsByFilterType(type) {
     return axios.get(`${this.url}?filter_type=${type}`);
   }
+
+  deleteCustomViews(id, type) {
+    return axios.delete(`${this.url}/${id}?filter_type=${type}`);
+  }
 }
 
 export default new CustomViewsAPI();
