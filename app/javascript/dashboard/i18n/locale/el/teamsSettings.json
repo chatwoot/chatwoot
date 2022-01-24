@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Δημιουργήσετε νέα ομάδα",
     "HEADER": "Ομάδες",
-    "SIDEBAR_TXT": "<p><b>Ομάδες</b></p> <p>Οι Ομάδες σας επιτρέπουν να οργανώσετε τους πράκτορές σας σε ομάδες με βάση τις ευθύνες τους. <br /> Ένας χρήστης μπορεί να είναι μέλος πολλαπλών ομάδων. Μπορείτε να αναθέσετε συνομιλίες σε μια ομάδα όταν εργάζεστε με συνεργασία. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "Δεν έχουν δημιουργηθεί ομάδες σε αυτόν τον λογαριασμό.",
       "EDIT_TEAM": "Επεξεργασία ομάδας"
