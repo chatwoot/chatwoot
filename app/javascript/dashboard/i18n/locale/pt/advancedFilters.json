@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Confirmar Exclusão",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Sim, excluir ",
-            "NO": "Não, Manter "
+            "YES": "Sim, excluir",
+            "NO": "Não, mantenha isso"
           }
         },
         "API": {
