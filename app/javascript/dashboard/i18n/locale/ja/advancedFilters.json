@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "削除の確認",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "削除する ",
-            "NO": "いいえ "
+            "YES": "削除する",
+            "NO": "いいえ、保存しておきます"
           }
         },
         "API": {
