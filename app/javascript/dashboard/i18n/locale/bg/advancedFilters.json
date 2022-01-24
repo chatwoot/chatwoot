@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Потвърди изтриването",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Да, изтрий ",
-            "NO": "Не, запази "
+            "YES": "Да, изтрий",
+            "NO": "No, Keep it"
           }
         },
         "API": {
