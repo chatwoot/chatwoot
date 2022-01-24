@@ -30,9 +30,22 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    activeFilterType: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
+    activeCustomViews() {
+      if (this.activeFilterType === 0) {
+        return 'conversation';
+      }
+      if (this.activeFilterType === 1) {
+        return 'contact';
+      }
+      return '';
+    },
     deleteMessage() {
       return `${this.$t(
         'FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE'
@@ -51,10 +64,9 @@ export default {
   methods: {
     async deleteSavedCustomViews() {
       try {
-        await this.$store.dispatch(
-          'customViews/delete',
-          Number(this.customViewsId)
-        );
+        const id = Number(this.customViewsId);
+        const filterType = this.activeCustomViews;
+        await this.$store.dispatch('customViews/delete', { id, filterType });
         this.closeDeletePopup();
         this.showAlert(
           this.$t('FILTER.CUSTOM_VIEWS.DELETE.API.SUCCESS_MESSAGE')
@@ -64,9 +76,6 @@ export default {
           error?.response?.message ||
           this.$t('FILTER.CUSTOM_VIEWS.DELETE.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
-      }
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
       }
     },
     closeDeletePopup() {

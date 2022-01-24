@@ -49,10 +49,10 @@ export const actions = {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
     }
   },
-  delete: async ({ commit }, id) => {
+  delete: async ({ commit }, { id, filterType }) => {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: true });
     try {
-      await CustomViewsAPI.delete(id);
+      await CustomViewsAPI.deleteCustomViews(id, filterType);
       commit(types.DELETE_CUSTOM_VIEW, id);
     } catch (error) {
       throw new Error(error);

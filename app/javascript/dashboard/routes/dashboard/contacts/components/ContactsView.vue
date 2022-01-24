@@ -12,6 +12,7 @@
         :on-toggle-filter="onToggleFilters"
         :header-title="pageTitle"
         @on-toggle-save-filter="onToggleSaveFilters"
+        @on-toggle-delete-filter="onToggleDeleteFilters"
       />
       <contacts-table
         :contacts="records"
@@ -28,12 +29,22 @@
         :total-count="meta.count"
       />
     </div>
+
     <add-custom-views
       v-if="showAddCustomViewsModal"
       :custom-views-query="customViewsQuery"
       :filter-type="filterType"
       @close="onCloseAddCustomViewsModal"
     />
+    <delete-custom-views
+      v-if="showDeleteCustomViewsModal"
+      :show-delete-popup.sync="showDeleteCustomViewsModal"
+      :active-custom-view="activeCustomView"
+      :custom-views-id="customViewsId"
+      :active-filter-type="filterType"
+      @close="onCloseDeleteCustomViewsModal"
+    />
+
     <contact-info-panel
       v-if="showContactViewPane"
       :contact="selectedContact"
@@ -72,6 +83,7 @@ import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
 import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -86,6 +98,7 @@ export default {
     ImportContacts,
     ContactsAdvancedFilters,
     AddCustomViews,
+    DeleteCustomViews,
   },
   props: {
     label: { type: String, default: '' },
@@ -111,6 +124,7 @@ export default {
       customViewsQuery: {},
       filterType: FILTER_TYPE_CONTACT,
       showAddCustomViewsModal: false,
+      showDeleteCustomViewsModal: false,
     };
   },
   computed: {
@@ -271,6 +285,12 @@ export default {
     },
     onCloseAddCustomViewsModal() {
       this.showAddCustomViewsModal = false;
+    },
+    onToggleDeleteFilters() {
+      this.showDeleteCustomViewsModal = true;
+    },
+    onCloseDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = false;
     },
     onToggleImport() {
       this.showImportModal = !this.showImportModal;
