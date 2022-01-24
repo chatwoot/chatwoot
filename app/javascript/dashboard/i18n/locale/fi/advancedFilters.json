@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Vahvista poistaminen",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Kyllä, poista ",
-            "NO": "Ei, säilytä "
+            "YES": "Kyllä, poista",
+            "NO": "Ei, säilytä"
           }
         },
         "API": {
