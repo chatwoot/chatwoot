@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Confirma l'esborrat",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Si, esborra ",
-            "NO": "No, segueix "
+            "YES": "Si, esborra",
+            "NO": "No, manten-la"
           }
         },
         "API": {
