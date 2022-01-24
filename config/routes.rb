@@ -52,7 +52,9 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, only: [:create, :index]
+          resources :automation_rules, except: [:edit] do
+            post :clone
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
           namespace :channels do
