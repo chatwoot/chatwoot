@@ -180,6 +180,7 @@
     "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
     "FILTER_CONTACTS": "Filtruj",
     "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
