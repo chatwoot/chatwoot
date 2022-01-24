@@ -18,13 +18,18 @@ export const getters = {
   getCustomViews(_state) {
     return _state.records;
   },
+  getCustomViewsByFilterType: _state => filterType => {
+    return _state.records.filter(record => record.filter_type === filterType);
+  },
 };
 
 export const actions = {
-  get: async function getCustomViews({ commit }) {
+  get: async function getCustomViews({ commit }, filterType) {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: true });
     try {
-      const response = await CustomViewsAPI.getCustomViews();
+      const response = await CustomViewsAPI.getCustomViewsByFilterType(
+        filterType
+      );
       commit(types.SET_CUSTOM_VIEW, response.data);
     } catch (error) {
       // Ignore error
@@ -44,10 +49,10 @@ export const actions = {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false });
     }
   },
-  delete: async ({ commit }, id) => {
+  delete: async ({ commit }, { id, filterType }) => {
     commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: true });
     try {
-      await CustomViewsAPI.delete(id);
+      await CustomViewsAPI.deleteCustomViews(id, filterType);
       commit(types.DELETE_CUSTOM_VIEW, id);
     } catch (error) {
       throw new Error(error);

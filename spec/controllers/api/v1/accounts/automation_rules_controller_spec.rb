@@ -115,4 +115,108 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}' do
+    let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns for automation_rule for account' do
+        expect(account.automation_rules.count).to eq(1)
+
+        get "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload]).to be_present
+        expect(body[:payload][:id]).to eq(automation_rule.id)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}/clone' do
+    let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns for cloned automation_rule for account' do
+        expect(account.automation_rules.count).to eq(1)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload]).to be_present
+        expect(body[:payload][:id]).not_to eq(automation_rule.id)
+        expect(account.automation_rules.count).to eq(2)
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}' do
+    let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns for cloned automation_rule for account' do
+        params = { name: 'Update name' }
+        expect(account.automation_rules.count).to eq(1)
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: params
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload][:name]).to eq('Update name')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}' do
+    let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'delete the automation_rule for account' do
+        expect(account.automation_rules.count).to eq(1)
+
+        delete "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(0)
+      end
+    end
+  end
 end
