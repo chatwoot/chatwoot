@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "ยืนยันการลบ",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "เอาเลย ",
-            "NO": "ไม่อะเก็บไว้ "
+            "YES": "เอาเลย",
+            "NO": "No, Keep it"
           }
         },
         "API": {
