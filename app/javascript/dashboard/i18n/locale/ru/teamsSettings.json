@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Создать новую команду",
     "HEADER": "Команды",
-    "SIDEBAR_TXT": "<p><b>Команды</b></p> <p>Команды позволяют вам организовывать своих операторов в группы в зависимости от их обязанностей. <br /> Пользователь может быть частью нескольких команд. Вы можете назначить разговоры команде, когда вы работаете совместно. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "В этом аккаунте нет ни одной команды.",
       "EDIT_TEAM": "Редактировать команду"
