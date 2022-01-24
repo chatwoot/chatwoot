@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Xác nhận xoá",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Có, xoá ",
-            "NO": "Không, giữ "
+            "YES": "Có, Xoá",
+            "NO": "Không, Giữ"
           }
         },
         "API": {
