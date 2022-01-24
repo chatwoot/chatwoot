@@ -1,6 +1,6 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "SUBTITLE": "സംഭാഷണങ്ങൾ ഫിൽട്ടർ ചെയ്യുന്നതിന് ചുവടെ ഫിൽട്ടറുകൾ ചേർക്കുക, 'ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക' അമർത്തുക.",
     "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
     "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
@@ -8,7 +8,7 @@
     "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
     "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ഒപ്പം",
       "OR": "അഥവാ"
@@ -26,7 +26,7 @@
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
       "TEAM_NAME": "ടീമിന്റെ പേര്",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
+      "CONVERSATION_IDENTIFIER": "സംഭാഷണ ഐഡന്റിഫയർ",
       "CAMPAIGN_NAME": "പ്രചാരണ നാമം",
       "LABELS": "ലേബലുകൾ",
       "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
@@ -47,7 +47,7 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
