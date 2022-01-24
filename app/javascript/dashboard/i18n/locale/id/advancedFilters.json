@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Konfirmasi Penghapusan",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Ya, Hapus ",
-            "NO": "Tidak, Simpan "
+            "YES": "Ya, Hapus",
+            "NO": "Tidak, Simpan"
           }
         },
         "API": {
