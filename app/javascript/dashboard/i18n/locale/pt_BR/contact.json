@@ -179,7 +179,8 @@
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_SAVE": "Salvar Filtro",
+    "FILTER_CONTACTS_DELETE": "Excluir filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
