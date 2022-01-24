@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Silmeyi onayla",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Evet, Sil ",
-            "NO": "Hayır, Tut"
+            "YES": "Evet, Sil",
+            "NO": "Hayır, kalsın"
           }
         },
         "API": {
