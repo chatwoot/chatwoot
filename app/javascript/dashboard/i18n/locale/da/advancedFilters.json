@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Bekræft Sletning",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Ja, Slet ",
-            "NO": "Nej, Behold "
+            "YES": "Ja, Slet",
+            "NO": "Nej, behold det"
           }
         },
         "API": {
