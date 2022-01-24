@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "确认删除",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "是的，删除 ",
-            "NO": "不，保留 "
+            "YES": "是，删除",
+            "NO": "否，保留它"
           }
         },
         "API": {
