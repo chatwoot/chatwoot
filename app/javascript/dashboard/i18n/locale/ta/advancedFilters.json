@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "ஆம், நீக்கு ",
-            "NO": "இல்லை, வைத்திரு "
+            "YES": "Yes, Delete",
+            "NO": "இல்லை, அதை வைத்திரு"
           }
         },
         "API": {
