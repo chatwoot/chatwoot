@@ -180,6 +180,7 @@
     "SEARCH_INPUT_PLACEHOLDER": "חפש איש קשר",
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "טוען אנשי קשר...",
       "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
