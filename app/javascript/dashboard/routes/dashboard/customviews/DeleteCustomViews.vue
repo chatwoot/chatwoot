@@ -52,12 +52,10 @@ export default {
       )} ${this.activeCustomView && this.activeCustomView.name} ?`;
     },
     deleteConfirmText() {
-      return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.YES')} ${this
-        .activeCustomView && this.activeCustomView.name}`;
+      return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.YES')}`;
     },
     deleteRejectText() {
-      return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.NO')} ${this
-        .activeCustomView && this.activeCustomView.name}`;
+      return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.NO')}`;
     },
   },
 
