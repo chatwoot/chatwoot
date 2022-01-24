@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "אשר מחיקה",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "כן, מחק ",
-            "NO": "לא, השאר "
+            "YES": "כן, מחק",
+            "NO": "לא, השאר"
           }
         },
         "API": {
