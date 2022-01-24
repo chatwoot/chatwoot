@@ -60,7 +60,8 @@
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     }
   }
 }

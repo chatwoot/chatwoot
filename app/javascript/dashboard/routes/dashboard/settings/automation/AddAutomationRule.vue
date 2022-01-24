@@ -46,8 +46,7 @@
             </span>
           </label>
           <p v-if="hasAutomationMutated" class="info-message">
-            Changing event type will reset the conditions and events you have
-            added below
+            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
         </div>
         <!-- // Conditions Start -->
