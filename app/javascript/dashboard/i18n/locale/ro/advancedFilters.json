@@ -52,7 +52,7 @@
           "CONFIRM": {
             "TITLE": "Confirmă ștergerea",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Da, șterge ",
+            "YES": "Da, șterge",
             "NO": "Nu, păstreaza"
           }
         },
