@@ -146,6 +146,7 @@ import {
   AUTOMATIONS,
 } from './constants';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
+import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 
 export default {
   components: {
@@ -356,7 +357,7 @@ export default {
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
-              id: i.id,
+              id: i.title,
               name: i.title,
             };
           });
@@ -401,6 +402,7 @@ export default {
       this.automation.conditions = filterQueryGenerator(
         this.automation.conditions
       ).payload;
+      this.automation.actions = actionQueryGenerator(this.automation.actions);
       this.$emit('saveAutomation', this.automation);
     },
     resetFilter(index, currentCondition) {
