@@ -26,6 +26,17 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
+
+        <woot-button
+          v-if="hasActiveCustomViews && !hasAppliedFilters"
+          class="margin-right-small clear"
+          color-scheme="alert"
+          icon="delete"
+          @click="onToggleDeleteCustomViewsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+        </woot-button>
+
         <div v-if="!hasActiveCustomViews" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
@@ -38,6 +49,7 @@
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
         </div>
+
         <woot-button
           v-if="hasAppliedFilters && !hasActiveCustomViews"
           class="margin-right-small clear"
@@ -132,6 +144,9 @@ export default {
   methods: {
     onToggleCustomViewsModal() {
       this.$emit('on-toggle-save-filter');
+    },
+    onToggleDeleteCustomViewsModal() {
+      this.$emit('on-toggle-delete-filter');
     },
   },
 };
