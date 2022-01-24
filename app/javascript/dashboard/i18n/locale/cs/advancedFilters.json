@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Potvrdit odstranění",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Ano, odstranit ",
-            "NO": "Ne, zachovat "
+            "YES": "Ano, odstranit",
+            "NO": "No, Keep it"
           }
         },
         "API": {
