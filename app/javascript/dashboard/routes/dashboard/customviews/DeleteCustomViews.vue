@@ -57,6 +57,14 @@ export default {
     deleteRejectText() {
       return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.NO')}`;
     },
+    isFolderSection() {
+      return this.activeFilterType === 0 && this.$route.name !== 'home';
+    },
+    isSegmentSection() {
+      return (
+        this.activeFilterType === 1 && this.$route.name !== 'contacts_dashboard'
+      );
+    },
   },
 
   methods: {
@@ -74,6 +82,12 @@ export default {
           error?.response?.message ||
           this.$t('FILTER.CUSTOM_VIEWS.DELETE.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
+      }
+      if (this.isFolderSection) {
+        this.$router.push({ name: 'home' });
+      }
+      if (this.isSegmentSection) {
+        this.$router.push({ name: 'contacts_dashboard' });
       }
     },
     closeDeletePopup() {
