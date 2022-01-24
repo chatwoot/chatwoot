@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Törlés megerősítése",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Igen, Törlés ",
-            "NO": "Nem, Mégse "
+            "YES": "Igen, Törlés",
+            "NO": "Nem, tartsa meg"
           }
         },
         "API": {
