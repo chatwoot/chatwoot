@@ -52,8 +52,8 @@
           "CONFIRM": {
             "TITLE": "Potwierdź usunięcie",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Tak, usuń ",
-            "NO": "Nie, zachowaj "
+            "YES": "Tak, usuń",
+            "NO": "No, Keep it"
           }
         },
         "API": {
