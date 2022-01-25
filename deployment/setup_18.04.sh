@@ -17,7 +17,7 @@ apt install -y \
     libssl-dev libyaml-dev libreadline-dev gnupg2 nginx redis-server \
     redis-tools postgresql postgresql-contrib certbot \
     python-certbot-nginx nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
-    libgmp-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
+    libgmp-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev sudo
 
 adduser --disabled-login --gecos "" chatwoot
 
