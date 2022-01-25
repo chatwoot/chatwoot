@@ -72,6 +72,7 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
+      :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
@@ -283,6 +284,9 @@ export default {
     showReplyHead() {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
+    enableMultipleFileUpload() {
+      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -469,7 +473,6 @@ export default {
       );
     },
     getMessagePayload(message) {
-      const [attachment] = this.attachedFiles;
       const messagePayload = {
         conversationId: this.currentChat.id,
         message,
@@ -480,8 +483,11 @@ export default {
         messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
       }
 
-      if (attachment) {
-        messagePayload.file = attachment.resource.file;
+      if (this.attachedFiles && this.attachedFiles.length) {
+        messagePayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          messagePayload.files.push(attachment.resource.file);
+        });
       }
 
       if (this.ccEmails) {
