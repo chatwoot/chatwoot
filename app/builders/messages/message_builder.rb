@@ -11,7 +11,6 @@ class Messages::MessageBuilder
     @attachments = params[:attachments]
     return unless params.instance_of?(ActionController::Parameters)
 
-    @files = params[:files]
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
   end
@@ -19,7 +18,6 @@ class Messages::MessageBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     process_attachments
-    process_files
     process_emails
     @message.save!
     @message
@@ -27,24 +25,12 @@ class Messages::MessageBuilder
 
   private
 
-  def process_files
-    return if @files.blank?
-
-    @files.each do |uploaded_attachment|
-      @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
-    end
-  end
-
   def process_attachments
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
       @message.attachments.build(
         account_id: @message.account_id,
-        file_type: file_type(uploaded_attachment&.content_type),
         file: uploaded_attachment
       )
     end

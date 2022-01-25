@@ -17,7 +17,9 @@ export const buildCreatePayload = ({
     if (message) {
       payload.append('content', message);
     }
-    payload.append('files[]', file.signed_id);
+    files.forEach(file => {
+      payload.append('attachments[]', file);
+    });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);

@@ -513,9 +513,11 @@ export default {
         messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
       }
 
-      if (attachment) {
-        messagePayload.file = attachment.resource;
-        messagePayload.blobId = attachment.blobSignedId;
+      if (this.attachedFiles && this.attachedFiles.length) {
+        messagePayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          messagePayload.files.push(attachment.blobSignedId);
+        });
       }
 
       if (this.ccEmails) {
