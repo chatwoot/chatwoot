@@ -505,12 +505,7 @@ export default {
     },
     openLastItemAfterDeleteInFolder() {
       if (this.folders.length > 0) {
-        const lastItemOfFolder = this.folders[this.folders.length - 1];
-        const lastItemId = lastItemOfFolder.id;
-        this.$router.push({
-          name: 'folder_conversations',
-          params: { id: lastItemId },
-        });
+        this.openLastSavedItemInFolder();
       } else {
         this.$router.push({ name: 'home' });
         this.fetchConversations();

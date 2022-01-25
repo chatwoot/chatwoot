@@ -360,12 +360,7 @@ export default {
     },
     openLastItemAfterDeleteInSegment() {
       if (this.segments.length > 0) {
-        const lastItemOfFolder = this.segments[this.segments.length - 1];
-        const lastItemId = lastItemOfFolder.id;
-        this.$router.push({
-          name: 'contacts_segments_dashboard',
-          params: { id: lastItemId },
-        });
+        this.openSavedItemInSegment();
       } else {
         this.$router.push({ name: 'contacts_dashboard' });
         this.fetchContacts(DEFAULT_PAGE);
