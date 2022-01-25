@@ -3,13 +3,16 @@
     <div class="left-wrap" :class="wrapClas">
       <contacts-header
         :search-query="searchQuery"
+        :custom-views-id="customViewsId"
         :on-search-submit="onSearchSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
         :on-toggle-create="onToggleCreate"
         :on-toggle-import="onToggleImport"
         :on-toggle-filter="onToggleFilters"
-        :header-title="label"
+        :header-title="pageTitle"
+        @on-toggle-save-filter="onToggleSaveFilters"
+        @on-toggle-delete-filter="onToggleDeleteFilters"
       />
       <contacts-table
         :contacts="records"
@@ -26,6 +29,22 @@
         :total-count="meta.count"
       />
     </div>
+
+    <add-custom-views
+      v-if="showAddCustomViewsModal"
+      :custom-views-query="customViewsQuery"
+      :filter-type="filterType"
+      @close="onCloseAddCustomViewsModal"
+    />
+    <delete-custom-views
+      v-if="showDeleteCustomViewsModal"
+      :show-delete-popup.sync="showDeleteCustomViewsModal"
+      :active-custom-view="activeCustomView"
+      :custom-views-id="customViewsId"
+      :active-filter-type="filterType"
+      @close="onCloseDeleteCustomViewsModal"
+    />
+
     <contact-info-panel
       v-if="showContactViewPane"
       :contact="selectedContact"
@@ -63,8 +82,11 @@ import ImportContacts from './ImportContacts.vue';
 import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
 import contactFilterItems from '../contactFilterItems';
 import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews';
 
 const DEFAULT_PAGE = 1;
+const FILTER_TYPE_CONTACT = 1;
 
 export default {
   components: {
@@ -75,9 +97,15 @@ export default {
     CreateContact,
     ImportContacts,
     ContactsAdvancedFilters,
+    AddCustomViews,
+    DeleteCustomViews,
   },
   props: {
     label: { type: String, default: '' },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -93,6 +121,10 @@ export default {
           `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
         ),
       })),
+      customViewsQuery: {},
+      filterType: FILTER_TYPE_CONTACT,
+      showAddCustomViewsModal: false,
+      showDeleteCustomViewsModal: false,
     };
   },
   computed: {
@@ -100,10 +132,27 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
+      customViews: 'customViews/getCustomViews',
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
+    },
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
+    },
+    hasActiveCustomViews() {
+      return this.activeCustomView && this.customViewsId !== 0;
+    },
+    pageTitle() {
+      if (this.hasActiveCustomViews) {
+        return this.activeCustomView.name;
+      }
+      if (this.label) {
+        return `#${this.label}`;
+      }
+      return this.$t('CONTACTS_PAGE.HEADER');
     },
     selectedContact() {
       if (this.selectedContactId) {
@@ -127,10 +176,27 @@ export default {
         ? selectedPageNumber
         : DEFAULT_PAGE;
     },
+    activeCustomView() {
+      if (this.customViewsId) {
+        const [firstValue] = this.customViews.filter(
+          view => view.id === Number(this.customViewsId)
+        );
+        return firstValue;
+      }
+      return undefined;
+    },
   },
   watch: {
     label() {
       this.fetchContacts(DEFAULT_PAGE);
+    },
+    activeCustomView() {
+      if (this.hasActiveCustomViews) {
+        const payload = this.activeCustomView.query;
+        this.fetchSavedFilteredContact(payload);
+      } else {
+        this.fetchContacts(DEFAULT_PAGE);
+      }
     },
   },
   mounted() {
@@ -177,6 +243,14 @@ export default {
         });
       }
     },
+    fetchSavedFilteredContact(payload) {
+      if (this.hasAppliedFilters) {
+        this.clearFilters();
+      }
+      this.$store.dispatch('contacts/filter', {
+        queryPayload: payload,
+      });
+    },
     onInputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
@@ -206,6 +280,18 @@ export default {
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
     },
+    onToggleSaveFilters() {
+      this.showAddCustomViewsModal = true;
+    },
+    onCloseAddCustomViewsModal() {
+      this.showAddCustomViewsModal = false;
+    },
+    onToggleDeleteFilters() {
+      this.showDeleteCustomViewsModal = true;
+    },
+    onCloseDeleteCustomViewsModal() {
+      this.showDeleteCustomViewsModal = false;
+    },
     onToggleImport() {
       this.showImportModal = !this.showImportModal;
     },
@@ -218,6 +304,7 @@ export default {
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
+      this.customViewsQuery = { payload };
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });

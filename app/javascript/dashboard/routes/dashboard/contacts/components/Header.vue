@@ -3,7 +3,7 @@
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
         <h1 class="page-title">
-          {{ headerTitle ? `#${headerTitle}` : $t('CONTACTS_PAGE.HEADER') }}
+          {{ headerTitle }}
         </h1>
       </div>
       <div class="right-aligned-wrap">
@@ -26,7 +26,18 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <div class="filters__button-wrap">
+
+        <woot-button
+          v-if="hasActiveCustomViews && !hasAppliedFilters"
+          class="margin-right-small clear"
+          color-scheme="alert"
+          icon="delete"
+          @click="onToggleDeleteCustomViewsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+        </woot-button>
+
+        <div v-if="!hasActiveCustomViews" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
             class="margin-right-small clear"
@@ -38,6 +49,17 @@
             {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
           </woot-button>
         </div>
+
+        <woot-button
+          v-if="hasAppliedFilters && !hasActiveCustomViews"
+          class="margin-right-small clear"
+          color-scheme="alert"
+          variant="clear"
+          icon="save"
+          @click="onToggleCustomViewsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
+        </woot-button>
         <woot-button
           class="margin-right-small clear"
           color-scheme="success"
@@ -73,6 +95,10 @@ export default {
     searchQuery: {
       type: String,
       default: '',
+    },
+    customViewsId: {
+      type: [String, Number],
+      default: 0,
     },
     onInputSearch: {
       type: Function,
@@ -110,6 +136,17 @@ export default {
     }),
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
+    },
+    hasActiveCustomViews() {
+      return this.customViewsId !== 0;
+    },
+  },
+  methods: {
+    onToggleCustomViewsModal() {
+      this.$emit('on-toggle-save-filter');
+    },
+    onToggleDeleteCustomViewsModal() {
+      this.$emit('on-toggle-delete-filter');
     },
   },
 };
