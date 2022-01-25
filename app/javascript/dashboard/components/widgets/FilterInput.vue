@@ -2,19 +2,21 @@
   <div class="filters">
     <div class="filter">
       <div class="filter-inputs">
-        <select
-          v-model="attributeKey"
-          class="filter__question"
-          @change="resetFilter()"
-        >
-          <option
-            v-for="attribute in filterAttributes"
-            :key="attribute.key"
-            :value="attribute.key"
-          >
-            {{ attribute.name }}
-          </option>
-        </select>
+        <div class="multiselect-wrap--small attributes-dropdown">
+          <multiselect
+            v-model="attributeKey"
+            :placeholder="'Select'"
+            group-label="name"
+            group-values="filters"
+            track-by="key"
+            label="name"
+            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+            deselect-label=""
+            :max-height="160"
+            :options="filterAttributes"
+            :allow-empty="false"
+          />
+        </div>
 
         <select v-model="filterOperator" class="filter__operator">
           <option
@@ -259,5 +261,9 @@ export default {
 
 .multiselect {
   margin-bottom: var(--space-zero);
+}
+.attributes-dropdown {
+  width: 35%;
+  margin-right: 4px;
 }
 </style>

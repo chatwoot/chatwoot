@@ -10,9 +10,15 @@
           :key="i"
           v-model="appliedFilters[i]"
           :filter-attributes="filterAttributes"
-          :input-type="getInputType(appliedFilters[i].attribute_key)"
-          :operators="getOperators(appliedFilters[i].attribute_key)"
-          :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
+          :input-type="
+            getInputType(appliedFilters[i].attribute_key.attributeKey)
+          "
+          :operators="
+            getOperators(appliedFilters[i].attribute_key.attributeKey)
+          "
+          :dropdown-values="
+            getDropdownValues(appliedFilters[i].attribute_key.attributeKey)
+          "
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           :v="$v.appliedFilters.$each[i]"
@@ -52,7 +58,7 @@ import FilterInputBox from '../FilterInput.vue';
 import languages from './advancedFilterItems/languages';
 import countries from '/app/javascript/shared/constants/countries.js';
 import { mapGetters } from 'vuex';
-
+import altSchema from './advancedFilterItems/altSchema';
 export default {
   components: {
     FilterInputBox,
@@ -62,10 +68,6 @@ export default {
     onClose: {
       type: Function,
       default: () => {},
-    },
-    filterTypes: {
-      type: Array,
-      default: () => [],
     },
   },
   validations: {
@@ -87,20 +89,37 @@ export default {
     return {
       show: true,
       appliedFilters: [],
+      filterTypes: altSchema,
     };
   },
   computed: {
     filterAttributes() {
-      return this.filterTypes.map(type => {
+      return altSchema.map(group => {
         return {
-          key: type.attributeKey,
-          name: this.$t(`FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
+          name: group.name,
+          filters: group.filters.map(filter => {
+            return {
+              key: filter.attributeKey,
+              name: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+            };
+          }),
         };
       });
     },
     ...mapGetters({
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
+    filtersFlattened() {
+      return this.filterTypes
+        .map(group => {
+          return group.filters.map(filter => {
+            return {
+              ...filter,
+            };
+          });
+        })
+        .flat();
+    },
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
@@ -108,7 +127,10 @@ export default {
       this.appliedFilters = [...this.getAppliedConversationFilters];
     } else {
       this.appliedFilters.push({
-        attribute_key: 'status',
+        attribute_key: {
+          attributeKey: 'status',
+          name: this.$t('FILTER.ATTRIBUTES.STATUS'),
+        },
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
@@ -117,11 +139,16 @@ export default {
   },
   methods: {
     getInputType(key) {
-      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      console.log(key);
+      const type = this.filtersFlattened.find(
+        filter => filter.attributeKey === key
+      );
       return type.inputType;
     },
     getOperators(key) {
-      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      const type = this.filtersFlattened.find(
+        filter => filter.attributeKey === key
+      );
       return type.filterOperators;
     },
     getDropdownValues(type) {
@@ -195,7 +222,7 @@ export default {
       this.$emit('applyFilter', this.appliedFilters);
     },
     resetFilter(index, currentFilter) {
-      this.appliedFilters[index].filter_operator = this.filterTypes.find(
+      this.appliedFilters[index].filter_operator = this.filtersFlattened.find(
         filter => filter.attributeKey === currentFilter.attribute_key
       ).filterOperators[0].value;
       this.appliedFilters[index].values = '';
