@@ -12,7 +12,7 @@ RSpec.describe 'Super Admin', type: :request do
       end
 
       it 'signs super admin in and out' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/super_admin'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Dashboard')
@@ -33,7 +33,7 @@ RSpec.describe 'Super Admin', type: :request do
       end
 
       it 'signs super admin in and out' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/monitoring/sidekiq'
         expect(response).to have_http_status(:success)
 
