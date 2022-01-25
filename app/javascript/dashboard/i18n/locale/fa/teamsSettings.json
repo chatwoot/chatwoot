@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "ایجاد تیم جدید",
     "HEADER": "تیم‌ها",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>تیم‌ها</b></p> <p>تیم‌ها به شما امکان می‌دهند ایجنت های خود را بر اساس مسئولیت‌هایشان در گروه‌هایی سازماندهی کنید. <br /> یک ایجنت می تواند بخشی از چندین تیم باشد. وقتی به صورت مشترک کار می کنید، می توانید مکالمات را به یک تیم اختصاص دهید. </p>",
     "LIST": {
       "404": "هیچ تیمی در این حساب ایجاد نشده است.",
       "EDIT_TEAM": "ویرایش تیم"
