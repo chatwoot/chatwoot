@@ -60,6 +60,7 @@ class UserDashboard < Administrate::BaseDashboard
     email
     created_at
     updated_at
+    confirmed_at
     account_users
   ].freeze
 
@@ -71,6 +72,7 @@ class UserDashboard < Administrate::BaseDashboard
     display_name
     email
     password
+    confirmed_at
     type
   ].freeze
 
