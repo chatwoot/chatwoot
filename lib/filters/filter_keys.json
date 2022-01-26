@@ -145,7 +145,7 @@
       "attribute_type": "standard"
     },
     "content": {
-      "attribute_name": "Message Type",
+      "attribute_name": "Message Content",
       "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
