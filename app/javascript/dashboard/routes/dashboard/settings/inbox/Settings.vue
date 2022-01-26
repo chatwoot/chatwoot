@@ -215,7 +215,7 @@
           </p>
         </label>
 
-        <label class="medium-9 columns">
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
             <option :value="true">
