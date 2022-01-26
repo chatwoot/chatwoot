@@ -122,10 +122,9 @@ export default {
   },
   methods: {
     setFilterAttributes() {
-      let allCustomAttributes =
-        this.$store.getters['attributes/getAttributesByModel'](
-          'contact_attribute'
-        );
+      let allCustomAttributes = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ]('contact_attribute');
       let customAttributesFormatted = {
         name: this.$t('CONTACTS_FILTER.GROUPS.CUSTOM_ATTRIBUTES'),
         attributes: allCustomAttributes.map(attr => {
