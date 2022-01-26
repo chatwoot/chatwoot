@@ -27,6 +27,10 @@ export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);
 
 const runSDK = ({ baseUrl, websiteToken }) => {
+  if (window.$chatwoot) {
+    return;
+  }
+
   const chatwootSettings = window.chatwootSettings || {};
   window.$chatwoot = {
     baseUrl,
