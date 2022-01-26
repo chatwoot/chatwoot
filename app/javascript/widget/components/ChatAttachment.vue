@@ -59,7 +59,7 @@ export default {
           upload.create((error, blob) => {
             if (error) {
               window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
-                message: this.$t(error),
+                message: error,
               });
             } else {
               this.onAttach({
