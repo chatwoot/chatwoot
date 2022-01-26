@@ -1,25 +1,41 @@
 # == Schema Information
 #
-# Table name: super_admins
+# Table name: users
 #
-#  id                  :bigint           not null, primary key
-#  current_sign_in_at  :datetime
-#  current_sign_in_ip  :inet
-#  email               :string           default(""), not null
-#  encrypted_password  :string           default(""), not null
-#  last_sign_in_at     :datetime
-#  last_sign_in_ip     :inet
-#  remember_created_at :datetime
-#  sign_in_count       :integer          default(0), not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                     :integer          not null, primary key
+#  availability           :integer          default("online")
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
+#  custom_attributes      :jsonb
+#  display_name           :string
+#  email                  :string
+#  encrypted_password     :string           default(""), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  name                   :string           not null
+#  provider               :string           default("email"), not null
+#  pubsub_token           :string
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0), not null
+#  tokens                 :json
+#  type                   :string
+#  ui_settings            :jsonb
+#  uid                    :string           default(""), not null
+#  unconfirmed_email      :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #
-#  index_super_admins_on_email  (email) UNIQUE
+#  index_users_on_email                 (email)
+#  index_users_on_pubsub_token          (pubsub_token) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
-class SuperAdmin < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :trackable, :rememberable, :validatable, :password_has_required_content
+class SuperAdmin < User
 end
