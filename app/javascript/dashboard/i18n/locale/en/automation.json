@@ -51,9 +51,24 @@
       "TITLE": "Delete Automation Rule",
       "SUBMIT": "Delete",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
         "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
     "FORM": {

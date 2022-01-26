@@ -48,11 +48,11 @@ describe('#mutations', () => {
   //   });
   // });
 
-  // describe('#DELETE_AUTOMATION', () => {
-  //   it('delete automation record', () => {
-  //     const state = { records: [automations[0]] };
-  //     mutations[types.DELETE_AUTOMATION](state, 1);
-  //     expect(state.records).toEqual([]);
-  //   });
-  // });
+  describe('#DELETE_AUTOMATION', () => {
+    it('delete automation record', () => {
+      const state = { records: [automations[0]] };
+      mutations[types.DELETE_AUTOMATION](state, 1);
+      expect(state.records).toEqual([]);
+    });
+  });
 });

@@ -9,7 +9,7 @@
       {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="row">
-      <div class="small-8 columns with-right-space ">
+      <div class="small-8 columns with-right-space">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -42,8 +42,8 @@
                 <fluent-icon v-else icon="square" />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
-              <!-- <td class="button-wrapper">
-                <woot-button
+              <td class="button-wrapper">
+                <!-- <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
                   variant="smooth"
                   size="tiny"
@@ -64,7 +64,7 @@
                   icon="copy"
                   @click="openEditPopup(automation)"
                 >
-                </woot-button>
+                </woot-button> -->
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
@@ -76,7 +76,7 @@
                   @click="openDeletePopup(automation, index)"
                 >
                 </woot-button>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -97,6 +97,16 @@
         @saveAutomation="onCreateAutomation"
       />
     </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
   </div>
 </template>
 <script>
@@ -127,17 +137,17 @@ export default {
     // Delete Modal
     deleteConfirmText() {
       return `${this.$t('AUTOMATION.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.title
+        this.selectedResponse.name
       }`;
     },
     deleteRejectText() {
       return `${this.$t('AUTOMATION.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.title
+        this.selectedResponse.name
       }`;
     },
     deleteMessage() {
       return `${this.$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.title
+        this.selectedResponse.name
       } ?`;
     },
   },
@@ -170,22 +180,23 @@ export default {
       this.closeDeletePopup();
       this.deleteAutomation(this.selectedResponse.id);
     },
-    deleteAutomation(id) {
-      this.$store
-        .dispatch('automation/delete', id)
-        .then(() => {
-          this.showAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
-        })
-        .catch(() => {
-          this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
-        })
-        .finally(() => {
-          this.loading[this.selectedResponse.id] = false;
-        });
+    async deleteAutomation(id) {
+      try {
+        await this.$store.dispatch('automations/delete', id);
+        this.showAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
+        this.loading[this.selectedResponse.id] = false;
+      } catch (error) {
+        this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+      }
     },
     async onCreateAutomation(payload) {
-      this.$store.dispatch('automations/create', payload);
-      this.hideAddPopup();
+      try {
+        await await this.$store.dispatch('automations/create', payload);
+        this.showAlert(this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE'));
+        this.hideAddPopup();
+      } catch (error) {
+        this.showAlert(this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE'));
+      }
     },
     readableTime(date) {
       return this.messageStamp(new Date(date), 'LLL d, h:mm a');
