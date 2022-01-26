@@ -7,6 +7,7 @@ export const state = {
   uiFlags: {
     isFetching: false,
     isCreating: false,
+    isDeleting: false,
   },
 };
 
@@ -73,7 +74,6 @@ export const mutations = {
       ...data,
     };
   },
-
   [types.ADD_AUTOMATION]: MutationHelpers.create,
   [types.SET_AUTOMATIONS]: MutationHelpers.set,
   // [types.EDIT_AUTOMATION]: MutationHelpers.update,
