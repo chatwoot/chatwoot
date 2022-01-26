@@ -9,7 +9,8 @@
           v-for="(filter, i) in appliedFilters"
           :key="i"
           v-model="appliedFilters[i]"
-          :filter-attributes="filterAttributes"
+          :filter-groups="filterGroups"
+          :grouped-filters="true"
           :input-type="getInputType(appliedFilters[i].attribute_key)"
           :operators="getOperators(appliedFilters[i].attribute_key)"
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
@@ -58,10 +59,11 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import FilterInputBox from '../../../../components/widgets/FilterInput.vue';
+import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from '/app/javascript/shared/constants/countries.js';
 import { mapGetters } from 'vuex';
-
+import { filterAttributeGroups } from '../contactFilterItems';
+import * as OPERATORS from '../../../../components/widgets/FilterInput/FilterOperatorTypes';
 export default {
   components: {
     FilterInputBox,
@@ -72,7 +74,7 @@ export default {
       type: Function,
       default: () => {},
     },
-    filterTypes: {
+    initialFilterTypes: {
       type: Array,
       default: () => [],
     },
@@ -91,17 +93,12 @@ export default {
     return {
       show: true,
       appliedFilters: [],
+      filterTypes: this.initialFilterTypes,
+      filterGroups: [],
+      allCustomAttributes: [],
     };
   },
   computed: {
-    filterAttributes() {
-      return this.filterTypes.map(type => {
-        return {
-          key: type.attributeKey,
-          name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
-        };
-      });
-    },
     ...mapGetters({
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
@@ -110,6 +107,7 @@ export default {
     },
   },
   mounted() {
+    this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
     } else {
@@ -118,10 +116,78 @@ export default {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+        attribute_model: 'standard',
       });
     }
   },
   methods: {
+    setFilterAttributes() {
+      let allCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'contact_attribute'
+        );
+      let customAttributesFormatted = {
+        name: this.$t('CONTACTS_FILTER.GROUPS.CUSTOM_ATTRIBUTES'),
+        attributes: allCustomAttributes.map(attr => {
+          return {
+            key: attr.attribute_key,
+            name: attr.attribute_display_name,
+          };
+        }),
+      };
+      let allFilterGroups = filterAttributeGroups.map(group => {
+        return {
+          name: this.$t(`CONTACTS_FILTER.GROUPS.${group.i18nGroup}`),
+          attributes: group.attributes.map(attribute => {
+            return {
+              key: attribute.key,
+              name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${attribute.i18nKey}`),
+            };
+          }),
+        };
+      });
+      let customAttributeTypes = allCustomAttributes.map(attr => {
+        return {
+          attributeKey: attr.attribute_key,
+          attributeI18nKey: `CUSTOM_ATTRIBUTE_${attr.attribute_display_type.toUpperCase()}`,
+          inputType: this.customAttributeInputType(attr.attribute_display_type),
+          filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+          attributeModel: 'custom_attributes',
+        };
+      });
+      this.filterTypes = [...this.filterTypes, ...customAttributeTypes];
+      this.filterGroups = [...allFilterGroups, customAttributesFormatted];
+    },
+    getOperatorTypes(key) {
+      switch (key) {
+        case 'list':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'text':
+          return OPERATORS.OPERATOR_TYPES_3;
+        case 'number':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'link':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'date':
+          return OPERATORS.OPERATOR_TYPES_4;
+        case 'checkbox':
+          return OPERATORS.OPERATOR_TYPES_1;
+        default:
+          return OPERATORS.OPERATOR_TYPES_1;
+      }
+    },
+    customAttributeInputType(key) {
+      switch (key) {
+        case 'date':
+          return 'date';
+        default:
+          return 'plain_text';
+      }
+    },
+    getAttributeModel(key) {
+      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      return type.attributeModel;
+    },
     getInputType(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.inputType;
