@@ -14,7 +14,7 @@ RSpec.describe 'Super Admin access tokens API', type: :request do
 
     context 'when it is an authenticated super admin' do
       it 'shows the list of access tokens' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/super_admin/access_tokens'
         expect(response).to have_http_status(:success)
         expect(response.body).to include(platform_app.access_token.token)
