@@ -39,11 +39,11 @@
     },
     "EDIT": {
       "TITLE": "Modifica risposta predefinita",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Codice Breve",
-          "PLACEHOLDER": "Si prega di inserire uno shortcode",
+          "LABEL": "Codice breve",
+          "PLACEHOLDER": "Si prega di inserire un codice breve",
           "ERROR": "Il codice breve è obbligatorio"
         },
         "CONTENT": {
@@ -60,16 +60,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Risposta preconfezionata eliminata correttamente",
+        "SUCCESS_MESSAGE": "Risposta predefinita eliminata correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       }
     }
   }
