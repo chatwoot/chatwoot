@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 2022_01_21_055444) do
     t.boolean "pre_chat_form_enabled", default: false
     t.jsonb "pre_chat_form_options", default: {}
     t.boolean "hmac_mandatory", default: false
+    t.boolean "continuity_via_email", default: true, null: false
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
