@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_223630) do
+ActiveRecord::Schema.define(version: 2022_01_21_055444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -745,6 +745,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.integer "availability", default: 0
     t.jsonb "ui_settings", default: {}
     t.jsonb "custom_attributes", default: {}
+    t.string "type"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
