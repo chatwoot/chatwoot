@@ -53,7 +53,7 @@
             "TITLE": "Conferma eliminazione",
             "MESSAGE": "Are you sure to delete the filter ",
             "YES": "Sì, elimina",
-            "NO": "No, Conserva"
+            "NO": "No, mantienilo"
           }
         },
         "API": {
