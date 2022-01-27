@@ -41,9 +41,13 @@
         "ERROR_MESSAGE": "Απαιτείται όνομα",
         "SAVE_BUTTON": "Αποθήκευση φίλτρου",
         "CANCEL_BUTTON": "Άκυρο",
-        "API": {
-          "SUCCESS_MESSAGE": "Η προσαρμοσμένη προβολή δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία προσαρμοσμένης προβολής"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
         }
       },
       "DELETE": {
@@ -56,9 +60,13 @@
             "NO": "Όχι, Κράτησε τον/την"
           }
         },
-        "API": {
-          "SUCCESS_MESSAGE": "Η ιδιότητα διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή προσαρμοσμένης προβολής"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }
