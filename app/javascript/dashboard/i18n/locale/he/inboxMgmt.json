@@ -309,6 +309,10 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
       "ENABLE_HMAC": {
         "LABEL": "אפשר"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
       "ENABLE_CSAT": "אפשר CSAT",
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
