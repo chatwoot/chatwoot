@@ -43,6 +43,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    openLastSavedItem: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   data() {
@@ -80,17 +84,21 @@ export default {
           filter_type: this.filterType,
           query: this.customViewsQuery,
         });
-        this.alertMessage = this.$t(
-          'FILTER.CUSTOM_VIEWS.ADD.API.SUCCESS_MESSAGE'
-        );
+        this.alertMessage =
+          this.filterType === 0
+            ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.SUCCESS_MESSAGE')
+            : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =
-          errorMessage || this.$t('FILTER.CUSTOM_VIEWS.ADD.API.ERROR_MESSAGE');
+          errorMessage || this.filterType === 0
+            ? this.$t('FILTER.CUSTOM_VIEWS.ADD.API_FOLDERS.ERROR_MESSAGE')
+            : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.ERROR_MESSAGE');
       } finally {
         this.showAlert(this.alertMessage);
       }
+      this.openLastSavedItem();
     },
   },
 };

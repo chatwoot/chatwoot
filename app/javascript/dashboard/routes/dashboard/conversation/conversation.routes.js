@@ -85,21 +85,21 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/custom_view/:id'),
-      name: 'custom_view_conversations',
+      name: 'folder_conversations',
       roles: ['administrator', 'agent'],
       component: ConversationView,
-      props: route => ({ customViewsId: route.params.id }),
+      props: route => ({ foldersId: route.params.id }),
     },
     {
       path: frontendURL(
         'accounts/:accountId/custom_view/:id/conversations/:conversation_id'
       ),
-      name: 'conversations_through_custom_view',
+      name: 'conversations_through_folders',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => ({
         conversationId: route.params.conversation_id,
-        customViewsId: route.params.id,
+        foldersId: route.params.id,
       }),
     },
     {

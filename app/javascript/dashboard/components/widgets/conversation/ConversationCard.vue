@@ -130,7 +130,7 @@ export default {
       type: [String, Number],
       default: 0,
     },
-    customViewsId: {
+    foldersId: {
       type: [String, Number],
       default: 0,
     },
@@ -252,7 +252,7 @@ export default {
         id: chat.id,
         label: this.activeLabel,
         teamId: this.teamId,
-        customViewsId: this.customViewsId,
+        foldersId: this.foldersId,
         conversationType: this.conversationType,
       });
       router.push({ path: frontendURL(path) });
