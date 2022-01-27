@@ -42,8 +42,8 @@
         "SAVE_BUTTON": "ذخیره فیلتر",
         "CANCEL_BUTTON": "انصراف",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "پوشه با موفقیت ایجاد شد",
+          "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد"
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Segment created successfully",
@@ -61,8 +61,8 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "پوشه با موفقیت حذف شد",
+          "ERROR_MESSAGE": "در هنگام حذف پوشه خطایی رخ داد"
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Segment deleted successfully",
