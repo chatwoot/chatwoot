@@ -309,6 +309,10 @@
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Habilitar"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Activar asignación automática",
       "ENABLE_CSAT": "Habilitar Encuesta de Satisfacción",
       "ENABLE_CSAT_SUB_TEXT": "Habilitar/deshabilitar encuesta CSAT(satisfacción del cliente) después de resolver una conversación",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
