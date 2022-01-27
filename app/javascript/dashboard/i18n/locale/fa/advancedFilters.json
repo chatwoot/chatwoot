@@ -41,9 +41,13 @@
         "ERROR_MESSAGE": "نام الزامی است",
         "SAVE_BUTTON": "ذخیره فیلتر",
         "CANCEL_BUTTON": "انصراف",
-        "API": {
-          "SUCCESS_MESSAGE": "نمایش سفارشی با موفقیت ایجاد شد",
-          "ERROR_MESSAGE": "در هنگام ایجاد نمایش سفارشی خطایی رخ داد"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
         }
       },
       "DELETE": {
@@ -56,9 +60,13 @@
             "NO": "خیر، بماند"
           }
         },
-        "API": {
-          "SUCCESS_MESSAGE": "نمایش سفارشی با موفقیت حذف شد",
-          "ERROR_MESSAGE": "در هنگام حذف نمایش سفارشی خطایی رخ داد"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }
