@@ -3,7 +3,7 @@
     <slot></slot>
     <div
       class="chat-list__top"
-      :class="{ filter__applied: hasAppliedFiltersOrActiveCustomViews }"
+      :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
     >
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
@@ -11,17 +11,17 @@
 
       <div class="filter--actions">
         <chat-filter
-          v-if="!hasAppliedFiltersOrActiveCustomViews"
+          v-if="!hasAppliedFiltersOrActiveFolders"
           @statusFilterChange="updateStatusType"
         />
-        <div v-if="hasAppliedFilters && !hasActiveCustomViews">
+        <div v-if="hasAppliedFilters && !hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
             size="tiny"
             variant="smooth"
             color-scheme="secondary"
             icon="save"
-            @click="onClickOpenAddCustomViewsModal"
+            @click="onClickOpenAddFoldersModal"
           />
           <woot-button
             v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
@@ -32,7 +32,7 @@
             @click="resetAndFetchData"
           />
         </div>
-        <div v-if="hasActiveCustomViews">
+        <div v-if="hasActiveFolders">
           <woot-button
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
             size="tiny"
@@ -40,7 +40,7 @@
             color-scheme="alert"
             icon="delete"
             class="delete-custom-view__button"
-            @click="onClickOpenDeleteCustomViewsModal"
+            @click="onClickOpenDeleteFoldersModal"
           />
         </div>
 
@@ -59,21 +59,23 @@
     </div>
 
     <add-custom-views
-      v-if="showAddCustomViewsModal"
-      :custom-views-query="customViewsQuery"
-      @close="onCloseAddCustomViewsModal"
+      v-if="showAddFoldersModal"
+      :custom-views-query="foldersQuery"
+      :open-last-saved-item="openLastSavedItemInFolder"
+      @close="onCloseAddFoldersModal"
     />
 
     <delete-custom-views
-      v-if="showDeleteCustomViewsModal"
-      :show-delete-popup.sync="showDeleteCustomViewsModal"
-      :active-custom-view="activeCustomView"
-      :custom-views-id="customViewsId"
-      @close="onCloseDeleteCustomViewsModal"
+      v-if="showDeleteFoldersModal"
+      :show-delete-popup.sync="showDeleteFoldersModal"
+      :active-custom-view="activeFolder"
+      :custom-views-id="foldersId"
+      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
+      @close="onCloseDeleteFoldersModal"
     />
 
     <chat-type-tabs
-      v-if="!hasAppliedFiltersOrActiveCustomViews"
+      v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -90,7 +92,7 @@
         :key="chat.id"
         :active-label="label"
         :team-id="teamId"
-        :custom-views-id="customViewsId"
+        :folders-id="foldersId"
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
@@ -183,7 +185,7 @@ export default {
       type: String,
       default: '',
     },
-    customViewsId: {
+    foldersId: {
       type: [String, Number],
       default: 0,
     },
@@ -197,9 +199,9 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
-      customViewsQuery: {},
-      showAddCustomViewsModal: false,
-      showDeleteCustomViewsModal: false,
+      foldersQuery: {},
+      showAddFoldersModal: false,
+      showDeleteFoldersModal: false,
     };
   },
   computed: {
@@ -214,20 +216,20 @@ export default {
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
-      customViews: 'customViews/getCustomViews',
+      folders: 'customViews/getCustomViews',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length;
     },
-    hasActiveCustomViews() {
-      return this.activeCustomView && this.customViewsId !== 0;
+    hasActiveFolders() {
+      return this.activeFolder && this.foldersId !== 0;
     },
-    hasAppliedFiltersOrActiveCustomViews() {
-      return this.hasAppliedFilters || this.hasActiveCustomViews;
+    hasAppliedFiltersOrActiveFolders() {
+      return this.hasAppliedFilters || this.hasActiveFolders;
     },
-    savedCustomViewsValue() {
-      if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView.query;
+    savedFoldersValue() {
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
@@ -254,7 +256,7 @@ export default {
       );
     },
     currentPageFilterKey() {
-      return this.hasAppliedFiltersOrActiveCustomViews
+      return this.hasAppliedFiltersOrActiveFolders
         ? 'appliedFilters'
         : this.activeAssigneeTab;
     },
@@ -279,9 +281,7 @@ export default {
         conversationType: this.conversationType
           ? this.conversationType
           : undefined,
-        customViews: this.hasActiveCustomViews
-          ? this.savedCustomViewsValue
-          : undefined,
+        folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
     pageTitle() {
@@ -297,14 +297,14 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
-      if (this.hasActiveCustomViews) {
-        return this.activeCustomView.name;
+      if (this.hasActiveFolders) {
+        return this.activeFolder.name;
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
     conversationList() {
       let conversationList = [];
-      if (!this.hasAppliedFiltersOrActiveCustomViews) {
+      if (!this.hasAppliedFiltersOrActiveFolders) {
         const filters = this.conversationFilters;
         if (this.activeAssigneeTab === 'me') {
           conversationList = [...this.mineChatsList(filters)];
@@ -319,10 +319,10 @@ export default {
 
       return conversationList;
     },
-    activeCustomView() {
-      if (this.customViewsId) {
-        const activeView = this.customViews.filter(
-          view => view.id === Number(this.customViewsId)
+    activeFolder() {
+      if (this.foldersId) {
+        const activeView = this.folders.filter(
+          view => view.id === Number(this.foldersId)
         );
         const [firstValue] = activeView;
         return firstValue;
@@ -349,8 +349,10 @@ export default {
     conversationType() {
       this.resetAndFetchData();
     },
-    activeCustomView() {
-      this.resetAndFetchData();
+    activeFolder() {
+      if (!this.hasAppliedFilters) {
+        this.resetAndFetchData();
+      }
     },
   },
   mounted() {
@@ -366,22 +368,22 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
-      this.customViewsQuery = { payload: payload };
+      this.foldersQuery = { payload: payload };
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
     },
-    onClickOpenAddCustomViewsModal() {
-      this.showAddCustomViewsModal = true;
+    onClickOpenAddFoldersModal() {
+      this.showAddFoldersModal = true;
     },
-    onCloseAddCustomViewsModal() {
-      this.showAddCustomViewsModal = false;
+    onCloseAddFoldersModal() {
+      this.showAddFoldersModal = false;
     },
-    onClickOpenDeleteCustomViewsModal() {
-      this.showDeleteCustomViewsModal = true;
+    onClickOpenDeleteFoldersModal() {
+      this.showDeleteFoldersModal = true;
     },
-    onCloseDeleteCustomViewsModal() {
-      this.showDeleteCustomViewsModal = false;
+    onCloseDeleteFoldersModal() {
+      this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
@@ -434,11 +436,11 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
-      if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView.query;
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
       }
-      if (this.customViewsId) {
+      if (this.foldersId) {
         return;
       }
       this.fetchConversations();
@@ -449,11 +451,11 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
-      if (!this.hasAppliedFiltersOrActiveCustomViews) {
+      if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
       }
-      if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView.query;
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
       } else {
         this.fetchFilteredConversations(this.appliedFilters);
@@ -491,6 +493,22 @@ export default {
       if (this.activeStatus !== index) {
         this.activeStatus = index;
         this.resetAndFetchData();
+      }
+    },
+    openLastSavedItemInFolder() {
+      const lastItemOfFolder = this.folders[this.folders.length - 1];
+      const lastItemId = lastItemOfFolder.id;
+      this.$router.push({
+        name: 'folder_conversations',
+        params: { id: lastItemId },
+      });
+    },
+    openLastItemAfterDeleteInFolder() {
+      if (this.folders.length > 0) {
+        this.openLastSavedItemInFolder();
+      } else {
+        this.$router.push({ name: 'home' });
+        this.fetchConversations();
       }
     },
   },

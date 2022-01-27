@@ -3,7 +3,7 @@
     <div class="left-wrap" :class="wrapClas">
       <contacts-header
         :search-query="searchQuery"
-        :custom-views-id="customViewsId"
+        :segments-id="segmentsId"
         :on-search-submit="onSearchSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
@@ -31,18 +31,20 @@
     </div>
 
     <add-custom-views
-      v-if="showAddCustomViewsModal"
-      :custom-views-query="customViewsQuery"
+      v-if="showAddSegmentsModal"
+      :custom-views-query="segmentsQuery"
       :filter-type="filterType"
-      @close="onCloseAddCustomViewsModal"
+      :open-last-saved-item="openSavedItemInSegment"
+      @close="onCloseAddSegmentsModal"
     />
     <delete-custom-views
-      v-if="showDeleteCustomViewsModal"
-      :show-delete-popup.sync="showDeleteCustomViewsModal"
-      :active-custom-view="activeCustomView"
-      :custom-views-id="customViewsId"
+      v-if="showDeleteSegmentsModal"
+      :show-delete-popup.sync="showDeleteSegmentsModal"
+      :active-custom-view="activeSegment"
+      :custom-views-id="segmentsId"
       :active-filter-type="filterType"
-      @close="onCloseDeleteCustomViewsModal"
+      :open-last-item-after-delete="openLastItemAfterDeleteInSegment"
+      @close="onCloseDeleteSegmentsModal"
     />
 
     <contact-info-panel
@@ -102,7 +104,7 @@ export default {
   },
   props: {
     label: { type: String, default: '' },
-    customViewsId: {
+    segmentsId: {
       type: [String, Number],
       default: 0,
     },
@@ -121,10 +123,10 @@ export default {
           `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
         ),
       })),
-      customViewsQuery: {},
+      segmentsQuery: {},
       filterType: FILTER_TYPE_CONTACT,
-      showAddCustomViewsModal: false,
-      showDeleteCustomViewsModal: false,
+      showAddSegmentsModal: false,
+      showDeleteSegmentsModal: false,
     };
   },
   computed: {
@@ -132,7 +134,7 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
-      customViews: 'customViews/getCustomViews',
+      segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
@@ -142,12 +144,18 @@ export default {
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
-    hasActiveCustomViews() {
-      return this.activeCustomView && this.customViewsId !== 0;
+    hasActiveSegments() {
+      return this.activeSegment && this.segmentsId !== 0;
+    },
+    isContactAndLabelDashboard() {
+      return (
+        this.$route.name === 'contacts_dashboard' ||
+        this.$route.name === 'contacts_labels_dashboard'
+      );
     },
     pageTitle() {
-      if (this.hasActiveCustomViews) {
-        return this.activeCustomView.name;
+      if (this.hasActiveSegments) {
+        return this.activeSegment.name;
       }
       if (this.label) {
         return `#${this.label}`;
@@ -176,10 +184,10 @@ export default {
         ? selectedPageNumber
         : DEFAULT_PAGE;
     },
-    activeCustomView() {
-      if (this.customViewsId) {
-        const [firstValue] = this.customViews.filter(
-          view => view.id === Number(this.customViewsId)
+    activeSegment() {
+      if (this.segmentsId) {
+        const [firstValue] = this.segments.filter(
+          view => view.id === Number(this.segmentsId)
         );
         return firstValue;
       }
@@ -189,11 +197,17 @@ export default {
   watch: {
     label() {
       this.fetchContacts(DEFAULT_PAGE);
+      if (this.hasAppliedFilters) {
+        this.clearFilters();
+      }
     },
-    activeCustomView() {
-      if (this.hasActiveCustomViews) {
-        const payload = this.activeCustomView.query;
-        this.fetchSavedFilteredContact(payload);
+    activeSegment() {
+      if (this.hasActiveSegments) {
+        const payload = this.activeSegment.query;
+        this.fetchSavedFilteredContact(payload, DEFAULT_PAGE);
+      }
+      if (this.hasAppliedFilters && this.$route.name === 'contacts_dashboard') {
+        this.fetchFilteredContacts(DEFAULT_PAGE);
       } else {
         this.fetchContacts(DEFAULT_PAGE);
       }
@@ -222,35 +236,49 @@ export default {
       return sortAttr;
     },
     fetchContacts(page) {
-      this.updatePageParam(page);
-      let value = '';
-      if (this.searchQuery.charAt(0) === '+') {
-        value = this.searchQuery.substring(1);
-      } else {
-        value = this.searchQuery;
+      if (this.isContactAndLabelDashboard) {
+        this.updatePageParam(page);
+        let value = '';
+        if (this.searchQuery.charAt(0) === '+') {
+          value = this.searchQuery.substring(1);
+        } else {
+          value = this.searchQuery;
+        }
+        const requestParams = {
+          page,
+          sortAttr: this.getSortAttribute(),
+          label: this.label,
+        };
+        if (!value) {
+          this.$store.dispatch('contacts/get', requestParams);
+        } else {
+          this.$store.dispatch('contacts/search', {
+            search: value,
+            ...requestParams,
+          });
+        }
       }
-      const requestParams = {
-        page,
-        sortAttr: this.getSortAttribute(),
-        label: this.label,
-      };
-      if (!value) {
-        this.$store.dispatch('contacts/get', requestParams);
-      } else {
-        this.$store.dispatch('contacts/search', {
-          search: value,
-          ...requestParams,
+    },
+    fetchSavedFilteredContact(payload, page) {
+      if (this.hasActiveSegments) {
+        this.updatePageParam(page);
+        this.$store.dispatch('contacts/filter', {
+          queryPayload: payload,
+          page,
         });
       }
     },
-    fetchSavedFilteredContact(payload) {
+    fetchFilteredContacts(page) {
       if (this.hasAppliedFilters) {
-        this.clearFilters();
+        const payload = this.segmentsQuery;
+        this.updatePageParam(page);
+        this.$store.dispatch('contacts/filter', {
+          queryPayload: payload,
+          page,
+        });
       }
-      this.$store.dispatch('contacts/filter', {
-        queryPayload: payload,
-      });
     },
+
     onInputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
@@ -267,7 +295,15 @@ export default {
     },
     onPageChange(page) {
       this.selectedContactId = '';
-      this.fetchContacts(page);
+      if (this.segmentsId !== 0) {
+        const payload = this.activeSegment.query;
+        this.fetchSavedFilteredContact(payload, page);
+      }
+      if (this.hasAppliedFilters) {
+        this.fetchFilteredContacts(page);
+      } else {
+        this.fetchContacts(page);
+      }
     },
     openContactInfoPanel(contactId) {
       this.selectedContactId = contactId;
@@ -281,16 +317,16 @@ export default {
       this.showCreateModal = !this.showCreateModal;
     },
     onToggleSaveFilters() {
-      this.showAddCustomViewsModal = true;
+      this.showAddSegmentsModal = true;
     },
-    onCloseAddCustomViewsModal() {
-      this.showAddCustomViewsModal = false;
+    onCloseAddSegmentsModal() {
+      this.showAddSegmentsModal = false;
     },
     onToggleDeleteFilters() {
-      this.showDeleteCustomViewsModal = true;
+      this.showDeleteSegmentsModal = true;
     },
-    onCloseDeleteCustomViewsModal() {
-      this.showDeleteCustomViewsModal = false;
+    onCloseDeleteSegmentsModal() {
+      this.showDeleteSegmentsModal = false;
     },
     onToggleImport() {
       this.showImportModal = !this.showImportModal;
@@ -304,7 +340,7 @@ export default {
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
-      this.customViewsQuery = { payload };
+      this.segmentsQuery = { payload };
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });
@@ -313,6 +349,22 @@ export default {
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
       this.fetchContacts(this.pageParameter);
+    },
+    openSavedItemInSegment() {
+      const lastItemInSegments = this.segments[this.segments.length - 1];
+      const lastItemId = lastItemInSegments.id;
+      this.$router.push({
+        name: 'contacts_segments_dashboard',
+        params: { id: lastItemId },
+      });
+    },
+    openLastItemAfterDeleteInSegment() {
+      if (this.segments.length > 0) {
+        this.openSavedItemInSegment();
+      } else {
+        this.$router.push({ name: 'contacts_dashboard' });
+        this.fetchContacts(DEFAULT_PAGE);
+      }
     },
   },
 };
