@@ -309,6 +309,10 @@
         "ENABLED": "Povoleno",
         "DISABLED": "Zakázáno"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Povoleno",
+        "DISABLED": "Zakázáno"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Povolit automatické přiřazení",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Nastavení doručené pošty",
       "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastavení doručené pošty",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Povolit nebo zakázat automatické přiřazování nových konverzací agentům přidaným do této schránky.",
