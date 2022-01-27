@@ -157,7 +157,7 @@ export default {
         })),
       };
     },
-    customViewsSection() {
+    foldersSection() {
       return {
         icon: 'folder',
         label: 'CUSTOM_VIEWS_FOLDER',
@@ -175,7 +175,7 @@ export default {
           })),
       };
     },
-    contactCustomViewsSection() {
+    contactSegmentsSection() {
       return {
         icon: 'folder',
         label: 'CUSTOM_VIEWS_SEGMENTS',
@@ -200,16 +200,10 @@ export default {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];
       }
       if (this.customViews.length) {
-        conversationMenuItems = [
-          this.customViewsSection,
-          ...conversationMenuItems,
-        ];
+        conversationMenuItems = [this.foldersSection, ...conversationMenuItems];
       }
       if (this.contactCustomViews.length) {
-        contactMenuItems = [
-          this.contactCustomViewsSection,
-          ...contactMenuItems,
-        ];
+        contactMenuItems = [this.contactSegmentsSection, ...contactMenuItems];
       }
       return {
         conversations: conversationMenuItems,
