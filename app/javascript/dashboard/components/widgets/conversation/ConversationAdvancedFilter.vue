@@ -95,6 +95,7 @@ export default {
       filterGroups: [],
       allCustomAttributes: [],
       attributeModel: 'conversation_attribute',
+      filtersFori18n: 'FILTER',
     };
   },
   computed: {

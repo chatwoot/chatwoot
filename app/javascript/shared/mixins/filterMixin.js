@@ -1,3 +1,5 @@
+// import groupBy from 'lodash.groupby';
+
 export default {
   methods: {
     setFilterAttributes() {
@@ -5,7 +7,7 @@ export default {
         'attributes/getAttributesByModel'
       ](this.attributeModel);
       const customAttributesFormatted = {
-        name: this.$t('FILTER.GROUPS.CUSTOM_ATTRIBUTES'),
+        name: this.$t(`${this.filtersFori18n}.GROUPS.CUSTOM_ATTRIBUTES`),
         attributes: allCustomAttributes.map(attr => {
           return {
             key: attr.attribute_key,
@@ -15,11 +17,13 @@ export default {
       };
       const allFilterGroups = this.filterAttributeGroups.map(group => {
         return {
-          name: this.$t(`FILTER.GROUPS.${group.i18nGroup}`),
+          name: this.$t(`${this.filtersFori18n}.GROUPS.${group.i18nGroup}`),
           attributes: group.attributes.map(attribute => {
             return {
               key: attribute.key,
-              name: this.$t(`FILTER.ATTRIBUTES.${attribute.i18nKey}`),
+              name: this.$t(
+                `${this.filtersFori18n}.ATTRIBUTES.${attribute.i18nKey}`
+              ),
             };
           }),
         };

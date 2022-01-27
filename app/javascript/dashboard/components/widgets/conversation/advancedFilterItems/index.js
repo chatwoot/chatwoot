@@ -85,46 +85,6 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_3,
     attributeModel: 'additional',
   },
-  {
-    attributeKey: 'custom_attribute_list',
-    attributeI18nKey: 'CUSTOM_ATTRIBUTE_LIST',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_2,
-    attributeModel: 'custom_attributes',
-  },
-  {
-    attributeKey: 'custom_attribute_text',
-    attributeI18nKey: 'CUSTOM_ATTRIBUTE_TEXT',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_3,
-    attributeModel: 'custom_attributes',
-  },
-  {
-    attributeKey: 'custom_attribute_number',
-    attributeI18nKey: 'CUSTOM_ATTRIBUTE_NUMBER',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_2,
-    attributeModel: 'custom_attributes',
-  },
-  {
-    attributeKey: 'custom_attribute_link',
-    attributeI18nKey: 'CUSTOM_ATTRIBUTE_LINK',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_2,
-    attributeModel: 'custom_attributes',
-  },
-  {
-    attributeKey: 'custom_attribute_checkbox',
-    attributeI18nKey: 'CUSTOM_ATTRIBUTE_CHECKBOX',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_2,
-    attributeModel: 'custom_attributes',
-  },
 ];
 
 export const filterAttributeGroups = [

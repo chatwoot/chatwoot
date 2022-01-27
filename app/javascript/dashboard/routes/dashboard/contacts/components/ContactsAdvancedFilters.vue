@@ -99,6 +99,7 @@ export default {
       allCustomAttributes: [],
       filterAttributeGroups,
       attributeModel: 'contact_attribute',
+      filtersFori18n: 'CONTACTS_FILTER',
     };
   },
   computed: {
