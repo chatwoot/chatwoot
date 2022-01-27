@@ -12,11 +12,11 @@ export const routes = [
   },
   {
     path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
-    name: 'contacts_through_custom_view',
+    name: 'contacts_segments_dashboard',
     roles: ['administrator', 'agent'],
     component: ContactsView,
     props: route => {
-      return { customViewsId: route.params.id };
+      return { segmentsId: route.params.id };
     },
   },
   {
