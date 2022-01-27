@@ -309,6 +309,10 @@
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Включить автоназначение",
       "ENABLE_CSAT": "Включить CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
