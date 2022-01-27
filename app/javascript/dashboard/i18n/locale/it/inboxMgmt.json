@@ -309,6 +309,10 @@
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
