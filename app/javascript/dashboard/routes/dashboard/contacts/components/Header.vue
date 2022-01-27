@@ -26,18 +26,16 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-
         <woot-button
-          v-if="hasActiveCustomViews && !hasAppliedFilters"
+          v-if="hasActiveSegments"
           class="margin-right-small clear"
           color-scheme="alert"
           icon="delete"
-          @click="onToggleDeleteCustomViewsModal"
+          @click="onToggleDeleteSegmentsModal"
         >
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
         </woot-button>
-
-        <div v-if="!hasActiveCustomViews" class="filters__button-wrap">
+        <div v-if="!hasActiveSegments" class="filters__button-wrap">
           <div v-if="hasAppliedFilters" class="filters__applied-indicator" />
           <woot-button
             class="margin-right-small clear"
@@ -51,12 +49,12 @@
         </div>
 
         <woot-button
-          v-if="hasAppliedFilters && !hasActiveCustomViews"
+          v-if="hasAppliedFilters && !hasActiveSegments"
           class="margin-right-small clear"
           color-scheme="alert"
           variant="clear"
           icon="save"
-          @click="onToggleCustomViewsModal"
+          @click="onToggleSegmentsModal"
         >
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
         </woot-button>
@@ -96,7 +94,7 @@ export default {
       type: String,
       default: '',
     },
-    customViewsId: {
+    segmentsId: {
       type: [String, Number],
       default: 0,
     },
@@ -137,15 +135,15 @@ export default {
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
-    hasActiveCustomViews() {
-      return this.customViewsId !== 0;
+    hasActiveSegments() {
+      return this.segmentsId !== 0;
     },
   },
   methods: {
-    onToggleCustomViewsModal() {
+    onToggleSegmentsModal() {
       this.$emit('on-toggle-save-filter');
     },
-    onToggleDeleteCustomViewsModal() {
+    onToggleDeleteSegmentsModal() {
       this.$emit('on-toggle-delete-filter');
     },
   },
