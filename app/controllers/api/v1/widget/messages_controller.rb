@@ -31,7 +31,6 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     params[:message][:attachments].each do |uploaded_attachment|
       @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type),
         file: uploaded_attachment
       )
     end
