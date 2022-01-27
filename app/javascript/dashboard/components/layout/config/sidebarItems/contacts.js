@@ -5,7 +5,7 @@ const contacts = accountId => ({
   routes: [
     'contacts_dashboard',
     'contact_profile_dashboard',
-    'contacts_through_custom_view',
+    'contacts_segments_dashboard',
     'contacts_labels_dashboard',
   ],
   menuItems: [
