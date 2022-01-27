@@ -309,6 +309,10 @@
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Activare atribuire automată",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
