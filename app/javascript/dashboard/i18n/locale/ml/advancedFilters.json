@@ -42,8 +42,8 @@
         "SAVE_BUTTON": "ഫിൽട്ടർ സേവ് ചെയുക",
         "CANCEL_BUTTON": "റദ്ദാക്കുക",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി സൃഷ്ടിച്ചു",
+          "ERROR_MESSAGE": "ഫോൾഡർ സൃഷ്‌ടിക്കുമ്പോൾ പിശക്"
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Segment created successfully",
@@ -61,7 +61,7 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി ഇല്ലാതാക്കി",
           "ERROR_MESSAGE": "Error while deleting folder"
         },
         "API_SEGMENTS": {
