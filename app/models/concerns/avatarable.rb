@@ -6,7 +6,7 @@ module Avatarable
 
   included do
     has_one_attached :avatar
-    validate :acceptable_avatar
+    validate :acceptable_avatar, if: -> { avatar.changed? }
   end
 
   def avatar_url
