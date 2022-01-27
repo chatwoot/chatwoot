@@ -42,12 +42,12 @@
         "SAVE_BUTTON": "Αποθήκευση φίλτρου",
         "CANCEL_BUTTON": "Άκυρο",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία φακέλου"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος"
         }
       },
       "DELETE": {
@@ -61,12 +61,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Ο φάκελος διαγράφηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή του φακέλου"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Το τμήμα διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή τμήματος"
         }
       }
     }
