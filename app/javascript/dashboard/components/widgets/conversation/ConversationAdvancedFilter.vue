@@ -54,12 +54,13 @@ import languages from './advancedFilterItems/languages';
 import countries from '/app/javascript/shared/constants/countries.js';
 import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from './advancedFilterItems';
-import * as OPERATORS from '../FilterInput/FilterOperatorTypes';
+import filterMixin from 'shared/mixins/filterMixin';
+import * as OPERATORS from '/app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 export default {
   components: {
     FilterInputBox,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -90,8 +91,10 @@ export default {
       show: true,
       appliedFilters: [],
       filterTypes: this.initialFilterTypes,
+      filterAttributeGroups,
       filterGroups: [],
       allCustomAttributes: [],
+      attributeModel: 'conversation_attribute',
     };
   },
   computed: {
@@ -115,42 +118,6 @@ export default {
     }
   },
   methods: {
-    setFilterAttributes() {
-      let allCustomAttributes = this.$store.getters[
-        'attributes/getAttributesByModel'
-      ]('conversation_attribute');
-      let customAttributesFormatted = {
-        name: this.$t('FILTER.GROUPS.CUSTOM_ATTRIBUTES'),
-        attributes: allCustomAttributes.map(attr => {
-          return {
-            key: attr.attribute_key,
-            name: attr.attribute_display_name,
-          };
-        }),
-      };
-      let allFilterGroups = filterAttributeGroups.map(group => {
-        return {
-          name: this.$t(`FILTER.GROUPS.${group.i18nGroup}`),
-          attributes: group.attributes.map(attribute => {
-            return {
-              key: attribute.key,
-              name: this.$t(`FILTER.ATTRIBUTES.${attribute.i18nKey}`),
-            };
-          }),
-        };
-      });
-      let customAttributeTypes = allCustomAttributes.map(attr => {
-        return {
-          attributeKey: attr.attribute_key,
-          attributeI18nKey: `CUSTOM_ATTRIBUTE_${attr.attribute_display_type.toUpperCase()}`,
-          inputType: this.customAttributeInputType(attr.attribute_display_type),
-          filterOperators: this.getOperatorTypes(attr.attribute_display_type),
-          attributeModel: 'custom_attributes',
-        };
-      });
-      this.filterTypes = [...this.filterTypes, ...customAttributeTypes];
-      this.filterGroups = [...allFilterGroups, customAttributesFormatted];
-    },
     getOperatorTypes(key) {
       switch (key) {
         case 'list':
