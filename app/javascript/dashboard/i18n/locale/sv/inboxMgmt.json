@@ -309,6 +309,10 @@
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivera"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
       "ENABLE_CSAT": "Aktivera CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Aktivera/inaktivera CSAT(kundnöjdhet) undersökning efter att ha löst ett samtal",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Inkorgsinställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
