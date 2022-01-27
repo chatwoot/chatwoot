@@ -41,9 +41,13 @@
         "ERROR_MESSAGE": "Необходимо указать имя",
         "SAVE_BUTTON": "Сохранить фильтр",
         "CANCEL_BUTTON": "Отменить",
-        "API": {
-          "SUCCESS_MESSAGE": "Пользовательское представление успешно создано",
-          "ERROR_MESSAGE": "Ошибка при создании пользовательского представления"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
         }
       },
       "DELETE": {
@@ -56,9 +60,13 @@
             "NO": "Нет, не удалять"
           }
         },
-        "API": {
-          "SUCCESS_MESSAGE": "Пользовательское представление успешно удалено",
-          "ERROR_MESSAGE": "Ошибка при удалении пользовательского представления"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }
