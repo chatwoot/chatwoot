@@ -41,9 +41,13 @@
         "ERROR_MESSAGE": "Name is required",
         "SAVE_BUTTON": "Save filter",
         "CANCEL_BUTTON": "Cancel",
-        "API": {
-          "SUCCESS_MESSAGE": "Custom view created successfully",
-          "ERROR_MESSAGE": "Error while creating custom view"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
         }
       },
       "DELETE": {
@@ -56,9 +60,13 @@
             "NO": "No, Keep it"
           }
         },
-        "API": {
-          "SUCCESS_MESSAGE": "Custom view deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting custom view"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }
