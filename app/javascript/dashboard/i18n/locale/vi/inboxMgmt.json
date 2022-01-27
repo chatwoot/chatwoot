@@ -309,6 +309,10 @@
         "ENABLED": "Bật",
         "DISABLED": "Không bật"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
