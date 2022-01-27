@@ -309,6 +309,10 @@
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Activer"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
       "ENABLE_CSAT": "Activer CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
