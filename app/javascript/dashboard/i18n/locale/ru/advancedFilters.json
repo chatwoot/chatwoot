@@ -42,12 +42,12 @@
         "SAVE_BUTTON": "Сохранить фильтр",
         "CANCEL_BUTTON": "Отменить",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Папка успешно создана",
+          "ERROR_MESSAGE": "Ошибка при создании папки"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Сегмент успешно создан",
+          "ERROR_MESSAGE": "Ошибка при создании сегмента"
         }
       },
       "DELETE": {
