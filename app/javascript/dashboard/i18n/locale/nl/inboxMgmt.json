@@ -309,6 +309,10 @@
         "ENABLED": "Ingeschakeld",
         "DISABLED": "Uitgeschakeld"
       },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -355,6 +359,8 @@
       "AUTO_ASSIGNMENT": "Automatische toewijzing inschakelen",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
