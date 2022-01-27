@@ -41,9 +41,13 @@
         "ERROR_MESSAGE": "നാമം ആവശ്യമാണ്",
         "SAVE_BUTTON": "ഫിൽട്ടർ സേവ് ചെയുക",
         "CANCEL_BUTTON": "റദ്ദാക്കുക",
-        "API": {
-          "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്‌ച വിജയകരമായി സൃഷ്ടിച്ചിരിക്കുന്നു",
-          "ERROR_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്ച സൃഷ്ടിച്ചിരിക്കുന്നതിൽ പിശക്"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
         }
       },
       "DELETE": {
@@ -56,9 +60,13 @@
             "NO": "ഇല്ല, സൂക്ഷിക്കുക"
           }
         },
-        "API": {
-          "SUCCESS_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്‌ച വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
-          "ERROR_MESSAGE": "ഇഷ്‌ടാനുസൃത കാഴ്ച ഇല്ലാതാക്കുന്നതിൽ പിശക്"
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
         }
       }
     }
