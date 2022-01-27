@@ -1,8 +1,7 @@
 import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
-} from '../../../../../dashboard/components/widgets/FilterInput/FilterOperatorTypes';
-
+} from '/app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 const filterTypes = [
   {
     attributeKey: 'name',
