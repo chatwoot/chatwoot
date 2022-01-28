@@ -4,7 +4,7 @@
       v-if="showSelfAssignBanner"
       bg-color-scheme="secondary"
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-      :is-action-button="true"
+      :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
       @click="onClickSelfAssign"
     />
@@ -523,12 +523,15 @@ export default {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+        const upload = new DirectUpload(
+          file.file,
+          '/rails/active_storage/direct_uploads',
+          null,
+          file.file.name
+        );
         upload.create((error, blob) => {
           if (error) {
-            this.showAlert(
-              error
-            );
+            this.showAlert(error);
           } else {
             this.attachedFiles.push({
               currentChatId: this.currentChat.id,

@@ -2,12 +2,17 @@
   <div class="banner" :class="bannerClasses">
     <span>
       {{ bannerMessage }}
-      <a :href="hrefLink" rel="noopener noreferrer nofollow" target="_blank">
+      <a
+        v-if="hrefLink"
+        :href="hrefLink"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
         {{ hrefLinkText }}
       </a>
     </span>
     <woot-button
-      v-if="isActionButton"
+      v-if="hasActionButton"
       size="small"
       variant="link"
       icon="arrow-right"
@@ -18,7 +23,7 @@
       {{ actionButtonLabel }}
     </woot-button>
     <woot-button
-      v-if="isCloseButton"
+      v-if="hasCloseButton"
       size="small"
       variant="link"
       color-scheme="warning"
@@ -45,7 +50,7 @@ export default {
       type: String,
       default: '',
     },
-    isActionButton: {
+    hasActionButton: {
       type: Boolean,
       default: false,
     },
@@ -57,7 +62,7 @@ export default {
       type: String,
       default: '',
     },
-    isCloseButton: {
+    hasCloseButton: {
       type: Boolean,
       default: false,
     },
@@ -115,6 +120,10 @@ export default {
 
   .banner-action__button {
     margin: 0 var(--space-smaller);
+
+    ::v-deep .button__content {
+      white-space: nowrap;
+    }
   }
 }
 </style>

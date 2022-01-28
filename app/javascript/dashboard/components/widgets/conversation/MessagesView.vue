@@ -28,7 +28,7 @@
       v-if="isATweet"
       bg-color-scheme="gray"
       :banner-message="tweetBannerText"
-      :is-close-button="hasSelectedTweetId"
+      :has-close-button="hasSelectedTweetId"
       @close="removeTweetSelection"
     />
     <div class="sidebar-toggle__wrap">
