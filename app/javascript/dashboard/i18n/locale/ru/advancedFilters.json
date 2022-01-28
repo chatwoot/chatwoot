@@ -61,12 +61,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Папка успешно удалена",
+          "ERROR_MESSAGE": "При удалении папки произошла ошибка"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Сегмент успешно удален",
+          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка"
         }
       }
     }
