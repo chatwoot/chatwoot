@@ -66,10 +66,12 @@ class Conversations::FilterService < FilterService
   def custom_attribute_query(query_hash, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
+    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
     filter_operator_value = filter_operation(query_hash, current_index)
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
 
     if custom_attribute(attribute_key)
-      " conversations.custom_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+      " LOWER(conversations.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
     else
       ' '
     end

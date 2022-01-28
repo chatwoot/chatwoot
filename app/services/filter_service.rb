@@ -56,9 +56,12 @@ class FilterService
   end
 
   def lt_gt_filter_values(query_hash)
+    attribute_key = query_hash[:attribute_key]
+    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
     value = query_hash['values'][0]
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
-    "#{operator} '#{value}'::date"
+    "#{operator} '#{value}'::#{attribute_data_type}"
   end
 
   def set_count_for_all_conversations

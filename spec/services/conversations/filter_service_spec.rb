@@ -10,18 +10,49 @@ describe ::Conversations::FilterService do
   let!(:campaign_2) { create(:campaign, title: 'Campaign', account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
 
+  let!(:text_custom_attribute_definition) do
+    create(:custom_attribute_definition,
+      attribute_key: 'conversation_additional_information',
+      account: account,
+      attribute_model: 'conversation_attribute',
+      attribute_display_type: 'text'
+    )
+  end
+  let!(:list_custom_attribute_definition) do
+    create(:custom_attribute_definition,
+      attribute_key: 'conversation_type',
+      account: account,
+      attribute_model: 'conversation_attribute',
+      attribute_display_type: 'list',
+      attribute_values: ["regular", "platinum", "gold"]
+    )
+  end
+
+  let!(:date_custom_attribute_definition) do
+    create(:custom_attribute_definition,
+      attribute_key: 'conversation_created',
+      account: account,
+      attribute_model: 'conversation_attribute',
+      attribute_display_type: 'date'
+    )
+  end
+
+  let!(:unassigned_conversation) { create(:conversation, account: account, inbox: inbox) }
+  let!(:user_1_assigned_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user_1) }
+  let!(:user_2_assigned_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user_2) }
+  let!(:en_conversation_1) { create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
+                        status: 'pending', additional_attributes: { 'browser_language': 'en' }) }
+  let!(:en_conversation_2) { create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_2.id,
+                        status: 'pending', additional_attributes: { 'browser_language': 'en' }) }
+
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
     create(:inbox_member, user: user_2, inbox: inbox)
-    create(:conversation, account: account, inbox: inbox, assignee: user_1)
-    create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
-                          status: 'pending', additional_attributes: { 'browser_language': 'en' })
-    create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_2.id,
-                          status: 'pending', additional_attributes: { 'browser_language': 'en' })
-    create(:conversation, account: account, inbox: inbox, assignee: user_2)
-    # unassigned conversation
-    create(:conversation, account: account, inbox: inbox)
     Current.account = account
+
+    en_conversation_1.update!(custom_attributes: { conversation_additional_information: 'test custom data' })
+    en_conversation_2.update!(custom_attributes: { conversation_additional_information: 'test custom data', conversation_type: 'platinum'})
+    user_2_assigned_conversation.update!(custom_attributes: { conversation_type: 'platinum', conversation_created: '2022-01-19' })
   end
 
   describe '#perform' do
@@ -60,7 +91,7 @@ describe ::Conversations::FilterService do
       end
 
       it 'filter conversations by tags' do
-        Conversation.last.update_labels('support')
+        unassigned_conversation.update_labels('support')
         params[:payload] = [
           {
             attribute_key: 'assignee_id',
@@ -104,6 +135,25 @@ describe ::Conversations::FilterService do
 
         expect(result[:count][:all_count]).to be 2
         expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
+      end
+
+      it 'filter by custom_attributes and labels' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_created',
+            filter_operator: 'is_less_than',
+            values: ['2022-01-20'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to be 1
       end
     end
   end
