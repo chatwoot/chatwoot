@@ -65,8 +65,8 @@
           "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة"
         }
       }
     }
