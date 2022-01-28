@@ -42,12 +42,12 @@
         "SAVE_BUTTON": "حفظ الفلتر",
         "CANCEL_BUTTON": "إلغاء",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
         }
       },
       "DELETE": {
@@ -61,8 +61,8 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "تم حذف طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد"
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Segment deleted successfully",
