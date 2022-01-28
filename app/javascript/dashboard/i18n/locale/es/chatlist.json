@@ -24,12 +24,12 @@
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mina",
+        "NAME": "Mías",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Sin asignar",
+        "NAME": "Unassigned",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
