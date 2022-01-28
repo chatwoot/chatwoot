@@ -106,7 +106,7 @@ import { mapGetters } from 'vuex';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
-import banner from 'dashboard/components/ui/Banner.vue';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
@@ -120,7 +120,7 @@ export default {
   components: {
     Message,
     ReplyBox,
-    banner,
+    Banner,
   },
   mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
   props: {
