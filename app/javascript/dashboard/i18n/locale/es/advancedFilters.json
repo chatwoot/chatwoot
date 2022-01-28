@@ -42,12 +42,12 @@
         "SAVE_BUTTON": "Save filter",
         "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Carpeta creada con éxito",
+          "ERROR_MESSAGE": "Error al crear la carpeta"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segmento creado con éxito",
+          "ERROR_MESSAGE": "Error al crear segmento"
         }
       },
       "DELETE": {
@@ -61,12 +61,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito",
+          "ERROR_MESSAGE": "Error al eliminar carpeta"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segmento eliminado con éxito",
+          "ERROR_MESSAGE": "Error al eliminar segmento"
         }
       }
     }
