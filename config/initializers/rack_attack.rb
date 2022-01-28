@@ -21,7 +21,7 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
+      allowed_ips = ['127.0.0.1', '::1', '34.86.236.185']
       allowed_ips.include?(remote_ip)
     end
   end
