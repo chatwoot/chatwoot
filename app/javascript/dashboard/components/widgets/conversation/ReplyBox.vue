@@ -197,7 +197,7 @@ export default {
       },
     },
     showSelfAssignBanner() {
-      if (this.message !== '') {
+      if (this.message !== '' && !this.isOnPrivateNote) {
         if (!this.assignedAgent) {
           return true;
         }
