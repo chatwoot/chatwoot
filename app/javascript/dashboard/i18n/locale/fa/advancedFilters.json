@@ -46,7 +46,7 @@
           "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
+          "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد",
           "ERROR_MESSAGE": "Error while creating segment"
         }
       },
