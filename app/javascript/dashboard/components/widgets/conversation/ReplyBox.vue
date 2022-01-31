@@ -61,7 +61,7 @@
     <reply-bottom-panel
       :mode="replyType"
       :send-button-text="replyButtonLabel"
-      :on-file-upload="onFileUpload"
+      :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -100,10 +100,12 @@ import {
   isEscape,
   isEnter,
   hasPressedShift,
+  hasPressedCommandPlusKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
 
 export default {
   components: {
@@ -359,7 +361,13 @@ export default {
           e.preventDefault();
           this.sendMessage();
         }
+      } else if (hasPressedCommandPlusKKey(e)) {
+        this.openCommandBar();
       }
+    },
+    openCommandBar() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open();
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
@@ -443,6 +451,35 @@ export default {
         isPrivate,
       });
     },
+    onDirectFileUpload(file) {
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(
+              error
+            );
+          } else {
+            this.attachedFiles.push({
+              currentChatId: this.currentChat.id,
+              resource: blob,
+              isPrivate: this.isPrivate,
+              thumb: null,
+              blobSignedId: blob.signed_id,
+            });
+          }
+        });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
     onFileUpload(file) {
       if (!file) {
         return;
@@ -486,7 +523,7 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          messagePayload.files.push(attachment.resource.file);
+          messagePayload.files.push(attachment.blobSignedId);
         });
       }
 
