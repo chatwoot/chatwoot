@@ -1,13 +1,13 @@
-import { mount } from '@vue/test-utils';
 import filterMixin from '../filterMixin';
-import { filterGroups } from './filterFixtures';
-describe('filterMixin', () => {
-  test('set filterGroups using component filterGroups property', () => {
-    const Component = {
-      render() {},
-      mixins: [filterMixin],
-    };
-    mount(Component);
-    expect(filterGroups).toBe(filterGroups);
+import { shallowMount } from '@vue/test-utils';
+import MockComponent from './MockComponent.vue';
+
+describe('Test mixin function', () => {
+  const wrapper = shallowMount(MockComponent, {
+    mixins: [filterMixin],
+  });
+
+  it('should return proper value from bool', () => {
+    expect(wrapper.vm.setFilterAttributes).toBeTruthy();
   });
 });
