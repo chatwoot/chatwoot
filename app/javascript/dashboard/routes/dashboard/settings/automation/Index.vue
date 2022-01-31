@@ -43,7 +43,7 @@
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
               <td class="button-wrapper">
-                <!-- <woot-button
+                <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
                   variant="smooth"
                   size="tiny"
@@ -54,7 +54,7 @@
                   @click="openEditPopup(automation)"
                 >
                 </woot-button>
-                <woot-button
+                <!-- s<woot-button
                   v-tooltip.top="'Clone'"
                   variant="smooth"
                   size="tiny"
@@ -107,17 +107,32 @@
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
+
+    <woot-modal
+      :show.sync="showEditPopup"
+      size="medium"
+      :on-close="hideEditPopup"
+    >
+      <edit-automation-rule
+        v-if="showEditPopup"
+        :on-close="hideEditPopup"
+        :selected-response="selectedResponse"
+        @saveAutomation="onCreateAutomation"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import AddAutomationRule from './AddAutomationRule.vue';
+import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     AddAutomationRule,
+    EditAutomationRule,
   },
   mixins: [alertMixin, timeMixin],
   data() {
@@ -162,8 +177,8 @@ export default {
       this.showAddPopup = false;
     },
     openEditPopup(response) {
-      this.showEditPopup = true;
       this.selectedResponse = response;
+      this.showEditPopup = true;
     },
     hideEditPopup() {
       this.showEditPopup = false;
