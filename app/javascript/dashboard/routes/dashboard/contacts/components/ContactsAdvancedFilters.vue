@@ -60,11 +60,11 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
-import countries from '/app/javascript/shared/constants/countries.js';
+import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
-import * as OPERATORS from '/app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
+import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 export default {
   components: {
     FilterInputBox,
