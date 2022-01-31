@@ -46,7 +46,7 @@
           "ERROR_MESSAGE": "ഫോൾഡർ സൃഷ്‌ടിക്കുമ്പോൾ പിശക്"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
+          "SUCCESS_MESSAGE": "സെഗ്മെന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
           "ERROR_MESSAGE": "Error while creating segment"
         }
       },
@@ -65,8 +65,8 @@
           "ERROR_MESSAGE": "Error while deleting folder"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "സെഗ്‌മെന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
+          "ERROR_MESSAGE": "സെഗ്‌മെന്റ് ഇല്ലാതാക്കുന്നതിൽ പിശക്"
         }
       }
     }
