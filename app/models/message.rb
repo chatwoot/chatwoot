@@ -185,6 +185,14 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
+  def email_notifiable_webwidget?
+    inbox.web_widget? && inbox.channel.continuity_via_email
+  end
+
+  def email_notifiable_channel?
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
+  end
+
   def email_notifiable_message?
     return false unless outgoing? || input_csat?
     return false if private?
@@ -194,7 +202,8 @@ class Message < ApplicationRecord
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
+    return unless email_notifiable_channel?
+    return if conversation.contact.email.blank?
 
     true
   end

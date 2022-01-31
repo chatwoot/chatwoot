@@ -52,7 +52,9 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, only: [:create, :index]
+          resources :automation_rules, except: [:edit] do
+            post :clone
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
           namespace :channels do
@@ -301,14 +303,13 @@ Rails.application.routes.draw do
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
-      resources :super_admins
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
