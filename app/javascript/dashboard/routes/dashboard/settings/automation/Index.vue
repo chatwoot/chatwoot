@@ -94,7 +94,7 @@
       <add-automation-rule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @saveAutomation="onCreateAutomation"
+        @saveAutomation="submitAutomation"
       />
     </woot-modal>
 
@@ -117,7 +117,7 @@
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedResponse"
-        @saveAutomation="onCreateAutomation"
+        @saveAutomation="submitAutomation"
       />
     </woot-modal>
   </div>
@@ -204,13 +204,25 @@ export default {
         this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
       }
     },
-    async onCreateAutomation(payload) {
+    async submitAutomation(payload, mode) {
       try {
-        await await this.$store.dispatch('automations/create', payload);
-        this.showAlert(this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE'));
+        const action =
+          mode === 'EDIT' ? 'automations/update' : 'automations/create';
+        const successMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
+
+        await await this.$store.dispatch(action, payload);
+        this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
+        this.hideEditPopup();
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE'));
+        const errorMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
     readableTime(date) {

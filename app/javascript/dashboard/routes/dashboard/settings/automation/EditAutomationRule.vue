@@ -45,9 +45,6 @@
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
-          <p v-if="hasAutomationMutated" class="info-message">
-            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
-          </p>
         </div>
         <!-- // Conditions Start -->
         <section>
@@ -243,14 +240,9 @@ export default {
         };
       });
     },
-    hasAutomationMutated() {
-      if (
-        this.automation.conditions[0].values ||
-        this.automation.actions[0].action_params.length
-      )
-        return true;
-      return false;
-    },
+  },
+  mounted() {
+    this.formatConditions(this.selectedResponse);
   },
   methods: {
     onEventChange() {
@@ -406,7 +398,7 @@ export default {
         this.automation.conditions
       ).payload;
       this.automation.actions = actionQueryGenerator(this.automation.actions);
-      this.$emit('saveAutomation', this.automation);
+      this.$emit('saveAutomation', this.automation, 'EDIT');
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
@@ -420,6 +412,39 @@ export default {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
       return true;
+    },
+    formatConditions(automation) {
+      const formattedConditions = automation.conditions.map(condition => {
+        const inputType = this.automationTypes[
+          automation.event_name
+        ].conditions.find(item => item.key === condition.attribute_key)
+          .inputType;
+        if (inputType === 'plain_text') {
+          return {
+            ...condition,
+            values: condition.values[0],
+          };
+        }
+        return {
+          ...condition,
+          values: [
+            ...this.getConditionDropdownValues(condition.attribute_key),
+          ].filter(item => [...condition.values].includes(item.id)),
+        };
+      });
+      const formattedActions = automation.actions.map(action => {
+        return {
+          ...action,
+          action_params: [
+            ...this.getActionDropdownValues(action.action_name),
+          ].filter(item => [...action.action_params].includes(item.id)),
+        };
+      });
+      this.automation = {
+        ...automation,
+        conditions: formattedConditions,
+        actions: formattedActions,
+      };
     },
   },
 };
