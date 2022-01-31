@@ -359,7 +359,7 @@
       "AUTO_ASSIGNMENT": "ഓട്ടോ അസൈൻമെന്റ് പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
