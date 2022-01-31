@@ -7,32 +7,6 @@ describe ::Contacts::FilterService do
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let!(:text_custom_attribute_definition) do
-    create(:custom_attribute_definition,
-      attribute_key: 'contact_additional_information',
-      account: account,
-      attribute_model: 'contact_attribute',
-      attribute_display_type: 'text'
-    )
-  end
-  let!(:list_custom_attribute_definition) do
-    create(:custom_attribute_definition,
-      attribute_key: 'customer_type',
-      account: account,
-      attribute_model: 'contact_attribute',
-      attribute_display_type: 'list',
-      attribute_values: ["regular", "platinum", "gold"]
-    )
-  end
-
-  let!(:date_custom_attribute_definition) do
-    create(:custom_attribute_definition,
-      attribute_key: 'signed_in_at',
-      account: account,
-      attribute_model: 'contact_attribute',
-      attribute_display_type: 'date'
-    )
-  end
   let(:en_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
   let(:el_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'el' }) }
   let(:cs_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'cs' }) }
@@ -43,16 +17,33 @@ describe ::Contacts::FilterService do
     create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: en_contact)
     create(:conversation, account: account, inbox: inbox)
     Current.account = account
+
+    create(:custom_attribute_definition,
+           attribute_key: 'contact_additional_information',
+           account: account,
+           attribute_model: 'contact_attribute',
+           attribute_display_type: 'text')
+    create(:custom_attribute_definition,
+           attribute_key: 'customer_type',
+           account: account,
+           attribute_model: 'contact_attribute',
+           attribute_display_type: 'list',
+           attribute_values: %w[regular platinum gold])
+    create(:custom_attribute_definition,
+           attribute_key: 'signed_in_at',
+           account: account,
+           attribute_model: 'contact_attribute',
+           attribute_display_type: 'date')
   end
 
   describe '#perform' do
-    before :each do
-      en_contact.add_labels(['random_label', 'support'])
+    before do
+      en_contact.add_labels(%w[random_label support])
       el_contact.update_labels('random_label')
       cs_contact.update_labels('support')
 
       en_contact.update!(custom_attributes: { contact_additional_information: 'test custom data' })
-      el_contact.update!(custom_attributes: { contact_additional_information: 'test custom data', customer_type: 'platinum'})
+      el_contact.update!(custom_attributes: { contact_additional_information: 'test custom data', customer_type: 'platinum' })
       cs_contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' })
     end
 
@@ -94,8 +85,8 @@ describe ::Contacts::FilterService do
 
         result = filter_service.new(params, user_1).perform
         expect(result[:contacts].length).to be 2
-        expect(result[:contacts].first.label_list).to include("support")
-        expect(result[:contacts].last.label_list).to include("support")
+        expect(result[:contacts].first.label_list).to include('support')
+        expect(result[:contacts].last.label_list).to include('support')
       end
 
       it 'filter by custom_attributes and labels' do
@@ -126,7 +117,6 @@ describe ::Contacts::FilterService do
       end
 
       it 'filter by custom_attributes and additional_attributes' do
-        label_id = cs_contact.labels.last.id
         params[:payload] = [
           {
             attribute_key: 'customer_type',
