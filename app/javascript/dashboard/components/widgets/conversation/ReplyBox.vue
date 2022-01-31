@@ -2,7 +2,7 @@
   <div class="reply-box" :class="replyBoxClass">
     <banner
       v-if="showSelfAssignBanner"
-      bg-color-scheme="secondary"
+      color-scheme="secondary"
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"

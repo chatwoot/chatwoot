@@ -58,7 +58,7 @@ export default {
       type: String,
       default: '',
     },
-    bgColorScheme: {
+    colorScheme: {
       type: String,
       default: '',
     },
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     bannerClasses() {
-      return [this.bgColorScheme];
+      return [this.colorScheme];
     },
   },
   methods: {

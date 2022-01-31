@@ -2,7 +2,7 @@
   <div class="view-box fill-height">
     <banner
       v-if="!currentChat.can_reply && !isAWhatsappChannel"
-      bg-color-scheme="alert"
+      color-scheme="alert"
       :banner-message="$t('CONVERSATION.CANNOT_REPLY')"
       :href-link="facebookReplyPolicy"
       :href-link-text="$t('CONVERSATION.24_HOURS_WINDOW')"
@@ -26,7 +26,7 @@
 
     <banner
       v-if="isATweet"
-      bg-color-scheme="gray"
+      color-scheme="gray"
       :banner-message="tweetBannerText"
       :has-close-button="hasSelectedTweetId"
       @close="removeTweetSelection"
