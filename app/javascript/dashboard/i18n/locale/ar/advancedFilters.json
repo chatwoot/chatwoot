@@ -19,7 +19,9 @@
       "contains": "يحتوي",
       "does_not_contain": "لا يحتوي",
       "is_present": "موجود",
-      "is_not_present": "غير موجود"
+      "is_not_present": "غير موجود",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than"
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
@@ -31,7 +33,17 @@
       "LABELS": "الوسوم",
       "BROWSER_LANGUAGE": "لغة المتصفح",
       "COUNTRY_NAME": "اسم الدولة",
-      "REFERER_LINK": "رابط المرجع"
+      "REFERER_LINK": "رابط المرجع",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "سمات مخصصة"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
