@@ -20,13 +20,13 @@
       "does_not_contain": "Beinhaltet nicht",
       "is_present": "Ist anwesend",
       "is_not_present": "Ist nicht anwesend",
-      "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than"
+      "is_greater_than": "Ist größer als",
+      "is_lesser_than": "Ist kleiner als"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Name des Bevollmächtigten",
-      "INBOX_NAME": "Posteingang-Name",
+      "INBOX_NAME": "Posteingangsname",
       "TEAM_NAME": "Teamname",
       "CONVERSATION_IDENTIFIER": "Gesprächsidentifikation",
       "CAMPAIGN_NAME": "Kampagnenname",
@@ -34,15 +34,15 @@
       "BROWSER_LANGUAGE": "Browsersprache",
       "COUNTRY_NAME": "Ländername",
       "REFERER_LINK": "Referer-Link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Standardfilter",
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
       "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
     },
     "CUSTOM_VIEWS": {
@@ -54,12 +54,12 @@
         "SAVE_BUTTON": "Filter speichern",
         "CANCEL_BUTTON": "Stornieren",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Ordner erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Ordners"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Segments"
         }
       },
       "DELETE": {
@@ -73,12 +73,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Ordner erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Ordners"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segment erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Segments"
         }
       }
     }
