@@ -163,7 +163,7 @@ export default {
     },
     groupedFilters: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     filterGroups: {
       type: Array,
