@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Aktivér kanal start hilsen",
-          "HELP_TEXT": "Send en hilsen til brugeren, når han starter samtalen.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Aktiveret",
           "DISABLED": "Deaktiveret"
         },
