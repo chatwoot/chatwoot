@@ -90,6 +90,7 @@
     "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
+    "BOT": "Bot",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
