@@ -90,6 +90,7 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "അയച്ചത്:",
+    "BOT": "ബോട്ട്",
     "SEND_FAILED": "സന്ദേശം അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക",
     "TRY_AGAIN": "വീണ്ടും ശ്രമിക്കുക",
     "ASSIGNMENT": {
