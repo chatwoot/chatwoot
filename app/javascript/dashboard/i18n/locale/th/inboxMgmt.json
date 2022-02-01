@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "เปิดข้อความต้อนรับ",
-          "HELP_TEXT": "ส่งข้อความต้นรับเมื่อการสนทนาเริ่มขึ้น",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "เปิด",
           "DISABLED": "ปิด"
         },
