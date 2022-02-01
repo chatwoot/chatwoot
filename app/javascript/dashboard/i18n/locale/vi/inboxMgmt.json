@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Bật lời chào kênh",
-          "HELP_TEXT": "Gửi tin nhắn chào mừng đến người dùng khi anh ta bắt đầu cuộc trò chuyện.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
