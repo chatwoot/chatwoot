@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "فعال کردن پیام پاسخگویی",
-          "HELP_TEXT": "به محض اینکه کاربر گفتگویی را شروع کرد، پیام مشخصی در جواب او ارسال می‌شود",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "فعال شد",
           "DISABLED": "غیرفعال شد"
         },
