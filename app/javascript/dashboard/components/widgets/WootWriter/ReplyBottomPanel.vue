@@ -16,9 +16,11 @@
         ref="upload"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
+        :multiple="enableMultipleFileUpload"
         :drop="true"
         :drop-directory="false"
-        @input-file="onFileUpload"
+        :data="{ direct_upload_url: '/rails/active_storage/direct_uploads', direct_upload: true }"
+        @input-file="onDirectFileUpload"
       >
         <woot-button
           v-if="showAttachButton"
@@ -79,6 +81,7 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import * as ActiveStorage from "activestorage";
 import {
   hasPressedAltAndWKey,
   hasPressedAltAndAKey,
@@ -108,7 +111,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    onFileUpload: {
+    onDirectFileUpload: {
       type: Function,
       default: () => {},
     },
@@ -144,6 +147,13 @@ export default {
       type: Boolean,
       default: true,
     },
+    enableMultipleFileUpload: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  mounted() {
+    ActiveStorage.start();
   },
   computed: {
     isNote() {

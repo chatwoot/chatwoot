@@ -24,6 +24,7 @@
     "@rails/webpacker": "5.3.0",
     "@sentry/tracing": "^6.4.1",
     "@sentry/vue": "^6.4.1",
+    "activestorage": "^5.2.6",
     "axios": "^0.21.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
