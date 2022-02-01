@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activa la salutació del canal",
-          "HELP_TEXT": "Envia un missatge de felicitació a l'usuari quan comenci la conversa.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Habilita",
           "DISABLED": "Inhabilita"
         },
