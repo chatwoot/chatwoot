@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "開啟頻道問候功能",
-          "HELP_TEXT": "在用户開始對話時發送問候消息。",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "已啟用",
           "DISABLED": "已停用"
         },
