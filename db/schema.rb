@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_223630) do
+ActiveRecord::Schema.define(version: 2022_01_16_103902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -202,6 +202,8 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true
     t.string "smtp_authentication", default: "login"
+    t.string "smtp_openssl_verify_mode", default: "none"
+    t.boolean "smtp_enable_ssl_tls", default: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end

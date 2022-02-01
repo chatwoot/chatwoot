@@ -430,8 +430,9 @@ RSpec.describe 'Inboxes API', type: :request do
         email_inbox = create(:inbox, channel: email_channel, account: account)
 
         smtp_connection = double
+        allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
-        allow(Net::SMTP).to receive(:start).and_return(smtp_connection)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
               headers: admin.create_new_auth_token,
@@ -440,7 +441,9 @@ RSpec.describe 'Inboxes API', type: :request do
                   smtp_enabled: true,
                   smtp_address: 'smtp.gmail.com',
                   smtp_port: 587,
-                  smtp_email: 'smtptest@gmail.com'
+                  smtp_email: 'smtptest@gmail.com',
+                  smtp_enable_starttls_auto: true,
+                  smtp_openssl_verify_mode: 'peer'
                 }
               },
               as: :json
@@ -449,6 +452,8 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_enabled).to be true
         expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
         expect(email_channel.reload.smtp_port).to eq(587)
+        expect(email_channel.reload.smtp_enable_starttls_auto).to be true
+        expect(email_channel.reload.smtp_openssl_verify_mode).to eq('peer')
       end
 
       it 'updates avatar when administrator' do
