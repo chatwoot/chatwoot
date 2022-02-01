@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "சேனல் வாழ்த்தை இயக்கு",
-          "HELP_TEXT": "உரையாடலைத் தொடங்கும்போது பயனருக்கு வாழ்த்துச் செய்தியை அனுப்பவும்.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "இயக்கப்பட்டது",
           "DISABLED": "முடக்கப்பட்டது"
         },
