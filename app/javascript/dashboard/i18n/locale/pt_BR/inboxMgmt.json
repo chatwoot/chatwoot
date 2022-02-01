@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ativar saudação do canal",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Enviar uma mensagem de saudação aos usuários quando eles iniciarem a conversa.",
           "ENABLED": "Ativado",
           "DISABLED": "Desativado"
         },
