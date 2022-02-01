@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Csatorna köszöntés engedélyezése",
-          "HELP_TEXT": "Üdvözlő üzenet küldése a felhasználónak, amikor beszélgetést indít.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Engedélyezve",
           "DISABLED": "Letiltva"
         },
