@@ -90,6 +90,7 @@
     "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "보낸 사람:",
+    "BOT": "봇",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
