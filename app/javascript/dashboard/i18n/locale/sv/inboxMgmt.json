@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Aktivera kanalhälsning",
-          "HELP_TEXT": "Skicka ett hälsningsmeddelande till användaren när hen startar konversationen.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Aktiverad",
           "DISABLED": "Inaktiverad"
         },
