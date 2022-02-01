@@ -116,7 +116,11 @@
         <!-- // Actions End -->
         <div class="medium-12 columns">
           <div class="modal-footer justify-content-end w-full">
-            <woot-button class="button" variant="clear" @click.prevent="onClose">
+            <woot-button
+              class="button"
+              variant="clear"
+              @click.prevent="onClose"
+            >
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
             <woot-button @click="submitAutomation">
