@@ -54,7 +54,7 @@
                   @click="openEditPopup(automation)"
                 >
                 </woot-button>
-                <!-- s<woot-button
+                <!-- <woot-button
                   v-tooltip.top="'Clone'"
                   variant="smooth"
                   size="tiny"
