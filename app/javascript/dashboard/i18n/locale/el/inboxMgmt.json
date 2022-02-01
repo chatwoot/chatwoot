@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ενεργοποίηση καλωσορίσματος",
-          "HELP_TEXT": "Στείλτε ένα καλωσόρισμα στον χρήστης όταν ξεκινάει την συζήτηση.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Ενεργό",
           "DISABLED": "Ανενεργό"
         },
