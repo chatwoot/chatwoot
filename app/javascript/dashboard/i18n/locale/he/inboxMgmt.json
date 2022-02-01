@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "אפשר ברכה בערוץ",
-          "HELP_TEXT": "שלח הודעת ברכה למשתמש כאשר הוא מתחיל את השיחה.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "מופעל",
           "DISABLED": "כבוי"
         },
