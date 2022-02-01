@@ -3,6 +3,27 @@
     <div class="filter">
       <div class="filter-inputs">
         <select
+          v-if="groupedFilters"
+          v-model="attributeKey"
+          class="filter__question"
+          @change="resetFilter()"
+        >
+          <optgroup
+            v-for="(group, i) in filterGroups"
+            :key="i"
+            :label="group.name"
+          >
+            <option
+              v-for="attribute in group.attributes"
+              :key="attribute.key"
+              :value="attribute.key"
+            >
+              {{ attribute.name }}
+            </option>
+          </optgroup>
+        </select>
+        <select
+          v-else
           v-model="attributeKey"
           class="filter__question"
           @change="resetFilter()"
@@ -61,6 +82,14 @@
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
+            />
+          </div>
+          <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
+            <input
+              v-model="values"
+              type="date"
+              :editable="false"
+              class="answer--text-input datepicker"
             />
           </div>
           <input
@@ -131,6 +160,14 @@ export default {
     showUserInput: {
       type: Boolean,
       default: true,
+    },
+    groupedFilters: {
+      type: Boolean,
+      default: true,
+    },
+    filterGroups: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {

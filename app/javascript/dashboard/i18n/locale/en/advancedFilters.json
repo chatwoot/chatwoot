@@ -19,7 +19,9 @@
       "contains": "Contains",
       "does_not_contain": "Does not contain",
       "is_present": "Is present",
-      "is_not_present": "Is not present"
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
@@ -31,7 +33,17 @@
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Custom Attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
