@@ -20,7 +20,9 @@
             "contains": "شامل",
             "does_not_contain": "شامل نمی‌شود",
             "is_present": "در حال حاضر وجود دارد",
-            "is_not_present": "در حال حاضر وجود ندارد"
+            "is_not_present": "در حال حاضر وجود ندارد",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than"
         },
         "ATTRIBUTES": {
             "NAME": "نام",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "شماره تلفن",
             "IDENTIFIER": "شناسه",
             "CITY": "شهر",
-            "COUNTRY": "کشور"
+            "COUNTRY": "کشور",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Additional Filters",
+            "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
         }
     }
 }
