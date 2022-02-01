@@ -20,7 +20,9 @@
             "contains": "Содержит",
             "does_not_contain": "Не содержит",
             "is_present": "Присутствует",
-            "is_not_present": "Отсутствует"
+            "is_not_present": "Отсутствует",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than"
         },
         "ATTRIBUTES": {
             "NAME": "Имя",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "Номер телефона",
             "IDENTIFIER": "Идентификатор",
             "CITY": "Город",
-            "COUNTRY": "Страна"
+            "COUNTRY": "Страна",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Additional Filters",
+            "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
         }
     }
 }
