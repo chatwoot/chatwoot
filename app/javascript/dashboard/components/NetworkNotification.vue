@@ -4,7 +4,12 @@
       <div class="ui-notification">
         <fluent-icon icon="wifi-off" />
         <p class="ui-notification-text">
-          {{ $t('NETWORK.NOTIFICATION.TEXT') }}
+          {{
+            useInstallationName(
+              $t('NETWORK.NOTIFICATION.TEXT'),
+              globalConfig.installationName
+            )
+          }}
         </p>
         <woot-button variant="clear" size="small" @click="refreshPage">
           {{ $t('NETWORK.BUTTON.REFRESH') }}
@@ -23,11 +28,20 @@
 </template>
 
 <script>
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
+
 export default {
+  mixins: [globalConfigMixin],
+
   data() {
     return {
       showNotification: !navigator.onLine,
     };
+  },
+
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
 
   mounted() {
