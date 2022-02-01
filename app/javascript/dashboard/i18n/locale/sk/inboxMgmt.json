@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Povoliť pozdav v kanáli",
-          "HELP_TEXT": "Odošlite uvítaciu správu používateľovi pri začatí konverzácie.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Zapnuté",
           "DISABLED": "Vypnuté"
         },
