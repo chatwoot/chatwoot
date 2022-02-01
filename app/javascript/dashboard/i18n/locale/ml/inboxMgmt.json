@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "ചാനൽ അഭിവാദ്യം പ്രവർത്തനക്ഷമമാക്കുക",
-          "HELP_TEXT": "സംഭാഷണം ആരംഭിക്കുമ്പോൾ ഉപയോക്താവിന് ഒരു അഭിവാദ്യ സന്ദേശം അയയ്‌ക്കുക.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
           "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
         },
