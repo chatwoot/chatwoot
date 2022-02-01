@@ -90,6 +90,7 @@
     "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "נשלח על ידי:",
+    "BOT": "בוט",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
