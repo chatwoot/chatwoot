@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ativar mensagem de Boas-vindas do canal",
-          "HELP_TEXT": "Enviar uma mensagem de boas-vindas ao utilizador quando ele iniciar uma conversa.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Ativado",
           "DISABLED": "Desabilitado"
         },
