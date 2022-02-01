@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
@@ -443,7 +443,7 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Enable SSL" 
+      "ENABLE_SSL": "Enable SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
