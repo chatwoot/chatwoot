@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ota käyttöön tervetulotoivotus",
-          "HELP_TEXT": "Lähetä käyttäjälle viesti, kun hän aloittaa keskustelun.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Käytössä",
           "DISABLED": "Pois käytöstä"
         },
