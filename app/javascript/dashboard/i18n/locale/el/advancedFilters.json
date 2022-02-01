@@ -19,7 +19,9 @@
       "contains": "Περιέχει",
       "does_not_contain": "Δεν περιέχει",
       "is_present": "Υπάρχει",
-      "is_not_present": "Δεν υπάρχει"
+      "is_not_present": "Δεν υπάρχει",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than"
     },
     "ATTRIBUTES": {
       "STATUS": "Κατάσταση",
@@ -31,7 +33,17 @@
       "LABELS": "Ετικέτες",
       "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
       "COUNTRY_NAME": "Όνομα Χώρας",
-      "REFERER_LINK": "Σύνδεσμος αναφοράς"
+      "REFERER_LINK": "Σύνδεσμος αναφοράς",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
