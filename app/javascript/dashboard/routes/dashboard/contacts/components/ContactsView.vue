@@ -64,7 +64,7 @@
       <contacts-advanced-filters
         v-if="showFiltersModal"
         :on-close="onToggleFilters"
-        :filter-types="contactFilterItems"
+        :initial-filter-types="contactFilterItems"
         @applyFilter="onApplyFilter"
         @clearFilters="clearFilters"
       />

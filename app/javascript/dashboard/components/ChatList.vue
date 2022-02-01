@@ -129,7 +129,7 @@
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
-        :filter-types="advancedFilterTypes"
+        :initial-filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
