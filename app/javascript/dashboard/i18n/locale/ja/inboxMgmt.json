@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "チャンネルグリーティングを有効にする",
-          "HELP_TEXT": "会話を開始したときに、ユーザーに挨拶メッセージを送信します。",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "有効です",
           "DISABLED": "無効です"
         },
