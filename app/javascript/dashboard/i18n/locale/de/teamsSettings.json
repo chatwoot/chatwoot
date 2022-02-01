@@ -68,18 +68,18 @@
       "ERROR_MESSAGE": "Teamdetails konnten nicht gespeichert werden. Versuchen Sie es erneut."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "Agent",
       "EMAIL": "E-Mail",
       "BUTTON_TEXT": "Agenten hinzufügen",
       "ADD_AGENTS": "Agenten zu Ihrem Team hinzufügen...",
-      "SELECT": "auswählen",
+      "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
     },
     "ADD": {
       "TITLE": "Agenten zum Team %{teamName} hinzufügen",
       "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung.",
-      "SELECT": "auswählen",
+      "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
       "BUTTON_TEXT": "Agenten hinzufügen",
