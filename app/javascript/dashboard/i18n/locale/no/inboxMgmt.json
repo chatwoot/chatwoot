@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Aktiver kanalhilsen",
-          "HELP_TEXT": "Send en velkomstmelding til brukeren når hen starter samtalen.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Aktivert",
           "DISABLED": "Deaktivert"
         },
