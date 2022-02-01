@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activare salut canal",
-          "HELP_TEXT": "Trimite un mesaj de salut utilizatorului atunci când începe conversația.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Activat",
           "DISABLED": "Dezactivat"
         },
