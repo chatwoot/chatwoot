@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Povolit uvítání",
-          "HELP_TEXT": "Poslat uvítací zprávu uživateli, když začne konverzaci.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Povoleno",
           "DISABLED": "Zakázáno"
         },
