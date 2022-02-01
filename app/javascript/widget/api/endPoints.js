@@ -41,7 +41,7 @@ const sendAttachment = ({ attachment }) => {
   const { file } = attachment;
 
   const formData = new FormData();
-  formData.append('message[attachments][]', file, file.name);
+  formData.append('message[attachments][]', file);
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
   return {

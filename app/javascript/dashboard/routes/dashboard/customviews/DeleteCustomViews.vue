@@ -34,6 +34,10 @@ export default {
       type: Number,
       default: 0,
     },
+    openLastItemAfterDelete: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   computed: {
@@ -75,20 +79,20 @@ export default {
         await this.$store.dispatch('customViews/delete', { id, filterType });
         this.closeDeletePopup();
         this.showAlert(
-          this.$t('FILTER.CUSTOM_VIEWS.DELETE.API.SUCCESS_MESSAGE')
+          this.activeFilterType === 0
+            ? this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_FOLDERS.SUCCESS_MESSAGE')
+            : this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_SEGMENTS.SUCCESS_MESSAGE')
         );
       } catch (error) {
         const errorMessage =
-          error?.response?.message ||
-          this.$t('FILTER.CUSTOM_VIEWS.DELETE.API.ERROR_MESSAGE');
+          error?.response?.message || this.activeFilterType === 0
+            ? this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_FOLDERS.SUCCESS_MESSAGE')
+            : this.$t(
+                'FILTER.CUSTOM_VIEWS.DELETE.API_SEGMENTS.SUCCESS_MESSAGE'
+              );
         this.showAlert(errorMessage);
       }
-      if (this.isFolderSection) {
-        this.$router.push({ name: 'home' });
-      }
-      if (this.isSegmentSection) {
-        this.$router.push({ name: 'contacts_dashboard' });
-      }
+      this.openLastItemAfterDelete();
     },
     closeDeletePopup() {
       this.$emit('close');
