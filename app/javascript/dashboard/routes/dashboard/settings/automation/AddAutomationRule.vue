@@ -434,13 +434,13 @@ export default {
 }
 .event_wrapper {
   select {
-    margin: 0;
+    margin: var(--space-zero);
   }
   .info-message {
     font-size: var(--font-size-mini);
-    color: #868686;
+    color: var(--s-500);
     text-align: right;
   }
-  margin-bottom: 1.6rem;
+  margin-bottom: var(--space-medium);
 }
 </style>
