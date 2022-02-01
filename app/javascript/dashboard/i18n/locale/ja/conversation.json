@@ -90,6 +90,7 @@
     "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "BOT": "Bot",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
