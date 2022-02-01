@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal karşılamasını etkinleştir",
-          "HELP_TEXT": "Kullanıcı konuşmayı başlattığında ona bir karşılama mesajı gönderin.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Etkin",
           "DISABLED": "Devre dışı"
         },
