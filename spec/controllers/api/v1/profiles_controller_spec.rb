@@ -26,6 +26,8 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['email']).to eq(agent.email)
         expect(json_response['access_token']).to eq(agent.access_token.token)
         expect(json_response['custom_attributes']['test']).to eq('test')
+        expect(json_response['message_signature']).to be_nil
+        expect(json_response['message_signature_enabled']).to be_falsey
       end
     end
   end
@@ -54,6 +56,22 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['name']).to eq(agent.name)
         expect(agent.name).to eq('test')
+      end
+
+      it 'updates the message_signature' do
+        put '/api/v1/profile',
+            params: { profile: { name: 'test', message_signature: 'Thanks\nMy Signature', message_signature_enabled: true } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        agent.reload
+        expect(json_response['id']).to eq(agent.id)
+        expect(json_response['name']).to eq(agent.name)
+        expect(agent.name).to eq('test')
+        expect(json_response['message_signature']).to eq('Thanks\nMy Signature')
+        expect(json_response['message_signature_enabled']).to be_truthy
       end
 
       it 'updates the password when current password is provided' do
