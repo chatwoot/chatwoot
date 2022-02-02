@@ -2,7 +2,7 @@
   "AUTOMATION": {
     "HEADER": "Automatisierung",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
-    "LOADING": "Fetching automation rules",
+    "LOADING": "Automatisierungsregeln abrufen",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
@@ -10,31 +10,31 @@
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Regelname",
+          "PLACEHOLDER": "Regelnamen eingeben",
           "ERROR": "Name wird benötigt"
         },
         "DESC": {
           "LABEL": "Beschreibung",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Regelbeschreibung eingeben",
           "ERROR": "Beschreibung wird benötigt"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Ereignis",
           "PLACEHOLDER": "Bitte auswählen",
-          "ERROR": "Event is required"
+          "ERROR": "Ereignis ist erforderlich"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Bedingungen"
         },
         "ACTIONS": {
           "LABEL": "Aktionen"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Bedingung hinzufügen",
+      "ACTION_BUTTON_LABEL": "Aktion hinzufügen",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich hinzugefügt",
         "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
       }
     },
@@ -43,12 +43,12 @@
         "Name",
         "Beschreibung",
         "Aktiv",
-        "Created on"
+        "Erstellt am"
       ],
-      "404": "No automation rules found"
+      "404": "Keine Automatisierungsregeln gefunden"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Automatisierungsregel löschen",
       "SUBMIT": "Löschen",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "CONFIRM": {
@@ -58,16 +58,16 @@
         "NO": "Nein, behalten "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich gelöscht",
         "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Automatisierungsregel bearbeiten",
       "SUBMIT": "Bearbeiten",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
