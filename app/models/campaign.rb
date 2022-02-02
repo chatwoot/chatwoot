@@ -88,7 +88,7 @@ class Campaign < ApplicationRecord
   end
 
   def validate_url
-    errors.add(:url, 'invalid') unless url_valid?(trigger_rules['url'])
+    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !url_valid?(trigger_rules['url'])
   end
 
   def url_valid?(url)
