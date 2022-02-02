@@ -8,6 +8,7 @@ export const state = {
     isFetching: false,
     isCreating: false,
     isDeleting: false,
+    isUpdating: false,
   },
 };
 
@@ -76,7 +77,7 @@ export const mutations = {
   },
   [types.ADD_AUTOMATION]: MutationHelpers.create,
   [types.SET_AUTOMATIONS]: MutationHelpers.set,
-  // [types.EDIT_AUTOMATION]: MutationHelpers.update,
+  [types.EDIT_AUTOMATION]: MutationHelpers.update,
   [types.DELETE_AUTOMATION]: MutationHelpers.destroy,
 };
 
