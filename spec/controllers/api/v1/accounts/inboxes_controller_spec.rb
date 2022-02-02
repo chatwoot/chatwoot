@@ -133,7 +133,7 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      let!(:campaign) { create(:campaign, account: account, inbox: inbox) }
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox, trigger_rules: { url: 'https://test.com' }) }
 
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
@@ -145,7 +145,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'returns all campaigns belonging to the inbox to administrators' do
         # create a random campaign
-        create(:campaign, account: account)
+        create(:campaign, account: account, trigger_rules: { url: 'https://test.com' })
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
             headers: administrator.create_new_auth_token,
             as: :json

@@ -15,7 +15,7 @@ RSpec.describe 'Campaigns API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
-      let!(:campaign) { create(:campaign, account: account) }
+      let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
 
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/campaigns",
@@ -38,7 +38,7 @@ RSpec.describe 'Campaigns API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/campaigns/:id' do
-    let(:campaign) { create(:campaign, account: account) }
+    let(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -99,7 +99,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'creates a new campaign' do
         post "/api/v1/accounts/#{account.id}/campaigns",
-             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message', trigger_rules: { url: 'https://test.com' } },
              headers: administrator.create_new_auth_token,
              as: :json
 
@@ -133,7 +133,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
   describe 'PATCH /api/v1/accounts/{account.id}/campaigns/:id' do
     let(:inbox) { create(:inbox, account: account) }
-    let!(:campaign) { create(:campaign, account: account) }
+    let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -172,7 +172,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
   describe 'DELETE /api/v1/accounts/{account.id}/campaigns/:id' do
     let(:inbox) { create(:inbox, account: account) }
-    let!(:campaign) { create(:campaign, account: account) }
+    let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
