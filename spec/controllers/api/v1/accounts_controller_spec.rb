@@ -158,6 +158,19 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
       end
+
+      it 'Throws error 422' do
+        params[:name] = 'test' * 999
+
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
+      end
     end
   end
 
