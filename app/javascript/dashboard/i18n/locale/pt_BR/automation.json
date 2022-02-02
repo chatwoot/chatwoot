@@ -1,6 +1,82 @@
 {
   "AUTOMATION": {
     "HEADER": "Automação",
-    "HEADER_BTN_TXT": "Adicionar regra de automação"
+    "HEADER_BTN_TXT": "Adicionar regra de automação",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Adicionar regra de automação",
+      "SUBMIT": "Criar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "O nome é obrigatório"
+        },
+        "DESC": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Descrição obrigatória"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Por favor, selecione um",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Ações"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nome",
+        "Descrição",
+        "Ativo",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Você tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Mantenha "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Alterar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Alterar",
+      "CREATE": "Criar",
+      "DELETE": "Excluir",
+      "CANCEL": "Cancelar",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }
