@@ -1,6 +1,82 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatisierung",
-    "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen"
+    "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Automatisierungsregel hinzufügen",
+      "SUBMIT": "Erstellen",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Name wird benötigt"
+        },
+        "DESC": {
+          "LABEL": "Beschreibung",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Beschreibung wird benötigt"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Bitte auswählen",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Aktionen"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Beschreibung",
+        "Aktiv",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Löschen",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "YES": "Ja, löschen ",
+        "NO": "Nein, behalten "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Bearbeiten",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Bearbeiten",
+      "CREATE": "Erstellen",
+      "DELETE": "Löschen",
+      "CANCEL": "Stornieren",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }
