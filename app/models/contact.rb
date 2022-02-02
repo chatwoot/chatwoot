@@ -36,6 +36,7 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: 'should be in e164 format' }
+  validates :name, length: { maximum: 255 }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
