@@ -39,6 +39,7 @@ class Message < ApplicationRecord
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
   validates :content_type, presence: true
+  validates :content, length: { maximum: 150_000 }
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
