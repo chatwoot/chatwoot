@@ -93,6 +93,18 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'validate name' do
+        user_name = 'test' * 999
+        put '/api/v1/profile',
+            params: { profile: { name: user_name } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
+      end
+
       it 'updates avatar' do
         # no avatar before upload
         expect(agent.avatar.attached?).to eq(false)
