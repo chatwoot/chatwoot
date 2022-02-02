@@ -77,7 +77,7 @@
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
       "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
-      "PLACE_HOLDER": "Bitte geben Sie {contactName} zur Bestätigung ein",
+      "PLACE_HOLDER": "Bitte {contactName} zur Bestätigung eingeben",
       "YES": "Ja, löschen ",
       "NO": "Nein, behalten "
     },
@@ -88,7 +88,7 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Speichern",
+      "SUBMIT": "Einreichen",
       "CANCEL": "Abbrechen",
       "AVATAR": {
         "LABEL": "Kontaktbild"
@@ -103,7 +103,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
-        "LABEL": "E-Mail-Addresse",
+        "LABEL": "E-Mail-Adresse",
         "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet."
       },
       "PHONE_NUMBER": {
@@ -192,9 +192,9 @@
         "LAST_ACTIVITY": "Letzte Aktivität",
         "COUNTRY": "Land",
         "CITY": "Stadt",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Profile in sozialen Netzwerken",
         "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "E-Mail-Addresse"
+        "EMAIL_ADDRESS": "E-Mail-Adresse"
       },
       "VIEW_DETAILS": "Details anzeigen"
     }
