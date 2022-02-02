@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <woot-modal-header :header-title="$t('AUTOMATION.ADD.TITLE')" />
+    <woot-modal-header :header-title="$t('AUTOMATION.EDIT.TITLE')" />
     <div class="row modal-content">
       <div class="medium-12 columns">
         <woot-input
@@ -45,9 +45,6 @@
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
-          <p v-if="hasAutomationMutated" class="info-message">
-            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
-          </p>
         </div>
         <!-- // Conditions Start -->
         <section>
@@ -119,7 +116,11 @@
         <!-- // Actions End -->
         <div class="medium-12 columns">
           <div class="modal-footer justify-content-end w-full">
-            <woot-button class="button clear" @click.prevent="onClose">
+            <woot-button
+              class="button"
+              variant="clear"
+              @click.prevent="onClose"
+            >
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
             <woot-button @click="submitAutomation">
@@ -138,7 +139,7 @@ import { required, requiredIf } from 'vuelidate/lib/validators';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from '/app/javascript/shared/constants/countries.js';
+import countries from 'shared/constants/countries.js';
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
@@ -156,6 +157,10 @@ export default {
   props: {
     onClose: {
       type: Function,
+      default: () => {},
+    },
+    selectedResponse: {
+      type: Object,
       default: () => {},
     },
   },
@@ -239,14 +244,9 @@ export default {
         };
       });
     },
-    hasAutomationMutated() {
-      if (
-        this.automation.conditions[0].values ||
-        this.automation.actions[0].action_params.length
-      )
-        return true;
-      return false;
-    },
+  },
+  mounted() {
+    this.formatConditions(this.selectedResponse);
   },
   methods: {
     onEventChange() {
@@ -402,7 +402,7 @@ export default {
         this.automation.conditions
       ).payload;
       this.automation.actions = actionQueryGenerator(this.automation.actions);
-      this.$emit('saveAutomation', this.automation);
+      this.$emit('saveAutomation', this.automation, 'EDIT');
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
@@ -416,6 +416,39 @@ export default {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
       return true;
+    },
+    formatConditions(automation) {
+      const formattedConditions = automation.conditions.map(condition => {
+        const inputType = this.automationTypes[
+          automation.event_name
+        ].conditions.find(item => item.key === condition.attribute_key)
+          .inputType;
+        if (inputType === 'plain_text') {
+          return {
+            ...condition,
+            values: condition.values[0],
+          };
+        }
+        return {
+          ...condition,
+          values: [
+            ...this.getConditionDropdownValues(condition.attribute_key),
+          ].filter(item => [...condition.values].includes(item.id)),
+        };
+      });
+      const formattedActions = automation.actions.map(action => {
+        return {
+          ...action,
+          action_params: [
+            ...this.getActionDropdownValues(action.action_name),
+          ].filter(item => [...action.action_params].includes(item.id)),
+        };
+      });
+      this.automation = {
+        ...automation,
+        conditions: formattedConditions,
+        actions: formattedActions,
+      };
     },
   },
 };
