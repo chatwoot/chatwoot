@@ -2,40 +2,40 @@
   "AUTOMATION": {
     "HEADER": "خودکارسازی",
     "HEADER_BTN_TXT": "افزودن قانون خودکارسازی",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "واکشی قوانین اتوماسیون",
+    "SIDEBAR_TXT": "<p><b>قوانین خودکارسازی</b> <p>اتوماسیون می‌تواند جایگزین و خودکار فرآیندهای موجودی باشد که نیاز به تلاش دستی دارند. شما می توانید بسیاری از کارها را با اتوماسیون انجام دهید، از جمله افزودن برچسب ها و اختصاص مکالمه به بهترین نماینده. بنابراین تیم روی کارهایی که به بهترین شکل انجام می‌دهند تمرکز می‌کنند و زمان کمی را برای کارهای دستی صرف می‌کنند.</p>",
     "ADD": {
       "TITLE": "افزودن قانون خودکارسازی",
       "SUBMIT": "ايجاد كردن",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "نام قانون",
+          "PLACEHOLDER": "نام قانون را وارد کنید",
           "ERROR": "نام الزامی است"
         },
         "DESC": {
           "LABEL": "توضیحات",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "توضیحات قانون را وارد کنید",
           "ERROR": "توضیحات الزامی است"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "رویداد",
           "PLACEHOLDER": "لطفا یکی را انتخاب کنید",
-          "ERROR": "Event is required"
+          "ERROR": "رویداد مورد نیاز است"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "شرایط"
         },
         "ACTIONS": {
           "LABEL": "عملیات"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "اضافه کردن شرط",
+      "ACTION_BUTTON_LABEL": "افزودن اکشن",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "قانون اتوماسیون با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "نمی‌توان یک قانون اتوماسیون ایجاد کرد، لطفاً بعداً دوباره امتحان کنید"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "نام",
         "توضیحات",
         "فعال",
-        "Created on"
+        "ایجاد شده در"
       ],
-      "404": "No automation rules found"
+      "404": "هیچ قانون اتوماسیون یافت نشد"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "قانون اتوماسیون را حذف کنید",
       "SUBMIT": "حذف",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "CONFIRM": {
@@ -58,17 +58,17 @@
         "NO": "نه، بماند "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "قانون اتوماسیون با موفقیت حذف شد",
+        "ERROR_MESSAGE": "نمی‌توان یک قانون اتوماسیون را حذف کرد، لطفاً بعداً دوباره امتحان کنید"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "ویرایش قانون اتوماسیون",
       "SUBMIT": "ویرایش",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "قانون اتوماسیون با موفقیت به روز شد",
+        "ERROR_MESSAGE": "قانون اتوماسیون به‌روزرسانی نشد، لطفاً بعداً دوباره امتحان کنید"
       }
     },
     "FORM": {
@@ -76,7 +76,7 @@
       "CREATE": "ايجاد كردن",
       "DELETE": "حذف",
       "CANCEL": "انصراف",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "با تغییر نوع رویداد، شرایط و رویدادهایی که در زیر اضافه کرده‌اید بازنشانی می‌شود"
     }
   }
 }
