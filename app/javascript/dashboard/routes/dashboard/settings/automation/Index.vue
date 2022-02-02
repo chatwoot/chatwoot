@@ -43,7 +43,7 @@
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
               <td class="button-wrapper">
-                <!-- <woot-button
+                <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
                   variant="smooth"
                   size="tiny"
@@ -54,7 +54,7 @@
                   @click="openEditPopup(automation)"
                 >
                 </woot-button>
-                <woot-button
+                <!-- <woot-button
                   v-tooltip.top="'Clone'"
                   variant="smooth"
                   size="tiny"
@@ -94,7 +94,7 @@
       <add-automation-rule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @saveAutomation="onCreateAutomation"
+        @saveAutomation="submitAutomation"
       />
     </woot-modal>
 
@@ -107,17 +107,32 @@
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
+
+    <woot-modal
+      :show.sync="showEditPopup"
+      size="medium"
+      :on-close="hideEditPopup"
+    >
+      <edit-automation-rule
+        v-if="showEditPopup"
+        :on-close="hideEditPopup"
+        :selected-response="selectedResponse"
+        @saveAutomation="submitAutomation"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import AddAutomationRule from './AddAutomationRule.vue';
+import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     AddAutomationRule,
+    EditAutomationRule,
   },
   mixins: [alertMixin, timeMixin],
   data() {
@@ -162,8 +177,8 @@ export default {
       this.showAddPopup = false;
     },
     openEditPopup(response) {
-      this.showEditPopup = true;
       this.selectedResponse = response;
+      this.showEditPopup = true;
     },
     hideEditPopup() {
       this.showEditPopup = false;
@@ -189,13 +204,25 @@ export default {
         this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
       }
     },
-    async onCreateAutomation(payload) {
+    async submitAutomation(payload, mode) {
       try {
-        await await this.$store.dispatch('automations/create', payload);
-        this.showAlert(this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE'));
+        const action =
+          mode === 'EDIT' ? 'automations/update' : 'automations/create';
+        const successMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
+
+        await await this.$store.dispatch(action, payload);
+        this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
+        this.hideEditPopup();
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE'));
+        const errorMessage =
+          mode === 'edit'
+            ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
+            : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
       }
     },
     readableTime(date) {
