@@ -34,32 +34,32 @@
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "COUNTRY_NAME": "Nome do País",
       "REFERER_LINK": "Link de referência",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Filtros Padrão",
+      "ADDITIONAL_FILTERS": "Filtros adicionais",
       "CUSTOM_ATTRIBUTES": "Atributos Personalizados"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "Você quer salvar este filtro?",
+        "LABEL": "Nomear este filtro",
+        "PLACEHOLDER": "Digite um nome para este filtro",
         "ERROR_MESSAGE": "O nome é obrigatório",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "Salvar Filtro",
         "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Pasta criada com sucesso",
+          "ERROR_MESSAGE": "Erro ao criar pasta"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segmento criado com sucesso",
+          "ERROR_MESSAGE": "Erro ao criar segmento"
         }
       },
       "DELETE": {
@@ -73,12 +73,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Pasta excluída com sucesso",
+          "ERROR_MESSAGE": "Erro ao excluir pasta"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segmento apagado com sucesso",
+          "ERROR_MESSAGE": "Erro ao excluir segmento"
         }
       }
     }
