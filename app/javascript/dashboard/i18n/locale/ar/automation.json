@@ -2,40 +2,40 @@
   "AUTOMATION": {
     "HEADER": "الأتمتة",
     "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "جلب قواعد الأتمتة",
+    "SIDEBAR_TXT": "<p><b>قواعد الأتمتة الآليه</b> <p>يمكن للأتمتة استبدال وأتمتة العمليات القائمة التي تتطلب جهداً يدوياً. يمكنك القيام بالعديد من الأشياء مع التشغيل الآلي، بما في ذلك إضافة تسميات وتعيين المحادثة لأفضل وكيل. لذا يركز الفريق على ما يفعلونه على أفضل وجه ويقضي وقتاً قليلاً على المهام اليدوية.</p>",
     "ADD": {
       "TITLE": "إضافة قاعدة أتمتة",
       "SUBMIT": "إنشاء",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "اسم القاعدة",
+          "PLACEHOLDER": "أدخل اسم القاعدة",
           "ERROR": "الاسم مطلوب"
         },
         "DESC": {
           "LABEL": "الوصف",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "ادخل وصف القاعدة",
           "ERROR": "الوصف مطلوب"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "الحدث",
           "PLACEHOLDER": "الرجاء اختيار واحد",
-          "ERROR": "Event is required"
+          "ERROR": "الحدث مطلوب"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "الشروط"
         },
         "ACTIONS": {
           "LABEL": "الإجراءات"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "إضافة شرط",
+      "ACTION_BUTTON_LABEL": "إضافة إجراء",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "تمت إضافة قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر إنشاء قاعدة أتمتة ، يرجى المحاولة مرة أخرى لاحقاً"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "الاسم",
         "الوصف",
         "مفعل",
-        "Created on"
+        "تم إنشاؤها في"
       ],
-      "404": "No automation rules found"
+      "404": "لم يتم العثور على قواعد أتمتة"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "حذف قاعدة الأتمتة",
       "SUBMIT": "حذف",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "CONFIRM": {
@@ -58,17 +58,17 @@
         "NO": "لا، احتفظ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "تم حذف قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر حذف قاعدة الأتمتة، يرجى المحاولة مرة أخرى لاحقاً"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "تعديل قاعدة الأتمتة",
       "SUBMIT": "تعديل",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "تم تحديث قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر تحديث قاعدة الأتمتة، الرجاء المحاولة مرة أخرى في وقت لاحق"
       }
     },
     "FORM": {
@@ -76,7 +76,7 @@
       "CREATE": "إنشاء",
       "DELETE": "حذف",
       "CANCEL": "إلغاء",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
     }
   }
 }
