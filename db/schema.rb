@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_055444) do
+ActiveRecord::Schema.define(version: 2022_01_29_024443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -226,6 +226,16 @@ ActiveRecord::Schema.define(version: 2022_01_21_055444) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
+  end
+
+  create_table "channel_sms", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "provider", default: "default"
+    t.jsonb "provider_config", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
   create_table "channel_telegram", force: :cascade do |t|

@@ -4,7 +4,7 @@ class ContactInboxBuilder
   def perform
     @contact = Contact.find(contact_id)
     @inbox = @contact.account.inboxes.find(inbox_id)
-    return unless ['Channel::TwilioSms', 'Channel::Email', 'Channel::Api', 'Channel::Whatsapp'].include? @inbox.channel_type
+    return unless ['Channel::TwilioSms', 'Channel::Sms', 'Channel::Email', 'Channel::Api', 'Channel::Whatsapp'].include? @inbox.channel_type
 
     source_id = @source_id || generate_source_id
     create_contact_inbox(source_id) if source_id.present?
@@ -16,6 +16,7 @@ class ContactInboxBuilder
     return twilio_source_id if @inbox.channel_type == 'Channel::TwilioSms'
     return wa_source_id if @inbox.channel_type == 'Channel::Whatsapp'
     return @contact.email if @inbox.channel_type == 'Channel::Email'
+    return @contact.phone_number if @inbox.channel_type == 'Channel::Sms'
     return SecureRandom.uuid if @inbox.channel_type == 'Channel::Api'
 
     nil

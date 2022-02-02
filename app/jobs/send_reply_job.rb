@@ -19,6 +19,8 @@ class SendReplyJob < ApplicationJob
       ::Telegram::SendOnTelegramService.new(message: message).perform
     when 'Channel::Whatsapp'
       ::Whatsapp::SendOnWhatsappService.new(message: message).perform
+    when 'Channel::Sms'
+      ::Sms::SendOnSmsService.new(message: message).perform
     end
   end
 
