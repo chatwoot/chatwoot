@@ -1,6 +1,82 @@
 {
   "AUTOMATION": {
     "HEADER": "Автоматизация",
-    "HEADER_BTN_TXT": "Добавить правило автоматизации"
+    "HEADER_BTN_TXT": "Добавить правило автоматизации",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Добавить правило автоматизации",
+      "SUBMIT": "Создать",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Необходимо указать имя"
+        },
+        "DESC": {
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Необходимо описание"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Пожалуйста, выберите один",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Действия"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Имя",
+        "Описание",
+        "Активно",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Удалить",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "CONFIRM": {
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Вы точно хотите удалить ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Редактировать",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Редактировать",
+      "CREATE": "Создать",
+      "DELETE": "Удалить",
+      "CANCEL": "Отменить",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }
