@@ -47,4 +47,5 @@ exclude_patterns:
   - 'app/javascript/shared/constants/countries.js'
   - 'app/javascript/dashboard/components/widgets/conversation/advancedFilterItems/languages.js'
   - 'app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/automation/constants.js'
   - 'app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js'
