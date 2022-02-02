@@ -395,7 +395,6 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
 
-        # custom attributes are updated
         json_response = JSON.parse(response.body)
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
