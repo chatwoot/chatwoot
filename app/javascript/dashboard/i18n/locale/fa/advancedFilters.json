@@ -38,7 +38,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "متن",
       "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
       "CUSTOM_ATTRIBUTE_LINK": "پیوند",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",
