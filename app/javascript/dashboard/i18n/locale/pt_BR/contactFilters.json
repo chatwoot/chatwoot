@@ -31,15 +31,15 @@
             "IDENTIFIER": "Identificador",
             "CITY": "Cidade",
             "COUNTRY": "País/região",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LIST": "Lista",
+            "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Número",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Filtros Padrão",
+            "ADDITIONAL_FILTERS": "Filtros adicionais",
             "CUSTOM_ATTRIBUTES": "Atributos Personalizados"
         }
     }
