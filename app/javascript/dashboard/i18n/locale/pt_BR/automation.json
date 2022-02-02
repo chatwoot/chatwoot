@@ -31,11 +31,11 @@
           "LABEL": "Ações"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Adicionar condição",
+      "ACTION_BUTTON_LABEL": "Adicionar ação",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regra de automação adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível criar uma regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Nome",
         "Descrição",
         "Ativo",
-        "Created on"
+        "Criado em"
       ],
-      "404": "No automation rules found"
+      "404": "Nenhuma regra de automação encontrada"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Excluir Regra de Automação",
       "SUBMIT": "Excluir",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "CONFIRM": {
@@ -58,17 +58,17 @@
         "NO": "Não, Mantenha "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regra de automação excluída com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir uma regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Editar regra de automação",
       "SUBMIT": "Alterar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regra de automação atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "FORM": {
@@ -76,7 +76,7 @@
       "CREATE": "Criar",
       "DELETE": "Excluir",
       "CANCEL": "Cancelar",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Alterar o tipo de evento irá redefinir as condições e eventos que você adicionou abaixo"
     }
   }
 }
