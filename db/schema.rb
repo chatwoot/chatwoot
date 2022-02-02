@@ -747,8 +747,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.jsonb "ui_settings", default: {}
     t.jsonb "custom_attributes", default: {}
     t.string "type"
-    t.boolean "email_signature_enabled", default: false, null: false
-    t.text "email_signature"
+    t.boolean "message_signature_enabled", default: false, null: false
+    t.text "message_signature"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
