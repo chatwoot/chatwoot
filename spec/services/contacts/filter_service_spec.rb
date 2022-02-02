@@ -141,6 +141,82 @@ describe ::Contacts::FilterService do
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq(el_contact.id)
       end
+
+      it 'filter by created_at and custom_attributes' do
+        tomorrow = Date.tomorrow.strftime
+        params[:payload] = [
+          {
+            attribute_key: 'customer_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_less_than',
+            values: [tomorrow.to_s],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expected_count = Contact.where("created_at < ? AND custom_attributes->>'customer_type' = ?", Date.tomorrow, 'platinum').count
+
+        expect(result[:contacts].length).to be expected_count
+        expect(result[:contacts].first.id).to eq(el_contact.id)
+      end
+
+      context 'with x_days_before filter' do
+        before do
+          el_contact.update(last_activity_at: (Time.zone.today - 4.days))
+          cs_contact.update(last_activity_at: (Time.zone.today - 5.days))
+          en_contact.update(last_activity_at: (Time.zone.today - 2.days))
+        end
+
+        it 'filter by last_activity_at 3_days_before and custom_attributes' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'contact_additional_information',
+              filter_operator: 'equal_to',
+              values: ['test custom data'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expected_count = Contact.where(
+            "last_activity_at < ? AND
+            custom_attributes->>'contact_additional_information' = ?",
+            (Time.zone.today - 3.days),
+            'test custom data'
+          ).count
+
+          result = filter_service.new(params, user_1).perform
+          expect(result[:contacts].length).to be expected_count
+          expect(result[:contacts].first.id).to eq(el_contact.id)
+        end
+
+        it 'filter by last_activity_at 2_days_before and custom_attributes' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expected_count = Contact.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+          result = filter_service.new(params, user_1).perform
+          expect(result[:contacts].length).to be expected_count
+          expect(result[:contacts].first.id).to eq(el_contact.id)
+        end
+      end
     end
   end
 end
