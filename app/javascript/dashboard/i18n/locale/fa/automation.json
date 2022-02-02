@@ -1,6 +1,82 @@
 {
   "AUTOMATION": {
     "HEADER": "خودکارسازی",
-    "HEADER_BTN_TXT": "افزودن قانون خودکارسازی"
+    "HEADER_BTN_TXT": "افزودن قانون خودکارسازی",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "افزودن قانون خودکارسازی",
+      "SUBMIT": "ايجاد كردن",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "نام الزامی است"
+        },
+        "DESC": {
+          "LABEL": "توضیحات",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "توضیحات الزامی است"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "لطفا یکی را انتخاب کنید",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "عملیات"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "نام",
+        "توضیحات",
+        "فعال",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "حذف",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود ",
+        "NO": "نه، بماند "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "ویرایش",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "ویرایش",
+      "CREATE": "ايجاد كردن",
+      "DELETE": "حذف",
+      "CANCEL": "انصراف",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }
