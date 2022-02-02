@@ -95,6 +95,7 @@ describe('#actions', () => {
   describe('#clone', () => {
     it('clones the automation', async () => {
       axios.post.mockResolvedValue({ data: automationsList[0] });
+      await actions.clone({ commit }, automationsList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_AUTOMATION_UI_FLAG, { isCloning: true }],
         [types.default.SET_AUTOMATION_UI_FLAG, { isCloning: false }],
