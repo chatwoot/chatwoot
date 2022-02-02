@@ -21,8 +21,8 @@
             "does_not_contain": "لا يحتوي",
             "is_present": "موجود",
             "is_not_present": "غير موجود",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than"
+            "is_greater_than": "هو أكبر من",
+            "is_lesser_than": "هو أقل من"
         },
         "ATTRIBUTES": {
             "NAME": "الاسم",
@@ -31,15 +31,15 @@
             "IDENTIFIER": "المعرف",
             "CITY": "المدينة",
             "COUNTRY": "الدولة",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+            "CUSTOM_ATTRIBUTE_LIST": "القائمة",
+            "CUSTOM_ATTRIBUTE_TEXT": "النص",
+            "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
+            "CUSTOM_ATTRIBUTE_LINK": "الرابط",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "الفلاتر القياسية",
+            "ADDITIONAL_FILTERS": "فلاتر إضافية",
             "CUSTOM_ATTRIBUTES": "سمات مخصصة"
         }
     }
