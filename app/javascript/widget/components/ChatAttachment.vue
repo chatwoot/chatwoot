@@ -54,7 +54,12 @@ export default {
       this.isUploading = true;
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-          const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+          const upload = new DirectUpload(
+            file.file,
+            '/rails/active_storage/direct_uploads',
+            null,
+            file.file.name
+          );
 
           upload.create((error, blob) => {
             if (error) {
@@ -64,7 +69,7 @@ export default {
             } else {
               this.onAttach({
                 fileType: blob.content_type,
-                file: blob.signed_id
+                file: blob.signed_id,
               });
             }
           });
