@@ -8,7 +8,6 @@ export const state = {
     isFetching: false,
     isCreating: false,
     isDeleting: false,
-    isUpdating: false,
   },
 };
 
