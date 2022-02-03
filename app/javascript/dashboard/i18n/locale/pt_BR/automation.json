@@ -71,6 +71,13 @@
         "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde"
       }
     },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
     "FORM": {
       "EDIT": "Alterar",
       "CREATE": "Criar",
