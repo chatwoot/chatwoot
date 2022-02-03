@@ -72,10 +72,10 @@
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Κλώνος",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Ο αυτοματισμός κλωνοποιήθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η κλωνοποίηση του κανόνα αυτοματισμού, Παρακαλώ δοκιμάστε ξανά αργότερα"
       }
     },
     "FORM": {
