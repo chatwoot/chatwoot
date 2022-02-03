@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "قناة SMS عبر Twilio",
-        "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة بإستخدام Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "تويليو",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "معرف الحساب",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "INBOX_NAME": {
+            "LABEL": "اسم صندوق الوارد لقناة التواصل",
+            "PLACEHOLDER": "الرجاء إدخال اسم القناة",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "رقم الهاتف",
+            "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
+            "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "عنوان Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "قناة واتساب",
