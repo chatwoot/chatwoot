@@ -2,40 +2,40 @@
   "AUTOMATION": {
     "HEADER": "Автоматизация",
     "HEADER_BTN_TXT": "Добавить правило автоматизации",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "Получение правил автоматизации",
+    "SIDEBAR_TXT": "<p><b>Правила автоматизации</b> <p>Автоматизация может заменить и автоматизировать существующие процессы, требующие ручных усилий. Вы можете сделать многое с автоматизацией, включая добавление меток и назначение разговора лучшему оператору. Таким образом, команда сосредоточена на том, что она делает лучше всего и может тратить больше времени на более важные задачи.</p>",
     "ADD": {
       "TITLE": "Добавить правило автоматизации",
       "SUBMIT": "Создать",
       "CANCEL_BUTTON_TEXT": "Отменить",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Название правила",
+          "PLACEHOLDER": "Введите название правила",
           "ERROR": "Необходимо указать имя"
         },
         "DESC": {
           "LABEL": "Описание",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Введите описание правила",
           "ERROR": "Необходимо описание"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Событие",
           "PLACEHOLDER": "Пожалуйста, выберите один",
-          "ERROR": "Event is required"
+          "ERROR": "Необходимо указать событие"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Условия"
         },
         "ACTIONS": {
           "LABEL": "Действия"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Добавить условие",
+      "ACTION_BUTTON_LABEL": "Добавить действие",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно добавлено",
+        "ERROR_MESSAGE": "Не удалось создать правило автоматизации, пожалуйста, повторите попытку позже"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Имя",
         "Описание",
         "Активно",
-        "Created on"
+        "Создано"
       ],
-      "404": "No automation rules found"
+      "404": "Правила автоматизации не найдены"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Удалить правило автоматизации",
       "SUBMIT": "Удалить",
       "CANCEL_BUTTON_TEXT": "Отменить",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "Нет, не удалять "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно удалено",
+        "ERROR_MESSAGE": "Не удалось удалить правило автоматизации, пожалуйста, повторите попытку позже"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Изменить правило автоматизации",
       "SUBMIT": "Редактировать",
       "CANCEL_BUTTON_TEXT": "Отменить",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно обновлено",
+        "ERROR_MESSAGE": "Не удалось обновить правило автоматизации, повторите попытку позже"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Копировать",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно скопировано",
+        "ERROR_MESSAGE": "Не удалось скопировать правило автоматизации, повторите попытку позже"
       }
     },
     "FORM": {
@@ -83,7 +83,7 @@
       "CREATE": "Создать",
       "DELETE": "Удалить",
       "CANCEL": "Отменить",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Изменение типа события сбросит условия и события, добавленные вами ниже"
     }
   }
 }
