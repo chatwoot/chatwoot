@@ -71,6 +71,13 @@
         "ERROR_MESSAGE": "تعذر تحديث قاعدة الأتمتة، الرجاء المحاولة مرة أخرى في وقت لاحق"
       }
     },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
     "FORM": {
       "EDIT": "تعديل",
       "CREATE": "إنشاء",
