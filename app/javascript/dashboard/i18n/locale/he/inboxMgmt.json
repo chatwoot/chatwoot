@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "ערוץ SMS דרך Twilio",
-        "DESC": "התחל לתמוך בלקוחות שלך באמצעות SMS עם שילוב Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "ספק API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "שדה חובה"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "שדה חובה"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "שדה חובה"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "שדה חובה"
+          },
+          "INBOX_NAME": {
+            "LABEL": "שם תיבת הדואר הנכנס",
+            "PLACEHOLDER": "נא להזין שם תיבת דואר נכנס",
+            "ERROR": "שדה חובה"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "מספר טלפון",
+            "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
+            "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "כתובת אתר להתקשרות חוזרת",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "ערוץ וואטסאפ",
