@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "کانال پیامک از طریق Twilio",
-        "DESC": "با ادغام Twilio از طریق SMS از مشتریان خود پشتیبانی کنید."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "ارائه دهنده API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "شناسه حساب‌کاربری",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "INBOX_NAME": {
+            "LABEL": "عنوان صندوق ورودی",
+            "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "شماره تلفن",
+            "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+            "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "آدرس URL مربوط به API",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "کانال واتس اپ",
