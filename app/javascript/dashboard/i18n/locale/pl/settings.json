@@ -149,7 +149,7 @@
     "PROFILE_SETTINGS": "Ustawienia profilu",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
+    "LABELS": "Etykiety",
     "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
     "AUTOMATION": "Automation",
     "TEAMS": "Zespoły",
@@ -166,7 +166,7 @@
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenci",
-    "REPORTS_LABEL": "Labels",
+    "REPORTS_LABEL": "Etykiety",
     "REPORTS_INBOX": "Skrzynka odbiorcza",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as"
