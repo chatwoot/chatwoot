@@ -13,13 +13,20 @@ class ContactInboxBuilder
   private
 
   def generate_source_id
-    return twilio_source_id if @inbox.channel_type == 'Channel::TwilioSms'
-    return wa_source_id if @inbox.channel_type == 'Channel::Whatsapp'
-    return @contact.email if @inbox.channel_type == 'Channel::Email'
-    return @contact.phone_number if @inbox.channel_type == 'Channel::Sms'
-    return SecureRandom.uuid if @inbox.channel_type == 'Channel::Api'
-
-    nil
+    case @inbox.channel_type
+    when 'Channel::TwilioSms'
+      twilio_source_id
+    when 'Channel::Whatsapp'
+      wa_source_id
+    when 'Channel::Email'
+      @contact.email
+    when 'Channel::Sms' 
+      @contact.phone_number
+    when 'Channel::Api'
+      SecureRandom.uuid
+    else
+      nil
+    end
   end
 
   def wa_source_id
