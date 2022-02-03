@@ -9,6 +9,7 @@ describe('#AutomationsAPI', () => {
     expect(automations).toHaveProperty('create');
     expect(automations).toHaveProperty('update');
     expect(automations).toHaveProperty('delete');
+    expect(automations).toHaveProperty('clone');
     expect(automations.url).toBe('/api/v1/automation_rules');
   });
 });
