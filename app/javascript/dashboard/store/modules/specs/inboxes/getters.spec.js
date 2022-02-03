@@ -26,7 +26,7 @@ describe('#getters', () => {
 
   it('dialogFlowEnabledInboxes', () => {
     const state = { records: inboxList };
-    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(5);
+    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(6);
   });
 
   it('getInbox', () => {
