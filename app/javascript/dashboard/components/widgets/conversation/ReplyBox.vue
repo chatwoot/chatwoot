@@ -52,6 +52,14 @@
         @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
+    <div v-if="showMessageSignature" class="message-signature-wrap">
+      <p
+        v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+        class="message-signature"
+        v-html="messageSignature"
+      />
+    </div>
+
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
         :attachments="attachedFiles"
@@ -150,6 +158,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      messageSignature: 'getMessageSignature',
+    }),
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -164,7 +176,6 @@ export default {
       }
       return false;
     },
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -288,6 +299,9 @@ export default {
     },
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+    },
+    showMessageSignature() {
+      return this.messageSignature && !this.isPrivate && this.isAnEmailChannel;
     },
   },
   watch: {
@@ -554,6 +568,14 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
+}
+
+.message-signature-wrap {
+  padding: 0 var(--space-normal);
+}
+
+.message-signature {
+  width: fit-content;
 }
 
 .attachment-preview-box {

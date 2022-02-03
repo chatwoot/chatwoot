@@ -14,20 +14,20 @@
           }}</label>
           <resizable-text-area
             id="email-signature-input"
-            v-model="emailSignature"
+            v-model="messageSignature"
             rows="4"
             type="text"
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.PLACEHOLDER')
             "
-            @blur="$v.emailSignature.$touch"
+            @blur="$v.messageSignature.$touch"
           />
         </div>
 
         <div>
           <input
             id="enable-email-signature"
-            v-model="enableEmailSignature"
+            v-model="enableMessageSignature"
             class="notification--checkbox"
             type="checkbox"
             value="email_conversation_creation"
@@ -39,7 +39,7 @@
         <woot-button
           :is-loading="isUpdating"
           type="submit"
-          :is-disabled="$v.emailSignature.$invalid"
+          :is-disabled="$v.messageSignature.$invalid"
         >
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.BTN_TEXT') }}
         </woot-button>
@@ -62,14 +62,14 @@ export default {
   mixins: [alertMixin],
   data() {
     return {
-      emailSignature: '',
-      enableEmailSignature: false,
+      messageSignature: '',
+      enableMessageSignature: false,
       isUpdating: false,
       errorMessage: '',
     };
   },
   validations: {
-    emailSignature: {
+    messageSignature: {
       required,
     },
   },
@@ -90,11 +90,11 @@ export default {
   methods: {
     initValues() {
       const {
-        email_signature: emailSignature,
-        email_signature_enabled: enableEmailSignature,
+        message_signature: messageSignature,
+        message_signature_enabled: enableMessageSignature,
       } = this.currentUser;
-      this.emailSignature = emailSignature;
-      this.enableEmailSignature = enableEmailSignature;
+      this.messageSignature = messageSignature;
+      this.enableMessageSignature = enableMessageSignature;
     },
     async updateSignature() {
       this.$v.$touch();
@@ -105,12 +105,16 @@ export default {
 
       try {
         await this.$store.dispatch('updateProfile', {
-          email_signature: this.emailSignature,
-          email_signature_enabled: this.enableEmailSignature,
+          message_signature: this.messageSignature,
+          message_signature_enabled: this.enableMessageSignature,
         });
-        this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
+        this.errorMessage = this.$t(
+          'PPROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_SUCCESS'
+        );
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        this.errorMessage = this.$t(
+          'PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_ERROR'
+        );
         if (error?.response?.data?.message) {
           this.errorMessage = error.response.data.message;
         }

@@ -22,7 +22,9 @@
       "EMAIL_SIGNATURE_SECTION": {
         "TITLE": "Personal email signature",
         "NOTE": "Having a personal email signature will append it all the outgoing email automatically. You can paste custom HTML signature also here.",
-        "BTN_TEXT": "Save email signature"
+        "BTN_TEXT": "Save email signature",
+        "API_ERROR":"Couldn't save! Try again",
+        "API_SUCCESS": "Signature saved successfully"
       },
       "EMAIL_SIGNATURE": {
         "LABEL": "Email signature",

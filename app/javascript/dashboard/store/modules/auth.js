@@ -65,6 +65,18 @@ export const getters = {
   getCurrentUser(_state) {
     return _state.currentUser;
   },
+
+  getMessageSignature(_state) {
+    const {
+      message_signature: messageSignature,
+      message_signature_enabled: enableMessageSignature,
+    } = _state.currentUser;
+
+    if (enableMessageSignature) {
+      return messageSignature.replace(/\n/g, '<br />') || '';
+    }
+    return '';
+  },
 };
 
 // actions
