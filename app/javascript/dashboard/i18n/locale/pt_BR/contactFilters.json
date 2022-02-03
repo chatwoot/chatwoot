@@ -21,8 +21,8 @@
             "does_not_contain": "Não contém",
             "is_present": "Está presente",
             "is_not_present": "Não está presente",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than"
+            "is_greater_than": "É maior que",
+            "is_lesser_than": "É menor que"
         },
         "ATTRIBUTES": {
             "NAME": "Nome",
