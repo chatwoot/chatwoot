@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS канал через Twilio",
-        "DESC": "Начните поддерживать своих клиентов через SMS с Twilio интеграцией."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "Поставщик API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID аккаунта",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Это поле обязательно"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Это поле обязательно"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Имя источника",
+            "PLACEHOLDER": "Пожалуйста введите имя канала",
+            "ERROR": "Это поле обязательно"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Номер телефона",
+            "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
+            "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp канал",
