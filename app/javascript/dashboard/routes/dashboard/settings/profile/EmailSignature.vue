@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="changePassword()">
+  <form @submit.prevent="updateSignature()">
     <div class="profile--settings--row row">
       <div class="columns small-3">
         <h4 class="block-title">
@@ -20,7 +20,7 @@
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.PLACEHOLDER')
             "
-            @input="handleInput"
+            @blur="$v.emailSignature.$touch"
           />
         </div>
 
@@ -31,17 +31,15 @@
             class="notification--checkbox"
             type="checkbox"
             value="email_conversation_creation"
-            @input="handleEmailInput"
           />
           <label for="enable-email-signature">
             {{ $t('PROFILE_SETTINGS.FORM.ENABLE_EMAIL_SIGNATURE.LABEL') }}
           </label>
         </div>
-
         <woot-button
-          :is-loading="isPasswordChanging"
+          :is-loading="isUpdating"
           type="submit"
-          :disabled="!currentPassword"
+          :is-disabled="$v.emailSignature.$invalid"
         >
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.BTN_TEXT') }}
         </woot-button>
@@ -51,7 +49,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
 import ResizableTextArea from 'shared/components/ResizableTextArea';
@@ -65,17 +63,14 @@ export default {
   data() {
     return {
       emailSignature: '',
-      password: '',
       enableEmailSignature: false,
+      isUpdating: false,
       errorMessage: '',
     };
   },
   validations: {
-    currentPassword: {
+    emailSignature: {
       required,
-    },
-    password: {
-      minLength: minLength(6),
     },
   },
   computed: {
@@ -84,8 +79,24 @@ export default {
       currentUserId: 'getCurrentUserID',
     }),
   },
+  watch: {
+    currentUser() {
+      this.initValues();
+    },
+  },
+  mounted() {
+    this.initValues();
+  },
   methods: {
-    async changePassword() {
+    initValues() {
+      const {
+        email_signature: emailSignature,
+        email_signature_enabled: enableEmailSignature,
+      } = this.currentUser;
+      this.emailSignature = emailSignature;
+      this.enableEmailSignature = enableEmailSignature;
+    },
+    async updateSignature() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
@@ -94,8 +105,8 @@ export default {
 
       try {
         await this.$store.dispatch('updateProfile', {
-          password: this.password,
-          current_password: this.currentPassword,
+          email_signature: this.emailSignature,
+          email_signature_enabled: this.enableEmailSignature,
         });
         this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
@@ -104,7 +115,7 @@ export default {
           this.errorMessage = error.response.data.message;
         }
       } finally {
-        this.isPasswordChanging = false;
+        this.isUpdating = false;
         this.showAlert(this.errorMessage);
       }
     },
@@ -113,11 +124,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/mixins.scss';
-
 .profile--settings--row {
-  @include border-normal-bottom;
+  border: 1px solid var(--color-border);
   padding: var(--space-normal);
+
   .small-3 {
     padding: var(--space-normal) var(--space-medium) var(--space-normal) 0;
   }
