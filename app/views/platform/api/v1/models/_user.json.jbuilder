@@ -4,8 +4,8 @@ json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
-json.email_signature_enabled resource.email_signature_enabled
-json.email_signature resource.email_signature
+json.message_signature_enabled resource.message_signature_enabled
+json.message_signature resource.message_signature
 json.email resource.email
 json.id resource.id
 json.name resource.name

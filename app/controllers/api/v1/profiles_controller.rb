@@ -38,8 +38,8 @@ class Api::V1::ProfilesController < Api::BaseController
       :name,
       :display_name,
       :avatar,
-      :email_signature,
-      :email_signature_enabled,
+      :message_signature,
+      :message_signature_enabled,
       ui_settings: {}
     )
   end
