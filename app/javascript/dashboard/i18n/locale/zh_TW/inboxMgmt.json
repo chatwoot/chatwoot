@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "此欄位是必填項目"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "此欄位是必填項目"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "此欄位是必填項目"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "此欄位是必填項目"
+          },
+          "INBOX_NAME": {
+            "LABEL": "收件匣名稱",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "此欄位是必填項目"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "電話號碼",
+            "PLACEHOLDER": "請輸入發送消息的電話號碼。",
+            "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "回呼地址",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
