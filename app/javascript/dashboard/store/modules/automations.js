@@ -66,6 +66,16 @@ export const actions = {
       commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: false });
     }
   },
+  clone: async ({ commit }, id) => {
+    commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: true });
+    try {
+      await AutomationAPI.clone(id);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
+    }
+  },
 };
 
 export const mutations = {
