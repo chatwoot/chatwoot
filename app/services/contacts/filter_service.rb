@@ -18,7 +18,7 @@ class Contacts::FilterService < FilterService
       @query_string += contact_query_string(current_filter, query_hash, current_index)
     end
 
-    base_relation.select('distinct contacts.id').where(@query_string, @filter_values.with_indifferent_access)
+    base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
 
   def contact_query_string(current_filter, query_hash, current_index)

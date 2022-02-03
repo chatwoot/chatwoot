@@ -55,7 +55,7 @@ describe ::Contacts::FilterService do
             attribute_key: 'browser_language',
             filter_operator: 'equal_to',
             values: ['en'],
-            query_operator: 'AND'
+            query_operator: 'OR'
           }.with_indifferent_access,
           {
             attribute_key: 'name',
@@ -69,7 +69,7 @@ describe ::Contacts::FilterService do
       it 'filter contacts by additional_attributes' do
         params[:payload] = payload
         result = filter_service.new(params, user_1).perform
-        expect(result[:contacts].length).to be 1
+        expect(result[:count]).to be 2
       end
 
       it 'filter contact by tags' do
