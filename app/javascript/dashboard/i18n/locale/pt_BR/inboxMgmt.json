@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "Canal SMS via Twilio",
-        "DESC": "Comece a apoiar seus clientes através de SMS com integração Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID da Conta",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Este campo é obrigatório"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Este campo é obrigatório"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Este campo é obrigatório"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Este campo é obrigatório"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Nome da Caixa de Entrada",
+            "PLACEHOLDER": "Por favor, digite um nome para caixa de entrada",
+            "ERROR": "Este campo é obrigatório"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Número de telefone",
+            "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
+            "ERROR": "Por favor, insira um valor válido. O número de telefone deve começar com o sinal `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL de retorno",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "Canal do WhatsApp",
