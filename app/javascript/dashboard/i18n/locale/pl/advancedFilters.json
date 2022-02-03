@@ -8,10 +8,10 @@
     "CANCEL_BUTTON_LABEL": "Anuluj",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "Filtruj konwersacje",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "i",
+      "OR": "albo"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
@@ -30,7 +30,7 @@
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
+      "LABELS": "Etykiety",
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
       "REFERER_LINK": "Referer link",
