@@ -10,7 +10,7 @@
     "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
     "SEARCH": {
       "TITLE": "Szukaj wiadomości",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Wyniki wyszukiwania",
       "LOADING_MESSAGE": "Trwa przetwarzanie danych...",
       "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
       "NO_MATCHING_RESULTS": "Brak wyników."
@@ -29,8 +29,8 @@
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
+    "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
     "NO_RESPONSE": "Brak odpowiedzi",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -48,10 +48,10 @@
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Oznacz jako oczekujące",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Uśpij do",
+        "NEXT_REPLY": "Następna odpowiedź",
+        "TOMORROW": "Jutro",
+        "NEXT_WEEK": "Następny tydzień"
       }
     },
     "FOOTER": {
@@ -73,12 +73,12 @@
         "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "E-maile oddzielone przecinkami",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "E-maile oddzielone przecinkami",
           "ERROR": "Please enter valid email addresses"
         }
       }
