@@ -35,7 +35,7 @@
       "ACTION_BUTTON_LABEL": "Aktion hinzufügen",
       "API": {
         "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "ERROR_MESSAGE": "Automatisierungsregel konnte nicht erstellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "LIST": {
@@ -59,7 +59,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "ERROR_MESSAGE": "Eine Automatisierungsregel konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut"
       }
     },
     "EDIT": {
@@ -68,14 +68,14 @@
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
         "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "ERROR_MESSAGE": "Die Automatisierungsregel konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Klonen",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatisierung erfolgreich geklont",
+        "ERROR_MESSAGE": "Die Automatisierungsregel konnte nicht geklont werden. Bitte später erneut versuchen"
       }
     },
     "FORM": {
