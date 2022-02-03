@@ -72,11 +72,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
-        ]
+        "STATUSES_LIST": ["Online", "Busy", "Offline"]
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -153,6 +149,8 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

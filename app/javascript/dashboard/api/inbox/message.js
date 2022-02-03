@@ -7,17 +7,19 @@ export const buildCreatePayload = ({
   isPrivate,
   contentAttributes,
   echoId,
-  file,
+  files,
   ccEmails = '',
   bccEmails = '',
 }) => {
   let payload;
-  if (file) {
+  if (files && files.length !== 0) {
     payload = new FormData();
-    payload.append('attachments[]', file, file.name);
     if (message) {
       payload.append('content', message);
     }
+    files.forEach(file => {
+      payload.append('attachments[]', file);
+    });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
@@ -46,7 +48,7 @@ class MessageApi extends ApiClient {
     private: isPrivate,
     contentAttributes,
     echo_id: echoId,
-    file,
+    files,
     ccEmails = '',
     bccEmails = '',
   }) {
@@ -58,7 +60,7 @@ class MessageApi extends ApiClient {
         isPrivate,
         contentAttributes,
         echoId,
-        file,
+        files,
         ccEmails,
         bccEmails,
       }),
