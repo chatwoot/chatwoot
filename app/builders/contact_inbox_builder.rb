@@ -20,12 +20,10 @@ class ContactInboxBuilder
       wa_source_id
     when 'Channel::Email'
       @contact.email
-    when 'Channel::Sms' 
+    when 'Channel::Sms'
       @contact.phone_number
     when 'Channel::Api'
       SecureRandom.uuid
-    else
-      nil
     end
   end
 
