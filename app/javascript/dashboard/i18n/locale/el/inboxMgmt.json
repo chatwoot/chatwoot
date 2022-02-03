@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS κανάλι μέσω Twilio",
-        "DESC": "Ξεκινήστε να υποστηρίζετε τους πελάτες σας μέσω SMS με την ενσωμάτωση Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID Λογαριασμού",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Το πεδίο είναι απαραίτητο"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Το πεδίο είναι απαραίτητο"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Το πεδίο είναι απαραίτητο"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Το πεδίο είναι απαραίτητο"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Όνομα Κιβωτίου",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα εισερχόμενων",
+            "ERROR": "Το πεδίο είναι απαραίτητο"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Αριθμός τηλεφώνου",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
+            "ERROR": "Παρακαλώ καταχωρήστε μια έγκυρη τιμή. Ο αριθμός του τηλεφώνου πρέπει να ξεκινά με το σύμβολο `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL επανάκλησης",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "Κανάλι WhatsApp",
