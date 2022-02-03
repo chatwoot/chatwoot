@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "INBOX_NAME": {
+            "LABEL": "受信トレイ名",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "電話番号",
+            "PLACEHOLDER": "送信先の電話番号を入力してください。",
+            "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "コールバック URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
