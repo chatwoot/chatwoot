@@ -28,7 +28,7 @@
           "LABEL": "Conditions"
         },
         "ACTIONS": {
-          "LABEL": "azioni"
+          "LABEL": "Azioni"
         }
       },
       "CONDITION_BUTTON_LABEL": "Add Condition",
@@ -40,7 +40,7 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "nome",
+        "Nome",
         "Descrizione",
         "Attivo",
         "Created on"
@@ -49,7 +49,7 @@
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Cancellare",
+      "SUBMIT": "Elimina",
       "CANCEL_BUTTON_TEXT": "annulla",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
@@ -81,7 +81,7 @@
     "FORM": {
       "EDIT": "Modifica",
       "CREATE": "Crea",
-      "DELETE": "Cancellare",
+      "DELETE": "Elimina",
       "CANCEL": "annulla",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     }
