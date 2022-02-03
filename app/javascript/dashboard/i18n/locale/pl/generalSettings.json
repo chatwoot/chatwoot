@@ -123,9 +123,9 @@
       "RESOLVE_CONVERSATION": "Resolve conversation",
       "SEND_TRANSCRIPT": "Send an email transcript",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
+      "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
+      "UNTIL_TOMORROW": "Do jutra"
     }
   }
 }
