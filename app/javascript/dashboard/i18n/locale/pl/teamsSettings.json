@@ -117,7 +117,7 @@
         "PLACEHOLDER": "Short description about this team."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Zezwalaj na automatyczne przypisywanie dla tego zespołu."
       },
       "SUBMIT_CREATE": "Utwórz zespół"
     }
