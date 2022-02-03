@@ -236,7 +236,7 @@
       "TITLE": "Aktivitäten"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_NOTES": "Notizen",
       "PILL_BUTTON_EVENTS": "Veranstaltungen",
       "PILL_BUTTON_CONVO": "gespräche"
     }
