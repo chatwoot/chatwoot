@@ -54,17 +54,17 @@
                   @click="openEditPopup(automation)"
                 >
                 </woot-button>
-                <!-- <woot-button
-                  v-tooltip.top="'Clone'"
+                <woot-button
+                  v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
                   variant="smooth"
                   size="tiny"
                   color-scheme="primary"
                   class-names="grey-btn"
                   :is-loading="loading[automation.id]"
                   icon="copy"
-                  @click="openEditPopup(automation)"
+                  @click="cloneAutomation(automation.id)"
                 >
-                </woot-button> -->
+                </woot-button>
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
@@ -202,6 +202,16 @@ export default {
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
         this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
+    async cloneAutomation(id) {
+      try {
+        await this.$store.dispatch('automations/clone', id);
+        this.showAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
+        this.$store.dispatch('automations/get');
+        this.loading[this.selectedResponse.id] = false;
+      } catch (error) {
+        this.showAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
       }
     },
     async submitAutomation(payload, mode) {
