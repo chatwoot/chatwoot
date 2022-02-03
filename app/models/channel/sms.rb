@@ -38,11 +38,9 @@ class Channel::Sms < ApplicationRecord
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     else
-      send_text_message(phone_number, message)
+      send_text_message(phone_number, message.content)
     end
   end
-
-  private
 
   def send_text_message(contact_number, message)
     response = HTTParty.post(
@@ -52,13 +50,15 @@ class Channel::Sms < ApplicationRecord
       body: {
         'to' => contact_number,
         'from' => phone_number,
-        'text' => message.content,
+        'text' => message,
         'applicationId' => provider_config['application_id']
       }.to_json
     )
 
     response.success? ? response.parsed_response['id'] : nil
   end
+
+  private
 
   def send_attachment_message(phone_number, message)
     # fix me

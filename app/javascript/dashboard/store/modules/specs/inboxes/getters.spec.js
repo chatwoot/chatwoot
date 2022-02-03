@@ -19,9 +19,9 @@ describe('#getters', () => {
     expect(getters.getTwilioInboxes(state).length).toEqual(1);
   });
 
-  it('getTwilioSMSInboxes', () => {
+  it('getSMSInboxes', () => {
     const state = { records: inboxList };
-    expect(getters.getTwilioSMSInboxes(state).length).toEqual(1);
+    expect(getters.getSMSInboxes(state).length).toEqual(2);
   });
 
   it('dialogFlowEnabledInboxes', () => {
