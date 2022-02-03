@@ -64,7 +64,7 @@
       >
         <woot-thumbnail
           :src="sender.thumbnail"
-          :username="sender.name"
+          :username="senderNameForAvatar"
           size="16px"
         />
         <a
@@ -248,6 +248,9 @@ export default {
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
     },
+    isTemplate() {
+      return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
+    },
     emailHeadAttributes() {
       return {
         email: this.contentAttributes.email,
@@ -265,8 +268,12 @@ export default {
       return !!this.data.content;
     },
     tooltipForSender() {
-      const { name = this.$t('CONVERSATION.BOT') } = this.sender || {};
-      return this.data.message_type === MESSAGE_TYPE.OUTGOING
+      const name = this.senderNameForAvatar;
+      const { message_type: messageType } = this.data;
+      const showTooltip =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.TEMPLATE;
+      return showTooltip
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
             classes: 'top',
@@ -323,10 +330,17 @@ export default {
       return meta ? meta.error : '';
     },
     showAvatar() {
-      if (this.isOutgoing) {
-        return this.sender;
+      if (this.isOutgoing || this.isTemplate) {
+        return true;
       }
       return this.isATweet && this.isIncoming && this.sender;
+    },
+    senderNameForAvatar() {
+      if (this.isOutgoing || this.isTemplate) {
+        const { name = this.$t('CONVERSATION.BOT') } = this.sender || {};
+        return name;
+      }
+      return '';
     },
   },
   watch: {
