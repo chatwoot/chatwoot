@@ -83,7 +83,7 @@
       "CREATE": "Erstellen",
       "DELETE": "Löschen",
       "CANCEL": "Stornieren",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Durch das Ändern des Ereignistyps werden die unten hinzugefügten Bedingungen und Ereignisse zurückgesetzt"
     }
   }
 }
