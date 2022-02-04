@@ -205,7 +205,7 @@ describe ::Contacts::FilterService do
             {
               attribute_key: 'last_activity_at',
               filter_operator: 'days_before',
-              values: [3],
+              values: [2],
               query_operator: nil
             }.with_indifferent_access
           ]
@@ -214,7 +214,9 @@ describe ::Contacts::FilterService do
 
           result = filter_service.new(params, user_1).perform
           expect(result[:contacts].length).to be expected_count
-          expect(result[:contacts].first.id).to eq(el_contact.id)
+          expect(result[:contacts].pluck(:id)).to include(el_contact.id)
+          expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
+          expect(result[:contacts].pluck(:id)).not_to include(en_contact.id)
         end
       end
     end
