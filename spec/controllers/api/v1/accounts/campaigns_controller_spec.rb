@@ -99,12 +99,31 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'creates a new campaign' do
         post "/api/v1/accounts/#{account.id}/campaigns",
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message'},
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:title]).to eq('test')
+      end
+
+      it 'creates a new ongoing campaign' do
+        post "/api/v1/accounts/#{account.id}/campaigns",
              params: { inbox_id: inbox.id, title: 'test', message: 'test message', trigger_rules: { url: 'https://test.com' } },
              headers: administrator.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:title]).to eq('test')
+      end
+
+      it 'throws error when invalid url provided for ongoing campaign' do
+        post "/api/v1/accounts/#{account.id}/campaigns",
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message', trigger_rules: { url: 'javascript' } },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'creates a new oneoff campaign' do
