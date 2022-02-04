@@ -136,15 +136,15 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS-канал",
+        "DESC": "Начните поддерживать ваших клиентов с помощью SMS.",
         "PROVIDERS": {
           "LABEL": "Поставщик API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Не удалось сохранить SMS-канал"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
@@ -153,8 +153,8 @@
             "ERROR": "Это поле обязательно"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "Ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
             "ERROR": "Это поле обязательно"
           },
           "API_SECRET": {
