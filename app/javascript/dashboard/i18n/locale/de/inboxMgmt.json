@@ -136,35 +136,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS Kanal",
+        "DESC": "Beginnen Sie, Ihre Kunden per SMS zu unterstützen.",
         "PROVIDERS": {
           "LABEL": "API-Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandbreite"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Wir konnten den SMS-Kanal nicht speichern"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenkonto-ID ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "API-Schlüssel",
+            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-Schlüssel ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "API-Secret",
+            "PLACEHOLDER": "Bitte geben Sie Ihr Bandbreiten-API-Secret ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "Anwendungs-ID",
+            "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
             "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Wir konnten die Bandbreiten-Anmeldeinformationen nicht authentifizieren. Bitte versuchen Sie es erneut"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Sie müssen die Nachrichten-Callback-URL in Bandbreite mit der hier erwähnten URL konfigurieren."
           }
         }
       },
