@@ -12,11 +12,11 @@
           <label for="email-signature-input">{{
             $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.LABEL')
           }}</label>
-          <resizable-text-area
+          <woot-message-editor
             id="email-signature-input"
             v-model="messageSignature"
-            rows="4"
-            type="text"
+            class="message-editor"
+            :is-format-mode="true"
             :placeholder="
               $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.PLACEHOLDER')
             "
@@ -52,12 +52,12 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
-    ResizableTextArea,
+    WootMessageEditor,
   },
   mixins: [alertMixin],
   data() {
@@ -109,7 +109,7 @@ export default {
           message_signature_enabled: this.enableMessageSignature,
         });
         this.errorMessage = this.$t(
-          'PPROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_SUCCESS'
+          'PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_SUCCESS'
         );
       } catch (error) {
         this.errorMessage = this.$t(
@@ -129,14 +129,12 @@ export default {
 
 <style lang="scss">
 .profile--settings--row {
-  border: 1px solid var(--color-border);
-  padding: var(--space-normal);
-
-  .small-3 {
-    padding: var(--space-normal) var(--space-medium) var(--space-normal) 0;
+  .ProseMirror-woot-style {
+    height: 8rem;
   }
-  .small-9 {
-    padding: var(--space-normal);
+
+  .editor-root {
+    background: var(--white);
   }
 }
 </style>

@@ -73,7 +73,7 @@ export const getters = {
     } = _state.currentUser;
 
     if (enableMessageSignature) {
-      return messageSignature.replace(/\n/g, '<br />') || '';
+      return messageSignature || '';
     }
     return '';
   },

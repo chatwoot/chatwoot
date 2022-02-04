@@ -52,18 +52,29 @@
         @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
-    <div v-if="showMessageSignature" class="message-signature-wrap">
-      <p
-        v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
-        class="message-signature"
-        v-html="messageSignature"
-      />
-    </div>
-
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
+      />
+    </div>
+    <div v-if="showMessageSignature" class="message-signature-wrap">
+      <p
+        v-if="sendWithSignature"
+        v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature message-signature--disbaled">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGN_DISABLED') }}
+      </p>
+      <woot-button
+        v-tooltip.top-end="signatureToggleTooltip"
+        :color-scheme="sendWithSignature ? 'alert' : 'success'"
+        variant="smooth"
+        :icon="sendWithSignature ? 'dismiss' : 'checkmark'"
+        size="tiny"
+        @click="toggleMessageSignature"
       />
     </div>
     <reply-bottom-panel
@@ -100,6 +111,7 @@ import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -126,7 +138,13 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    messageFormatterMixin,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -301,7 +319,16 @@ export default {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
     showMessageSignature() {
-      return this.messageSignature && !this.isPrivate && this.isAnEmailChannel;
+      return !this.isPrivate && this.isAnEmailChannel;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
   },
   watch: {
@@ -391,7 +418,10 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        let newMessage = this.message;
+        if (this.sendWithSignature && this.messageSignature) {
+          newMessage += '\n\n' + this.messageSignature;
+        }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
@@ -561,6 +591,11 @@ export default {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
+    toggleMessageSignature() {
+      this.updateUISettings({
+        send_with_signature: !this.sendWithSignature,
+      });
+    },
   },
 };
 </script>
@@ -571,11 +606,26 @@ export default {
 }
 
 .message-signature-wrap {
-  padding: 0 var(--space-normal);
+  margin: 0 var(--space-normal);
+  padding: var(--space-small);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px dashed var(--s-100);
+  border-radius: var(--border-radius-small);
+
+  &:hover {
+    background: var(--s-25);
+  }
 }
 
 .message-signature {
   width: fit-content;
+  margin: 0;
+}
+
+.message-signature--disbaled {
+  color: var(--s-500);
 }
 
 .attachment-preview-box {
