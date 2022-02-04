@@ -40,7 +40,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
 
-  throttle('req/ip', limit: 10, period: 1.seconds, &:ip)
+  throttle('req/ip', limit: 400, period: 1.minutes, &:ip)
 
   ### Prevent Brute-Force Login Attacks ###
   throttle('login/ip', limit: 5, period: 20.seconds) do |req|
