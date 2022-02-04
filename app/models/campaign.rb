@@ -40,8 +40,8 @@ class Campaign < ApplicationRecord
   validates :title, presence: true
   validates :message, presence: true
   validate :validate_campaign_inbox
-  validate :prevent_completed_campaign_from_update, on: :update
   validate :validate_url
+  validate :prevent_completed_campaign_from_update, on: :update
   belongs_to :account
   belongs_to :inbox
   belongs_to :sender, class_name: 'User', optional: true
@@ -88,6 +88,8 @@ class Campaign < ApplicationRecord
   end
 
   def validate_url
+    return unless trigger_rules['url']
+
     errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !url_valid?(trigger_rules['url'])
   end
 
@@ -101,7 +103,7 @@ class Campaign < ApplicationRecord
   end
 
   def prevent_completed_campaign_from_update
-    errors.add :status, 'The campaign is already completed' if !campaign_status_changed? && completed?
+   errors.add :status, 'The campaign is already completed' if !campaign_status_changed? && completed?
   end
 
   # creating db triggers
