@@ -9,7 +9,10 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe '.before_create' do
-    let(:campaign) { build(:campaign, display_id: nil) }
+    let(:account) { create(:account) }
+    let(:website_channel) { create(:channel_widget, account: account) }
+    let(:website_inbox) { create(:inbox, channel: website_channel, account: account) }
+    let(:campaign) { build(:campaign, inbox: website_inbox, display_id: nil, trigger_rules: { url: 'https://test.com' }) }
 
     before do
       campaign.save
@@ -37,7 +40,9 @@ RSpec.describe Campaign, type: :model do
   end
 
   context 'when a campaign is completed' do
-    let!(:campaign) { create(:campaign, campaign_status: :completed) }
+    let(:account) { create(:account) }
+    let(:web_widget) { create(:channel_widget, account: account) }
+    let!(:campaign) { create(:campaign, inbox: web_widget.inbox, campaign_status: :completed, trigger_rules: { url: 'https://test.com' }) }
 
     it 'would prevent further updates' do
       campaign.title = 'new name'
