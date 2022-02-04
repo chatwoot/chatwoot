@@ -136,35 +136,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "Canal SMS",
+        "DESC": "Comece a apoiar seus clientes via SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Não foi possível salvar o canal SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID da Conta",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Por favor, insira sua ID de conta de bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "Chave API",
+            "PLACEHOLDER": "Por favor, digite a sua chave da Bandwith API",
             "ERROR": "Este campo é obrigatório"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "Chave secreta API",
+            "PLACEHOLDER": "Por favor insira o seu Segredo da API Bandwith",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID da aplicação",
+            "PLACEHOLDER": "Por favor, insira sua ID de aplicação de bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
             "ERROR": "Por favor, insira um valor válido. O número de telefone deve começar com o sinal `+`."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Criar canal de banda",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais de banda larga, por favor tente novamente"
           },
           "API_CALLBACK": {
             "TITLE": "URL de retorno",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Você precisa configurar o URL de retorno de mensagem na banda com a URL mencionada aqui."
           }
         }
       },
