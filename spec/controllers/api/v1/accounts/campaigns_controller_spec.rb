@@ -99,7 +99,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'creates a new campaign' do
         post "/api/v1/accounts/#{account.id}/campaigns",
-             params: { inbox_id: inbox.id, title: 'test', message: 'test message'},
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
              headers: administrator.create_new_auth_token,
              as: :json
 
