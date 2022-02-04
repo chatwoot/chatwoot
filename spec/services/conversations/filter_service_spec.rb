@@ -136,24 +136,35 @@ describe ::Conversations::FilterService do
   describe '#perform on custom attribute' do
     context 'with query present' do
       let!(:params) { { payload: [], page: 1 } }
-      let(:payload) do
-        [
+
+      it 'filter by custom_attributes and labels' do
+        user_2_assigned_conversation.update_labels('support')
+        params[:payload] = [
           {
-            attribute_key: 'browser_language',
-            filter_operator: 'contains',
-            values: 'en',
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
             query_operator: 'AND'
           }.with_indifferent_access,
           {
-            attribute_key: 'status',
-            filter_operator: 'not_equal_to',
-            values: %w[resolved],
+            attribute_key: 'conversation_created',
+            filter_operator: 'is_less_than',
+            values: ['2022-01-20'],
+            query_operator: 'OR'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'labels',
+            filter_operator: 'equal_to',
+            values: ['support'],
             query_operator: nil
           }.with_indifferent_access
         ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to be 1
+        expect(result[:conversations][0][:id]).to be user_2_assigned_conversation.id
       end
 
-      it 'filter by custom_attributes and labels' do
+      it 'filter by custom_attributes' do
         params[:payload] = [
           {
             attribute_key: 'conversation_type',
@@ -170,6 +181,114 @@ describe ::Conversations::FilterService do
         ]
         result = filter_service.new(params, user_1).perform
         expect(result[:conversations].length).to be 1
+      end
+
+      it 'filter by custom_attributes and additional_attributes' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'browser_language',
+            filter_operator: 'is_equal_to',
+            values: 'en',
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to be 1
+      end
+    end
+  end
+
+  describe '#perform on date filter' do
+    context 'with query present' do
+      let!(:params) { { payload: [], page: 1 } }
+
+      it 'filter by created_at' do
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: ['2022-01-20'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expected_count = Conversation.where('created_at > ?', DateTime.parse('2022-01-20')).count
+        expect(result[:conversations].length).to be expected_count
+      end
+
+      it 'filter by created_at and conversation_type' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: ['2022-01-20'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expected_count = Conversation.where("created_at > ? AND custom_attributes->>'conversation_type' = ?", DateTime.parse('2022-01-20'),
+                                            'platinum').count
+
+        expect(result[:conversations].length).to be expected_count
+      end
+
+      context 'with x_days_before filter' do
+        before do
+          en_conversation_1.update!(last_activity_at: (Time.zone.today - 4.days))
+          en_conversation_2.update!(last_activity_at: (Time.zone.today - 5.days))
+          user_2_assigned_conversation.update!(last_activity_at: (Time.zone.today - 2.days))
+        end
+
+        it 'filter by last_activity_at 3_days_before and custom_attributes' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'conversation_type',
+              filter_operator: 'equal_to',
+              values: ['platinum'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expected_count = Conversation.where("last_activity_at < ? AND custom_attributes->>'conversation_type' = ?", (Time.zone.today - 3.days),
+                                              'platinum').count
+
+          result = filter_service.new(params, user_1).perform
+          expect(result[:conversations].length).to be expected_count
+        end
+
+        it 'filter by last_activity_at 2_days_before' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expected_count = Conversation.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+          result = filter_service.new(params, user_1).perform
+          expect(result[:conversations].length).to be expected_count
+        end
       end
     end
   end
