@@ -31,6 +31,14 @@
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
+            v-if="isASmsInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
+          >
+          </woot-code>
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
             v-if="isAEmailInbox"
             lang="html"
             :script="currentInbox.forward_to_email"
@@ -86,10 +94,19 @@ export default {
     isALineInbox() {
       return this.currentInbox.channel_type === 'Channel::Line';
     },
+    isASmsInbox() {
+      return this.currentInbox.channel_type === 'Channel::Sms';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isASmsInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
@@ -103,10 +120,11 @@ export default {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
-      if (!this.currentInbox.web_widget_script) {
-        return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+      if (this.currentInbox.web_widget_script) {
+        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
       }
-      return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+
+      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
   },
 };
