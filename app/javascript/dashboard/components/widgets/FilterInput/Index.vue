@@ -1,8 +1,29 @@
 <template>
   <div class="filters">
-    <div class="filter">
+    <div class="filter" :class="{ error: v.values.$dirty && v.values.$error }">
       <div class="filter-inputs">
         <select
+          v-if="groupedFilters"
+          v-model="attributeKey"
+          class="filter__question"
+          @change="resetFilter()"
+        >
+          <optgroup
+            v-for="(group, i) in filterGroups"
+            :key="i"
+            :label="group.name"
+          >
+            <option
+              v-for="attribute in group.attributes"
+              :key="attribute.key"
+              :value="attribute.key"
+            >
+              {{ attribute.name }}
+            </option>
+          </optgroup>
+        </select>
+        <select
+          v-else
           v-model="attributeKey"
           class="filter__question"
           @change="resetFilter()"
@@ -61,6 +82,14 @@
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
+            />
+          </div>
+          <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
+            <input
+              v-model="values"
+              type="date"
+              :editable="false"
+              class="answer--text-input datepicker"
             />
           </div>
           <input
@@ -132,6 +161,14 @@ export default {
       type: Boolean,
       default: true,
     },
+    groupedFilters: {
+      type: Boolean,
+      default: false,
+    },
+    filterGroups: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     attributeKey: {
@@ -191,6 +228,10 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
+}
+
+.filter.error {
+  background: var(--r-50);
 }
 
 .filter-inputs {

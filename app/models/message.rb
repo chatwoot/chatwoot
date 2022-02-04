@@ -39,6 +39,7 @@ class Message < ApplicationRecord
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
   validates :content_type, presence: true
+  validates :content, length: { maximum: 150_000 }
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -185,6 +186,14 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
+  def email_notifiable_webwidget?
+    inbox.web_widget? && inbox.channel.continuity_via_email
+  end
+
+  def email_notifiable_channel?
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
+  end
+
   def email_notifiable_message?
     return false unless outgoing? || input_csat?
     return false if private?
@@ -194,7 +203,8 @@ class Message < ApplicationRecord
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
+    return unless email_notifiable_channel?
+    return if conversation.contact.email.blank?
 
     true
   end
