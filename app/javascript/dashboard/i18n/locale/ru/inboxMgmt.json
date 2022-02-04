@@ -149,7 +149,7 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID аккаунта",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Пожалуйста, введите ваш идентификатор аккаунта Bandwidth",
             "ERROR": "Это поле обязательно"
           },
           "API_KEY": {
@@ -158,13 +158,13 @@
             "ERROR": "Это поле обязательно"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "Секретный ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш секретный ключ аккаунта Bandwidth",
             "ERROR": "Это поле обязательно"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID приложения",
+            "PLACEHOLDER": "Пожалуйста, введите ваш ID аккаунта Bandwidth",
             "ERROR": "Это поле обязательно"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
             "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Создать канал Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Мы не смогли авторизоваться в Bandwidth. Пожалуйста, попробуйте еще раз"
           },
           "API_CALLBACK": {
             "TITLE": "URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth используя этот URL."
           }
         }
       },
