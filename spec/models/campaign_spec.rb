@@ -78,6 +78,27 @@ RSpec.describe Campaign, type: :model do
       end
     end
 
+    context 'when SMS campaign' do
+      let!(:sms_channel) { create(:channel_sms) }
+      let!(:sms_inbox) { create(:inbox, channel: sms_channel) }
+      let(:campaign) { build(:campaign, inbox: sms_inbox) }
+
+      it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
+        campaign.campaign_type = 'ongoing'
+        campaign.save!
+        expect(campaign.reload.campaign_type).to eq 'one_off'
+        expect(campaign.scheduled_at.present?).to eq true
+      end
+
+      it 'calls sms service on trigger!' do
+        sms_service = double
+        expect(Sms::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform)
+        campaign.save!
+        campaign.trigger!
+      end
+    end
+
     context 'when Website campaign' do
       let(:campaign) { build(:campaign) }
 

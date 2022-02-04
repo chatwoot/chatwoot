@@ -77,6 +77,8 @@ class Integrations::Dialogflow::ProcessorService
     case action
     when 'handoff'
       message.conversation.open!
+    when 'resolve'
+      message.conversation.resolved!
     end
   end
 end
