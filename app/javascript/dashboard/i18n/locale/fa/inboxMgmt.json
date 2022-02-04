@@ -136,15 +136,15 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "کانال پیامک",
+        "DESC": "شروع به پشتیبانی از مشتریان از طریق پیامک.",
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "پهنای‌باند"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
