@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi är online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Vi är borta för tillfället"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
@@ -22,7 +22,7 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
     "CLOSE_MESSAGES_BUTTON": "Stäng",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "från",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -38,17 +38,17 @@
       "FULL_NAME": {
         "LABEL": "Fullständigt namn",
         "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Fullständigt namn krävs"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadress",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Vänligen ange din e-postadress",
+        "ERROR": "Ogiltig e-postadress"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Meddelande",
+        "PLACEHOLDER": "Vänligen ange ditt meddelande",
+        "ERROR": "Meddelandet är för kort"
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
