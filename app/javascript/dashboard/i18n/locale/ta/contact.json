@@ -169,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "ரத்துசெய்",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "காண்க",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "வடிகட்டவும்",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",

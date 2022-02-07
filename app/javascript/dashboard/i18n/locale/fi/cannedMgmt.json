@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Lisää tallennettu vastaus",
     "LOADING": "Haetaan tallennettuja vastauksia",
     "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
-    "SIDEBAR_TXT": "<p><b>Tallennetut vastaukset</b> </p><p> Tallennetut vastaukset ovat malleja, jotka on helppo valita, muokata ja lähettää vastaus keskusteluun nopeasti. </p><p> Jotta voit luoda Tallennetun vastauksen, klikkaa <b>Lisää tallennettu vastaus</b>. Voit myös muokata tai poistaa olemassa olevia tallennettuja vastauksia klikkaamalla Muokkaa- tai Poista-painiketta. </p><p> Tallennettuja vastauksia käytetään <b>oikoteiden</b> avulla. Agentit voivat käyttää vastausten säilykkeitä chatissa kirjoittamalla <b>'/'</b> ja sen perään oikotien. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Tällä tilillä ei ole tallennettuja vastauksia.",
       "TITLE": "Hallitse tallennettuja vastauksia",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Lisää tallennettu vastaus",
-      "DESC": "Tallennetut vastaukset ovat ennalta valmisteltuja vastausmalleja, joita voidaan käyttää nopeasti lähettää vastaukset keskusteluihin.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Peruuta",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Oikotie",
-          "PLACEHOLDER": "Ole hyvä ja syötä oikotie",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Oikotie on vaadittu"
         },
         "CONTENT": {
