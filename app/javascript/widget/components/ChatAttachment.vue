@@ -23,6 +23,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -36,6 +37,7 @@ export default {
     return { isUploading: false };
   },
   computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },

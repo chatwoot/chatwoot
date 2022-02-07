@@ -163,6 +163,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
 
     showRichContentEditor() {
