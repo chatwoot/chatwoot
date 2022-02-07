@@ -341,6 +341,17 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('open')
       end
 
+      it 'self assign the conversation if status changes to open' do
+        conversation.update!(status: 'pending')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('open')
+        expect(conversation.reload.assignee_id).to eq(agent.id)
+      end
+
       it 'toggles the conversation status to specific status when parameter is passed' do
         expect(conversation.status).to eq('open')
 
