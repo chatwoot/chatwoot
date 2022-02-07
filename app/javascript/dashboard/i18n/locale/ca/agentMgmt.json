@@ -90,12 +90,12 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "No s'ha trobat agents."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Ningú",
       "TITLE": {
-        "AGENT": "Select agent",
+        "AGENT": "Seleccionar Agent",
         "TEAM": "Select team"
       },
       "SEARCH": {
