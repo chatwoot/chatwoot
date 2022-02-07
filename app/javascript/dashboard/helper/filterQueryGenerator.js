@@ -16,7 +16,12 @@ const generatePayload = data => {
       item.filter_operator === 'equal_to' ||
       item.filter_operator === 'not_equal_to'
     ) {
-      item.values = item.values.map(val => val.toLowerCase());
+      item.values = item.values.map(val => {
+        if (typeof val === 'string') {
+          return val.toLowerCase();
+        }
+        return val;
+      });
     }
     return item;
   });
