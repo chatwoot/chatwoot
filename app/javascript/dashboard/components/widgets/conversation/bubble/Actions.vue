@@ -1,33 +1,49 @@
 <template>
   <div class="message-text--metadata">
     <span class="time">{{ readableTime }}</span>
-    <i
+    <span v-if="showSentIndicator" class="time">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        icon="checkmark"
+        size="16"
+      />
+    </span>
+    <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
-      class="ion ion-android-mail"
+      icon="mail"
+      class="action--icon"
+      size="16"
     />
-    <i
+    <fluent-icon
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
-      class="icon ion-android-lock"
+      icon="lock-closed"
+      class="action--icon"
+      size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <i
-      v-if="isATweet && isIncoming"
-      v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
-      class="icon ion-reply cursor-pointer"
-      @click="onTweetReply"
-    />
+    <button @click="onTweetReply">
+      <fluent-icon
+        v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
+        v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
+        icon="arrow-reply"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </button>
     <a
-      v-if="isATweet && isIncoming"
+      v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"
       rel="noopener noreferrer nofollow"
     >
-      <i
+      <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
-        class="icon ion-android-open cursor-pointer"
+        icon="open"
+        class="action--icon cursor-pointer"
+        size="16"
       />
     </a>
   </div>
@@ -36,8 +52,10 @@
 <script>
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
+  mixins: [inboxMixin],
   props: {
     sender: {
       type: Object,
@@ -71,10 +89,20 @@ export default {
       type: [String, Number],
       default: '',
     },
+    inboxId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   computed: {
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
     isIncoming() {
       return MESSAGE_TYPE.INCOMING === this.messageType;
+    },
+    isOutgoing() {
+      return MESSAGE_TYPE.OUTGOING === this.messageType;
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
@@ -82,8 +110,15 @@ export default {
       return additionalAttributes?.screen_name || '';
     },
     linkToTweet() {
+      if (!this.sourceId || !this.inbox.name) {
+        return '';
+      }
       const { screenName, sourceId } = this;
-      return `https://twitter.com/${screenName}/status/${sourceId}`;
+      return `https://twitter.com/${screenName ||
+        this.inbox.name}/status/${sourceId}`;
+    },
+    showSentIndicator() {
+      return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
     },
   },
   methods: {
@@ -103,6 +138,10 @@ export default {
       color: var(--w-100);
     }
   }
+
+  .action--icon {
+    color: var(--white);
+  }
 }
 
 .left {
@@ -114,7 +153,7 @@ export default {
 }
 
 .message-text--metadata {
-  align-items: flex-end;
+  align-items: flex-start;
   display: flex;
 
   .time {
@@ -124,10 +163,9 @@ export default {
     line-height: 1.8;
   }
 
-  i {
-    line-height: 1.4;
-    padding-right: var(--space-small);
-    padding-left: var(--space-small);
+  .action--icon {
+    margin-right: var(--space-small);
+    margin-left: var(--space-small);
     color: var(--s-900);
   }
 
@@ -152,7 +190,8 @@ export default {
   }
 }
 
-.is-image {
+.is-image,
+.is-video {
   .message-text--metadata {
     .time {
       bottom: var(--space-smaller);
@@ -171,13 +210,22 @@ export default {
     .time {
       color: var(--s-400);
     }
+
+    .icon {
+      color: var(--s-400);
+    }
   }
 
-  &.is-image {
+  &.is-image,
+  &.is-video {
     .time {
       position: inherit;
       padding-left: var(--space-one);
     }
   }
+}
+
+.delivered-icon {
+  margin-left: -var(--space-normal);
 }
 </style>

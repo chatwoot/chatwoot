@@ -3,6 +3,7 @@
 # Table name: channel_twitter_profiles
 #
 #  id                          :bigint           not null, primary key
+#  tweets_enabled              :boolean          default(TRUE)
 #  twitter_access_token        :string           not null
 #  twitter_access_token_secret :string           not null
 #  created_at                  :datetime         not null
@@ -16,22 +17,18 @@
 #
 
 class Channel::TwitterProfile < ApplicationRecord
+  include Channelable
+
   self.table_name = 'channel_twitter_profiles'
 
-  validates :account_id, presence: true
   validates :profile_id, uniqueness: { scope: :account_id }
-  belongs_to :account
-
-  has_one :inbox, as: :channel, dependent: :destroy
 
   before_destroy :unsubscribe
 
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
+
   def name
     'Twitter'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def create_contact_inbox(profile_id, name, additional_attributes)

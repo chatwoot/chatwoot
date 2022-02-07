@@ -13,6 +13,9 @@
               :integration-action="integrationAction()"
             />
           </div>
+          <div v-if="integration.enabled" class="small-12 columns integration">
+            <IntegrationHelpText />
+          </div>
         </div>
       </div>
     </div>
@@ -22,13 +25,22 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Integration from './Integration';
+import IntegrationHelpText from './IntegrationHelpText';
 
 export default {
   components: {
     Integration,
+    IntegrationHelpText,
   },
   mixins: [globalConfigMixin],
-  props: ['integrationId', 'code'],
+
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+    code: { type: String, default: '' },
+  },
   data() {
     return {
       integrationLoaded: false,

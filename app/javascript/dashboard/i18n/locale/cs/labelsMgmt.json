@@ -1,6 +1,6 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
+    "HEADER": "Štítky",
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
     "SEARCH_404": "Neexistují žádné položky odpovídající tomuto dotazu",
@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Label Name",
         "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
@@ -41,21 +43,21 @@
       "DESC": "Labels let you group the conversations together.",
       "API": {
         "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
       }
     },
     "EDIT": {
       "TITLE": "Edit label",
       "API": {
         "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Vymazat",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
       },
       "CONFIRM": {
         "TITLE": "Potvrdit odstranění",

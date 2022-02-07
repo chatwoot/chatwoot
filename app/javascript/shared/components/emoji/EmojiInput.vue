@@ -133,6 +133,7 @@ $font-size-medium: 18px;
   ul {
     display: flex;
     list-style: none;
+    overflow: auto;
     margin: 0;
     padding: $space-smaller 0 0;
 

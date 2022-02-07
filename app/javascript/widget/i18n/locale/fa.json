@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "در حال حاضر دردسترس نیستیم"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
@@ -18,6 +18,7 @@
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
+  "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -27,7 +28,7 @@
   "BUBBLE": {
     "LABEL": "با ما گفتگو کنید"
   },
-  "POWERED_BY": "قدرت یافته از چت ووت",
+  "POWERED_BY": "قدرت گرفته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
@@ -37,19 +38,35 @@
       "FULL_NAME": {
         "LABEL": "نام کامل",
         "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
-        "ERROR": "Full Name is required"
+        "ERROR": "نام کامل مورد نیاز است"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ایمیل",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+        "ERROR": "آدرس ایمیل اشتباه است"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "پیام",
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+        "ERROR": "پیام بسیار کوتاه است"
       }
+    },
+    "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید"
+  },
+  "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "فیلد نامتعارف"
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "CSAT": {
+    "TITLE": "به مکالمه خود امتیاز دهید",
+    "SUBMITTED_TITLE": "با تشکر از شما برای ثبت رتبه",
+    "PLACEHOLDER": "توضیحات بیشتر بدهید..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "درخواست رونوشت مکالمه",
+    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  }
 }

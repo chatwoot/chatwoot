@@ -8,10 +8,11 @@
 }
 
 .card {
-  padding: var(--space-small);
+  margin-bottom: var(--space-small);
+  padding: var(--space-normal);
 }
 
-.button-wrapper .button.link.grey-btn {
+.button-wrapper .button.grey-btn {
   margin-left: var(--space-normal);
 }
 
@@ -20,7 +21,7 @@
   font-size: $font-size-mini;
   max-width: 15rem;
   padding: $space-smaller $space-small;
-  z-index: 9999;
+  z-index: 999;
 }
 
 code {
@@ -41,6 +42,28 @@ code {
   white-space: nowrap;
 }
 
+.text-capitalize {
+  text-transform: capitalize;
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+
+// remove when grid gutters are fixed
+.columns.with-right-space {
+  padding-right: var(--space-normal);
+}
+
+
+.badge {
+  border-radius: var(--border-radius-normal);
+}
+
+.padding-right-small {
+  padding-right: var(--space-one);
+}
+
+.margin-right-small {
+  margin-right: var(--space-small);
 }

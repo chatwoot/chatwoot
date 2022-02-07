@@ -25,6 +25,7 @@ module Events::Types
   TEAM_CHANGED = 'team.changed'
   CONVERSATION_TYPING_ON = 'conversation.typing_on'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
+  CONVERSATION_MENTIONED = 'conversation.mentioned'
 
   # message events
   MESSAGE_CREATED = 'message.created'
@@ -34,6 +35,8 @@ module Events::Types
   # contact events
   CONTACT_CREATED = 'contact.created'
   CONTACT_UPDATED = 'contact.updated'
+  CONTACT_MERGED = 'contact.merged'
+  CONTACT_DELETED = 'contact.deleted'
 
   # agent events
   AGENT_ADDED = 'agent.added'

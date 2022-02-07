@@ -27,6 +27,7 @@ class ContactIpLookupJob < ApplicationJob
     geocoder_result = Geocoder.search(ip).first
     return unless geocoder_result
 
+    contact.additional_attributes ||= {}
     contact.additional_attributes['city'] = geocoder_result.city
     contact.additional_attributes['country'] = geocoder_result.country
     contact.additional_attributes['country_code'] = geocoder_result.country_code
@@ -34,7 +35,7 @@ class ContactIpLookupJob < ApplicationJob
   end
 
   def get_contact_ip(contact)
-    contact.additional_attributes['updated_at_ip'] || contact.additional_attributes['created_at_ip']
+    contact.additional_attributes&.dig('updated_at_ip') || contact.additional_attributes&.dig('created_at_ip')
   end
 
   def ensure_look_up_db
@@ -45,8 +46,10 @@ class ContactIpLookupJob < ApplicationJob
 
   def setup_vendor_db
     base_url = 'https://download.maxmind.com/app/geoip_download'
-    source = URI.open("#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ENV['IP_LOOKUP_API_KEY']}")
-    tar_extract = Gem::Package::TarReader.new(Zlib::GzipReader.open(source))
+    source_file = Down.download(
+      "#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ENV['IP_LOOKUP_API_KEY']}"
+    )
+    tar_extract = Gem::Package::TarReader.new(Zlib::GzipReader.open(source_file))
     tar_extract.rewind
 
     tar_extract.each do |entry|

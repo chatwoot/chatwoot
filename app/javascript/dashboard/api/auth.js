@@ -29,6 +29,7 @@ export default {
           account_name: creds.accountName.trim(),
           user_full_name: creds.fullName.trim(),
           email: creds.email,
+          password: creds.password,
         })
         .then(response => {
           setAuthCredentials(response);
@@ -95,8 +96,18 @@ export default {
   },
 
   verifyPasswordToken({ confirmationToken }) {
-    return axios.post('auth/confirmation', {
-      confirmation_token: confirmationToken,
+    return new Promise((resolve, reject) => {
+      axios
+        .post('auth/confirmation', {
+          confirmation_token: confirmationToken,
+        })
+        .then(response => {
+          setAuthCredentials(response);
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
     });
   },
 
@@ -150,9 +161,13 @@ export default {
     });
   },
 
-  updateAvailability({ availability }) {
-    return axios.put(endPoints('profileUpdate').url, {
-      profile: { availability },
+  updateAvailability(availabilityData) {
+    return axios.post(endPoints('availabilityUpdate').url, {
+      profile: { ...availabilityData },
     });
+  },
+
+  deleteAvatar() {
+    return axios.delete(endPoints('deleteAvatar').url);
   },
 };

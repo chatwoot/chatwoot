@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "نام برچسب",
         "PLACEHOLDER": "نام برچسب",
-        "ERROR": "نام برچسب لازم است"
+        "REQUIRED_ERROR": "نام برچسب لازم است",
+        "MINIMUM_LENGTH_ERROR": "باید بیشتر از 2 کاراکتر باشد",
+        "VALID_ERROR": "فقط حروف ، اعداد ، خط تیره و زیر خط مجاز است"
       },
       "DESCRIPTION": {
         "LABEL": "توضیحات",

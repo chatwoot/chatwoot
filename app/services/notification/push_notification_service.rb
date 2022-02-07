@@ -9,6 +9,7 @@ class Notification::PushNotificationService
     notification_subscriptions.each do |subscription|
       send_browser_push(subscription)
       send_fcm_push(subscription)
+      send_push_via_chatwoot_hub(subscription)
     end
   end
 
@@ -42,7 +43,7 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push?(subscription)
-    ENV['VAPID_PUBLIC_KEY'] && subscription.browser_push?
+    VapidService.public_key && subscription.browser_push?
   end
 
   def send_browser_push(subscription)
@@ -55,8 +56,8 @@ class Notification::PushNotificationService
       auth: subscription.subscription_attributes['auth'],
       vapid: {
         subject: push_url,
-        public_key: ENV['VAPID_PUBLIC_KEY'],
-        private_key: ENV['VAPID_PRIVATE_KEY']
+        public_key: VapidService.public_key,
+        private_key: VapidService.private_key
       },
       ssl_timeout: 5,
       open_timeout: 5,
@@ -74,17 +75,31 @@ class Notification::PushNotificationService
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
     response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    remove_subscription_if_error(subscription, response)
+  end
+
+  def send_push_via_chatwoot_hub(subscription)
+    return if ENV['FCM_SERVER_KEY']
+    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
+    return unless subscription.fcm?
+
+    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
+  end
+
+  def remove_subscription_if_error(subscription, response)
     subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 
   def fcm_options
     {
-      "notification": {
-        "title": notification.notification_type.titleize,
-        "body": notification.push_message_title
+      notification: {
+        title: notification.notification_type.titleize,
+        body: notification.push_message_title,
+        sound: 'default'
       },
-      "data": { notification: notification.push_event_data.to_json },
-      "collapse_key": "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
+      android: { priority: 'high' },
+      data: { notification: notification.fcm_push_data.to_json },
+      collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
   end
 end

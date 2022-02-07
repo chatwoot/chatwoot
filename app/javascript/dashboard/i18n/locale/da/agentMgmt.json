@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Ingen agenter fundet."
+      "NO_RESULTS": "Ingen resultater fundet."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "None",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Ingen agenter fundet",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
 # logo: place the image in /public/dashboard/images/integrations and reference here
 # i18n_key: the key under which translations for the integration is placed in en.yml
 # action: if integration requires external redirect url
-# hook_type: ( account / inbox ) 
+# hook_type: ( account / inbox )
 # allow_multiple_hooks: whether multiple hooks can be created for the integration
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
@@ -43,11 +43,38 @@ dialogflow:
     {
       "label": "Dialogflow Project ID",
       "type": "text",
-      "name": "project_id"
+      "name": "project_id",
+      "validation": "required",
+      "validationName": 'Project Id',
     },
     {
       "label": "Dialogflow Project Key File",
       "type": "textarea",
       "name": "credentials",
+      "validation": "required|JSON",
+      "validationName": 'Credentials',
+      "validation-messages": {
+          "JSON": "Invalid JSON",
+          "required": "Credentials is required"
+      }
     }
   ]
+  visible_properties: ['project_id']
+fullcontact:
+  id: fullcontact
+  logo: fullcontact.png
+  i18n_key: fullcontact
+  action: /fullcontact
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties': { 'api_key': { 'type': 'string' } },
+      'required': ['api_key'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [{ 'label': 'API Key', 'type': 'text', 'name': 'api_key',"validation": "required", }]
+  visible_properties: ['api_key']
+

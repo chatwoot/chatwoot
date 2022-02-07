@@ -3,7 +3,7 @@
     <form
       v-if="!hasSubmitted"
       class="email-input-group"
-      @submit.prevent="onSubmit()"
+      @submit.prevent="onSubmit"
     >
       <input
         v-model.trim="email"
@@ -11,15 +11,15 @@
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
-        @keyup.enter="onSubmit"
+        @keydown.enter="onSubmit"
       />
       <button
-        class="button"
+        class="button small"
         :disabled="$v.email.$invalid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!uiFlags.isUpdating" class="ion-ios-arrow-forward" />
-        <spinner v-else />
+        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
+        <spinner v-else class="mx-2" />
       </button>
     </form>
   </div>
@@ -27,11 +27,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
 import { required, email } from 'vuelidate/lib/validators';
+
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
+    FluentIcon,
     Spinner,
   },
   props: {
@@ -47,11 +50,11 @@ export default {
   data() {
     return {
       email: '',
+      isUpdating: false,
     };
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'message/getUIFlags',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     hasSubmitted() {
@@ -68,15 +71,21 @@ export default {
     },
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if (this.$v.$invalid) {
         return;
       }
-
-      this.$store.dispatch('message/update', {
-        email: this.email,
-        messageId: this.messageId,
-      });
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('message/update', {
+          email: this.email,
+          messageId: this.messageId,
+        });
+      } catch (error) {
+        // Ignore error
+      } finally {
+        this.isUpdating = false;
+      }
     },
   },
 };
@@ -94,7 +103,7 @@ export default {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     padding: $space-one;
-    width: auto;
+    width: 100%;
 
     &.error {
       border-color: $color-error;

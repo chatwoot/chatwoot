@@ -3,14 +3,14 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
     </woot-button>
 
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -42,16 +42,28 @@
                 {{ webHookItem.url }}
               </td>
               <td class="button-wrapper">
-                <div @click="openDeletePopup(webHookItem, index)">
-                  <woot-button
-                    :is-loading="loading[webHookItem.id]"
-                    icon="ion-close-circled"
-                    variant="link"
-                    color-scheme="secondary"
-                  >
-                    {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
-                  </woot-button>
-                </div>
+                <woot-button
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')
+                  "
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="secondary"
+                  icon="edit"
+                  @click="openEditPopup(webHookItem)"
+                >
+                </woot-button>
+                <woot-button
+                  v-tooltip.top="
+                    $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+                  "
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  @click="openDeletePopup(webHookItem, index)"
+                >
+                </woot-button>
               </td>
             </tr>
           </tbody>
@@ -74,6 +86,15 @@
       <new-webhook :on-close="hideAddPopup" />
     </woot-modal>
 
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-webhook
+        v-if="showEditPopup"
+        :id="selectedWebHook.id"
+        :url="selectedWebHook.url"
+        :on-close="hideEditPopup"
+      />
+    </woot-modal>
+
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
@@ -87,19 +108,22 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import NewWebhook from './New';
+import NewWebhook from './NewWebHook';
+import EditWebhook from './EditWebHook';
 import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NewWebhook,
+    EditWebhook,
   },
   mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       loading: {},
       showAddPopup: false,
+      showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedWebHook: {},
     };
@@ -128,6 +152,13 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
+    openEditPopup(webhook) {
+      this.showEditPopup = true;
+      this.selectedWebHook = webhook;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
     confirmDeletion() {
       this.loading[this.selectedWebHook.id] = true;
       this.closeDeletePopup();
@@ -151,5 +182,8 @@ export default {
 <style scoped lang="scss">
 .webhook-link {
   word-break: break-word;
+}
+.button-wrapper button:nth-child(2) {
+  margin-left: var(--space-normal);
 }
 </style>

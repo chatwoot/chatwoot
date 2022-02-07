@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nazwa skrzynki odbiorczej",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Logując się, uzyskujemy dostęp tylko do wiadomości Twojej strony. Chatwoot nigdy nie może uzyskać dostępu do prywatnych wiadomości.",
         "CHOOSE_PAGE": "Wybierz stronę",
@@ -39,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Aby dodać swój profil na Twitterze jako kanał, musisz uwierzytelnić swój profil Twitter klikając na 'Zaloguj się przez Twittera' ",
-        "ERROR_MESSAGE": "Wystąpił błąd podczas łączenia z Twitterem, spróbuj ponownie"
+        "ERROR_MESSAGE": "Wystąpił błąd podczas łączenia z Twitterem, spróbuj ponownie",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kanał strony internetowej",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Awatar kanału"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "Nazwa witryny",
-          "PLACEHOLDER": "Wprowadź nazwę swojej strony (np. Acme Inc)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL webhooka",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Wprowadź poprawny adres URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domena strony internetowej",
@@ -88,8 +100,8 @@
         "SUBMIT_BUTTON": "Utwórz skrzynkę odbiorczą"
       },
       "TWILIO": {
-        "TITLE": "Kanał Twilio SMS/WhatsApp",
-        "DESC": "Zintegruj Twilio i zacznij wspierać swoich klientów poprzez SMS lub WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Karta SID konta",
           "PLACEHOLDER": "Wprowadź SID konta Twilio",
@@ -105,8 +117,8 @@
           "ERROR": "To pole jest wymagane"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nazwa kanału",
-          "PLACEHOLDER": "Wprowadź nazwę kanału",
+          "LABEL": "Nazwa skrzynki odbiorczej",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "To pole jest wymagane"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "Utwórz kanał Twilio",
         "API": {
           "ERROR_MESSAGE": "Nie byliśmy w stanie uwierzytelnić danych logowania Twilio, spróbuj ponownie"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nazwa skrzynki odbiorczej",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "To pole jest wymagane"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numer telefonu",
+          "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
+          "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
@@ -160,9 +206,51 @@
         },
         "FINISH_MESSAGE": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nazwa kanału",
+          "PLACEHOLDER": "Wprowadź nazwę kanału",
+          "ERROR": "To pole jest wymagane"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
-        "TITLE": "Kanały",
-        "DESC": "Obecnie obsługujemy widżety czatu na żywo, strony na Facebooku i profile Twittera jako platformy. Mamy więcej platform takich jak Whatsapp, E-mail, Telegram i Line w pracach, które wkrótce się zakończą."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenci",
@@ -208,19 +296,34 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Tak, usuń ",
         "NO": "Nie, zachowaj "
       },
       "API": {
         "SUCCESS_MESSAGE": "Skrzynka odbiorcza została usunięta",
-        "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później."
+        "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -243,12 +346,22 @@
       "INBOX_AGENTS": "Agenci",
       "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
       "UPDATE": "Aktualizuj",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Włącz automatyczne przypisanie",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
       "HMAC_VERIFICATION": "Weryfikacja tożsamości użytkownika",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ponowna autoryzacja",
@@ -280,7 +393,7 @@
       "TIMEZONE_LABEL": "Wybierz strefę czasową",
       "UPDATE": "Zaktualizuj ustawienia godzin pracy",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Wiadomość niedostępna dla odwiedzających",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "W tej chwili jesteśmy niedostępni. Pozostaw wiadomość, a odpowiemy, gdy będzie to możliwe.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -289,6 +402,65 @@
         "HOURS": "godzin",
         "VALIDATION_ERROR": "Czas rozpoczęcia powinien być przed czasem zakończenia.",
         "CHOOSE": "Wybierz"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Hasło",
+        "PLACE_HOLDER": "Hasło"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Hasło",
+        "PLACE_HOLDER": "Hasło"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

@@ -23,7 +23,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def transcript
     if permitted_params[:email].present? && conversation.present?
-      ConversationReplyMailer.conversation_transcript(
+      ConversationReplyMailer.with(account: conversation.account).conversation_transcript(
         conversation,
         permitted_params[:email]
       )&.deliver_later

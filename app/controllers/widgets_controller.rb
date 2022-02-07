@@ -1,3 +1,4 @@
+# TODO : Delete this and associated spec once 'api/widget/config' end point is merged
 class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
@@ -28,21 +29,21 @@ class WidgetsController < ActionController::Base
   def set_contact
     return if @auth_token_params[:source_id].nil?
 
-    contact_inbox = ::ContactInbox.find_by(
+    @contact_inbox = ::ContactInbox.find_by(
       inbox_id: @web_widget.inbox.id,
       source_id: @auth_token_params[:source_id]
     )
 
-    @contact = contact_inbox ? contact_inbox.contact : nil
+    @contact = @contact_inbox ? @contact_inbox.contact : nil
   end
 
   def build_contact
     return if @contact.present?
 
-    contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
-    @contact = contact_inbox.contact
+    @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
+    @contact = @contact_inbox.contact
 
-    payload = { source_id: contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
+    payload = { source_id: @contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
     @token = ::Widget::TokenService.new(payload: payload).generate_token
   end
 

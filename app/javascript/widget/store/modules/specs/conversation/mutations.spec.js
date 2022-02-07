@@ -175,4 +175,12 @@ describe('#mutations', () => {
       expect(state.conversations).toEqual({});
     });
   });
+
+  describe('#deleteMessage', () => {
+    it('delete the message from conversation', () => {
+      const state = { conversations: { 1: { id: 1 } } };
+      mutations.deleteMessage(state, 1);
+      expect(state.conversations).toEqual({});
+    });
+  });
 });

@@ -1,8 +1,4 @@
 export default {
-  APP_BASE_URL: '/',
-  get apiURL() {
-    return `${this.APP_BASE_URL}/`;
-  },
   GRAVATAR_URL: 'https://www.gravatar.com/avatar/',
   ASSIGNEE_TYPE: {
     ME: 'me',
@@ -12,6 +8,9 @@ export default {
   STATUS_TYPE: {
     OPEN: 'open',
     RESOLVED: 'resolved',
-    BOT: 'bot',
+    PENDING: 'pending',
+    SNOOZED: 'snoozed',
+    ALL: 'all',
   },
 };
+export const DEFAULT_REDIRECT_URL = '/app/';

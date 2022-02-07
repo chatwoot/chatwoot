@@ -1,0 +1,19 @@
+tags:
+  - Messages API
+operationId: update-a-message
+summary: Update a message
+description: Update a message
+security: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/public_message_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/public_message'
+  401:
+    description: Unauthorized

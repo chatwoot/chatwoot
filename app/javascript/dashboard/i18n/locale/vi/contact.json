@@ -3,46 +3,49 @@
     "NOT_AVAILABLE": "Không có sẵn",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
     "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Trình duyệt",
     "OS": "Hệ điều hành",
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "Địa chỉ IP",
+    "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
       "TITLE": "Cuộc trò chuyện trước đó"
     },
     "LABELS": {
-      "TITLE": "Nhãn hội thoại",
-      "MODAL": {
-        "TITLE": "Nhãn cho",
-        "ACTIVE_LABELS": "Đã thêm nhãn vào cuộc trò chuyện",
-        "INACTIVE_LABELS": "Các nhãn có sẵn trong tài khoản",
-        "REMOVE": "Click vào X icon xóa nhãn",
-        "ADD": "Click vào + icon thêm nhãn",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Cập nhật nhãn",
-        "UPDATE_ERROR": "Không thể cập nhật nhãn, hãy thử lại."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Không có thêm nhãn nào được xác định trong tài khoản.",
-      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này.",
+      "CONVERSATION": {
+        "TITLE": "Nhãn hội thoại",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
         "NO_RESULT": "No labels found"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
-    "EDIT_LABEL": "Chỉnh sửa"
+    "EDIT_LABEL": "Chỉnh sửa",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Chỉnh sửa liên hệ",
@@ -53,6 +56,35 @@
     "BUTTON_LABEL": "New Contact",
     "TITLE": "Create new contact",
     "DESC": "Add basic information details about the contact."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Huỷ"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Xác nhận xoá",
+      "MESSAGE": "Bạn có muốn xoá? ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Có, xoá ",
+      "NO": "Không, giữ "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -71,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
-        "LABEL": "Email"
+        "LABEL": "Email",
+        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
         "LABEL": "Số điện thoại",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Nhập vị trí của liên hệ",
@@ -107,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "NEW_CONVERSATION": {
@@ -123,8 +156,13 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Tin nhắn",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -136,11 +174,14 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Tên",
         "PHONE_NUMBER": "Số điện thoại",
@@ -155,22 +196,58 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "các cuộc hội thoại"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Thuộc tính tùy chỉnh",
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -186,7 +263,66 @@
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "PRIMARY": {
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Huỷ",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

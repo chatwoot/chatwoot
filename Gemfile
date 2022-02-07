@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '3.0.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -33,19 +33,22 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# Rack middleware for blocking & throttling abusive requests
+gem 'rack-attack'
+# a utility tool for streaming, flexible and safe downloading of remote files
+gem 'down', '~> 5.0'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
-gem 'mini_magick'
+gem 'image_processing'
 
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
-gem 'redis-rack-cache'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
@@ -59,6 +62,7 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
+gem 'devise-secure_password', '~> 2.0', git: 'https://github.com/chatwoot/devise-secure_password'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -72,8 +76,8 @@ gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
 # TODO: bump up gem to 2.0
-gem 'facebook-messenger', '1.5.0'
-gem 'telegram-bot-ruby'
+gem 'facebook-messenger'
+gem 'line-bot-api'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
@@ -88,11 +92,17 @@ gem 'google-cloud-dialogflow'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+
+##-- apm and error monitoring ---#
+gem 'ddtrace'
+gem 'newrelic_rpm'
 gem 'scout_apm'
-gem 'sentry-raven'
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem 'sentry-sidekiq'
 
 ##-- background job processing --##
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.4.0'
 # We want cron jobs
 gem 'sidekiq-cron'
 
@@ -111,6 +121,15 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
+# parse email
+gem 'email_reply_trimmer'
+gem 'html2text'
+
+group :production, :staging do
+  # we dont want request timing out in development while using byebug
+  gem 'rack-timeout'
+end
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -118,7 +137,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: '131b11294fd6af9c428171f38516e6222a58c874'
+  gem 'json_refs'
 
   # When we want to squash migrations
   gem 'squasher'
@@ -129,28 +148,33 @@ group :test do
   gem 'cypress-on-rails', '~> 1.0'
   # fast cleaning of database
   gem 'database_cleaner'
+  # mock http calls
+  gem 'webmock'
 end
 
 group :development, :test do
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
-  gem 'action-cable-testing'
+  # TODO: is this needed ?
+  # errors thrown by devise password gem
+  gem 'flay'
+  gem 'rspec'
+  # for error thrown by devise password gem
+  gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
+  gem 'climate_control'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
-  gem 'mock_redis', git: 'https://github.com/sds/mock_redis', ref: '16d00789f0341a3aac35126c0ffe97a596753ff9'
+  gem 'mock_redis'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 4.0.0.beta2'
+  gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'scss_lint', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
-  gem 'webmock'
 end

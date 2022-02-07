@@ -8,8 +8,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def create
     @message = conversation.messages.new(message_params)
-    @message.save
     build_attachment
+    @message.save!
   end
 
   def update
@@ -20,7 +20,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       @message.update!(message_update_params[:message])
     end
   rescue StandardError => e
-    render json: { error: @contact.errors, message: e.message }.to_json, status: 500
+    render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
   end
 
   private
@@ -29,13 +29,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return if params[:message][:attachments].blank?
 
     params[:message][:attachments].each do |uploaded_attachment|
-      attachment = @message.attachments.new(
+      @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type)
+        file: uploaded_attachment
       )
-      attachment.file.attach(uploaded_attachment)
     end
-    @message.save!
   end
 
   def set_conversation
@@ -54,10 +52,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [{ submitted_values: [:name, :title, :value] }])
+    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
   end
 
   def permitted_params
+    # timestamp parameter is used in create conversation method
     params.permit(:id, :before, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
   end
 

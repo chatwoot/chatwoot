@@ -1,10 +1,11 @@
 import { createConsumer } from '@rails/actioncable';
 
-const PRESENCE_INTERVAL = 60000;
+const PRESENCE_INTERVAL = 20000;
 
 class BaseActionCableConnector {
-  constructor(app, pubsubToken) {
-    this.consumer = createConsumer();
+  constructor(app, pubsubToken, websocketHost = '') {
+    const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
+    this.consumer = createConsumer(websocketURL);
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',

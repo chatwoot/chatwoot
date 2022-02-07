@@ -2,7 +2,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_SELECT_ITEM_KEYS = [:title, :value].freeze
   ALLOWED_CARD_ITEM_KEYS = [:title, :description, :media_url, :actions].freeze
   ALLOWED_CARD_ITEM_ACTION_KEYS = [:text, :type, :payload, :uri].freeze
-  ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default].freeze
+  ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
   ALLOWED_ARTICLE_KEYS = [:title, :description, :link].freeze
 
   def validate(record)
@@ -31,7 +31,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_item_attributes!(record, valid_keys)
-    item_keys = record.items.collect(&:keys).flatten.map(&:to_sym).compact
+    item_keys = record.items.collect(&:keys).flatten.filter_map(&:to_sym)
     invalid_keys = item_keys - valid_keys
     record.errors.add(:content_attributes, "contains invalid keys for items : #{invalid_keys}") if invalid_keys.present?
   end

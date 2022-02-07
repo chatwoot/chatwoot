@@ -8,7 +8,7 @@
       rel="noopener noreferrer nofollow"
       class="contact--social-icon"
     >
-      <i :class="`ion-social-${profile.icon}`" />
+      <fluent-icon :icon="`brand-${profile.key}`" size="16" />
     </a>
   </div>
 </template>
@@ -42,15 +42,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.contact--social-icon {
-  font-size: $font-size-medium;
-  padding-right: $space-slab;
-  color: $color-body;
+.social--icons {
+  margin: var(--space-small) 0 var(--space-smaller);
 }
 
-.social--icons {
-  margin-top: $space-small;
+.contact--social-icon {
+  padding-right: var(--space-slab);
+  color: var(--color-body);
 }
 </style>

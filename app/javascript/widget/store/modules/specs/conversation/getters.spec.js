@@ -434,4 +434,15 @@ describe('#getters', () => {
       ]);
     });
   });
+
+  it('getMessageCount', () => {
+    const state = {
+      conversations: {
+        1: {
+          content: 'hey, how are you?',
+        },
+      },
+    };
+    expect(getters.getMessageCount(state)).toEqual(1);
+  });
 });

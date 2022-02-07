@@ -4,6 +4,7 @@ RSpec.describe MailPresenter do
 
   describe 'parsed mail decorator' do
     let(:mail) { create_inbound_email_from_fixture('welcome.eml').mail }
+    let(:html_mail) { create_inbound_email_from_fixture('welcome_html.eml').mail }
     let(:decorated_mail) { described_class.new(mail) }
 
     let(:mail_with_no_subject) { create_inbound_email_from_fixture('mail_with_no_subject.eml').mail }
@@ -32,12 +33,37 @@ RSpec.describe MailPresenter do
     it 'give the serialized data of the email to be stored in the message' do
       data = decorated_mail.serialized_data
       expect(data.keys).to eq([
-                                :text_content, :html_content, :number_of_attachments, :subject, :date, :to,
-                                :from, :in_reply_to, :cc, :bcc, :message_id
+                                :bcc,
+                                :cc,
+                                :content_type,
+                                :date,
+                                :from,
+                                :html_content,
+                                :in_reply_to,
+                                :message_id,
+                                :multipart,
+                                :number_of_attachments,
+                                :subject,
+                                :text_content,
+                                :to
                               ])
-      expect(data[:subject]).to eq(decorated_mail.subject)
+      expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
+      expect(data[:multipart]).to eq(true)
+      expect(data[:subject]).to eq(decorated_mail.subject)
+    end
+
+    it 'give email from in downcased format' do
+      expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to eq true
+    end
+
+    it 'parse html content in the mail' do
+      decorated_html_mail = described_class.new(html_mail)
+      expect(decorated_html_mail.subject).to eq('Fwd: How good are you in English? How did you improve your English?')
+      expect(decorated_html_mail.text_content[:reply][0..70]).to eq(
+        "I'm learning English as a first language for the past 13 years, but to "
+      )
     end
   end
 end

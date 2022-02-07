@@ -3,7 +3,7 @@
     <div class="login-init full-height text-center">
       <form @submit.prevent="requestAuthorization">
         <woot-submit-button
-          icon-class="ion-social-twitter"
+          icon="brand-twitter"
           button-text="Sign in with Twitter"
           type="submit"
           :loading="isRequestingAuthorization"

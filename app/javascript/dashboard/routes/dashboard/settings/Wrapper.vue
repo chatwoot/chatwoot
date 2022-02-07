@@ -9,9 +9,10 @@
       :back-url="backUrl"
       :show-new-button="showNewButton"
     />
-    <keep-alive>
+    <keep-alive v-if="keepAlive">
       <router-view></router-view>
     </keep-alive>
+    <router-view v-else></router-view>
   </div>
 </template>
 
@@ -24,9 +25,13 @@ export default {
     SettingsHeader,
   },
   props: {
-    headerTitle: String,
-    headerButtonText: String,
-    icon: String,
+    headerTitle: { type: String, default: '' },
+    headerButtonText: { type: String, default: '' },
+    icon: { type: String, default: '' },
+    keepAlive: {
+      type: Boolean,
+      default: true,
+    },
     newButtonRoutes: {
       type: Array,
       default: () => [],

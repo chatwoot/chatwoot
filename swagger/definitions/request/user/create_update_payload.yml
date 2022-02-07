@@ -1,0 +1,15 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Name of the user
+  email:
+    type: string
+    description: Email of the user
+  password:
+    type: string
+    description: Password must contain uppercase, lowercase letters, number and a special character
+  custom_attributes:
+    type: object
+    description: Custom attributes you want to associate with the user
+

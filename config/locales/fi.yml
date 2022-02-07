@@ -27,10 +27,18 @@ fi:
       invalid_email: Olet syöttänyt virheellisen sähköpostin
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Raportointijakso %{since} – %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -47,7 +55,8 @@ fi:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
         open: "%{user_name} uudelleenavasi keskustelun"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Keskustelu merkittiin ratkaistuksi automaattisesti, sillä on kulunut %{duration} päivää viimeisestä viestistä"
       assignee:
         self_assigned: "%{user_name} ilmottautui keskusteluun"
@@ -66,9 +75,19 @@ fi:
       greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
+      csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"
+    survey:
+      response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -78,4 +97,7 @@ fi:
       description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

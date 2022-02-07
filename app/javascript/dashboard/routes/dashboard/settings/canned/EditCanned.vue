@@ -49,7 +49,6 @@
 </template>
 
 <script>
-/* global bus */
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
 
@@ -62,10 +61,10 @@ export default {
     Modal,
   },
   props: {
-    id: Number,
-    edcontent: String,
-    edshortCode: String,
-    onClose: Function,
+    id: { type: Number, default: null },
+    edcontent: { type: String, default: '' },
+    edshortCode: { type: String, default: '' },
+    onClose: { type: Function, default: () => {} },
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 module OnlineStatusTracker
-  PRESENCE_DURATION = 60.seconds
+  PRESENCE_DURATION = 20.seconds
 
   # presence : sorted set with timestamp as the score & object id as value
 

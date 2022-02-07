@@ -1,0 +1,15 @@
+tags:
+  - Contacts API
+operationId: get-details-of-a-contact
+summary: Get a contact
+description: Get the details of a contact
+security: []
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/public_contact'
+  401:
+    description: Unauthorized
+  404:
+    description: The given contact does not exist

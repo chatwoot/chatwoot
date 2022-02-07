@@ -18,6 +18,7 @@
     "IN_A_DAY": "Általánban egy napon belül válaszol"
   },
   "START_CONVERSATION": "Beszélgetés megkezdése",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
@@ -49,7 +50,23 @@
         "PLACEHOLDER": "Írd be az üzeneted",
         "ERROR": "Az üzenet túl rövid"
       }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+  },
+  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
     }
   },
-  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet"
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
+    "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra"
+  }
 }

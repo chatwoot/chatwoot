@@ -1,10 +1,20 @@
 <template>
   <div class="reply-box" :class="replyBoxClass">
+    <banner
+      v-if="showSelfAssignBanner"
+      color-scheme="secondary"
+      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+      :has-action-button="true"
+      :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+      @click="onClickSelfAssign"
+    />
     <reply-top-panel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :popout-reply-box="popoutReplyBox"
+      @click="$emit('click')"
     />
     <div class="reply-box__top">
       <canned-response
@@ -17,6 +27,11 @@
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
+      />
+      <reply-email-head
+        v-if="showReplyHead"
+        :cc-emails.sync="ccEmails"
+        :bcc-emails.sync="bccEmails"
       />
       <resizable-text-area
         v-if="!showRichContentEditor"
@@ -42,9 +57,10 @@
         @focus="onFocus"
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
+        @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box">
+    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <attachment-preview
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
@@ -53,7 +69,7 @@
     <reply-bottom-panel
       :mode="replyType"
       :send-button-text="replyButtonLabel"
-      :on-file-upload="onFileUpload"
+      :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -64,6 +80,7 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
+      :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
@@ -79,20 +96,25 @@ import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
+import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import {
   isEscape,
   isEnter,
   hasPressedShift,
+  hasPressedCommandPlusKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
 
 export default {
   components: {
@@ -101,14 +123,24 @@ export default {
     ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
+    ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
+    Banner,
   },
   mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
-    inReplyTo: {
-      type: [String, Number],
-      default: '',
+    selectedTweet: {
+      type: [Object, String],
+      default: () => ({}),
+    },
+    isATweet: {
+      type: Boolean,
+      default: false,
+    },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -123,9 +155,16 @@ export default {
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
+      bccEmails: '',
+      ccEmails: '',
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+    }),
+
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -140,12 +179,41 @@ export default {
       }
       return false;
     },
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    showSelfAssignBanner() {
+      if (this.message !== '' && !this.isOnPrivateNote) {
+        if (!this.assignedAgent) {
+          return true;
+        }
+        if (this.assignedAgent.id !== this.currentUser.id) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isATwilioWhatsappChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsappChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -168,11 +236,14 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
+      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
+        return true;
+      }
 
       if (this.hasAttachments) return false;
+
       return (
-        isMessageEmpty ||
+        this.isMessageEmpty ||
         this.message.length === 0 ||
         this.message.length > this.maxLength
       );
@@ -189,7 +260,7 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isATwilioWhatsappChannel) {
+      if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isATwilioSMSChannel) {
@@ -197,7 +268,7 @@ export default {
       }
       if (this.isATwitterInbox) {
         if (this.conversationType === 'tweet') {
-          return MESSAGE_MAX_LENGTH.TWEET;
+          return MESSAGE_MAX_LENGTH.TWEET - this.replyToUserLength - 2;
         }
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
@@ -206,8 +277,11 @@ export default {
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
-        this.isATwilioWhatsappChannel ||
-        this.isAPIInbox
+        this.isAWhatsappChannel ||
+        this.isAPIInbox ||
+        this.isAnEmailChannel ||
+        this.isATwilioSMSChannel ||
+        this.isATelegramChannel
       );
     },
     replyButtonLabel() {
@@ -234,6 +308,31 @@ export default {
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
+    inReplyTo() {
+      const selectedTweet = this.selectedTweet || {};
+      return selectedTweet.id;
+    },
+    replyToUserLength() {
+      const selectedTweet = this.selectedTweet || {};
+      const {
+        sender: {
+          additional_attributes: { screen_name: screenName = '' } = {},
+        } = {},
+      } = selectedTweet;
+      return screenName ? screenName.length : 0;
+    },
+    isMessageEmpty() {
+      if (!this.message) {
+        return true;
+      }
+      return !this.message.trim().replace(/\n/g, '').length;
+    },
+    showReplyHead() {
+      return !this.isOnPrivateNote && this.isAnEmailChannel;
+    },
+    enableMultipleFileUpload() {
+      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -242,14 +341,15 @@ export default {
         return;
       }
 
-      if (canReply || this.isATwilioWhatsappChannel) {
+      if (canReply || this.isAWhatsappChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand = updatedMessage[0] === '/';
+      this.hasSlashCommand =
+        updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
@@ -261,15 +361,32 @@ export default {
       }
     },
   },
+
   mounted() {
+    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
+    document.addEventListener('paste', this.onPaste);
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
+    document.removeEventListener('paste', this.onPaste);
   },
   methods: {
+    onPaste(e) {
+      const data = e.clipboardData.files;
+      if (!data.length || !data[0]) {
+        return;
+      }
+      const file = data[0];
+      const { name, type, size } = file;
+      this.onFileUpload({ name, type, size, file });
+    },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
+    },
+    toggleCannedMenu(value) {
+      this.showCannedMenu = value;
     },
     handleKeyEvents(e) {
       if (isEscape(e)) {
@@ -279,7 +396,8 @@ export default {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
             this.enterToSendEnabled &&
-            !this.hasUserMention) ||
+            !this.hasUserMention &&
+            !this.showCannedMenu) ||
           !this.showRichContentEditor;
         const shouldSendMessage =
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
@@ -287,10 +405,39 @@ export default {
           e.preventDefault();
           this.sendMessage();
         }
+      } else if (hasPressedCommandPlusKKey(e)) {
+        this.openCommandBar();
       }
+    },
+    openCommandBar() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open();
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    onClickSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+      this.assignedAgent = selfAssign;
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
@@ -301,12 +448,19 @@ export default {
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
-          await this.$store.dispatch('sendMessage', messagePayload);
-          this.$emit('scrollToMessage');
+          await this.$store.dispatch(
+            'createPendingMessageAndSend',
+            messagePayload
+          );
+          this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
-          // Error
+          const errorMessage =
+            error?.response?.data?.error ||
+            this.$t('CONVERSATION.MESSAGE_ERROR');
+          this.showAlert(errorMessage);
         }
         this.hideEmojiPicker();
+        this.$emit('update:popoutReplyBox', false);
       }
     },
     replaceText(message) {
@@ -317,7 +471,7 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
+      if (canReply || this.isAWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         return;
       }
@@ -329,6 +483,8 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.ccEmails = '';
+      this.bccEmails = '';
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -354,12 +510,44 @@ export default {
       this.isFocused = true;
     },
     toggleTyping(status) {
-      if (this.isAWebWidgetInbox && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
-        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
-          status,
-          conversationId,
+      const conversationId = this.currentChat.id;
+      const isPrivate = this.isPrivate;
+      this.$store.dispatch('conversationTypingStatus/toggleTyping', {
+        status,
+        conversationId,
+        isPrivate,
+      });
+    },
+    onDirectFileUpload(file) {
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(
+          file.file,
+          '/rails/active_storage/direct_uploads',
+          null,
+          file.file.name
+        );
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(error);
+          } else {
+            this.attachedFiles.push({
+              currentChatId: this.currentChat.id,
+              resource: blob,
+              isPrivate: this.isPrivate,
+              thumb: null,
+              blobSignedId: blob.signed_id,
+            });
+          }
         });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
       }
     },
     onFileUpload(file) {
@@ -392,7 +580,6 @@ export default {
       );
     },
     getMessagePayload(message) {
-      const [attachment] = this.attachedFiles;
       const messagePayload = {
         conversationId: this.currentChat.id,
         message,
@@ -403,14 +590,29 @@ export default {
         messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
       }
 
-      if (attachment) {
-        messagePayload.file = attachment.resource.file;
+      if (this.attachedFiles && this.attachedFiles.length) {
+        messagePayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          messagePayload.files.push(attachment.blobSignedId);
+        });
+      }
+
+      if (this.ccEmails) {
+        messagePayload.ccEmails = this.ccEmails;
+      }
+
+      if (this.bccEmails) {
+        messagePayload.bccEmails = this.bccEmails;
       }
 
       return messagePayload;
     },
     setFormatMode(value) {
       this.updateUISettings({ display_rich_content_editor: value });
+    },
+    setCcEmails(value) {
+      this.bccEmails = value.bccEmails;
+      this.ccEmails = value.ccEmails;
     },
   },
 };

@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Aucun agent trouvé."
+      "NO_RESULTS": "Aucun résultat trouvé."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Aucun",
+      "TITLE": {
+        "AGENT": "Sélectionner un agent",
+        "TEAM": "Sélectionner une équipe"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Aucun agent trouvé",
+          "TEAM": "Aucune équipe trouvée"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Chercher des agents",
+          "TEAM": "Chercher des équipes"
+        }
+      }
     }
   }
 }

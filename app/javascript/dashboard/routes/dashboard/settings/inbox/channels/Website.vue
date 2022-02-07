@@ -1,5 +1,5 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body height-auto small-9 columns">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
@@ -15,13 +15,11 @@
     >
       <div class="medium-12 columns">
         <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL') }}
           <input
             v-model.trim="inboxName"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER')"
           />
         </label>
       </div>
@@ -101,23 +99,20 @@
           }}
         </p>
       </label>
-      <div v-if="greetingEnabled" class="medium-12 columns">
-        <label>
-          {{
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-          }}
-          <input
-            v-model.trim="greetingMessage"
-            type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-              )
-            "
-          />
-        </label>
-      </div>
-
+      <greetings-editor
+        v-if="greetingEnabled"
+        v-model.trim="greetingMessage"
+        class="medium-12 columns"
+        :label="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+        "
+        :placeholder="
+          $t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+          )
+        "
+        :richtext="!textAreaChannels"
+      />
       <div class="modal-footer">
         <div class="medium-12 columns">
           <woot-submit-button
@@ -135,10 +130,12 @@
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
+import GreetingsEditor from 'shared/components/GreetingsEditor';
 
 export default {
   components: {
     PageHeader,
+    GreetingsEditor,
   },
   data() {
     return {
@@ -155,6 +152,15 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    textAreaChannels() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return true;
+      return false;
+    },
   },
   methods: {
     async createChannel() {

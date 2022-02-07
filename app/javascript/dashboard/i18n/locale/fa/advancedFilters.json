@@ -1,0 +1,37 @@
+{
+  "FILTER": {
+    "TITLE": "فیلتر گفتگو‌ها",
+    "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای فیلتر کردن مکالمات روی «اعمال فیلترها» ضربه بزنید.",
+    "ADD_NEW_FILTER": "افزودن فیلتر",
+    "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
+    "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
+    "CANCEL_BUTTON_LABEL": "انصراف",
+    "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
+    "EMPTY_VALUE_ERROR": "مقدار الزامی است",
+    "TOOLTIP_LABEL": "فیلتر گفتگو‌ها",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "یا"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "مساوی با",
+      "not_equal_to": "مساوی نیست با",
+      "contains": "شامل",
+      "does_not_contain": "شامل نمی‌شود",
+      "is_present": "در حال حاضر وجود دارد",
+      "is_not_present": "در حال حاضر وجود ندارد"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "وضعیت",
+      "ASSIGNEE_NAME": "نام مسئول",
+      "INBOX_NAME": "عنوان صندوق ورودی",
+      "TEAM_NAME": "نام تیم",
+      "CONVERSATION_IDENTIFIER": "شناسه گفتگو",
+      "CAMPAIGN_NAME": "نام کمپین",
+      "LABELS": "برچسب‌ها",
+      "BROWSER_LANGUAGE": "مرور زبان",
+      "COUNTRY_NAME": "نام کشور",
+      "REFERER_LINK": "پیوند ارجاع‌دهنده"
+    }
+  }
+}

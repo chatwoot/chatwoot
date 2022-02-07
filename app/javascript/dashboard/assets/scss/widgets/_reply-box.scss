@@ -52,25 +52,4 @@
     }
   }
 
-  .file-uploads>label {
-    cursor: pointer;
-
-    &:hover .button--emoji {
-      background: var(--b-200);
-    }
-  }
-
-  .bottom-box .button--emoji.button--upload {
-    padding: 0;
-
-    .file-uploads {
-      height: 100%;
-      line-height: var(--space-large);
-      width: 100%;
-    }
-
-    label {
-      padding: var(--space-small);
-    }
-  }
 }

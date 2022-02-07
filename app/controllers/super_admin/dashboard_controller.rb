@@ -3,10 +3,9 @@ class SuperAdmin::DashboardController < SuperAdmin::ApplicationController
 
   def index
     @data = Conversation.unscoped.group_by_day(:created_at, range: 30.days.ago..2.seconds.ago).count.to_a
-    @accounts_count = number_with_delimiter(Account.all.length)
-    @users_count = number_with_delimiter(User.all.length)
-    @inboxes_count = number_with_delimiter(Inbox.all.length)
-    @conversations_count = number_with_delimiter(Conversation.all.length)
-    @messages_count = number_with_delimiter(Message.all.length)
+    @accounts_count = number_with_delimiter(Account.count)
+    @users_count = number_with_delimiter(User.count)
+    @inboxes_count = number_with_delimiter(Inbox.count)
+    @conversations_count = number_with_delimiter(Conversation.count)
   end
 end

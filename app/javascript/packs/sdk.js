@@ -27,6 +27,10 @@ export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);
 
 const runSDK = ({ baseUrl, websiteToken }) => {
+  if (window.$chatwoot) {
+    return;
+  }
+
   const chatwootSettings = window.chatwootSettings || {};
   window.$chatwoot = {
     baseUrl,
@@ -40,8 +44,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
 
-    toggle() {
-      IFrameHelper.events.toggleBubble();
+    toggle(state) {
+      IFrameHelper.events.toggleBubble(state);
     },
 
     setUser(identifier, user) {

@@ -27,16 +27,14 @@
           :class="wrapClass"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-            />
             <image-bubble
-              v-else
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :thumb="attachment.thumb_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
+            <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
         <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
@@ -65,6 +63,7 @@ import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
+import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
   name: 'AgentMessage',
@@ -75,12 +74,17 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin],
+  mixins: [timeMixin, configMixin, messageMixin],
   props: {
     message: {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      hasImageError: false,
+    };
   },
   computed: {
     shouldDisplayAgentMessage() {
@@ -94,14 +98,9 @@ export default {
       if (!this.message.content) return false;
       return true;
     },
-    hasAttachments() {
-      return !!(
-        this.message.attachments && this.message.attachments.length > 0
-      );
-    },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt);
+      return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;
@@ -110,10 +109,6 @@ export default {
     contentType() {
       const { content_type: type = '' } = this.message;
       return type;
-    },
-    messageContentAttributes() {
-      const { content_attributes: attribute = {} } = this.message;
-      return attribute;
     },
     agentName() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
@@ -143,7 +138,7 @@ export default {
       return (
         this.messageContentAttributes.submitted_email ||
         (this.messageContentAttributes.submitted_values &&
-          this.contentType !== 'form')
+          !['form', 'input_csat'].includes(this.contentType))
       );
     },
     responseMessage() {
@@ -178,80 +173,18 @@ export default {
       };
     },
   },
+  watch: {
+    message() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
+  methods: {
+    onImageLoadError() {
+      this.hasImageError = true;
+    },
+  },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.conversation-wrap {
-  .agent-message {
-    align-items: flex-end;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin: 0 0 $space-micro $space-small;
-    max-width: 88%;
-
-    .avatar-wrap {
-      height: $space-medium;
-      width: $space-medium;
-      flex-shrink: 0;
-
-      .user-thumbnail-box {
-        margin-top: -$space-large;
-      }
-    }
-
-    .message-wrap {
-      flex-grow: 1;
-      flex-shrink: 0;
-      margin-left: $space-small;
-      max-width: 90%;
-    }
-  }
-
-  .agent-name {
-    color: $color-body;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin: $space-small 0;
-    padding-left: $space-micro;
-  }
-
-  .has-attachment {
-    padding: 0;
-    overflow: hidden;
-
-    &.has-text {
-      margin-top: $space-smaller;
-    }
-  }
-
-  .agent-message-wrap {
-    + .agent-message-wrap {
-      margin-top: $space-micro;
-
-      .agent-message .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    + .user-message-wrap {
-      margin-top: $space-normal;
-    }
-
-    &.has-response + .user-message-wrap {
-      margin-top: $space-micro;
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-
-    &.has-response + .agent-message-wrap {
-      margin-top: $space-normal;
-    }
-  }
-}
-</style>

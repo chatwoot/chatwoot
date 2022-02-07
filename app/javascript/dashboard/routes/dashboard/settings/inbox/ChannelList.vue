@@ -1,8 +1,13 @@
 <template>
-  <div class="wizard-body small-9 columns">
+  <div class="wizard-body small-12 medium-9 columns height-auto">
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.AUTH.DESC')"
+      :header-content="
+        useInstallationName(
+          $t('INBOX_MGMT.ADD.AUTH.DESC'),
+          globalConfig.installationName
+        )
+      "
     />
     <div class="row channels">
       <channel-item
@@ -21,24 +26,16 @@ import ChannelItem from 'dashboard/components/widgets/ChannelItem';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     ChannelItem,
     PageHeader,
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
-      channelList: [
-        { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Facebook' },
-        { key: 'twitter', name: 'Twitter' },
-        { key: 'twilio', name: 'Twilio' },
-        { key: 'email', name: 'Email' },
-        { key: 'api', name: 'API' },
-        { key: 'telegram', name: 'Telegram' },
-        { key: 'line', name: 'Line' },
-      ],
       enabledFeatures: {},
     };
   },
@@ -46,8 +43,27 @@ export default {
     account() {
       return this.$store.getters['accounts/getAccount'](this.accountId);
     },
+    channelList() {
+      const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
+      return [
+        { key: 'website', name: 'Website' },
+        { key: 'facebook', name: 'Messenger' },
+        { key: 'twitter', name: 'Twitter' },
+        { key: 'whatsapp', name: 'WhatsApp' },
+        { key: 'sms', name: 'SMS' },
+        { key: 'email', name: 'Email' },
+        {
+          key: 'api',
+          name: apiChannelName || 'API',
+          thumbnail: apiChannelThumbnail,
+        },
+        { key: 'telegram', name: 'Telegram' },
+        { key: 'line', name: 'Line' },
+      ];
+    },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
   },
   mounted() {
@@ -68,3 +84,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.height-auto {
+  height: auto;
+}
+</style>

@@ -1,12 +1,14 @@
 class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
-  def account
-    builder = V2::ReportBuilder.new(Current.account, account_report_params)
+  before_action :check_authorization
+
+  def index
+    builder = V2::ReportBuilder.new(Current.account, report_params)
     data = builder.build
     render json: data
   end
 
-  def account_summary
-    render json: account_summary_metrics
+  def summary
+    render json: summary_metrics
   end
 
   def agents
@@ -21,27 +23,45 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render layout: false, template: 'api/v2/accounts/reports/inboxes.csv.erb', format: 'csv'
   end
 
+  def labels
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=labels_report.csv'
+    render layout: false, template: 'api/v2/accounts/reports/labels.csv.erb', format: 'csv'
+  end
+
+  def teams
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=teams_report.csv'
+    render layout: false, template: 'api/v2/accounts/reports/teams.csv.erb', format: 'csv'
+  end
+
   private
 
-  def account_summary_params
+  def check_authorization
+    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+  end
+
+  def summary_params
     {
-      type: :account,
+      type: params[:type].to_sym,
       since: params[:since],
-      until: params[:until]
+      until: params[:until],
+      id: params[:id]
     }
   end
 
-  def account_report_params
+  def report_params
     {
       metric: params[:metric],
-      type: :account,
+      type: params[:type].to_sym,
       since: params[:since],
-      until: params[:until]
+      until: params[:until],
+      id: params[:id]
     }
   end
 
-  def account_summary_metrics
-    builder = V2::ReportBuilder.new(Current.account, account_summary_params)
+  def summary_metrics
+    builder = V2::ReportBuilder.new(Current.account, summary_params)
     builder.summary
   end
 end

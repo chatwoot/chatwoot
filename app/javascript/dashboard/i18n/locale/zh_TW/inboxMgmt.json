@@ -17,29 +17,40 @@
         "body": "驗證您的帳戶並建立建立收件匣。"
       },
       {
-        "title": "建立客服",
+        "title": "新增客服",
         "route": "settings_inboxes_add_agents",
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "Voila!",
+        "title": "瞧！",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "收件匣名稱",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "網站名稱",
+        "PLACEHOLDER": "輸入您的網站名稱 (e.g: Acme Inc)"
+      },
       "FB": {
         "HELP": "注意: 通過登入，我們只能訪問您的頁面的消息。您的私人消息永遠不能被聊天室訪問。",
         "CHOOSE_PAGE": "選擇頁面",
         "CHOOSE_PLACEHOLDER": "從列表中選擇一個頁面",
         "INBOX_NAME": "收件匣名稱",
-        "ADD_NAME": "為收件匣建立名稱",
+        "ADD_NAME": "為收件匣新增名稱",
         "PICK_NAME": "選擇收件匣名稱",
         "PICK_A_VALUE": "選擇一個數值"
       },
       "TWITTER": {
         "HELP": "若要將您的 Twitter 個人資料建立為頻道，您需要通過點擊“使用 Twitter 登入”來驗證您的 Twitter 個人資料。 ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "網站頻道",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "頻道頭像"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "網站名稱",
-          "PLACEHOLDER": "輸入您的網站名稱 (e.g: Acme Inc)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 網址",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "請輸入一個有效的 URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站域名",
@@ -79,7 +91,7 @@
           "IN_A_FEW_MINUTES": "幾分鐘內",
           "IN_A_FEW_HOURS": "幾小時內",
           "IN_A_DAY": "一天內",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "HELP_TEXT": "此回覆時間將會顯示在 live chat 小工具"
         },
         "WIDGET_COLOR": {
           "LABEL": "視窗小元件顏色",
@@ -88,8 +100,8 @@
         "SUBMIT_BUTTON": "建立收件匣"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp 頻道",
-        "DESC": "整合 Twilio 並開始通過短信或Whatsap支持您的客户。",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "帳戶 SID",
           "PLACEHOLDER": "請輸入您的 Twilio 帳戶 SID",
@@ -105,8 +117,8 @@
           "ERROR": "此欄位是必填項目"
         },
         "CHANNEL_NAME": {
-          "LABEL": "頻道類型",
-          "PLACEHOLDER": "請輸入頻道名稱",
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "建立 Twilio 頻道",
         "API": {
           "ERROR_MESSAGE": "我們無法驗證 Twilio 憑證，請重試"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "此欄位是必填項目"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "電話號碼",
+          "PLACEHOLDER": "請輸入發送消息的電話號碼。",
+          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
@@ -160,15 +206,57 @@
         },
         "FINISH_MESSAGE": "開始將您的電子信箱轉發到以下電子信箱地址。"
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "頻道類型",
+          "PLACEHOLDER": "請輸入頻道名稱",
+          "ERROR": "此欄位是必填項目"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "建立 LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回呼地址",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "建立 Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
-        "TITLE": "頻道",
-        "DESC": "目前我們支持網站線上聊天小元件、Facebook 頁面和 Twitter 配置文件作為平台。 我們在工作中擁有更多平台，如 Whatsapp、Email、Telegram 和 Line，這些平台將很快支援。"
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服",
-        "DESC": "在這裡您可以建立客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "DESC": "在這裡您可以新增客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
+        "VALIDATION_ERROR": "新增至少一位客服到新的收件匣",
+        "PICK_AGENTS": "為收件匣挑選一些客服"
       },
       "DETAILS": {
         "TITLE": "收件匣詳細資訊",
@@ -208,19 +296,34 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
+      "AVATAR_DELETE_BUTTON_TEXT": "刪除頭貼",
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除吗？ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       },
       "API": {
         "SUCCESS_MESSAGE": "收件匣刪除成功",
-        "ERROR_MESSAGE": "無法刪除收件匣。請稍後再試。"
+        "ERROR_MESSAGE": "無法刪除收件匣。請稍後再試。",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -229,7 +332,7 @@
       "CONFIGURATION": "組態",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "營業時間"
+      "BUSINESS_HOURS": "服務時間"
     },
     "SETTINGS": "設定",
     "FEATURES": {
@@ -240,15 +343,25 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "將此按鈕放置在視窗標籤中",
-      "INBOX_AGENTS": "客服代理們",
-      "INBOX_AGENTS_SUB_TEXT": "建立或刪除此收件匣中的客服",
+      "INBOX_AGENTS": "客服",
+      "INBOX_AGENTS_SUB_TEXT": "新增或刪除此收件匣中的客服",
       "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "啟用自動分配",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "使用者身份驗證",
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "開始將您的電子信箱轉發到以下電子信箱地址。"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授權",
@@ -261,8 +374,8 @@
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "是",
+          "DISABLED": "否"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -274,21 +387,80 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
+      "TITLE": "設定你的服務時間",
+      "SUBTITLE": "為你的 livechat 小工具設定服務時間",
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "選擇時區",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "UPDATE": "更新服務時間設定",
+      "TOGGLE_AVAILABILITY": "啟用收件匣可用服務時間",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "我們現在無法回覆您的訊息。請留言，我們會盡快聯絡您。",
+      "TOGGLE_HELP": "啟用服務時間將會在 live chat 小工具上顯示你的服務時間，就算所有客服都不在線上。若不在服務時間內，訪客將會被提醒及傳送 pre-chat 表單",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "無法使用",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "HOURS": "小時",
+        "VALIDATION_ERROR": "開始時間必須在關閉時間之前",
+        "CHOOSE": "選擇"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "密碼",
+        "PLACE_HOLDER": "密碼"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "密碼",
+        "PLACE_HOLDER": "密碼"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

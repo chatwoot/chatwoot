@@ -12,7 +12,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :administrator) }
 
       it 'returns all active apps' do
         first_app = Integrations::App.all.find(&:active?)
@@ -27,18 +27,16 @@ RSpec.describe 'Integration Apps API', type: :request do
       end
 
       it 'returns slack app with appropriate redirect url when configured' do
-        ENV['SLACK_CLIENT_ID'] = 'client_id'
-        ENV['SLACK_CLIENT_SECRET'] = 'client_secret'
-        get api_v1_account_integrations_apps_url(account),
-            headers: agent.create_new_auth_token,
-            as: :json
+        with_modified_env SLACK_CLIENT_ID: 'client_id', SLACK_CLIENT_SECRET: 'client_secret' do
+          get api_v1_account_integrations_apps_url(account),
+              headers: agent.create_new_auth_token,
+              as: :json
 
-        expect(response).to have_http_status(:success)
-        apps = JSON.parse(response.body)['payload']
-        slack_app = apps.find { |app| app['id'] == 'slack' }
-        expect(slack_app['action']).to include('client_id=client_id')
-        ENV['SLACK_CLIENT_ID'] = nil
-        ENV['SLACK_CLIENT_SECRET'] = nil
+          expect(response).to have_http_status(:success)
+          apps = JSON.parse(response.body)['payload']
+          slack_app = apps.find { |app| app['id'] == 'slack' }
+          expect(slack_app['action']).to include('client_id=client_id')
+        end
       end
     end
   end
@@ -52,7 +50,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :administrator) }
 
       it 'returns details of the app' do
         get api_v1_account_integrations_app_url(account_id: account.id, id: 'slack'),

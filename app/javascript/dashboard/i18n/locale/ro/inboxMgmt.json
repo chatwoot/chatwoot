@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nume Inbox",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nume website",
+        "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot.",
         "CHOOSE_PAGE": "Alege pagina",
@@ -39,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Pentru a vă adăuga profilul de Twitter ca si canal, trebuie să vă autentificați profilul de Twitter făcând clic pe \"Conectați-vă cu Twitter\" ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal web",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "avatar pentru canal"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "Nume website",
-          "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Te rog introdu un URL valid"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domeniu website",
@@ -88,8 +100,8 @@
         "SUBMIT_BUTTON": "Crează inbox"
       },
       "TWILIO": {
-        "TITLE": "Canal Twilio SMS/Whatsapp",
-        "DESC": "Integrează Twilio și începe să asiguri suportul prin SMS.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Cont SID",
           "PLACEHOLDER": "Te rugăm să introduci ID-ul contului Twilio",
@@ -105,8 +117,8 @@
           "ERROR": "Acest câmp este obligatoriu"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nume canal",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "LABEL": "Nume Inbox",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Acest câmp este obligatoriu"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "Crează canal Twilio",
         "API": {
           "ERROR_MESSAGE": "Nu am putut autentifica credentialele Twilio, încercați din nou"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nume Inbox",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Număr de telefon",
+          "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
+          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
@@ -160,9 +206,51 @@
         },
         "FINISH_MESSAGE": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nume canal",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
-        "TITLE": "Canale",
-        "DESC": "În prezent suportăm widget-uri live chat pe site, pagini Facebook și profiluri Twitter ca platforme. Avem mai multe platforme precum Whatsapp, Email, Telegram şi Line în lucrări, care vor fi în curând."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Agenți",
@@ -208,26 +296,41 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Confirmă ștergerea",
         "MESSAGE": "Sigur doriți să ștergeți ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Da, șterge ",
         "NO": "Nu, păstreaza"
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox șters cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut șterge inbox-ul. Vă rugăm să încercați din nou mai târziu."
+        "ERROR_MESSAGE": "Nu s-a putut șterge inbox-ul. Vă rugăm să încercați din nou mai târziu.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
       "SETTINGS": "Setări",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours"
     },
@@ -243,12 +346,22 @@
       "INBOX_AGENTS": "Agenți",
       "INBOX_AGENTS_SUB_TEXT": "Adaugă sau elimină agenți din acest inbox",
       "UPDATE": "Actualizare",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Activare atribuire automată",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizează",
@@ -280,7 +393,7 @@
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -289,6 +402,65 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Parola",
+        "PLACE_HOLDER": "Parola"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Parola",
+        "PLACE_HOLDER": "Parola"
+      },
+      "DOMAIN": {
+        "LABEL": "Domeniu",
+        "PLACE_HOLDER": "Domeniu"
       }
     }
   }

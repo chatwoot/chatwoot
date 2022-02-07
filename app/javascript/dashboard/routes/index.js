@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import VueRouter from 'vue-router';
 
 import auth from '../api/auth';
@@ -7,20 +6,24 @@ import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
 
-const loggedInUser = auth.getCurrentUser() || {};
 const routes = [
   ...login.routes,
   ...dashboard.routes,
   ...authRoute.routes,
   {
     path: '/',
-    redirect: frontendURL(`accounts/${loggedInUser.account_id}/dashboard`),
+    redirect: '/app',
   },
 ];
 
 window.roleWiseRoutes = {
   agent: [],
   administrator: [],
+};
+
+const getUserRole = ({ accounts } = {}, accountId) => {
+  const currentAccount = accounts.find(account => account.id === accountId);
+  return currentAccount ? currentAccount.role : null;
 };
 
 // generateRoleWiseRoute - updates window object with agent/admin route
@@ -41,10 +44,7 @@ const generateRoleWiseRoute = route => {
 // returns an object with roles as keys and routeArr as values
 generateRoleWiseRoute(routes);
 
-export const router = new VueRouter({
-  mode: 'history',
-  routes, // short for routes: routes
-});
+export const router = new VueRouter({ mode: 'history', routes });
 
 const unProtectedRoutes = ['login', 'auth_signup', 'auth_reset_password'];
 
@@ -62,7 +62,10 @@ const routeValidators = [
   {
     protected: false,
     loggedIn: true,
-    handler: () => 'dashboard',
+    handler: () => {
+      const user = auth.getCurrentUser();
+      return `accounts/${user.account_id}/dashboard`;
+    },
   },
   {
     protected: true,
@@ -74,8 +77,9 @@ const routeValidators = [
     loggedIn: true,
     handler: to => {
       const user = auth.getCurrentUser();
-      const isAccessible = routeIsAccessibleFor(to, user.role);
-      return isAccessible ? null : 'dashboard';
+      const userRole = getUserRole(user, Number(to.params.accountId));
+      const isAccessible = routeIsAccessibleFor(to.name, userRole);
+      return isAccessible ? null : `accounts/${to.params.accountId}/dashboard`;
     },
   },
   {
@@ -93,7 +97,7 @@ export const validateAuthenticateRoutePermission = (to, from, next) => {
       validator.protected === isProtectedRoute &&
       validator.loggedIn === isLoggedIn
   );
-  const nextRoute = strategy.handler(to.name);
+  const nextRoute = strategy.handler(to);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
@@ -117,7 +121,10 @@ const validateRouteAccess = (to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (!to.name) {
     const user = auth.getCurrentUser();
-    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+    if (user) {
+      return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+    }
+    return next('/app/login');
   }
 
   return validateRouteAccess(to, from, next);

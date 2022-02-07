@@ -1,10 +1,5 @@
 <template>
   <div class="contact-conversation--panel">
-    <contact-details-item
-      :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
-      icon="ion-chatboxes"
-      emoji="💬"
-    />
     <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
       <div v-if="!previousConversations.length" class="no-label-message">
         <span>
@@ -16,7 +11,7 @@
           v-for="conversation in previousConversations"
           :key="conversation.id"
           :chat="conversation"
-          :hide-inbox-name="true"
+          :hide-inbox-name="false"
           :hide-thumbnail="true"
           class="compact"
         />
@@ -27,15 +22,13 @@
 </template>
 
 <script>
-import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
+import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard';
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
-import ContactDetailsItem from './ContactDetailsItem.vue';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
     ConversationCard,
-    ContactDetailsItem,
     Spinner,
   },
   props: {
@@ -77,22 +70,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-.contact-conversation--panel {
-  padding: 0 var(--space-slab) var(--space-two);
-}
-
-.contact-conversation__wrap {
-  margin-left: var(--space-medium);
-}
-
 .no-label-message {
+  margin-bottom: var(--space-normal);
   color: var(--b-500);
-}
-
-.conv-details--item {
-  padding-bottom: 0;
 }
 </style>

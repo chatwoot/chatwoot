@@ -1,0 +1,12 @@
+<% headers = ['Label Title', 'Conversations count', 'Avg first response time (Minutes)', 'Avg resolution time (Minutes)'] %>
+<%= CSV.generate_line headers %>
+<% Current.account.labels.each do |label| %>
+  <% label_report = V2::ReportBuilder.new(Current.account, {
+        type: :label,
+        id: label.id,
+        since: params[:since],
+        until: params[:until]
+      }).summary %>
+  <% row = [ label.title, label_report[:conversations_count], (label_report[:avg_first_response_time]/60).to_i, (label_report[:avg_resolution_time]/60).to_i ] %>
+<%=   CSV.generate_line row %>
+<% end %>

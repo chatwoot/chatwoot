@@ -1,4 +1,4 @@
-import { addClass, toggleClass, wootOn } from './DOMHelpers';
+import { addClass, removeClass, toggleClass, wootOn } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { BUBBLE_DESIGN } from './constants';
 
@@ -9,8 +9,8 @@ export const body = document.getElementsByTagName('body')[0];
 export const widgetHolder = document.createElement('div');
 
 export const bubbleHolder = document.createElement('div');
-export const chatBubble = document.createElement('div');
-export const closeBubble = document.createElement('div');
+export const chatBubble = document.createElement('button');
+export const closeBubble = document.createElement('button');
 export const notificationBubble = document.createElement('span');
 
 export const getBubbleView = type =>
@@ -64,9 +64,23 @@ export const onBubbleClick = (props = {}) => {
     toggleClass(closeBubble, 'woot--hide');
     toggleClass(widgetHolder, 'woot--hide');
     IFrameHelper.events.onBubbleToggle(newIsOpen);
+
+    if (!newIsOpen) {
+      chatBubble.focus();
+    }
   }
 };
 
 export const onClickChatBubble = () => {
   wootOn(bubbleHolder, 'click', onBubbleClick);
+};
+
+export const addUnreadClass = () => {
+  const holderEl = document.querySelector('.woot-widget-holder');
+  addClass(holderEl, 'has-unread-view');
+};
+
+export const removeUnreadClass = () => {
+  const holderEl = document.querySelector('.woot-widget-holder');
+  removeClass(holderEl, 'has-unread-view');
 };

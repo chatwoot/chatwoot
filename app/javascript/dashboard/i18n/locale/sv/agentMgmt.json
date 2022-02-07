@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Inga agenter hittades."
+      "NO_RESULTS": "Inga resultat hittades."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Inget",
+      "TITLE": {
+        "AGENT": "Välj agent",
+        "TEAM": "Välj team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Inga agenter hittades",
+          "TEAM": "Inga team hittades"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Sök efter agenter",
+          "TEAM": "Sök efter team"
+        }
+      }
     }
   }
 }

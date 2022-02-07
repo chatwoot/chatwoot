@@ -19,8 +19,8 @@
       "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
+      "LABEL": "หรัสผ่าน",
+      "PLACEHOLDER": "หรัสผ่าน",
       "ERROR": "หรัสผ่านนั้นสั้นเกินไป"
     },
     "CONFIRM_PASSWORD": {

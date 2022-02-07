@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "Tem certeza que deseja excluir - %{teamName}",
+        "PLACE_HOLDER": "Digite {teamName} para confirmar",
         "MESSAGE": "A exclusão do departamento irá remover a atribuição da equipe das conversas atribuídas a esse departamento.",
         "YES": "Excluir ",
         "NO": "Cancelar"

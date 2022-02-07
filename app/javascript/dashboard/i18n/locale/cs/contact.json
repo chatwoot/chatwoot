@@ -7,6 +7,7 @@
     "COMPANY": "Společnost",
     "LOCATION": "Poloha",
     "CONVERSATION_TITLE": "Podrobnosti konverzace",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "Prohlížeč",
     "OS": "Operační systém",
     "INITIATED_FROM": "Zahájeno od",
@@ -18,31 +19,33 @@
       "TITLE": "Předchozí konverzace"
     },
     "LABELS": {
-      "TITLE": "Štítky konverzace",
-      "MODAL": {
-        "TITLE": "Štítky pro",
-        "ACTIVE_LABELS": "Štítky přidány do konverzace",
-        "INACTIVE_LABELS": "Štítky dostupné v účtu",
-        "REMOVE": "Kliknutím na ikonu X odstraníte štítek",
-        "ADD": "Kliknutím na ikonu + přidáte štítek",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Aktualizovat štítky",
-        "UPDATE_ERROR": "Nelze aktualizovat štítky, zkuste to znovu."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "V účtu nejsou definovány žádné další štítky.",
-      "NO_AVAILABLE_LABELS": "Do této konverzace nebyly přidány žádné štítky.",
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
         "NO_RESULT": "No labels found"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Ztlumit konverzaci",
     "UNMUTE_CONTACT": "Zrušit ztlumení konverzace",
     "MUTED_SUCCESS": "Tato konverzace je ztlumena na 6 hodin",
     "UNMUTED_SUCCESS": "Tato konverzace je odtlumena",
     "SEND_TRANSCRIPT": "Poslat přepis",
-    "EDIT_LABEL": "Upravit"
+    "EDIT_LABEL": "Upravit",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Vlastní atributy",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Předchozí konverzace"
+    }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Upravit kontakt",
@@ -53,6 +56,35 @@
     "BUTTON_LABEL": "Nový kontakt",
     "TITLE": "Vytvořit nový kontakt",
     "DESC": "Přidat základní informace o kontaktu."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Import",
+    "TITLE": "Import Contacts",
+    "DESC": "Import contacts through a CSV file.",
+    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "Import",
+      "CANCEL": "Zrušit"
+    },
+    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Delete Contact",
+    "TITLE": "Delete contact",
+    "DESC": "Delete contact details",
+    "CONFIRM": {
+      "TITLE": "Potvrdit odstranění",
+      "MESSAGE": "Opravdu chcete odstranit ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "Ano, odstranit ",
+      "NO": "Ne, zachovat "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -71,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Zadejte e-mailovou adresu kontaktu",
-        "LABEL": "E-mailová adresa"
+        "LABEL": "E-mailová adresa",
+        "DUPLICATE": "Tuto e-mailovou adresu již používá jiný kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
         "LABEL": "Telefonní číslo",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Zadejte lokaci kontaktu",
@@ -107,12 +141,11 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
-    "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "TITLE": "Nová konverzace",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
@@ -122,6 +155,11 @@
       "INBOX": {
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
+      },
+      "SUBJECT": {
+        "LABEL": "Předmět",
+        "PLACEHOLDER": "Předmět",
+        "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -136,11 +174,14 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Hledat",
     "SEARCH_INPUT_PLACEHOLDER": "Hledat kontakty",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Načítání kontaktů...",
       "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
+      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Název",
         "PHONE_NUMBER": "Telefonní číslo",
@@ -155,22 +196,58 @@
       "VIEW_DETAILS": "Zobrazit detaily"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontakty",
+    "LOADING": "Loading contact profile..."
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "konverzace"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "TITLE": "Vlastní atributy",
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Úspěšně zkopírováno do schránky",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -186,7 +263,66 @@
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "PRIMARY": {
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Zrušit",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "שליפת אינטגרציות",
+    "NO_HOOK_CONFIGURED": "אין %{integrationId} אינטגרציות מוגדרות בחשבון זה.",
+    "HEADER": "יישומים",
+    "STATUS": {
+      "ENABLED": "מופעל",
+      "DISABLED": "כבוי"
+    },
+    "CONFIGURE": "הגדר",
+    "ADD_BUTTON": "הוסף קרס חדש",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "אשר מחיקה",
+        "ACCOUNT": "התנתק"
+      },
+      "MESSAGE": {
+        "INBOX": "האם אתה בטוח שברצונך למחוק?",
+        "ACCOUNT": "אתה בטוח שאתה מתנתק?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "כן, מחק",
+        "ACCOUNT": "כן, התנתק"
+      },
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "API": {
+        "SUCCESS_MESSAGE": "ה-Hook נמחק בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+      }
+    },
+    "LIST": {
+      "FETCHING": "הוצאת קרס אינטגרציה",
+      "INBOX": "תיבת הדואר הנכנס",
+      "DELETE": {
+        "BUTTON_TEXT": "מחק"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "בחר תיבת דואר",
+          "PLACEHOLDER": "בחר תיבת דואר"
+        },
+        "SUBMIT": "צור",
+        "CANCEL": "ביטול"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "קרס אינטגרציה נוסף בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "התחבר"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "התנתק"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow היא פלטפורמה להבנת שפה טבעית שמקלה לעצב ולשלב ממשק משתמש לשיחה באפליקציה לנייד, באפליקציית האינטרנט, במכשיר, בבוט, במערכת התגובה הקולית האינטראקטיבית שלך וכן הלאה. <br /> <br /> שילוב Dialogflow עם %{installationName} מאפשר לך להגדיר בוט Dialogflow עם תיבות הדואר הנכנס שלך, המאפשר לבוט לטפל בשאילתות בהתחלה ולמסור אותן לסוכן בעת הצורך. ניתן להשתמש ב-Dialogflow כדי להכשיר את הלידים, להפחית את עומס העבודה של סוכנים על ידי מתן שאלות נפוצות וכו'. <br /> <br /> כדי להוסיף את Dialogflow, עליך ליצור חשבון שירות במסוף הפרויקט של גוגל ולשתף את האישורים. אנא עיין במסמכי Dialogflow למידע נוסף."
+    }
+  }
+}

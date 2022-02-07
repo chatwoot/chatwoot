@@ -13,7 +13,7 @@ FactoryBot.define do
         account: conversation.account,
         channel: create(:channel_widget, account: conversation.account)
       )
-      conversation.contact ||= create(:contact, account: conversation.account)
+      conversation.contact ||= create(:contact, :with_email, account: conversation.account)
       conversation.contact_inbox ||= create(:contact_inbox, contact: conversation.contact, inbox: conversation.inbox)
     end
   end

@@ -5,18 +5,20 @@
 @import 'shared/assets/stylesheets/font-weights';
 @import 'shared/assets/stylesheets/shadows';
 @import 'shared/assets/stylesheets/border-radius';
+@import 'shared/assets/stylesheets/z-index';
 
 @import 'variables';
 
 @import 'mixins';
 @import 'foundation-settings';
 @import 'helper-classes';
+@import 'formulate';
+@import 'date-picker';
 
 @import 'foundation-sites/scss/foundation';
 @import '~bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);
-
 
 @import 'typography';
 @import 'layout';
@@ -46,5 +48,5 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 @import '~shared/assets/stylesheets/ionicons';
+@import 'utility-helpers';

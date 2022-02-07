@@ -1,0 +1,14 @@
+tags:
+  - Account AgentBots
+operationId: get-details-of-a-single-account-agent-bot
+summary: Get an agent bot details
+description: Get the details of an agent bot in the account
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/agent_bot'
+  401:
+    description: Unauthorized
+  404:
+    description: The given agent bot ID does not exist in the account

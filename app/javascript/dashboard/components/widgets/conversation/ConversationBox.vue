@@ -49,13 +49,11 @@ export default {
     },
     isContactPanelOpen: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
@@ -66,8 +64,20 @@ export default {
         this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
       }
     },
+    'currentChat.id'() {
+      this.fetchLabels();
+    },
+  },
+  mounted() {
+    this.fetchLabels();
   },
   methods: {
+    fetchLabels() {
+      if (!this.currentChat.id) {
+        return;
+      }
+      this.$store.dispatch('conversationLabels/get', this.currentChat.id);
+    },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
     },

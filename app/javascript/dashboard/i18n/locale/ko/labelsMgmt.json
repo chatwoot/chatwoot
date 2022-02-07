@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "라벨 이름",
         "PLACEHOLDER": "라벨 이름",
-        "ERROR": "라벨 이름이 필요함"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "내용",

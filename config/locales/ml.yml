@@ -27,10 +27,18 @@ ml:
       invalid_email: നിങ്ങൾ ഒരു അസാധുവായ ഇമെയിൽ നൽകി
       email_already_exists: "നിങ്ങൾ ഇതിനകം ഈ %{email} ഉപയോഗിച്ചു ഒരു അക്കൗണ്ടിനായി സൈൻ അപ്പ് ചെയ്തു"
       failed: സൈനപ്പ് പരാജയപ്പെട്ടു
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -47,7 +55,8 @@ ml:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
@@ -66,9 +75,19 @@ ml:
       greeting_message_body: "%{account_name} സാധാരണ കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു."
       ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
+      csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "ഈ സംഭാഷണത്തിലെ പുതിയ സന്ദേശങ്ങൾ"
       transcript_subject: "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ്"
+    survey:
+      response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -78,4 +97,7 @@ ml:
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

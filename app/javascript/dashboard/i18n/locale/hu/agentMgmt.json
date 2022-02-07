@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nem találunk ügynököt."
+      "NO_RESULTS": "Nincs találat."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nincs",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nem találunk ügynököt",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
+        }
+      }
     }
   }
 }

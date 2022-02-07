@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Όνομα Κιβωτίου",
+        "PLACEHOLDER": "Συμπληρώστε την ονομασία του κιβωτίου σας (π. χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Όνομα Ιστοσελίδας",
+        "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
+      },
       "FB": {
         "HELP": "ΥΓ: Με την είσοδο, θα έχουμε πρόσβαση μόνο στα μηνύματα της σελίδας σας. Τα ιδιωτικά μηνύματά σας ποτέ δεν προσπελαστούν από το Chatwoot.",
         "CHOOSE_PAGE": "Διάλεξε Σελίδα",
@@ -39,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' ",
-        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα σύνδεσης στο Twitter, παρακαλώ προσπαθήστε ξανά"
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα σύνδεσης στο Twitter, παρακαλώ προσπαθήστε ξανά",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Κανάλι Ιστοσελίδας",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar Καναλιού"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "Ονομασία Ιστοσελίδας",
-          "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Σύνδεσμος Webhook",
+          "PLACEHOLDER": "Εισάγετε τη διεύθυνση Webhook URL",
+          "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Ιστοσελίδας",
@@ -88,7 +100,7 @@
         "SUBMIT_BUTTON": "Δημιουργία Κιβωτίου"
       },
       "TWILIO": {
-        "TITLE": "SMS κανάλι από το Twilio",
+        "TITLE": "Κανάλι Twilio SMS/Whatsapp",
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
@@ -105,8 +117,8 @@
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Όνομα καναλιού",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
+          "LABEL": "Όνομα Κιβωτίου",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα εισερχόμενων",
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twilio",
         "API": {
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS κανάλι μέσω Twilio",
+        "DESC": "Ξεκινήστε να υποστηρίζετε τους πελάτες σας μέσω SMS με την ενσωμάτωση Twilio."
+      },
+      "WHATSAPP": {
+        "TITLE": "Κανάλι WhatsApp",
+        "DESC": "Ξεκινήστε να υποστηρίζετε τους πελάτες σας μέσω του WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "Διάλογος 360"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Όνομα Κιβωτίου",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε όνομα εισερχόμενων",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Αριθμός τηλεφώνου",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
+          "ERROR": "Παρακαλώ καταχωρήστε μια έγκυρη τιμή. Ο αριθμός του τηλεφώνου πρέπει να ξεκινά με το σύμβολο `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API κλειδί",
+          "SUBTITLE": "Ρυθμίστε το κλειδί WhatsApp API.",
+          "PLACEHOLDER": "API κλειδί",
+          "APPLY_FOR_ACCESS": "Δεν έχετε κανένα κλειδί API? Αίτηση για πρόσβαση εδώ",
+          "ERROR": "Παρακαλώ εισάγετε μια έγκυρη τιμή."
+        },
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού WhatsApp",
+        "API": {
+          "ERROR_MESSAGE": "Δεν ήμασταν σε θέση να αποθηκεύσουμε το κανάλι WhatsApp"
         }
       },
       "API_CHANNEL": {
@@ -160,9 +206,51 @@
         },
         "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "Κανάλι LINE",
+        "DESC": "Ενσωμάτωση με κανάλι LINE και ξεκινήστε να υποστηρίζετε τους πελάτες σας.",
+        "CHANNEL_NAME": {
+          "LABEL": "Όνομα καναλιού",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID Καναλιού LINE",
+          "PLACEHOLDER": "ID Καναλιού LINE"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Secret Καναλιού LINE",
+          "PLACEHOLDER": "Secret Καναλιού LINE"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "Token Καναλιού LINE",
+          "PLACEHOLDER": "Token Καναλιού LINE"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία LINE Καναλιού",
+        "API": {
+          "ERROR_MESSAGE": "Δεν είμαστε σε θέση να αποθηκεύσουμε το LINE κανάλι"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL επανάκλησης",
+          "SUBTITLE": "Θα πρέπει να ρυθμίσετε τη διεύθυνση URL webhook στην εφαρμογή LINE με τη διεύθυνση URL που αναφέρεται εδώ."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Κανάλι Telegram",
+        "DESC": "Ενσωμάτωση με το κανάλι Telegram και ξεκινήστε να υποστηρίζετε τους πελάτες σας.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Ρυθμίστε το bot token που λάβατε από το BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Telegram",
+        "API": {
+          "ERROR_MESSAGE": "Δεν ήμασταν σε θέση να αποθηκεύσουμε το telegram κανάλι"
+        }
+      },
       "AUTH": {
-        "TITLE": "Κανάλια",
-        "DESC": "Επί του παρόντος υποστηρίζονται widgets για Ιστοσελίδες, και σελίδες Facebook, Προφίλ Twitter ως πλατφόρμες. Έχουμε ακόμη περισσότερες πλατφόρμες όπως Whatsapp, Email, Telegram and Line υπό ανάπτυξη, οι οποίες θα είναι διαθέσιμες σύντομα."
+        "TITLE": "Επιλογή Καναλιού",
+        "DESC": "Το Chatwoot υποστηρίζει widget live-chat, σελίδα Facebook, προφίλ Twitter, Whatsapp, Email κλπ., ως κανάλια. Αν θέλετε να δημιουργήσετε ένα προσαρμοσμένο κανάλι, μπορείτε να το δημιουργήσετε χρησιμοποιώντας το κανάλι API. Επιλέξτε ένα κανάλι από τις παρακάτω επιλογές για να συνεχίσετε."
       },
       "AGENTS": {
         "TITLE": "Πράκτορες",
@@ -208,19 +296,34 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Ενεργό",
+        "DISABLED": "Ανενεργό"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Ενεργό",
+        "DISABLED": "Ανενεργό"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Ενεργοποίηση"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
+      "AVATAR_DELETE_BUTTON_TEXT": "Διαγραφή Avatar",
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
+        "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {inboxName} για επιβεβαίωση",
         "YES": "Ναι, Διέγραψε το ",
         "NO": "Όχι, Κράτησε τον/την"
       },
       "API": {
         "SUCCESS_MESSAGE": "Το κιβώτιο διαγράφηκε επιτυχώς",
-        "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα."
+        "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα.",
+        "AVATAR_SUCCESS_MESSAGE": "Το avatar εισερχομένων διαγράφηκε επιτυχώς",
+        "AVATAR_ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του avatar εισερχομένων. Παρακαλώ προσπαθήστε ξανά αργότερα."
       }
     },
     "TABS": {
@@ -243,12 +346,22 @@
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
       "UPDATE": "Ενημέρωση",
+      "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
       "AUTO_ASSIGNMENT": "Επιτρέπεται η αυτόματη αντιστοίχιση",
+      "ENABLE_CSAT": "Ενεργοποίηση CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Ενεργοποίηση/Απενεργοποίηση της έρευνας CSAT (ικανοποίηση πελατών) μετά την επίλυση μιας συνομιλίας",
       "INBOX_UPDATE_TITLE": "Ρυθμίσεις Κιβωτίου",
       "INBOX_UPDATE_SUB_TEXT": "Ενημερώστε τις ρυθμίσεις του κιβωτίου σας",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ενεργοποιήστε ή απενεργοποιήστε την αυτόματη αντιστοίχιση των νέων συζητήσεων στους πράκτορες αυτού του κιβωτίου.",
       "HMAC_VERIFICATION": "Επικύρωση Ταυτότητας Χρήστη",
-      "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identity_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ."
+      "HMAC_DESCRIPTION": "Για λόγους επικύρωσης της ταυτότητας των χρηστών, το SDK σας επιτρέπει να περάσετε ένα `identity_hash` για κάθε χρήστη. Μπορείτε να δημιουργήσετε HMAC χρησιμοποιώντας το 'sha256' με το κλειδί που εμφανίζεται εδώ.",
+      "HMAC_MANDATORY_VERIFICATION": "Επιβολή Επαλήθευσης Ταυτότητας Χρήστη",
+      "HMAC_MANDATORY_DESCRIPTION": "Αν ενεργοποιηθεί, η μέθοδος Chatwoot SDKs setUser δε θα λειτουργήσει παρά μόνο αν το `identifier_hash` παρέχεται για κάθε χρήστη.",
+      "INBOX_IDENTIFIER": "Αναγνωριστικό Εισερχόμενων",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Χρησιμοποιήστε το διακριτικό `inbox_identifier` που εμφανίζεται εδώ για τον έλεγχο ταυτότητας των πελατών API.",
+      "FORWARD_EMAIL_TITLE": "Προώθηση στο email",
+      "FORWARD_EMAIL_SUB_TEXT": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Εκ νέου εξουσιοδότηση",
@@ -289,6 +402,65 @@
         "HOURS": "ώρες",
         "VALIDATION_ERROR": "Ο χρόνος έναρξης πρέπει να είναι πριν το χρόνο λήξης.",
         "CHOOSE": "Επιλέξτε"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Κωδικός",
+        "PLACE_HOLDER": "Κωδικός"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Κωδικός",
+        "PLACE_HOLDER": "Κωδικός"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

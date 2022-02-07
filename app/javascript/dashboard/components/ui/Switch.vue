@@ -1,7 +1,13 @@
-
 <template>
   <label class="switch" :class="classObject">
-    <input class="switch-input" :name="name" :id="id" :disabled="disabled" v-model="value" type="checkbox">
+    <input
+      :id="id"
+      v-model="value"
+      class="switch-input"
+      :name="name"
+      :disabled="disabled"
+      type="checkbox"
+    />
     <div class="switch-paddle" :for="name">
       <span class="show-for-sr">on off</span>
     </div>
@@ -12,23 +18,16 @@
 export default {
   props: {
     disabled: Boolean,
-    isFullwidth: Boolean,
-    type: String,
-    size: String,
+    type: { type: String, default: '' },
+    size: { type: String, default: '' },
     checked: Boolean,
-    name: String,
-    id: String,
+    name: { type: String, default: '' },
+    id: { type: String, default: '' },
   },
   data() {
     return {
       value: null,
     };
-  },
-  beforeMount() {
-    this.value = this.checked;
-  },
-  mounted() {
-    this.$emit('input', this.value = !!this.checked);
   },
   computed: {
     classObject() {
@@ -44,6 +43,12 @@ export default {
     value(val) {
       this.$emit('input', val);
     },
+  },
+  beforeMount() {
+    this.value = this.checked;
+  },
+  mounted() {
+    this.$emit('input', (this.value = !!this.checked));
   },
 };
 </script>

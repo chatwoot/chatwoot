@@ -1,6 +1,6 @@
 <template>
   <div class="settings columns container">
-    <woot-modal-header
+    <setting-intro-banner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
@@ -12,7 +12,7 @@
           :show-badge="false"
         />
       </woot-tabs>
-    </woot-modal-header>
+    </setting-intro-banner>
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
       <settings-section
@@ -22,16 +22,45 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
+          delete-avatar
           @change="handleImageUpload"
+          @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
-          v-if="isAWebWidgetInbox"
           v-model.trim="selectedInboxName"
           class="medium-9 columns"
-          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL')"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
+          :label="inboxNameLabel"
+          :placeholder="inboxNamePlaceHolder"
+        />
+        <label
+          v-if="isATwitterInbox"
+          for="toggle-business-hours"
+          class="toggle-input-wrap"
+        >
+          <input
+            v-model="tweetsEnabled"
+            type="checkbox"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
+        </label>
+        <woot-input
+          v-if="isAPIInbox"
+          v-model.trim="webhookUrl"
+          class="medium-9 columns"
+          :class="{ error: $v.webhookUrl.$error }"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
           "
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+          "
+          :error="
+            $v.webhookUrl.$error
+              ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
+              : ''
+          "
+          @blur="$v.webhookUrl.$touch"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -103,11 +132,9 @@
             }}
           </p>
         </label>
-
-        <woot-input
+        <greetings-editor
           v-if="greetingEnabled"
           v-model.trim="greetingMessage"
-          class="medium-9 columns"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           "
@@ -116,8 +143,8 @@
               'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
             )
           "
+          :richtext="!textAreaChannels"
         />
-
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -141,6 +168,23 @@
           </p>
         </label>
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
+          <select v-model="emailCollectEnabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT')
+            }}
+          </p>
+        </label>
+
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           <select v-model="autoAssignment">
@@ -153,6 +197,59 @@
           </select>
           <p class="help-text">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
+          </p>
+        </label>
+
+        <label class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
+          <select v-model="csatSurveyEnabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
+          </p>
+        </label>
+
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
+          <select v-model="allowMessagesAfterResolved">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
+          <select v-model="continuityViaEmail">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
+              )
+            }}
           </p>
         </label>
 
@@ -183,15 +280,22 @@
         </div>
 
         <woot-submit-button
+          v-if="isAPIInbox"
+          type="submit"
+          :disabled="$v.webhookUrl.$invalid"
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdatingInbox"
+          @click="updateInbox"
+        />
+        <woot-submit-button
+          v-else
+          type="submit"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize
-        v-if="isAFacebookInbox && inbox.reauthorization_required"
-        :inbox-id="inbox.id"
-      />
+      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <!-- update agents in inbox -->
@@ -230,7 +334,21 @@
           :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
           :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
         >
-          <woot-code :script="twilioCallbackURL" lang="html"></woot-code>
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
+        </settings-section>
+      </div>
+      <div v-else-if="isALineChannel" class="settings--content">
+        <settings-section
+          :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
+          :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
+        >
+          <woot-code
+            :script="inbox.callback_webhook_url"
+            lang="html"
+          ></woot-code>
         </settings-section>
       </div>
       <div v-else-if="isAWebWidgetInbox">
@@ -248,7 +366,45 @@
           >
             <woot-code :script="inbox.hmac_token"></woot-code>
           </settings-section>
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+            :sub-title="
+              $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')
+            "
+          >
+            <div class="enter-to-send--checkbox">
+              <input
+                id="hmacMandatory"
+                v-model="hmacMandatory"
+                type="checkbox"
+                @change="handleHmacFlag"
+              />
+              <label for="hmacMandatory">
+                {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+              </label>
+            </div>
+          </settings-section>
         </div>
+      </div>
+      <div v-else-if="isAPIInbox" class="settings--content">
+        <settings-section
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+        >
+          <woot-code :script="inbox.inbox_identifier"></woot-code>
+        </settings-section>
+      </div>
+      <div v-else-if="isAnEmailChannel">
+        <div class="settings--content">
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
+          >
+            <woot-code :script="inbox.forward_to_email"></woot-code>
+          </settings-section>
+        </div>
+        <imap-settings :inbox="inbox" />
+        <smtp-settings :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -257,31 +413,36 @@
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
-    <div v-if="selectedTabKey === 'campaign'">
-      <campaign :selected-agents="selectedAgents" />
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
+import { required } from 'vuelidate/lib/validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
-import Campaign from './components/Campaign';
+import GreetingsEditor from 'shared/components/GreetingsEditor';
+import ImapSettings from './ImapSettings';
+import SmtpSettings from './SmtpSettings';
 
 export default {
   components: {
+    SettingIntroBanner,
     SettingsSection,
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
-    Campaign,
+    GreetingsEditor,
+    ImapSettings,
+    SmtpSettings,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -290,11 +451,18 @@ export default {
       avatarUrl: '',
       selectedAgents: [],
       greetingEnabled: true,
+      tweetsEnabled: true,
+      hmacMandatory: null,
       greetingMessage: '',
       autoAssignment: false,
+      emailCollectEnabled: false,
       isAgentListUpdating: false,
+      csatSurveyEnabled: false,
+      allowMessagesAfterResolved: true,
+      continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
+      webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -330,22 +498,18 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
+        {
+          key: 'businesshours',
+          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
       ];
 
       if (this.isAWebWidgetInbox) {
         return [
           ...visibleToAllChannelTabs,
           {
-            key: 'campaign',
-            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
-          },
-          {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
-          },
-          {
-            key: 'businesshours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
           },
           {
             key: 'configuration',
@@ -354,7 +518,12 @@ export default {
         ];
       }
 
-      if (this.isATwilioChannel) {
+      if (
+        this.isATwilioChannel ||
+        this.isALineChannel ||
+        this.isAPIInbox ||
+        this.isAnEmailChannel
+      ) {
         return [
           ...visibleToAllChannelTabs,
           {
@@ -376,10 +545,34 @@ export default {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
+      if (this.isAnEmailChannel) {
+        return `${this.inbox.name} (${this.inbox.email})`;
+      }
       return this.inbox.name;
     },
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);
+    },
+    inboxNameLabel() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.LABEL');
+    },
+    inboxNamePlaceHolder() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
+    },
+    textAreaChannels() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return true;
+      return false;
     },
   },
   watch: {
@@ -399,6 +592,9 @@ export default {
         e.target.value
       );
     },
+    handleHmacFlag() {
+      this.updateInbox();
+    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -414,13 +610,21 @@ export default {
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
+      this.$store.dispatch('labels/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
-        this.greetingEnabled = this.inbox.greeting_enabled;
-        this.greetingMessage = this.inbox.greeting_message;
+        this.webhookUrl = this.inbox.webhook_url;
+        this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.tweetsEnabled = this.inbox.tweets_enabled || false;
+        this.hmacMandatory = this.inbox.hmac_mandatory || false;
+        this.greetingMessage = this.inbox.greeting_message || '';
         this.autoAssignment = this.inbox.enable_auto_assignment;
+        this.emailCollectEnabled = this.inbox.enable_email_collect;
+        this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
+        this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -461,15 +665,22 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
+          enable_email_collect: this.emailCollectEnabled,
+          csat_survey_enabled: this.csatSurveyEnabled,
+          allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
+            webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
+            hmac_mandatory: this.hmacMandatory,
+            tweets_enabled: this.tweetsEnabled,
+            continuity_via_email: this.continuityViaEmail,
           },
         };
         if (this.avatarFile) {
@@ -485,8 +696,29 @@ export default {
       this.avatarFile = file;
       this.avatarUrl = url;
     },
+    async handleAvatarDelete() {
+      try {
+        await this.$store.dispatch(
+          'inboxes/deleteInboxAvatar',
+          this.currentInboxId
+        );
+        this.avatarFile = null;
+        this.avatarUrl = '';
+        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.AVATAR_SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('INBOX_MGMT.DELETE.API.AVATAR_ERROR_MESSAGE')
+        );
+      }
+    },
   },
   validations: {
+    webhookUrl: {
+      required,
+      shouldBeUrl,
+    },
     selectedAgents: {
       isEmpty() {
         return !!this.selectedAgents.length;
@@ -509,15 +741,9 @@ export default {
     }
   }
 
-  .page-top-bar {
-    @include background-light;
-    @include border-normal-bottom;
-    padding: $space-normal $space-large 0;
-
-    .tabs {
-      padding: 0;
-      margin-bottom: -1px;
-    }
+  .tabs {
+    padding: 0;
+    margin-bottom: -1px;
   }
 }
 

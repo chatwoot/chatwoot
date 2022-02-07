@@ -27,10 +27,18 @@
       invalid_email: Du har angitt en ugyldig e-post
       email_already_exists: "Du har allerede registrert en konto med %{email}"
       failed: Registrering mislyktes
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -47,7 +55,8 @@
       status:
         resolved: "Samtale ble løst av %{user_name}"
         open: "Samtalen ble gjenåpnet av %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        pending: "Conversation was marked as pending by %{user_name}"
+        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
       assignee:
         self_assigned: "%{user_name} tilordnet seg denne samtalen"
@@ -66,9 +75,19 @@
       greeting_message_body: "%{account_name} svarer vanligvis innen et par timer."
       ways_to_reach_you_message_body: "Gi oss en måte å ta kontakt med deg på."
       email_input_box_message_body: "Få beskjed via e-post"
+      csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nye meldinger i denne samtalen"
       transcript_subject: "Kopi av samtale"
+    survey:
+      response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -78,4 +97,7 @@
       description: "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer med kontoen din. Du kan bruke webhooks for å sende hendelsene til favorittappene dine, som Slack eller Github. Klikk på Konfigurer for å sette opp webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

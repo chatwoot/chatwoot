@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ::ContactInboxBuilder do
   let(:account) { create(:account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, email: 'xyc@example.com', phone_number: '+23423424123', account: account) }
 
   describe '#perform' do
     describe 'twilio sms inbox' do
@@ -96,6 +96,53 @@ describe ::ContactInboxBuilder do
         ).perform
 
         expect(contact_inbox.source_id).not_to be("whatsapp:#{contact.phone_number}")
+      end
+    end
+
+    describe 'sms inbox' do
+      let!(:sms_channel) { create(:channel_sms, account: account) }
+      let!(:sms_inbox) { create(:inbox, channel: sms_channel, account: account) }
+
+      it 'does not create contact inbox when contact inbox already exists with the source id provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: sms_inbox.id,
+          source_id: contact.phone_number
+        ).perform
+
+        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+      end
+
+      it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: sms_inbox.id
+        ).perform
+
+        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+      end
+
+      it 'creates a new contact inbox when different source id is provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: sms_inbox.id,
+          source_id: '+224213223422'
+        ).perform
+
+        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).not_to be('+224213223422')
+      end
+
+      it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: sms_inbox.id
+        ).perform
+
+        expect(contact_inbox.source_id).not_to be(contact.phone_number)
       end
     end
 
@@ -199,6 +246,10 @@ describe ::ContactInboxBuilder do
     end
 
     describe 'facebook inbox' do
+      before do
+        stub_request(:post, /graph.facebook.com/)
+      end
+
       let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
 

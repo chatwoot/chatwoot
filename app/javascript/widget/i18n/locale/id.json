@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Kami sedang online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Kami sedang tidak tersedia saat ini"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
@@ -18,10 +18,11 @@
     "IN_A_DAY": "Biasanya membalas dalam sehari"
   },
   "START_CONVERSATION": "Mulai Percakapan",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "dari",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -49,7 +50,23 @@
         "PLACEHOLDER": "Harap masukkan pesan Anda",
         "ERROR": "Pesan terlalu pendek"
       }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+  },
+  "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Tell us more..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
+    "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi"
+  }
 }

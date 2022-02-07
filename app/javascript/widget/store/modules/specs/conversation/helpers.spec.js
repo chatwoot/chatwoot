@@ -1,6 +1,7 @@
 import {
   findUndeliveredMessage,
   createTemporaryMessage,
+  getNonDeletedMessages,
 } from '../../conversation/helpers';
 
 describe('#findUndeliveredMessage', () => {
@@ -33,5 +34,39 @@ describe('#createTemporaryMessage', () => {
     const message = createTemporaryMessage({ content: 'hello' });
     expect(message.content).toBe('hello');
     expect(message.status).toBe('in_progress');
+  });
+});
+
+describe('#getNonDeletedMessages', () => {
+  it('returns non-deleted messages', () => {
+    const messages = [
+      {
+        id: 1,
+        content: 'Hello',
+        content_attributes: {},
+      },
+      {
+        id: 2,
+        content: 'Hey',
+        content_attributes: { deleted: true },
+      },
+      {
+        id: 3,
+        content: 'How may I help you',
+        content_attributes: {},
+      },
+    ];
+    expect(getNonDeletedMessages({ messages })).toStrictEqual([
+      {
+        id: 1,
+        content: 'Hello',
+        content_attributes: {},
+      },
+      {
+        id: 3,
+        content: 'How may I help you',
+        content_attributes: {},
+      },
+    ]);
   });
 });

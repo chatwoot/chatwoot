@@ -90,7 +90,24 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Агентів не знайдено."
+      "NO_RESULTS": "No results found."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Нiчого",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Виберіть команду"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Агентів не знайдено",
+          "TEAM": "Жодних команд не знайдено"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Пошук агентів",
+          "TEAM": "Пошук команд"
+        }
+      }
     }
   }
 }

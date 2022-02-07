@@ -18,10 +18,11 @@
     "IN_A_DAY": "Répond généralement dans la journée"
   },
   "START_CONVERSATION": "Démarrer la conversation",
+  "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
     "CLOSE_MESSAGES_BUTTON": "Fermer",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "de",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -49,7 +50,23 @@
         "PLACEHOLDER": "Veuillez entrer votre message",
         "ERROR": "Message trop court"
       }
+    },
+    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre email avant de commencer la conversation"
+  },
+  "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Champ non valide"
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "CSAT": {
+    "TITLE": "Évaluer votre conversation",
+    "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
+    "PLACEHOLDER": "Dites-nous en plus..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Demander une transcription de la conversation",
+    "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
+    "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer"
+  }
 }

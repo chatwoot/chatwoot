@@ -104,7 +104,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   describe 'POST /api/v1/widget/conversations/transcript' do
     context 'with a conversation' do
       it 'sends transcript email' do
-        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:conversation_transcript)
 
         post '/api/v1/widget/conversations/transcript',
              headers: { 'X-Auth-Token' => token },
@@ -112,7 +114,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
     end
   end

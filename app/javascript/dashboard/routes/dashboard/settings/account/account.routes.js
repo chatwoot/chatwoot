@@ -10,7 +10,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'ion-gear-a',
+        icon: 'settings',
         showNewButton: false,
       },
       children: [

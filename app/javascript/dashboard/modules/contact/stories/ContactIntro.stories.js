@@ -10,7 +10,7 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ContactIntro },
   template:
-    '<contact-intro v-bind="$props" :user="user" @edit="onEdit" @message="onNewMessage" />',
+    '<contact-intro v-bind="$props" @edit="onEdit" @message="onNewMessage" />',
 });
 
 export const DefaultContactIntro = Template.bind({});

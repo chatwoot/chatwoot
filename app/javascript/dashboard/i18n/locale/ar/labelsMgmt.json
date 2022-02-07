@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "اسم الوسم",
         "PLACEHOLDER": "اسم الوسم",
-        "ERROR": "اسم الوسم مطلوب"
+        "REQUIRED_ERROR": "اسم التسمية مطلوب",
+        "MINIMUM_LENGTH_ERROR": "الحد الأدنى للطول 2 مطلوب",
+        "VALID_ERROR": "مسموح فقط بالابجدية,الارقام, -, _"
       },
       "DESCRIPTION": {
         "LABEL": "الوصف",

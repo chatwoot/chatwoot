@@ -18,6 +18,7 @@
     "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
   },
   "START_CONVERSATION": "Έναρξη Συνομιλίας",
+  "START_NEW_CONVERSATION": "Έναρξη νέας συνομιλίας",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
     "CLOSE_MESSAGES_BUTTON": "Κλείσιμο",
@@ -49,7 +50,23 @@
         "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμά σας",
         "ERROR": "Πολύ σύντομο μήνυμα"
       }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+  },
+  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Μη έγκυρο πεδίο"
     }
   },
-  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}"
+  "CSAT": {
+    "TITLE": "Αξιολογήστε τη συνομιλία σας",
+    "SUBMITTED_TITLE": "Ευχαριστούμε για την υποβολή της αξιολόγησης",
+    "PLACEHOLDER": "Πείτε μας περισσότερα..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Αίτηση μεταγραφής συνομιλίας",
+    "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς",
+    "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+  }
 }

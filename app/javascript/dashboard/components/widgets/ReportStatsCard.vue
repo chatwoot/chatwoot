@@ -1,20 +1,29 @@
 <template>
-  <div class="small-2 report-card" :class="{ 'active': selected }" v-on:click="onClick(index)">
-    <h3 class="heading">{{heading}}</h3>
-    <h4 class="metric">{{point}}</h4>
-    <p class="desc">{{desc}}</p>
+  <div
+    class="small-2 report-card"
+    :class="{ active: selected }"
+    @click="onClick(index)"
+  >
+    <h3 class="heading">
+      {{ heading }}
+    </h3>
+    <h4 class="metric">
+      {{ point }}
+    </h4>
+    <p class="desc">
+      {{ desc }}
+    </p>
   </div>
 </template>
 <script>
-
 export default {
   props: {
-    heading: String,
-    point: [Number, String],
-    index: Number,
-    desc: String,
+    heading: { type: String, default: '' },
+    point: { type: [Number, String], default: '' },
+    index: { type: Number, default: null },
+    desc: { type: String, default: '' },
     selected: Boolean,
-    onClick: Function,
+    onClick: { type: Function, default: () => {} },
   },
 };
 </script>

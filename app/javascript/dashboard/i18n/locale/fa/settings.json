@@ -3,6 +3,9 @@
     "LINK": "تنظیمات پروفایل",
     "TITLE": "تنظیمات پروفایل",
     "BTN_TEXT": "تغییر دادن پروفایل",
+    "DELETE_AVATAR": "حذف آواتار",
+    "AVATAR_DELETE_SUCCESS": "آواتار با موفقیت حذف شد",
+    "AVATAR_DELETE_FAILED": "هنگام حذف آواتار خطایی رخ داده، لطفا دوباره امتحان کنید",
     "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد",
     "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
     "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
@@ -14,7 +17,7 @@
       "UPDATE_IMAGE": "تغییر عکس",
       "PROFILE_SECTION": {
         "TITLE": "پروفایل",
-        "NOTE": "ایمیل عامل شناسایی شما برای ورود به سیستم است"
+        "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
       },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
@@ -26,9 +29,11 @@
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "TITLE": "اعلان های صوتی",
+        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "NONE": "هیچکدام",
+        "ASSIGNED": "مکالمات اختصاص داده شده",
+        "ALL_CONVERSATIONS": "همه مکالمات"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -78,6 +83,11 @@
         "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید",
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "رمز عبور فعلی",
+        "ERROR": "لطفاً رمز عبور فعلی را وارد کنید",
+        "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
+      },
       "PASSWORD": {
         "LABEL": "رمز عبور",
         "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
@@ -93,13 +103,16 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
+    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
+    "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
     "LOGOUT": "خروج از حساب"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
-    "TRAIL_BUTTON": "الان بخرید"
+    "TRAIL_BUTTON": "الان بخرید",
+    "DELETED_USER": "کاربر حذف شده"
   },
   "COMPONENTS": {
     "CODE": {
@@ -122,20 +135,42 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "گفتگوها",
+    "ALL_CONVERSATIONS": "همه گفتگوها",
+    "MENTIONED_CONVERSATIONS": "اشاره",
     "REPORTS": "گزارشات",
-    "CONTACTS": "مخاطبین",
     "SETTINGS": "تنظیمات",
+    "CONTACTS": "مخاطبین",
     "HOME": "صفحه اصلی",
-    "AGENTS": "اپراتورها",
+    "AGENTS": "ایجنت ها",
     "INBOXES": "صندوق‌های ورودی",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
+    "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
+    "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
-    "TEAMS": "تیم‌ها"
+    "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
+    "AUTOMATION": "خودکارسازی",
+    "TEAMS": "تیم‌ها",
+    "ALL_CONTACTS": "تمام مخاطبین",
+    "TAGGED_WITH": "برچسب گذاری شده با",
+    "NEW_LABEL": "برچسب جدید",
+    "NEW_TEAM": "تیم جدید",
+    "NEW_INBOX": "صندوق ورودی جدید",
+    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "CSAT": "رضایت مشتری",
+    "CAMPAIGNS": "کمپین ها",
+    "ONGOING": "درحال انجام",
+    "ONE_OFF": "یکبار مصرف",
+    "REPORTS_AGENT": "ایجنت ها",
+    "REPORTS_LABEL": "برچسب‌ها",
+    "REPORTS_INBOX": "صندوق ورودی",
+    "REPORTS_TEAM": "تیم‌",
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
     "NEW_ACCOUNT": "حساب‌کاربری جدید",
     "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {
@@ -149,6 +184,31 @@
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
       "SUBMIT": "ثبت"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "باز کردن مکالمه",
+      "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
+      "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
+      "RESOLVE_CONVERSATION": "حل مکالمه",
+      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "ADD_ATTACHMENT": "افزودن پیوست",
+      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "TOGGLE_SIDEBAR": "نوار کناری",
+      "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
+      "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
+      "GO_TO_SETTINGS": "برو به تنظیمات",
+      "SWITCH_CONVERSATION_STATUS": "به وضعیت مکالمه بعدی بروید",
+      "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
+      "TOGGLE_RICH_CONTENT_EDITOR": "تغییر وضعیت ویرایشگر محتوا",
+      "SWITCH_TO_REPLY": "رفتن به پاسخ",
+      "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

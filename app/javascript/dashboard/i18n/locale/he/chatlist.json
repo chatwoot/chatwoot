@@ -1,0 +1,85 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "טוען שיחות",
+    "LOAD_MORE_CONVERSATIONS": "טען עוד שיחות",
+    "EOF": "כל השיחות נטענו 🎉",
+    "LIST": {
+      "404": "אין שיחות פעילות בקבוצה הזו."
+    },
+    "TAB_HEADING": "שיחות",
+    "MENTION_HEADING": "Mentions",
+    "SEARCH": {
+      "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
+    },
+    "FILTER_ALL": "הכל",
+    "STATUS_TABS": [
+      {
+        "NAME": "פתח",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "נפתרה",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "שלי",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "לא הוקצתה",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "הכל",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "פתח"
+      },
+      "resolved": {
+        "TEXT": "נפתרה"
+      },
+      "pending": {
+        "TEXT": "ממתין ל"
+      },
+      "snoozed": {
+        "TEXT": "נימנום"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "הודעת תמונה"
+      },
+      "audio": {
+        "CONTENT": "הודעות קוליות"
+      },
+      "video": {
+        "CONTENT": "הודעות וידאו"
+      },
+      "file": {
+        "CONTENT": "קובץ מצורף"
+      },
+      "location": {
+        "CONTENT": "מיקום"
+      },
+      "fallback": {
+        "CONTENT": "שיתף קישור"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
+    "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
+    "REPLY_TO_TWEET": "הגב לציוץ זה",
+    "SENT": "נשלח בהצלחה",
+    "NO_MESSAGES": "אין הודעות",
+    "NO_CONTENT": "אין תוכן זמין",
+    "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
+    "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט"
+  }
+}

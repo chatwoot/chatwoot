@@ -14,7 +14,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_creation' do
-    let(:mail) { described_class.conversation_creation(conversation, agent).deliver_now }
+    let(:mail) { described_class.with(account: account).conversation_creation(conversation, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, A new conversation [ID - #{conversation
@@ -27,7 +27,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_assignment' do
-    let(:mail) { described_class.conversation_assignment(conversation, agent).deliver_now }
+    let(:mail) { described_class.with(account: account).conversation_assignment(conversation, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, A new conversation [ID - #{conversation.display_id}] has been assigned to you.")
@@ -39,8 +39,9 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_mention' do
-    let(:message) { create(:message, conversation: conversation, account: account) }
-    let(:mail) { described_class.conversation_mention(message, agent).deliver_now }
+    let(:another_agent) { create(:user, email: 'agent2@example.com', account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account, sender: another_agent) }
+    let(:mail) { described_class.with(account: account).conversation_mention(message, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, You have been mentioned in conversation [ID - #{conversation.display_id}]")
@@ -49,11 +50,15 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     it 'renders the receiver email' do
       expect(mail.to).to eq([agent.email])
     end
+
+    it 'renders the senders name' do
+      expect(mail.body.encoded).to match("You've been mentioned in a conversation. <b>#{another_agent.display_name}</b> wrote:")
+    end
   end
 
   describe 'assigned_conversation_new_message' do
     let(:message) { create(:message, conversation: conversation, account: account) }
-    let(:mail) { described_class.assigned_conversation_new_message(message, agent).deliver_now }
+    let(:mail) { described_class.with(account: account).assigned_conversation_new_message(message, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, New message in your assigned conversation [ID - #{message.conversation.display_id}].")

@@ -1,13 +1,23 @@
 <template>
   <div :class="labelClass" :style="labelStyle" :title="description">
-    <i v-if="icon" class="label--icon" :class="icon" @click="onClick" />
+    <button v-if="icon" class="label-action--button" @click="onClick">
+      <fluent-icon :icon="icon" size="12" class="label--icon" />
+    </button>
     <span v-if="!href">{{ title }}</span>
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
-    <i v-if="showClose" class="close--icon ion-close" @click="onClick" />
+    <button
+      v-if="showClose"
+      class="label-action--button"
+      :style="{ color: textColor }"
+      @click="onClick"
+    >
+      <fluent-icon icon="dismiss" size="12" class="close--icon" />
+    </button>
   </div>
 </template>
 <script>
-import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
+import { getContrastingTextColor } from '@chatwoot/utils';
+
 export default {
   props: {
     title: {
@@ -52,7 +62,11 @@ export default {
     },
     labelStyle() {
       if (this.bgColor) {
-        return { background: this.bgColor, color: this.textColor };
+        return {
+          background: this.bgColor,
+          color: this.textColor,
+          border: `1px solid ${this.bgColor}`,
+        };
       }
       return {};
     },
@@ -75,6 +89,8 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label {
+  display: inline-flex;
+  align-items: center;
   font-weight: var(--font-weight-medium);
   margin-right: var(--space-smaller);
   margin-bottom: var(--space-smaller);
@@ -85,11 +101,12 @@ export default {
 
   .label--icon {
     cursor: pointer;
+    margin-right: var(--space-smaller);
   }
-  .label--icon,
+
   .close--icon {
-    font-size: var(--font-size-micro);
     cursor: pointer;
+    margin-left: var(--space-smaller);
   }
 
   &.small .label--icon,
@@ -145,5 +162,9 @@ export default {
       color: var(--y-900);
     }
   }
+}
+
+.label-action--button {
+  margin-bottom: var(--space-minus-micro);
 }
 </style>

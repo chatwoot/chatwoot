@@ -1,4 +1,5 @@
 class V2::ReportBuilder
+  include DateRangeHelper
   attr_reader :account, :params
 
   def initialize(account, params)
@@ -31,17 +32,34 @@ class V2::ReportBuilder
   private
 
   def scope
-    return account if params[:type].match?('account')
-    return inbox if params[:type].match?('inbox')
-    return user if params[:type].match?('agent')
+    case params[:type]
+    when :account
+      account
+    when :inbox
+      inbox
+    when :agent
+      user
+    when :label
+      label
+    when :team
+      team
+    end
   end
 
   def inbox
-    @inbox ||= account.inboxes.where(id: params[:id]).first
+    @inbox ||= account.inboxes.find(params[:id])
   end
 
   def user
-    @user ||= account.users.where(id: params[:id]).first
+    @user ||= account.users.find(params[:id])
+  end
+
+  def label
+    @label ||= account.labels.find(params[:id])
+  end
+
+  def team
+    @team ||= account.teams.find(params[:id])
   end
 
   def conversations_count
@@ -50,15 +68,14 @@ class V2::ReportBuilder
          .count
   end
 
-  # unscoped removes all scopes added to a model previously
   def incoming_messages_count
-    scope.messages.unscoped.where(account_id: account.id).incoming
+    scope.messages.incoming.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def outgoing_messages_count
-    scope.messages.unscoped.where(account_id: account.id).outgoing
+    scope.messages.outgoing.unscope(:order)
          .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
@@ -83,10 +100,6 @@ class V2::ReportBuilder
          .average(:value)
   end
 
-  def range
-    parse_date_time(params[:since])..parse_date_time(params[:until])
-  end
-
   # Taking average of average is not too accurate
   # https://en.wikipedia.org/wiki/Simpson's_paradox
   # TODO: Will optimize this later
@@ -100,12 +113,5 @@ class V2::ReportBuilder
     return 0 if avg_first_response_time.values.empty?
 
     (avg_first_response_time.values.sum / avg_first_response_time.values.length)
-  end
-
-  def parse_date_time(datetime)
-    return datetime if datetime.is_a?(DateTime)
-    return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
-
-    DateTime.strptime(datetime, '%s')
   end
 end

@@ -1,41 +1,32 @@
 <template>
   <div class="flex-container actions--container">
+    <woot-button
+      v-if="!currentChat.muted"
+      v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
+      @click="mute"
+    />
+    <woot-button
+      v-else
+      v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
+      @click="unmute"
+    />
+    <woot-button
+      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
+      @click="toggleEmailActionsModal"
+    />
     <resolve-action
       :conversation-id="currentChat.id"
       :status="currentChat.status"
     />
-    <woot-button
-      class="more--button"
-      variant="clear"
-      size="large"
-      color-scheme="secondary"
-      icon="ion-android-more-vertical"
-      @click="toggleConversationActions"
-    />
-    <div
-      v-if="showConversationActions"
-      v-on-clickaway="hideConversationActions"
-      class="dropdown-pane dropdowm--bottom"
-      :class="{ 'dropdown-pane--open': showConversationActions }"
-    >
-      <woot-dropdown-menu>
-        <woot-dropdown-item v-if="!currentChat.muted">
-          <button class="button clear alert " @click="mute">
-            <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
-          </button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-else>
-          <button class="button clear alert" @click="unmute">
-            <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
-          </button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
-          <button class="button clear" @click="toggleEmailActionsModal">
-            {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
-          </button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
-    </div>
     <email-transcript-modal
       v-if="showEmailActionsModal"
       :show="showEmailActionsModal"
@@ -50,54 +41,59 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import {
+  CMD_MUTE_CONVERSATION,
+  CMD_SEND_TRANSCRIPT,
+  CMD_UNMUTE_CONVERSATION,
+} from '../../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
-    WootDropdownMenu,
-    WootDropdownItem,
     EmailTranscriptModal,
     ResolveAction,
   },
   mixins: [alertMixin, clickaway],
   data() {
     return {
-      showConversationActions: false,
       showEmailActionsModal: false,
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
+  },
+  mounted() {
+    bus.$on(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$on(CMD_UNMUTE_CONVERSATION, this.unmute);
+    bus.$on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  },
+  destroyed() {
+    bus.$off(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$off(CMD_UNMUTE_CONVERSATION, this.unmute);
+    bus.$off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
     mute() {
       this.$store.dispatch('muteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     unmute() {
       this.$store.dispatch('unmuteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
-    },
-    toggleConversationActions() {
-      this.showConversationActions = !this.showConversationActions;
-    },
-    hideConversationActions() {
-      this.showConversationActions = false;
     },
   },
 };
 </script>
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
+.actions--container {
+  align-items: center;
+
+  .resolve-actions {
+    margin-left: var(--space-small);
+  }
+}
 
 .more--button {
   align-items: center;

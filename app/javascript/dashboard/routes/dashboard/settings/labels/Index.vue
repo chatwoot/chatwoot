@@ -3,13 +3,13 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup"
     >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns with-right-space ">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -44,24 +44,26 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(label)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.EDIT') }}
                 </woot-button>
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 >
-                  {{ $t('LABEL_MGMT.FORM.DELETE') }}
                 </woot-button>
               </td>
             </tr>
@@ -73,19 +75,16 @@
         <span v-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
       </div>
     </div>
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <add-label @close="hideAddPopup" />
+    </woot-modal>
 
-    <add-label
-      v-if="showAddPopup"
-      :show.sync="showAddPopup"
-      :on-close="hideAddPopup"
-    />
-
-    <edit-label
-      v-if="showEditPopup"
-      :show.sync="showEditPopup"
-      :selected-response="selectedResponse"
-      :on-close="hideEditPopup"
-    />
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-label
+        :selected-response="selectedResponse"
+        @close="hideEditPopup"
+      />
+    </woot-modal>
 
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"

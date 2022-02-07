@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "收件箱名称",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "网站名称",
+        "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+      },
       "FB": {
         "HELP": "注意: 通过登录，我们只能访问您的页面的消息。您的私人消息永远不能被聊天室访问。",
         "CHOOSE_PAGE": "选择页面",
@@ -39,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "网站频道",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "频道头像"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "网站名称",
-          "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 网址",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "请输入一个有效的 URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "网站域名",
@@ -88,8 +100,8 @@
         "SUBMIT_BUTTON": "创建收件箱"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp 频道",
-        "DESC": "整合Twilio 并开始通过短信或Whatsap支持您的客户。",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "账户 SID",
           "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
@@ -105,8 +117,8 @@
           "ERROR": "此字段是必填项"
         },
         "CHANNEL_NAME": {
-          "LABEL": "频道类型",
-          "PLACEHOLDER": "请输入频道名称",
+          "LABEL": "收件箱名称",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "此字段是必填项"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "创建 Twilio 频道",
         "API": {
           "ERROR_MESSAGE": "我们无法验证 Twilio 凭据，请重试"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "收件箱名称",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "此字段是必填项"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "请输入发送消息的电话号码。",
+          "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
@@ -160,9 +206,51 @@
         },
         "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回调地址",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
-        "TITLE": "频道",
-        "DESC": "目前我们支持网站在线聊天小部件、Facebook页面和Twitter配置文件作为平台。 我们在工作中拥有更多平台，如Whatsapp、Email、Telegram 和 Line，这些平台将很快出台。"
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "客服代理们",
@@ -208,19 +296,34 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "确认删除",
         "MESSAGE": "您确定要删除吗？ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "是，删除 ",
         "NO": "不，保留 "
       },
       "API": {
         "SUCCESS_MESSAGE": "收件箱删除成功",
-        "ERROR_MESSAGE": "无法删除收件箱。请稍后再试。"
+        "ERROR_MESSAGE": "无法删除收件箱。请稍后再试。",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -243,12 +346,22 @@
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
       "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "启用自动分配",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "开始将您的电子邮件转发到以下电子邮件地址。"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授权",
@@ -280,7 +393,7 @@
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -289,6 +402,65 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "密码",
+        "PLACE_HOLDER": "密码"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "密码",
+        "PLACE_HOLDER": "密码"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

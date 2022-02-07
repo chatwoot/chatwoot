@@ -94,6 +94,10 @@ class Api::V1::Widget::BaseController < ApplicationController
     { timestamp: permitted_params[:message][:timestamp] }
   end
 
+  def permitted_params
+    params.permit(:website_token)
+  end
+
   def message_params
     {
       account_id: conversation.account_id,

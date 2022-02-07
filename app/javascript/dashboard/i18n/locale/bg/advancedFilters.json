@@ -1,0 +1,37 @@
+{
+  "FILTER": {
+    "TITLE": "Филтрирай разговорите",
+    "SUBTITLE": "Добавете филтри по-долу и натиснете „Прилагане на филтри“, за да филтрирате разговорите.",
+    "ADD_NEW_FILTER": "Добавяне на филтър",
+    "FILTER_DELETE_ERROR": "За да запазите, трябва да имате поне един филтър",
+    "SUBMIT_BUTTON_LABEL": "Прилагане на филтри",
+    "CANCEL_BUTTON_LABEL": "Отмени",
+    "CLEAR_BUTTON_LABEL": "Изчисти филтрите",
+    "EMPTY_VALUE_ERROR": "Изисква се стойност",
+    "TOOLTIP_LABEL": "Филтрирай разговорите",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "И",
+      "OR": "ИЛИ"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Равно на",
+      "not_equal_to": "Различно от",
+      "contains": "Съдържа",
+      "does_not_contain": "Не съдържа",
+      "is_present": "Присъства",
+      "is_not_present": "Не присъства"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Статус",
+      "ASSIGNEE_NAME": "Име на правоприемника",
+      "INBOX_NAME": "Име на входящата кутия",
+      "TEAM_NAME": "Име на екипа",
+      "CONVERSATION_IDENTIFIER": "Идентивикатор на разговор",
+      "CAMPAIGN_NAME": "Име на кампания",
+      "LABELS": "Етикети",
+      "BROWSER_LANGUAGE": "Език на браузъра",
+      "COUNTRY_NAME": "Име на държавата",
+      "REFERER_LINK": "Референтна връзка"
+    }
+  }
+}

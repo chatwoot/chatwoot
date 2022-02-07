@@ -4,7 +4,8 @@ import { newMessageNotification } from 'shared/helpers/AudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
-    super(app, pubsubToken);
+    const { websocketURL = '' } = window.chatwootConfig || {};
+    super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
     this.events = {
       'message.created': this.onMessageCreated,
@@ -18,6 +19,9 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_off': this.onTypingOff,
       'conversation.contact_changed': this.onConversationContactChange,
       'presence.update': this.onPresenceUpdate,
+      'contact.deleted': this.onContactDelete,
+      'contact.updated': this.onContactUpdate,
+      'conversation.mentioned': this.onConversationMentioned,
     };
   }
 
@@ -32,7 +36,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onPresenceUpdate = data => {
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
-    this.app.$store.dispatch('setCurrentUserAvailabilityStatus', data.users);
+    this.app.$store.dispatch('setCurrentUserAvailability', data.users);
   };
 
   onConversationContactChange = payload => {
@@ -94,6 +98,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     });
   };
 
+  onConversationMentioned = data => {
+    this.app.$store.dispatch('addMentions', data);
+  };
+
   clearTimer = conversationId => {
     const timerEvent = this.CancelTyping[conversationId];
 
@@ -113,6 +121,18 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
+  };
+
+  onContactDelete = data => {
+    this.app.$store.dispatch(
+      'contacts/deleteContactThroughConversations',
+      data.id
+    );
+    this.fetchConversationStats();
+  };
+
+  onContactUpdate = data => {
+    this.app.$store.dispatch('contacts/updateContact', data);
   };
 }
 

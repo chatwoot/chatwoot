@@ -1,0 +1,21 @@
+
+type: object
+properties:
+  identifier:
+    type: string
+    description: External identifier of the contact
+  identifier_hash:
+    type: string
+    description: Identifier hash prepared for HMAC authentication
+  email:
+    type: string
+    description: Email of the contact
+  name: 
+    type: string
+    description: Name of the contact
+  avatar_url:
+    type: string
+    description: The url to a jpeg, png file for the user avatar
+  custom_attributes:
+    type: object
+    description: Custom attributes of the customer

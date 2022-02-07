@@ -1,16 +1,15 @@
-import { triggerCampaign } from 'widget/api/campaign';
-
+import store from '../store';
 class CampaignTimer {
   constructor() {
     this.campaignTimers = [];
   }
 
-  initTimers = ({ campaigns }) => {
+  initTimers = ({ campaigns }, websiteToken) => {
     this.clearTimers();
     campaigns.forEach(campaign => {
       const { timeOnPage, id: campaignId } = campaign;
       this.campaignTimers[campaignId] = setTimeout(() => {
-        triggerCampaign({ campaignId });
+        store.dispatch('campaign/startCampaign', { campaignId, websiteToken });
       }, timeOnPage * 1000);
     });
   };

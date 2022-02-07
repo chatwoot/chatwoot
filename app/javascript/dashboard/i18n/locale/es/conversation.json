@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "UNVERIFIED_SESSION": "La identidad de este usuario no está verificada",
     "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
     "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
     "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
@@ -9,6 +10,7 @@
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "SEARCH": {
       "TITLE": "Buscar mensajes",
+      "RESULT_TITLE": "Buscar resultados",
       "LOADING_MESSAGE": "Cruzando datos...",
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
       "NO_MATCHING_RESULTS": "No se encontraron resultados."
@@ -22,22 +24,35 @@
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "LAST_INCOMING_TWEET": "Esta respondiendo al último tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Por favor, seleccione un tweet al que responder.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
+    "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
+    "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
+    "RATING_TITLE": "Calificación",
+    "FEEDBACK_TITLE": "Comentarios",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abrir",
       "OPEN": "Más",
       "CLOSE": "Cerrar",
-      "DETAILS": "detalles"
+      "DETAILS": "detalles",
+      "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Posponer hasta la siguiente respuesta"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Abrir con bot"
+      "MARK_PENDING": "Marcar como pendiente",
+      "SNOOZE": {
+        "TITLE": "Posponer hasta",
+        "NEXT_REPLY": "Siguiente respuesta",
+        "TOMORROW": "Mañana",
+        "NEXT_WEEK": "Próxima semana"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
@@ -52,18 +67,37 @@
       "TIP_FORMAT_ICON": "Mostrar editor de textos",
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
-      "ENTER_TO_SEND": "Ingresar para enviar"
+      "ENTER_TO_SEND": "Ingresar para enviar",
+      "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Añadir bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Correos separados por comas",
+          "ERROR": "Por favor, introduzca correo válido"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Correos separados por comas",
+          "ERROR": "Por favor, introduzca correo válido"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
     "CHANGE_TEAM": "Equipo de conversación cambiado",
     "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Seleccionar agente",
       "REMOVE": "Eliminar",
       "ASSIGN": "Asignar"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copiar",
+      "DELETE": "Eliminar"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Detalles de la conversación",
     "ASSIGNEE_LABEL": "Agente asignado",
+    "SELF_ASSIGN": "Asignar a mi",
     "TEAM_LABEL": "Equipo asignado",
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Detalles de contacto",
+      "CONVERSATION_ACTIONS": "Acciones de conversación",
+      "CONVERSATION_LABELS": "Etiquetas de conversación",
+      "CONVERSATION_INFO": "Información de la conversación",
+      "CONTACT_ATTRIBUTES": "Atributos de contacto",
+      "PREVIOUS_CONVERSATION": "Conversaciones anteriores"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Crear atributo",
+    "UPDATE": {
+      "SUCCESS": "Atributo actualizado correctamente",
+      "ERROR": "No se puede actualizar el atributo. Por favor, inténtalo de nuevo más tarde"
+    },
+    "ADD": {
+      "TITLE": "Añadir",
+      "SUCCESS": "Atributo añadido correctamente",
+      "ERROR": "No se puede agregar atributo. Por favor, inténtalo de nuevo más tarde"
+    },
+    "DELETE": {
+      "SUCCESS": "Atributo eliminado correctamente",
+      "ERROR": "No se puede eliminar el atributo. Por favor, inténtalo de nuevo más tarde"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Añadir atributos",
+      "PLACEHOLDER": "Buscar atributos",
+      "NO_RESULT": "No se encontraron atributos"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Para",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Asunto"
   }
 }

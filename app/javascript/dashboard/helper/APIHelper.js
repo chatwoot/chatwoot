@@ -1,14 +1,11 @@
 /* eslint no-console: 0 */
-import constants from '../constants';
 import Auth from '../api/auth';
 
-const parseErrorCode = error => {
-  return Promise.reject(error);
-};
+const parseErrorCode = error => Promise.reject(error);
 
 export default axios => {
-  const wootApi = axios.create();
-  wootApi.defaults.baseURL = constants.apiURL;
+  const { apiHost = '' } = window.chatwootConfig || {};
+  const wootApi = axios.create({ baseURL: `${apiHost}/` });
   // Add Auth Headers to requests if logged in
   if (Auth.isLoggedIn()) {
     const {

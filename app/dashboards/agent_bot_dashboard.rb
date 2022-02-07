@@ -12,11 +12,11 @@ class AgentBotDashboard < Administrate::BaseDashboard
     avatar_url: AvatarField,
     id: Field::Number,
     name: Field::String,
+    account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
     description: Field::String,
     outgoing_url: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
-    hide_input_for_bot_conversations: Field::Boolean
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,6 +27,7 @@ class AgentBotDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     avatar_url
+    account
     name
     outgoing_url
   ].freeze
@@ -35,11 +36,10 @@ class AgentBotDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    avatar_url
+    account
     name
     description
     outgoing_url
-    hide_input_for_bot_conversations
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -47,9 +47,9 @@ class AgentBotDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
+    account
     description
     outgoing_url
-    hide_input_for_bot_conversations
   ].freeze
 
   # COLLECTION_FILTERS

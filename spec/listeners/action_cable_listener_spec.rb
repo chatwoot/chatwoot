@@ -24,7 +24,23 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token],
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],
+        'message.created',
+        message.push_event_data.merge(account_id: account.id)
+      )
+      listener.message_created(event)
+    end
+
+    it 'sends message to all hmac verified contact inboxes' do
+      # HACK: to reload conversation inbox members
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+      conversation.contact_inbox.update(hmac_verified: true)
+      # creating a non verified contact inbox to ensure the events are not sent to it
+      create(:contact_inbox, contact: conversation.contact, inbox: inbox)
+      verified_contact_inbox = create(:contact_inbox, contact: conversation.contact, inbox: inbox, hmac_verified: true)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token, verified_contact_inbox.pubsub_token],
         'message.created',
         message.push_event_data.merge(account_id: account.id)
       )
@@ -34,7 +50,7 @@ describe ActionCableListener do
 
   describe '#typing_on' do
     let(:event_name) { :'conversation.typing_on' }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
 
     it 'sends message to account admins, inbox agents and the contact' do
       # HACK: to reload conversation inbox members
@@ -43,7 +59,8 @@ describe ActionCableListener do
         [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_on', conversation: conversation.push_event_data,
                                   user: agent.push_event_data,
-                                  account_id: account.id
+                                  account_id: account.id,
+                                  is_private: false
       )
       listener.conversation_typing_on(event)
     end
@@ -51,7 +68,7 @@ describe ActionCableListener do
 
   describe '#typing_off' do
     let(:event_name) { :'conversation.typing_off' }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
 
     it 'sends message to account admins, inbox agents and the contact' do
       # HACK: to reload conversation inbox members
@@ -60,9 +77,25 @@ describe ActionCableListener do
         [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_off', conversation: conversation.push_event_data,
                                    user: agent.push_event_data,
-                                   account_id: account.id
+                                   account_id: account.id,
+                                   is_private: false
       )
       listener.conversation_typing_off(event)
+    end
+  end
+
+  describe '#contact_deleted' do
+    let(:event_name) { :'contact.deleted' }
+    let!(:contact) { create(:contact, account: account) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
+
+    it 'sends message to account admins, inbox agents' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token],
+        'contact.deleted',
+        contact.push_event_data.merge(account_id: account.id)
+      )
+      listener.contact_deleted(event)
     end
   end
 end

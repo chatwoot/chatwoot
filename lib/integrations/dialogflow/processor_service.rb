@@ -5,21 +5,26 @@ class Integrations::Dialogflow::ProcessorService
     message = event_data[:message]
     return if message.private?
     return unless processable_message?(message)
-    return unless message.conversation.bot?
+    return unless message.conversation.pending?
 
-    response = get_dialogflow_response(message.conversation.contact_inbox.source_id, message_content(message))
-    process_response(message, response)
+    content = message_content(message)
+    response = get_dialogflow_response(message.conversation.contact_inbox.source_id, content) if content.present?
+    process_response(message, response) if response.present?
   end
 
   private
 
   def message_content(message)
-    return message.content_attributes['submitted_values'].first['value'] if event_name == 'message.updated'
+    # TODO: might needs to change this to a way that we fetch the updated value from event data instead
+    # cause the message.updated event could be that that the message was deleted
+
+    return message.content_attributes['submitted_values']&.first&.dig('value') if event_name == 'message.updated'
 
     message.content
   end
 
   def processable_message?(message)
+    # TODO: change from reportable and create a dedicated method for this?
     return unless message.reportable?
     return if message.outgoing? && !processable_outgoing_message?(message)
 
@@ -39,14 +44,22 @@ class Integrations::Dialogflow::ProcessorService
   end
 
   def process_response(message, response)
-    text_response = response.query_result['fulfillment_text']
+    fulfillment_messages = response.query_result['fulfillment_messages']
+    fulfillment_messages.each do |fulfillment_message|
+      content_params = generate_content_params(fulfillment_message)
+      if content_params['action'].present?
+        process_action(message, content_params['action'])
+      else
+        create_conversation(message, content_params)
+      end
+    end
+  end
 
-    content_params = { content: text_response } if text_response.present?
-    content_params ||= response.query_result['fulfillment_messages'].first['payload'].to_h
-
-    process_action(message, content_params['action']) and return if content_params['action'].present?
-
-    create_conversation(message, content_params)
+  def generate_content_params(fulfillment_message)
+    text_response = fulfillment_message['text'].to_h
+    content_params = { content: text_response[:text].first } if text_response[:text].present?
+    content_params ||= fulfillment_message['payload'].to_h
+    content_params
   end
 
   def create_conversation(message, content_params)
@@ -64,6 +77,8 @@ class Integrations::Dialogflow::ProcessorService
     case action
     when 'handoff'
       message.conversation.open!
+    when 'resolve'
+      message.conversation.resolved!
     end
   end
 end

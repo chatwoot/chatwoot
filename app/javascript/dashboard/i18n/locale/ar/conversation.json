@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
@@ -9,6 +10,7 @@
     "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
       "TITLE": "البحث في الرسائل",
+      "RESULT_TITLE": "نتائج البحث",
       "LOADING_MESSAGE": "جار تجزئة البيانات...",
       "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
       "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
@@ -20,24 +22,37 @@
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
-    "LAST_INCOMING_TWEET": "أنت ترد على آخر تغريدة واردة",
+    "SELECT_A_TWEET_TO_REPLY": "الرجاء تحديد تغريدة للرد عليها.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
+    "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RATING_TITLE": "التقييم",
+    "FEEDBACK_TITLE": "الملاحظات",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
       "OPEN_ACTION": "فتح",
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
-      "DETAILS": "التفاصيل"
+      "DETAILS": "التفاصيل",
+      "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
+      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "تحديد كمعلق",
+      "SNOOZE": {
+        "TITLE": "تأجيل حتى",
+        "NEXT_REPLY": "الرد القادم",
+        "TOMORROW": "غداً",
+        "NEXT_WEEK": "الأسبوع المقبل"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
@@ -52,18 +67,37 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
-      "ENTER_TO_SEND": "زر الإدخل للإرسال"
+      "ENTER_TO_SEND": "زر الإدخل للإرسال",
+      "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "إضافة bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
       "ASSIGN": "تكليف"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "نسخ",
+      "DELETE": "حذف"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "تفاصيل المحادثة",
     "ASSIGNEE_LABEL": "الوكيل المكلف",
+    "SELF_ASSIGN": "إسناد لي",
     "TEAM_LABEL": "العضو المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "تفاصيل جهة الاتصال",
+      "CONVERSATION_ACTIONS": "إجراءات المحادثة",
+      "CONVERSATION_LABELS": "وسوم المحادثة",
+      "CONVERSATION_INFO": "معلومات المحادثة",
+      "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
+      "PREVIOUS_CONVERSATION": "المحادثات السابقة"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "إنشاء سمة جديدة",
+    "UPDATE": {
+      "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "ADD": {
+      "TITLE": "إضافة",
+      "SUCCESS": "تمت إضافة السمة بنجاح",
+      "ERROR": "غير قادر على إضافة السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "DELETE": {
+      "SUCCESS": "تم حذف السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على حذف السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "أضف سمة",
+      "PLACEHOLDER": "البحث عن سمات",
+      "NO_RESULT": "لم يتم العثور على سمات"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "إلى",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "الموضوع"
   }
 }

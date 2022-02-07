@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: Id of the conversation
+  inbox_id:
+    type: string
+    description: The inbox id of the conversation
+  messages:
+    type: array
+    items:
+      $ref: '#/definitions/message'
+    description: Messages in the conversation
+  contact:
+    type: object
+    description: The contact information associated to the conversation

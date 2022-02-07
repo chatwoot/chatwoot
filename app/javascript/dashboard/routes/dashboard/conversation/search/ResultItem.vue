@@ -1,14 +1,18 @@
 <template>
   <div class="search-result" @click="onClick">
     <div class="result-header">
-      <div class="message">
-        <i class="ion-ios-chatboxes-outline" />
+      <div class="conversation--block">
+        <fluent-icon icon="chat" class="icon--conversation-search-item" />
         <div class="conversation">
-          <div class="name-wrap">
-            <span class="user-name">{{ userName }}</span>
-            <div>
-              <span class="conversation-id"># {{ conversationId }}</span>
+          <div class="user-wrap">
+            <div class="name-wrap">
+              <span class="sub-block-title">{{ userName }}</span>
             </div>
+            <woot-label
+              :title="conversationsId"
+              :small="true"
+              color-scheme="secondary"
+            />
           </div>
           <span class="inbox-name">{{ inboxName }}</span>
         </div>
@@ -69,6 +73,9 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    conversationsId() {
+      return `# ${this.conversationId}`;
+    },
     readableTime() {
       if (!this.timestamp) {
         return '';
@@ -121,24 +128,20 @@ export default {
     .timestamp {
       color: var(--white);
     }
-    .ion-ios-chatboxes-outline {
+    .icon--conversation-search-item {
       color: var(--white);
-    }
-    .conversation-id {
-      background: var(--w-50);
-      color: var(--s-500);
     }
   }
 }
 
-.message {
+.conversation--block {
+  align-items: center;
   display: flex;
 }
 
-.ion-ios-chatboxes-outline {
+.icon--conversation-search-item {
   align-items: center;
   display: flex;
-  font-size: var(--font-size-large);
   color: var(--w-500);
 }
 
@@ -149,35 +152,26 @@ export default {
   padding: var(--space-smaller) var(--space-one);
 }
 
-.name-wrap {
+.user-wrap {
   display: flex;
-  width: 20rem;
 
-  .user-name {
-    font-size: var(--font-size-default);
-    font-weight: var(--font-weight-bold);
-    margin-right: var(--space-micro);
+  .name-wrap {
+    max-width: 20rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-  }
 
-  .conversation-id {
-    background: var(--w-400);
-    border-radius: var(--border-radius-normal);
-    color: var(--w-50);
-    align-items: center;
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-bold);
-    padding: 0 var(--space-smaller);
-    white-space: nowrap;
+    .sub-block-title {
+      font-weight: var(--font-weight-bold);
+      margin-right: var(--space-micro);
+    }
   }
 }
 
 .inbox-name {
   border-radius: var(--border-radius-normal);
   color: var(--s-500);
-  font-size: var(--font-size-normal);
+  font-size: var(--font-size-mini);
   font-weight: var(--font-weight-medium);
 }
 

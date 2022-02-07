@@ -31,6 +31,9 @@ const getters = {
       return isChatMine;
     });
   },
+  getAppliedConversationFilters: _state => {
+    return _state.appliedFilters;
+  },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
       const isUnAssigned = !conversation.meta.assignee;
@@ -63,6 +66,11 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
+  getConversationById: _state => conversationId => {
+    return _state.allConversations.find(
+      value => value.id === Number(conversationId)
+    );
+  },
 };
 
 export default getters;

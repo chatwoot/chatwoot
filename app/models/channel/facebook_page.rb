@@ -8,6 +8,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :integer          not null
+#  instagram_id      :string
 #  page_id           :string           not null
 #
 # Indexes
@@ -17,15 +18,12 @@
 #
 
 class Channel::FacebookPage < ApplicationRecord
-  self.table_name = 'channel_facebook_pages'
-
+  include Channelable
   include Reauthorizable
 
-  validates :account_id, presence: true
-  validates :page_id, uniqueness: { scope: :account_id }
-  belongs_to :account
+  self.table_name = 'channel_facebook_pages'
 
-  has_one :inbox, as: :channel, dependent: :destroy
+  validates :page_id, uniqueness: { scope: :account_id }
 
   after_create_commit :subscribe
   before_destroy :unsubscribe
@@ -38,6 +36,19 @@ class Channel::FacebookPage < ApplicationRecord
     true
   end
 
+  def create_contact_inbox(instagram_id, name)
+    ActiveRecord::Base.transaction do
+      contact = inbox.account.contacts.create!(name: name)
+      ::ContactInbox.create(
+        contact_id: contact.id,
+        inbox_id: inbox.id,
+        source_id: instagram_id
+      )
+    rescue StandardError => e
+      Rails.logger.info e
+    end
+  end
+
   def subscribe
     # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
     response = Facebook::Messenger::Subscriptions.subscribe(
@@ -47,14 +58,14 @@ class Channel::FacebookPage < ApplicationRecord
       ]
     )
   rescue => e
-    Rails.logger.debug "Rescued: #{e.inspect}"
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
   rescue => e
-    Rails.logger.debug "Rescued: #{e.inspect}"
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 end

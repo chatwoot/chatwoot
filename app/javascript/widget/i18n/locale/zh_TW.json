@@ -13,13 +13,14 @@
     "OFFLINE": "我們目前不在線上"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
+    "IN_A_FEW_HOURS": "通常在幾小時內回覆",
+    "IN_A_DAY": "通常在一天內回覆"
   },
   "START_CONVERSATION": "開始對話",
+  "START_NEW_CONVERSATION": "開始一個新對話",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "查看新訊息",
     "CLOSE_MESSAGES_BUTTON": "關閉",
     "COMPANY_FROM": "from",
     "BOT": "機器人"
@@ -47,9 +48,25 @@
       "MESSAGE": {
         "LABEL": "訊息",
         "PLACEHOLDER": "請輸入你的訊息",
-        "ERROR": "Message too short"
+        "ERROR": "訊息過短"
       }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "無效的欄位"
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "告訴我們更多..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "出現錯誤，請重試"
+  }
 }

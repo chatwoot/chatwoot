@@ -17,13 +17,27 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+
+  ACCEPTABLE_FILE_TYPES = %w[
+    text/csv text/plain text/rtf
+    application/json application/pdf
+    application/zip application/x-7z-compressed application/vnd.rar application/x-tar
+    application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/rtf
+    application/vnd.oasis.opendocument.text
+    application/vnd.openxmlformats-officedocument.presentationml.presentation
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  ].freeze
+
   belongs_to :account
   belongs_to :message
   has_one_attached :file
+  validate :acceptable_file
 
   enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
   def push_event_data
+    return unless file_type
     return base_data.merge(location_metadata) if file_type.to_sym == :location
     return base_data.merge(fallback_data) if file_type.to_sym == :fallback
 
@@ -75,5 +89,32 @@ class Attachment < ApplicationRecord
       file_type: file_type,
       account_id: account_id
     }
+  end
+
+  def should_validate_file?
+    return unless file.attached?
+    # we are only limiting attachment types in case of website widget
+    return unless message.inbox.channel_type == 'Channel::WebWidget'
+
+    true
+  end
+
+  def acceptable_file
+    return unless should_validate_file?
+
+    validate_file_size(file.byte_size)
+    validate_file_content_type(file.content_type)
+  end
+
+  def validate_file_content_type(file_content_type)
+    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+  end
+
+  def validate_file_size(byte_size)
+    errors.add(:file, 'size is too big') if byte_size > 40.megabytes
+  end
+
+  def media_file?(file_content_type)
+    file_content_type.start_with?('image/', 'video/', 'audio/')
   end
 end

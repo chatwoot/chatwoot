@@ -39,7 +39,7 @@
       "CREATE": {
         "TITLE": "팀 내용 수정",
         "DESC": "팀명 및 소개를 수정하세요.",
-        "BUTTON_TEXT": "Update team"
+        "BUTTON_TEXT": "팀 내용 업데이트"
       },
       "AGENTS": {
         "BUTTON_TEXT": "에이전트 업데이트",
@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "%{teamName}팀을 삭제하시겠습니까?",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",
         "NO": "취소"

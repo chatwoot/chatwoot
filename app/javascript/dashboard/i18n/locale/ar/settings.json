@@ -3,6 +3,9 @@
     "LINK": "إعدادات الملف الشخصي",
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
@@ -28,7 +31,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "الإشعارات الصوتية",
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
-        "ENABLE_AUDIO": "تشغيل إشعار صوتي عند إنشاء محادثة جديدة أو وصول رسائل جديدة"
+        "NONE": "لا شيء",
+        "ASSIGNED": "المحادثات المسندة",
+        "ALL_CONVERSATIONS": "كل المحادثات"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -78,6 +83,11 @@
         "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
         "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني الخاص بك، سيتم عرضه في المحادثات"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "كلمة المرور الحالية",
+        "ERROR": "الرجاء إدخال كلمة مرور جديدة",
+        "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
+      },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
@@ -93,13 +103,16 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "تبديل الحساب",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
+    "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
     "LOGOUT": "تسجيل الخروج"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
-    "TRAIL_BUTTON": "اشترك الآن"
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "حذف المستخدم"
   },
   "COMPONENTS": {
     "CODE": {
@@ -122,20 +135,42 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "المحادثات",
+    "ALL_CONVERSATIONS": "كل المحادثات",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "التقارير",
-    "CONTACTS": "جهات الاتصال",
     "SETTINGS": "الإعدادات",
+    "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
     "INTEGRATIONS": "خيارات الربط",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
+    "APPLICATIONS": "التطبيقات",
     "LABELS": "الوسوم",
-    "TEAMS": "الفرق"
+    "CUSTOM_ATTRIBUTES": "سمات مخصصة",
+    "AUTOMATION": "الأتمتة",
+    "TEAMS": "الفرق",
+    "ALL_CONTACTS": "جميع جهات الاتصال",
+    "TAGGED_WITH": "مشار إليه بواسطة",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_OVERVIEW": "نظرة عامة",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "الحملات",
+    "ONGOING": "جارية",
+    "ONE_OFF": "إيقاف واحد",
+    "REPORTS_AGENT": "موظف الدعم",
+    "REPORTS_LABEL": "الوسوم",
+    "REPORTS_INBOX": "صندوق الوارد",
+    "REPORTS_TEAM": "الفريق",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
     "NEW_ACCOUNT": "حساب جديد",
     "SELECTOR_SUBTITLE": "إنشاء حساب جديد",
     "API": {
@@ -149,6 +184,31 @@
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "فتح المحادثة",
+      "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",
+      "NAVIGATE_DROPDOWN": "تصفح العناصر المنسدلة",
+      "RESOLVE_CONVERSATION": "إعادة فتح المحادثة",
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "ADD_ATTACHMENT": "إضافة مرفقات",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "TOGGLE_SIDEBAR": "تبديل الشريط الجانبي",
+      "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
+      "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
+      "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
+      "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
+      "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
+      "TOGGLE_RICH_CONTENT_EDITOR": "تبديل محرر المحتوى المتقدم",
+      "SWITCH_TO_REPLY": "التبديل إلى الرد",
+      "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

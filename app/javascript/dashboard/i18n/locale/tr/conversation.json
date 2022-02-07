@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Lütfen sol bölmeden bir konuşma seçin",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
     "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
     "NO_INBOX_1": "Görünüşe göre henüz gelen kutusu eklemediniz.",
@@ -9,6 +10,7 @@
     "SEARCH_MESSAGES": "Sohbetlerde ara",
     "SEARCH": {
       "TITLE": "Mesajları ara",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
       "NO_MATCHING_RESULTS": "Sonuç bulunamadı."
@@ -22,22 +24,35 @@
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "LAST_INCOMING_TWEET": "Son gelen tweet'e cevap veriyorsun",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Cevap Yok",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
       "OPEN_ACTION": "Açık",
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
-      "DETAILS": "detaylar"
+      "DETAILS": "detaylar",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Bot ile aç"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
@@ -52,18 +67,37 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
-      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın"
+      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
     "CHANGE_TEAM": "Görüşme takımı değişti",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
       "ASSIGN": "Atama yap"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopyala",
+      "DELETE": "Sil"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
     "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
       "PLACEHOLDER": "None"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Konuşma Etiketleri",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Önceki Sohbetler"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Ekle",
+      "SUCCESS": "Öznitelik başarıyla eklendi",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "ya",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

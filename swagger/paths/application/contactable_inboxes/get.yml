@@ -1,0 +1,24 @@
+get:
+  tags:
+    - Contact
+  operationId: contactableInboxesGet
+  description: Get List of contactable Inboxes
+  summary: Get Contactable Inboxes
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the contact
+      required: true
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/contactable_inboxes'
+    401:
+      description: Authentication error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+    422:
+      description: Incorrect payload

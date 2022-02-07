@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Tên hộp thư đến",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Tên trang web",
+        "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
+      },
       "FB": {
         "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
@@ -39,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kênh trang web",
@@ -48,9 +59,10 @@
         "CHANNEL_AVATAR": {
           "LABEL": "Hình đại diện kênh"
         },
-        "CHANNEL_NAME": {
-          "LABEL": "Tên trang web",
-          "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Vui lòng nhập một URL hợp lệ"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain trang web",
@@ -88,8 +100,8 @@
         "SUBMIT_BUTTON": "Tạo hộp thư đến"
       },
       "TWILIO": {
-        "TITLE": "Kênh Twilio SMS/Whatsapp",
-        "DESC": "Tích hợp Twilio và bắt đầu hỗ trợ khách hàng của bạn qua SMS hoặc Whatsapp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Tài khoản SID",
           "PLACEHOLDER": "Vui lòng nhập SID tài khoản Twilio của bạn",
@@ -105,8 +117,8 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Tên kênh",
-          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "LABEL": "Tên hộp thư đến",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Trường này là bắt buộc"
         },
         "PHONE_NUMBER": {
@@ -121,6 +133,40 @@
         "SUBMIT_BUTTON": "Tạo kênh Twilio",
         "API": {
           "ERROR_MESSAGE": "Chúng tôi không thể xác thực thông tin đăng nhập Twilio, vui lòng thử lại"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel via Twilio",
+        "DESC": "Start supporting your customers via SMS with Twilio integration."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Tên hộp thư đến",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Trường này là bắt buộc"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Số Điện Thoại",
+          "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
+          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
@@ -150,9 +196,9 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "Thư điện tử",
           "SUBTITLE": "Email nơi khách hàng của bạn gửi cho bạn vé hỗ trợ",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "Thư điện tử"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
         "API": {
@@ -160,9 +206,51 @@
         },
         "FINISH_MESSAGE": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau."
       },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Tên Kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
       "AUTH": {
-        "TITLE": "Kênh",
-        "DESC": "Hiện tại, chúng tôi hỗ trợ các tiện ích trò chuyện trực tiếp trên Trang web, Trang Facebook và hồ sơ Twitter làm nền tảng. Chúng tôi có nhiều nền tảng hơn như Whatsapp, Email, Telegram và Line đang hoạt động, sẽ sớm ra mắt."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
@@ -208,19 +296,34 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Bật",
         "DISABLED": "Không bật"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Xác nhận xoá",
         "MESSAGE": "Bạn có muốn xoá? ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Có, Xoá ",
         "NO": "Không, Giữ "
       },
       "API": {
         "SUCCESS_MESSAGE": "Hộp thư đến đã được xóa thành công",
-        "ERROR_MESSAGE": "Không thể xóa hộp thư đến. Vui lòng thử lại sau."
+        "ERROR_MESSAGE": "Không thể xóa hộp thư đến. Vui lòng thử lại sau.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
@@ -243,12 +346,22 @@
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
       "UPDATE": "Cập nhật",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
+      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ủy quyền lại",
@@ -280,7 +393,7 @@
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -289,6 +402,65 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Thư điện tử",
+        "PLACE_HOLDER": "Thư điện tử"
+      },
+      "PASSWORD": {
+        "LABEL": "Mật khẩu",
+        "PLACE_HOLDER": "Mật khẩu"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Thư điện tử",
+        "PLACE_HOLDER": "Thư điện tử"
+      },
+      "PASSWORD": {
+        "LABEL": "Mật khẩu",
+        "PLACE_HOLDER": "Mật khẩu"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

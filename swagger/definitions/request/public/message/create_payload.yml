@@ -1,0 +1,10 @@
+
+type: object
+properties:
+  content:
+    type: string
+    description: Content for the message
+  echo_id:
+    type: string
+    description: Temporary identifier which will be passed back via websockets
+  

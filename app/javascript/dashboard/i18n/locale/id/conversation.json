@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Pilih percakapan dari panel kiri",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
     "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
     "NO_INBOX_1": "Halo! Sepertinya Anda belum menambahkan kotak masuk apa pun.",
@@ -9,9 +10,10 @@
     "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
     "SEARCH": {
       "TITLE": "Mencari pesan",
+      "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Mengolah data...",
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan."
     },
     "UNREAD_MESSAGES": "Pesan Belum Terbaca",
     "UNREAD_MESSAGE": "Pesan Belum Terbaca",
@@ -20,24 +22,37 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "LAST_INCOMING_TWEET": "Anda membalas tweet masuk terakhir",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "Anda membalas:",
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "Tidak ada respon",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
       "REOPEN_ACTION": "Buka Kembali",
       "OPEN_ACTION": "Terbuka",
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
-      "DETAILS": "detail"
+      "DETAILS": "detail",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
@@ -52,18 +67,37 @@
       "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
-      "ENTER_TO_SEND": "Enter untuk mengirim"
+      "ENTER_TO_SEND": "Enter untuk mengirim",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
     "CHANGE_AGENT": "Petugas Percakapan berubah",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "CHANGE_TEAM": "Tim percakapan berubah",
+    "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Dikirim oleh:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",
       "REMOVE": "Hapus",
       "ASSIGN": "Tugaskan"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Salin",
+      "DELETE": "Hapus"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agen Ditugaskan",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Tim Ditugaskan",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Tidak ada"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Label Percakapan",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Atribut berhasil diperbarui",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Tambah",
+      "SUCCESS": "Atribut berhasil ditambahkan",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Atribut berhasil dihapus",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "Ke",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
   }
 }

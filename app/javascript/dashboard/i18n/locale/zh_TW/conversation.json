@@ -1,14 +1,16 @@
 {
   "CONVERSATION": {
     "404": "請從左側窗格選擇一個對話",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件匣中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
-    "NO_INBOX_1": "看來你還没有建立任何收件匣。",
+    "NO_INBOX_1": "看來你還沒有新增任何收件匣。",
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "SEARCH": {
       "TITLE": "搜尋訊息",
+      "RESULT_TITLE": "搜尋結果",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "輸入任何文字以搜尋訊息",
       "NO_MATCHING_RESULTS": "查無結果。"
@@ -22,22 +24,35 @@
     "24_HOURS_WINDOW": "24 小時消息視窗限制",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "正在上傳附件...",
+    "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
+    "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
       "REOPEN_ACTION": "重新打開",
       "OPEN_ACTION": "打開",
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
-      "DETAILS": "詳情"
+      "DETAILS": "詳情",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "使用 bot 開啟"
+      "MARK_PENDING": "標記為待處理",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "下個回覆",
+        "TOMORROW": "明天",
+        "NEXT_WEEK": "下週"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
@@ -47,23 +62,42 @@
       "REPLY": "回覆",
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
-      "CREATE": "建立筆記",
+      "CREATE": "新增筆記",
       "TWEET": "推特",
-      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
-      "ENTER_TO_SEND": "按下 Enter 傳送"
+      "ENTER_TO_SEND": "按下 Enter 傳送",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "密件副本",
+        "CC": {
+          "LABEL": "副本",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
+          "ERROR": "請輸入有效的電子信箱"
+        },
+        "BCC": {
+          "LABEL": "密件副本",
+          "PLACEHOLDER": "使用半型逗號分隔 Email",
+          "ERROR": "請輸入有效的電子信箱"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
     "CHANGE_AGENT": "對話指派人已更改",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "寄送者：",
     "ASSIGNMENT": {
       "SELECT_AGENT": "選擇客服",
       "REMOVE": "刪除",
       "ASSIGN": "指派"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "複製",
+      "DELETE": "刪除"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -86,7 +120,7 @@
   "ONBOARDING": {
     "TITLE": "Hey 👋， 歡迎來到 %{installationName}！",
     "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "READ_LATEST_UPDATES": "查看我們最後的更新",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
@@ -97,7 +131,7 @@
       "NEW_LINK": "按此邀請一個新成員"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
+      "TITLE": "連結收件匣",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
       "NEW_LINK": "按此建立一個收件匣"
     },
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "對話詳細資訊",
     "ASSIGNEE_LABEL": "指派客服",
+    "SELF_ASSIGN": "指定給我",
     "TEAM_LABEL": "指派團隊",
     "SELECT": {
       "PLACEHOLDER": "無"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "聯絡人詳細資料",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "對話標記",
+      "CONVERSATION_INFO": "對話資訊",
+      "CONTACT_ATTRIBUTES": "聯絡人屬性",
+      "PREVIOUS_CONVERSATION": "上一次對話"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "屬性更新成功",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "新增",
+      "SUCCESS": "屬性新增成功",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "To",
+    "BCC": "密件副本",
+    "CC": "副本",
+    "SUBJECT": "主旨"
   }
 }

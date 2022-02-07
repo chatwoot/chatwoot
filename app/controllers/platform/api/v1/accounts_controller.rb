@@ -16,7 +16,7 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def destroy
-    # TODO: obfusicate account
+    DeleteObjectJob.perform_later(@resource)
     head :ok
   end
 

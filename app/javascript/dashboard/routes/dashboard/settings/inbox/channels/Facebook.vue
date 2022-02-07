@@ -163,7 +163,7 @@ export default {
           FB.init({
             appId: window.chatwootConfig.fbAppId,
             xfbml: true,
-            version: 'v7.0',
+            version: 'v12.0',
             status: true,
           });
           window.fbSDKLoaded = true;
@@ -206,7 +206,8 @@ export default {
           }
         },
         {
-          scope: 'pages_manage_metadata,pages_messaging',
+          scope:
+            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
         }
       );
     },

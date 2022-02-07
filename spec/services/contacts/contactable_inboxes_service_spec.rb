@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 describe Contacts::ContactableInboxesService do
+  before do
+    stub_request(:post, /graph.facebook.com/)
+  end
+
   let(:account) { create(:account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, account: account, email: 'contact@example.com', phone_number: '+2320000') }
   let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
   let!(:twilio_sms_inbox) { create(:inbox, channel: twilio_sms, account: account) }
   let!(:twilio_whatsapp) { create(:channel_twilio_sms, medium: :whatsapp, account: account) }
@@ -11,8 +15,8 @@ describe Contacts::ContactableInboxesService do
   let!(:email_inbox) { create(:inbox, channel: email_channel, account: account) }
   let!(:api_channel) { create(:channel_api, account: account) }
   let!(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
-  let!(:website_channel) { create(:channel_widget, account: account) }
-  let!(:website_inbox) { create(:inbox, channel: website_channel, account: account) }
+  let!(:website_inbox) { create(:inbox, channel: create(:channel_widget, account: account), account: account) }
+  let!(:sms_inbox) { create(:inbox, channel: create(:channel_sms, account: account), account: account) }
 
   describe '#get' do
     it 'returns the contactable inboxes for the contact' do
@@ -21,7 +25,7 @@ describe Contacts::ContactableInboxesService do
       expect(contactable_inboxes).to include({ source_id: contact.phone_number, inbox: twilio_sms_inbox })
       expect(contactable_inboxes).to include({ source_id: "whatsapp:#{contact.phone_number}", inbox: twilio_whatsapp_inbox })
       expect(contactable_inboxes).to include({ source_id: contact.email, inbox: email_inbox })
-      expect(contactable_inboxes.pluck(:inbox)).to include(api_inbox)
+      expect(contactable_inboxes).to include({ source_id: contact.phone_number, inbox: sms_inbox })
     end
 
     it 'doest not return the non contactable inboxes for the contact' do

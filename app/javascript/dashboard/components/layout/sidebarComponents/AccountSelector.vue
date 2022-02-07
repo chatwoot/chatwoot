@@ -14,7 +14,13 @@
       class="account-selector"
     >
       <a :href="`/app/accounts/${account.id}/dashboard`">
-        <i v-if="account.id === accountId" class="ion ion-ios-checkmark" />
+        <fluent-icon
+          v-if="account.id === accountId"
+          class="selected--account"
+          icon="checkmark-circle"
+          type="solid"
+          size="24"
+        />
         <label :for="account.name" class="account--details">
           <div class="account--name">{{ account.name }}</div>
           <div class="account--role">{{ account.role }}</div>

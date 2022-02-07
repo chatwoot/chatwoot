@@ -2,7 +2,10 @@
   "CAMPAIGN": {
     "HEADER": "Campaigns",
     "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
@@ -13,6 +16,22 @@
           "LABEL": "Title",
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "Please select the time",
+          "CONFIRM": "Confirm",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
         },
         "MESSAGE": {
           "LABEL": "Message",
@@ -35,11 +54,25 @@
           "ERROR": "Time on page is required"
         },
         "ENABLED": "Enable campaign",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Add Campaign"
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign created successfully",
         "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Poista",
+      "CONFIRM": {
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Oletko varma että haluat poistaa?",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
       }
     },
     "EDIT": {
@@ -56,9 +89,11 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Message",
+        "INBOX": "Inbox",
         "STATUS": "Tila",
         "SENDER": "Sender",
         "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
@@ -69,11 +104,23 @@
       },
       "STATUS": {
         "ENABLED": "Käytössä",
-        "DISABLED": "Pois käytöstä"
+        "DISABLED": "Pois käytöstä",
+        "COMPLETED": "Completed",
+        "ACTIVE": "Active"
       },
       "SENDER": {
         "BOT": "Botti"
       }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
     }
   }
 }

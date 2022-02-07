@@ -65,6 +65,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def ensure_current_account(account)
+    Current.reset
     Current.account = account if account.present?
   end
 

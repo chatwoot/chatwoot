@@ -31,4 +31,5 @@ module.exports = {
   ],
   testURL: 'http://localhost/',
   globalSetup: './jest.setup.js',
+  testEnvironment: 'jsdom',
 };

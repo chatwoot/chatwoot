@@ -42,6 +42,12 @@ const setUserLastSeenAt = async ({ lastSeen }) => {
     { contact_last_seen_at: lastSeen }
   );
 };
+const sendEmailTranscript = async ({ email }) => {
+  return API.post(
+    `/api/v1/widget/conversations/transcript${window.location.search}`,
+    { email }
+  );
+};
 
 export {
   createConversationAPI,
@@ -51,4 +57,5 @@ export {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  sendEmailTranscript,
 };

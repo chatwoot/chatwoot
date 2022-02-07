@@ -74,3 +74,8 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
 @mixin shadow-none {
   box-shadow: none;
 }
+
+@mixin button-size {
+  min-height: $space-large;
+  min-width: $space-large;
+}

@@ -23,7 +23,7 @@ require 'sidekiq/testing'
 # require only the support files necessary.
 #
 # rubocop:disable  Rails/FilePath
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 # rubocop:enable  Rails/FilePath
 
 # Checks for pending migrations and applies them before tests are run.
@@ -66,6 +66,7 @@ RSpec.configure do |config|
   config.include SlackStubs
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
+  config.include ActionCable::TestHelper
 end
 
 Shoulda::Matchers.configure do |config|
@@ -78,4 +79,5 @@ end
 # Required for fixture_file_upload
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
+  include ActiveSupport::Testing::FileFixtures
 end

@@ -17,7 +17,23 @@
           <woot-code
             v-if="isATwilioInbox"
             lang="html"
-            :script="twilioCallbackURL"
+            :script="currentInbox.callback_webhook_url"
+          >
+          </woot-code>
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
+            v-if="isALineInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
+          >
+          </woot-code>
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
+            v-if="isASmsInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
           >
           </woot-code>
         </div>
@@ -75,6 +91,12 @@ export default {
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
     },
+    isALineInbox() {
+      return this.currentInbox.channel_type === 'Channel::Line';
+    },
+    isASmsInbox() {
+      return this.currentInbox.channel_type === 'Channel::Sms';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -82,14 +104,27 @@ export default {
         )}`;
       }
 
+      if (this.isASmsInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isALineInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
       if (this.isAEmailInbox) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
-      if (!this.currentInbox.web_widget_script) {
-        return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+      if (this.currentInbox.web_widget_script) {
+        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
       }
-      return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+
+      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
   },
 };

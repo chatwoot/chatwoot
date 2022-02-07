@@ -1,33 +1,14 @@
-import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
 jest.mock('../../../../helpers/uuid');
-jest.mock('shared/helpers/AudioNotificationHelper', () => ({
-  playNotificationAudio: jest.fn(),
-}));
 jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
+const dispatch = jest.fn();
 
 describe('#actions', () => {
-  describe('#addMessage', () => {
-    it('sends correct mutations', () => {
-      actions.addMessage({ commit }, { id: 1 });
-      expect(commit).toBeCalledWith('pushMessageToConversation', { id: 1 });
-    });
-
-    it('plays audio when agent sends a message', () => {
-      actions.addMessage({ commit }, { id: 1, message_type: 1 });
-      expect(playNotificationAudio).toBeCalled();
-      expect(commit).toBeCalledWith('pushMessageToConversation', {
-        id: 1,
-        message_type: 1,
-      });
-    });
-  });
-
   describe('#createConversation', () => {
     it('sends correct mutations', async () => {
       API.post.mockResolvedValue({
@@ -65,10 +46,40 @@ describe('#actions', () => {
     });
   });
 
-  describe('#updateMessage', () => {
-    it('sends correct mutations', () => {
-      actions.updateMessage({ commit }, { id: 1 });
-      expect(commit).toBeCalledWith('pushMessageToConversation', { id: 1 });
+  describe('#addOrUpdateMessage', () => {
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: {},
+        }
+      );
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 1,
+        content: 'Hey',
+        content_attributes: {},
+      });
+    });
+    it('sends correct actions for non-deleted message', () => {
+      actions.addOrUpdateMessage(
+        { commit },
+        {
+          id: 1,
+          content: 'Hey',
+          content_attributes: { deleted: true },
+        }
+      );
+      expect(commit).toBeCalledWith('deleteMessage', 1);
+    });
+
+    it('plays audio when agent sends a message', () => {
+      actions.addOrUpdateMessage({ commit }, { id: 1, message_type: 1 });
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 1,
+        message_type: 1,
+      });
     });
   });
 
@@ -82,7 +93,7 @@ describe('#actions', () => {
   });
 
   describe('#sendMessage', () => {
-    it('sends correct mutations', () => {
+    it('sends correct mutations', async () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
@@ -99,15 +110,16 @@ describe('#actions', () => {
           search: '?param=1',
         },
       }));
-      actions.sendMessage({ commit }, { content: 'hello' });
+      await actions.sendMessage({ commit, dispatch }, { content: 'hello' });
       spy.mockRestore();
       windowSpy.mockRestore();
-      expect(commit).toBeCalledWith('pushMessageToConversation', {
-        id: '1111',
+      expect(dispatch).toBeCalledWith('sendMessageWithData', {
+        attachments: undefined,
         content: 'hello',
-        status: 'in_progress',
         created_at: 1466424490,
+        id: '1111',
         message_type: 0,
+        status: 'in_progress',
       });
     });
   });
@@ -120,7 +132,7 @@ describe('#actions', () => {
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 
-      actions.sendAttachment({ commit }, { attachment });
+      actions.sendAttachment({ commit, dispatch }, { attachment });
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
@@ -163,6 +175,40 @@ describe('#actions', () => {
     it('sends correct mutations', () => {
       actions.clearConversations({ commit });
       expect(commit).toBeCalledWith('clearConversations');
+    });
+  });
+
+  describe('#fetchOldConversations', () => {
+    it('sends correct actions', async () => {
+      API.get.mockResolvedValue({
+        data: [
+          {
+            id: 1,
+            text: 'hey',
+            content_attributes: {},
+          },
+          {
+            id: 2,
+            text: 'welcome',
+            content_attributes: { deleted: true },
+          },
+        ],
+      });
+      await actions.fetchOldConversations({ commit }, {});
+      expect(commit.mock.calls).toEqual([
+        ['setConversationListLoading', true],
+        [
+          'setMessagesInConversation',
+          [
+            {
+              id: 1,
+              text: 'hey',
+              content_attributes: {},
+            },
+          ],
+        ],
+        ['setConversationListLoading', false],
+      ]);
     });
   });
 });

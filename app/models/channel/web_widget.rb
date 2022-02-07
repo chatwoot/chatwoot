@@ -3,7 +3,9 @@
 # Table name: channel_web_widgets
 #
 #  id                    :integer          not null, primary key
+#  continuity_via_email  :boolean          default(TRUE), not null
 #  feature_flags         :integer          default(3), not null
+#  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
@@ -24,29 +26,30 @@
 #
 
 class Channel::WebWidget < ApplicationRecord
+  include Channelable
   include FlagShihTzu
 
   self.table_name = 'channel_web_widgets'
+  EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
+                    :continuity_via_email, :hmac_mandatory,
+                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
+                    { selected_feature_flags: [] }].freeze
 
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
-  belongs_to :account
-  has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
   has_secure_token :hmac_token
 
   has_flags 1 => :attachments,
             2 => :emoji_picker,
-            :column => 'feature_flags'
+            :column => 'feature_flags',
+            :check_for_column => false
+
   enum reply_time: { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
 
   def name
     'Website'
-  end
-
-  def has_24_hour_messaging_window?
-    false
   end
 
   def web_widget_script
@@ -56,6 +59,8 @@ class Channel::WebWidget < ApplicationRecord
         var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+\"/packs/js/sdk.js\";
+        g.defer = true;
+        g.async = true;
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({

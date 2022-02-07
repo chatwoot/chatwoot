@@ -1,0 +1,34 @@
+{
+    "CONTACTS_FILTER": {
+        "TITLE": "Filter Contacts",
+        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "ADD_NEW_FILTER": "Add Filter",
+        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "SUBMIT_BUTTON_LABEL": "שלח",
+        "CANCEL_BUTTON_LABEL": "ביטול",
+        "CLEAR_BUTTON_LABEL": "Clear Filters",
+        "EMPTY_VALUE_ERROR": "Value is required",
+        "TOOLTIP_LABEL": "Filter contacts",
+        "QUERY_DROPDOWN_LABELS": {
+            "AND": "AND",
+            "OR": "OR"
+        },
+        "OPERATOR_LABELS": {
+            "equal_to": "Equal to",
+            "not_equal_to": "Not equal to",
+            "contains": "Contains",
+            "does_not_contain": "Does not contain",
+            "is_present": "Is present",
+            "is_not_present": "Is not present"
+        },
+        "ATTRIBUTES": {
+            "NAME": "שם",
+            "EMAIL": "אימייל",
+            "PHONE_NUMBER": "מספר טלפון",
+            "IDENTIFIER": "Identifier",
+            "CITY": "עיר",
+            "COUNTRY": "מדינה"
+        }
+    }
+}

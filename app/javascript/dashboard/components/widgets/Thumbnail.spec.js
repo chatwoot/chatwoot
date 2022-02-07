@@ -15,7 +15,8 @@ describe(`when there are NO errors loading the thumbnail`, () => {
       },
     });
     expect(wrapper.find('#image').exists()).toBe(true);
-    expect(wrapper.contains(Avatar)).toBe(false);
+    const avatarComponent = wrapper.findComponent(Avatar);
+    expect(avatarComponent.exists()).toBe(false);
   });
 });
 
@@ -31,8 +32,9 @@ describe(`when there ARE errors loading the thumbnail`, () => {
         };
       },
     });
-    expect(wrapper.contains('#image')).toBe(false);
-    expect(wrapper.contains(Avatar)).toBe(true);
+    expect(wrapper.find('#image').exists()).toBe(false);
+    const avatarComponent = wrapper.findComponent(Avatar);
+    expect(avatarComponent.exists()).toBe(true);
   });
 });
 

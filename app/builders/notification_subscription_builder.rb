@@ -4,7 +4,7 @@ class NotificationSubscriptionBuilder
   def perform
     # if multiple accounts were used to login in same browser
     move_subscription_to_user if identifier_subscription && identifier_subscription.user_id != user.id
-    build_identifier_subscription if identifier_subscription.blank?
+    identifier_subscription.blank? ? build_identifier_subscription : update_identifier_subscription
     identifier_subscription
   end
 
@@ -25,6 +25,10 @@ class NotificationSubscriptionBuilder
   end
 
   def build_identifier_subscription
-    user.notification_subscriptions.create(params.merge(identifier: identifier))
+    @identifier_subscription = user.notification_subscriptions.create(params.merge(identifier: identifier))
+  end
+
+  def update_identifier_subscription
+    identifier_subscription.update(params.merge(identifier: identifier))
   end
 end

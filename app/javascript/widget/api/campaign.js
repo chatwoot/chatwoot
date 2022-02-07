@@ -7,8 +7,7 @@ const getCampaigns = async websiteToken => {
   return result;
 };
 
-const triggerCampaign = async ({ campaignId }) => {
-  const { websiteToken } = window.chatwootWebChannel;
+const triggerCampaign = async ({ campaignId, websiteToken }) => {
   const urlData = endPoints.triggerCampaign({ websiteToken, campaignId });
 
   await API.post(

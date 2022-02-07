@@ -3,6 +3,9 @@
     "LINK": "Ajustes del perfil",
     "TITLE": "Ajustes del perfil",
     "BTN_TEXT": "Actualizar perfil",
+    "DELETE_AVATAR": "Eliminar avatar",
+    "AVATAR_DELETE_SUCCESS": "El avatar se ha eliminado correctamente",
+    "AVATAR_DELETE_FAILED": "Se ha producido un error al eliminar el avatar, inténtelo de nuevo",
     "UPDATE_SUCCESS": "Tu perfil se ha actualizado correctamente",
     "PASSWORD_UPDATE_SUCCESS": "Su contraseña se ha cambiado correctamente",
     "AFTER_EMAIL_CHANGED": "Su perfil ha sido actualizado con éxito, por favor inicie sesión de nuevo cuando sus credenciales de inicio de sesión se hayan cambiado",
@@ -28,7 +31,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
-        "ENABLE_AUDIO": "Realizar un sonido cuando una nueva conversación ha sido creada o un nuevo mensaje llegue"
+        "NONE": "Ninguna",
+        "ASSIGNED": "Conversaciones asignadas",
+        "ALL_CONVERSATIONS": "Todas las conversaciones"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
@@ -78,6 +83,11 @@
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Contraseña actual",
+        "ERROR": "Por favor, introduzca su contraseña actual",
+        "PLACEHOLDER": "Por favor, introduzca su contraseña actual"
+      },
       "PASSWORD": {
         "LABEL": "Contraseña",
         "ERROR": "Por favor, introduzca una contraseña de longitud 6 o más",
@@ -93,13 +103,16 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Cambiar",
     "CHANGE_ACCOUNTS": "Cambiar de cuenta",
+    "CONTACT_SUPPORT": "Contactar con Soporte",
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
+    "KEYBOARD_SHORTCUTS": "Atajos de teclado",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "días de prueba restantes.",
-    "TRAIL_BUTTON": "Comprar ahora"
+    "TRAIL_BUTTON": "Comprar ahora",
+    "DELETED_USER": "Usuario eliminado"
   },
   "COMPONENTS": {
     "CODE": {
@@ -122,20 +135,42 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversaciones",
+    "ALL_CONVERSATIONS": "Todas las conversaciones",
+    "MENTIONED_CONVERSATIONS": "Menciones",
     "REPORTS": "Informes",
-    "CONTACTS": "Contactos",
     "SETTINGS": "Ajustes",
+    "CONTACTS": "Contactos",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
+    "PROFILE_SETTINGS": "Ajustes del perfil",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
+    "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
-    "TEAMS": "Equipos"
+    "CUSTOM_ATTRIBUTES": "Atributos personalizados",
+    "AUTOMATION": "Automatización",
+    "TEAMS": "Equipos",
+    "ALL_CONTACTS": "Todos los contactos",
+    "TAGGED_WITH": "Etiquetado con",
+    "NEW_LABEL": "Nueva etiqueta",
+    "NEW_TEAM": "Nuevo equipo",
+    "NEW_INBOX": "Nuevo buzón",
+    "REPORTS_OVERVIEW": "Resumen",
+    "CSAT": "Encuestas de Satisfacción",
+    "CAMPAIGNS": "Campañas",
+    "ONGOING": "En Curso",
+    "ONE_OFF": "One Off",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Etiquetas",
+    "REPORTS_INBOX": "Bandeja de entrada",
+    "REPORTS_TEAM": "Equipo",
+    "SET_AVAILABILITY_TITLE": "Ponte como"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",
     "NEW_ACCOUNT": "Nueva cuenta",
     "SELECTOR_SUBTITLE": "Crear nueva cuenta",
     "API": {
@@ -149,6 +184,31 @@
         "PLACEHOLDER": "Empresas de Wayne"
       },
       "SUBMIT": "Enviar"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Abrir conversación",
+      "RESOLVE_AND_NEXT": "Resolver y pasar al siguiente",
+      "NAVIGATE_DROPDOWN": "Navegar elementos desplegables",
+      "RESOLVE_CONVERSATION": "Resolver conversación",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
+      "ADD_ATTACHMENT": "Añadir archivo adjunto",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir al panel de contactos",
+      "TOGGLE_SIDEBAR": "Cambiar barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Ir a la barra lateral de informes",
+      "MOVE_TO_NEXT_TAB": "Mover a la siguiente pestaña en la lista de conversaciones",
+      "GO_TO_SETTINGS": "Ir a Ajustes",
+      "SWITCH_CONVERSATION_STATUS": "Cambiar al siguiente estado de conversación",
+      "SWITCH_TO_PRIVATE_NOTE": "Cambiar a nota privada",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Cambiar editor de contenido enriquecido",
+      "SWITCH_TO_REPLY": "Cambiar a respuesta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Cambiar el menú desplegable"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Windows / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt \\ ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

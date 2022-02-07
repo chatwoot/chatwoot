@@ -93,7 +93,9 @@ class Twilio::IncomingMessageService
   def attach_files
     return if params[:MediaUrl0].blank?
 
-    file_resource = LocalResource.new(params[:MediaUrl0], params[:MediaContentType0])
+    attachment_file = Down.download(
+      params[:MediaUrl0]
+    )
 
     attachment = @message.attachments.new(
       account_id: @message.account_id,
@@ -101,13 +103,11 @@ class Twilio::IncomingMessageService
     )
 
     attachment.file.attach(
-      io: file_resource.file,
-      filename: file_resource.tmp_filename,
-      content_type: file_resource.encoding
+      io: attachment_file,
+      filename: attachment_file.original_filename,
+      content_type: attachment_file.content_type
     )
 
     @message.save!
-  rescue *ExceptionList::URI_EXCEPTIONS => e
-    Rails.logger.info "invalid url #{file_url} : #{e.message}"
   end
 end

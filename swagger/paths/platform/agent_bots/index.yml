@@ -1,0 +1,17 @@
+tags:
+  - AgentBots
+operationId: list-all-agent-bots
+summary: List all AgentBots
+description: List all agent bots available
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of agent bots'
+      items:
+        $ref: '#/definitions/agent_bot'
+  401:
+    description: Unauthorized

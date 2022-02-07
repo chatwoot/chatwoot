@@ -1,0 +1,5 @@
+in: path
+name: id
+type: integer
+required: true
+description: The ID of the agentbot to be updated

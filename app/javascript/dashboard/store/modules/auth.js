@@ -6,6 +6,7 @@ import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 const state = {
   currentUser: {
@@ -38,12 +39,19 @@ export const getters = {
     return _state.currentUser.ui_settings || {};
   },
 
-  getCurrentUserAvailabilityStatus(_state) {
-    return _state.currentUser.availability_status;
+  getCurrentUserAvailability(_state) {
+    const { accounts = [] } = _state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === _state.currentAccountId
+    );
+    return currentAccount.availability;
   },
 
-  getCurrentAccountId(_state) {
-    return _state.currentAccountId;
+  getCurrentAccountId(_, __, rootState) {
+    if (rootState.route.params && rootState.route.params.accountId) {
+      return Number(rootState.route.params.accountId);
+    }
+    return null;
   },
 
   getCurrentRole(_state) {
@@ -69,7 +77,7 @@ export const actions = {
           commit(types.default.SET_CURRENT_USER);
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-          window.location = '/';
+          window.location = DEFAULT_REDIRECT_URL;
           resolve();
         })
         .catch(error => {
@@ -80,7 +88,9 @@ export const actions = {
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
-      setUser(response.data.payload.data, getHeaderExpiry(response));
+      setUser(response.data.payload.data, getHeaderExpiry(response), {
+        setUserInSDK: true,
+      });
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
       if (error?.response?.status === 401) {
@@ -101,9 +111,19 @@ export const actions = {
   },
 
   updateProfile: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const response = await authAPI.profileUpdate(params);
       setUser(response.data, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteAvatar: async ({ commit }) => {
+    try {
+      await authAPI.deleteAvatar();
       commit(types.default.SET_CURRENT_USER);
     } catch (error) {
       // Ignore error
@@ -121,21 +141,24 @@ export const actions = {
     }
   },
 
-  updateAvailability: ({ commit, dispatch }, { availability }) => {
-    authAPI.updateAvailability({ availability }).then(response => {
+  updateAvailability: async ({ commit, dispatch }, params) => {
+    try {
+      const response = await authAPI.updateAvailability(params);
       const userData = response.data;
-      const { id, availability_status: availabilityStatus } = userData;
+      const { id } = userData;
       setUser(userData, getHeaderExpiry(response));
       commit(types.default.SET_CURRENT_USER);
-      dispatch('agents/updatePresence', { [id]: availabilityStatus });
-    });
+      dispatch('agents/updatePresence', { [id]: params.availability });
+    } catch (error) {
+      // Ignore error
+    }
   },
 
   setCurrentAccountId({ commit }, accountId) {
     commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
   },
 
-  setCurrentUserAvailabilityStatus({ commit, state: $state }, data) {
+  setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(
         types.default.SET_CURRENT_USER_AVAILABILITY,
@@ -147,8 +170,8 @@ export const actions = {
 
 // mutations
 export const mutations = {
-  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, status) {
-    Vue.set(_state.currentUser, 'availability_status', status);
+  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
+    Vue.set(_state.currentUser, 'availability', availability);
   },
   [types.default.CLEAR_USER](_state) {
     _state.currentUser.id = null;

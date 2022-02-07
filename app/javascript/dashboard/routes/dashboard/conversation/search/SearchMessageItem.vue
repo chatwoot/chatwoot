@@ -3,9 +3,13 @@
     <div class="search-message">
       <div class="user-wrap">
         <div class="name-wrap">
-          <span class="user-name">{{ userName }}</span>
+          <span class="text-block-title">{{ userName }}</span>
           <div>
-            <i v-if="isOutgoingMessage" class="ion-headphone" />
+            <fluent-icon
+              v-if="isOutgoingMessage"
+              icon="arrow-reply"
+              class="icon-outgoing"
+            />
           </div>
         </div>
         <span class="timestamp">{{ readableTime }} </span>
@@ -84,7 +88,7 @@ export default {
       color: var(--white);
       text-decoration: underline;
     }
-    .ion-headphone {
+    .icon-outgoing {
       color: var(--white);
     }
   }
@@ -109,10 +113,9 @@ export default {
 
 .name-wrap {
   display: flex;
-  width: 22rem;
+  max-width: 22rem;
 
-  .user-name {
-    font-size: var(--font-size-small);
+  .text-block-title {
     font-weight: var(--font-weight-bold);
     text-overflow: ellipsis;
     overflow: hidden;
@@ -120,9 +123,8 @@ export default {
   }
 }
 
-.ion-headphone {
+.icon-outgoing {
   color: var(--w-500);
-  font-size: var(--font-size-mini);
   padding: var(--space-micro);
   padding-right: var(--space-smaller);
 }
@@ -141,6 +143,7 @@ p {
 .message-content {
   font-size: var(--font-size-small);
   margin-bottom: var(--space-micro);
+  margin-top: var(--space-micro);
   padding: 0;
   line-height: 1.35;
   overflow-wrap: break-word;

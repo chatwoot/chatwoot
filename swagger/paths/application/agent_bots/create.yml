@@ -1,0 +1,19 @@
+tags:
+  - Account AgentBots
+operationId: create-an-account-agent-bot
+summary: Create an Agent Bot
+description: Create an agent bot in the account
+parameters:
+  - $ref: '#/parameters/account_id'
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/agent_bot_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/agent_bot'
+  401:
+    description: Unauthorized

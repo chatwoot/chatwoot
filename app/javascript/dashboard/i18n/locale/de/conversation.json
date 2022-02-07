@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
+    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers wird nicht überprüft",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
     "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
     "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
@@ -9,6 +10,7 @@
     "SEARCH_MESSAGES": "Nachrichten durchsuchen",
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
+      "RESULT_TITLE": "Suchergebnisse",
       "LOADING_MESSAGE": "Daten werden geladen...",
       "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
       "NO_MATCHING_RESULTS": "Keine Ergebnisse gefunden."
@@ -22,22 +24,35 @@
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "LAST_INCOMING_TWEET": "Du antwortest auf den letzten eingehenden Tweet",
+    "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
     "REPLYING_TO": "Du antwortest auf:",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
+    "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
+    "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuche es erneut",
     "NO_RESPONSE": "Keine Antwort",
+    "RATING_TITLE": "Bewertung",
+    "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
       "REOPEN_ACTION": "Wieder öffnen",
       "OPEN_ACTION": "Offen",
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
-      "DETAILS": "Einzelheiten"
+      "DETAILS": "Einzelheiten",
+      "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Mit Bot öffnen"
+      "MARK_PENDING": "Als ausstehend markieren",
+      "SNOOZE": {
+        "TITLE": "Erinnern",
+        "NEXT_REPLY": "Bei Antwort",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Nächste Woche"
+      }
     },
     "FOOTER": {
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
@@ -52,25 +67,44 @@
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
-      "ENTER_TO_SEND": "Zum senden ENTER drücken"
+      "ENTER_TO_SEND": "Zum senden ENTER drücken",
+      "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "BCC hinzufügen",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
+          "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        }
+      }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
     "CHANGE_AGENT": "Konversationsempfänger geändert",
     "CHANGE_TEAM": "Teamzuordnung dieser Konversation geändert",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+    "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
       "ASSIGN": "Zuordnen"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopieren",
+      "DELETE": "Löschen"
     }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Konversations-Transkript senden",
     "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
-    "SUBMIT": "Einreichen",
-    "CANCEL": "Stornieren",
+    "SUBMIT": "Speichern",
+    "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
     "FORM": {
@@ -108,11 +142,46 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Unterhaltungsdetails",
     "ASSIGNEE_LABEL": "Zugewiesener Agent",
+    "SELF_ASSIGN": "Mir zuweisen",
     "TEAM_LABEL": "Zugewiesenes Team",
     "SELECT": {
       "PLACEHOLDER": "Keine"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Kontakt-Details",
+      "CONVERSATION_ACTIONS": "Aktionen für Unterhaltung",
+      "CONVERSATION_LABELS": "Konversationsetiketten",
+      "CONVERSATION_INFO": "Informationen über Unterhaltung",
+      "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
+      "PREVIOUS_CONVERSATION": "Vorherige Gespräche"
     }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Attribut erstellen",
+    "UPDATE": {
+      "SUCCESS": "Attribut erfolgreich aktualisiert",
+      "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
+    },
+    "ADD": {
+      "TITLE": "Hinzufügen",
+      "SUCCESS": "Attribut erfolgreich hinzugefügt",
+      "ERROR": "Attribut kann nicht hinzugefügt werden. Bitte versuchen Sie es später noch einmal"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribut erfolgreich gelöscht",
+      "ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Attribute hinzufügen",
+      "PLACEHOLDER": "Attribut suchen",
+      "NO_RESULT": "Keine Attribute gefunden"
+    }
+  },
+  "EMAIL_HEADER": {
+    "TO": "An",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Betreff"
   }
 }

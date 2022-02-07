@@ -3,6 +3,9 @@
     "LINK": "Configurações do Perfil",
     "TITLE": "Configurações do Perfil",
     "BTN_TEXT": "Atualizar o Perfil",
+    "DELETE_AVATAR": "Apagar Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar apagado com sucesso",
+    "AVATAR_DELETE_FAILED": "Ocorreu um erro ao excluir o avatar. Tente novamente",
     "UPDATE_SUCCESS": "Seu perfil foi atualizado com sucesso",
     "PASSWORD_UPDATE_SUCCESS": "A sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
@@ -28,7 +31,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
-        "ENABLE_AUDIO": "Reproduzir notificação de áudio quando uma nova conversa é criada ou novas mensagens chegam"
+        "NONE": "Nenhuma",
+        "ASSIGNED": "Conversas atribuídas",
+        "ALL_CONVERSATIONS": "Todas as conversas"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -78,6 +83,11 @@
         "ERROR": "Por favor, insira um endereço de e-mail válido",
         "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido em conversas"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Senha atual",
+        "ERROR": "Por favor, digite a senha atual",
+        "PLACEHOLDER": "Por favor, digite a senha atual"
+      },
       "PASSWORD": {
         "LABEL": "Senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
@@ -93,13 +103,16 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar Conta",
+    "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
+    "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "LOGOUT": "Sair"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
-    "TRAIL_BUTTON": "Comprar agora"
+    "TRAIL_BUTTON": "Comprar agora",
+    "DELETED_USER": "Deletar Usuário"
   },
   "COMPONENTS": {
     "CODE": {
@@ -122,20 +135,42 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
+    "ALL_CONVERSATIONS": "Todas as conversas",
+    "MENTIONED_CONVERSATIONS": "Menções",
     "REPORTS": "Relatórios",
-    "CONTACTS": "Contato",
     "SETTINGS": "Configurações",
+    "CONTACTS": "Contato",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Atalhos",
     "INTEGRATIONS": "Integrações",
+    "PROFILE_SETTINGS": "Configurações do Perfil",
     "ACCOUNT_SETTINGS": "Configurações da conta",
+    "APPLICATIONS": "Aplicações",
     "LABELS": "Marcadores",
-    "TEAMS": "Times"
+    "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
+    "AUTOMATION": "Automação",
+    "TEAMS": "Times",
+    "ALL_CONTACTS": "Todos os Contatos",
+    "TAGGED_WITH": "Marcado com",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Novo time",
+    "NEW_INBOX": "Nova caixa de entrada",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campanhas",
+    "ONGOING": "Em andamento",
+    "ONE_OFF": "Única",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Marcadores",
+    "REPORTS_INBOX": "Caixa de Entrada",
+    "REPORTS_TEAM": "Times",
+    "SET_AVAILABILITY_TITLE": "Defina como"
   },
   "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
     "NEW_ACCOUNT": "Nova conta",
     "SELECTOR_SUBTITLE": "Criar nova conta",
     "API": {
@@ -149,6 +184,31 @@
         "PLACEHOLDER": "Informe o nome da conta"
       },
       "SUBMIT": "Enviar"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Abrir conversa",
+      "RESOLVE_AND_NEXT": "Resolver e ir para o próximo",
+      "NAVIGATE_DROPDOWN": "Navegar pelos itens suspensos",
+      "RESOLVE_CONVERSATION": "Resolver Conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
+      "ADD_ATTACHMENT": "Adicionar anexo",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para Painel de Contatos",
+      "TOGGLE_SIDEBAR": "Alternar barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Ir para a barra lateral de Relatórios",
+      "MOVE_TO_NEXT_TAB": "Mover para a próxima aba da lista de conversas",
+      "GO_TO_SETTINGS": "Ir para Configurações",
+      "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo status da conversa",
+      "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo rico",
+      "SWITCH_TO_REPLY": "Mudar para resposta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

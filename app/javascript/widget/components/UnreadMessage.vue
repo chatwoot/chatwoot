@@ -1,6 +1,6 @@
 <template>
   <div class="chat-bubble-wrap">
-    <div class="chat-bubble agent">
+    <button class="chat-bubble agent" @click="onClickMessage">
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
           :src="avatarUrl"
@@ -12,7 +12,7 @@
         <span class="company--name"> {{ companyName }}</span>
       </div>
       <div class="message-content" v-html="formatMessage(message, false)"></div>
-    </div>
+    </button>
   </div>
 </template>
 
@@ -21,6 +21,10 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import {
+  ON_CAMPAIGN_MESSAGE_CLICK,
+  ON_UNREAD_MESSAGE_CLICK,
+} from '../constants/widgetBusEvents';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
@@ -37,6 +41,10 @@ export default {
     sender: {
       type: Object,
       default: () => {},
+    },
+    campaignId: {
+      type: Number,
+      default: null,
     },
   },
   computed: {
@@ -76,6 +84,13 @@ export default {
     isSenderExist(sender) {
       return sender && !isEmptyObject(sender);
     },
+    onClickMessage() {
+      if (this.campaignId) {
+        bus.$emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
+      } else {
+        bus.$emit(ON_UNREAD_MESSAGE_CLICK);
+      }
+    },
   },
 };
 </script>
@@ -84,7 +99,9 @@ export default {
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
+  cursor: pointer;
 }
+
 .row--agent-block {
   align-items: center;
   display: flex;
