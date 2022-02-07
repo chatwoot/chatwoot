@@ -353,10 +353,7 @@ export default {
       return lastItemOfFolder.id;
     },
     isLastSavedFolderOpen() {
-      if (this.getLastSavedFolderId === Number(this.foldersId)) {
-        return true;
-      }
-      return false;
+      return this.getLastSavedFolderId === Number(this.foldersId);
     },
     activeFolder() {
       if (this.foldersId) {
@@ -392,7 +389,7 @@ export default {
     activeFolder() {
       if (
         !this.hasAppliedFilters ||
-        (this.isLastSavedFolderOpen === false && this.$route.name !== 'home')
+        (!this.isLastSavedFolderOpen && this.$route.name !== 'home')
       ) {
         this.resetAndFetchData();
       }
