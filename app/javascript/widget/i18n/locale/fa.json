@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "دوباره پیام بدید",
+      "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,6 +22,7 @@
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
+  "CONTINUE_CONVERSATION": "ادامه گفتگو",
   "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
@@ -66,7 +71,7 @@
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "درخواست رونوشت مکالمه",
-    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   }
 }
