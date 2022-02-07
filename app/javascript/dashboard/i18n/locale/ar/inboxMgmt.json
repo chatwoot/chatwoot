@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "تفعيل رسالة الترحيب التلقائية",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "إرسال رسالة ترحيب إلى المستخدم عند بدء المحادثة.",
           "ENABLED": "مفعل",
           "DISABLED": "معطّل"
         },
@@ -136,35 +136,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "قناة SMS",
+        "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "تويليو",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "سعة الإنترنت"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة الرسائل القصيرة"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "معرف الحساب",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "الرجاء إدخال معرف حساب النطاق الترددي الخاص بك",
             "ERROR": "هذا الحقل مطلوب"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "مفتاح API",
+            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
             "ERROR": "هذا الحقل مطلوب"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "سرية API",
+            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
             "ERROR": "هذا الحقل مطلوب"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "معرف التطبيق",
+            "PLACEHOLDER": "الرجاء إدخال معرف تطبيق النطاق الترددي الخاص بك",
             "ERROR": "هذا الحقل مطلوب"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
             "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "إنشاء قناة عرض التردد",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "تعذر تكوين المصادقة بواسطة بيانات الاعتماد الخاصة بحسابك على Twilio، يرجى المحاولة مرة أخرى"
           },
           "API_CALLBACK": {
             "TITLE": "عنوان Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "يتوجب تهيئة عنوان callback URL في إعدادات Twilio بإدخال القيمة أدناه."
           }
         }
       },
