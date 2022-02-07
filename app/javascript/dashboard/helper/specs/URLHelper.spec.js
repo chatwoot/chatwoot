@@ -2,6 +2,7 @@ import {
   frontendURL,
   conversationUrl,
   accountIdFromPathname,
+  isValidURL,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -46,6 +47,15 @@ describe('#URL Helpers', () => {
     });
     it('should return empty string if empty string is passed', () => {
       expect(accountIdFromPathname('')).toBe('');
+    });
+  });
+
+  describe('isValidURL', () => {
+    it('should return true if valid url is passed', () => {
+      expect(isValidURL('https://chatwoot.com')).toBe(true);
+    });
+    it('should return false if invalid url is passed', () => {
+      expect(isValidURL('alert.window')).toBe(false);
     });
   });
 });
