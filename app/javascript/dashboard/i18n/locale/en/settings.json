@@ -19,21 +19,17 @@
         "TITLE": "Profile",
         "NOTE": "Your email address is your identity and is used to log in."
       },
-      "EMAIL_SIGNATURE_SECTION": {
-        "TITLE": "Personal email signature",
-        "NOTE": "Having a personal email signature will append it all the outgoing email automatically. You can paste rich text signature also here.",
-        "BTN_TEXT": "Save email signature",
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Having a personal message signature will append it all the outgoing messages automatically. You can paste rich text signature also here.",
+        "BTN_TEXT": "Save message signature",
         "API_ERROR":"Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
       },
-      "EMAIL_SIGNATURE": {
-        "LABEL": "Email signature",
-        "ERROR": "Email signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal email signature here."
-      },
-      "ENABLE_EMAIL_SIGNATURE": {
-        "LABEL": "Enable email signature for outgoing emails",
-        "PLACEHOLDER": "Insert your personal email signature here."
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "message signature",
+        "ERROR": "message signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",

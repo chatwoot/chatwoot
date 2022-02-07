@@ -66,24 +66,12 @@
         :remove-attachment="removeAttachment"
       />
     </div>
-    <div v-if="showMessageSignature" class="message-signature-wrap">
-      <p
-        v-if="sendWithSignature"
-        v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
-        class="message-signature"
-        v-html="formatMessage(messageSignature)"
-      />
-      <p v-else class="message-signature message-signature--disbaled">
-        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGN_DISABLED') }}
-      </p>
-      <woot-button
-        v-tooltip.top-end="signatureToggleTooltip"
-        :color-scheme="sendWithSignature ? 'alert' : 'success'"
-        variant="smooth"
-        :icon="sendWithSignature ? 'dismiss' : 'checkmark'"
-        size="tiny"
-        @click="toggleMessageSignature"
-      />
+    <div
+      v-if="showMessageSignature"
+      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      class="message-signature-wrap"
+    >
+      <p class="message-signature" v-html="formatMessage(messageSignature)" />
     </div>
     <reply-bottom-panel
       :mode="replyType"
@@ -361,16 +349,11 @@ export default {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
     showMessageSignature() {
-      return !this.isPrivate && this.isAnEmailChannel;
+      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
-    },
-    signatureToggleTooltip() {
-      return this.sendWithSignature
-        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
-        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
   },
   watch: {
@@ -656,11 +639,6 @@ export default {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
-    toggleMessageSignature() {
-      this.updateUISettings({
-        send_with_signature: !this.sendWithSignature,
-      });
-    },
   },
 };
 </script>
@@ -687,10 +665,6 @@ export default {
 .message-signature {
   width: fit-content;
   margin: 0;
-}
-
-.message-signature--disbaled {
-  color: var(--s-500);
 }
 
 .attachment-preview-box {

@@ -66,7 +66,7 @@
         </div>
       </div>
     </form>
-    <email-signature />
+    <message-signature />
     <change-password />
     <notification-settings />
     <div class="profile--settings--row row">
@@ -97,14 +97,14 @@ import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword';
-import EmailSignature from './EmailSignature';
+import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
-    EmailSignature,
+    MessageSignature,
   },
   mixins: [alertMixin, globalConfigMixin],
   data() {

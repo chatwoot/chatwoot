@@ -3,45 +3,32 @@
     <div class="profile--settings--row row">
       <div class="columns small-3">
         <h4 class="block-title">
-          {{ $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.TITLE') }}
+          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE') }}
         </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.NOTE') }}</p>
+        <p>{{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE') }}</p>
       </div>
       <div class="columns small-9 medium-5">
         <div>
-          <label for="email-signature-input">{{
-            $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.LABEL')
+          <label for="message-signature-input">{{
+            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.LABEL')
           }}</label>
           <woot-message-editor
-            id="email-signature-input"
+            id="message-signature-input"
             v-model="messageSignature"
             class="message-editor"
             :is-format-mode="true"
             :placeholder="
-              $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE.PLACEHOLDER')
+              $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')
             "
             @blur="$v.messageSignature.$touch"
           />
-        </div>
-
-        <div>
-          <input
-            id="enable-email-signature"
-            v-model="enableMessageSignature"
-            class="notification--checkbox"
-            type="checkbox"
-            value="email_conversation_creation"
-          />
-          <label for="enable-email-signature">
-            {{ $t('PROFILE_SETTINGS.FORM.ENABLE_EMAIL_SIGNATURE.LABEL') }}
-          </label>
         </div>
         <woot-button
           :is-loading="isUpdating"
           type="submit"
           :is-disabled="$v.messageSignature.$invalid"
         >
-          {{ $t('PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.BTN_TEXT') }}
+          {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
         </woot-button>
       </div>
     </div>
@@ -89,12 +76,8 @@ export default {
   },
   methods: {
     initValues() {
-      const {
-        message_signature: messageSignature,
-        message_signature_enabled: enableMessageSignature,
-      } = this.currentUser;
+      const { message_signature: messageSignature } = this.currentUser;
       this.messageSignature = messageSignature;
-      this.enableMessageSignature = enableMessageSignature;
     },
     async updateSignature() {
       this.$v.$touch();
@@ -106,14 +89,14 @@ export default {
       try {
         await this.$store.dispatch('updateProfile', {
           message_signature: this.messageSignature,
-          message_signature_enabled: this.enableMessageSignature,
+          message_signature_enabled: true,
         });
         this.errorMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_SUCCESS'
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
         );
       } catch (error) {
         this.errorMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.EMAIL_SIGNATURE_SECTION.API_ERROR'
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
         );
         if (error?.response?.data?.message) {
           this.errorMessage = error.response.data.message;
@@ -135,6 +118,7 @@ export default {
 
   .editor-root {
     background: var(--white);
+    margin-bottom: var(--space-normal);
   }
 }
 </style>
