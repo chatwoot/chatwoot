@@ -12,6 +12,7 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  activeFolder: '',
 };
 
 // mutations
@@ -193,6 +194,10 @@ export const mutations = {
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+  },
+
+  [types.HAS_ACTIVE_FILTER](_state, folderId) {
+    _state.activeFolder = folderId;
   },
 };
 

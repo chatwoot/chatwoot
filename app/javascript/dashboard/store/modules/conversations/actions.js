@@ -218,21 +218,31 @@ const actions = {
   },
 
   addConversation({ commit, state, dispatch, rootState }, conversation) {
-    const { currentInbox, appliedFilters } = state;
+    const { currentInbox, appliedFilters, activeFolder } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
 
     const hasAppliedFilters = !!appliedFilters.length;
+    const hasActiveFolder = activeFolder;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
+      !hasActiveFolder &&
       !isOnMentionsView(rootState) &&
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
+      dispatch('contacts/setContact', sender);
+    }
+    if (hasAppliedFilters || hasActiveFolder) {
+      const conversationData = conversation;
+      commit(types.ADD_CONVERSATION, {
+        ...conversationData,
+        hasActiveFilter: true,
+      });
       dispatch('contacts/setContact', sender);
     }
   },
@@ -329,6 +339,10 @@ const actions = {
 
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
+  },
+
+  hasActiveFolder({ commit }, folderId) {
+    commit(types.HAS_ACTIVE_FILTER, folderId);
   },
 };
 

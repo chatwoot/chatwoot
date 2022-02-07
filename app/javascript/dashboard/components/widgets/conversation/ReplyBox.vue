@@ -6,6 +6,7 @@
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+      action-button-icon="arrow-right"
       @click="onClickSelfAssign"
     />
     <reply-top-panel

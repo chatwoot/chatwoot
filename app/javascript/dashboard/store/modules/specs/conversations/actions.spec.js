@@ -91,7 +91,7 @@ describe('#actions', () => {
           commit,
           rootState: { route: { name: 'home' } },
           dispatch,
-          state: { currentInbox: 1, appliedFilters: [] },
+          state: { currentInbox: 1, appliedFilters: [], activeFolder: '' },
         },
         conversation
       );
@@ -111,12 +111,72 @@ describe('#actions', () => {
           commit,
           rootState: { route: { name: 'home' } },
           dispatch,
-          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+          state: {
+            currentInbox: 1,
+            appliedFilters: [{ id: 'random-filter' }],
+            activeFolder: '1',
+          },
         },
         conversation
       );
-      expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.ADD_CONVERSATION,
+          {
+            ...conversation,
+            hasActiveFilter: true,
+          },
+        ],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
+    });
+
+    it('doesnot send mutation if the view is in folder', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'folder_conversations' } },
+          dispatch,
+          state: {
+            currentInbox: 1,
+            appliedFilters: [],
+            activeFolder: '1',
+          },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.ADD_CONVERSATION,
+          {
+            ...conversation,
+            hasActiveFilter: true,
+          },
+        ],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
     });
 
     it('doesnot send mutation if the view is conversation mentions', () => {
@@ -131,12 +191,52 @@ describe('#actions', () => {
           commit,
           rootState: { route: { name: 'conversation_mentions' } },
           dispatch,
-          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+          state: { currentInbox: 1, appliedFilters: [], activeFolder: '' },
         },
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('send mutation if conversation filters are applied or the view is in folder', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: {
+            currentInbox: 1,
+            appliedFilters: [{ id: 'random-filter' }],
+            activeFolder: '1',
+          },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.ADD_CONVERSATION,
+          {
+            ...conversation,
+            hasActiveFilter: true,
+          },
+        ],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
     });
 
     it('sends correct mutations', () => {
@@ -151,7 +251,7 @@ describe('#actions', () => {
           commit,
           rootState: { route: { name: 'home' } },
           dispatch,
-          state: { currentInbox: 1, appliedFilters: [] },
+          state: { currentInbox: 1, appliedFilters: [], activeFolder: '' },
         },
         conversation
       );
@@ -370,6 +470,14 @@ describe('#actions', () => {
     it('commits the correct mutation and clears filter state', () => {
       actions.clearConversationFilters({ commit });
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
+    });
+  });
+
+  describe('#hasActiveFolder', () => {
+    it('commits the correct mutation and check has filter', () => {
+      const folderId = '1';
+      actions.hasActiveFolder({ commit }, folderId);
+      expect(commit.mock.calls).toEqual([[types.HAS_ACTIVE_FILTER, folderId]]);
     });
   });
 });

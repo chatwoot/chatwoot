@@ -82,6 +82,15 @@
       @chatTabChange="updateAssigneeTab"
     />
 
+    <banner
+      v-if="hasNewConversationAvailable && hasAppliedFiltersOrActiveFolders"
+      color-scheme="secondary"
+      :banner-message="$t('CHAT_LIST.NEW_CONVERSATION_CREATED')"
+      action-button-icon="reload-arrow"
+      :has-action-button="true"
+      @click="onClickRefreshFolder"
+    />
+
     <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -152,6 +161,7 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
+import Banner from 'dashboard/components/ui/Banner.vue';
 
 import {
   hasPressedAltAndJKey,
@@ -166,6 +176,7 @@ export default {
     ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
+    Banner,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -202,6 +213,8 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
+      hasNewConversationAvailable: false,
+      isRefreshFolderButtonClicked: false,
     };
   },
   computed: {
@@ -313,11 +326,37 @@ export default {
         } else {
           conversationList = [...this.allChatList(filters)];
         }
+      } else if (this.hasAppliedFiltersOrActiveFolders) {
+        const converstionsCreatedWhenFilterActive = this.chatLists.find(
+          conversation => conversation && conversation.hasActiveFilter === true
+        );
+        if (converstionsCreatedWhenFilterActive) {
+          conversationList = [
+            ...this.chatLists.filter(
+              conversation => !conversation.hasActiveFilter
+            ),
+          ];
+          if (this.isRefreshFolderButtonClicked === false) {
+            this.showReloadBanner();
+          }
+        } else {
+          conversationList = [...this.chatLists];
+        }
       } else {
         conversationList = [...this.chatLists];
       }
 
       return conversationList;
+    },
+    getLastSavedFolderId() {
+      const lastItemOfFolder = this.folders[this.folders.length - 1];
+      return lastItemOfFolder.id;
+    },
+    isLastSavedFolderOpen() {
+      if (this.getLastSavedFolderId === Number(this.foldersId)) {
+        return true;
+      }
+      return false;
     },
     activeFolder() {
       if (this.foldersId) {
@@ -336,6 +375,7 @@ export default {
       return {};
     },
   },
+
   watch: {
     activeTeam() {
       this.resetAndFetchData();
@@ -350,7 +390,10 @@ export default {
       this.resetAndFetchData();
     },
     activeFolder() {
-      if (!this.hasAppliedFilters) {
+      if (
+        !this.hasAppliedFilters ||
+        (this.isLastSavedFolderOpen === false && this.$route.name !== 'home')
+      ) {
         this.resetAndFetchData();
       }
     },
@@ -387,6 +430,13 @@ export default {
     },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
+    },
+    showReloadBanner() {
+      this.hasNewConversationAvailable = true;
+    },
+    closeReloadBanner() {
+      this.hasNewConversationAvailable = false;
+      this.isRefreshFolderButtonClicked = true;
     },
     getKeyboardListenerParams() {
       const allConversations = this.$refs.activeConversation.querySelectorAll(
@@ -439,6 +489,9 @@ export default {
       if (this.hasActiveFolders) {
         const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
+        this.$store.dispatch('hasActiveFolder', this.foldersId);
+        this.isRefreshFolderButtonClicked = false;
+        this.hasNewConversationAvailable = false;
       }
       if (this.foldersId) {
         return;
@@ -495,12 +548,21 @@ export default {
         this.resetAndFetchData();
       }
     },
+    onClickRefreshFolder() {
+      this.closeReloadBanner();
+      const payload = this.activeFolder.query;
+      const page = 1;
+      this.$store
+        .dispatch('fetchFilteredConversations', {
+          queryData: payload,
+          page,
+        })
+        .then(() => this.$emit('conversation-load'));
+    },
     openLastSavedItemInFolder() {
-      const lastItemOfFolder = this.folders[this.folders.length - 1];
-      const lastItemId = lastItemOfFolder.id;
       this.$router.push({
         name: 'folder_conversations',
-        params: { id: lastItemId },
+        params: { id: this.getLastSavedFolderId },
       });
     },
     openLastItemAfterDeleteInFolder() {
