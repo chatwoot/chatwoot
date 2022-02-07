@@ -12,7 +12,7 @@ const lowerCaseValues = (operator, values) => {
 
 const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
-  const filters = [...data];
+  const filters = JSON.parse(JSON.stringify(data));
   let payload = filters.map(item => {
     if (Array.isArray(item.values)) {
       item.values = item.values.map(val => val.id);
