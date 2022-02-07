@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Wachtwoord",
+        "LABEL": "New password",
         "ERROR": "Voer een wachtwoord in van 6 of meer",
         "PLACEHOLDER": "Voer een nieuw wachtwoord in"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bevestig nieuw wachtwoord",
         "ERROR": "Bevestig wachtwoord moet overeenkomen met het wachtwoord",
-        "PLACEHOLDER": "Voer uw wachtwoord opnieuw in"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
