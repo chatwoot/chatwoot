@@ -38,8 +38,8 @@ ml:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
+      team_name: ടീമിന്റെ പേര്
+      conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
   notifications:
@@ -50,12 +50,12 @@ ml:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: ഈ സന്ദേശം ഇല്ലാതാക്കി
     activity:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
-        pending: "Conversation was marked as pending by %{user_name}"
+        pending: "%{user_name} സംഭാഷണം തീർച്ചപ്പെടുത്താത്തതായി അടയാളപ്പെടുത്തി"
         snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
