@@ -196,7 +196,8 @@ export default {
   max-height: 2.4 * $space-mega;
   resize: none;
   padding: 0;
-  padding-top: $space-small;
+  padding-top: $space-smaller;
+  padding-bottom: $space-smaller;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

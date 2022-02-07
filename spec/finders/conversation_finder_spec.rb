@@ -6,7 +6,9 @@ describe ::ConversationFinder do
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
+  let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+  let!(:restricted_inbox) { create(:inbox, account: account) }
 
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
@@ -27,6 +29,32 @@ describe ::ConversationFinder do
       it 'filter conversations by status' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 2
+      end
+    end
+
+    context 'with inbox' do
+      let!(:restricted_conversation) { create(:conversation, account: account, inbox_id: restricted_inbox.id) }
+
+      it 'returns conversation from any inbox if its admin' do
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(admin, params).perform
+
+        expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
+      end
+
+      it 'returns conversation from inbox if agent is its member' do
+        params = { inbox_id: restricted_inbox.id }
+        create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id)).to include(restricted_conversation.id)
+      end
+
+      it 'does not return conversations from inboxes where agent is not a member' do
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id)).not_to include(restricted_conversation.id)
       end
     end
 

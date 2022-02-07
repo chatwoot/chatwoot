@@ -18,7 +18,7 @@ class Contacts::FilterService < FilterService
       @query_string += contact_query_string(current_filter, query_hash, current_index)
     end
 
-    base_relation.select('distinct contacts.id').where(@query_string, @filter_values.with_indifferent_access)
+    base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
 
   def contact_query_string(current_filter, query_hash, current_index)
@@ -31,6 +31,8 @@ class Contacts::FilterService < FilterService
     case current_filter['attribute_type']
     when 'additional_attributes'
       "  LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
+    when 'date_attributes'
+      " (contacts.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
