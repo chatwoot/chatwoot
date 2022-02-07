@@ -1,6 +1,89 @@
 {
   "AUTOMATION": {
     "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule"
+    "HEADER_BTN_TXT": "Add Automation Rule",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Add Automation Rule",
+      "SUBMIT": "Luo",
+      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Name is required"
+        },
+        "DESC": {
+          "LABEL": "Kuvaus",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Description is required"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Toiminnot"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nimi",
+        "Kuvaus",
+        "Active",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Poista",
+      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "CONFIRM": {
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Oletko varma että haluat poistaa ",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Muokkaa",
+      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Muokkaa",
+      "CREATE": "Luo",
+      "DELETE": "Poista",
+      "CANCEL": "Peruuta",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }

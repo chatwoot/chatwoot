@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Počet dnů, po kterých by měl být ticket automaticky vyřešen při žádné aktivitě",
         "PLACEHOLDER": "30",
-        "ERROR": "Zadejte platnou hodnotu automatického vyřešení (minimálně 1 den)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "E-mailová konverzace je u vašeho účtu povolena.",

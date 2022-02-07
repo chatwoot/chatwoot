@@ -31,7 +31,7 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
+        "NONE": "ไม่มี",
         "ASSIGNED": "Assigned Conversations",
         "ALL_CONVERSATIONS": "All Conversations"
       },
@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "หรัสผ่าน",
+        "LABEL": "New password",
         "ERROR": "Please enter a password of length 6 or more",
         "PLACEHOLDER": "Please enter a new password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

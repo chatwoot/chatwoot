@@ -169,6 +169,7 @@
       "SUBMIT": "Mesaj yolla",
       "CANCEL": "İptal Et",
       "SUCCESS_MESSAGE": "Mesaj yollandı!",
+      "GO_TO_CONVERSATION": "Görünüm",
       "ERROR_MESSAGE": "Yollanamıyor! lütfen tekrar deneyin"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Arama",
     "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",

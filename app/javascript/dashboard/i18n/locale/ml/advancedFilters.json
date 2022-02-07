@@ -1,6 +1,6 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "SUBTITLE": "സംഭാഷണങ്ങൾ ഫിൽട്ടർ ചെയ്യുന്നതിന് ചുവടെ ഫിൽട്ടറുകൾ ചേർക്കുക, 'ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക' അമർത്തുക.",
     "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
     "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
@@ -8,7 +8,7 @@
     "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
     "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ഒപ്പം",
       "OR": "അഥവാ"
@@ -19,19 +19,68 @@
       "contains": "അടങ്ങിയിരിക്കുന്നു",
       "does_not_contain": "ഉൾപ്പെട്ടിട്ടില്ല",
       "is_present": "നിലവിലുണ്ട്",
-      "is_not_present": "നിലവിലില്ല"
+      "is_not_present": "നിലവിലില്ല",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than"
     },
     "ATTRIBUTES": {
       "STATUS": "സ്റ്റാറ്റസ്",
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
       "TEAM_NAME": "ടീമിന്റെ പേര്",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
+      "CONVERSATION_IDENTIFIER": "സംഭാഷണ ഐഡന്റിഫയർ",
       "CAMPAIGN_NAME": "പ്രചാരണ നാമം",
       "LABELS": "ലേബലുകൾ",
       "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
       "COUNTRY_NAME": "രാജ്യത്തിന്റെ പേര്",
-      "REFERER_LINK": "Referer link"
+      "REFERER_LINK": "റഫറർ ലിങ്ക്",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "നിങ്ങൾക്ക് ഈ ഫിൽട്ടർ സേവ് ചെയ്യണോ?",
+        "LABEL": "ഈ ഫിൽട്ടറിന് പേര് നൽകുക",
+        "PLACEHOLDER": "ഈ ഫിൽട്ടറിന് ഒരു പേര് നൽകുക",
+        "ERROR_MESSAGE": "നാമം ആവശ്യമാണ്",
+        "SAVE_BUTTON": "ഫിൽട്ടർ സേവ് ചെയുക",
+        "CANCEL_BUTTON": "റദ്ദാക്കുക",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി സൃഷ്ടിച്ചു",
+          "ERROR_MESSAGE": "ഫോൾഡർ സൃഷ്‌ടിക്കുമ്പോൾ പിശക്"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "സെഗ്മെന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
+          "ERROR_MESSAGE": "Error while creating segment"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+            "MESSAGE": "ഫിൽട്ടർ ഇല്ലാതാക്കുമെന്ന് ഉറപ്പാണോ ",
+            "YES": "അതെ, ഇല്ലാതാക്കുക",
+            "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി ഇല്ലാതാക്കി",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "സെഗ്‌മെന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
+          "ERROR_MESSAGE": "സെഗ്‌മെന്റ് ഇല്ലാതാക്കുന്നതിൽ പിശക്"
+        }
+      }
     }
   }
 }
