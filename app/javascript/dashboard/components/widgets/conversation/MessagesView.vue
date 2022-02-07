@@ -8,21 +8,13 @@
       :href-link-text="$t('CONVERSATION.24_HOURS_WINDOW')"
     />
 
-    <div
+    <banner
       v-if="!currentChat.can_reply && isAWhatsappChannel"
-      class="banner messenger-policy--banner"
-    >
-      <span>
-        {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
-        <a
-          :href="twilioWhatsAppReplyPolicy"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-        >
-          {{ $t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW') }}
-        </a>
-      </span>
-    </div>
+      color-scheme="alert"
+      :banner-message="$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY')"
+      :href-link="twilioWhatsAppReplyPolicy"
+      :href-link-text="$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW')"
+    />
 
     <banner
       v-if="isATweet"
@@ -31,6 +23,7 @@
       :has-close-button="hasSelectedTweetId"
       @close="removeTweetSelection"
     />
+
     <div class="sidebar-toggle__wrap">
       <woot-button
         variant="smooth"
