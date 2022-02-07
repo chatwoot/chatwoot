@@ -133,6 +133,7 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
       conversationsUiFlags: 'contactConversations/getUIFlags',
+      currentUser: 'getCurrentUser',
     }),
     getNewConversation() {
       return {
@@ -141,6 +142,7 @@ export default {
         contactId: this.contact.id,
         message: { content: this.message },
         mailSubject: this.subject,
+        assigneeId: this.currentUser.id,
       };
     },
     targetInbox: {
