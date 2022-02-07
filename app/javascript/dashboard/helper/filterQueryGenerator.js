@@ -1,4 +1,4 @@
-function lowerCaseValues(operator, values) {
+const lowerCaseValues = (operator, values) => {
   if (operator === 'equal_to' || operator === 'not_equal_to') {
     values = values.map(val => {
       if (typeof val === 'string') {
