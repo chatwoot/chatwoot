@@ -169,6 +169,7 @@
       "SUBMIT": "Poslať správu",
       "CANCEL": "Zrušiť",
       "SUCCESS_MESSAGE": "Správa poslaná!",
+      "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Nepodarilo sa odoslať! Skúste to znova"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Hľadať",
     "SEARCH_INPUT_PLACEHOLDER": "Hľadať kontakty",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Kontakty sa hľadajú...",
       "404": "Žiadny kontakt nezodpovedá vášmu vyhľadávaniu 🔍",

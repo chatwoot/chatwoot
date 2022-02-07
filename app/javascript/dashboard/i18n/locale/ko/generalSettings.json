@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "활동이 없는 경우 티켓이 자동으로 해결되는 일 수",
         "PLACEHOLDER": "30",
-        "ERROR": "올바른 자동 확인 기간을 입력하십시오. (최소 1일)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "계정에 대해 이메일을 통한 대화 연속성이 활성화되었습니다.",
