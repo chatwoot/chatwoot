@@ -72,10 +72,10 @@
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "نسخ",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "تم نسخ الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر استنساخ قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "FORM": {
