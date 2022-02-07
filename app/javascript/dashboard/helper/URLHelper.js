@@ -37,3 +37,9 @@ export const accountIdFromPathname = pathname => {
   const accountId = isScoped ? Number(urlParam) : '';
   return accountId;
 };
+
+export const isValidURL = value => {
+  /* eslint-disable no-useless-escape */
+  const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+  return URL_REGEX.test(value);
+};
