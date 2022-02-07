@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Anzahl der Tage, nach denen ein Ticket automatisch geschlossen wird, wenn keine Aktivität erfolgt",
         "PLACEHOLDER": "30",
-        "ERROR": "Bitte gebe eine gültige automatische Auflösungsdauer ein (mindestens 1 Tag)"
+        "ERROR": "Bitte gebe eine gültige automatische Auflösungsdauer ein (mindestens 1 Tag und maximal 999 Tage)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Für dein Konto wurde der Empfang von E-Mails aktiviert.",
@@ -97,7 +97,7 @@
       "SETTINGS": "die Einstellungen"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Gehe zur Konversationsübersicht",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "GO_TO_REPORTS_OVERVIEW": "Zur Berichtsübersicht",
       "GO_TO_AGENT_REPORTS": "Zu den Agentenberichten",

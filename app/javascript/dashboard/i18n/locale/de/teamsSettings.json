@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Neues Team erstellen",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams ermöglichen es Ihnen, Ihre Agenten auf der Grundlage ihrer Verantwortlichkeiten in Gruppen zu organisieren. <br /> Ein Benutzer kann Teil mehrerer Teams sein. Sie können einem Team Gespräche zuweisen, wenn Sie kooperativ arbeiten. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> Mit <p>Teams können Sie Ihre Agenten basierend auf ihren Verantwortlichkeiten in Gruppen organisieren. <br /> Ein Agent kann mehreren Teams angehören. Sie können Unterhaltungen einem Team zuweisen, wenn Sie zusammenarbeiten. </p>",
     "LIST": {
       "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
       "EDIT_TEAM": "Team bearbeiten"
@@ -68,18 +68,18 @@
       "ERROR_MESSAGE": "Teamdetails konnten nicht gespeichert werden. Versuchen Sie es erneut."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "Agent",
       "EMAIL": "E-Mail",
       "BUTTON_TEXT": "Agenten hinzufügen",
       "ADD_AGENTS": "Agenten zu Ihrem Team hinzufügen...",
-      "SELECT": "auswählen",
+      "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
     },
     "ADD": {
       "TITLE": "Agenten zum Team %{teamName} hinzufügen",
       "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung.",
-      "SELECT": "auswählen",
+      "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
       "BUTTON_TEXT": "Agenten hinzufügen",

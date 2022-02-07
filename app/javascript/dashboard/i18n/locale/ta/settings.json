@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "பாஸ்வேர்ட்",
+        "LABEL": "New password",
         "ERROR": "6 அல்லது அதற்கு மேற்பட்ட நீள பாஸ்வேர்டை உள்ளிடவும்",
         "PLACEHOLDER": "புதிய பாஸ்வேர்டை உள்ளிடவும்"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "புதிய பாஸ்வேர்டை உறுதிப்படுத்தவும்",
         "ERROR": "பாஸ்வேர்டு ஒன்றோடு ஒன்று ஒத்துபோகும்படி இருக்கிறதா என்பதை உறுதிப்படுத்தவும்",
-        "PLACEHOLDER": "உங்கள் பாஸ் வேர்டை மீண்டும் உள்ளிடவும்"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

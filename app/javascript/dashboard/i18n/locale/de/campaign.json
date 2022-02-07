@@ -104,7 +104,7 @@
       },
       "STATUS": {
         "ENABLED": "Aktiviert",
-        "DISABLED": "Inaktiv",
+        "DISABLED": "Deaktiviert",
         "COMPLETED": "Erledigt",
         "ACTIVE": "Aktiv"
       },

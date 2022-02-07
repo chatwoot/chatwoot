@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Antal dagar till ett ärende ska automatlösas på grund av inaktivitet",
         "PLACEHOLDER": "30",
-        "ERROR": "Ange en giltig tid för automatlösning (minst 1 dag)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Konversationskontinuitet med e-post är aktiverat för ditt konto.",

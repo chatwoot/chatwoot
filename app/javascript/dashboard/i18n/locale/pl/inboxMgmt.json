@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Włącz powitanie dla kanału",
-          "HELP_TEXT": "Wyślij wiadomość powitalną użytkownikowi, gdy rozpocznie rozmowę.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Włączone",
           "DISABLED": "Wyłączone"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "To pole jest wymagane"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "To pole jest wymagane"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "To pole jest wymagane"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "To pole jest wymagane"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Nazwa skrzynki odbiorczej",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "To pole jest wymagane"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Numer telefonu",
+            "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
+            "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -305,6 +353,14 @@
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -349,8 +405,10 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Włącz automatyczne przypisanie",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CSAT": "Włącz CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
@@ -360,8 +418,10 @@
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail."
+      "FORWARD_EMAIL_TITLE": "Przekaż do wiadomości e-mail",
+      "FORWARD_EMAIL_SUB_TEXT": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ponowna autoryzacja",
@@ -387,7 +447,7 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
+      "TITLE": "Ustaw swoją dostępność",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Ustaw swoje godziny tygodniowe",
       "TIMEZONE_LABEL": "Wybierz strefę czasową",

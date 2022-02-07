@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "معرف الحساب",
+        "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
       },
       "NAME": {
         "LABEL": "اسم الحساب",
@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "عدد الأيام بعد التذكرة التي يجب أن يحل تلقائياً إذا لم يكن هناك أي نشاط",
         "PLACEHOLDER": "30",
-        "ERROR": "الرجاء إدخال مدة الحل التلقائي صحيحة (يوم واحد على الأقل)"
+        "ERROR": "الرجاء إدخال مدة حل تلقائي صالحة (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
