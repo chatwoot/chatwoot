@@ -20,7 +20,9 @@
             "contains": "Contains",
             "does_not_contain": "Does not contain",
             "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "is_not_present": "Is not present",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than"
         },
         "ATTRIBUTES": {
             "NAME": "İsim",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "Telefon numarası",
             "IDENTIFIER": "Identifier",
             "CITY": "Şehir",
-            "COUNTRY": "Ülke"
+            "COUNTRY": "Ülke",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Additional Filters",
+            "CUSTOM_ATTRIBUTES": "Özel Nitelikler"
         }
     }
 }

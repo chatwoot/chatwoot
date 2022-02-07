@@ -15,7 +15,7 @@
           "ERROR": "Name is required"
         },
         "DESC": {
-          "LABEL": "Description",
+          "LABEL": "Opis",
           "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Description is required"
         },
@@ -82,7 +82,7 @@
     "LIST": {
       "TABLE_HEADER": [
         "Nazwa",
-        "Description",
+        "Opis",
         "Type",
         "Key"
       ],

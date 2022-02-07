@@ -1,7 +1,7 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Impostazioni dell'account",
-    "SUBMIT": "Aggiorna impostazioni",
+    "TITLE": "Impostazioni account",
+    "SUBMIT": "Aggiorna le impostazioni",
     "BACK": "Back",
     "UPDATE": {
       "ERROR": "Impossibile aggiornare le impostazioni, riprova!",
@@ -18,9 +18,9 @@
         "NOTE": "This ID is required if you are building an API based integration"
       },
       "NAME": {
-        "LABEL": "Nome del conto",
+        "LABEL": "Nome account",
         "PLACEHOLDER": "Nome del tuo account",
-        "ERROR": "Inserisci un nome di conto valido"
+        "ERROR": "Inserisci un nome account valido"
       },
       "LANGUAGE": {
         "LABEL": "Lingua del sito (Beta)",
@@ -33,8 +33,8 @@
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "E-mail di supporto",
-        "PLACEHOLDER": "E-mail di supporto della tua azienda",
+        "LABEL": "Email di supporto",
+        "PLACEHOLDER": "Email di supporto della tua azienda",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
@@ -63,7 +63,7 @@
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
       "TABLE_HEADER": [
-        "nome",
+        "Nome",
         "Phone Number",
         "Conversazioni",
         "Last Contacted"
@@ -97,7 +97,7 @@
       "SETTINGS": "Impostazioni"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla Dashboard di conversazione",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla dashboard Conversazioni",
       "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
       "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
@@ -119,7 +119,7 @@
       "MUTE_CONVERSATION": "Mute conversation",
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Riaprire la conversazione",
+      "REOPEN_CONVERSATION": "Riapri la conversazione",
       "RESOLVE_CONVERSATION": "Risolvi la conversazione",
       "SEND_TRANSCRIPT": "Send an email transcript",
       "SNOOZE_CONVERSATION": "Snooze Conversation",

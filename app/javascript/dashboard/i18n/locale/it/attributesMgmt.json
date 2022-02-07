@@ -1,23 +1,23 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributi Personalizzati",
+    "HEADER": "Attributi personalizzati",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Crea",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome Visualizzato",
+          "LABEL": "Nome visualizzato",
           "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
           "LABEL": "Descrizione",
           "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Descrizione obbligatoria"
+          "ERROR": "La descrizione è obbligatoria"
         },
         "MODEL": {
           "LABEL": "Applies to",
@@ -47,7 +47,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
@@ -56,13 +56,13 @@
         "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
         "PLACE_HOLDER": "Digita {attributeName} per confermare",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Cancellare ",
-        "NO": "annulla"
+        "YES": "Elimina ",
+        "NO": "Annulla"
       }
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Aggiornamento",
+      "UPDATE_BUTTON_TEXT": "Aggiorna",
       "TYPE": {
         "LIST": {
           "LABEL": "List Values",
@@ -75,20 +75,20 @@
       }
     },
     "TABS": {
-      "HEADER": "Attributi Personalizzati",
+      "HEADER": "Attributi personalizzati",
       "CONVERSATION": "Conversazioni",
       "CONTACT": "Contatto"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "nome",
+        "Nome",
         "Descrizione",
         "Tipo",
         "Chiave"
       ],
       "BUTTONS": {
         "EDIT": "Modifica",
-        "DELETE": "Cancellare"
+        "DELETE": "Elimina"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",
