@@ -22,7 +22,7 @@
     "LOADING_CONVERSATIONS": "Gespräche laden",
     "CANNOT_REPLY": "Du kannst nicht Antworten aufgrund von",
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
     "ASSIGN_TO_ME": "Mir zuweisen",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
