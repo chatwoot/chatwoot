@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "비밀번호",
+        "LABEL": "New password",
         "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
         "PLACEHOLDER": "새 비밀번호를 입력하십시오."
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "새 비밀번호 확인",
         "ERROR": "비밀번호가 비밀번호와 일치하는지 확인",
-        "PLACEHOLDER": "비밀번호를 다시 입력하십시오."
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
     "AUTOMATION": "Automation",
     "TEAMS": "팀",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Inserisci la password attuale"
       },
       "PASSWORD": {
-        "LABEL": "password",
+        "LABEL": "New password",
         "ERROR": "Inserisci una password di lunghezza 6 o più",
         "PLACEHOLDER": "Inserisci una nuova password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Conferma nuova password",
         "ERROR": "La password di conferma deve corrispondere alla password",
-        "PLACEHOLDER": "Inserisci nuovamente la tua password"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -150,9 +150,11 @@
     "ACCOUNT_SETTINGS": "Impostazioni Account",
     "APPLICATIONS": "Applicazioni",
     "LABELS": "Etichette",
-    "CUSTOM_ATTRIBUTES": "Attributi Personalizzati",
-    "AUTOMATION": "Automation",
+    "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
+    "AUTOMATION": "Automazione",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tutti I Contatti",
     "TAGGED_WITH": "Etichettato con",
     "NEW_LABEL": "New label",

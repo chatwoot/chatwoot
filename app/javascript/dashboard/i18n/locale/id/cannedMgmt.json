@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Tambahkan Canned Response",
     "LOADING": "Mengambil Canned Responses",
     "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responsesadalah template balasan tersimpan yang dapat digunakan untuk mengirim balasan percakapan dengan cepat. </p><p> Untuk membuat Canned Response, cukup klik pada <b>Tambah Canned Response</b>. Anda juga dapat mengedit atau menghapus Tanggapan Kalengan yang ada dengan mengklik tombol Edit atau Hapus </p><p> Canned responses digunakan dengan bantuan <b>Short Codes</b>. Agen dapat mengakses canned response saat sedang mengobrol dengan mengetik <b>'/'</b> diikuti dengan kode singkat. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Tidak ada canned response yang tersedia di akun ini.",
       "TITLE": "Kelola canned response",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Tambahkan Canned Response",
-      "DESC": "Canned Response adalah template balasan tersimpan yang dapat digunakan untuk mengirim balasan percakapan dengan cepat.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
-          "PLACEHOLDER": "Harap masukkan shortcode",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Short Code dibutuhkan"
         },
         "CONTENT": {

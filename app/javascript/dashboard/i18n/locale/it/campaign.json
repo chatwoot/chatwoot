@@ -1,15 +1,15 @@
 {
   "CAMPAIGN": {
     "HEADER": "Campagne",
-    "SIDEBAR_TXT": "I messaggi proattivi consentono al cliente di inviare messaggi in uscita ai propri contatti che attiverebbero più conversazioni. Clicca su <b>Aggiungi Campagna</b> per creare una nuova campagna. È inoltre possibile modificare o eliminare una campagna esistente facendo clic sul pulsante Modifica o Elimina.",
+    "SIDEBAR_TXT": "I messaggi proattivi consentono al cliente di inviare messaggi in uscita ai propri contatti che attiverebbero più conversazioni. Clicca su <b>Aggiungi campagna</b> per creare una nuova campagna. Puoi anche modificare o eliminare una campagna esistente facendo clic sul pulsante Modifica o Elimina.",
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Crea una campagna una tantum",
-      "ONGOING": "Crea una campagna in uscita"
+      "ONGOING": "Crea una campagna in corso"
     },
     "ADD": {
       "TITLE": "Crea una campagna",
       "DESC": "I messaggi proattivi consentono al cliente di inviare messaggi in uscita ai propri contatti che attiverebbero più conversazioni.",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "CREATE_BUTTON_TEXT": "Crea",
       "FORM": {
         "TITLE": {
@@ -29,8 +29,8 @@
           "ERROR": "Il pubblico è obbligatorio"
         },
         "INBOX": {
-          "LABEL": "Seleziona Posta In Arrivo",
-          "PLACEHOLDER": "Seleziona Posta In Arrivo",
+          "LABEL": "Seleziona Posta in arrivo",
+          "PLACEHOLDER": "Seleziona Posta in arrivo",
           "ERROR": "La posta in arrivo è obbligatoria"
         },
         "MESSAGE": {
@@ -41,7 +41,7 @@
         "SENT_BY": {
           "LABEL": "Inviato da",
           "PLACEHOLDER": "Seleziona il contenuto della campagna",
-          "ERROR": "Mittente è obbligatorio"
+          "ERROR": "Il mittente è obbligatorio"
         },
         "END_POINT": {
           "LABEL": "URL",
@@ -49,13 +49,13 @@
           "ERROR": "Inserisci un URL valido"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Tempo sulla pagina(Secondi)",
+          "LABEL": "Tempo sulla pagina (Secondi)",
           "PLACEHOLDER": "Inserisci l'ora",
           "ERROR": "Il tempo sulla pagina è richiesto"
         },
         "ENABLED": "Abilita campagna",
         "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Aggiungi Campagna"
+        "SUBMIT": "Aggiungi campagna"
       },
       "API": {
         "SUCCESS_MESSAGE": "Campagna creata con successo",
@@ -63,7 +63,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare?",
@@ -77,7 +77,7 @@
     },
     "EDIT": {
       "TITLE": "Modifica campagna",
-      "UPDATE_BUTTON_TEXT": "Aggiornamento",
+      "UPDATE_BUTTON_TEXT": "Aggiorna",
       "API": {
         "SUCCESS_MESSAGE": "Campagna aggiornata con successo",
         "ERROR_MESSAGE": "Si è verificato un errore, riprova"
@@ -89,18 +89,18 @@
       "TABLE_HEADER": {
         "TITLE": "Titolo",
         "MESSAGE": "Messaggio",
-        "INBOX": "Posta",
+        "INBOX": "Posta in arrivo",
         "STATUS": "Stato",
         "SENDER": "Mittente",
         "URL": "URL",
         "SCHEDULED_AT": "Orario previsto",
-        "TIME_ON_PAGE": "Tempo(Secondi)",
+        "TIME_ON_PAGE": "Tempo (Secondi)",
         "CREATED_AT": "Creato il"
       },
       "BUTTONS": {
         "ADD": "Aggiungi",
         "EDIT": "Modifica",
-        "DELETE": "Cancellare"
+        "DELETE": "Elimina"
       },
       "STATUS": {
         "ENABLED": "Abilitato",

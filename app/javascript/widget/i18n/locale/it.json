@@ -6,21 +6,26 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Invia"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Invia di nuovo il messaggio",
+      "ERROR_MESSAGE": "Impossibile inviare, riprova"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
-    "OFFLINE": "Al momento non è disponibile nessun operatore"
+    "OFFLINE": "Siamo offline in questo momento"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
     "IN_A_FEW_HOURS": "In genere risponde in poche ore",
-    "IN_A_DAY": "In genere le risposte in un giorno"
+    "IN_A_DAY": "In genere risponde in un giorno"
   },
-  "START_CONVERSATION": "Avvia Conversazione",
+  "START_CONVERSATION": "Avvia conversazione",
+  "CONTINUE_CONVERSATION": "Continua conversazione",
   "START_NEW_CONVERSATION": "Avvia una nuova conversazione",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
+    "VIEW_MESSAGES_BUTTON": "Vedi i nuovi messaggi",
     "CLOSE_MESSAGES_BUTTON": "Chiudi",
     "COMPANY_FROM": "da",
     "BOT": "Bot"
@@ -28,7 +33,7 @@
   "BUBBLE": {
     "LABEL": "Chatta con noi"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Offerto da Chatwoot",
   "EMAIL_PLACEHOLDER": "Inserisci la tua email",
   "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
   "TODAY": "Oggi",
@@ -36,13 +41,13 @@
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Nome Completo",
-        "PLACEHOLDER": "Per favore inserisci il nome completo",
-        "ERROR": "Nome completo è richiesto"
+        "LABEL": "Nome completo",
+        "PLACEHOLDER": "Per favore inserisci il tuo nome completo",
+        "ERROR": "Il nome completo è richiesto"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Indirizzo email",
-        "PLACEHOLDER": "Inserisci il tuo indirizzo e-mail",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo email",
         "ERROR": "Indirizzo email non valido"
       },
       "MESSAGE": {
@@ -51,7 +56,7 @@
         "ERROR": "Messaggio troppo corto"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione"
   },
   "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {
@@ -62,7 +67,7 @@
   "CSAT": {
     "TITLE": "Valuta la conversazione",
     "SUBMITTED_TITLE": "Grazie per aver inviato la valutazione",
-    "PLACEHOLDER": "Dicci di più..."
+    "PLACEHOLDER": "Raccontaci di più..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
