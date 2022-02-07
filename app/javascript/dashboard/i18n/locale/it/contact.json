@@ -1,15 +1,15 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Non Disponibile",
+    "NOT_AVAILABLE": "Non disponibile",
     "EMAIL_ADDRESS": "Indirizzo email",
     "PHONE_NUMBER": "Numero di telefono",
     "COPY_SUCCESSFUL": "Copiato negli appunti con successo",
     "COMPANY": "Azienda",
-    "LOCATION": "Localizzazione",
+    "LOCATION": "Posizione",
     "CONVERSATION_TITLE": "Dettagli conversazione",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
-    "OS": "Sistema Operativo",
+    "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniziato da",
     "INITIATED_AT": "Iniziato alle",
     "IP_ADDRESS": "Indirizzo IP",
@@ -20,40 +20,40 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Etichette Di Contatto",
+        "TITLE": "Etichette di contatto",
         "ERROR": "Impossibile aggiornare le etichette"
       },
       "CONVERSATION": {
-        "TITLE": "Etichette Di Conversazione",
-        "ADD_BUTTON": "Aggiungi Etichette"
+        "TITLE": "Etichette di conversazione",
+        "ADD_BUTTON": "Aggiungi etichette"
       },
       "LABEL_SELECT": {
-        "TITLE": "Aggiungi Etichette",
+        "TITLE": "Aggiungi etichette",
         "PLACEHOLDER": "Cerca etichette",
         "NO_RESULT": "Nessuna etichetta trovata"
       }
     },
     "MERGE_CONTACT": "Merge contact",
     "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Silenzia La Conversazione",
-    "UNMUTE_CONTACT": "Riattiva La Conversazione",
+    "MUTE_CONTACT": "Silenzia conversazione",
+    "UNMUTE_CONTACT": "Riattiva conversazione",
     "MUTED_SUCCESS": "Questa conversazione è silenziata per 6 ore",
     "UNMUTED_SUCCESS": "Questa conversazione non è più silenziata",
-    "SEND_TRANSCRIPT": "Invia Trascrizione",
+    "SEND_TRANSCRIPT": "Invia trascrizione",
     "EDIT_LABEL": "Modifica",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Attributi Personalizzati",
-      "CONTACT_LABELS": "Etichette Di Contatto",
+      "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
+      "CONTACT_LABELS": "Etichette di contatto",
       "PREVIOUS_CONVERSATIONS": "Conversazioni precedenti"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Modifica Contatto",
-    "TITLE": "Modifica Contatto",
+    "BUTTON_LABEL": "Modifica contatto",
+    "TITLE": "Modifica contatto",
     "DESC": "Modifica dettagli contatto"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nuovo Contatto",
+    "BUTTON_LABEL": "Nuovo contatto",
     "TITLE": "Crea nuovo contatto",
     "DESC": "Aggiungi informazioni di base sul contatto."
   },
@@ -65,7 +65,7 @@
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
-      "CANCEL": "annulla"
+      "CANCEL": "Annulla"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
@@ -89,13 +89,13 @@
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Invia",
-      "CANCEL": "annulla",
+      "CANCEL": "Annulla",
       "AVATAR": {
         "LABEL": "Immagine del contatto"
       },
       "NAME": {
         "PLACEHOLDER": "Inserisci il nome completo del contatto",
-        "LABEL": "Nome Completo"
+        "LABEL": "Nome completo"
       },
       "BIO": {
         "PLACEHOLDER": "Inserisci la biografia del contatto",
@@ -109,17 +109,17 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Inserisci il numero di telefono del contatto",
         "LABEL": "Numero di telefono",
-        "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice di zona][numero di telefono locale]",
+        "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice zona][numero di telefono locale]",
         "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164",
         "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Inserisci la posizione del contatto",
-        "LABEL": "Localizzazione"
+        "LABEL": "Posizione"
       },
       "COMPANY_NAME": {
         "PLACEHOLDER": "Inserisci il nome dell'azienda",
-        "LABEL": "Nome Azienda"
+        "LABEL": "Nome azienda"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -144,9 +144,9 @@
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Avvia Conversazione",
+    "BUTTON_LABEL": "Avvia conversazione",
     "TITLE": "Nuova conversazione",
-    "DESC": "Avviare una nuova conversazione inviando un nuovo messaggio.",
+    "DESC": "Avvia una nuova conversazione inviando un nuovo messaggio.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
@@ -167,8 +167,9 @@
         "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "annulla",
+      "CANCEL": "Annulla",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Visualizza",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,12 +179,14 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "nome",
+        "NAME": "Nome",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversazioni",
         "LAST_ACTIVITY": "Last Activity",
