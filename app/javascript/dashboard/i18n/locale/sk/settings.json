@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Prosím zadajte momentálne heslo"
       },
       "PASSWORD": {
-        "LABEL": "Heslo",
+        "LABEL": "New password",
         "ERROR": "Zadajte heslo s dĺžkou 6 alebo viac",
         "PLACEHOLDER": "Prosím zadajte nové heslo"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Potvrďte nové heslo",
         "ERROR": "Potvrdzovacie heslo by sa malo zhodovať s heslom",
-        "PLACEHOLDER": "Znovu zadajte svoje heslo"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

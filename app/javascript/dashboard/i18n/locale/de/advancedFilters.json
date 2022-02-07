@@ -19,19 +19,68 @@
       "contains": "Enthält",
       "does_not_contain": "Beinhaltet nicht",
       "is_present": "Ist anwesend",
-      "is_not_present": "Ist nicht anwesend"
+      "is_not_present": "Ist nicht anwesend",
+      "is_greater_than": "Ist größer als",
+      "is_lesser_than": "Ist kleiner als"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Name des Bevollmächtigten",
-      "INBOX_NAME": "Posteingang-Name",
+      "INBOX_NAME": "Posteingangsname",
       "TEAM_NAME": "Teamname",
       "CONVERSATION_IDENTIFIER": "Gesprächsidentifikation",
       "CAMPAIGN_NAME": "Kampagnenname",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browsersprache",
       "COUNTRY_NAME": "Ländername",
-      "REFERER_LINK": "Referrer-Link"
+      "REFERER_LINK": "Referer-Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standardfilter",
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Möchten Sie diesen Filter speichern?",
+        "LABEL": "Diesen Filter benennen",
+        "PLACEHOLDER": "Geben Sie einen Namen für diesen Filter ein",
+        "ERROR_MESSAGE": "Name wird benötigt",
+        "SAVE_BUTTON": "Filter speichern",
+        "CANCEL_BUTTON": "Stornieren",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Ordners"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Segments"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Filter löschen",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Löschung bestätigen",
+            "MESSAGE": "Möchten Sie den Filter wirklich löschen ",
+            "YES": "Ja, löschen",
+            "NO": "Nein, behalte es"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Ordners"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Segments"
+        }
+      }
     }
   }
 }

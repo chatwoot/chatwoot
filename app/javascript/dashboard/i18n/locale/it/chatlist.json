@@ -1,6 +1,6 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Recupero conversazioni",
+    "LOADING": "Recupero delle conversazioni",
     "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
     "EOF": "Tutte le conversazioni caricate 🎉",
     "LIST": {
@@ -14,7 +14,7 @@
     "FILTER_ALL": "Tutti",
     "STATUS_TABS": [
       {
-        "NAME": "Apri",
+        "NAME": "Aperte",
         "KEY": "contaaperture"
       },
       {
@@ -24,7 +24,7 @@
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Miniera",
+        "NAME": "Mie",
         "KEY": "Io",
         "COUNT_KEY": "contaMinore"
       },
@@ -41,13 +41,13 @@
     ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Apri"
+        "TEXT": "Aperte"
       },
       "resolved": {
         "TEXT": "Risolti"
       },
       "pending": {
-        "TEXT": "In Attesa"
+        "TEXT": "In sospeso"
       },
       "snoozed": {
         "TEXT": "Posticipato"
@@ -64,10 +64,10 @@
         "CONTENT": "Messaggio video"
       },
       "file": {
-        "CONTENT": "File Allegato"
+        "CONTENT": "File allegato"
       },
       "location": {
-        "CONTENT": "Localizzazione"
+        "CONTENT": "Posizione"
       },
       "fallback": {
         "CONTENT": "ha condiviso un url"
@@ -77,9 +77,9 @@
     "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
     "REPLY_TO_TWEET": "Rispondi a questo tweet",
     "SENT": "Sent successfully",
-    "NO_MESSAGES": "Nessun Messaggio",
+    "NO_MESSAGES": "Nessun messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
-    "HIDE_QUOTED_TEXT": "Nascondi Testo Citato",
-    "SHOW_QUOTED_TEXT": "Mostra Testo Citato"
+    "HIDE_QUOTED_TEXT": "Nascondi testo citato",
+    "SHOW_QUOTED_TEXT": "Mostra testo citato"
   }
 }

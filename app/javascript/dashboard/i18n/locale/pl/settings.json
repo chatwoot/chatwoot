@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Hasło",
+        "LABEL": "New password",
         "ERROR": "Wprowadź hasło o długości 6 lub więcej",
         "PLACEHOLDER": "Wprowadź nowe hasło"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Potwierdź nowe hasło",
         "ERROR": "Potwierdź hasło powinno być zgodne z hasłem",
-        "PLACEHOLDER": "Wprowadź ponownie hasło"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -149,10 +149,12 @@
     "PROFILE_SETTINGS": "Ustawienia profilu",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
+    "LABELS": "Etykiety",
     "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
     "AUTOMATION": "Automation",
     "TEAMS": "Zespoły",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
@@ -164,7 +166,7 @@
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenci",
-    "REPORTS_LABEL": "Labels",
+    "REPORTS_LABEL": "Etykiety",
     "REPORTS_INBOX": "Skrzynka odbiorcza",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as"

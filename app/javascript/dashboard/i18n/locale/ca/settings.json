@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Contrasenya",
+        "LABEL": "New password",
         "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
         "PLACEHOLDER": "Introduïu una nova contrasenya"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmació de la nova contrasenya",
         "ERROR": "Confirmeu que les contrasenyes coincideixin",
-        "PLACEHOLDER": "Torneu a introduir la vostra contrasenya"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
     "AUTOMATION": "Automation",
     "TEAMS": "Equips",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
