@@ -609,7 +609,7 @@ export default {
   margin: 0 var(--space-normal);
   padding: var(--space-small);
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   border: 1px dashed var(--s-100);
   border-radius: var(--border-radius-small);
