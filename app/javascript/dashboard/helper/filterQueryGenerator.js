@@ -1,4 +1,4 @@
-function lowerCaseValues(operator, values) {
+const lowerCaseValues = (operator, values) => {
   if (operator === 'equal_to' || operator === 'not_equal_to') {
     values = values.map(val => {
       if (typeof val === 'string') {
@@ -8,11 +8,11 @@ function lowerCaseValues(operator, values) {
     });
   }
   return values;
-}
+};
 
 const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
-  const filters = JSON.parse(JSON.stringify(data));
+  const filters = [...data];
   let payload = filters.map(item => {
     if (Array.isArray(item.values)) {
       item.values = item.values.map(val => val.id);
