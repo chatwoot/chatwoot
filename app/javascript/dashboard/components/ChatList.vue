@@ -242,13 +242,6 @@ export default {
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
     },
-    savedFoldersValue() {
-      if (this.hasActiveFolders) {
-        const payload = this.activeFolder.query;
-        this.fetchSavedFilteredConversations(payload);
-      }
-      return {};
-    },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
         const count = this.conversationStats[item.COUNT_KEY] || 0;
@@ -299,7 +292,6 @@ export default {
         conversationType: this.conversationType
           ? this.conversationType
           : undefined,
-        folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
     pageTitle() {
