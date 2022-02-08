@@ -368,7 +368,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
-      this.foldersQuery = { payload: payload };
+      this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
