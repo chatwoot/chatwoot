@@ -61,7 +61,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
-    assign_conversation if @conversation.status == 'open' && current_user.role == 'agent'
+    assign_conversation if @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.administrator?
   end
 
   def toggle_typing_status

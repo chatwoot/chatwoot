@@ -314,6 +314,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
 
       before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
@@ -341,15 +342,25 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('open')
       end
 
-      it 'self assign the conversation if status changes to open' do
+      it 'self assign if agent changes the conversation status to open' do
         conversation.update!(status: 'pending')
-
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
              as: :json
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).to eq(agent.id)
+      end
+
+      it 'disbale self assign if admin changes the conversation status to open' do
+        conversation.update!(status: 'pending')
+        conversation.update!(assignee_id: nil)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('open')
+        expect(conversation.reload.assignee_id).not_to eq(agent.id)
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
