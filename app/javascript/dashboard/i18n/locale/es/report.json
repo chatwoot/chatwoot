@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Resumen",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
@@ -53,16 +53,16 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Resumen de agentes",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
@@ -116,20 +116,20 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Resumen de etiquetas",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Descargar reportes de etiquetas",
+    "FILTER_DROPDOWN_LABEL": "Seleecionar etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -179,19 +179,19 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Resumen de bandeja de entrada",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Descargar reportes de bandeja de entrada",
     "FILTER_DROPDOWN_LABEL": "Seleccione una bandeja de entrada",
     "METRICS": {
       "CONVERSATIONS": {
@@ -242,20 +242,20 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Vista general del equipo",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Descargar informes del equipo",
+    "FILTER_DROPDOWN_LABEL": "Seleccionar equipo",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -305,37 +305,37 @@
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Rango de fechas personalizado"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Seleccione rango de fechas"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "Reporte de encuestas de satisfacción",
+    "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "Contacto",
+        "AGENT_NAME": "Agente asignado",
+        "RATING": "Calificación",
+        "FEEDBACK_TEXT": "Realimentacion de Comentario"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Total de respuestas",
+        "TOOLTIP": "Número total de respuestas recopiladas"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Puntuación de satisfacción",
+        "TOOLTIP": "Número total de respuestas positivas / Número total de respuestas * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Tasa de respuesta",
+        "TOOLTIP": "Número total de respuestas / Número total de mensajes de la encuesta de satisfacción enviados * 100"
       }
     }
   }

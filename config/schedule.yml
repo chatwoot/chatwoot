@@ -14,8 +14,8 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
-# executed At every minute.
+# executed At every 5th minute..
 trigger_imap_email_inboxes_job:
-  cron: '*/1 * * * *'
+  cron: '*/5 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
   queue: scheduled_jobs

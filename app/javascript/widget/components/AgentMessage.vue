@@ -27,16 +27,14 @@
           :class="wrapClass"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-            />
             <image-bubble
-              v-else
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :thumb="attachment.thumb_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
+            <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
         <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
@@ -82,6 +80,11 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      hasImageError: false,
+    };
   },
   computed: {
     shouldDisplayAgentMessage() {
@@ -168,6 +171,19 @@ export default {
       return {
         'has-text': this.shouldDisplayAgentMessage,
       };
+    },
+  },
+  watch: {
+    message() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+  },
+  methods: {
+    onImageLoadError() {
+      this.hasImageError = true;
     },
   },
 };

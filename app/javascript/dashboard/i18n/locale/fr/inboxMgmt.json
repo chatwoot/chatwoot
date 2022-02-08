@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",
-        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer"
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal site Web",
@@ -161,9 +164,9 @@
           "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
           "ERROR": "Please enter a valid value."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Créer le canal WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal WhatsApp"
         }
       },
       "API_CHANNEL": {
@@ -247,7 +250,7 @@
       },
       "AUTH": {
         "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot propose un widget de chat en direct, supporte les pages Facebook, les profils Twitter, Whatsapp, Email etc., en tant que canaux. Si vous voulez construire un canal personnalisé, vous pouvez le créer en utilisant le canal API. Sélectionnez un canal parmi les options ci-dessous pour continuer."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -303,7 +306,7 @@
         "DISABLED": "Désactivé"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Activer"
       }
     },
     "DELETE": {
@@ -353,8 +356,8 @@
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
       "HMAC_VERIFICATION": "Validation de l'identité de l'utilisateur",
       "HMAC_DESCRIPTION": "Afin de valider l'identité des utilisateurs, le SDK vous permet de passer un `identifier_hash` pour chaque utilisateur. Vous pouvez générer HMAC en utilisant 'sha256' avec la clé indiquée ici.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_VERIFICATION": "Forcer la validation de l'identité de l'utilisateur",
+      "HMAC_MANDATORY_DESCRIPTION": "Si activé, la méthode setUser du SDK Chatwoot ne fonctionnera pas à moins que le `identifier_hash` soit fourni pour chaque utilisateur.",
       "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
       "FORWARD_EMAIL_TITLE": "Transférer par e-mail",
@@ -399,6 +402,65 @@
         "HOURS": "heures",
         "VALIDATION_ERROR": "L'heure de début doit être avant l'heure de fermeture.",
         "CHOOSE": "Sélectionner"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Définir vos détails IMAP",
+      "UPDATE": "Modifier les paramètres IMAP",
+      "TOGGLE_AVAILABILITY": "Activer la configuration IMAP pour cette boîte de réception",
+      "TOGGLE_HELP": "Activer IMAP aidera l'utilisateur à recevoir des emails",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Paramètres IMAP mis à jour avec succès",
+        "ERROR_MESSAGE": "Impossible de mettre à jour les paramètres IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Courriel",
+        "PLACE_HOLDER": "Courriel"
+      },
+      "PASSWORD": {
+        "LABEL": "Mot de passe",
+        "PLACE_HOLDER": "Mot de passe"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Courriel",
+        "PLACE_HOLDER": "Courriel"
+      },
+      "PASSWORD": {
+        "LABEL": "Mot de passe",
+        "PLACE_HOLDER": "Mot de passe"
+      },
+      "DOMAIN": {
+        "LABEL": "Domaine",
+        "PLACE_HOLDER": "Domaine"
       }
     }
   }

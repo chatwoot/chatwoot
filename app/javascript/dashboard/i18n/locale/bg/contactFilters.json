@@ -1,0 +1,34 @@
+{
+    "CONTACTS_FILTER": {
+        "TITLE": "Филтриране на контакти",
+        "SUBTITLE": "Добавете филтри по-долу и натиснете „Изпращане“, за да филтрирате контактите.",
+        "ADD_NEW_FILTER": "Добавяне на филтър",
+        "CLEAR_ALL_FILTERS": "Изчисти всички филтри",
+        "FILTER_DELETE_ERROR": "За да запазите, трябва да имате поне един филтър",
+        "SUBMIT_BUTTON_LABEL": "Изпращане",
+        "CANCEL_BUTTON_LABEL": "Отмени",
+        "CLEAR_BUTTON_LABEL": "Изчисти филтрите",
+        "EMPTY_VALUE_ERROR": "Изисква се стойност",
+        "TOOLTIP_LABEL": "Филтриране на контакти",
+        "QUERY_DROPDOWN_LABELS": {
+            "AND": "И",
+            "OR": "ИЛИ"
+        },
+        "OPERATOR_LABELS": {
+            "equal_to": "Равно на",
+            "not_equal_to": "Различно от",
+            "contains": "Съдържа",
+            "does_not_contain": "Не съдържа",
+            "is_present": "Присъства",
+            "is_not_present": "Не присъства"
+        },
+        "ATTRIBUTES": {
+            "NAME": "Име",
+            "EMAIL": "Имейл",
+            "PHONE_NUMBER": "Телефон",
+            "IDENTIFIER": "Идентификатор",
+            "CITY": "Град",
+            "COUNTRY": "Държава"
+        }
+    }
+}

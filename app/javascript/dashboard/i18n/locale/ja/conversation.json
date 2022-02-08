@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "左のリストから会話を選択してください",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "まだ受信トレイを追加していないようです。",

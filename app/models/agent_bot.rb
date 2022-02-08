@@ -16,7 +16,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
 #
 
 class AgentBot < ApplicationRecord

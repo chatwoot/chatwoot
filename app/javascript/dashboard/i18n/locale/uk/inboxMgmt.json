@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
-        "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз"
+        "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Канал Веб-сайт",
@@ -399,6 +402,65 @@
         "HOURS": "години",
         "VALIDATION_ERROR": "Час початку має бути менше часу закриття.",
         "CHOOSE": "Обрати"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

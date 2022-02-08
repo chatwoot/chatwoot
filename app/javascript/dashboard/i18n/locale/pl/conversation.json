@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Wybierz rozmowę z lewej strony",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
     "NO_MESSAGE_2": " aby wysłać wiadomość na swoją stronę!",
     "NO_INBOX_1": "Hola! Wygląda na to, że nie dodałeś jeszcze żadnej skrzynki odbiorczej.",

@@ -7,6 +7,7 @@
       "404": "Det er ingen aktive samtaler i denne gruppen."
     },
     "TAB_HEADING": "Samtaler",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },

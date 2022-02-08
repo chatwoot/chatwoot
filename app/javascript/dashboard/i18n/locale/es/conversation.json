@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "UNVERIFIED_SESSION": "La identidad de este usuario no está verificada",
     "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
     "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
     "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
@@ -9,7 +10,7 @@
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "SEARCH": {
       "TITLE": "Buscar mensajes",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Buscar resultados",
       "LOADING_MESSAGE": "Cruzando datos...",
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
       "NO_MATCHING_RESULTS": "No se encontraron resultados."
@@ -23,16 +24,16 @@
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Por favor, seleccione un tweet al que responder.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
+    "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Calificación",
+    "FEEDBACK_TITLE": "Comentarios",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -40,17 +41,17 @@
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Posponer hasta la siguiente respuesta"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Marcar como pendiente",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Posponer hasta",
+        "NEXT_REPLY": "Siguiente respuesta",
+        "TOMORROW": "Mañana",
+        "NEXT_WEEK": "Próxima semana"
       }
     },
     "FOOTER": {
@@ -67,18 +68,18 @@
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
       "ENTER_TO_SEND": "Ingresar para enviar",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Añadir bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Correos separados por comas",
+          "ERROR": "Por favor, introduzca correo válido"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Correos separados por comas",
+          "ERROR": "Por favor, introduzca correo válido"
         }
       }
     },
@@ -87,7 +88,7 @@
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
     "CHANGE_TEAM": "Equipo de conversación cambiado",
     "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Seleccionar agente",
@@ -148,39 +149,39 @@
       "PLACEHOLDER": "Ninguna"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Detalles de contacto",
+      "CONVERSATION_ACTIONS": "Acciones de conversación",
       "CONVERSATION_LABELS": "Etiquetas de conversación",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Información de la conversación",
+      "CONTACT_ATTRIBUTES": "Atributos de contacto",
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Crear atributo",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atributo actualizado correctamente",
+      "ERROR": "No se puede actualizar el atributo. Por favor, inténtalo de nuevo más tarde"
     },
     "ADD": {
       "TITLE": "Añadir",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "SUCCESS": "Atributo añadido correctamente",
+      "ERROR": "No se puede agregar atributo. Por favor, inténtalo de nuevo más tarde"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atributo eliminado correctamente",
+      "ERROR": "No se puede eliminar el atributo. Por favor, inténtalo de nuevo más tarde"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Añadir atributos",
+      "PLACEHOLDER": "Buscar atributos",
+      "NO_RESULT": "No se encontraron atributos"
     }
   },
   "EMAIL_HEADER": {
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Asunto"
   }
 }

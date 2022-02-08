@@ -7,7 +7,7 @@
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "عرض الملف الشخصي",
     "BROWSER": "المتصفح",
     "OS": "نظام التشغيل",
     "INITIATED_FROM": "تم البدء من",
@@ -33,8 +33,8 @@
         "NO_RESULT": "لم يتم العثور على تصنيفات"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "دمج جهة الاتصال",
+    "CONTACT_ACTIONS": "إجراءات جهات الاتصال",
     "MUTE_CONTACT": "كتم المحادثة",
     "UNMUTE_CONTACT": "إلغاء كتم المحادثة",
     "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
@@ -58,32 +58,32 @@
     "DESC": "إضافة معلومات أساسية حول جهة الاتصال."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "استيراد",
+    "TITLE": "استيراد جهات الاتصال",
+    "DESC": "استيراد جهات الاتصال من خلال ملف CSV.",
+    "DOWNLOAD_LABEL": "تحميل عينة csv.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "ملف CSV",
+      "SUBMIT": "استيراد",
       "CANCEL": "إلغاء"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "حذف جهة الاتصال",
+    "TITLE": "حذف جهة الاتصال",
+    "DESC": "حذف تفاصيل جهة الاتصال",
     "CONFIRM": {
       "TITLE": "تأكيد الحذف",
       "MESSAGE": "هل أنت متأكد من الحذف ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "الرجاء كتابة {contactName} للتأكيد",
       "YES": "نعم، احذف ",
       "NO": "لا، احتفظ "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "تم حذف جهة الاتصال بنجاح",
+      "ERROR_MESSAGE": "تعذر حذف جهة الاتصال. يرجى المحاولة مرة أخرى لاحقاً."
     }
   },
   "CONTACT_FORM": {
@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "أدخل عنوان البريد الإلكتروني الخاص بجهة الاتصال",
-        "LABEL": "عنوان البريد الإلكتروني"
+        "LABEL": "عنوان البريد الإلكتروني",
+        "DUPLICATE": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
         "LABEL": "رقم الهاتف",
         "HELP": "يجب ان يحتوى رقم الهاتف على كود دولتك تسبقها علامة +\nمثال: +20101243567",
-        "ERROR": "يجب ان تكون خانة رقم الهاتف إما فارغة او مكتملة مع رمز الدولة"
+        "ERROR": "يجب ان تكون خانة رقم الهاتف إما فارغة او مكتملة مع رمز الدولة",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "أدخل موقع جهة الاتصال",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
-    "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "NEW_CONVERSATION": {
@@ -158,7 +159,7 @@
       "SUBJECT": {
         "LABEL": "الموضوع",
         "PLACEHOLDER": "الموضوع",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "الموضوع لا يمكن أن يكون فارغاً"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
@@ -176,6 +177,7 @@
     "FIELDS": "تصنفيات جهات الاتصال",
     "SEARCH_BUTTON": "بحث",
     "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل جهات الاتصال...",
       "404": "لا توجد جهات اتصال تطابق بحثك 🔍",
@@ -196,7 +198,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "جهات الاتصال",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "جاري تحميل ملف الاتصال الشخصي..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -209,13 +211,13 @@
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "جلب الملاحظات...",
+    "NOT_AVAILABLE": "لا توجد ملاحظات تم إنشاؤها لهذا الاتصال",
     "HEADER": {
       "TITLE": "ملاحظات"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "تمت إضافة ملاحظة"
     },
     "ADD": {
       "BUTTON": "إضافة",
@@ -223,7 +225,7 @@
       "TITLE": "Shift + Enter لإنشاء مهمة"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "حذف الملاحظة"
     }
   },
   "EVENTS": {
@@ -237,14 +239,14 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "أضف سمة",
     "BUTTON": "إضافة سمة خاصة",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "لا توجد سمات مخصصة متاحة لجهة الاتصال هذه.",
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "نسخ السمة",
+      "DELETE": "حذف السمة",
+      "EDIT": "تعديل السمة"
     },
     "ADD": {
       "TITLE": "إنشاء سمة خاصة",
@@ -263,44 +265,51 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "إنشاء سمة جديدة ",
         "SUCCESS": "تمت إضافة السمة بنجاح",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "غير قادر على إضافة السمة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
+        "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "تم حذف السمة المخصصة بنجاح",
+        "ERROR": "غير قادر على حذف السمة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "أضف سمة",
+        "PLACEHOLDER": "البحث عن سمات",
+        "NO_RESULT": "لم يتم العثور على سمات"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "اختر قيمة",
+          "SEARCH_INPUT_PLACEHOLDER": "البحث عن قيمة",
+          "NO_RESULT": "لم يتم العثور على النتائج"
+        }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "القيمة الصالحة مطلوبة",
+      "INVALID_URL": "عنوان URL غير صالح"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "دمج جهة الاتصال",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "دمج جهات الاتصال للجمع بين ملفّين شخصيين في واحد، بما في ذلك جميع السمات والمحادثات. في حالة التعارض، تكون لخصائص جهة الاتصال الرئيسية الأسبقية.",
     "PRIMARY": {
       "TITLE": "جهة الاتصال الرئيسية",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "سيتم الاحتفاظ بها"
     },
     "CHILD": {
       "TITLE": "دمج جهة الإتصال",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "بحث عن جهات الاتصال",
+      "HELP_LABEL": "ليتم حذفها"
     },
     "SUMMARY": {
       "TITLE": "ملخص",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "سيتم حذف جهة الاتصال بـ <strong>%{childContactName}</strong>.",
       "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{childContactName}</strong> إلى <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -313,7 +322,7 @@
         "ERROR": "حدد جهة اتصال فرعية للدمج"
       },
       "SUCCESS_MESSAGE": "تم دمج جهة الاتصال بنجاح",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "تعذر دمج جهات الاتصال ، حاول مرة أخرى!"
     }
   }
 }

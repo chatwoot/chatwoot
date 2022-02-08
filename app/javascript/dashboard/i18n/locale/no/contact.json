@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Skriv inn e-postadressen til kontakten",
-        "LABEL": "E-postadresse"
+        "LABEL": "E-postadresse",
+        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",
         "LABEL": "Telefonnummer",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Angi plasseringen til kontakten",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
     "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
   },
   "NEW_CONVERSATION": {
@@ -161,7 +162,7 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Melding",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Søk",
     "SEARCH_INPUT_PLACEHOLDER": "Søk etter kontakter",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Laster inn kontakter...",
       "404": "Ingen kontakter samsvarer med søket ditt 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

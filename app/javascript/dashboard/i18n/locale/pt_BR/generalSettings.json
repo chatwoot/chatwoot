@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID da Conta",
+        "NOTE": "Este ID é necessário se você está construindo uma integração baseada em API"
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -82,6 +82,50 @@
     },
     "BUTTON": {
       "REFRESH": "Atualizar"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Pesquisar ou pular para",
+    "SECTIONS": {
+      "GENERAL": "Geral",
+      "REPORTS": "Relatórios",
+      "CONVERSATION": "Conversas",
+      "CHANGE_ASSIGNEE": "Alterar Responsável",
+      "CHANGE_TEAM": "Alterar a Equipe",
+      "ADD_LABEL": "Adicionar etiqueta à conversa",
+      "REMOVE_LABEL": "Remover etiqueta da conversa",
+      "SETTINGS": "Confirgurações"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para Painel de Contatos",
+      "GO_TO_REPORTS_OVERVIEW": "Ir para Resumo de Relatórios",
+      "GO_TO_AGENT_REPORTS": "Ir para Relatórios do Agente",
+      "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Rótulos",
+      "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
+      "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipe",
+      "GO_TO_SETTINGS_AGENTS": "Ir para Configurações do Agente",
+      "GO_TO_SETTINGS_TEAMS": "Ir para as configurações de equipe",
+      "GO_TO_SETTINGS_INBOXES": "Ir para as configurações da caixa de entrada",
+      "GO_TO_SETTINGS_LABELS": "Ir para as configurações do Rótulo",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as configurações de resposta pronta",
+      "GO_TO_SETTINGS_APPLICATIONS": "Vá para Configurações do Aplicativo",
+      "GO_TO_SETTINGS_ACCOUNT": "Ir para as configurações da conta",
+      "GO_TO_SETTINGS_PROFILE": "Ir para as Configurações do Perfil",
+      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
+      "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
+      "ASSIGN_AN_AGENT": "Atribuir um agente",
+      "ASSIGN_A_TEAM": "Atribuir uma equipe",
+      "MUTE_CONVERSATION": "Silenciar conversa",
+      "UNMUTE_CONVERSATION": "Não silenciar conversa",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
+      "REOPEN_CONVERSATION": "Reabrir conversa",
+      "RESOLVE_CONVERSATION": "Reabrir conversa",
+      "SEND_TRANSCRIPT": "Enviar uma transcrição por e-mail",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "UNTIL_NEXT_REPLY": "Até a próxima resposta",
+      "UNTIL_NEXT_WEEK": "Até a próxima semana",
+      "UNTIL_TOMORROW": "Até amanhã"
     }
   }
 }

@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "請輸入聯絡人電子信箱",
-        "LABEL": "電子信箱地址"
+        "LABEL": "電子信箱地址",
+        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",
         "LABEL": "聯絡人電話",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "請輸入聯絡人位置",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
-    "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

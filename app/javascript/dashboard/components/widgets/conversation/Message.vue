@@ -1,7 +1,7 @@
 <template>
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+      <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -24,9 +24,10 @@
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
-              v-if="attachment.file_type === 'image'"
+              v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
               :readable-time="readableTime"
+              @error="onImageLoadError"
             />
             <audio v-else-if="attachment.file_type === 'audio'" controls>
               <source :src="attachment.data_url" />
@@ -72,8 +73,18 @@
           {{ sender.name }}
         </div>
       </a>
+      <div v-if="isFailed" class="message-failed--alert">
+        <woot-button
+          v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
+          size="tiny"
+          color-scheme="alert"
+          variant="clear"
+          icon="arrow-clockwise"
+          @click="retrySendMessage"
+        />
+      </div>
     </div>
-    <div class="context-menu-wrap">
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
@@ -133,6 +144,7 @@ export default {
   data() {
     return {
       showContextMenu: false,
+      hasImageError: false,
     };
   },
   computed: {
@@ -246,9 +258,12 @@ export default {
     hasText() {
       return !!this.data.content;
     },
-    sentByMessage() {
+    messageToolTip() {
       if (this.isMessageDeleted) {
         return false;
+      }
+      if (this.isFailed) {
+        return this.$t(`CONVERSATION.SEND_FAILED`);
       }
       const { sender } = this;
       return this.data.message_type === 1 && !isEmptyObject(sender)
@@ -263,6 +278,7 @@ export default {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
         'is-pending': this.isPending,
+        'is-failed': this.isFailed,
       };
     },
     bubbleClass() {
@@ -273,26 +289,45 @@ export default {
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
+        'is-failed': this.isFailed,
       };
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
+    isFailed() {
+      return this.data.status === MESSAGE_STATUS.FAILED;
+    },
     isSentByBot() {
-      if (this.isPending) return false;
+      if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     contextMenuPosition() {
       const { message_type: messageType } = this.data;
       return messageType ? 'right' : 'left';
     },
+    shouldShowContextMenu() {
+      return !(this.isFailed || this.isPending);
+    },
+    errorMessage() {
+      const { meta } = this.data;
+      return meta ? meta.error : '';
+    },
+  },
+  watch: {
+    data() {
+      this.hasImageError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
   },
   methods: {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
         const { file_type: fileType } = attachments[0];
-        return fileType === type;
+        return fileType === type && !this.hasImageError;
       }
       return false;
     },
@@ -316,6 +351,12 @@ export default {
       copy(this.data.content);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.showContextMenu = false;
+    },
+    async retrySendMessage() {
+      await this.$store.dispatch('sendMessageWithData', this.data);
+    },
+    onImageLoadError() {
+      this.hasImageError = true;
     },
   },
 };
@@ -383,6 +424,14 @@ export default {
         color: var(--v-50);
       }
     }
+
+    &.is-failed {
+      background: var(--r-200);
+
+      .message-text--metadata .time {
+        color: var(--r-50);
+      }
+    }
   }
 
   &.is-pending {
@@ -413,6 +462,13 @@ export default {
   }
 }
 
+.message-failed--alert {
+  color: var(--r-900);
+  flex-grow: 1;
+  text-align: right;
+  margin-top: var(--space-smaller) var(--space-smaller) 0 0;
+}
+
 .button--delete-message {
   visibility: hidden;
 }
@@ -438,6 +494,17 @@ li.right .context-menu-wrap {
 li.right {
   flex-direction: row-reverse;
   justify-content: flex-end;
+
+  .wrap.is-pending {
+    margin-left: auto;
+  }
+
+  .wrap.is-failed {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    margin-left: auto;
+  }
 }
 
 .has-context-menu {

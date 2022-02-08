@@ -55,6 +55,7 @@
         </span>
         <span v-else-if="lastMessageInChat.attachments">
           <fluent-icon
+            v-if="attachmentIcon"
             size="16"
             class="message--attachment-icon"
             :icon="attachmentIcon"

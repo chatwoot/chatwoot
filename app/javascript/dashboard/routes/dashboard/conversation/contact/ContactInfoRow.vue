@@ -13,7 +13,6 @@
         variant="link"
         color-scheme="secondary"
         icon="clipboard"
-        icon-size="14"
         class-names="icon copy-icon"
         @click="onCopy"
       />

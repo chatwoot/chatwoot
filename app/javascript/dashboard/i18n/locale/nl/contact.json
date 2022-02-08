@@ -7,7 +7,7 @@
     "COMPANY": "Bedrijfsnaam",
     "LOCATION": "Locatie",
     "CONVERSATION_TITLE": "Gesprekdetails",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Profiel Bekijken",
     "BROWSER": "Browser",
     "OS": "Besturingssysteem",
     "INITIATED_FROM": "Geïnitieerd vanuit",
@@ -33,16 +33,16 @@
         "NO_RESULT": "Geen labels gevonden"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Contact samenvoegen",
+    "CONTACT_ACTIONS": "Contact acties",
     "MUTE_CONTACT": "Gesprek dempen",
     "UNMUTE_CONTACT": "Gesprek dempen opheffen",
     "MUTED_SUCCESS": "Dit gesprek is gedempt voor 6 uur",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTED_SUCCESS": "Dit gesprek is niet gedempt",
     "SEND_TRANSCRIPT": "Transcript verzenden",
     "EDIT_LABEL": "Bewerken",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CUSTOM_ATTRIBUTES": "Aanpasbare attributen",
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Vorige gesprekken"
     }
@@ -50,40 +50,40 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Contact bewerken",
     "TITLE": "Contact bewerken",
-    "DESC": "Edit contact details"
+    "DESC": "Bewerk contactgegevens"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Nieuw Contactpersoon",
+    "TITLE": "Nieuw contact aanmaken",
+    "DESC": "Basisinformatie over de contactpersoon toevoegen."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importeren",
+    "TITLE": "Contactpersonen importeren",
+    "DESC": "Contacten importeren via een CSV-bestand.",
+    "DOWNLOAD_LABEL": "Een voorbeeld CSV-bestand downloaden.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV-bestand",
+      "SUBMIT": "Importeren",
       "CANCEL": "Annuleren"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Contacten werden succesvol opgeslagen",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Contactpersoon verwijderen",
+    "TITLE": "Contactpersoon verwijderen",
+    "DESC": "Contactgegevens verwijderen",
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
       "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "Voer {contactName} in om te bevestigen",
       "YES": "Ja, verwijderen ",
       "NO": "Nee, Behouden "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Contactpersoon werd succesvol verwijderd",
+      "ERROR_MESSAGE": "Contact verwijderen mislukt. Probeer het later opnieuw."
     }
   },
   "CONTACT_FORM": {
@@ -94,52 +94,53 @@
         "LABEL": "Contact Avatar"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Voer de volledige naam van het contact in",
+        "LABEL": "Volledige Naam"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Voer de bio van het contact in",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Uw e-mailadres"
+        "PLACEHOLDER": "Voer het e-mailadres van de contactpersoon in",
+        "LABEL": "Uw e-mailadres",
+        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "PLACEHOLDER": "Voer het telefoonnummer van de contactpersoon in",
+        "LABEL": "Telefoonnummer",
+        "HELP": "Telefoonnummer moet van het E.164 formaat zijn: +14155555 [+][landcode][gebiedscode][lokaal telefoonnummer]",
+        "ERROR": "Telefoonnummer moet leeg of in E.164-formaat zijn",
+        "DUPLICATE": "Dit telefoonnummer wordt reeds gebruikt voor een ander contactpersoon."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Voer de locatie van het contact in",
         "LABEL": "Locatie"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Voer de bedrijfsnaam in",
+        "LABEL": "Bedrijfsnaam"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Voer de Facebook gebruikersnaam in",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Voer de Twitter gebruikersnaam in",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Voer de LinkedIn gebruikersnaam in",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Voer de Github gebruikersnaam in",
           "LABEL": "Github"
         }
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "NEW_CONVERSATION": {
@@ -161,7 +162,7 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Bericht",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "FILTER_CONTACTS": "Filteren",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

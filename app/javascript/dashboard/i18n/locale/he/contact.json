@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "הזן את כתובת האימייל של איש הקשר",
-        "LABEL": "כתובת מייל"
+        "LABEL": "כתובת מייל",
+        "DUPLICATE": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "הזן את מספר הטלפון של איש הקשר",
         "LABEL": "מספר טלפון",
         "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
-        "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164"
+        "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "הזן את המיקום של איש הקשר",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "איש הקשר נשמר בהצלחה",
-    "CONTACT_ALREADY_EXIST": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר.",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "שדות איש קשר",
     "SEARCH_BUTTON": "חפש",
     "SEARCH_INPUT_PLACEHOLDER": "חפש איש קשר",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "טוען אנשי קשר...",
       "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "הוסף מאפיין",
         "PLACEHOLDER": "חפש מאפיין",
         "NO_RESULT": "לא נמצאו מאפיינים"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

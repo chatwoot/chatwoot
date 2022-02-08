@@ -158,17 +158,33 @@ const actions = {
     }
   },
 
-  sendMessage: async ({ commit }, data) => {
-    // eslint-disable-next-line no-useless-catch
+  createPendingMessageAndSend: async ({ dispatch }, data) => {
+    const pendingMessage = createPendingMessage(data);
+    dispatch('sendMessageWithData', pendingMessage);
+  },
+
+  sendMessageWithData: async ({ commit }, pendingMessage) => {
     try {
-      const pendingMessage = createPendingMessage(data);
-      commit(types.ADD_MESSAGE, pendingMessage);
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        status: MESSAGE_STATUS.PROGRESS,
+      });
       const response = await MessageApi.create(pendingMessage);
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
     } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.error
+        : undefined;
+      commit(types.ADD_MESSAGE, {
+        ...pendingMessage,
+        meta: {
+          error: errorMessage,
+        },
+        status: MESSAGE_STATUS.FAILED,
+      });
       throw error;
     }
   },

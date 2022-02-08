@@ -1,12 +1,13 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "Vyberte si konverzáciu z ľavého panela",
+    "UNVERIFIED_SESSION": "Totožnosť tohto používateľa nie je overená",
+    "NO_MESSAGE_1": "Zdá sa, že v doručenej pošte nemáte žiadne správy od zákazníkov.",
+    "NO_MESSAGE_2": " poslať správu na svoju stránku!",
+    "NO_INBOX_1": "Vyzerá to, že ste ešte nepridali žiadnu schránku.",
+    "NO_INBOX_2": " na začiatok",
+    "NO_INBOX_AGENT": "Zdá sa, že nie ste súčasťou žiadnej schránky. Obráťte sa na svojho správcu",
+    "SEARCH_MESSAGES": "Vyhľadávanie správ v konverzáciách",
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
@@ -16,69 +17,69 @@
     },
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "CLICK_HERE": "Kliknite sem",
+    "LOADING_INBOXES": "Načítavajú sa schránky",
+    "LOADING_CONVERSATIONS": "Načítavajú sa konverzácie",
+    "CANNOT_REPLY": "Neviete odpovedať, pretože",
+    "24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "SELECT_A_TWEET_TO_REPLY": "Vyberte tweet, na ktorý chcete odpovedať.",
+    "REPLYING_TO": "Odpovedáte na:",
+    "REMOVE_SELECTION": "Odstrániť výber",
+    "DOWNLOAD": "Stiahnuť",
+    "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
+    "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
+    "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
+    "NO_RESPONSE": "Žiadna odpoveď",
+    "RATING_TITLE": "Hodnotenia",
+    "FEEDBACK_TITLE": "Spätná väzba",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "RESOLVE_ACTION": "Vyriešiť",
+      "REOPEN_ACTION": "Znovu otvoriť",
+      "OPEN_ACTION": "Otvoriť",
+      "OPEN": "Viac",
+      "CLOSE": "Zatvoriť",
+      "DETAILS": "detaily",
+      "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Odložiť do",
+        "NEXT_REPLY": "Ďalšia odpoveď",
+        "TOMORROW": "Zajtra",
+        "NEXT_WEEK": "Ďalší ťýždeň"
       }
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Shift + enter pre nový riadok. Ak chcete vybrať Uloženú odpoveď, začnite klávesou '/'.",
+      "PRIVATE_MSG_INPUT": "Shift + enter pre nový riadok. Toto bude viditeľné len pre agentov"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
+      "REPLY": "Odpovedať",
+      "PRIVATE_NOTE": "Súkromná správa",
+      "SEND": "Poslať",
+      "CREATE": "Pridať poznámku",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
+      "TIP_EMOJI_ICON": "Zobraz výber emotikonov",
+      "TIP_ATTACH_ICON": "Pripojiť súbory",
+      "ENTER_TO_SEND": "Stlačte Enter na odoslanie",
+      "DRAG_DROP": "Potiahnite sem na pripojenie",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Pridať skrytú kópiu",
         "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "Kópia",
+          "PLACEHOLDER": "E-maily oddelené čiarkami",
+          "ERROR": "Zadajte platné e-mailové adresy"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "Skrytá kópia",
+          "PLACEHOLDER": "E-maily oddelené čiarkami",
+          "ERROR": "Zadajte platné e-mailové adresy"
         }
       }
     },
@@ -96,91 +97,91 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Delete"
+      "DELETE": "Vymazať"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "Odoslať prepis konverzácie",
+    "DESC": "Odoslať prepis konverzácie na špecifikovanú e-mailovú adresu",
+    "SUBMIT": "Odoslať",
+    "CANCEL": "Zrušiť",
+    "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
+    "SEND_EMAIL_ERROR": "Vyskytla sa chyba, skúste to prosím znova",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Odoslať prepis chatu zákazníkovi",
+      "SEND_TO_AGENT": "Odoslať prepis pridelenému agentovi",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Odoslanie prepisu na inú emailovú adresu",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "Zadať e-mailovú adresu",
+        "ERROR": "Prosím zadajte platnú e-mailovú adresu"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Ahoj 👋, vitaj v %{installationName}!",
+    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z %{installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v %{installationName}, aby ste si spríjemnili zážitok.",
+    "READ_LATEST_UPDATES": "Prečítajte si naše novinky",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Všetky vaše konverzácie na jednom mieste",
+      "DESCRIPTION": "Zobrazte si všetky konverzácie od svojich zákazníkov na jednom ovládacom paneli. Konverzácie môžete filtrovať podľa prichádzajúceho kanála, štítku a statusu."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Pozvite členov svojho tímu",
+      "DESCRIPTION": "Keďže sa pripravujete na rozhovor so zákazníkom, pozvite si na pomoc kolegov z tímu. Svojich tímových kolegov môžete pozvať pridaním ich e-mailovej adresy do zoznamu agentov.",
+      "NEW_LINK": "Kliknite sem pre pozvanie člena tímu"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Spojiť schránky",
+      "DESCRIPTION": "Prepojte rôzne kanály, cez ktoré s vami vaši zákazníci komunikujú. Môže to byť webový live-chat, vaša stránka na Facebooku alebo Twitteri alebo dokonca vaše číslo na WhatsApp.",
+      "NEW_LINK": "Kliknite sem pre vytvorenie schránky"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Usporiadajte si konverzácie pomocou štítkov",
+      "DESCRIPTION": "Štítky umožňujú jednoduchšie kategorizovať konverzáciu. Vytvorte si niekoľko štítkov, napríklad #podpora-dotaz, #vyuctovanie-otazka atď., aby ste ich mohli neskôr použiť v konverzácii.",
+      "NEW_LINK": "Kliknutím sem vytvoríte tagy"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Pridelený agent",
+    "SELF_ASSIGN": "Prideliť mne",
+    "TEAM_LABEL": "Pridelený tím",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Žiadne"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations"
+      "CONTACT_DETAILS": "Konktaktné detaily",
+      "CONVERSATION_ACTIONS": "Akcie konverzácie",
+      "CONVERSATION_LABELS": "Označenia konverzácii",
+      "CONVERSATION_INFO": "Informácie o konverzácii",
+      "CONTACT_ATTRIBUTES": "Atribúty kontaktu",
+      "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Vytvoriť atribút",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atribút úspešne nahraný",
+      "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Pridať",
+      "SUCCESS": "Nový atribút úspešne pridaný",
+      "ERROR": "Nebolo možné pridať atribút. Skúste to prosím neskôr"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Aitribút úspešne vymazaný",
+      "ERROR": "Nie je možné odstrániť atribút. Skúste to prosím neskôr"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Pridať atribúty",
+      "PLACEHOLDER": "Hľadať atribúty",
+      "NO_RESULT": "Žiadne atribúty neboli nájdené"
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "TO": "Pre",
+    "BCC": "Skrytá kópia",
+    "CC": "Kópia",
+    "SUBJECT": "Predmet"
   }
 }

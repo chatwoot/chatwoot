@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
-        "LABEL": "E-Mail-Addresse"
+        "LABEL": "E-Mail-Addresse",
+        "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
-        "ERROR": "Telefonnummer muss leer sein oder im E.164-Format"
+        "ERROR": "Telefonnummer muss leer sein oder im E.164-Format",
+        "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
         "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
-    "CONTACT_ALREADY_EXIST": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
   },
   "NEW_CONVERSATION": {
@@ -158,7 +159,7 @@
       "SUBJECT": {
         "LABEL": "Betreff",
         "PLACEHOLDER": "Betreff",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "Betreff darf nicht leer sein"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -176,6 +177,7 @@
     "FIELDS": "Kontakt-Felder",
     "SEARCH_BUTTON": "Suchen",
     "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
       "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
@@ -237,13 +239,13 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "Attribute hinzufügen",
     "BUTTON": "Eigenes Attribut hinzufügen",
     "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "Attribut kopieren",
+      "DELETE": "Attribut löschen",
       "EDIT": "Attribut hinzufügen"
     },
     "ADD": {
@@ -263,27 +265,34 @@
         "PLACEHOLDER": "Bsp.: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Neues Attribut erstellen ",
         "SUCCESS": "Attribut erfolgreich hinzugefügt",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Attribut kann nicht hinzugefügt werden. Bitte versuchen Sie es später noch einmal"
       },
       "UPDATE": {
         "SUCCESS": "Attribut erfolgreich aktualisiert",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
       },
       "DELETE": {
         "SUCCESS": "Attribut erfolgreich gelöscht",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Attribute hinzufügen",
+        "PLACEHOLDER": "Attribut suchen",
+        "NO_RESULT": "Keine Attribute gefunden"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Wert wählen",
+          "SEARCH_INPUT_PLACEHOLDER": "Wert suchen",
+          "NO_RESULT": "Kein Ergebnis gefunden"
+        }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Gültiger Wert ist erforderlich",
+      "INVALID_URL": "Ungültige URL"
     }
   },
   "MERGE_CONTACTS": {

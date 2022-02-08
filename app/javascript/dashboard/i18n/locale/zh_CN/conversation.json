@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "请从左侧窗格选择一个对话",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的页面发送一条消息！",
     "NO_INBOX_1": "看来你还没有添加任何收件箱。",

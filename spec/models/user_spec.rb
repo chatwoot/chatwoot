@@ -80,4 +80,11 @@ RSpec.describe User do
       expect(token_count).to eq(1)
     end
   end
+
+  context 'when user changes the email' do
+    it 'mutates the value' do
+      user.email = 'user@example.com'
+      expect(user.will_save_change_to_email?).to be true
+    end
+  end
 end

@@ -6,6 +6,7 @@
 :verbose: false
 :concurrency: 5
 :timeout: 25
+:max_retries: 3
 
 # Sidekiq will run this file through ERB when reading it so you can
 # even put in dynamic logic, like a host-specific queue.
@@ -25,7 +26,7 @@
   - [action_mailbox_routing, 3]
   - [high, 5]
   - [critical, 10]
-  
+
 # you can override concurrency based on environment
 production:
   :concurrency: 10

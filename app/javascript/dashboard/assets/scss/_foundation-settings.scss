@@ -45,6 +45,9 @@
 // 1. Global
 // ---------
 
+// Disable contrast warnings in Foundation.
+$contrast-warnings: false;
+
 $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;

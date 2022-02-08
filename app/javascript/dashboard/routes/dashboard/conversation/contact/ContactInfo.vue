@@ -10,17 +10,24 @@
       />
 
       <div class="contact--details">
-        <h3 v-if="showAvatar" class="sub-block-title contact--name">
+        <div v-if="showAvatar" class="contact--name-wrap">
+          <h3 class="sub-block-title contact--name">
+            {{ contact.name }}
+          </h3>
           <a
             :href="contactProfileLink"
             class="fs-default"
             target="_blank"
             rel="noopener nofollow noreferrer"
           >
-            {{ contact.name }}
-            <fluent-icon size="16" icon="open" class="open-link--icon" />
+            <woot-button
+              size="tiny"
+              icon="open"
+              variant="clear"
+              color-scheme="secondary"
+            />
           </a>
-        </h3>
+        </div>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
         </p>
@@ -63,8 +70,7 @@
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
           icon="chat"
-          icon-size="14"
-          size="small expanded"
+          size="small"
           @click="toggleConversationModal"
         />
         <woot-button
@@ -72,9 +78,8 @@
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           class="edit-contact"
           icon="edit"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           @click="toggleEditModal"
         />
         <woot-button
@@ -83,9 +88,8 @@
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           class="merge-contact"
           icon="merge"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="secondary"
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
@@ -96,9 +100,8 @@
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           class="delete-contact"
           icon="delete"
-          icon-size="14"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="alert"
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
@@ -298,18 +301,19 @@ export default {
   text-align: left;
 }
 
+.contact--name-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-small);
+}
+
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+  margin: 0 var(--space-smaller) 0 0;
 
   a {
     color: var(--color-body);
-  }
-
-  .open-link--icon {
-    color: var(--color-body);
-    font-size: var(--font-size-small);
-    margin-left: var(--space-smaller);
   }
 }
 

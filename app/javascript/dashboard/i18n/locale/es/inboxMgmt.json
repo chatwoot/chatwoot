@@ -30,11 +30,11 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Introduzca su nombre de bandeja de entrada (por ejemplo: Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",
-        "ERROR_MESSAGE": "Se ha producido un error al conectar a Twitter, por favor inténtelo nuevamente"
+        "ERROR_MESSAGE": "Se ha producido un error al conectar a Twitter, por favor inténtelo nuevamente",
+        "TWEETS": {
+          "ENABLE": "Crear conversaciones de los Tweets mencionados"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal del sitio web",
@@ -399,6 +402,65 @@
         "HOURS": "horas",
         "VALIDATION_ERROR": "La hora de inicio debe ser antes de la hora de cierre.",
         "CHOOSE": "Elegir"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Contraseña",
+        "PLACE_HOLDER": "Contraseña"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Contraseña",
+        "PLACE_HOLDER": "Contraseña"
+      },
+      "DOMAIN": {
+        "LABEL": "Dominio",
+        "PLACE_HOLDER": "Dominio"
       }
     }
   }

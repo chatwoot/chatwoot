@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introdueix l'adreça de correu electrònic del contacte",
-        "LABEL": "Adreça de correu electrònic"
+        "LABEL": "Adreça de correu electrònic",
+        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
         "LABEL": "Número de telèfon",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Introdueix la ubicació del contacte",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contacte guardat correctament",
-    "CONTACT_ALREADY_EXIST": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

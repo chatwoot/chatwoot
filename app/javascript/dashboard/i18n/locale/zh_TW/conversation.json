@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "請從左側窗格選擇一個對話",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件匣中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
     "NO_INBOX_1": "看來你還沒有新增任何收件匣。",

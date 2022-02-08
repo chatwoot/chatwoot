@@ -7,6 +7,7 @@
       "404": "Det finns inga aktiva konversationer i denna grupp."
     },
     "TAB_HEADING": "Konversationer",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },

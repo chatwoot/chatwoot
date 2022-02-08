@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Si us plau, selecciona una conversa al panell de l’esquerra",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Uh oh! Sembla que no hi ha missatges de clients a la safata d'entrada.",
     "NO_MESSAGE_2": " per enviar un missatge a la vostra pàgina!",
     "NO_INBOX_1": "Hola! Sembla que encara no heu afegit cap safata d'entrada.",

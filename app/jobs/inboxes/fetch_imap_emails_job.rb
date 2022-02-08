@@ -2,6 +2,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   queue_as :low
 
   def perform(channel)
+    return unless channel.imap_enabled?
+
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,

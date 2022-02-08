@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Ahhoz hogy hozzáadd a twitter profilodat egy csatornaként, azonosítanod kell a Twitter fiókodat a 'Belépés Twitterrel' gomb megnyomásával ",
-        "ERROR_MESSAGE": "Hiba történt a Twitterrel való csatlakozáskor, kérjük próbáld később"
+        "ERROR_MESSAGE": "Hiba történt a Twitterrel való csatlakozáskor, kérjük próbáld később",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website csatorna",
@@ -399,6 +402,65 @@
         "HOURS": "óra",
         "VALIDATION_ERROR": "A kezés idejének a zárás ideje előttinek kell lennie.",
         "CHOOSE": "Kiválasztás"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Jelszó",
+        "PLACE_HOLDER": "Jelszó"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-mail",
+        "PLACE_HOLDER": "E-mail"
+      },
+      "PASSWORD": {
+        "LABEL": "Jelszó",
+        "PLACE_HOLDER": "Jelszó"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

@@ -7,6 +7,7 @@
       "404": "There are no active conversations in this group."
     },
     "TAB_HEADING": "Conversations",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Search for People, Chats, Saved Replies .."
     },

@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Εισάγετε την διεύθυνση email της επαφής",
-        "LABEL": "Διεύθυνση Email"
+        "LABEL": "Διεύθυνση Email",
+        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
         "LABEL": "Αριθμός Τηλεφώνου",
         "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
-        "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164"
+        "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Εισάγετε την τοποθεσία της επαφής",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",
-    "CONTACT_ALREADY_EXIST": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Πεδία επαφής",
     "SEARCH_BUTTON": "Αναζήτηση",
     "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

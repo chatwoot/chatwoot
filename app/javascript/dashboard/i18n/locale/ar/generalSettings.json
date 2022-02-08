@@ -78,10 +78,54 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "قطع الاتصال من Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "تحديث"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "البحث أو القفز إلى",
+    "SECTIONS": {
+      "GENERAL": "عام",
+      "REPORTS": "التقارير",
+      "CONVERSATION": "المحادثات",
+      "CHANGE_ASSIGNEE": "تغيير المحال إليه",
+      "CHANGE_TEAM": "تغيير الفريق",
+      "ADD_LABEL": "إضافة تسمية إلى المحادثة",
+      "REMOVE_LABEL": "إزالة التسمية من المحادثة",
+      "SETTINGS": "الإعدادات"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير",
+      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير التسمية",
+      "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
+      "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
+      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات علبة الوارد",
+      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات التسمية",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الاستجابة المسبقة",
+      "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
+      "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
+      "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
+      "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
+      "ADD_LABELS_TO_CONVERSATION": "إضافة تسمية إلى المحادثة",
+      "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "ASSIGN_A_TEAM": "تعيين فريق",
+      "MUTE_CONVERSATION": "كتم المحادثة",
+      "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
+      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة التسمية من المحادثة",
+      "REOPEN_CONVERSATION": "إعادة فتح المحادثة",
+      "RESOLVE_CONVERSATION": "حل المحادثة",
+      "SEND_TRANSCRIPT": "إرسال نسخة نصية للبريد الإلكتروني",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "UNTIL_NEXT_REPLY": "حتى الرد القادم",
+      "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
+      "UNTIL_TOMORROW": "حتى الغد"
     }
   }
 }

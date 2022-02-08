@@ -13,6 +13,7 @@ class ApplicationMailbox < ActionMailbox::Base
         is_a_reply_email = true if reply_uuid_mail?(email)
       end
       is_a_reply_email = true if in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
+
       is_a_reply_email
     end
   end
@@ -44,12 +45,24 @@ class ApplicationMailbox < ActionMailbox::Base
 
     return false if in_reply_to.blank?
 
-    return true if in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
+    return true if in_reply_to_matches?(in_reply_to)
 
     message = Message.find_by(source_id: in_reply_to)
     return true if message.present?
 
     false
+  end
+
+  def self.in_reply_to_matches?(in_reply_to)
+    in_reply_to_match = false
+    if in_reply_to.is_a?(Array)
+      in_reply_to.each do |in_reply_to_mail|
+        in_reply_to_match ||= in_reply_to_mail.match(CONVERSATION_MESSAGE_ID_PATTERN)
+      end
+    else
+      in_reply_to_match = in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
+    end
+    in_reply_to_match
   end
 
   # checks if follow this pattern  send it to reply_mailbox

@@ -22,8 +22,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
     "CLOSE_MESSAGES_BUTTON": "Sluiten",
-    "COMPANY_FROM": "from",
-    "BOT": "Bot"
+    "COMPANY_FROM": "van",
+    "BOT": "Robot"
   },
   "BUBBLE": {
     "LABEL": "Chat met ons"
@@ -36,37 +36,37 @@
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "Volledige Naam",
+        "PLACEHOLDER": "Voer uw volledige naam in",
+        "ERROR": "Volledige naam is vereist"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Uw e-mailadres",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Voer uw e-mailadres in",
+        "ERROR": "Ongeldig e-mailadres"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Bericht",
+        "PLACEHOLDER": "Voer uw bericht in",
+        "ERROR": "Bericht te kort"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Ongeldig veld"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Beoordeel uw gesprek",
+    "SUBMITTED_TITLE": "Bedankt voor het indienen van een beoordeling",
+    "PLACEHOLDER": "Vertel ons meer..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "BUTTON_TEXT": "Verzoek een conversatie-transcript",
+    "SEND_EMAIL_SUCCESS": "Het gesprekstranscript is succesvol verzonden",
     "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
   }
 }

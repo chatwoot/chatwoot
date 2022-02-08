@@ -77,6 +77,10 @@ it:
       email_input_box_message_body: "Ricevi una notifica via email"
       csat_input_message_body: "Valuta la conversazione"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nuovi messaggi in questa conversazione"
       transcript_subject: "Trascrizione della Conversazione"
     survey:

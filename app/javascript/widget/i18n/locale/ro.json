@@ -53,20 +53,20 @@
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "Evaluează conversația ta",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "Spune-ne mai mult..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
     "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou"
   }
 }

@@ -118,23 +118,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def permitted_params(channel_attributes = [])
     params.permit(
       :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
-      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone,
+      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
       channel: [:type, *channel_attributes]
     )
   end
 
   def get_channel_attributes(channel_type)
-    case channel_type
-    when 'Channel::WebWidget'
-      Channel::WebWidget::EDITABLE_ATTRS
-    when 'Channel::Api'
-      Channel::Api::EDITABLE_ATTRS
-    when 'Channel::Email'
-      Channel::Email::EDITABLE_ATTRS
-    when 'Channel::Telegram'
-      Channel::Telegram::EDITABLE_ATTRS
-    when 'Channel::Line'
-      Channel::Line::EDITABLE_ATTRS
+    if channel_type.constantize.const_defined?('EDITABLE_ATTRS')
+      channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
     end

@@ -77,6 +77,10 @@ ml:
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "ഈ സംഭാഷണത്തിലെ പുതിയ സന്ദേശങ്ങൾ"
       transcript_subject: "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ്"
     survey:

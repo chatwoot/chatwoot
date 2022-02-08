@@ -308,6 +308,17 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('Line Inbox')
         expect(response.body).to include('callback_webhook_url')
       end
+
+      it 'creates the webwidget inbox that allow messages after conversation is resolved' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['allow_messages_after_resolved']).to be true
+      end
     end
   end
 
@@ -360,6 +371,19 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(api_inbox.reload.enable_auto_assignment).to be_falsey
         expect(api_channel.reload.webhook_url).to eq('webhook.test')
+      end
+
+      it 'updates twitter inbox when administrator' do
+        api_channel = create(:channel_twitter_profile, account: account, tweets_enabled: true)
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { tweets_enabled: false } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(api_channel.reload.tweets_enabled).to eq(false)
       end
 
       it 'updates email inbox when administrator' do
@@ -453,6 +477,16 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         inbox.reload
         expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
+      end
+
+      it 'updates the webwidget inbox to disallow the messages after conversation is resolved' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge({ allow_messages_after_resolved: false }),
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.allow_messages_after_resolved).to be_falsey
       end
     end
   end

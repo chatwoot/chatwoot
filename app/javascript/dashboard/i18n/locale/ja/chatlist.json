@@ -7,6 +7,7 @@
       "404": "このグループには有効な会話データがありません"
     },
     "TAB_HEADING": "会話データ",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "人物、チャット、保存された返信を検索する"
     },

@@ -12,7 +12,7 @@
         "NAME": {
           "LABEL": "Display Name",
           "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "ERROR": "നാമം ആവശ്യമാണ്"
         },
         "DESC": {
           "LABEL": "വിവരണം",
@@ -27,10 +27,15 @@
         "TYPE": {
           "LABEL": "Type",
           "PLACEHOLDER": "ദയവായി ഒരു തരം തിരഞ്ഞെടുക്കുക",
-          "ERROR": "Type is required"
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
         },
         "KEY": {
-          "LABEL": "Key",
+          "LABEL": "കീ",
           "PLACEHOLDER": "Enter custom attribute key",
           "ERROR": "Key is required",
           "IN_VALID": "Invalid key"
@@ -48,8 +53,8 @@
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "TITLE": "നിങ്ങൾക്ക് ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ - %{attributeName}",
+        "PLACE_HOLDER": "സ്ഥിരീകരിക്കാൻ {attributeName} എന്ന് ടൈപ്പ് ചെയ്യുക",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "ഇല്ലാതാക്കുക ",
         "NO": "റദ്ദാക്കുക"
@@ -58,6 +63,12 @@
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "അപ്‌ഡേറ്റ്",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
@@ -65,15 +76,15 @@
     },
     "TABS": {
       "HEADER": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "സംഭാഷണം",
+      "CONTACT": "ബന്ധപ്പെടുക"
     },
     "LIST": {
       "TABLE_HEADER": [
         "പേര്",
         "വിവരണം",
         "Type",
-        "Key"
+        "കീ"
       ],
       "BUTTONS": {
         "EDIT": "എഡിറ്റുചെയ്യുക",

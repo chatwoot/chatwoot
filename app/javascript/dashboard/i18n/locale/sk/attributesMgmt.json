@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
@@ -27,7 +27,12 @@
         "TYPE": {
           "LABEL": "Type",
           "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
         },
         "KEY": {
           "LABEL": "Key",
@@ -42,7 +47,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Vymazať",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
@@ -51,13 +56,19 @@
         "TITLE": "Are you sure want to delete - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Delete ",
-        "NO": "Cancel"
+        "YES": "Vymazať ",
+        "NO": "Zrušiť"
       }
     },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Update",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
@@ -70,14 +81,14 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Meno",
         "Description",
         "Type",
         "Key"
       ],
       "BUTTONS": {
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Upraviť",
+        "DELETE": "Vymazať"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",

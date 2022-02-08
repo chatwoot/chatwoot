@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
@@ -40,9 +41,9 @@
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
+      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "تحديد كمعلق",
@@ -87,7 +88,7 @@
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
@@ -148,33 +149,33 @@
       "PLACEHOLDER": "لا شيء"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "تفاصيل جهة الاتصال",
+      "CONVERSATION_ACTIONS": "إجراءات المحادثة",
       "CONVERSATION_LABELS": "وسوم المحادثة",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "معلومات المحادثة",
+      "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
       "PREVIOUS_CONVERSATION": "المحادثات السابقة"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "إنشاء سمة جديدة",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "ADD": {
       "TITLE": "إضافة",
       "SUCCESS": "تمت إضافة السمة بنجاح",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "غير قادر على إضافة السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "تم حذف السمة المخصصة بنجاح",
+      "ERROR": "غير قادر على حذف السمة. الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "أضف سمة",
+      "PLACEHOLDER": "البحث عن سمات",
+      "NO_RESULT": "لم يتم العثور على سمات"
     }
   },
   "EMAIL_HEADER": {

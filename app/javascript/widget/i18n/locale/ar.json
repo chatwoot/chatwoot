@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "نحن بعيدون في الوقت الحالي"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
@@ -18,11 +18,11 @@
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
   },
   "START_CONVERSATION": "ابدأ المحادثة",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "من",
     "BOT": "رد آلي"
   },
   "BUBBLE": {
@@ -51,21 +51,21 @@
         "ERROR": "رسالة قصيرة جداً"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "حقل غير صالح"
     }
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "SUBMITTED_TITLE": "شكرا لك على تقديم التقييم",
     "PLACEHOLDER": "أخبرنا المزيد..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "طلب نسخة محادثة النص",
     "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   }

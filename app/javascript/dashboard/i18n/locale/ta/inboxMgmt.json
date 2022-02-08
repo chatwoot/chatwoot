@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "உங்கள் ட்விட்டர் சுயவிவரத்தை ஒரு சேனலாக சேர்க்க, 'ட்விட்டருடன் உள்நுழைக' என்பதைக் கிளிக் செய்யாவும், இதன் மூலம் உங்கள் சுயவிவரத்தை ட்விட்டர் வாயிலாக அங்கீகரிக்கிறீர்கள் ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "வலைத்தள சேனல்",
@@ -399,6 +402,65 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "இமெயில்",
+        "PLACE_HOLDER": "இமெயில்"
+      },
+      "PASSWORD": {
+        "LABEL": "பாஸ்வேர்ட்",
+        "PLACE_HOLDER": "பாஸ்வேர்ட்"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "இமெயில்",
+        "PLACE_HOLDER": "இமெயில்"
+      },
+      "PASSWORD": {
+        "LABEL": "பாஸ்வேர்ட்",
+        "PLACE_HOLDER": "பாஸ்வேர்ட்"
+      },
+      "DOMAIN": {
+        "LABEL": "களம்",
+        "PLACE_HOLDER": "களம்"
       }
     }
   }

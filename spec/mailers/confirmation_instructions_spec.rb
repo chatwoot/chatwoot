@@ -47,5 +47,19 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
         expect(mail.body).not_to include('app/auth/confirmation')
       end
     end
+
+    context 'when user updates the email' do
+      before do
+        confirmable_user.update!(email: 'user@example.com')
+      end
+
+      it 'sends a confirmation link' do
+        confirmation_mail = Devise::Mailer.confirmation_instructions(confirmable_user.reload, nil, {})
+
+        expect(confirmation_mail.body).to include('app/auth/confirmation?confirmation_token')
+        expect(confirmation_mail.body).not_to include('app/auth/password/edit')
+        expect(confirmable_user.unconfirmed_email.blank?).to be false
+      end
+    end
   end
 end

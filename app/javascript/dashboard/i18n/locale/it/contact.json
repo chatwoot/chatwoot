@@ -103,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Inserisci l'indirizzo email del contatto",
-        "LABEL": "Indirizzo email"
+        "LABEL": "Indirizzo email",
+        "DUPLICATE": "Questo indirizzo email è in uso per un altro contatto."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Inserisci il numero di telefono del contatto",
         "LABEL": "Numero di telefono",
         "HELP": "Il numero di telefono dovrebbe essere di formato E.164 es.: +3915555555 [+][codice nazione][codice di zona][numero di telefono locale]",
-        "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164"
+        "ERROR": "Il numero di telefono deve essere vuoto o di formato E.164",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Inserisci la posizione del contatto",
@@ -139,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contatto salvato con successo",
-    "CONTACT_ALREADY_EXIST": "Questo indirizzo email è in uso per un altro contatto.",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
   "NEW_CONVERSATION": {
@@ -176,6 +177,7 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "FILTER_CONTACTS": "Filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -279,6 +281,13 @@
         "TITLE": "Add attributes",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
     },
     "VALIDATIONS": {

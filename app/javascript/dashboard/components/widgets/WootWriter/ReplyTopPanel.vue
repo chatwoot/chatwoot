@@ -1,23 +1,24 @@
 <template>
   <div class="top-box">
     <div class="mode-wrap button-group">
-      <button
-        class="button clear button--reply"
+      <woot-button
+        variant="clear"
+        class="button--reply"
         :class="replyButtonClass"
         @click="handleReplyClick"
       >
-        <emoji-or-icon icon="" emoji="💬" />
         {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </button>
+      </woot-button>
 
-      <button
-        class="button clear button--note"
+      <woot-button
+        class="button--note"
+        variant="clear"
+        color-scheme="warning"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
-        <emoji-or-icon icon="" emoji="📝" />
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </button>
+      </woot-button>
     </div>
     <div class="action-wrap">
       <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
@@ -29,7 +30,6 @@
     <woot-button
       v-if="popoutReplyBox"
       variant="clear"
-      size="large"
       icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
@@ -38,7 +38,6 @@
     <woot-button
       v-else
       variant="clear"
-      size="large"
       icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
@@ -49,7 +48,6 @@
 
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 import {
   hasPressedAltAndPKey,
   hasPressedAltAndLKey,
@@ -57,9 +55,6 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
-  components: {
-    EmojiOrIcon,
-  },
   mixins: [eventListenerMixins],
   props: {
     mode: {
@@ -152,7 +147,8 @@ export default {
     border-radius: 0;
     border-right: 1px solid var(--color-border);
 
-    &:hover {
+    &:hover,
+    &:focus {
       border-right: 1px solid var(--color-border);
     }
   }
@@ -188,12 +184,5 @@ export default {
   .message-length {
     color: var(--s-600);
   }
-}
-
-.popout-button {
-  display: flex;
-  justify-content: flex-end;
-  height: auto;
-  padding-right: var(--space-normal);
 }
 </style>
