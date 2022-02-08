@@ -360,7 +360,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
-        expect(conversation.reload.assignee_id).not_to eq(agent.id)
+        expect(conversation.reload.assignee_id).not_to eq(administrator.id)
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
