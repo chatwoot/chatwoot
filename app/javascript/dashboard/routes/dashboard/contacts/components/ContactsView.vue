@@ -340,7 +340,7 @@ export default {
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
-      this.segmentsQuery = { payload };
+      this.segmentsQuery = filterQueryGenerator(payload);
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });

@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "密码",
+        "LABEL": "New password",
         "ERROR": "请输入长度6或更长的密码",
         "PLACEHOLDER": "请输入新密码"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "重新输入一次密码",
         "ERROR": "两次密码不一致",
-        "PLACEHOLDER": "请重新输入密码"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "自定义属性",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

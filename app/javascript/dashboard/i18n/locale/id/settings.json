@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Silakan masukkan kata sandi saat ini"
       },
       "PASSWORD": {
-        "LABEL": "Kata Sandi",
+        "LABEL": "New password",
         "ERROR": "Silakan masukkan sandi dengan panjang 6 karakter atau lebih",
         "PLACEHOLDER": "Silakan masukkan kata sandi baru"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Konfirmasi kata sandi baru",
         "ERROR": "Konfirmasi kata sandi harus sama dengan kata sandi",
-        "PLACEHOLDER": "Harap masukkan kembali kata sandi anda"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -136,7 +136,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Sebutkan",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
@@ -151,13 +151,15 @@
     "APPLICATIONS": "Aplikasi",
     "LABELS": "Label",
     "CUSTOM_ATTRIBUTES": "Atribut Kustom",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Otomatisasi",
     "TEAMS": "Tim",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Semua Kontak",
     "TAGGED_WITH": "Tandai dengan",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Label baru",
+    "NEW_TEAM": "Tim baru",
+    "NEW_INBOX": "Katak masuk baru",
     "REPORTS_OVERVIEW": "Gambaran",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",

@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Por favor, introduzca su contraseña actual"
       },
       "PASSWORD": {
-        "LABEL": "Contraseña",
+        "LABEL": "Nueva contraseña",
         "ERROR": "Por favor, introduzca una contraseña de longitud 6 o más",
         "PLACEHOLDER": "Por favor, introduzca una nueva contraseña"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmar nueva contraseña",
         "ERROR": "Confirmar contraseña debe coincidir con la contraseña",
-        "PLACEHOLDER": "Por favor, vuelva a introducir su contraseña"
+        "PLACEHOLDER": "Por favor, vuelva a introducir su nueva contraseña"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
     "TEAMS": "Equipos",
+    "CUSTOM_VIEWS_FOLDER": "Carpetas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
     "TAGGED_WITH": "Etiquetado con",
     "NEW_LABEL": "Nueva etiqueta",
