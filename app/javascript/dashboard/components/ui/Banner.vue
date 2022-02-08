@@ -97,7 +97,11 @@ export default {
   position: sticky;
 
   &.secondary {
-    background: var(--s-300);
+    background: var(--s-200);
+    color: var(--s-800);
+    a {
+      color: var(--s-800);
+    }
   }
 
   &.alert {

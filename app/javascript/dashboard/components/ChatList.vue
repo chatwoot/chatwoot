@@ -86,7 +86,9 @@
       v-if="hasNewConversationAvailable && hasAppliedFiltersOrActiveFolders"
       color-scheme="secondary"
       :banner-message="$t('CHAT_LIST.NEW_CONVERSATION_CREATED')"
-      action-button-icon="reload-arrow"
+      :action-button-label="
+        $t('CHAT_LIST.NEW_CONVERSATION_CREATED_RELOAD_BUTTON')
+      "
       :has-action-button="true"
       @click="onClickRefreshFolder"
     />
