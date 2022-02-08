@@ -245,7 +245,10 @@ export default {
       });
     },
     showAssigneeInConversationCard() {
-      return this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL;
+      return (
+        this.hasAppliedFiltersOrActiveFolders ||
+        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
