@@ -9,12 +9,13 @@
           v-for="(filter, i) in appliedFilters"
           :key="i"
           v-model="appliedFilters[i]"
-          :filter-attributes="filterAttributes"
+          :filter-groups="filterGroups"
           :input-type="getInputType(appliedFilters[i].attribute_key)"
           :operators="getOperators(appliedFilters[i].attribute_key)"
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
+          :grouped-filters="true"
           :v="$v.appliedFilters.$each[i]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
@@ -48,22 +49,24 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
-import FilterInputBox from '../FilterInput.vue';
+import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
-import countries from '/app/javascript/shared/constants/countries.js';
+import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
-
+import { filterAttributeGroups } from './advancedFilterItems';
+import filterMixin from 'shared/mixins/filterMixin';
+import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 export default {
   components: {
     FilterInputBox,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, filterMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
     },
-    filterTypes: {
+    initialFilterTypes: {
       type: Array,
       default: () => [],
     },
@@ -87,22 +90,21 @@ export default {
     return {
       show: true,
       appliedFilters: [],
+      filterTypes: this.initialFilterTypes,
+      filterAttributeGroups,
+      filterGroups: [],
+      allCustomAttributes: [],
+      attributeModel: 'conversation_attribute',
+      filtersFori18n: 'FILTER',
     };
   },
   computed: {
-    filterAttributes() {
-      return this.filterTypes.map(type => {
-        return {
-          key: type.attributeKey,
-          name: this.$t(`FILTER.ATTRIBUTES.${type.attributeI18nKey}`),
-        };
-      });
-    },
     ...mapGetters({
       getAppliedConversationFilters: 'getAppliedConversationFilters',
     }),
   },
   mounted() {
+    this.setFilterAttributes();
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
       this.appliedFilters = [...this.getAppliedConversationFilters];
@@ -112,10 +114,41 @@ export default {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+        attribute_model: 'standard',
       });
     }
   },
   methods: {
+    getOperatorTypes(key) {
+      switch (key) {
+        case 'list':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'text':
+          return OPERATORS.OPERATOR_TYPES_3;
+        case 'number':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'link':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'date':
+          return OPERATORS.OPERATOR_TYPES_4;
+        case 'checkbox':
+          return OPERATORS.OPERATOR_TYPES_1;
+        default:
+          return OPERATORS.OPERATOR_TYPES_1;
+      }
+    },
+    customAttributeInputType(key) {
+      switch (key) {
+        case 'date':
+          return 'date';
+        default:
+          return 'plain_text';
+      }
+    },
+    getAttributeModel(key) {
+      const type = this.filterTypes.find(filter => filter.attributeKey === key);
+      return type.attributeModel;
+    },
     getInputType(key) {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.inputType;

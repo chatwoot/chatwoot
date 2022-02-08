@@ -14,14 +14,14 @@ class AutomationRuleListener < BaseListener
     return unless rule_present?('conversation_created', conversation)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRule::ConditionsFilterService.new(rule, conversation).perform
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
       ::AutomationRules::ActionService.new(rule, conversation).perform if conditions_match.present?
     end
   end
 
   def message_created(event_obj)
-    conversation = event_obj.data[:conversation]
     message = event_obj.data[:message]
+    conversation = message.conversation
     return unless rule_present?('message_created', conversation)
 
     @rules.each do |rule|

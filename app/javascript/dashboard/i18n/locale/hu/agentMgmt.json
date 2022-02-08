@@ -95,17 +95,17 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Nincs",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Ügynök kiválasztása",
+        "TEAM": "Csapat kiválasztása"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nem találunk ügynököt",
-          "TEAM": "No teams found"
+          "TEAM": "Nem találtunk csapatot"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Ügynökök keresése",
+          "TEAM": "Csapatok keresése"
         }
       }
     }

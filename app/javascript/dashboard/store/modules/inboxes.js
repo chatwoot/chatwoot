@@ -78,9 +78,11 @@ export const getters = {
       item => item.channel_type === INBOX_TYPES.TWILIO
     );
   },
-  getTwilioSMSInboxes($state) {
+  getSMSInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms'
+      item =>
+        item.channel_type === INBOX_TYPES.SMS ||
+        (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
     );
   },
   dialogFlowEnabledInboxes($state) {

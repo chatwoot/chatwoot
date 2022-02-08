@@ -73,14 +73,48 @@ export default {
     hasSubMenu() {
       return !!this.menuItem.children;
     },
+    isInboxConversation() {
+      return (
+        this.$store.state.route.name === 'inbox_conversation' &&
+        this.menuItem.toStateName === 'home'
+      );
+    },
+    isTeamsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_teams_edit' &&
+        this.menuItem.toStateName === 'settings_teams_list'
+      );
+    },
+    isInboxsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_inbox_show' &&
+        this.menuItem.toStateName === 'settings_inbox_list'
+      );
+    },
+    isIntegrationsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_integrations_webhook' &&
+        this.menuItem.toStateName === 'settings_integrations'
+      );
+    },
+    isApplicationsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_applications_integration' &&
+        this.menuItem.toStateName === 'settings_applications'
+      );
+    },
+
     computedClass() {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
 
       if (
-        this.$store.state.route.name === 'inbox_conversation' &&
-        this.menuItem.toStateName === 'home'
+        this.isInboxConversation ||
+        this.isTeamsSettings ||
+        this.isInboxsSettings ||
+        this.isIntegrationsSettings ||
+        this.isApplicationsSettings
       ) {
         return 'is-active';
       }

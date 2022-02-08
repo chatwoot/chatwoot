@@ -149,6 +149,6 @@ class Channel::Whatsapp < ApplicationRecord
         url: "#{ENV['FRONTEND_URL']}/webhooks/whatsapp/#{phone_number}"
       }.to_json
     )
-    errors.add(:bot_token, 'error setting up the webook') unless response.success?
+    errors.add(:provider_config, 'error setting up the webook') unless response.success?
   end
 end

@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Будь ласка, введіть поточний пароль"
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
+        "LABEL": "New password",
         "ERROR": "Будь ласка, введіть пароль довжиною 6 або більше символів",
         "PLACEHOLDER": "Будь ласка, введіть новий пароль"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Підвердіть новий пароль",
         "ERROR": "Підтвердження пароля має відповідати паролю",
-        "PLACEHOLDER": "Введіть ваш пароль ще раз"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Automation",
     "TEAMS": "Команди",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Усі контакти",
     "TAGGED_WITH": "З тегами",
     "NEW_LABEL": "New label",

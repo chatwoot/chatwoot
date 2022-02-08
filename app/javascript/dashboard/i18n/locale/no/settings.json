@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Passord",
+        "LABEL": "New password",
         "ERROR": "Skriv inn et passord som er 6 eller flere tegn langt",
         "PLACEHOLDER": "Vennligst angi et nytt passord"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekreft nytt passord",
         "ERROR": "Det bekreftende passordet burde samsvare med passordet",
-        "PLACEHOLDER": "Oppgi ditt passord på nytt"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Egendefinerte verdier",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

@@ -133,7 +133,7 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      let!(:campaign) { create(:campaign, account: account, inbox: inbox) }
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox, trigger_rules: { url: 'https://test.com' }) }
 
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
@@ -145,7 +145,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'returns all campaigns belonging to the inbox to administrators' do
         # create a random campaign
-        create(:campaign, account: account)
+        create(:campaign, account: account, trigger_rules: { url: 'https://test.com' })
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
             headers: administrator.create_new_auth_token,
             as: :json
@@ -307,6 +307,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Line Inbox')
         expect(response.body).to include('callback_webhook_url')
+      end
+
+      it 'creates a sms inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Sms Inbox',
+                       channel: { type: 'sms', phone_number: '+123456789', provider_config: { test: 'test' } } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Sms Inbox')
+        expect(response.body).to include('+123456789')
       end
 
       it 'creates the webwidget inbox that allow messages after conversation is resolved' do
