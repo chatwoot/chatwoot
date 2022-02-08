@@ -57,7 +57,7 @@ export default {
     ReportDateRangeSelector,
   },
   data() {
-    return { from: 0, to: 0, currentSelection: 0 };
+    return { from: 0, to: 0, currentSelection: 0, group_by: 'day' };
   },
   computed: {
     ...mapGetters({
@@ -69,9 +69,25 @@ export default {
         return {};
       }
       if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element =>
-        format(fromUnixTime(element.timestamp), 'dd/MMM')
-      );
+      const labels = this.accountReport.data.map(element => {
+        if (this.group_by === 'month') {
+          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+        }
+        if (this.group_by === 'week') {
+          let week_date = new Date(fromUnixTime(element.timestamp));
+          const first_day = week_date.getDate() - week_date.getDay();
+          const last_day = first_day + 6;
+
+          const week_first_date = new Date(week_date.setDate(first_day));
+          const week_last_date = new Date(week_date.setDate(last_day));
+
+          return `${format(week_first_date, 'dd/MM/yy')} - ${format(
+            week_last_date,
+            'dd/MM/yy'
+          )}`;
+        }
+        return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
+      });
       const data = this.accountReport.data.map(element => element.value);
       return {
         labels,
@@ -102,16 +118,17 @@ export default {
   },
   methods: {
     fetchAllData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', { from, to });
+      const { from, to, group_by } = this;
+      this.$store.dispatch('fetchAccountSummary', { from, to, group_by });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to } = this;
+      const { from, to, group_by } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
+        group_by,
       });
     },
     downloadAgentReports() {
@@ -126,9 +143,10 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to }) {
+    onDateRangeChange({ from, to, group_by }) {
       this.from = from;
       this.to = to;
+      this.group_by = group_by;
       this.fetchAllData();
     },
   },

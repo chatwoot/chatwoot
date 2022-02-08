@@ -68,13 +68,32 @@ export default {
       const fromDate = subDays(new Date(), diff);
       return this.fromCustomDate(fromDate);
     },
+    groupBy() {
+      if (this.isDateRangeSelected) {
+        return 'day';
+      }
+      const groupRange = {
+        0: { group_by: 'day' },
+        1: { group_by: 'week' },
+        2: { group_by: 'month' },
+        3: { group_by: 'month' },
+        4: { group_by: 'month' },
+      };
+
+      const selectedGroup = groupRange[this.currentDateRangeSelection.id];
+      return selectedGroup.group_by;
+    },
   },
   mounted() {
     this.onDateRangeChange();
   },
   methods: {
     onDateRangeChange() {
-      this.$emit('date-range-change', { from: this.from, to: this.to });
+      this.$emit('date-range-change', {
+        from: this.from,
+        to: this.to,
+        group_by: this.groupBy,
+      });
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
@@ -84,6 +103,7 @@ export default {
       this.onDateRangeChange();
     },
     onChange(value) {
+      console.log(value);
       this.customDateRange = value;
       this.onDateRangeChange();
     },
