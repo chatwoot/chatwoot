@@ -202,6 +202,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true
     t.string "smtp_authentication", default: "login"
+    t.string "smtp_openssl_verify_mode", default: "none"
+    t.boolean "smtp_enable_ssl_tls", default: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
