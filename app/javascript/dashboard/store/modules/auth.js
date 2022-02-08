@@ -67,15 +67,9 @@ export const getters = {
   },
 
   getMessageSignature(_state) {
-    const {
-      message_signature: messageSignature,
-      message_signature_enabled: enableMessageSignature,
-    } = _state.currentUser;
+    const { message_signature: messageSignature } = _state.currentUser;
 
-    if (enableMessageSignature) {
-      return messageSignature || '';
-    }
-    return '';
+    return messageSignature || '';
   },
 };
 
