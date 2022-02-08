@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Lösenord",
+        "LABEL": "New password",
         "ERROR": "Ange ett lösenord med minst 6 tecken",
         "PLACEHOLDER": "Ange ett nytt lösenord"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekräfta nytt lösenord",
         "ERROR": "Bekräfta lösenord måste matcha lösenordet",
-        "PLACEHOLDER": "Ange ditt lösenord igen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Egna egenskaper",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

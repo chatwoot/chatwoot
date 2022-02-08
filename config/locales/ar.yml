@@ -79,8 +79,8 @@ ar:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
     survey:

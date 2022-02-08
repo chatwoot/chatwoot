@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Número de días después de que un ticket se resuelva automáticamente si no hay actividad",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, introduzca una duración válida de resolución automática (mínimo 1 día)"
+        "ERROR": "Por favor introduzca una duración válida de resolución automática (mínimo 1 día y máximo 999 días)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",

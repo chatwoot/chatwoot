@@ -15,7 +15,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
       let!(:user) { create(:user) }
 
       it 'shows the list of users' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/super_admin/users'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New user')

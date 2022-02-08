@@ -7,7 +7,7 @@
     "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
     "CONVERSATION_TITLE": "Detalles de la conversación",
-    "VIEW_PROFILE": "Ver perfil",
+    "VIEW_PROFILE": "Ver Perfil",
     "BROWSER": "Navegador",
     "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniciado desde",
@@ -169,6 +169,7 @@
       "SUBMIT": "Enviar mensaje",
       "CANCEL": "Cancelar",
       "SUCCESS_MESSAGE": "¡Mensaje enviado!",
+      "GO_TO_CONVERSATION": "Ver",
       "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Buscar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "FILTER_CONTACTS": "Filtro",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Eliminar filtro",
     "LIST": {
       "LOADING_MESSAGE": "Cargando contactos...",
       "404": "No hay contactos que coincidan con tu búsqueda 🔍",
