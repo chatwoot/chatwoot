@@ -28,7 +28,7 @@
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "message signature",
-        "ERROR": "message signature cannot be empty",
+        "ERROR": "Message Signature cannot be empty",
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
