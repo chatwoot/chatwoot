@@ -27,7 +27,7 @@
         "API_SUCCESS": "Signature saved successfully"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "message signature",
+        "LABEL": "Message Signature",
         "ERROR": "Message Signature cannot be empty",
         "PLACEHOLDER": "Insert your personal message signature here."
       },
