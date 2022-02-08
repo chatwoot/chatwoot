@@ -121,10 +121,10 @@
               variant="clear"
               @click.prevent="onClose"
             >
-              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
+              {{ $t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT') }}
             </woot-button>
             <woot-button @click="submitAutomation">
-              {{ $t('AUTOMATION.ADD.SUBMIT') }}
+              {{ $t('AUTOMATION.EDIT.SUBMIT') }}
             </woot-button>
           </div>
         </div>
