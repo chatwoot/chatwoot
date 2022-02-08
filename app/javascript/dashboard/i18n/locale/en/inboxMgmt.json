@@ -522,7 +522,11 @@
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
-      }
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }
