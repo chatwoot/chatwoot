@@ -57,6 +57,18 @@
             :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
             @blur="$v.domain.$touch"
           />
+          <input-radio-group
+            :label="$t('INBOX_MGMT.SMTP.ENCRYPTION')"
+            :items="encryptionProtocols"
+            :action="handleEncryptionChange"
+          />
+          <single-select-dropdown
+            class="medium-9 columns"
+            :label="$t('INBOX_MGMT.SMTP.OPEN_SSL_VERIFY_MODE')"
+            :selected="openSSLVerifyMode"
+            :options="openSSLVerifyModes"
+            :action="handleSSLModeChange"
+          />
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
@@ -73,10 +85,14 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import InputRadioGroup from './components/InputRadioGroup';
+import SingleSelectDropdown from './components/SingleSelectDropdown';
 
 export default {
   components: {
     SettingsSection,
+    InputRadioGroup,
+    SingleSelectDropdown,
   },
   mixins: [alertMixin],
   props: {
@@ -93,6 +109,19 @@ export default {
       email: '',
       password: '',
       domain: '',
+      ssl: false,
+      starttls: true,
+      openSSLVerifyMode: 'none',
+      encryptionProtocols: [
+        { id: 'ssl', title: 'SSL/TLS', checked: false },
+        { id: 'starttls', title: 'STARTTLS', checked: true },
+      ],
+      openSSLVerifyModes: [
+        { key: 1, value: 'none' },
+        { key: 2, value: 'peer' },
+        { key: 3, value: 'client_once' },
+        { key: 4, value: 'fail_if_no_peer_cert' },
+      ],
     };
   },
   validations: {
@@ -125,6 +154,9 @@ export default {
         smtp_email,
         smtp_password,
         smtp_domain,
+        smtp_enable_starttls_auto,
+        smtp_enable_ssl_tls,
+        smtp_openssl_verify_mode,
       } = this.inbox;
       this.isSMTPEnabled = smtp_enabled;
       this.address = smtp_address;
@@ -132,6 +164,30 @@ export default {
       this.email = smtp_email;
       this.password = smtp_password;
       this.domain = smtp_domain;
+      this.starttls = smtp_enable_starttls_auto;
+      this.ssl = smtp_enable_ssl_tls;
+      this.openSSLVerifyMode = smtp_openssl_verify_mode;
+
+      this.encryptionProtocols = [
+        { id: 'ssl', title: 'SSL/TLS', checked: smtp_enable_ssl_tls },
+        {
+          id: 'starttls',
+          title: 'STARTTLS',
+          checked: smtp_enable_starttls_auto,
+        },
+      ];
+    },
+    handleEncryptionChange(encryption) {
+      if (encryption.id === 'ssl') {
+        this.ssl = true;
+        this.starttls = false;
+      } else {
+        this.ssl = false;
+        this.starttls = true;
+      }
+    },
+    handleSSLModeChange(mode) {
+      this.openSSLVerifyMode = mode;
     },
     async updateInbox() {
       try {
@@ -145,6 +201,9 @@ export default {
             smtp_email: this.email,
             smtp_password: this.password,
             smtp_domain: this.domain,
+            smtp_enable_ssl_tls: this.ssl,
+            smtp_enable_starttls_auto: this.starttls,
+            smtp_openssl_verify_mode: this.openSSLVerifyMode,
           },
         };
         await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
