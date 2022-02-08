@@ -104,6 +104,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
@@ -111,7 +112,7 @@ import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
   components: { FileUpload },
-  mixins: [eventListenerMixins, uiSettingsMixin],
+  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,
