@@ -8,7 +8,7 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def create
     ActiveRecord::Base.transaction do
-      @team_members = params[:user_ids].map { |user_id| @team.add_member(user_id) }
+      @team_members = members_to_be_added_ids.map { |user_id| @team.add_member(user_id) }
     end
   end
 

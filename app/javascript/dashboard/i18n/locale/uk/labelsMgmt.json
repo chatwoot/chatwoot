@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Мітки",
+    "HEADER_BTN_TXT": "Додати мітку",
+    "LOADING": "Отримання міток",
     "SEARCH_404": "Немає елементів, що відповідають запиту",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Мітки</b> <p>Мітки допомагають вам розділити розмови та визначити пріоритети. Ви можете призначати мітку до розмови з панелі завдань. <br /><br />Мітки зв'язані з обліковим записом і можуть бути використані для створення користувацьких робочих процесів у вашій організації. Ви можете призначати користувацький колір до мітки, це полегшує визначення мітки. Ви зможете відображати мітку на бічній панелі, щоб легко відфільтрувати розмови.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "У цьому акаунті немає міток.",
+      "TITLE": "Керувати мітками",
+      "DESC": "Мітки, які дозволяють згрупувати розмови.",
       "TABLE_HEADER": [
         "Ім'я",
-        "Description",
-        "Color"
+        "Опис",
+        "Колір"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "Назва мітки",
+        "PLACEHOLDER": "Назва мітки",
+        "REQUIRED_ERROR": "Потрібна назва мітки",
+        "MINIMUM_LENGTH_ERROR": "Необхідна мінімальна довжина 2",
+        "VALID_ERROR": "Дозволено тільки букви, цифри, гіфен та підкреслення"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Опис",
+        "PLACEHOLDER": "Опис мітки"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Колір"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Показувати мітку на бічній панелі"
       },
       "EDIT": "Редагувати",
-      "CREATE": "Create",
+      "CREATE": "Створити",
       "DELETE": "Видалити",
       "CANCEL": "Скасувати"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Додати мітку",
+      "DESC": "Мітки, які дозволяють згрупувати розмови.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Мітку додано успішно",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Редагувати мітку",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Мітку успішно оновлено",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Мітку успішно видалено",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
       },
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
         "MESSAGE": "Справді бажаєте видалити ",
         "YES": "Так, видалити ",
-        "NO": "No, Keep "
+        "NO": "Ні, залишити "
       }
     }
   }

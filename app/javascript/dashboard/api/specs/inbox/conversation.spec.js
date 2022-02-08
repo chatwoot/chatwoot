@@ -19,6 +19,7 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('unmute');
     expect(conversationAPI).toHaveProperty('meta');
     expect(conversationAPI).toHaveProperty('sendEmailTranscript');
+    expect(conversationAPI).toHaveProperty('filter');
   });
 
   describeWithAPIMock('API calls', context => {
@@ -158,6 +159,55 @@ describe('#ConversationAPI', () => {
         {
           email: 'john@acme.inc',
         }
+      );
+    });
+
+    it('#updateCustomAttributes', () => {
+      conversationAPI.updateCustomAttributes({
+        conversationId: 45,
+        customAttributes: { order_d: '1001' },
+      });
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/45/custom_attributes',
+        {
+          custom_attributes: { order_d: '1001' },
+        }
+      );
+    });
+
+    it('#filter', () => {
+      const payload = {
+        page: 1,
+        queryData: {
+          payload: [
+            {
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
+              values: ['pending', 'resolved'],
+              query_operator: 'and',
+            },
+            {
+              attribute_key: 'assignee',
+              filter_operator: 'equal_to',
+              values: [3],
+              query_operator: 'and',
+            },
+            {
+              attribute_key: 'id',
+              filter_operator: 'equal_to',
+              values: ['This is a test'],
+              query_operator: null,
+            },
+          ],
+        },
+      };
+      conversationAPI.filter(payload);
+      expect(
+        context.axiosMock.post
+      ).toHaveBeenCalledWith(
+        '/api/v1/conversations/filter',
+        payload.queryData,
+        { params: { page: payload.page } }
       );
     });
   });

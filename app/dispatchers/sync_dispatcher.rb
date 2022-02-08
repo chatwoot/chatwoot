@@ -5,6 +5,6 @@ class SyncDispatcher < BaseDispatcher
   end
 
   def listeners
-    [ActionCableListener.instance, AgentBotListener.instance, NotificationListener.instance]
+    [ActionCableListener.instance, AgentBotListener.instance]
   end
 end

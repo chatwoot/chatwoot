@@ -55,6 +55,8 @@ RSpec.describe 'Team Members API', type: :request do
       it 'add a new team members when its administrator' do
         user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
         params = { user_ids: user_ids }
+        # have a team member added already
+        create(:team_member, team: team, user: User.find(user_ids.first))
 
         post "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
              params: params,
@@ -63,7 +65,7 @@ RSpec.describe 'Team Members API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response.count).to eq(user_ids.count)
+        expect(json_response.count).to eq(user_ids.count - 1)
       end
     end
   end
@@ -93,15 +95,16 @@ RSpec.describe 'Team Members API', type: :request do
 
       it 'destroys the team members when its administrator' do
         user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
-        params = { user_ids: user_ids }
+        user_ids.each { |id| create(:team_member, team: team, user: User.find(id)) }
+        params = { user_ids: user_ids.first(3) }
 
-        delete "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+        delete "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
                params: params,
                headers: administrator.create_new_auth_token,
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(team.team_members.count).to eq(0)
+        expect(team.team_members.count).to eq(2)
       end
     end
   end

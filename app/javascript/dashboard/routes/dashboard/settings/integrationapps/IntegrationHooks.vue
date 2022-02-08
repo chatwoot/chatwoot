@@ -4,7 +4,7 @@
       v-if="showAddButton"
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddHookModal"
     >
       {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}

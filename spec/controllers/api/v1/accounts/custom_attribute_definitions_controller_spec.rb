@@ -25,7 +25,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = JSON.parse(response.body)
 
-        expect(response_body.count).to eq(1)
+        expect(response_body.count).to eq(2)
         expect(response_body.first['attribute_key']).to eq(custom_attribute_definition.attribute_key)
       end
     end

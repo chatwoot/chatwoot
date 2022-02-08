@@ -5,7 +5,7 @@
     "HEADER": "Anwendungen",
     "STATUS": {
       "ENABLED": "Aktiviert",
-      "DISABLED": "Behindert"
+      "DISABLED": "Deaktiviert"
     },
     "CONFIGURE": "Konfigurieren",
     "ADD_BUTTON": "Neuen Hook hinzufügen",

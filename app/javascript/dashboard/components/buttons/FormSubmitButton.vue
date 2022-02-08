@@ -6,7 +6,7 @@
     :class="computedClass"
     @click="onClick"
   >
-    <i v-if="!!iconClass" :class="iconClass" class="icon" />
+    <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
     <spinner v-if="loading" />
   </button>

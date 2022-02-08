@@ -17,7 +17,7 @@
               })
             }}
           </p>
-          <p>
+          <p v-if="globalConfig.installationName === 'Chatwoot'">
             <a
               href="https://www.chatwoot.com/changelog"
               target="_blank"
@@ -42,8 +42,8 @@
         </div>
         <div class="features-item">
           <h2 class="block-title">
-            <span class="emoji">👥</span
-            >{{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
+            <span class="emoji">👥</span>
+            {{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
           </h2>
           <p class="intro-body">
             {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
@@ -56,7 +56,7 @@
           <h2 class="block-title">
             <span class="emoji">📥</span>{{ $t('ONBOARDING.INBOXES.TITLE') }}
           </h2>
-          <p class="intro-body ">
+          <p class="intro-body">
             {{ $t('ONBOARDING.INBOXES.DESCRIPTION') }}
           </p>
           <router-link :to="newInboxURL" class="onboarding--link">
@@ -67,7 +67,7 @@
           <h2 class="block-title">
             <span class="emoji">🏷</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
           </h2>
-          <p class="intro-body ">
+          <p class="intro-body">
             {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
           </p>
           <router-link :to="newLabelsURL" class="onboarding--link">

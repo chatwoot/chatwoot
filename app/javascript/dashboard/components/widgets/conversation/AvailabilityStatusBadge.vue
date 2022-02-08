@@ -20,7 +20,7 @@ export default {
     background: var(--g-400);
   }
   &__offline {
-    background: var(--b-600);
+    background: var(--s-500);
   }
   &__busy {
     background: var(--y-700);

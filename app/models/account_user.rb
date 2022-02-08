@@ -21,8 +21,8 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
 #
 
 class AccountUser < ApplicationRecord

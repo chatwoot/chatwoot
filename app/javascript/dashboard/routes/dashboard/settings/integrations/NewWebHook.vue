@@ -3,9 +3,14 @@
     <div class="column content-box">
       <woot-modal-header
         :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.TITLE')"
-        :header-content="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.DESC')"
+        :header-content="
+          useInstallationName(
+            $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.DESC'),
+            globalConfig.installationName
+          )
+        "
       />
-      <form class="row" @submit.prevent="addWebhook()">
+      <form class="row" @submit.prevent="addWebhook">
         <div class="medium-12 columns">
           <label :class="{ error: $v.endPoint.$error }">
             {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.END_POINT.LABEL') }}
@@ -48,12 +53,14 @@
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Modal,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: {
     onClose: {
       type: Function,
@@ -69,6 +76,9 @@ export default {
       },
       show: true,
     };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   validations: {
     endPoint: {

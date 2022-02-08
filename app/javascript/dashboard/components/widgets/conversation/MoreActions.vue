@@ -3,21 +3,24 @@
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-mute"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
       @click="mute"
     />
     <woot-button
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      class="hollow secondary actions--button"
-      icon="ion-volume-medium"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
       @click="unmute"
     />
     <woot-button
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      class="hollow secondary actions--button"
-      icon="ion-share"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
       @click="toggleEmailActionsModal"
     />
     <resolve-action
@@ -38,6 +41,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
+import {
+  CMD_MUTE_CONVERSATION,
+  CMD_SEND_TRANSCRIPT,
+  CMD_UNMUTE_CONVERSATION,
+} from '../../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
@@ -47,35 +55,33 @@ export default {
   mixins: [alertMixin, clickaway],
   data() {
     return {
-      showConversationActions: false,
       showEmailActionsModal: false,
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
+  },
+  mounted() {
+    bus.$on(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$on(CMD_UNMUTE_CONVERSATION, this.unmute);
+    bus.$on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  },
+  destroyed() {
+    bus.$off(CMD_MUTE_CONVERSATION, this.mute);
+    bus.$off(CMD_UNMUTE_CONVERSATION, this.unmute);
+    bus.$off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
     mute() {
       this.$store.dispatch('muteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     unmute() {
       this.$store.dispatch('unmuteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-      this.toggleConversationActions();
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
-    },
-    toggleConversationActions() {
-      this.showConversationActions = !this.showConversationActions;
-    },
-    hideConversationActions() {
-      this.showConversationActions = false;
     },
   },
 };
@@ -84,11 +90,8 @@ export default {
 .actions--container {
   align-items: center;
 
-  .button {
-    font-size: var(--font-size-large);
-    margin-right: var(--space-small);
-    border-color: var(--color-border);
-    color: var(--s-400);
+  .resolve-actions {
+    margin-left: var(--space-small);
   }
 }
 

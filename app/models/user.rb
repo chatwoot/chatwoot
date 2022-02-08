@@ -2,32 +2,35 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
-#  availability           :integer          default("online")
-#  confirmation_sent_at   :datetime
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  current_sign_in_at     :datetime
-#  current_sign_in_ip     :string
-#  custom_attributes      :jsonb
-#  display_name           :string
-#  email                  :string
-#  encrypted_password     :string           default(""), not null
-#  last_sign_in_at        :datetime
-#  last_sign_in_ip        :string
-#  name                   :string           not null
-#  provider               :string           default("email"), not null
-#  pubsub_token           :string
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  sign_in_count          :integer          default(0), not null
-#  tokens                 :json
-#  ui_settings            :jsonb
-#  uid                    :string           default(""), not null
-#  unconfirmed_email      :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  id                        :integer          not null, primary key
+#  availability              :integer          default("online")
+#  confirmation_sent_at      :datetime
+#  confirmation_token        :string
+#  confirmed_at              :datetime
+#  current_sign_in_at        :datetime
+#  current_sign_in_ip        :string
+#  custom_attributes         :jsonb
+#  display_name              :string
+#  email                     :string
+#  encrypted_password        :string           default(""), not null
+#  last_sign_in_at           :datetime
+#  last_sign_in_ip           :string
+#  message_signature         :text
+#  message_signature_enabled :boolean          default(FALSE), not null
+#  name                      :string           not null
+#  provider                  :string           default("email"), not null
+#  pubsub_token              :string
+#  remember_created_at       :datetime
+#  reset_password_sent_at    :datetime
+#  reset_password_token      :string
+#  sign_in_count             :integer          default(0), not null
+#  tokens                    :json
+#  type                      :string
+#  ui_settings               :jsonb
+#  uid                       :string           default(""), not null
+#  unconfirmed_email         :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 # Indexes
 #
@@ -65,9 +68,9 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1
+  validates_length_of :name, minimum: 1, maximum: 255
 
-  has_many :account_users, dependent: :destroy
+  has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
@@ -75,18 +78,19 @@ class User < ApplicationRecord
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
-  has_many :notifications, dependent: :destroy
-  has_many :notification_settings, dependent: :destroy
-  has_many :notification_subscriptions, dependent: :destroy
-  has_many :team_members, dependent: :destroy
-  has_many :teams, through: :team_members
+  has_many :custom_filters, dependent: :destroy_async
+  has_many :mentions, dependent: :destroy_async
   has_many :notes, dependent: :nullify
-  has_many :custom_filters, dependent: :destroy
+  has_many :notification_settings, dependent: :destroy_async
+  has_many :notification_subscriptions, dependent: :destroy_async
+  has_many :notifications, dependent: :destroy_async
+  has_many :team_members, dependent: :destroy_async
+  has_many :teams, through: :team_members
 
   before_validation :set_password_and_uid, on: :create
 
@@ -175,5 +179,11 @@ class User < ApplicationRecord
       email: email,
       type: 'user'
     }
+  end
+
+  # https://github.com/lynndylanhurley/devise_token_auth/blob/6d7780ee0b9750687e7e2871b9a1c6368f2085a9/app/models/devise_token_auth/concerns/user.rb#L45
+  # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
+  def will_save_change_to_email?
+    mutations_from_database.changed?('email')
   end
 end

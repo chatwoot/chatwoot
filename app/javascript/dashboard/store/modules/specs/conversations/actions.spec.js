@@ -1,6 +1,17 @@
 import axios from 'axios';
 import actions from '../../conversations/actions';
-import * as types from '../../../mutation-types';
+import types from '../../../mutation-types';
+const dataToSend = {
+  payload: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: ['open'],
+      query_operator: null,
+    },
+  ],
+};
+import { dataReceived } from './testConversationResponse';
 
 const commit = jest.fn();
 const dispatch = jest.fn();
@@ -16,7 +27,7 @@ describe('#actions', () => {
       await actions.getConversation({ commit }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.UPDATE_CONVERSATION,
+          types.UPDATE_CONVERSATION,
           { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
@@ -32,7 +43,7 @@ describe('#actions', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue(null);
       await actions.muteConversation({ commit }, 1);
-      expect(commit.mock.calls).toEqual([[types.default.MUTE_CONVERSATION]]);
+      expect(commit.mock.calls).toEqual([[types.MUTE_CONVERSATION]]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
@@ -48,9 +59,12 @@ describe('#actions', () => {
         messages: [],
         meta: { sender: { id: 1, name: 'john-doe' } },
       };
-      actions.updateConversation({ commit, dispatch }, conversation);
+      actions.updateConversation(
+        { commit, rootState: { route: { name: 'home' } }, dispatch },
+        conversation
+      );
       expect(commit.mock.calls).toEqual([
-        [types.default.UPDATE_CONVERSATION, conversation],
+        [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -73,7 +87,52 @@ describe('#actions', () => {
         inbox_id: 2,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if conversation filters are applied', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if the view is conversation mentions', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'conversation_mentions' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([]);
@@ -88,11 +147,16 @@ describe('#actions', () => {
         inbox_id: 1,
       };
       actions.addConversation(
-        { commit, dispatch, state: { currentInbox: 1 } },
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [] },
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_CONVERSATION, conversation],
+        [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -112,9 +176,17 @@ describe('#actions', () => {
         meta: { sender: { id: 1, name: 'john-doe' } },
         inbox_id: 1,
       };
-      actions.addConversation({ commit, dispatch, state: {} }, conversation);
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'home' } },
+          dispatch,
+          state: { appliedFilters: [] },
+        },
+        conversation
+      );
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_CONVERSATION, conversation],
+        [types.ADD_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
         [
@@ -136,9 +208,9 @@ describe('#actions', () => {
       };
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([
-        [types.default.ADD_MESSAGE, message],
+        [types.ADD_MESSAGE, message],
         [
-          types.default.SET_CONVERSATION_CAN_REPLY,
+          types.SET_CONVERSATION_CAN_REPLY,
           { conversationId: 1, canReply: true },
         ],
       ]);
@@ -150,7 +222,7 @@ describe('#actions', () => {
         conversation_id: 1,
       };
       actions.addMessage({ commit }, message);
-      expect(commit.mock.calls).toEqual([[types.default.ADD_MESSAGE, message]]);
+      expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
     });
   });
 
@@ -168,7 +240,7 @@ describe('#actions', () => {
       jest.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        [types.default.MARK_MESSAGE_READ, { id: 1, lastSeen }],
+        [types.MARK_MESSAGE_READ, { id: 1, lastSeen }],
       ]);
     });
     it('sends correct mutations if api is unsuccessful', async () => {
@@ -262,6 +334,44 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#fetchFilteredConversations', () => {
+    it('fetches filtered conversations with a mock commit', async () => {
+      axios.post.mockResolvedValue({
+        data: dataReceived,
+      });
+      await actions.fetchFilteredConversations({ commit }, dataToSend);
+      expect(commit).toHaveBeenCalledTimes(2);
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+      ]);
+    });
+  });
+
+  describe('#setConversationFilter', () => {
+    it('commits the correct mutation and sets filter state', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      actions.setConversationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONVERSATION_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('#clearConversationFilter', () => {
+    it('commits the correct mutation and clears filter state', () => {
+      actions.clearConversationFilters({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
+    });
+  });
 });
 
 describe('#deleteMessage', () => {
@@ -270,7 +380,7 @@ describe('#deleteMessage', () => {
     axios.delete.mockResolvedValue({ data: { id: 1, content: 'deleted' } });
     await actions.deleteMessage({ commit }, { conversationId, messageId });
     expect(commit.mock.calls).toEqual([
-      [types.default.ADD_MESSAGE, { id: 1, content: 'deleted' }],
+      [types.ADD_MESSAGE, { id: 1, content: 'deleted' }],
     ]);
   });
   it('sends no actions if API is error', async () => {
@@ -280,5 +390,47 @@ describe('#deleteMessage', () => {
       actions.deleteMessage({ commit }, { conversationId, messageId })
     ).rejects.toThrow(Error);
     expect(commit.mock.calls).toEqual([]);
+  });
+
+  describe('#updateCustomAttributes', () => {
+    it('update conversation custom attributes', async () => {
+      axios.post.mockResolvedValue({
+        data: { custom_attributes: { order_d: '1001' } },
+      });
+      await actions.updateCustomAttributes(
+        { commit },
+        {
+          conversationId: 1,
+          customAttributes: { order_d: '1001' },
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, { order_d: '1001' }],
+      ]);
+    });
+  });
+});
+
+describe('#addMentions', () => {
+  it('does not send mutations if the view is not mentions', () => {
+    actions.addMentions(
+      { commit, dispatch, rootState: { route: { name: 'home' } } },
+      { id: 1 }
+    );
+    expect(commit.mock.calls).toEqual([]);
+    expect(dispatch.mock.calls).toEqual([]);
+  });
+
+  it('send mutations if the view is mentions', () => {
+    actions.addMentions(
+      {
+        dispatch,
+        rootState: { route: { name: 'conversation_mentions' } },
+      },
+      { id: 1, meta: { sender: { id: 1 } } }
+    );
+    expect(dispatch.mock.calls).toEqual([
+      ['updateConversation', { id: 1, meta: { sender: { id: 1 } } }],
+    ]);
   });
 });

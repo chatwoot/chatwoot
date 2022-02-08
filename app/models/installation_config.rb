@@ -23,6 +23,8 @@ class InstallationConfig < ApplicationRecord
   default_scope { order(created_at: :desc) }
   scope :editable, -> { where(locked: false) }
 
+  after_commit :clear_cache
+
   def value
     serialized_value[:value]
   end
@@ -37,5 +39,9 @@ class InstallationConfig < ApplicationRecord
 
   def set_lock
     self.locked = true if locked.nil?
+  end
+
+  def clear_cache
+    GlobalConfig.clear_cache
   end
 end

@@ -13,6 +13,7 @@ json.meta do
       json.partial! 'api/v1/models/team.json.jbuilder', resource: conversation.team
     end
   end
+  json.hmac_verified conversation.contact_inbox&.hmac_verified
 end
 
 json.id conversation.display_id

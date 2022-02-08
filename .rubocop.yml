@@ -11,9 +11,11 @@ Metrics/ClassLength:
   Max: 125
   Exclude:
     - 'app/models/conversation.rb'
+    - 'app/models/contact.rb'
     - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
     - 'app/builders/messages/facebook/message_builder.rb'
+    - 'app/controllers/api/v1/accounts/contacts_controller.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -56,7 +58,7 @@ Metrics/BlockLength:
     - db/schema.rb
 Metrics/ModuleLength:
   Exclude:
-    - lib/woot_message_seeder.rb
+    - lib/seeders/message_seeder.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -86,6 +88,7 @@ Naming/VariableNumber:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
+    - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
 Rails/CreateTableWithTimestamps:
   Exclude:
     - 'db/migrate/20170207092002_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb'
@@ -101,6 +104,7 @@ Metrics/AbcSize:
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
     - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
+    - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
 Metrics/CyclomaticComplexity:
   Max: 7
   Exclude:

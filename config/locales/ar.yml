@@ -29,19 +29,19 @@ ar:
       failed: فشلت عملية التسجيل
     contacts:
       import:
-        failed: File is blank
+        failed: الملف فارغ
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: اسم الموظف
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     team_csv:
       team_name: اسم الفريق
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
   notifications:
     notification_title:
       conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
@@ -55,8 +55,8 @@ ar:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
+        snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
@@ -75,15 +75,19 @@ ar:
       greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
       ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
       email_input_box_message_body: "احصل على الإشعارات في البريد الإلكتروني"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "الرجاء تقييم المحادثة"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "الرجاء تقييم هذه المحادثة، %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً"
   integration_apps:
     slack:
       name: "Slack"
@@ -93,7 +97,7 @@ ar:
       description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "قم ببناء روبوتات الدردشة باستخدام تدفق الاتصال وتوصيلها بالبريد الوارد الخاص بك بسرعة. دع البوتات تتعامل مع الاستفسارات قبل تسليمها إلى وكيل خدمة العملاء."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "الاتصال الكامل"
+      description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."

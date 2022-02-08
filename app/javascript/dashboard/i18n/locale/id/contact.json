@@ -7,6 +7,7 @@
     "COMPANY": "Perusahaan",
     "LOCATION": "Lokasi",
     "CONVERSATION_TITLE": "Detail Percakapan",
+    "VIEW_PROFILE": "Lihat Profil",
     "BROWSER": "Browser",
     "OS": "Sistem Operasi",
     "INITIATED_FROM": "Dimulai dari",
@@ -32,8 +33,8 @@
         "NO_RESULT": "Tidak ada label"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Gabungkan Kontak",
+    "CONTACT_ACTIONS": "Tindakan Kontak",
     "MUTE_CONTACT": "Mute Percakapan",
     "UNMUTE_CONTACT": "Unmute Percakapan",
     "MUTED_SUCCESS": "Percakapan ini di mute selama 6 jam",
@@ -102,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Masukkan alamat email kontak",
-        "LABEL": "Alamat email"
+        "LABEL": "Alamat email",
+        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
         "LABEL": "Nomor Telpon",
         "HELP": "Nomer telepon harus dalam format E.164 misalnya: +1415555555 [+][kode negara][kode area][nomer telepon]",
-        "ERROR": "Nomer telepon harus kosong atau dalam format E. 164"
+        "ERROR": "Nomer telepon harus kosong atau dalam format E. 164",
+        "DUPLICATE": "Nomer ini sudah dipakai dengan kontak lain."
       },
       "LOCATION": {
         "PLACEHOLDER": "Masukkan lokasi kontak",
@@ -138,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
-    "CONTACT_ALREADY_EXIST": "Alamat email ini digunakan untuk kontak lain.",
     "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
   },
   "NEW_CONVERSATION": {
@@ -154,6 +156,11 @@
         "LABEL": "Kotak masuk",
         "ERROR": "Pilih kotak masuk"
       },
+      "SUBJECT": {
+        "LABEL": "Subjek",
+        "PLACEHOLDER": "subjek",
+        "ERROR": "Subjek tidak boleh kosong"
+      },
       "MESSAGE": {
         "LABEL": "Pesan",
         "PLACEHOLDER": "Tulis pesan Anda disini",
@@ -162,6 +169,7 @@
       "SUBMIT": "Kirim pesan",
       "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Pesan terkirim!",
+      "GO_TO_CONVERSATION": "Lihat",
       "ERROR_MESSAGE": "Tidak dapat mengirim! coba lagi"
     }
   },
@@ -170,6 +178,9 @@
     "FIELDS": "Isian kontak",
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
+    "FILTER_CONTACTS": "Saring",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
@@ -188,6 +199,10 @@
       "VIEW_DETAILS": "Lihat detail"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontak",
+    "LOADING": "Memuat profil kontak..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Tambah",
@@ -199,16 +214,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Mengambil catatan...",
+    "NOT_AVAILABLE": "Tidak ada catatan yang dibuat untuk kontak ini",
     "HEADER": {
       "TITLE": "Catatan"
+    },
+    "LIST": {
+      "LABEL": "menambahkan catatan"
     },
     "ADD": {
       "BUTTON": "Tambah",
       "PLACEHOLDER": "Tambahkan Catatan",
       "TITLE": "Shift + Enter untuk membuat sebuah catatan"
     },
-    "FOOTER": {
-      "BUTTON": "Lihat semua catatan"
+    "CONTENT_HEADER": {
+      "DELETE": "Hapus catatan"
     }
   },
   "EVENTS": {
@@ -222,8 +242,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Tambahkan atribut",
     "BUTTON": "Tambahkan atribut kustom",
     "NOT_AVAILABLE": "Tidak ada atribut kustom yang tersedia untuk kontak ini.",
+    "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
+    "ACTIONS": {
+      "COPY": "Salin atribut",
+      "DELETE": "Hapus atribut",
+      "EDIT": "Edit atribut"
+    },
     "ADD": {
       "TITLE": "Buat atribut kustom",
       "DESC": "Tambahkan informasi kustom pada kontak ini."
@@ -239,7 +266,36 @@
       "VALUE": {
         "LABEL": "Nilai atribut",
         "PLACEHOLDER": "Mis: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Membuat atribut baru ",
+        "SUCCESS": "Atribut berhasil ditambahkan",
+        "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
+      },
+      "UPDATE": {
+        "SUCCESS": "Atribut berhasil diperbarui",
+        "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti"
+      },
+      "DELETE": {
+        "SUCCESS": "Atribut berhasil dihapus",
+        "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Tambahkan atribut",
+        "PLACEHOLDER": "Cari atribut",
+        "NO_RESULT": "Tidak ditemukan atribut"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Pilih nilai",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

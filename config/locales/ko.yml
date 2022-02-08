@@ -77,6 +77,10 @@ ko:
       email_input_box_message_body: "이메일로 연락받기"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
     survey:

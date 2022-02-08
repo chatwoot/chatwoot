@@ -107,6 +107,66 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateInboxIMAP', () => {
+    it('sends correct actions if API is success', async () => {
+      const updatedInbox = inboxList[0];
+
+      axios.patch.mockResolvedValue({ data: updatedInbox });
+      await actions.updateInboxIMAP(
+        { commit },
+        { id: updatedInbox.id, inbox: { channel: { imap_enabled: true } } }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true }],
+        [types.default.EDIT_INBOXES, updatedInbox],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.updateInboxIMAP(
+          { commit },
+          { id: inboxList[0].id, inbox: { channel: { imap_enabled: true } } }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: false }],
+      ]);
+    });
+  });
+
+  describe('#updateInboxSMTP', () => {
+    it('sends correct actions if API is success', async () => {
+      const updatedInbox = inboxList[0];
+
+      axios.patch.mockResolvedValue({ data: updatedInbox });
+      await actions.updateInboxSMTP(
+        { commit },
+        { id: updatedInbox.id, inbox: { channel: { smtp_enabled: true } } }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: true }],
+        [types.default.EDIT_INBOXES, updatedInbox],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.updateInboxSMTP(
+          { commit },
+          { id: inboxList[0].id, inbox: { channel: { smtp_enabled: true } } }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: false }],
+      ]);
+    });
+  });
+
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: inboxList[0] });

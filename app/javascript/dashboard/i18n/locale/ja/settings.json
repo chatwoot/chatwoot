@@ -3,6 +3,9 @@
     "LINK": "プロフィール設定",
     "TITLE": "プロフィール設定",
     "BTN_TEXT": "プロフィールを更新",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "あなたのプロフィールは正常に更新されました。ログイン情報（パスワード等）が変更されたため、再度ログインしてください。",
@@ -86,20 +89,21 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "パスワード",
+        "LABEL": "New password",
         "ERROR": "6文字以上のパスワードを入力してください",
         "PLACEHOLDER": "新しいパスワードを入力してください"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "パスワードの確認",
         "ERROR": "パスワードは一致している必要があります",
-        "PLACEHOLDER": "パスワードを再入力してください"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Change",
     "CHANGE_ACCOUNTS": "アカウントの切り替え",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
     "PROFILE_SETTINGS": "プロフィール設定",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -107,7 +111,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "日、トライアル期間が残っています。",
-    "TRAIL_BUTTON": "今すぐ購入"
+    "TRAIL_BUTTON": "今すぐ購入",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "会話データ",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "レポート",
     "SETTINGS": "設定",
     "CONTACTS": "Contacts",
@@ -139,13 +146,20 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "定型文",
     "INTEGRATIONS": "連携",
+    "PROFILE_SETTINGS": "プロフィール設定",
     "ACCOUNT_SETTINGS": "アカウント設定",
     "APPLICATIONS": "Applications",
     "LABELS": "ラベル",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "カスタム属性",
+    "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
@@ -154,7 +168,8 @@
     "REPORTS_AGENT": "担当者",
     "REPORTS_LABEL": "ラベル",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

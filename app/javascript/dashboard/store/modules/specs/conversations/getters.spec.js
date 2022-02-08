@@ -114,4 +114,21 @@ describe('#getters', () => {
       expect(getters.getConversationById(state)(1)).toEqual({ id: 1 });
     });
   });
+
+  describe('#getAppliedConversationFilters', () => {
+    it('getAppliedConversationFilters', () => {
+      const filtersList = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      const state = {
+        appliedFilters: filtersList,
+      };
+      expect(getters.getAppliedConversationFilters(state)).toEqual(filtersList);
+    });
+  });
 });

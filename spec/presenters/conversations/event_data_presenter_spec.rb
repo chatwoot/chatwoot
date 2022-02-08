@@ -12,7 +12,8 @@ RSpec.describe Conversations::EventDataPresenter do
         additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
-          assignee: conversation.assignee
+          assignee: conversation.assignee,
+          hmac_verified: conversation.contact_inbox.hmac_verified
         },
         id: conversation.display_id,
         messages: [],
@@ -23,6 +24,7 @@ RSpec.describe Conversations::EventDataPresenter do
         channel: conversation.inbox.channel_type,
         timestamp: conversation.last_activity_at.to_i,
         snoozed_until: conversation.snoozed_until,
+        custom_attributes: conversation.custom_attributes,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0

@@ -29,7 +29,7 @@ de:
       failed: Anmeldung gescheitert
     contacts:
       import:
-        failed: File is blank
+        failed: Datei ist leer
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
@@ -53,8 +53,8 @@ de:
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:
-        resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
-        open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
+        resolved: "Das Gespräch wurde von %{user_name} gelöst"
+        open: "Das Gespräch wurde von %{user_name} wieder eröffnet"
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
         auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
@@ -77,13 +77,17 @@ de:
       email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
       csat_input_message_body: "Bitte bewerte die Unterhaltung"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} von %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} von %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Neue Nachrichten in dieser Unterhaltung"
       transcript_subject: "Gesprächsprotokoll"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Bitte bewerten Sie diese Unterhaltung, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} ist online, bitte versuchen Sie es später erneut"
   integration_apps:
     slack:
       name: "Slack"

@@ -2,6 +2,7 @@
   <div class="contact--profile">
     <div class="contact--info">
       <thumbnail
+        v-if="showAvatar"
         :src="contact.thumbnail"
         size="56px"
         :username="contact.name"
@@ -9,9 +10,24 @@
       />
 
       <div class="contact--details">
-        <h3 class="sub-block-title contact--name">
-          {{ contact.name }}
-        </h3>
+        <div v-if="showAvatar" class="contact--name-wrap">
+          <h3 class="sub-block-title contact--name">
+            {{ contact.name }}
+          </h3>
+          <a
+            :href="contactProfileLink"
+            class="fs-default"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            <woot-button
+              size="tiny"
+              icon="open"
+              variant="clear"
+              color-scheme="secondary"
+            />
+          </a>
+        </div>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
         </p>
@@ -20,31 +36,30 @@
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
-            icon="ion-email"
+            icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
-            icon="ion-ios-telephone"
+            icon="call"
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            v-if="additionalAttributes.location"
-            :value="additionalAttributes.location"
-            icon="ion-map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <contact-info-row
             :value="additionalAttributes.company_name"
-            icon="ion-briefcase"
+            icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
+          />
+          <contact-info-row
+            v-if="location || additionalAttributes.location"
+            :value="location || additionalAttributes.location"
+            icon="map"
+            emoji="🌍"
+            :title="$t('CONTACT_PANEL.LOCATION')"
           />
         </div>
       </div>
@@ -54,17 +69,17 @@
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
-          icon="ion-chatboxes"
-          size="small expanded"
+          icon="chat"
+          size="small"
           @click="toggleConversationModal"
         />
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           class="edit-contact"
-          icon="ion-edit"
+          icon="edit"
           variant="smooth"
-          size="small expanded"
+          size="small"
           @click="toggleEditModal"
         />
         <woot-button
@@ -72,9 +87,9 @@
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           class="merge-contact"
-          icon="ion-merge"
+          icon="merge"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="secondary"
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
@@ -84,9 +99,9 @@
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           class="delete-contact"
-          icon="ion-trash-a"
+          icon="delete"
           variant="smooth"
-          size="small expanded"
+          size="small"
           color-scheme="alert"
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
@@ -131,12 +146,14 @@ import { mixin as clickaway } from 'vue-clickaway';
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
+
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -161,6 +178,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -172,8 +193,25 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.additionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${cityAndCountry} ${countryFlag}`;
     },
     socialProfiles() {
       const {
@@ -263,13 +301,24 @@ export default {
   text-align: left;
 }
 
+.contact--name-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-small);
+}
+
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+  margin: 0 var(--space-smaller) 0 0;
+
+  a {
+    color: var(--color-body);
+  }
 }
 
 .contact--metadata {
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-slab);
 }
 
 .contact-actions {
@@ -290,6 +339,9 @@ export default {
 }
 .merege-summary--card {
   padding: var(--space-normal);
+}
+.contact--bio {
+  word-wrap: break-word;
 }
 
 .button--contact-menu {

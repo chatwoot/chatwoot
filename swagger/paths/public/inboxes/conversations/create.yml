@@ -3,8 +3,7 @@ tags:
 operationId: create-a-conversation
 summary: Create a conversation
 description: Create a conversation
-security:
-  - nil
+security: []
 responses:
   200:
     description: Success

@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe Integrations::Dialogflow::ProcessorService do
   let(:account) { create(:account) }
-  let(:hook) { create(:integrations_hook, :dialogflow, account: account) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, status: :pending) }
   let(:message) { create(:message, account: account, conversation: conversation) }
   let(:event_name) { 'message.created' }
@@ -70,6 +71,20 @@ describe Integrations::Dialogflow::ProcessorService do
       it 'handsoff the conversation to agent' do
         processor.perform
         expect(conversation.reload.status).to eql('open')
+        expect(conversation.messages.last.content).to eql('hello payload')
+      end
+    end
+
+    context 'when dialogflow returns resolve action' do
+      let(:dialogflow_response) do
+        ActiveSupport::HashWithIndifferentAccess.new(
+          fulfillment_messages: [{ payload: { action: 'resolve' } }, { text: dialogflow_text_double }]
+        )
+      end
+
+      it 'resolves the conversation without moving it to an agent' do
+        processor.perform
+        expect(conversation.reload.status).to eql('resolved')
         expect(conversation.messages.last.content).to eql('hello payload')
       end
     end
