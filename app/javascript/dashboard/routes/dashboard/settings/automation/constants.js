@@ -58,7 +58,7 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'message_content',
+        key: 'content',
         name: 'Message Contents',
         attributeI18nKey: 'MESSAGE_CONTAINS',
         inputType: 'plain_text',
