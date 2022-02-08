@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Elküldés"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Üzenet elküldése újból",
+      "ERROR_MESSAGE": "Nem sikerült az elküldés, kérjük próbáld később"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,11 +22,12 @@
     "IN_A_DAY": "Általánban egy napon belül válaszol"
   },
   "START_CONVERSATION": "Beszélgetés megkezdése",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "innen",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,21 +56,21 @@
         "ERROR": "Az üzenet túl rövid"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed"
   },
   "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Érvénytelen mező"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Értékeld a beszélgetést",
+    "SUBMITTED_TITLE": "Köszönjük, hogy elküldted az értékelést",
+    "PLACEHOLDER": "Mondj nekünk többet..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Beszélgetés kivonat igénylése",
     "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
     "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra"
   }

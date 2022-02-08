@@ -320,22 +320,22 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "RATING": "Ocena",
+        "FEEDBACK_TEXT": "Komentarz do opinii"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Łącznie odpowiedzi",
+        "TOOLTIP": "Całkowita liczba zebranych odpowiedzi"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Poziom zadowolenia",
+        "TOOLTIP": "Całkowita liczba pozytywnych odpowiedzi / Całkowita liczba odpowiedzi * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Wskaźnik odpowiedzi",
+        "TOOLTIP": "Całkowita liczba odpowiedzi / całkowita liczba wysłanych komunikatów z ankiety CSAT * 100"
       }
     }
   }
