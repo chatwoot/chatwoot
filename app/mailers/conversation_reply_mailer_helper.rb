@@ -29,7 +29,9 @@ module ConversationReplyMailerHelper
       user_name: @channel.smtp_email,
       password: @channel.smtp_password,
       domain: @channel.smtp_domain,
+      tls: @channel.smtp_enable_ssl_tls,
       enable_starttls_auto: @channel.smtp_enable_starttls_auto,
+      openssl_verify_mode: @channel.smtp_openssl_verify_mode,
       authentication: @channel.smtp_authentication
     }
 
