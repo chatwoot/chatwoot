@@ -1,9 +1,8 @@
 module Enterprise::Account
-
   def usage_limits
     {
-      agents: get_limits(:agents),
-      inboxes: get_limits(:inboxes)
+      agents: get_limits(:agents).to_i,
+      inboxes: get_limits(:inboxes).to_i
     }
   end
 
@@ -19,13 +18,13 @@ module Enterprise::Account
     self[:limits] = {} if self[:limits].blank?
 
     limit_schema = {
-      "type" => "object",
-      "properties" => {
-        "inboxes" => { "type": "string" },
-        "agents" => { "type": "string" }
+      'type' => 'object',
+      'properties' => {
+        'inboxes' => { 'type': 'number' },
+        'agents' => { 'type': 'number' }
       },
-      "required" => [],
-      "additionalProperties" => false
+      'required' => [],
+      'additionalProperties' => false
     }
 
     errors.add(:limits, ': Invalid data') unless JSONSchemer.schema(limit_schema).valid?(self[:limits])
