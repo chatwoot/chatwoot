@@ -65,12 +65,12 @@ services:
     expose:
       - 6379
 
-  nginx-chatwoot:
-    build:
-      context: .
-      dockerfile: Dockerfile_nginx
-    ports:
-      - '0.0.0.0:443:443'
-    container_name: nginx-chatwoot
-    depends_on:
-      - rails
+  # nginx-chatwoot:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile_nginx
+  #   ports:
+  #     - '0.0.0.0:443:443'
+  #   container_name: nginx-chatwoot
+  #   depends_on:
+  #     - rails

@@ -12,7 +12,8 @@ const createConversationAPI = async content => {
       "contact": result.data.contact
     }
   }
-  axios.post(ODOO_SERVICE_URL, payload)
+  console.log(payload);
+  // axios.post(ODOO_SERVICE_URL, payload)
   return result;
 };
 
