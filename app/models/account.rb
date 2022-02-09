@@ -77,6 +77,7 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
+  before_validation :validate_limit_keys
   after_create_commit :notify_creation
 
   def agents
@@ -131,5 +132,9 @@ class Account < ApplicationRecord
 
   trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  def validate_limit_keys
+    # method overridden in enterprise module
   end
 end
