@@ -133,7 +133,9 @@ export default {
     login() {
       this.loginApi.showLoading = true;
       const credentials = {
-        email: this.email ? this.email : this.credentials.email,
+        email: this.email
+          ? decodeURIComponent(this.email)
+          : this.credentials.email,
         password: this.credentials.password,
         sso_auth_token: this.ssoAuthToken,
       };
@@ -149,13 +151,17 @@ export default {
           }
 
           if (response && response.status === 401) {
-						const { errors } = response.data;
-						const hasAuthErrorMsg = errors && errors.length && errors[0] && typeof errors[0] === 'string';
+            const { errors } = response.data;
+            const hasAuthErrorMsg =
+              errors &&
+              errors.length &&
+              errors[0] &&
+              typeof errors[0] === 'string';
             if (hasAuthErrorMsg) {
               this.showAlert(errors[0]);
             } else {
-							this.showAlert(this.$t('LOGIN.API.UNAUTH'));
-						} 
+              this.showAlert(this.$t('LOGIN.API.UNAUTH'));
+            }
             return;
           }
           this.showAlert(this.$t('LOGIN.API.ERROR_MESSAGE'));

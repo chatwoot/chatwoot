@@ -29,7 +29,7 @@ fr:
       failed: L'inscription a échoué
     contacts:
       import:
-        failed: File is blank
+        failed: Le fichier est vide
   reports:
     period: Période de rapport %{since} à %{until}
     agent_csv:
@@ -77,13 +77,17 @@ fr:
       email_input_box_message_body: "Recevez des notifications par courriel"
       csat_input_message_body: "Veuillez évaluer la conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nouveaux messages dans cette conversation"
       transcript_subject: "Transcription de conversation"
     survey:
       response: "Merci de noter cette conversation, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} est en ligne, veuillez réessayer plus tard"
   integration_apps:
     slack:
       name: "Slack"

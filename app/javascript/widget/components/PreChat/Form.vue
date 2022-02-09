@@ -3,8 +3,11 @@
     class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit.prevent="onSubmit"
   >
-    <div v-if="options.preChatMessage" class="text-black-800 text-sm leading-5">
-      {{ options.preChatMessage }}
+    <div
+      v-if="shouldShowHeaderMessage"
+      class="text-black-800 text-sm leading-5"
+    >
+      {{ headerMessage }}
     </div>
     <form-input
       v-if="options.requireEmail"
@@ -39,6 +42,7 @@
       :error="$v.emailAddress.$error ? $t('Please input with +62 format.') : ''"
     />
     <form-text-area
+      v-if="!hasActiveCampaign"
       v-model="message"
       class="my-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -46,7 +50,7 @@
       :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
     />
     <custom-button
-      class="font-medium"
+      class="font-medium my-5"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -66,6 +70,8 @@ import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import { isEmptyObject } from 'widget/helpers/utils';
+import routerMixin from 'widget/mixins/routerMixin';
 export default {
   components: {
     FormInput,
@@ -73,6 +79,7 @@ export default {
     CustomButton,
     Spinner,
   },
+  mixins: [routerMixin],
   props: {
     options: {
       type: Object,
@@ -96,6 +103,10 @@ export default {
         minLength: minLength(1),
       },
     };
+    // For campaign, message field is not required
+    if (this.hasActiveCampaign) {
+      return identityValidations;
+    }
     if (this.options.requireEmail) {
       return {
         ...identityValidations,
@@ -116,9 +127,22 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    hasActiveCampaign() {
+      return !isEmptyObject(this.activeCampaign);
+    },
+    shouldShowHeaderMessage() {
+      return this.hasActiveCampaign || this.options.preChatMessage;
+    },
+    headerMessage() {
+      if (this.hasActiveCampaign) {
+        return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
+      }
+      return this.options.preChatMessage;
     },
   },
   methods: {
@@ -130,11 +154,12 @@ export default {
       if (this.phoneNumber.charAt(0) === '0') {
         this.phoneNumber = this.phoneNumber.replace('0', '+62');
       }
-      this.$store.dispatch('conversation/createConversation', {
+      this.$emit('submit', {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
         phoneNumber: this.phoneNumber,
         message: this.message,
+        activeCampaignId: this.activeCampaign.id,
       });
     },
   },

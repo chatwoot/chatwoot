@@ -5,10 +5,10 @@
         v-if="isOpen"
         class-names="resolve"
         color-scheme="success"
-        icon="ion-checkmark"
+        icon="checkmark"
         emoji="✅"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.RESOLVED)"
+        @click="onCmdResolveConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.RESOLVE_ACTION') }}
       </woot-button>
@@ -16,10 +16,10 @@
         v-else-if="isResolved"
         class-names="resolve"
         color-scheme="warning"
-        icon="ion-refresh"
+        icon="arrow-redo"
         emoji="👀"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.OPEN)"
+        @click="onCmdOpenConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.REOPEN_ACTION') }}
       </woot-button>
@@ -27,9 +27,9 @@
         v-else-if="showOpenButton"
         class-names="resolve"
         color-scheme="primary"
-        icon="ion-person"
+        icon="person"
         :is-loading="isLoading"
-        @click="() => toggleStatus(STATUS_TYPE.OPEN)"
+        @click="onCmdOpenConversation"
       >
         {{ this.$t('CONVERSATION.HEADER.OPEN_ACTION') }}
       </woot-button>
@@ -38,7 +38,7 @@
         ref="arrowDownButton"
         :color-scheme="buttonClass"
         :disabled="isLoading"
-        icon="ion-arrow-down-b"
+        icon="chevron-down"
         emoji="🔽"
         @click="openDropdown"
       />
@@ -52,12 +52,16 @@
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
             @click="() => toggleStatus(STATUS_TYPE.PENDING)"
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
 
+        <woot-dropdown-divider v-if="isOpen" />
         <woot-dropdown-sub-menu
           v-if="isOpen"
           :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
@@ -65,6 +69,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="send-clock"
               @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
             >
               {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
@@ -73,6 +80,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="dual-screen-clock"
               @click="
                 () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
               "
@@ -83,6 +93,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="calendar-clock"
               @click="
                 () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
               "
@@ -110,6 +123,8 @@ import {
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
+
 import wootConstants from '../../constants';
 import {
   getUnixTime,
@@ -118,12 +133,18 @@ import {
   startOfTomorrow,
   startOfWeek,
 } from 'date-fns';
+import {
+  CMD_REOPEN_CONVERSATION,
+  CMD_RESOLVE_CONVERSATION,
+  CMD_SNOOZE_CONVERSATION,
+} from '../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
     WootDropdownSubMenu,
+    WootDropdownDivider,
   },
   mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -135,9 +156,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -169,6 +188,16 @@ export default {
         ),
       };
     },
+  },
+  mounted() {
+    bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$on(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
+    bus.$on(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
+  },
+  destroyed() {
+    bus.$off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$off(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
+    bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   methods: {
     async handleKeyEvents(e) {
@@ -203,6 +232,18 @@ export default {
           e.preventDefault();
         }
       }
+    },
+    onCmdSnoozeConversation(snoozeType) {
+      this.toggleStatus(
+        this.STATUS_TYPE.SNOOZED,
+        this.snoozeTimes[snoozeType] || null
+      );
+    },
+    onCmdOpenConversation() {
+      this.toggleStatus(this.STATUS_TYPE.OPEN);
+    },
+    onCmdResolveConversation() {
+      this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
@@ -244,5 +285,6 @@ export default {
   margin-top: var(--space-micro);
   right: 0;
   max-width: 20rem;
+  min-width: 15.6rem;
 }
 </style>

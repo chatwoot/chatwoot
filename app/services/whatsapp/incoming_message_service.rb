@@ -1,5 +1,5 @@
-# Find the various telegram payload samples here: https://core.telegram.org/bots/webhooks#testing-your-bot-with-updates
-# https://core.telegram.org/bots/api#available-types
+# https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
+# https://developers.facebook.com/docs/whatsapp/api/media/
 
 class Whatsapp::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
@@ -12,18 +12,27 @@ class Whatsapp::IncomingMessageService
 
     return if params[:messages].blank?
 
-    @message = @conversation.messages.create(
-      content: params[:messages].first.dig(:text, :body),
+    @message = @conversation.messages.build(
+      content: message_content(params[:messages].first),
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
       source_id: params[:messages].first[:id].to_s
     )
+    attach_files
     @message.save!
   end
 
   private
+
+  def message_content(message)
+    # TODO: map interactive messages back to button messages in chatwoot
+    message.dig(:text, :body) ||
+      message.dig(:button, :text) ||
+      message.dig(:interactive, :button_reply, :title) ||
+      message.dig(:interactive, :list_reply, :title)
+  end
 
   def account
     @account ||= inbox.account
@@ -57,5 +66,32 @@ class Whatsapp::IncomingMessageService
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
+  end
+
+  def file_content_type(file_type)
+    return :image if %w[image sticker].include?(file_type)
+    return :audio if %w[audio voice].include?(file_type)
+    return :video if ['video'].include?(file_type)
+
+    'document'
+  end
+
+  def attach_files
+    message_type = params[:messages].first[:type]
+    return if %w[text button interactive].include?(message_type)
+
+    attachment_payload = params[:messages].first[message_type.to_sym]
+    attachment_file = Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+
+    @message.content ||= attachment_payload[:caption]
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_content_type(message_type),
+      file: {
+        io: attachment_file,
+        filename: attachment_file,
+        content_type: attachment_file.content_type
+      }
+    )
   end
 end

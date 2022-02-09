@@ -4,6 +4,7 @@ RSpec.describe MailPresenter do
 
   describe 'parsed mail decorator' do
     let(:mail) { create_inbound_email_from_fixture('welcome.eml').mail }
+    let(:html_mail) { create_inbound_email_from_fixture('welcome_html.eml').mail }
     let(:decorated_mail) { described_class.new(mail) }
 
     let(:mail_with_no_subject) { create_inbound_email_from_fixture('mail_with_no_subject.eml').mail }
@@ -55,6 +56,14 @@ RSpec.describe MailPresenter do
 
     it 'give email from in downcased format' do
       expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to eq true
+    end
+
+    it 'parse html content in the mail' do
+      decorated_html_mail = described_class.new(html_mail)
+      expect(decorated_html_mail.subject).to eq('Fwd: How good are you in English? How did you improve your English?')
+      expect(decorated_html_mail.text_content[:reply][0..70]).to eq(
+        "I'm learning English as a first language for the past 13 years, but to "
+      )
     end
   end
 end

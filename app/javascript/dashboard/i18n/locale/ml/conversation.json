@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ഉപഭോക്താക്കളിൽ നിന്ന് സന്ദേശങ്ങളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
     "NO_MESSAGE_2": " നിങ്ങളുടെ പേജിലേക്ക് ഒരു സന്ദേശം അയയ്‌ക്കാൻ!",
     "NO_INBOX_1": "നിങ്ങൾ ഇത് വരെ ഇൻബോക്സുകൾ ഒന്നും സ്രഷ്ടിച്ചിട്ടില്ലെന്നു തോന്നുന്നു.",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
     "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
     "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -89,6 +92,9 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "അയച്ചത്:",
+    "BOT": "ബോട്ട്",
+    "SEND_FAILED": "സന്ദേശം അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക",
+    "TRY_AGAIN": "വീണ്ടും ശ്രമിക്കുക",
     "ASSIGNMENT": {
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
       "REMOVE": "നീക്കം ചെയ്യുക",
@@ -126,7 +132,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -154,6 +160,27 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "ചേർക്കുക",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

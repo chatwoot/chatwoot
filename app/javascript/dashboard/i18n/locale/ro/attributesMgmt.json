@@ -1,84 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Editează atribut personalizat",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Creeaza",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nume afișat",
+          "PLACEHOLDER": "Enter custom attribute display name",
+          "ERROR": "Numele este obligatoriu"
         },
         "DESC": {
           "LABEL": "Descriere",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Introduceți descrierea atributului personalizat",
+          "ERROR": "Descrierea este obligatorie"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "Aplică la",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Conținutul este obligatoriu"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "Tip",
           "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
-          "ERROR": "Type is required"
+          "ERROR": "Tipul de agent este obligatoriu",
+          "LIST": {
+            "LABEL": "Valori listă",
+            "PLACEHOLDER": "Vă rugăm să introduceţi valoarea şi apăsaţi tasta enter",
+            "ERROR": "Trebuie să conțină cel puțin o valoare"
+          }
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Cheie",
+          "PLACEHOLDER": "Introduceți cheia atributului personalizat",
+          "ERROR": "Cheia este obligatorie",
+          "IN_VALID": "Cheie invalidă"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Atribut personalizat adăugat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut crea un atribut personalizat, încercați din nou mai târziu"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Atribut personalizat șters cu succes.",
+        "ERROR_MESSAGE": "Nu s-a putut șterge atributul personalizat. Încercați din nou."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
+        "TITLE": "Ești sigur că vrei să ștergi - %{attributeName}",
+        "PLACE_HOLDER": "Te rugăm să introduci {attributeName} pentru a confirma",
+        "MESSAGE": "Ștergerea va elimina atributul personalizat",
         "YES": "Şterge ",
         "NO": "Renunță"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
+      "TITLE": "Editează atribut personalizat",
       "UPDATE_BUTTON_TEXT": "Actualizare",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Valori listă",
+          "PLACEHOLDER": "Vă rugăm să introduceţi valoarea şi apăsaţi tasta enter"
+        }
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Atribut personalizat actualizat cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare la actualizarea atributului personalizat, vă rugăm să încercați din nou"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
+      "HEADER": "Editează atribut personalizat",
+      "CONVERSATION": "Conversație",
       "CONTACT": "Contact"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nume",
         "Descriere",
-        "Type",
-        "Key"
+        "Tip",
+        "Cheie"
       ],
       "BUTTONS": {
         "EDIT": "Editare",
         "DELETE": "Şterge"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Nu exista atribute personalizate create",
+        "NOT_FOUND": "Nu sunt configurate atribute personalizate"
       }
     }
   }

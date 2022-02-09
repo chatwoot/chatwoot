@@ -64,8 +64,20 @@ export default {
         this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
       }
     },
+    'currentChat.id'() {
+      this.fetchLabels();
+    },
+  },
+  mounted() {
+    this.fetchLabels();
   },
   methods: {
+    fetchLabels() {
+      if (!this.currentChat.id) {
+        return;
+      }
+      this.$store.dispatch('conversationLabels/get', this.currentChat.id);
+    },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
     },

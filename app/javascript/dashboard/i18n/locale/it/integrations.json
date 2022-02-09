@@ -3,24 +3,24 @@
     "HEADER": "Integrazioni",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configurare",
+      "CONFIGURE": "Configura",
       "HEADER": "Impostazioni Webhook",
       "HEADER_BTN_TXT": "Aggiungi nuovo webhook",
-      "LOADING": "Recupero webhook allegati",
+      "LOADING": "Recupero dei webhooks collegati",
       "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul <b>Aggiungi nuovo webhook</b> pulsante. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
         "TABLE_HEADER": [
           "Endpoint Webhook",
-          "azioni"
+          "Azioni"
         ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifica",
         "TITLE": "Edit webhook",
-        "CANCEL": "annulla",
+        "CANCEL": "Annulla",
         "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
         "FORM": {
           "END_POINT": {
@@ -36,7 +36,7 @@
         }
       },
       "ADD": {
-        "CANCEL": "annulla",
+        "CANCEL": "Annulla",
         "TITLE": "Aggiungi nuovo webhook",
         "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
         "FORM": {
@@ -53,7 +53,7 @@
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Cancellare",
+        "BUTTON_TEXT": "Elimina",
         "API": {
           "SUCCESS_MESSAGE": "Webhook eliminato con successo",
           "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
@@ -62,7 +62,7 @@
           "TITLE": "Conferma eliminazione",
           "MESSAGE": "Sei sicuro di voler eliminare ",
           "YES": "Sì, elimina ",
-          "NO": "No, Conserva"
+          "NO": "No, conserva"
         }
       }
     },
@@ -73,7 +73,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Integration deleted successfully"
       }

@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SidemenuIcon matches snapshot 1`] = `
-<i
-  class="ion-android-menu hamburger--menu"
-/>
+<button>
+  <fluent-icon
+    class="hamburger--menu"
+    icon="list"
+  />
+</button>
 `;

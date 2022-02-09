@@ -1,8 +1,9 @@
 type: object
+required:
+  - inbox_id
 properties:
   inbox_id:
     type: number
-    required: true
   name:
     type: string
     description: name of the contact
@@ -12,7 +13,7 @@ properties:
   phone_number:
     type: string
     description: phone number of the contact
-  identifier: 
+  identifier:
     type: string
     description: A unique identifier for the contact in external system
   custom_attributes:

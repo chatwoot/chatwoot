@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.0.2-node
+    - image: cimg/ruby:3.0.2-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -77,6 +77,18 @@ jobs:
           paths:
             - cc-test-reporter
 
+      # verify swagger specification
+      - run:
+          name: Verify swagger API specification
+          command: |
+            bundle exec rake swagger:build
+            if [[ `git status swagger/swagger.json --porcelain` ]]
+            then
+              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
+              exit 1
+            fi
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar > ~/tmp/openapi-generator-cli-5.3.0.jar
+            java -jar ~/tmp/openapi-generator-cli-5.3.0.jar validate -i swagger/swagger.json
       # Database setup
       - run: yarn install --check-files
       - run: bundle exec rake db:create

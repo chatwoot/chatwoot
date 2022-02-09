@@ -31,7 +31,8 @@ post:
       type: array
       description: The files to be uploaded.
       items:
-        type: file
+        type: string
+        format: binary
 
 
   responses:

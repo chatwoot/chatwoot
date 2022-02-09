@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Új csapat hozzárendelése",
     "HEADER": "Csapatok",
-    "SIDEBAR_TXT": "<p><b>Csapatok</b></p><p>A csapatok lehetővé teszik hogy az ügynököket csoportokba sorold feladataik alapján. <br /> Egy felhasználó több csapat tagja is lehet. Hozzárendelhetsz beszélgetést a csapathoz, ha közösen dolgoznak. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "Ebben a fiókban nincs csapat létrehozva.",
       "EDIT_TEAM": "Csapat szerkesztése"
@@ -98,7 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "PLACE_HOLDER": "Kérlek gépeld be, hogy {teamName} a megerősítéshez",
         "MESSAGE": "A csapat letörlése a hozzárendelt beszélgetéseket is eltávolítja.",
         "YES": "Törlés ",
         "NO": "Mégse"

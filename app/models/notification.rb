@@ -66,11 +66,12 @@ class Notification < ApplicationRecord
       notification_type: notification_type,
       primary_actor_id: primary_actor_id,
       primary_actor_type: primary_actor_type,
-      primary_actor: primary_actor.push_event_data.slice(:conversation_id)
+      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id')
     }
   end
 
   # TODO: move to a data presenter
+  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
     case notification_type
     when 'conversation_creation'
@@ -81,14 +82,15 @@ class Notification < ApplicationRecord
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
-        content: primary_actor.content&.truncate_words(10)
+        content: primary_actor&.content&.truncate_words(10)
       )
     when 'conversation_mention'
-      "[##{conversation.display_id}] #{transform_user_mention_content primary_actor.content}"
+      "[##{conversation&.display_id}] #{transform_user_mention_content primary_actor&.content}"
     else
       ''
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def conversation
     return primary_actor.conversation if %w[assigned_conversation_new_message conversation_mention].include? notification_type

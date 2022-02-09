@@ -11,15 +11,18 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+          - inbox_id
+          - user_ids
       properties:
         inbox_id:
           type: string
           description: The ID of the inbox
-          required: true
-        user_ids: 
+        user_ids:
           type: array
+          items:
+            type: integer
           description: IDs of users to be added to the inbox
-          required: true
 responses:
   200:
     description: Success

@@ -16,10 +16,11 @@ post:
       required: true
       schema:
         type: object
+        required:
+          - agent_bot
         properties:
           agent_bot:
             type: number
-            required: true
             description: 'Agent bot ID'
   responses:
     204:

@@ -1,16 +1,17 @@
+parameters:
+  - $ref: '#/parameters/account_id'
+  - name: id
+    in: path
+    type: number
+    description: ID of the contact
+    required: true
+
 get:
   tags:
     - Contact
   operationId: contactDetails
   summary: Show Contact
   description: Get a contact belonging to the account using ID
-  parameters:
-    - $ref: '#/parameters/account_id'
-    - name: id
-      in: path
-      type: number
-      description: ID of the contact
-      required: true
   responses:
     200:
       description: Success
@@ -28,12 +29,6 @@ put:
   summary: Update Contact
   description: Update a contact belonging to the account using ID
   parameters:
-    - $ref: '#/parameters/account_id'
-    - name: id
-      in: path
-      type: number
-      description: ID of the contact
-      required: true
     - name: data
       in: body
       required: true
@@ -54,12 +49,6 @@ delete:
     - Contact
   operationId: contactDelete
   summary: Delete Contact
-  parameters:
-    - name: id
-      in: path
-      type: number
-      description: ID of the contact
-      required: true
   responses:
     200:
       description: Success

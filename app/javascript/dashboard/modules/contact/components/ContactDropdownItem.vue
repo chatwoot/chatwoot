@@ -10,10 +10,11 @@
       </h5>
       <p class="option__body">
         <span v-if="email" class="email-icon-wrap">
-          <i class="icon ion-email" />{{ email }}
+          <fluent-icon class="merge-contact--icon" icon="mail" size="12" />
+          {{ email }}
         </span>
         <span v-if="phoneNumber" class="phone-icon-wrap">
-          <i class="icon ion-ios-telephone" />
+          <fluent-icon class="merge-contact--icon" icon="call" size="12" />
           {{ phoneNumber }}
         </span>
         <span v-if="!phoneNumber && !email">{{ '---' }}</span>
@@ -101,5 +102,10 @@ export default {
   > .email-icon-wrap {
     width: auto;
   }
+}
+
+.merge-contact--icon {
+  margin-bottom: var(--space-minus-micro);
+  margin-right: var(--space-micro);
 }
 </style>

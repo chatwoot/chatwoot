@@ -1,7 +1,12 @@
 in: query
 name: metric
-schema:
-  type: string
-  enum: [conversations_count, incoming_messages_count, outgoing_messages_count, avg_first_response_time, avg_resolution_time, resolutions_count]
+type: string
+enum:
+  - conversations_count
+  - incoming_messages_count
+  - outgoing_messages_count
+  - avg_first_response_time
+  - avg_resolution_time
+  - resolutions_count
 required: true
 description: The type of metric

@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
+    "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "SELECT_A_TWEET_TO_REPLY": "Por favor, selecione um tweet para responder.",
@@ -40,9 +43,9 @@
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
@@ -87,8 +90,11 @@
     "CHANGE_AGENT": "Responsável da conversa alterado",
     "CHANGE_TEAM": "Estado da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
+    "TRY_AGAIN": "Tentar novamente",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Selecione Agente",
       "REMOVE": "Excluir",
@@ -126,7 +132,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar membros da sua equipe",
-      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando o endereço de e-mail deles na lista de agentes.",
+      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
       "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
     "INBOXES": {
@@ -148,12 +154,33 @@
       "PLACEHOLDER": "Nenhuma"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Detalhes do contato",
+      "CONVERSATION_ACTIONS": "Ações da conversa",
       "CONVERSATION_LABELS": "Marcador da conversa",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informação da conversa",
+      "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Criar atributo",
+    "UPDATE": {
+      "SUCCESS": "Atributo atualizado com sucesso",
+      "ERROR": "Não foi possível atualizar o atributo. Por favor, tente mais tarde"
+    },
+    "ADD": {
+      "TITLE": "Adicionar",
+      "SUCCESS": "Atributo adicionado com sucesso",
+      "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
+    },
+    "DELETE": {
+      "SUCCESS": "Atributo excluído com sucesso",
+      "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Adicionar atributo",
+      "PLACEHOLDER": "Procurar atributos",
+      "NO_RESULT": "Nenhum atributo encontrado"
     }
   },
   "EMAIL_HEADER": {

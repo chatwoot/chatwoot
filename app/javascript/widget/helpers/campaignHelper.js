@@ -21,10 +21,16 @@ export const filterCampaigns = ({
   currentURL,
   isInBusinessHours,
 }) => {
-  return campaigns.filter(item =>
-    item.triggerOnlyDuringBusinessHours
-      ? isInBusinessHours
-      : stripTrailingSlash({ URL: item.url }) ===
-        stripTrailingSlash({ URL: currentURL })
-  );
+  return campaigns.filter(campaign => {
+    const hasMatchingURL =
+      stripTrailingSlash({ URL: campaign.url }) ===
+      stripTrailingSlash({ URL: currentURL });
+    if (!hasMatchingURL) {
+      return false;
+    }
+    if (campaign.triggerOnlyDuringBusinessHours) {
+      return isInBusinessHours;
+    }
+    return true;
+  });
 };

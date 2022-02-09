@@ -10,7 +10,6 @@ end
 
 ## Seeds for Local Development
 unless Rails.env.production?
-  SuperAdmin.create!(email: 'john@acme.inc', password: 'Password1!')
 
   account = Account.create!(
     name: 'Acme Inc'
@@ -20,7 +19,7 @@ unless Rails.env.production?
     name: 'Acme Org'
   )
 
-  user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!')
+  user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
   user.skip_confirmation!
   user.save!
 
@@ -60,20 +59,20 @@ unless Rails.env.production?
   )
 
   # sample email collect
-  WootMessageSeeder.create_sample_email_collect_message conversation
+  Seeders::MessageSeeder.create_sample_email_collect_message conversation
 
   Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
 
   # sample card
-  WootMessageSeeder.create_sample_cards_message conversation
+  Seeders::MessageSeeder.create_sample_cards_message conversation
   # input select
-  WootMessageSeeder.create_sample_input_select_message conversation
+  Seeders::MessageSeeder.create_sample_input_select_message conversation
   # form
-  WootMessageSeeder.create_sample_form_message conversation
+  Seeders::MessageSeeder.create_sample_form_message conversation
   # articles
-  WootMessageSeeder.create_sample_articles_message conversation
+  Seeders::MessageSeeder.create_sample_articles_message conversation
   # csat
-  WootMessageSeeder.create_sample_csat_collect_message conversation
+  Seeders::MessageSeeder.create_sample_csat_collect_message conversation
 
   CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
 end

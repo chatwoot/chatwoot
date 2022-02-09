@@ -7,6 +7,7 @@
     "COMPANY": "企業",
     "LOCATION": "場所",
     "CONVERSATION_TITLE": "会話の詳細",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "ブラウザ",
     "OS": "OS",
     "INITIATED_FROM": "開始元",
@@ -102,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
-        "LABEL": "Eメールアドレス"
+        "LABEL": "Eメールアドレス",
+        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "連絡先の電話番号を入力してください",
         "LABEL": "電話番号",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "連絡先の所在地を入力してください",
@@ -138,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
-    "CONTACT_ALREADY_EXIST": "このメールアドレスは別の連絡先に使用されています。",
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
   "NEW_CONVERSATION": {
@@ -154,6 +156,11 @@
         "LABEL": "Inbox",
         "ERROR": "Select an inbox"
       },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "メッセージ",
         "PLACEHOLDER": "Write your message here",
@@ -162,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "キャンセル",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "表示",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -170,6 +178,9 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -188,6 +199,10 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Add",
@@ -199,16 +214,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "View all notes"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
@@ -222,8 +242,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
     "ADD": {
       "TITLE": "Create custom attribute",
       "DESC": "Add custom information to this contact."
@@ -239,7 +266,36 @@
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

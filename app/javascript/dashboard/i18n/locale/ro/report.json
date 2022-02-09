@@ -66,7 +66,7 @@
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTER_DROPDOWN_LABEL": "Selectează agent",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversații",
@@ -320,7 +320,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Evaluare",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },

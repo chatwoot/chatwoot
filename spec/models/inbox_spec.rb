@@ -13,21 +13,21 @@ RSpec.describe Inbox do
 
     it { is_expected.to belong_to(:channel) }
 
-    it { is_expected.to have_many(:contact_inboxes).dependent(:destroy) }
+    it { is_expected.to have_many(:contact_inboxes).dependent(:destroy_async) }
 
     it { is_expected.to have_many(:contacts).through(:contact_inboxes) }
 
-    it { is_expected.to have_many(:inbox_members).dependent(:destroy) }
+    it { is_expected.to have_many(:inbox_members).dependent(:destroy_async) }
 
     it { is_expected.to have_many(:members).through(:inbox_members).source(:user) }
 
-    it { is_expected.to have_many(:conversations).dependent(:destroy) }
+    it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
 
     it { is_expected.to have_many(:messages).through(:conversations) }
 
     it { is_expected.to have_one(:agent_bot_inbox) }
 
-    it { is_expected.to have_many(:webhooks).dependent(:destroy) }
+    it { is_expected.to have_many(:webhooks).dependent(:destroy_async) }
 
     it { is_expected.to have_many(:events) }
 

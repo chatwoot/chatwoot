@@ -60,8 +60,8 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      if (error.response?.data?.contact) {
-        throw new DuplicateContactException(error.response.data.contact);
+      if (error.response?.status === 422) {
+        throw new DuplicateContactException(error.response.data.attributes);
       } else {
         throw new Error(error);
       }
@@ -107,6 +107,18 @@ export const actions = {
       } else {
         throw new Error(error);
       }
+    }
+  },
+
+  deleteCustomAttributes: async ({ commit }, { id, customAttributes }) => {
+    try {
+      const response = await ContactAPI.destroyCustomAttributes(
+        id,
+        customAttributes
+      );
+      commit(types.EDIT_CONTACT, response.data.payload);
+    } catch (error) {
+      throw new Error(error);
     }
   },
 
@@ -156,5 +168,38 @@ export const actions = {
     commit(`contactConversations/${types.DELETE_CONTACT_CONVERSATION}`, id, {
       root: true,
     });
+  },
+
+  updateContact: async ({ commit }, updateObj) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
+    try {
+      commit(types.EDIT_CONTACT, updateObj);
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+    }
+  },
+
+  filter: async ({ commit }, { page = 1, sortAttr, queryPayload } = {}) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACTS, payload);
+      commit(types.SET_CONTACT_META, meta);
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    }
+  },
+
+  setContactFilters({ commit }, data) {
+    commit(types.SET_CONTACT_FILTERS, data);
+  },
+
+  clearContactFilters({ commit }) {
+    commit(types.CLEAR_CONTACT_FILTERS);
   },
 };

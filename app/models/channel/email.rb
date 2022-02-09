@@ -2,12 +2,27 @@
 #
 # Table name: channel_email
 #
-#  id               :bigint           not null, primary key
-#  email            :string           not null
-#  forward_to_email :string           not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  account_id       :integer          not null
+#  id                        :bigint           not null, primary key
+#  email                     :string           not null
+#  forward_to_email          :string           not null
+#  imap_address              :string           default("")
+#  imap_email                :string           default("")
+#  imap_enable_ssl           :boolean          default(TRUE)
+#  imap_enabled              :boolean          default(FALSE)
+#  imap_inbox_synced_at      :datetime
+#  imap_password             :string           default("")
+#  imap_port                 :integer          default(0)
+#  smtp_address              :string           default("")
+#  smtp_authentication       :string           default("login")
+#  smtp_domain               :string           default("")
+#  smtp_email                :string           default("")
+#  smtp_enable_starttls_auto :boolean          default(TRUE)
+#  smtp_enabled              :boolean          default(FALSE)
+#  smtp_password             :string           default("")
+#  smtp_port                 :integer          default(0)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
 #
 # Indexes
 #
@@ -19,7 +34,8 @@ class Channel::Email < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_email'
-  EDITABLE_ATTRS = [:email].freeze
+  EDITABLE_ATTRS = [:email, :imap_enabled, :imap_email, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_inbox_synced_at,
+                    :smtp_enabled, :smtp_email, :smtp_password, :smtp_address, :smtp_port, :smtp_domain].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true

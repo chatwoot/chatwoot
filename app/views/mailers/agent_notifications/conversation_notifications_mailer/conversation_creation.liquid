@@ -1,8 +1,30 @@
 <p>Hi {{user.available_name}}</p>
 
-
-<p>Time to save the world. A new conversation has been created in {{ inbox.name }}</p>
-
 <p>
-Click <a href="{{ action_url }}">here</a> to get cracking.
+  A new conversation (<a href="{{ action_url }}">#{{conversation.display_id}}</a>) has been created in {{ inbox.name }}.
+  <strong>{{ conversation.contact_name }}</strong> wrote:
 </p>
+
+{% for chat_message in conversation.recent_messages %}
+  <div>
+    <h4 style="margin: 0;">
+      {% if chat_message.sender == user.available_name %}
+        You
+      {% else %}
+        {{chat_message.sender}}
+      {% endif %}
+    </h4>
+  </div>
+
+  <div style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+    {% if chat_message.content %}
+      {{chat_message.content}}
+    {% endif %}
+
+    {% if chat_message.attachments %}
+      {% for attachment in chat_message.attachments %}
+        Attachment [<a href="{{ attachment }}" _target="blank">Click here to view</a>]
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endfor %}

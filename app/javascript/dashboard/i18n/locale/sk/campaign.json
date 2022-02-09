@@ -9,7 +9,7 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
         "TITLE": {
@@ -34,7 +34,7 @@
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "Správa",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Vymazať",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdiť vymazanie",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -88,8 +88,8 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
-        "INBOX": "Inbox",
+        "MESSAGE": "Správa",
+        "INBOX": "Schránka",
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,9 +98,9 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "ADD": "Pridať",
+        "EDIT": "Upraviť",
+        "DELETE": "Vymazať"
       },
       "STATUS": {
         "ENABLED": "Enabled",

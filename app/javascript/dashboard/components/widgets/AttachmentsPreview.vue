@@ -7,7 +7,7 @@
     >
       <div class="thumb-wrap">
         <img
-          v-if="isTypeImage(attachment.resource.type)"
+          v-if="isTypeImage(attachment.resource.content_type)"
           class="image-thumb"
           :src="attachment.thumb"
         />
@@ -15,21 +15,20 @@
       </div>
       <div class="file-name-wrap">
         <span class="item">
-          {{ attachment.resource.name }}
+          {{ attachment.resource.filename }}
         </span>
       </div>
       <div class="file-size-wrap">
         <span class="item">
-          {{ formatFileSize(attachment.resource.size) }}
+          {{ formatFileSize(attachment.resource.byte_size) }}
         </span>
       </div>
       <div class="remove-file-wrap">
-        <button
-          class="remove--attachment"
+        <woot-button
+          class="remove--attachment clear secondary"
+          icon="dismiss"
           @click="() => onRemoveAttachment(index)"
-        >
-          <i class="ion-android-close"></i>
-        </button>
+        />
       </div>
     </div>
   </div>

@@ -7,6 +7,7 @@
       "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
     },
     "TAB_HEADING": "Các cuộc hội thoại",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
@@ -38,53 +39,44 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Mở",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Mở"
       },
-      {
-        "TEXT": "Đã được giải quyết",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Đã được giải quyết"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pending"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Tin nhắn hình ảnh"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Tin nhắn thoại"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Tin nhắn video"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Tập tin đính kèm"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Địa điểm"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "có một đường dẫn chia sẻ"
       }
     },
     "RECEIVED_VIA_EMAIL": "Nhận được từ email",
     "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
     "REPLY_TO_TWEET": "Trả lời cho tweet này",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "Không có tin nhắn",
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",

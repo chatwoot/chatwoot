@@ -77,6 +77,10 @@ ca:
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
     survey:

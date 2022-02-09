@@ -25,12 +25,12 @@
         @keyup.enter="onSubmit"
       />
       <button
-        class="button"
+        class="button small"
         :disabled="isButtonDisabled"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
         <spinner v-if="isUpdating && feedback" />
-        <i v-else class="ion-ios-arrow-forward" />
+        <fluent-icon v-else icon="chevron-right" />
       </button>
     </form>
   </div>
@@ -40,10 +40,12 @@
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import { CSAT_RATINGS } from 'shared/constants/messages';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 export default {
   components: {
     Spinner,
+    FluentIcon,
   },
   props: {
     messageContentAttributes: {

@@ -44,11 +44,13 @@ describe('#Campaigns Helper', () => {
               id: 1,
               timeOnPage: 3,
               url: 'https://www.chatwoot.com/pricing',
+              triggerOnlyDuringBusinessHours: false,
             },
             {
               id: 2,
               timeOnPage: 6,
               url: 'https://www.chatwoot.com/about',
+              triggerOnlyDuringBusinessHours: false,
             },
           ],
           currentURL: 'https://www.chatwoot.com/about/',
@@ -58,8 +60,60 @@ describe('#Campaigns Helper', () => {
           id: 2,
           timeOnPage: 6,
           url: 'https://www.chatwoot.com/about',
+          triggerOnlyDuringBusinessHours: false,
         },
       ]);
+    });
+    it('should return filtered campaigns if formatted campaigns are passed and business hours enabled', () => {
+      expect(
+        filterCampaigns({
+          campaigns: [
+            {
+              id: 1,
+              timeOnPage: 3,
+              url: 'https://www.chatwoot.com/pricing',
+              triggerOnlyDuringBusinessHours: false,
+            },
+            {
+              id: 2,
+              timeOnPage: 6,
+              url: 'https://www.chatwoot.com/about',
+              triggerOnlyDuringBusinessHours: true,
+            },
+          ],
+          currentURL: 'https://www.chatwoot.com/about/',
+          isInBusinessHours: true,
+        })
+      ).toStrictEqual([
+        {
+          id: 2,
+          timeOnPage: 6,
+          url: 'https://www.chatwoot.com/about',
+          triggerOnlyDuringBusinessHours: true,
+        },
+      ]);
+    });
+    it('should return empty campaigns if formatted campaigns are passed and business hours disabled', () => {
+      expect(
+        filterCampaigns({
+          campaigns: [
+            {
+              id: 1,
+              timeOnPage: 3,
+              url: 'https://www.chatwoot.com/pricing',
+              triggerOnlyDuringBusinessHours: true,
+            },
+            {
+              id: 2,
+              timeOnPage: 6,
+              url: 'https://www.chatwoot.com/about',
+              triggerOnlyDuringBusinessHours: true,
+            },
+          ],
+          currentURL: 'https://www.chatwoot.com/about/',
+          isInBusinessHours: false,
+        })
+      ).toStrictEqual([]);
     });
   });
 });
