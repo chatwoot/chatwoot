@@ -365,12 +365,24 @@ export default {
       }
     },
     appendNewCondition() {
-      this.automation.conditions.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-      });
+      switch (this.automation.event_name) {
+        case 'message_created':
+          this.automation.conditions.push({
+            attribute_key: 'message_type',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+        default:
+          this.automation.conditions.push({
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+      }
     },
     appendNewAction() {
       this.automation.actions.push({
