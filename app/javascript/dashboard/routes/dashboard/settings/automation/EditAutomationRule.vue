@@ -365,6 +365,14 @@ export default {
       }
     },
     appendNewCondition() {
+      if (
+        !this.automation.conditions[this.automation.conditions.length - 1]
+          .query_operator
+      ) {
+        this.automation.conditions[
+          this.automation.conditions.length - 1
+        ].query_operator = 'and';
+      }
       switch (this.automation.event_name) {
         case 'message_created':
           this.automation.conditions.push({
@@ -392,14 +400,14 @@ export default {
     },
     removeFilter(index) {
       if (this.automation.conditions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
+        this.showAlert(this.$t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
       } else {
         this.automation.conditions.splice(index, 1);
       }
     },
     removeAction(index) {
       if (this.automation.actions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
+        this.showAlert(this.$t('AUTOMATION.ACTION.DELETE_MESSAGE'));
       } else {
         this.automation.actions.splice(index, 1);
       }

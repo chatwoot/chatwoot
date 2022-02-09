@@ -84,6 +84,12 @@
       "DELETE": "Delete",
       "CANCEL": "Cancel",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save"
     }
   }
 }
