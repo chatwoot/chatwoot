@@ -69,7 +69,7 @@
     <reply-bottom-panel
       :mode="replyType"
       :send-button-text="replyButtonLabel"
-      :on-direct-file-upload="onDirectFileUpload"
+      :on-file-upload="onFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -519,6 +519,13 @@ export default {
         isPrivate,
       });
     },
+    onFileUpload(file) {
+      if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
     onDirectFileUpload(file) {
       if (!file) {
         return;
@@ -551,7 +558,7 @@ export default {
         );
       }
     },
-    onFileUpload(file) {
+    onIndirectFileUpload(file) {
       if (!file) {
         return;
       }
@@ -594,7 +601,11 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          messagePayload.files.push(attachment.blobSignedId);
+          if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+            messagePayload.files.push(attachment.blobSignedId);
+          } else {
+            messagePayload.files.push(attachment.resource.file);
+          }
         });
       }
 

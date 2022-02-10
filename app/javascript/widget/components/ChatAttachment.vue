@@ -2,8 +2,11 @@
   <file-upload
     :size="4096 * 2048"
     :accept="allowedFileTypes"
-    :data="{ direct_upload_url: '', direct_upload: true }"
-    @input-file="onDirectFileUpload"
+    :data="{
+      direct_upload_url: '/rails/active_storage/direct_uploads',
+      direct_upload: true,
+    }"
+    @input-file="onFileUpload"
   >
     <button class="icon-button flex items-center justify-center">
       <fluent-icon v-if="!isUploading.image" icon="attach" />
@@ -49,6 +52,13 @@ export default {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },
+    async onFileUpload(file) {
+      if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
     async onDirectFileUpload(file) {
       if (!file) {
         return;
@@ -87,7 +97,7 @@ export default {
       }
       this.isUploading = false;
     },
-    async onFileUpload(file) {
+    async onIndirectFileUpload(file) {
       if (!file) {
         return;
       }
