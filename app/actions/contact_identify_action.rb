@@ -69,14 +69,14 @@ class ContactIdentifyAction
   end
 
   def custom_attributes
-    @custom_attributes = params[:custom_attributes] ? @contact.custom_attributes.merge(params[:custom_attributes]) : @contact.custom_attributes
+    params[:custom_attributes] ? @contact.custom_attributes.merge(params[:custom_attributes]) : @contact.custom_attributes
   end
 
   def additional_attributes
-    @additional_attributes = if params[:additional_attributes]
-                               @contact.additional_attributes.merge(params[:additional_attributes])
-                             else
-                               @contact.additional_attributes
-                             end
+    if params[:additional_attributes]
+      @contact.additional_attributes.merge(params[:additional_attributes])
+    else
+      @contact.additional_attributes
+    end
   end
 end
