@@ -59,7 +59,8 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",

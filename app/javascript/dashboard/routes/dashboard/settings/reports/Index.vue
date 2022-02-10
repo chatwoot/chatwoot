@@ -9,7 +9,12 @@
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
 
-    <report-date-range-selector @date-range-change="onDateRangeChange" />
+    <report-filter-selector
+      :selected-group-by-filter="selectedGroupByFilter"
+      :filter-items-list="filterItemsList"
+      @date-range-change="onDateRangeChange"
+      @filter-change="onFilterChange"
+    />
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
@@ -41,7 +46,7 @@
 import { mapGetters } from 'vuex';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import ReportDateRangeSelector from './components/DateRangeSelector';
+import ReportFilterSelector from './components/FilterSelector';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -54,10 +59,35 @@ const REPORTS_KEYS = {
 
 export default {
   components: {
-    ReportDateRangeSelector,
+    ReportFilterSelector,
   },
   data() {
-    return { from: 0, to: 0, currentSelection: 0, group_by: 'day' };
+    return {
+      from: 0,
+      to: 0,
+      currentSelection: 0,
+      groupBy: 'day',
+      groupByData: {
+        day: [{ id: 1, groupBy: 'Day' }],
+        week: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+        ],
+        month: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+          { id: 3, groupBy: 'Month' },
+        ],
+        year: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+          { id: 3, groupBy: 'Month' },
+          { id: 4, groupBy: 'Year' },
+        ],
+      },
+      filterItemsList: [],
+      selectedGroupByFilter: {},
+    };
   },
   computed: {
     ...mapGetters({
@@ -70,10 +100,10 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element => {
-        if (this.group_by === 'month') {
+        if (this.groupBy === 'month') {
           return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
         }
-        if (this.group_by === 'week') {
+        if (this.groupBy === 'week') {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
           const last_day = first_day + 6;
@@ -85,6 +115,9 @@ export default {
             week_last_date,
             'dd/MM/yy'
           )}`;
+        }
+        if (this.groupBy === 'year') {
+          return format(fromUnixTime(element.timestamp), 'yyyy');
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
       });
@@ -116,19 +149,23 @@ export default {
       }));
     },
   },
+  mounted() {
+    this.filterItemsList = this.groupByData[this.groupBy];
+    this.selectedGroupByFilter = this.filterItemsList[0];
+  },
   methods: {
     fetchAllData() {
-      const { from, to, group_by } = this;
-      this.$store.dispatch('fetchAccountSummary', { from, to, group_by });
+      const { from, to, groupBy } = this;
+      this.$store.dispatch('fetchAccountSummary', { from, to, groupBy });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to, group_by } = this;
+      const { from, to, groupBy } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
-        group_by,
+        groupBy,
       });
     },
     downloadAgentReports() {
@@ -143,10 +180,23 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to, group_by }) {
+    onDateRangeChange({ from, to, groupBy }) {
       this.from = from;
       this.to = to;
-      this.group_by = group_by;
+      this.filterItemsList = this.groupByData[groupBy];
+      const filterItems = this.filterItemsList.filter(
+        item => item.groupBy.toLowerCase() === this.groupBy
+      );
+      if (filterItems.length > 0) {
+        this.selectedGroupByFilter = filterItems[0];
+      } else {
+        this.selectedGroupByFilter = this.filterItemsList[0];
+        this.groupBy = this.selectedGroupByFilter.groupBy.toLowerCase();
+      }
+      this.fetchAllData();
+    },
+    onFilterChange(payload) {
+      this.groupBy = payload.groupBy.toLowerCase();
       this.fetchAllData();
     },
   },

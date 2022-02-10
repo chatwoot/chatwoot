@@ -44,7 +44,7 @@ export const actions = {
       reportObj.to,
       reportObj.type,
       reportObj.id,
-      reportObj.group_by
+      reportObj.groupBy
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
@@ -70,7 +70,7 @@ export const actions = {
       reportObj.to,
       reportObj.type,
       reportObj.id,
-      reportObj.group_by
+      reportObj.groupBy
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);

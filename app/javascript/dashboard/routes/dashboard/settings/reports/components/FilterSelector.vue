@@ -23,6 +23,24 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
+    <div
+      v-if="selectedGroupByFilter"
+      class="small-12 medium-3 pull-right margin-left-small"
+    >
+      <p aria-hidden="true" class="hide">
+        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedFilter"
+        track-by="id"
+        label="groupBy"
+        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+        :options="filterItemsList"
+        :allow-empty="false"
+        :show-labels="false"
+        @input="changeFilterSelection"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -36,11 +54,22 @@ export default {
   components: {
     WootDateRangePicker,
   },
+  props: {
+    filterItemsList: {
+      type: Array,
+      default: () => [],
+    },
+    selectedGroupByFilter: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
+      currentSelectedFilter: null,
     };
   },
   computed: {
@@ -70,18 +99,24 @@ export default {
     },
     groupBy() {
       if (this.isDateRangeSelected) {
-        return 'day';
+        return 'year';
       }
       const groupRange = {
-        0: { group_by: 'day' },
-        1: { group_by: 'week' },
-        2: { group_by: 'month' },
-        3: { group_by: 'month' },
-        4: { group_by: 'month' },
+        0: { groupBy: 'day' },
+        1: { groupBy: 'week' },
+        2: { groupBy: 'month' },
+        3: { groupBy: 'month' },
+        4: { groupBy: 'month' },
       };
 
       const selectedGroup = groupRange[this.currentDateRangeSelection.id];
-      return selectedGroup.group_by;
+      return selectedGroup.groupBy;
+    },
+  },
+  watch: {
+    filterItemsList() {
+      this.currentSelectedFilter = this.selectedGroupByFilter;
+      this.changeFilterSelection();
     },
   },
   mounted() {
@@ -92,7 +127,7 @@ export default {
       this.$emit('date-range-change', {
         from: this.from,
         to: this.to,
-        group_by: this.groupBy,
+        groupBy: this.groupBy,
       });
     },
     fromCustomDate(date) {
@@ -103,9 +138,11 @@ export default {
       this.onDateRangeChange();
     },
     onChange(value) {
-      console.log(value);
       this.customDateRange = value;
       this.onDateRangeChange();
+    },
+    changeFilterSelection() {
+      this.$emit('filter-change', this.currentSelectedFilter);
     },
   },
 };
