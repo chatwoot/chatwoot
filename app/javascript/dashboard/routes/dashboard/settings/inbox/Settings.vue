@@ -22,6 +22,7 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
+          class="settings-item"
           delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
@@ -132,9 +133,8 @@
             }}
           </p>
         </label>
-        <div class="settings-item">
+        <div v-if="greetingEnabled" class="settings-item">
           <greetings-editor
-            v-if="greetingEnabled"
             v-model.trim="greetingMessage"
             :label="
               $t(
