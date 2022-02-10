@@ -40,10 +40,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
 
-          namespace :bulk_actions do
-            resource :status_change, only: [:create]
-          end
-
+          resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
 

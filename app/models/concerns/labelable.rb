@@ -14,3 +14,4 @@ module Labelable
     update!(label_list: new_labels)
   end
 end
+
