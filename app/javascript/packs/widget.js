@@ -27,17 +27,15 @@ const events = [
   'touchend',
   'touchmove',
   'mousedown',
-  'keydown',
+  'keypress',
   'mousemove',
   'mouseover',
 ];
 
-const body = window.parent.document.body;
-
 let getAudio = () => {
   getAlertAudio().then(
     events.forEach(e => {
-      body.removeEventListener(e, getAudio, false);
+      document.removeEventListener(e, getAudio, false);
     })
   );
 };
@@ -58,6 +56,6 @@ window.onload = () => {
   window.playAudioAlert = () => {};
 
   events.forEach(e => {
-    body.addEventListener(e, getAudio, false);
+    document.addEventListener(e, getAudio, false);
   });
 };
