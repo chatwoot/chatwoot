@@ -7,7 +7,7 @@
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
     "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Xem thông tin cá nhân",
     "BROWSER": "Trình duyệt",
     "OS": "Hệ điều hành",
     "INITIATED_FROM": "Bắt đầu từ",
@@ -20,20 +20,20 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Nhãn danh bạ",
+        "ERROR": "Không thể sửa nhãn"
       },
       "CONVERSATION": {
         "TITLE": "Nhãn hội thoại",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Thêm nhãn"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Thêm nhãn",
+        "PLACEHOLDER": "Tìm nhãn",
+        "NO_RESULT": "Không tìm thấy nhãn"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
+    "MERGE_CONTACT": "Gộp liên lạc",
     "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -43,7 +43,7 @@
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Nhãn danh bạ",
       "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
     }
   },
@@ -53,9 +53,9 @@
     "DESC": "Chỉnh sửa liên hệ chi tiết"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Liên lạc mới",
+    "TITLE": "Tạo liên lạc mới",
+    "DESC": "Thêm thông tin liên lạc cơ bản về liên lạc."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Import",
@@ -71,9 +71,9 @@
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Xoá liên lạc",
+    "TITLE": "Xoá liên lạc",
+    "DESC": "Xoá chi tiết liên hệ",
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
       "MESSAGE": "Bạn có muốn xoá? ",
@@ -82,8 +82,8 @@
       "NO": "Không, giữ "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
+      "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng sửa lại sau."
     }
   },
   "CONTACT_FORM": {
@@ -109,7 +109,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
         "LABEL": "Số điện thoại",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "HELP": "Số điện thoại phải thuộc định đạng E.164 như: +1415555555 [+][mã nước][mã khu vực][số điện thoại vùng]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DUPLICATE": "This phone number is in use for another contact."
       },
