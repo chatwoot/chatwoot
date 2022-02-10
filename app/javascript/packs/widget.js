@@ -32,10 +32,12 @@ const events = [
   'mouseover',
 ];
 
+const body = window.parent.document.body;
+
 let getAudio = () => {
   getAlertAudio().then(
     events.forEach(e => {
-      document.removeEventListener(e, getAudio, false);
+      body.removeEventListener(e, getAudio, false);
     })
   );
 };
@@ -56,6 +58,6 @@ window.onload = () => {
   window.playAudioAlert = () => {};
 
   events.forEach(e => {
-    document.addEventListener(e, getAudio, false);
+    body.addEventListener(e, getAudio, false);
   });
 };
