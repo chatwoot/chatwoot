@@ -24,12 +24,12 @@
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mina",
+        "NAME": "Mías",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Sin asignar",
+        "NAME": "Unassigned",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
@@ -44,13 +44,13 @@
         "TEXT": "Abrir"
       },
       "resolved": {
-        "TEXT": "Resuelto"
+        "TEXT": "Resueltas"
       },
       "pending": {
-        "TEXT": "Pendiente"
+        "TEXT": "Pendientes"
       },
       "snoozed": {
-        "TEXT": "Retrasado"
+        "TEXT": "Postpuestas"
       }
     },
     "ATTACHMENTS": {

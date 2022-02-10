@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Antal dage efter en ticket skal løses automatisk, hvis der ikke er nogen aktivitet",
         "PLACEHOLDER": "30",
-        "ERROR": "Angiv en gyldig varighed for automatisk løsning af sag (minimum 1 dag)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Samtale kontinuitet med e-mails er aktiveret for din konto.",

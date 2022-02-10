@@ -21,12 +21,12 @@
         },
         "MODEL": {
           "LABEL": "Gilt für",
-          "PLACEHOLDER": "Bitte wählen Sie eine aus",
+          "PLACEHOLDER": "Bitte auswählen",
           "ERROR": "Modell wird benötigt"
         },
         "TYPE": {
           "LABEL": "Typ",
-          "PLACEHOLDER": "Bitte wählen Sie einen Typ",
+          "PLACEHOLDER": "Bitte Typ wählen",
           "ERROR": "Typ wird benötigt",
           "LIST": {
             "LABEL": "Listenwerte",

@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Jumlah hari setelah tiket harus diselesaikan secara otomatis jika tidak ada aktivitas",
         "PLACEHOLDER": "30",
-        "ERROR": "Harap masukkan durasi penyelesaian otomatis yang valid (minimal 1 hari)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Kelanjutan percakapan dengan email diaktifkan untuk akun Anda.",

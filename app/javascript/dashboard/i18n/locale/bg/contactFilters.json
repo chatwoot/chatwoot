@@ -20,7 +20,9 @@
             "contains": "Съдържа",
             "does_not_contain": "Не съдържа",
             "is_present": "Присъства",
-            "is_not_present": "Не присъства"
+            "is_not_present": "Не присъства",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than"
         },
         "ATTRIBUTES": {
             "NAME": "Име",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "Телефон",
             "IDENTIFIER": "Идентификатор",
             "CITY": "Град",
-            "COUNTRY": "Държава"
+            "COUNTRY": "Държава",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Additional Filters",
+            "CUSTOM_ATTRIBUTES": "Персонализирани атрибути"
         }
     }
 }

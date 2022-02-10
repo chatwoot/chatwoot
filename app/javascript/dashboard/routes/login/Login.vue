@@ -133,7 +133,9 @@ export default {
     login() {
       this.loginApi.showLoading = true;
       const credentials = {
-        email: this.email ? this.email : this.credentials.email,
+        email: this.email
+          ? decodeURIComponent(this.email)
+          : this.credentials.email,
         password: this.credentials.password,
         sso_auth_token: this.ssoAuthToken,
       };
