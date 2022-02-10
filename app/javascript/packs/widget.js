@@ -21,6 +21,25 @@ window.bus = new Vue();
 
 Vue.config.productionTip = false;
 
+const events = [
+  'click',
+  'touchstart',
+  'touchend',
+  'touchmove',
+  'mousedown',
+  'keydown',
+  'mousemove',
+  'mouseover',
+];
+
+let getAudio = () => {
+  getAlertAudio().then(
+    events.forEach(e => {
+      document.removeEventListener(e, getAudio, false);
+    })
+  );
+};
+
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
     router,
@@ -34,24 +53,9 @@ window.onload = () => {
     window.chatwootPubsubToken
   );
 
-  const events = [
-    'click',
-    'touchstart',
-    'touchend',
-    'touchmove',
-    'mousedown',
-    'keydown',
-    'mousemove',
-    'mouseover',
-  ];
+  window.playAudioAlert = () => {};
 
-  // eslint-disable-next-line no-use-before-define
-  events.forEach(e => document.addEventListener(e, getAudio, false));
-  function getAudio() {
-    // eslint-disable-next-line no-use-before-define
-    getAlertAudio().then(cleanup);
-  }
-  function cleanup() {
-    events.forEach(e => document.removeEventListener(e, getAudio, false));
-  }
+  events.forEach(e => {
+    document.addEventListener(e, getAudio, false);
+  });
 };
