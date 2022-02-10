@@ -33,5 +33,25 @@ window.onload = () => {
     window.WOOT_WIDGET,
     window.chatwootPubsubToken
   );
-  getAlertAudio();
+
+  const events = [
+    'click',
+    'touchstart',
+    'touchend',
+    'touchmove',
+    'mousedown',
+    'keydown',
+    'mousemove',
+    'mouseover',
+  ];
+
+  // eslint-disable-next-line no-use-before-define
+  events.forEach(e => document.addEventListener(e, getAudio, false));
+  function getAudio() {
+    // eslint-disable-next-line no-use-before-define
+    getAlertAudio().then(cleanup);
+  }
+  function cleanup() {
+    events.forEach(e => document.removeEventListener(e, getAudio, false));
+  }
 };
