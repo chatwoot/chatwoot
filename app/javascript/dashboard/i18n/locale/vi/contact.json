@@ -200,8 +200,8 @@
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
-    "LOADING": "Loading contact profile..."
+    "BACK_BUTTON": "Danh bạ",
+    "LOADING": "Đang tải hồ sơ danh bạ..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -299,14 +299,14 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Gộp liên lạc",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
+      "TITLE": "Liên lạc chính",
       "HELP_LABEL": "To be kept"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
+      "TITLE": "Liên lạc cần gộp",
       "PLACEHOLDER": "Search for a contact",
       "HELP_LABEL": "To be deleted"
     },
