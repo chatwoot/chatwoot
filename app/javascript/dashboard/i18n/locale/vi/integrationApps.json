@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Hộp thư đến",
       "DELETE": {
         "BUTTON_TEXT": "Xoá"
       }
