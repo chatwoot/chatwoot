@@ -20,24 +20,24 @@ class MailPresenter < SimpleDelegator
     return {} if @decoded_text_content.blank?
 
     @text_content ||= {
-      full: select_body(text_part),
+      full: encoded_raw_text_content,
       reply: @decoded_text_content,
       quoted: body.force_encoding(encoding).encode('UTF-8')
     }
   end
 
   # returns encoded mail body text_part if available.
-  # returns encoded mail body as it is if mail_part not available.
+  # returns encoded raw mail body as it is if mail_part not available.
   # else returns parsed the html body if contains text/html content.
   def select_body(mail_part)
-    return encoded_mail_body unless mail_part
+    return raw_mail_body unless mail_part
 
-    decoded = encode_to_unicode(mail_part.decoded)
+    encoded = encode_to_unicode(mail_part.decoded)
 
     if mail.text_part
-      decoded
+      encoded
     elsif html_mail_body?
-      ::HtmlParser.parse_reply(decoded)
+      ::HtmlParser.parse_reply(encoded)
     end
   end
 
@@ -49,7 +49,7 @@ class MailPresenter < SimpleDelegator
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
-      full: select_body(html_part),
+      full: encoded_raw_html_content,
       reply: @decoded_html_content,
       quoted: body
     }
@@ -131,11 +131,25 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_mail_body?
-    ((mail.content_type || '').include? 'text/html') || @mail.html_part || @mail.html_part.content_type.include?('text/html')
+    ((mail.content_type || '').include? 'text/html') || @mail.html_part&.content_type&.include?('text/html')
+  end
+
+  def raw_mail_body
+    if html_mail_body?
+      encoded_raw_html_content
+    else
+      encoded_raw_text_content
+    end
   end
 
   # returns mail body if mail content_type is text/plain
-  def encoded_mail_body
+  def encoded_raw_html_content
+    return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/html'
+
+    ''
+  end
+
+  def encoded_raw_text_content
     return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/plain'
 
     ''

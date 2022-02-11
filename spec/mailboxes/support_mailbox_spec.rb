@@ -175,5 +175,17 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(reply_to_mail.mail['From'].value).not_to include(conversation_1.contact.email)
       end
     end
+
+    describe 'when mail part is not present' do
+      let(:support_mail) { create_inbound_email_from_fixture('support_1.eml') }
+      let(:described_subject) { described_class.receive support_mail }
+
+      it 'Considers raw html mail body' do
+        described_subject
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+        expect(conversation.messages.last.content).to include('<!DOCTYPE html>')
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('Get Paid to post an article')
+      end
+    end
   end
 end
