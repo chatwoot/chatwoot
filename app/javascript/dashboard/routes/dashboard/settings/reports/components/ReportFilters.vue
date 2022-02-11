@@ -139,7 +139,7 @@
         track-by="id"
         label="groupBy"
         :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-        :options="groupByfilterItemsList"
+        :options="groupByFilterItemsList"
         :allow-empty="false"
         :show-labels="false"
         @input="changeGroupByFilterSelection"
@@ -165,7 +165,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    groupByfilterItemsList: {
+    groupByFilterItemsList: {
       type: Array,
       default: () => [],
     },
@@ -242,7 +242,7 @@ export default {
       this.currentSelectedFilter = val[0];
       this.changeFilterSelection();
     },
-    groupByfilterItemsList() {
+    groupByFilterItemsList() {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
       this.changeGroupByFilterSelection();
     },
