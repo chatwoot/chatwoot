@@ -114,7 +114,7 @@
     "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
       "SEND_TO_CONTACT": "Gửi bảng điểm cho khách hàng",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Gửi bản ghi cho người đại lý được phân công",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Gửi bản ghi tới một địa chỉ email khác",
       "EMAIL": {
         "PLACEHOLDER": "Nhập địa chỉ emai",
@@ -123,47 +123,47 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Xin chào 👋, Chào mừng đến với %{installationName}!",
+    "DESCRIPTION": "Cảm ơn bạn đã đăng ký. Chúng tôi muốn bạn khai thác tối đa %{installationName}. Dưới đây là một số điều bạn có thể làm trong %{installationName} để mang lại trải nghiệm thú vị.",
+    "READ_LATEST_UPDATES": "Đọc cập nhật mới nhất của chúng tôi",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Tất cả cuộc trò chuyện của bạn ở một nơi",
+      "DESCRIPTION": "Xem tất cả các cuộc trò chuyện từ khách hàng của bạn trong một trang tổng quan duy nhất. Bạn có thể lọc các cuộc trò chuyện theo kênh đến, nhãn và trạng thái."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Mời các thành viên trong nhóm của bạn",
+      "DESCRIPTION": "Vì bạn đã sẵn sàng để nói chuyện với khách hàng của mình, hãy mang theo đồng đội để hỗ trợ bạn. Bạn có thể mời đồng đội của mình bằng cách thêm địa chỉ email của họ vào danh sách đại lý.",
+      "NEW_LINK": "Bấm vào đây để mời đồng đội"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Kết nối hộp thư đến",
+      "DESCRIPTION": "Kết nối các kênh khác nhau mà qua đó khách hàng sẽ nói chuyện với bạn. Nó có thể là một trang web trò chuyện trực tiếp, trang Facebook hoặc Twitter của bạn hoặc thậm chí là số WhatsApp của bạn.",
+      "NEW_LINK": "Bấm vào đây để tạo hộp thư đến"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Tổ chức cuộc trò chuyện với nhãn",
+      "DESCRIPTION": "Nhãn cung cấp một cách dễ dàng hơn để phân loại cuộc trò chuyện của bạn. Tạo một số nhãn như #support-inquiry, #billing-question, v. v. để bạn có thể sử dụng chúng trong cuộc trò chuyện sau này.",
+      "NEW_LINK": "Bấm vào đây để tạo nhãn"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Đại lý được phân công",
+    "SELF_ASSIGN": "Phân công cho tôi",
+    "TEAM_LABEL": "Nhóm được phân công",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Không có"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Chi tiết liên hệ",
+      "CONVERSATION_ACTIONS": "Hành động của cuộc trò chuyện",
       "CONVERSATION_LABELS": "Nhãn hội thoại",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Thông tin cuộc trò chuyện",
+      "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Tạo thuộc tính",
     "UPDATE": {
       "SUCCESS": "Thuộc tính cập nhật thành công",
       "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại"
@@ -187,6 +187,6 @@
     "TO": "Đến",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Chủ đề"
   }
 }
