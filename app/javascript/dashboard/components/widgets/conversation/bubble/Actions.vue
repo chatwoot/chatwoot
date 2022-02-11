@@ -137,10 +137,10 @@ export default {
     .time {
       color: var(--w-100);
     }
-  }
 
-  .action--icon {
-    color: var(--white);
+    .action--icon {
+      color: var(--white);
+    }
   }
 }
 
