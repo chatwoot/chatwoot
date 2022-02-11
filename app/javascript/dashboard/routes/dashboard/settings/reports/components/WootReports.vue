@@ -12,8 +12,11 @@
       v-if="filterItemsList"
       :type="type"
       :filter-items-list="filterItemsList"
+      :group-by-filter-items-list="groupByfilterItemsList"
+      :selected-group-by-filter="selectedGroupByFilter"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
+      @group-by-filter-change="onGroupByFilterChange"
     />
     <div>
       <div v-if="filterItemsList.length" class="row">
@@ -88,6 +91,27 @@ export default {
       to: 0,
       currentSelection: 0,
       selectedFilter: null,
+      groupBy: 'day',
+      groupByOptions: {
+        day: [{ id: 1, groupBy: 'Day' }],
+        week: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+        ],
+        month: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+          { id: 3, groupBy: 'Month' },
+        ],
+        year: [
+          { id: 1, groupBy: 'Day' },
+          { id: 2, groupBy: 'Week' },
+          { id: 3, groupBy: 'Month' },
+          { id: 4, groupBy: 'Year' },
+        ],
+      },
+      groupByfilterItemsList: [],
+      selectedGroupByFilter: null,
     };
   },
   computed: {
@@ -144,28 +168,32 @@ export default {
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
+    // this.groupByfilterItemsList = this.groupByOptions[this.groupBy];
+    // this.selectedGroupByFilter = this.groupByfilterItemsList[0];
   },
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to } = this;
+        const { from, to, groupBy } = this;
         this.$store.dispatch('fetchAccountSummary', {
           from,
           to,
           type: this.type,
           id: this.selectedFilter.id,
+          groupBy,
         });
         this.fetchChartData();
       }
     },
     fetchChartData() {
-      const { from, to } = this;
+      const { from, to, groupBy } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
         type: this.type,
         id: this.selectedFilter.id,
+        groupBy,
       });
     },
     downloadReports() {
@@ -195,9 +223,19 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to }) {
+    onDateRangeChange({ from, to, groupBy }) {
       this.from = from;
       this.to = to;
+      this.groupByfilterItemsList = this.groupByOptions[groupBy];
+      const filterItems = this.groupByfilterItemsList.filter(
+        item => item.groupBy.toLowerCase() === this.groupBy
+      );
+      if (filterItems.length > 0) {
+        this.selectedGroupByFilter = filterItems[0];
+      } else {
+        this.selectedGroupByFilter = this.groupByfilterItemsList[0];
+        this.groupBy = this.selectedGroupByFilter.groupBy.toLowerCase();
+      }
       this.fetchAllData();
     },
     onFilterChange(payload) {
@@ -205,6 +243,10 @@ export default {
         this.selectedFilter = payload;
         this.fetchAllData();
       }
+    },
+    onGroupByFilterChange(payload) {
+      this.groupBy = payload.groupBy.toLowerCase();
+      this.fetchAllData();
     },
   },
 };

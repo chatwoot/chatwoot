@@ -127,6 +127,24 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
+    <div
+      v-if="selectedGroupByFilter"
+      class="small-12 medium-3 pull-right margin-left-small"
+    >
+      <p aria-hidden="true" class="hide">
+        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedGroupByFilter"
+        track-by="id"
+        label="groupBy"
+        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+        :options="groupByfilterItemsList"
+        :allow-empty="false"
+        :show-labels="false"
+        @input="changeGroupByFilterSelection"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -147,9 +165,17 @@ export default {
       type: Array,
       default: () => [],
     },
+    groupByfilterItemsList: {
+      type: Array,
+      default: () => [],
+    },
     type: {
       type: String,
       default: 'agent',
+    },
+    selectedGroupByFilter: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -158,6 +184,7 @@ export default {
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
+      currentSelectedGroupByFilter: null,
     };
   },
   computed: {
@@ -194,11 +221,30 @@ export default {
       };
       return typeLabels[this.type] || this.$t('FORMS.MULTISELECT.SELECT_ONE');
     },
+    groupBy() {
+      if (this.isDateRangeSelected) {
+        return 'year';
+      }
+      const groupRange = {
+        0: { groupBy: 'day' },
+        1: { groupBy: 'week' },
+        2: { groupBy: 'month' },
+        3: { groupBy: 'month' },
+        4: { groupBy: 'month' },
+      };
+
+      const selectedGroup = groupRange[this.currentDateRangeSelection.id];
+      return selectedGroup.groupBy;
+    },
   },
   watch: {
     filterItemsList(val) {
       this.currentSelectedFilter = val[0];
       this.changeFilterSelection();
+    },
+    groupByfilterItemsList() {
+      this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
+      this.changeGroupByFilterSelection();
     },
   },
   mounted() {
@@ -206,7 +252,11 @@ export default {
   },
   methods: {
     onDateRangeChange() {
-      this.$emit('date-range-change', { from: this.from, to: this.to });
+      this.$emit('date-range-change', {
+        from: this.from,
+        to: this.to,
+        groupBy: this.groupBy,
+      });
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
@@ -221,6 +271,9 @@ export default {
     onChange(value) {
       this.customDateRange = value;
       this.onDateRangeChange();
+    },
+    changeGroupByFilterSelection() {
+      this.$emit('group-by-filter-change', this.currentSelectedGroupByFilter);
     },
   },
 };

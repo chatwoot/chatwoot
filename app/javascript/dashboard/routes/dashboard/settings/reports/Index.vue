@@ -67,7 +67,7 @@ export default {
       to: 0,
       currentSelection: 0,
       groupBy: 'day',
-      groupByData: {
+      groupByOptions: {
         day: [{ id: 1, groupBy: 'Day' }],
         week: [
           { id: 1, groupBy: 'Day' },
@@ -150,7 +150,7 @@ export default {
     },
   },
   mounted() {
-    this.filterItemsList = this.groupByData[this.groupBy];
+    this.filterItemsList = this.groupByOptions[this.groupBy];
     this.selectedGroupByFilter = this.filterItemsList[0];
   },
   methods: {
@@ -183,7 +183,7 @@ export default {
     onDateRangeChange({ from, to, groupBy }) {
       this.from = from;
       this.to = to;
-      this.filterItemsList = this.groupByData[groupBy];
+      this.filterItemsList = this.groupByOptions[groupBy];
       const filterItems = this.filterItemsList.filter(
         item => item.groupBy.toLowerCase() === this.groupBy
       );
