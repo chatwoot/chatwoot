@@ -102,7 +102,7 @@ gem 'sentry-ruby'
 gem 'sentry-sidekiq'
 
 ##-- background job processing --##
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.4.0'
 # We want cron jobs
 gem 'sidekiq-cron'
 

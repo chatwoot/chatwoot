@@ -24,7 +24,6 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['setCampaigns', campaigns],
         ['setError', false],
-        ['setHasFetched', true],
       ]);
       expect(campaignTimer.initTimers).toHaveBeenCalledWith(
         {
@@ -50,10 +49,7 @@ describe('#actions', () => {
           isInBusinessHours: true,
         }
       );
-      expect(commit.mock.calls).toEqual([
-        ['setError', true],
-        ['setHasFetched', true],
-      ]);
+      expect(commit.mock.calls).toEqual([['setError', true]]);
     });
   });
   describe('#initCampaigns', () => {
@@ -99,7 +95,7 @@ describe('#actions', () => {
           getters: { getCampaigns: campaigns },
           commit,
           rootState: {
-            events: { isOpen: true },
+            appConfig: { isWidgetOpen: true },
           },
         },
         { campaignId: 32 }
@@ -113,7 +109,7 @@ describe('#actions', () => {
           getters: { getCampaigns: campaigns },
           commit,
           rootState: {
-            events: { isOpen: false },
+            appConfig: { isWidgetOpen: false },
           },
         },
         { campaignId: 1 }
@@ -127,15 +123,52 @@ describe('#actions', () => {
       API.post.mockResolvedValue({});
       await actions.executeCampaign({ commit }, params);
       expect(commit.mock.calls).toEqual([
-        ['setCampaignExecuted'],
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isCreating: true,
+          },
+          {
+            root: true,
+          },
+        ],
         ['setActiveCampaign', {}],
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isCreating: false,
+          },
+          {
+            root: true,
+          },
+        ],
       ]);
     });
     it('sends correct actions if  execute campaign API is failed', async () => {
       const params = { campaignId: 12, websiteToken: 'XDsafmADasd' };
       API.post.mockRejectedValue({ message: 'Authentication required' });
       await actions.executeCampaign({ commit }, params);
-      expect(commit.mock.calls).toEqual([['setError', true]]);
+      expect(commit.mock.calls).toEqual([
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isCreating: true,
+          },
+          {
+            root: true,
+          },
+        ],
+        ['setError', true],
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isCreating: false,
+          },
+          {
+            root: true,
+          },
+        ],
+      ]);
     });
   });
 

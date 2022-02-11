@@ -1,56 +1,29 @@
 <template>
   <div class="view-box fill-height">
-    <div
+    <banner
       v-if="!currentChat.can_reply && !isAWhatsappChannel"
-      class="banner messenger-policy--banner"
-    >
-      <span>
-        {{ $t('CONVERSATION.CANNOT_REPLY') }}
-        <a
-          :href="facebookReplyPolicy"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-        >
-          {{ $t('CONVERSATION.24_HOURS_WINDOW') }}
-        </a>
-      </span>
-    </div>
-    <div
-      v-if="!currentChat.can_reply && isAWhatsappChannel"
-      class="banner messenger-policy--banner"
-    >
-      <span>
-        {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
-        <a
-          :href="twilioWhatsAppReplyPolicy"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-        >
-          {{ $t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW') }}
-        </a>
-      </span>
-    </div>
+      color-scheme="alert"
+      :banner-message="$t('CONVERSATION.CANNOT_REPLY')"
+      :href-link="facebookReplyPolicy"
+      :href-link-text="$t('CONVERSATION.24_HOURS_WINDOW')"
+    />
 
-    <div v-if="isATweet" class="banner">
-      <span v-if="!selectedTweetId">
-        {{ $t('CONVERSATION.SELECT_A_TWEET_TO_REPLY') }}
-      </span>
-      <span v-else>
-        {{ $t('CONVERSATION.REPLYING_TO') }}
-        {{ selectedTweet.content || '' }}
-      </span>
-      <button
-        v-if="selectedTweetId"
-        class="banner-close-button"
-        @click="removeTweetSelection"
-      >
-        <fluent-icon
-          v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')"
-          size="16"
-          icon="dismiss"
-        />
-      </button>
-    </div>
+    <banner
+      v-if="!currentChat.can_reply && isAWhatsappChannel"
+      color-scheme="alert"
+      :banner-message="$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY')"
+      :href-link="twilioWhatsAppReplyPolicy"
+      :href-link-text="$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW')"
+    />
+
+    <banner
+      v-if="isATweet"
+      color-scheme="gray"
+      :banner-message="tweetBannerText"
+      :has-close-button="hasSelectedTweetId"
+      @close="removeTweetSelection"
+    />
+
     <div class="sidebar-toggle__wrap">
       <woot-button
         variant="smooth"
@@ -126,6 +99,7 @@ import { mapGetters } from 'vuex';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
@@ -139,6 +113,7 @@ export default {
   components: {
     Message,
     ReplyBox,
+    Banner,
   },
   mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
   props: {
@@ -173,7 +148,17 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
+    hasSelectedTweetId() {
+      return !!this.selectedTweetId;
+    },
 
+    tweetBannerText() {
+      return !this.selectedTweetId
+        ? this.$t('CONVERSATION.SELECT_A_TWEET_TO_REPLY')
+        : `
+          ${this.$t('CONVERSATION.REPLYING_TO')}
+          ${this.selectedTweet.content}` || '';
+    },
     typingUsersList() {
       const userList = this.$store.getters[
         'conversationTypingStatus/getUserList'
@@ -375,31 +360,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.banner {
-  background: var(--b-500);
-  color: var(--white);
-  font-size: var(--font-size-mini);
-  padding: var(--space-slab) var(--space-normal);
-  text-align: center;
-  position: relative;
-
-  a {
-    text-decoration: underline;
-    color: var(--white);
-    font-size: var(--font-size-mini);
-  }
-
-  &.messenger-policy--banner {
-    background: var(--r-400);
-  }
-
-  .banner-close-button {
-    cursor: pointer;
-    margin-left: var(--space--two);
-    color: var(--white);
-  }
-}
-
 .spinner--container {
   min-height: var(--space-jumbo);
 }

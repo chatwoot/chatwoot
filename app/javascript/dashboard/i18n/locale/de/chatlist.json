@@ -4,7 +4,7 @@
     "LOAD_MORE_CONVERSATIONS": "Laden Sie weitere Gespräche",
     "EOF": "Alle Gespräche geladen 🎉",
     "LIST": {
-      "404": "In dieser Gruppe gibt es keine aktiven Gespräche."
+      "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
@@ -41,7 +41,7 @@
     ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Offen"
+        "TEXT": "Öffnen"
       },
       "resolved": {
         "TEXT": "Gelöst"

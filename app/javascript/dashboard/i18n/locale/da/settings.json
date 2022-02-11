@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Adgangskode",
+        "LABEL": "New password",
         "ERROR": "Indtast en adgangskode med længde 6 eller flere",
         "PLACEHOLDER": "Indtast venligst en ny adgangskode"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekræft ny adgangskode",
         "ERROR": "Bekræftelses adgangskoden skal matche adgangskoden",
-        "PLACEHOLDER": "Indtast venligst din adgangskode igen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

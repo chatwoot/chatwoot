@@ -15,7 +15,7 @@ RSpec.describe 'Super Admin agent-bots API', type: :request do
       let!(:agent_bot) { create(:agent_bot) }
 
       it 'shows the list of users' do
-        sign_in super_admin
+        sign_in(super_admin, scope: :super_admin)
         get '/super_admin/agent_bots'
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)

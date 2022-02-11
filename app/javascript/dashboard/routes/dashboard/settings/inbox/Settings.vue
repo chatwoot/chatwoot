@@ -215,6 +215,44 @@
           </p>
         </label>
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
+          <select v-model="allowMessagesAfterResolved">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
+          <select v-model="continuityViaEmail">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -420,6 +458,8 @@ export default {
       emailCollectEnabled: false,
       isAgentListUpdating: false,
       csatSurveyEnabled: false,
+      allowMessagesAfterResolved: true,
+      continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
@@ -583,6 +623,8 @@ export default {
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
+        this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -625,6 +667,7 @@ export default {
           enable_auto_assignment: this.autoAssignment,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {
@@ -637,6 +680,7 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             hmac_mandatory: this.hmacMandatory,
             tweets_enabled: this.tweetsEnabled,
+            continuity_via_email: this.continuityViaEmail,
           },
         };
         if (this.avatarFile) {

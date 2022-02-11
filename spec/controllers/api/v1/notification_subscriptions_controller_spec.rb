@@ -80,4 +80,32 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/notification_subscriptions' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete '/api/v1/notification_subscriptions'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'delete existing notification subscription if subscription exists' do
+        subscription = create(:notification_subscription, subscription_type: 'fcm', subscription_attributes: { push_token: 'bUvZo8AYGGmCMr' },
+                                                          user: agent)
+        delete '/api/v1/notification_subscriptions',
+               params: {
+                 push_token: subscription.subscription_attributes['push_token']
+               },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect { subscription.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end

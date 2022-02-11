@@ -20,7 +20,9 @@
             "contains": "Contains",
             "does_not_contain": "Does not contain",
             "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "is_not_present": "Is not present",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than"
         },
         "ATTRIBUTES": {
             "NAME": "이름",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "휴대폰 번호",
             "IDENTIFIER": "Identifier",
             "CITY": "도시",
-            "COUNTRY": "국가"
+            "COUNTRY": "국가",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Additional Filters",
+            "CUSTOM_ATTRIBUTES": "사용자 지정 특성"
         }
     }
 }

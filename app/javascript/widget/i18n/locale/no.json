@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send message again",
+      "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,6 +22,7 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag"
   },
   "START_CONVERSATION": "Start samtale",
+  "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",

@@ -1,5 +1,13 @@
 <template>
   <div class="reply-box" :class="replyBoxClass">
+    <banner
+      v-if="showSelfAssignBanner"
+      color-scheme="secondary"
+      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+      :has-action-button="true"
+      :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+      @click="onClickSelfAssign"
+    />
     <reply-top-panel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
@@ -61,7 +69,7 @@
     <reply-bottom-panel
       :mode="replyType"
       :send-button-text="replyButtonLabel"
-      :on-file-upload="onFileUpload"
+      :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -72,6 +80,7 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
+      :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
@@ -89,6 +98,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
@@ -99,10 +109,12 @@ import {
   isEscape,
   isEnter,
   hasPressedShift,
+  hasPressedCommandPlusKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
 
 export default {
   components: {
@@ -114,6 +126,7 @@ export default {
     ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
+    Banner,
   },
   mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
@@ -147,6 +160,11 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+    }),
+
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -161,7 +179,36 @@ export default {
       }
       return false;
     },
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    showSelfAssignBanner() {
+      if (this.message !== '' && !this.isOnPrivateNote) {
+        if (!this.assignedAgent) {
+          return true;
+        }
+        if (this.assignedAgent.id !== this.currentUser.id) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -189,7 +236,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo) {
+      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
         return true;
       }
 
@@ -283,6 +330,9 @@ export default {
     showReplyHead() {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
+    enableMultipleFileUpload() {
+      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -355,10 +405,39 @@ export default {
           e.preventDefault();
           this.sendMessage();
         }
+      } else if (hasPressedCommandPlusKKey(e)) {
+        this.openCommandBar();
       }
+    },
+    openCommandBar() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open();
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    onClickSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+      this.assignedAgent = selfAssign;
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
@@ -439,6 +518,38 @@ export default {
         isPrivate,
       });
     },
+    onDirectFileUpload(file) {
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        const upload = new DirectUpload(
+          file.file,
+          '/rails/active_storage/direct_uploads',
+          null,
+          file.file.name
+        );
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(error);
+          } else {
+            this.attachedFiles.push({
+              currentChatId: this.currentChat.id,
+              resource: blob,
+              isPrivate: this.isPrivate,
+              thumb: null,
+              blobSignedId: blob.signed_id,
+            });
+          }
+        });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
     onFileUpload(file) {
       if (!file) {
         return;
@@ -469,7 +580,6 @@ export default {
       );
     },
     getMessagePayload(message) {
-      const [attachment] = this.attachedFiles;
       const messagePayload = {
         conversationId: this.currentChat.id,
         message,
@@ -480,8 +590,11 @@ export default {
         messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
       }
 
-      if (attachment) {
-        messagePayload.file = attachment.resource.file;
+      if (this.attachedFiles && this.attachedFiles.length) {
+        messagePayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          messagePayload.files.push(attachment.blobSignedId);
+        });
       }
 
       if (this.ccEmails) {

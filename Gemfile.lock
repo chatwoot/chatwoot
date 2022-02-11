@@ -255,9 +255,9 @@ GEM
       google-cloud-core (~> 1.6)
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
-    google-protobuf (3.18.1)
-    google-protobuf (3.18.1-universal-darwin)
-    google-protobuf (3.18.1-x86_64-linux)
+    google-protobuf (3.19.2)
+    google-protobuf (3.19.2-x86_64-darwin)
+    google-protobuf (3.19.2-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -447,7 +447,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.4.0)
+    redis (4.5.1)
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
     regexp_parser (2.1.1)
@@ -546,7 +546,7 @@ GEM
     sexp_processor (4.15.3)
     shoulda-matchers (5.0.0)
       activesupport (>= 5.2.0)
-    sidekiq (6.2.2)
+    sidekiq (6.4.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -727,7 +727,7 @@ DEPENDENCIES
   sentry-ruby
   sentry-sidekiq
   shoulda-matchers
-  sidekiq
+  sidekiq (~> 6.4.0)
   sidekiq-cron
   simplecov (= 0.17.1)
   slack-ruby-client

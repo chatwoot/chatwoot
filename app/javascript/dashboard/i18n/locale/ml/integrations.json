@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
-        "TITLE": "Edit webhook",
+        "TITLE": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക",
         "CANCEL": "റദ്ദാക്കുക",
         "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "ഉദാഹരണം: https://example/api/webhook",
             "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "വെബ്ഹുക്ക് URL വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തിരിക്കുന്നു",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "സ്ലാക്ക് ഇന്റഗ്രേഷൻ ഉപയോഗിക്കുന്നു",
+        "BODY": "<br/><p>ചാറ്റ്‌വൂട്ട് ഇപ്പോൾ വരുന്ന എല്ലാ സംഭാഷണങ്ങളും <b><i>ഉപഭോക്തൃ-സംഭാഷണങ്ങൾ</i></b> നിങ്ങളുടെ മന്ദഗതിയിലുള്ള ജോലിസ്ഥലത്തെ ചാനലിലേക്ക് സമന്വയിപ്പിക്കും.</p><p>ഒരു മറുപടി നൽകുന്നു. <b><i>ഉപഭോക്തൃ-സംഭാഷണങ്ങൾ</i></b> സ്ലാക്ക് ചാനലിലെ സംഭാഷണ ത്രെഡ്, ചാറ്റ്‌വൂട്ടിലൂടെ ഉപഭോക്താവിന് ഒരു പ്രതികരണം സൃഷ്ടിക്കും.</p><p><b><i> എന്നതിൽ മറുപടികൾ ആരംഭിക്കുക കുറിപ്പ്:</i></b> മറുപടികൾക്ക് പകരം സ്വകാര്യ കുറിപ്പുകൾ സൃഷ്‌ടിക്കുക.</p><p>സ്ലാക്കിലുള്ള റിപ്ലയർക്ക് ചാറ്റ്‌വൂട്ടിൽ ഒരു ഏജന്റ് പ്രൊഫൈൽ ഉണ്ടെങ്കിൽ അതേ ഇമെയിലിന് കീഴിൽ, മറുപടികൾ അതിനനുസരിച്ച് ബന്ധപ്പെടുത്തും.</p><p> p><p>റിപ്ലെയർക്ക് അനുബന്ധ ഏജന്റ് പ്രൊഫൈൽ ഇല്ലെങ്കിൽ, മറുപടികൾ ബോട്ട് പ്രൊഫൈലിൽ നിന്നായിരിക്കും.</p>"
       }
     },
     "DELETE": {
