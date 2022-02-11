@@ -20,7 +20,7 @@ class MailPresenter < SimpleDelegator
     return {} if @decoded_text_content.blank?
 
     @text_content ||= {
-      full: encoded_raw_text_content,
+      full: select_body(text_part),
       reply: @decoded_text_content,
       quoted: body.force_encoding(encoding).encode('UTF-8')
     }
@@ -30,9 +30,13 @@ class MailPresenter < SimpleDelegator
   # returns encoded raw mail body as it is if mail_part not available.
   # else returns parsed the html body if contains text/html content.
   def select_body(mail_part)
-    return raw_mail_body unless mail_part
+    decoded = if mail_part
+                mail_part.decoded
+              else
+                raw_mail_body
+              end
 
-    encoded = encode_to_unicode(mail_part.decoded)
+    encoded = encode_to_unicode(decoded)
 
     if mail.text_part
       encoded
@@ -49,7 +53,7 @@ class MailPresenter < SimpleDelegator
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
-      full: encoded_raw_html_content,
+      full: select_body(html_part),
       reply: @decoded_html_content,
       quoted: body
     }
@@ -134,23 +138,12 @@ class MailPresenter < SimpleDelegator
     ((mail.content_type || '').include? 'text/html') || @mail.html_part&.content_type&.include?('text/html')
   end
 
+  def text_mail_body?
+    ((mail.content_type || '').include? 'text') || @mail.text_part&.content_type&.include?('text')
+  end
+
   def raw_mail_body
-    if html_mail_body?
-      encoded_raw_html_content
-    else
-      encoded_raw_text_content
-    end
-  end
-
-  # returns mail body if mail content_type is text/plain
-  def encoded_raw_html_content
-    return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/html'
-
-    ''
-  end
-
-  def encoded_raw_text_content
-    return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/plain'
+    return @mail.body.decoded if html_mail_body? || text_mail_body?
 
     ''
   end
