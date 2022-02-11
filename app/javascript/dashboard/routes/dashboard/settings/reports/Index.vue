@@ -66,25 +66,8 @@ export default {
       from: 0,
       to: 0,
       currentSelection: 0,
-      groupBy: 'day',
-      groupByOptions: {
-        day: [{ id: 1, groupBy: 'Day' }],
-        week: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-        ],
-        month: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-          { id: 3, groupBy: 'Month' },
-        ],
-        year: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-          { id: 3, groupBy: 'Month' },
-          { id: 4, groupBy: 'Year' },
-        ],
-      },
+      groupBy: this.$t('REPORT.GROUP_BY_DAY'),
+      groupByOptions: this.$t('REPORT.GROUP_BY_OPTIONS'),
       filterItemsList: [],
       selectedGroupByFilter: {},
     };
@@ -100,10 +83,7 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element => {
-        if (this.groupBy === 'month') {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
-        }
-        if (this.groupBy === 'week') {
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_WEEK')) {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
           const last_day = first_day + 6;
@@ -116,7 +96,10 @@ export default {
             'dd/MM/yy'
           )}`;
         }
-        if (this.groupBy === 'year') {
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_MONTH')) {
+          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+        }
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_YEAR')) {
           return format(fromUnixTime(element.timestamp), 'yyyy');
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
@@ -148,10 +131,6 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
-  },
-  mounted() {
-    this.filterItemsList = this.groupByOptions[this.groupBy];
-    this.selectedGroupByFilter = this.filterItemsList[0];
   },
   methods: {
     fetchAllData() {

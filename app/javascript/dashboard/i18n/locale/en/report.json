@@ -60,7 +60,29 @@
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By"
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_DAY": "day",
+    "GROUP_BY_WEEK": "week",
+    "GROUP_BY_MONTH": "month",
+    "GROUP_BY_YEAR": "year",
+    "GROUP_BY_OPTIONS": {
+      "day": [{ "id": 1, "groupBy": "Day" }],
+      "week": [
+        { "id": 1, "groupBy": "Day" },
+        { "id": 2, "groupBy": "Week" }
+      ],
+      "month": [
+        { "id": 1, "groupBy": "Day" },
+        { "id": 2, "groupBy": "Week" },
+        { "id": 3, "groupBy": "Month" }
+      ],
+      "year": [
+        { "id": 1, "groupBy": "Day" },
+        { "id": 2, "groupBy": "Week" },
+        { "id": 3, "groupBy": "Month" },
+        { "id": 4, "groupBy": "Year" }
+      ]
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",

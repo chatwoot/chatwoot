@@ -147,6 +147,18 @@ describe ::V2::ReportBuilder do
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
       end
+
+      it 'returns argument error for incorrect group by' do
+        params = {
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s,
+          group_by: 'test'.to_s
+        }
+
+        builder = V2::ReportBuilder.new(account, params)
+        expect { builder.summary }.to raise_error(ArgumentError)
+      end
     end
 
     context 'when report type is label' do
@@ -246,6 +258,19 @@ describe ::V2::ReportBuilder do
         expect(metrics[:outgoing_messages_count]).to be 15
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
+      end
+
+      it 'returns argument error for incorrect group by' do
+        params = {
+          type: :label,
+          id: label_2.id,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s,
+          group_by: 'test'.to_s
+        }
+
+        builder = V2::ReportBuilder.new(account, params)
+        expect { builder.summary }.to raise_error(ArgumentError)
       end
     end
   end

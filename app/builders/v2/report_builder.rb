@@ -64,39 +64,45 @@ class V2::ReportBuilder
 
   def conversations_count
     scope.conversations
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def incoming_messages_count
     scope.messages.incoming.unscope(:order)
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def outgoing_messages_count
     scope.messages.outgoing.unscope(:order)
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def resolutions_count
     scope.conversations
          .resolved
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def avg_first_response_time
     scope.events
          .where(name: 'first_response')
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .average(:value)
   end
 
   def avg_resolution_time
     scope.events.where(name: 'conversation_resolved')
-         .group_by_period(params[:group_by], :created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .average(:value)
   end
 

@@ -91,25 +91,8 @@ export default {
       to: 0,
       currentSelection: 0,
       selectedFilter: null,
-      groupBy: 'day',
-      groupByOptions: {
-        day: [{ id: 1, groupBy: 'Day' }],
-        week: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-        ],
-        month: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-          { id: 3, groupBy: 'Month' },
-        ],
-        year: [
-          { id: 1, groupBy: 'Day' },
-          { id: 2, groupBy: 'Week' },
-          { id: 3, groupBy: 'Month' },
-          { id: 4, groupBy: 'Year' },
-        ],
-      },
+      groupBy: this.$t('REPORT.GROUP_BY_DAY'),
+      groupByOptions: this.$t('REPORT.GROUP_BY_OPTIONS'),
       groupByfilterItemsList: [],
       selectedGroupByFilter: null,
     };
@@ -129,9 +112,28 @@ export default {
         return {};
       }
       if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element =>
-        format(fromUnixTime(element.timestamp), 'dd/MMM')
-      );
+      const labels = this.accountReport.data.map(element => {
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_WEEK')) {
+          let week_date = new Date(fromUnixTime(element.timestamp));
+          const first_day = week_date.getDate() - week_date.getDay();
+          const last_day = first_day + 6;
+
+          const week_first_date = new Date(week_date.setDate(first_day));
+          const week_last_date = new Date(week_date.setDate(last_day));
+
+          return `${format(week_first_date, 'dd/MM/yy')} - ${format(
+            week_last_date,
+            'dd/MM/yy'
+          )}`;
+        }
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_MONTH')) {
+          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+        }
+        if (this.groupBy === this.$t('REPORT.GROUP_BY_YEAR')) {
+          return format(fromUnixTime(element.timestamp), 'yyyy');
+        }
+        return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
+      });
       const data = this.accountReport.data.map(element => element.value);
       return {
         labels,
@@ -168,8 +170,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
-    // this.groupByfilterItemsList = this.groupByOptions[this.groupBy];
-    // this.selectedGroupByFilter = this.groupByfilterItemsList[0];
   },
   methods: {
     fetchAllData() {

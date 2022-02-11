@@ -24,7 +24,7 @@
       @change="onChange"
     />
     <div
-      v-if="selectedGroupByFilter"
+      v-if="notLast7Days"
       class="small-12 medium-3 pull-right margin-left-small"
     >
       <p aria-hidden="true" class="hide">
@@ -99,24 +99,26 @@ export default {
     },
     groupBy() {
       if (this.isDateRangeSelected) {
-        return 'year';
+        return this.$t('REPORT.GROUP_BY_YEAR');
       }
       const groupRange = {
-        0: { groupBy: 'day' },
-        1: { groupBy: 'week' },
-        2: { groupBy: 'month' },
-        3: { groupBy: 'month' },
-        4: { groupBy: 'month' },
+        0: { groupBy: this.$t('REPORT.GROUP_BY_DAY') },
+        1: { groupBy: this.$t('REPORT.GROUP_BY_WEEK') },
+        2: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
+        3: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
+        4: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
       };
 
       const selectedGroup = groupRange[this.currentDateRangeSelection.id];
       return selectedGroup.groupBy;
     },
+    notLast7Days() {
+      return this.groupBy !== this.$t('REPORT.GROUP_BY_DAY');
+    },
   },
   watch: {
     filterItemsList() {
       this.currentSelectedFilter = this.selectedGroupByFilter;
-      this.changeFilterSelection();
     },
   },
   mounted() {
