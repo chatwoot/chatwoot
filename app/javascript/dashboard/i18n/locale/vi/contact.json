@@ -36,9 +36,9 @@
     "MERGE_CONTACT": "Gộp liên lạc",
     "CONTACT_ACTIONS": "Hành động của liên lạc",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
-    "UNMUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
+    "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
-    "UNMUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng",
+    "UNMUTED_SUCCESS": "Cuộc trò chuyện này được bật tiếng",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
@@ -83,7 +83,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
-      "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng sửa lại sau."
+      "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng thử lại sau."
     }
   },
   "CONTACT_FORM": {
@@ -270,11 +270,11 @@
       "ADD": {
         "TITLE": "Tạo thuộc tính mới ",
         "SUCCESS": "Thuộc tính được thêm thành công",
-        "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại"
+        "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
       },
       "UPDATE": {
         "SUCCESS": "Thuộc tính cập nhật thành công",
-        "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại"
+        "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
       },
       "DELETE": {
         "SUCCESS": "Thuộc tính xoá thành công",
