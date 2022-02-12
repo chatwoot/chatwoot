@@ -87,7 +87,7 @@ vi:
       response: "Bạn hãy vui lòng đánh giá cuộc trò chuyện, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} đang Online, vui lòng thử lại sau"
+      delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
   integration_apps:
     slack:
       name: "Slack"
