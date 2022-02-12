@@ -166,12 +166,12 @@
     "ADD_BUTTON_TEXT": "Tạo thuộc tính",
     "UPDATE": {
       "SUCCESS": "Thuộc tính cập nhật thành công",
-      "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại"
+      "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
     },
     "ADD": {
       "TITLE": "Thêm",
       "SUCCESS": "Thuộc tính được thêm thành công",
-      "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại"
+      "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
     },
     "DELETE": {
       "SUCCESS": "Thuộc tính xoá thành công",
