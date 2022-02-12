@@ -68,7 +68,7 @@
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
         "SUCCESS_MESSAGE": "Quy tắc tự động hoá thêm thành công",
-        "ERROR_MESSAGE": "Không thể sửa quy tắc tự động hoá, Vui lòng thử lại sau"
+        "ERROR_MESSAGE": "Không thể cập nhật quy tắc tự động hoá, Vui lòng thử lại sau"
       }
     },
     "CLONE": {
