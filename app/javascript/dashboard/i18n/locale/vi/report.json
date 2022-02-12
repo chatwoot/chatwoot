@@ -1,9 +1,9 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Tổng quan",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc trò chuyện",
@@ -41,15 +41,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 tháng vừa qua"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 tháng vừa qua"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Năm ngoái"
       },
       {
         "id": 5,
@@ -65,7 +65,7 @@
     "HEADER": "Agents Overview",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
     "FILTER_DROPDOWN_LABEL": "Chọn đại lý",
     "METRICS": {
       "CONVERSATIONS": {
@@ -104,15 +104,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 tháng vừa qua"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 tháng vừa qua"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Năm ngoái"
       },
       {
         "id": 5,
@@ -167,15 +167,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 tháng vừa qua"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 tháng vừa qua"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Năm ngoái"
       },
       {
         "id": 5,
@@ -230,15 +230,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 tháng vừa qua"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 tháng vừa qua"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Năm ngoái"
       },
       {
         "id": 5,
@@ -293,15 +293,15 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 tháng vừa qua"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 tháng vừa qua"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Năm ngoái"
       },
       {
         "id": 5,
