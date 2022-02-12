@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "Hiện tại chúng tôi đang offline"
+    "OFFLINE": "Hiện tại chúng tôi đang ngoại tuyến"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
