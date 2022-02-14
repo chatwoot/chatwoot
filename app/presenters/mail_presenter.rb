@@ -27,17 +27,21 @@ class MailPresenter < SimpleDelegator
   end
 
   # returns encoded mail body text_part if available.
-  # returns encoded mail body as it is if mail_part not available.
+  # returns encoded raw mail body as it is if mail_part not available.
   # else returns parsed the html body if contains text/html content.
   def select_body(mail_part)
-    return encoded_mail_body unless mail_part
+    decoded = if mail_part
+                mail_part.decoded
+              else
+                raw_mail_body
+              end
 
-    decoded = encode_to_unicode(mail_part.decoded)
+    encoded = encode_to_unicode(decoded)
 
     if mail.text_part
-      decoded
+      encoded
     elsif html_mail_body?
-      ::HtmlParser.parse_reply(decoded)
+      ::HtmlParser.parse_reply(encoded)
     end
   end
 
@@ -131,12 +135,15 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_mail_body?
-    ((mail.content_type || '').include? 'text/html') || @mail.html_part || @mail.html_part.content_type.include?('text/html')
+    ((mail.content_type || '').include? 'text/html') || @mail.html_part&.content_type&.include?('text/html')
   end
 
-  # returns mail body if mail content_type is text/plain
-  def encoded_mail_body
-    return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/plain'
+  def text_mail_body?
+    ((mail.content_type || '').include? 'text') || @mail.text_part&.content_type&.include?('text')
+  end
+
+  def raw_mail_body
+    return @mail.body.decoded if html_mail_body? || text_mail_body?
 
     ''
   end
