@@ -169,6 +169,7 @@
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
       "SUCCESS_MESSAGE": "Besked sendt!",
+      "GO_TO_CONVERSATION": "Vis",
       "ERROR_MESSAGE": "Kunne ikke sendes! prøv igen"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Søg",
     "SEARCH_INPUT_PLACEHOLDER": "Søg efter kontakter",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",

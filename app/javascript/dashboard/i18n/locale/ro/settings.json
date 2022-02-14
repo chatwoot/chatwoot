@@ -89,14 +89,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Parola",
+        "LABEL": "New password",
         "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
         "PLACEHOLDER": "Te rog introdu o noua parola"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmare parolă nouă",
         "ERROR": "Confirmarea parolei trebuie să se potrivească cu parola",
-        "PLACEHOLDER": "Vă rugăm să reintroduceţi parola"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +153,8 @@
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

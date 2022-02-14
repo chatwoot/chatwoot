@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Standaard antwoord toevoegen",
     "LOADING": "Standaard antwoorden ophalen",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
-    "SIDEBAR_TXT": "<p><b> Standaard antwoorden</b> </p><p> Standaard antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel een antwoord te sturen naar een gesprek. </p><p> Voor het maken van een standaard antwoord, klik op de <b>Voeg standaard antwoord toe</b>. U kunt een bestaand antwoord bewerken of verwijderen door op de knop Bewerken of Verwijderen te klikken </p><p> Standaard antwoorden worden gebruikt met behulp van <b>korte codes</b>. Medewerkers hebben toegang tot standaard antwoorden in een chat door <b>'/'</b> te typen gevolgd door de korte code. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
       "TITLE": "Beheer standaard antwoorden",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Standaard antwoord toevoegen",
-      "DESC": "Standaard antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel te reageren op gesprek.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Korte code",
-          "PLACEHOLDER": "Vul een korte code in",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Korte code is vereist"
         },
         "CONTENT": {

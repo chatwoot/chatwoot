@@ -5,7 +5,7 @@ const testData = [
     attribute_key: 'status',
     filter_operator: 'equal_to',
     values: [
-      { id: 'pending', name: 'Pending' },
+      { id: 'PENDING', name: 'Pending' },
       { id: 'resolved', name: 'Resolved' },
     ],
     query_operator: 'and',
@@ -52,7 +52,7 @@ const finalResult = {
     {
       attribute_key: 'id',
       filter_operator: 'equal_to',
-      values: ['This is a test'],
+      values: ['this is a test'],
     },
   ],
 };
