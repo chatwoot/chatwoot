@@ -19,7 +19,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
-        "TITLE": "Edit webhook",
+        "TITLE": "Sửa webhook",
         "CANCEL": "Huỷ",
         "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
         "FORM": {
@@ -28,10 +28,10 @@
             "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
             "ERROR": "Vui lòng nhập một URL hợp lệ"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "Sửa webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook URL cập nhật thành công",
           "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
@@ -68,8 +68,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Dùng tích hợp Slack",
+        "BODY": "<br/><p>Chatwoot giờ đây sẽ đồng bộ hóa tất cả các cuộc trò chuyện đến vào kênh <b><i>cuộc trò chuyện với khách hàng</i></b> bên trong nơi làm việc Slack của bạn.</p><p>Trả lời chuỗi hội thoại trong kênh Slack <b><i>cuộc trò chuyện với khách hàng</i></b> sẽ tạo phản hồi lại cho khách hàng thông qua chatwoot. </p><p>Bắt đầu câu trả lời bằng <b><i>ghi chú:</i></b> để tạo ghi chú riêng tư thay vì trả lời.</p><p>Nếu người trả lời trên slack có hồ sơ đại lý trong chatwoot dưới cùng một email, thì các câu trả lời sẽ được liên kết theo đó.</p><p>Khi người trả lời không có hồ sơ đại lý được liên kết, các câu trả lời sẽ được thực hiện từ hồ sơ bot.</p>"
       }
     },
     "DELETE": {
