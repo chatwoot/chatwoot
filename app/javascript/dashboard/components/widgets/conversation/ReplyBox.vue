@@ -75,6 +75,7 @@
     </div>
     <reply-bottom-panel
       :mode="replyType"
+      :inbox="inbox"
       :send-button-text="replyButtonLabel"
       :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"

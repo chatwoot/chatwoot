@@ -126,6 +126,10 @@ export default {
       type: String,
       default: '',
     },
+    inbox: {
+      type: Object,
+      default: () => ({}),
+    },
     showFileUpload: {
       type: Boolean,
       default: false,
