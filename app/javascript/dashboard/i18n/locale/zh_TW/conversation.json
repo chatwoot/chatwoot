@@ -184,6 +184,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "密件副本",
     "CC": "副本",
