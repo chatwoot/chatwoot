@@ -184,6 +184,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Pre",
     "BCC": "Skrytá kópia",
     "CC": "Kópia",
