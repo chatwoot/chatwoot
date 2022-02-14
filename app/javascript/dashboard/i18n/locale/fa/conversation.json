@@ -184,6 +184,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "از",
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",
