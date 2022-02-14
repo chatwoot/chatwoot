@@ -154,6 +154,7 @@ import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { GROUP_BY_FILTER } from '../constants';
 
 export default {
   components: {
@@ -223,21 +224,19 @@ export default {
     },
     groupBy() {
       if (this.isDateRangeSelected) {
-        return this.$t('REPORT.GROUP_BY_YEAR');
+        return GROUP_BY_FILTER[4].period;
       }
       const groupRange = {
-        0: { groupBy: this.$t('REPORT.GROUP_BY_DAY') },
-        1: { groupBy: this.$t('REPORT.GROUP_BY_WEEK') },
-        2: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
-        3: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
-        4: { groupBy: this.$t('REPORT.GROUP_BY_MONTH') },
+        0: GROUP_BY_FILTER[1].period,
+        1: GROUP_BY_FILTER[2].period,
+        2: GROUP_BY_FILTER[3].period,
+        3: GROUP_BY_FILTER[3].period,
+        4: GROUP_BY_FILTER[3].period,
       };
-
-      const selectedGroup = groupRange[this.currentDateRangeSelection.id];
-      return selectedGroup.groupBy;
+      return groupRange[this.currentDateRangeSelection.id];
     },
     notLast7Days() {
-      return this.groupBy !== this.$t('REPORT.GROUP_BY_DAY');
+      return this.groupBy !== GROUP_BY_FILTER[1].period;
     },
   },
   watch: {

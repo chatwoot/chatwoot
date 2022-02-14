@@ -54,6 +54,7 @@
 import ReportFilters from './ReportFilters';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
+import { GROUP_BY_FILTER } from '../constants';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -91,9 +92,8 @@ export default {
       to: 0,
       currentSelection: 0,
       selectedFilter: null,
-      groupBy: this.$t('REPORT.GROUP_BY_DAY'),
-      groupByOptions: this.$t('REPORT.GROUP_BY_OPTIONS'),
-      groupByfilterItemsList: [],
+      groupBy: GROUP_BY_FILTER[1],
+      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
     };
   },
@@ -113,7 +113,7 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element => {
-        if (this.groupBy === this.$t('REPORT.GROUP_BY_WEEK')) {
+        if (this.groupBy.period === GROUP_BY_FILTER[2].period) {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
           const last_day = first_day + 6;
@@ -126,10 +126,10 @@ export default {
             'dd/MM/yy'
           )}`;
         }
-        if (this.groupBy === this.$t('REPORT.GROUP_BY_MONTH')) {
+        if (this.groupBy.period === GROUP_BY_FILTER[3].period) {
           return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
         }
-        if (this.groupBy === this.$t('REPORT.GROUP_BY_YEAR')) {
+        if (this.groupBy.period === GROUP_BY_FILTER[4].period) {
           return format(fromUnixTime(element.timestamp), 'yyyy');
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
@@ -180,7 +180,7 @@ export default {
           to,
           type: this.type,
           id: this.selectedFilter.id,
-          groupBy,
+          groupBy: groupBy.period,
         });
         this.fetchChartData();
       }
@@ -193,7 +193,7 @@ export default {
         to,
         type: this.type,
         id: this.selectedFilter.id,
-        groupBy,
+        groupBy: groupBy.period,
       });
     },
     downloadReports() {
@@ -226,15 +226,15 @@ export default {
     onDateRangeChange({ from, to, groupBy }) {
       this.from = from;
       this.to = to;
-      this.groupByfilterItemsList = this.groupByOptions[groupBy];
+      this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
       const filterItems = this.groupByfilterItemsList.filter(
-        item => item.groupBy.toLowerCase() === this.groupBy
+        item => item.id === this.groupBy.id
       );
       if (filterItems.length > 0) {
         this.selectedGroupByFilter = filterItems[0];
       } else {
         this.selectedGroupByFilter = this.groupByfilterItemsList[0];
-        this.groupBy = this.selectedGroupByFilter.groupBy.toLowerCase();
+        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
       }
       this.fetchAllData();
     },
@@ -245,8 +245,20 @@ export default {
       }
     },
     onGroupByFilterChange(payload) {
-      this.groupBy = payload.groupBy.toLowerCase();
+      this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
+    },
+    fetchFilterItems(group_by) {
+      switch (group_by) {
+        case GROUP_BY_FILTER[2].period:
+          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
+        case GROUP_BY_FILTER[3].period:
+          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
+        case GROUP_BY_FILTER[4].period:
+          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+        default:
+          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
+      }
     },
   },
 };
