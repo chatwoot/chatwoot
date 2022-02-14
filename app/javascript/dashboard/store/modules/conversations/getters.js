@@ -19,6 +19,20 @@ const getters = {
     );
     return selectedChat || {};
   },
+  getLastEmailInSelectedChat: (stage, _getters) => {
+    const selectedChat = _getters.getSelectedChat;
+    const { messages = [] } = selectedChat;
+    const lastEmail = [...messages].reverse().find(message => {
+      const { content_attributes: contentAttributes = {} } = message;
+      const { email = {} } = contentAttributes;
+      if (email.from) {
+        return true;
+      }
+      return false;
+    });
+
+    return lastEmail;
+  },
   getMineChats: _state => activeFilters => {
     const currentUserID = authAPI.getCurrentUser().id;
 

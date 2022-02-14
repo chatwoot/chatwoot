@@ -163,6 +163,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      lastEmail: 'getLastEmailInSelectedChat',
     }),
 
     showRichContentEditor() {
@@ -339,6 +340,14 @@ export default {
       const { can_reply: canReply } = conversation;
       if (this.isOnPrivateNote) {
         return;
+      }
+
+      if (this.lastEmail) {
+        const { emailAttributes = {} } = this.lastEmail;
+        const cc = emailAttributes.cc || [];
+        const bcc = emailAttributes.bcc || [];
+        this.ccEmails = cc.join(', ');
+        this.bccEmails = bcc.join(', ');
       }
 
       if (canReply || this.isAWhatsappChannel) {
