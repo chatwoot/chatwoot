@@ -94,15 +94,13 @@ class V2::ReportBuilder
   def avg_first_response_time
     scope.events
          .where(name: 'first_response')
-         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
+         .group_by_day(:created_at, range: range, default_value: 0)
          .average(:value)
   end
 
   def avg_resolution_time
     scope.events.where(name: 'conversation_resolved')
-         .group_by_period(params[:group_by] || I18n.t('reports.default_group_by'),
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
+         .group_by_day(:created_at, range: range, default_value: 0)
          .average(:value)
   end
 
