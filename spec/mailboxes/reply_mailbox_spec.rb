@@ -78,9 +78,11 @@ RSpec.describe ReplyMailbox, type: :mailbox do
         )
       end
 
-      it 'prefer reply-to over from address' do
-        conversation_1.update!(uuid: '0CB459E0-0336-41DA-BC88-E6E28C697DDB')
+      before do
+        conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+      end
 
+      it 'prefer reply-to over from address' do
         described_class.receive reply_to_mail
         expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
 
