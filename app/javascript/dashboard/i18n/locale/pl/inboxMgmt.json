@@ -408,15 +408,15 @@
       "ENABLE_CSAT": "Włącz CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Rozmowy będą kontynuowane przez e-mail, jeśli adres e-mail kontaktu jest dostępny.",
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
       "HMAC_VERIFICATION": "Weryfikacja tożsamości użytkownika",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "HMAC_DESCRIPTION": "Polecenie weryfikacji tożsamości użytkownika, SDK pozwala na przekazanie pliku `identifier_hash` dla każdego użytkownika. Możesz wygenerować HMAC używając 'sha256' z kluczem pokazanym tutaj.",
+      "HMAC_MANDATORY_VERIFICATION": "Wymuś sprawdzanie tożsamości użytkownika",
+      "HMAC_MANDATORY_DESCRIPTION": "Jeśli włączone, chatwoot SDKs setUser nie będzie działać, chyba że `identifier_hash` jest dostarczony dla każdego użytkownika.",
+      "INBOX_IDENTIFIER": "Identyfikator skrzynki odbiorczej",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Przekaż do wiadomości e-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail.",
@@ -426,36 +426,36 @@
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ponowna autoryzacja",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_SUCCESS": "Ponowne połączenie powiodło się",
       "MESSAGE_ERROR": "Wystąpił błąd, spróbuj ponownie"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Formularze czatu umożliwiają przechwytywanie informacji o użytkowniku przed rozpoczęciem rozmowy z Tobą.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Włącz formularz przed czatem",
         "OPTIONS": {
           "ENABLED": "Tak",
           "DISABLED": "Nie"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Wiadomość na czacie",
+        "PLACEHOLDER": "Ta wiadomość będzie widoczna dla użytkowników wraz z formularzem"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Odwiedzający powinni podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem czatu"
       }
     },
     "BUSINESS_HOURS": {
       "TITLE": "Ustaw swoją dostępność",
-      "SUBTITLE": "Set your availability on your livechat widget",
+      "SUBTITLE": "Ustaw swoją dostępność na widżecie na czacie",
       "WEEKLY_TITLE": "Ustaw swoje godziny tygodniowe",
       "TIMEZONE_LABEL": "Wybierz strefę czasową",
       "UPDATE": "Zaktualizuj ustawienia godzin pracy",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "TOGGLE_AVAILABILITY": "Włącz dostępność biznesową dla tej skrzynki odbiorczej",
+      "UNAVAILABLE_MESSAGE_LABEL": "Wiadomość niedostępna dla odwiedzających",
       "UNAVAILABLE_MESSAGE_DEFAULT": "W tej chwili jesteśmy niedostępni. Pozostaw wiadomość, a odpowiemy, gdy będzie to możliwe.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Włączenie dostępności biznesowej pokaże dostępne godziny na czacie na żywo, nawet jeśli wszyscy agenci są offline. Poza dostępnymi godzinami można ostrzec za pomocą wiadomości i formularza wstępnego czatu.",
       "DAY": {
         "ENABLE": "Włącz dostępność w tym dniu",
         "UNAVAILABLE": "Niedostępny",
@@ -466,17 +466,17 @@
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "Ustaw szczegóły IMAP",
+      "UPDATE": "Aktualizuj ustawienia IMAP",
+      "TOGGLE_AVAILABILITY": "Włącz konfigurację IMAP dla tej skrzynki odbiorczej",
+      "TOGGLE_HELP": "Włączenie IMAP pomoże użytkownikowi otrzymywać e-mail",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "Ustawienia IMAP zostały zaktualizowane",
+        "ERROR_MESSAGE": "Nie można zaktualizować ustawień IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Adres IP",
+        "PLACE_HOLDER": "Adres (Eg: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -490,20 +490,20 @@
         "LABEL": "Hasło",
         "PLACE_HOLDER": "Hasło"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Włącz SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Ustaw szczegóły SMTP",
+      "UPDATE": "Aktualizuj ustawienia SMTP",
+      "TOGGLE_AVAILABILITY": "Włącz konfigurację SMTP dla tej skrzynki odbiorczej",
+      "TOGGLE_HELP": "Włączenie SMTP pomoże użytkownikowi wysyłać wiadomości e-mail",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update SMTP settings"
       },
       "ADDRESS": {
-        "LABEL": "Address",
+        "LABEL": "Adres IP",
         "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
       },
       "PORT": {
@@ -525,7 +525,7 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
+      "OPEN_SSL_VERIFY_MODE": "Otwórz tryb weryfikacji SSL"
     }
   }
 }
