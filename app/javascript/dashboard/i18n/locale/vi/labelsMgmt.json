@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Tên nhãn",
         "PLACEHOLDER": "Tên nhãn",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Tên nhãn là bắt buộc",
+        "MINIMUM_LENGTH_ERROR": "Bắt buộc độ dài tối thiểu là 2",
+        "VALID_ERROR": "Chỉ cho phép Chữ cái, Chữ số, Dấu gạch ngang và Dấu gạch dưới"
       },
       "DESCRIPTION": {
         "LABEL": "Mô tả",
