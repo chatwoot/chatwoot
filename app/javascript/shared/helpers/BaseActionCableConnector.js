@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { createConsumer } from '@rails/actioncable';
 
 const PRESENCE_INTERVAL = 20000;
@@ -18,6 +19,8 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
+        disconnected: this.onDisconnected,
+        connected: this.onConnected,
       }
     );
     this.app = app;
@@ -29,8 +32,20 @@ class BaseActionCableConnector {
     }, PRESENCE_INTERVAL);
   }
 
+  // Called when the subscription is ready for use on the server.
+  onConnected() {
+    // eslint-disable-next-line no-console
+    console.log('Action cable connected');
+  }
+
   disconnect() {
     this.consumer.disconnect();
+  }
+
+  // Called when the WebSocket connection is closed.
+  onDisconnected() {
+    // eslint-disable-next-line no-console
+    console.log('Action cable disconnected');
   }
 
   onReceived = ({ event, data } = {}) => {
