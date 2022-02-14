@@ -7,7 +7,7 @@
     "COMPANY": "Εταιρία",
     "LOCATION": "Θέση",
     "CONVERSATION_TITLE": "Λεπτομέρειες συνομιλίας",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Προβολή Προφίλ",
     "BROWSER": "Φυλλομετρητής",
     "OS": "Λειτουργικό",
     "INITIATED_FROM": "Αρχικοποίηση από",
@@ -111,7 +111,7 @@
         "LABEL": "Αριθμός Τηλεφώνου",
         "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
         "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
       },
       "LOCATION": {
         "PLACEHOLDER": "Εισάγετε την τοποθεσία της επαφής",
@@ -159,7 +159,7 @@
       "SUBJECT": {
         "LABEL": "Θέμα",
         "PLACEHOLDER": "Θέμα",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "Το θέμα δεν μπορεί να είναι κενό"
       },
       "MESSAGE": {
         "LABEL": "Μήνυμα",
@@ -169,6 +169,7 @@
       "SUBMIT": "Αποστολή μηνύματος",
       "CANCEL": "Άκυρο",
       "SUCCESS_MESSAGE": "Το μήνυμα στάλθηκε!",
+      "GO_TO_CONVERSATION": "Προβολή",
       "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
     }
   },
@@ -177,7 +178,9 @@
     "FIELDS": "Πεδία επαφής",
     "SEARCH_BUTTON": "Αναζήτηση",
     "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
-    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS": "Φίλτρο",
+    "FILTER_CONTACTS_SAVE": "Αποθήκευση φίλτρου",
+    "FILTER_CONTACTS_DELETE": "Διαγραφή φίλτρου",
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση επαφών...",
       "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
@@ -198,7 +201,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Επαφές",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "Φόρτωση προφίλ επαφής..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -211,13 +214,13 @@
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Λήψη σημειώσεων...",
+    "NOT_AVAILABLE": "Δεν υπάρχουν σημειώσεις για αυτήν την επαφή",
     "HEADER": {
       "TITLE": "Σημειώσεις"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "προστέθηκε μια σημείωση"
     },
     "ADD": {
       "BUTTON": "Προσθήκη",
@@ -225,7 +228,7 @@
       "TITLE": "Shift + Enter για δημιουργία σημείωσης"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Διαγραφή σημείωσης"
     }
   },
   "EVENTS": {
@@ -239,13 +242,13 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "Προσθήκη ιδιότητας",
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
     "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "Αντιγραφή ιδιότητας",
+      "DELETE": "Διαγραφή ιδιότητας",
       "EDIT": "Επεξεργασία ιδιότητας"
     },
     "ADD": {
@@ -265,34 +268,34 @@
         "PLACEHOLDER": "π.χ.: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Δημιουργία νέας ιδιότητας ",
         "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα"
       },
       "UPDATE": {
         "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Δεν είναι δυνατή η ενημέρωση της ιδιότητας. Παρακαλώ προσπαθήστε ξανά αργότερα"
       },
       "DELETE": {
         "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Δεν είναι δυνατή η διαγραφή της ιδιότητας. Παρακαλώ δοκιμάστε ξανά αργότερα"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Προσθήκη ιδιότητας",
+        "PLACEHOLDER": "Αναζήτηση ιδιοτήτων",
+        "NO_RESULT": "Δεν βρέθηκαν ιδιότητες"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Επιλέξτε τιμή",
+          "SEARCH_INPUT_PLACEHOLDER": "Τιμή αναζήτησης",
+          "NO_RESULT": "Δεν βρέθηκε κανένα αποτέλεσμα"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Απαιτείται έγκυρη τιμή",
+      "INVALID_URL": "Μη Έγκυρο URL"
     }
   },
   "MERGE_CONTACTS": {

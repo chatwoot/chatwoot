@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "非活跃工单的自动结单的天数",
         "PLACEHOLDER": "30",
-        "ERROR": "请输入一个合法的自动结单日期(最少1天)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",

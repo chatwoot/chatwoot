@@ -245,7 +245,10 @@ export default {
       });
     },
     showAssigneeInConversationCard() {
-      return this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL;
+      return (
+        this.hasAppliedFiltersOrActiveFolders ||
+        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -368,7 +371,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
-      this.foldersQuery = { payload: payload };
+      this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);

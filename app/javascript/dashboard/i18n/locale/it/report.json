@@ -1,33 +1,33 @@
 {
   "REPORT": {
     "HEADER": "Panoramica",
-    "LOADING_CHART": "Caricamento dati grafici...",
-    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "LOADING_CHART": "Caricamento dati del grafico...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Risoluzione Tempo",
+        "NAME": "Tempo di risoluzione",
         "DESC": "( Media )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       }
     },
     "DATE_RANGE": [
@@ -63,34 +63,34 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
-    "LOADING_CHART": "Caricamento dati grafici...",
-    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "LOADING_CHART": "Caricamento dati del grafico...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
     "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Risoluzione Tempo",
+        "NAME": "Tempo di risoluzione",
         "DESC": "( Media )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       }
     },
     "DATE_RANGE": [
@@ -126,34 +126,34 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
-    "LOADING_CHART": "Caricamento dati grafici...",
-    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "LOADING_CHART": "Caricamento dati del grafico...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Risoluzione Tempo",
+        "NAME": "Tempo di risoluzione",
         "DESC": "( Media )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       }
     },
     "DATE_RANGE": [
@@ -189,34 +189,34 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Caricamento dati grafici...",
-    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "LOADING_CHART": "Caricamento dati del grafico...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Seleziona Posta In Arrivo",
+    "FILTER_DROPDOWN_LABEL": "Seleziona Posta in arrivo",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Risoluzione Tempo",
+        "NAME": "Tempo di risoluzione",
         "DESC": "( Media )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       }
     },
     "DATE_RANGE": [
@@ -252,34 +252,34 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
-    "LOADING_CHART": "Caricamento dati grafici...",
-    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "LOADING_CHART": "Caricamento dati del grafico...",
+    "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Risoluzione Tempo",
+        "NAME": "Tempo di risoluzione",
         "DESC": "( Media )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "DESC": "(Totale )"
+        "DESC": "( Totale )"
       }
     },
     "DATE_RANGE": [

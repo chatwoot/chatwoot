@@ -7,7 +7,7 @@
     "COMPANY": "Perusahaan",
     "LOCATION": "Lokasi",
     "CONVERSATION_TITLE": "Detail Percakapan",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Lihat Profil",
     "BROWSER": "Browser",
     "OS": "Sistem Operasi",
     "INITIATED_FROM": "Dimulai dari",
@@ -33,8 +33,8 @@
         "NO_RESULT": "Tidak ada label"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Gabungkan Kontak",
+    "CONTACT_ACTIONS": "Tindakan Kontak",
     "MUTE_CONTACT": "Mute Percakapan",
     "UNMUTE_CONTACT": "Unmute Percakapan",
     "MUTED_SUCCESS": "Percakapan ini di mute selama 6 jam",
@@ -111,7 +111,7 @@
         "LABEL": "Nomor Telpon",
         "HELP": "Nomer telepon harus dalam format E.164 misalnya: +1415555555 [+][kode negara][kode area][nomer telepon]",
         "ERROR": "Nomer telepon harus kosong atau dalam format E. 164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Nomer ini sudah dipakai dengan kontak lain."
       },
       "LOCATION": {
         "PLACEHOLDER": "Masukkan lokasi kontak",
@@ -157,9 +157,9 @@
         "ERROR": "Pilih kotak masuk"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Subjek",
+        "PLACEHOLDER": "subjek",
+        "ERROR": "Subjek tidak boleh kosong"
       },
       "MESSAGE": {
         "LABEL": "Pesan",
@@ -169,6 +169,7 @@
       "SUBMIT": "Kirim pesan",
       "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Pesan terkirim!",
+      "GO_TO_CONVERSATION": "Lihat",
       "ERROR_MESSAGE": "Tidak dapat mengirim! coba lagi"
     }
   },
@@ -177,7 +178,9 @@
     "FIELDS": "Isian kontak",
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
-    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS": "Saring",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
@@ -198,7 +201,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Kontak",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "Memuat profil kontak..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -211,13 +214,13 @@
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Mengambil catatan...",
+    "NOT_AVAILABLE": "Tidak ada catatan yang dibuat untuk kontak ini",
     "HEADER": {
       "TITLE": "Catatan"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "menambahkan catatan"
     },
     "ADD": {
       "BUTTON": "Tambah",
@@ -225,7 +228,7 @@
       "TITLE": "Shift + Enter untuk membuat sebuah catatan"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Hapus catatan"
     }
   },
   "EVENTS": {
@@ -239,13 +242,13 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "Tambahkan atribut",
     "BUTTON": "Tambahkan atribut kustom",
     "NOT_AVAILABLE": "Tidak ada atribut kustom yang tersedia untuk kontak ini.",
     "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "Salin atribut",
+      "DELETE": "Hapus atribut",
       "EDIT": "Edit atribut"
     },
     "ADD": {
@@ -265,26 +268,26 @@
         "PLACEHOLDER": "Mis: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Membuat atribut baru ",
         "SUCCESS": "Atribut berhasil ditambahkan",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
       },
       "UPDATE": {
         "SUCCESS": "Atribut berhasil diperbarui",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti"
       },
       "DELETE": {
         "SUCCESS": "Atribut berhasil dihapus",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Tambahkan atribut",
+        "PLACEHOLDER": "Cari atribut",
+        "NO_RESULT": "Tidak ditemukan atribut"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
+          "PLACEHOLDER": "Pilih nilai",
           "SEARCH_INPUT_PLACEHOLDER": "Search value",
           "NO_RESULT": "No result found"
         }
