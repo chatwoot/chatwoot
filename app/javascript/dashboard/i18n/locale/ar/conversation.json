@@ -184,7 +184,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "من",
     "TO": "إلى",
     "BCC": "Bcc",
     "CC": "Cc",
