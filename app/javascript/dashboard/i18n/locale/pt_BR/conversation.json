@@ -184,6 +184,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Para",
     "BCC": "CCO",
     "CC": "Cc",
