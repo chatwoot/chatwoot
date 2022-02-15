@@ -53,7 +53,7 @@ export default {
       return fileType.includes('image') ? 'image' : 'file';
     },
     async onFileUpload(file) {
-      if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+      if (this.globalConfig.directUploadsEnabled) {
         this.onDirectFileUpload(file);
       } else {
         this.onIndirectFileUpload(file);

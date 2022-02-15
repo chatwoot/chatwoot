@@ -22,7 +22,7 @@ const state = {
   brandName,
   chatwootInboxToken,
   createNewAccountFromDashboard,
-  directUploadsEnabled,
+  directUploadsEnabled: directUploadsEnabled === 'true',
   displayManifest,
   installationName,
   logo,

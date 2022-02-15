@@ -520,7 +520,7 @@ export default {
       });
     },
     onFileUpload(file) {
-      if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+      if (this.globalConfig.directUploadsEnabled) {
         this.onDirectFileUpload(file);
       } else {
         this.onIndirectFileUpload(file);
@@ -601,7 +601,7 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          if (this.globalConfig.DIRECT_UPLOADS_ENABLED) {
+          if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);
           } else {
             messagePayload.files.push(attachment.resource.file);
