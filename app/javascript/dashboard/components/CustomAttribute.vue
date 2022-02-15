@@ -141,16 +141,6 @@ export default {
       editedValue: null,
     };
   },
-  validations() {
-    if (this.isAttributeTypeLink) {
-      return {
-        editedValue: { required, url },
-      };
-    }
-    return {
-      editedValue: { required },
-    };
-  },
 
   computed: {
     formattedValue() {
@@ -208,6 +198,23 @@ export default {
       }
       return this.editedValue;
     },
+  },
+  watch: {
+    value() {
+      this.isEditing = false;
+      this.editedValue = this.value;
+    },
+  },
+
+  validations() {
+    if (this.isAttributeTypeLink) {
+      return {
+        editedValue: { required, url },
+      };
+    }
+    return {
+      editedValue: { required },
+    };
   },
   mounted() {
     this.editedValue = this.formattedValue;
