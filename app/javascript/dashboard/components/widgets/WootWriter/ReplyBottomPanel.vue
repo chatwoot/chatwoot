@@ -25,7 +25,7 @@
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
         }"
-        @input-file="onDirectFileUpload"
+        @input-file="onFileUpload"
       >
         <woot-button
           v-if="showAttachButton"
@@ -134,7 +134,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    onDirectFileUpload: {
+    onFileUpload: {
       type: Function,
       default: () => {},
     },
