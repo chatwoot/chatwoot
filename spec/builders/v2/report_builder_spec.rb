@@ -260,6 +260,25 @@ describe ::V2::ReportBuilder do
         expect(metrics[:resolutions_count]).to be 0
       end
 
+      it 'returns summary for correct group by' do
+        params = {
+          type: :label,
+          id: label_2.id,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s,
+          group_by: 'week'.to_s
+        }
+
+        builder = V2::ReportBuilder.new(account, params)
+        metrics = builder.summary
+
+        expect(metrics[:conversations_count]).to be 5
+        expect(metrics[:incoming_messages_count]).to be 5
+        expect(metrics[:outgoing_messages_count]).to be 15
+        expect(metrics[:avg_resolution_time]).to be 0
+        expect(metrics[:resolutions_count]).to be 0
+      end
+
       it 'returns argument error for incorrect group by' do
         params = {
           type: :label,
