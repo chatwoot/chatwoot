@@ -137,6 +137,7 @@ class Message < ApplicationRecord
   end
 
   def email_notifiable_message?
+    return false if private?
     return false if %w[outgoing template].exclude?(message_type)
     return false if template? && %w[input_csat text].exclude?(content_type)
 

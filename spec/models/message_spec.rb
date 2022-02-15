@@ -111,6 +111,7 @@ RSpec.describe Message, type: :model do
 
     it 'return false if private message' do
       message.private = true
+      message.message_type = 'outgoing'
       expect(message.email_notifiable_message?).to be false
     end
 
