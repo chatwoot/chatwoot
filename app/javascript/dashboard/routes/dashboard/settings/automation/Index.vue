@@ -219,7 +219,7 @@ export default {
         const action =
           mode === 'EDIT' ? 'automations/update' : 'automations/create';
         const successMessage =
-          mode === 'edit'
+          mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
 
@@ -229,7 +229,7 @@ export default {
         this.hideEditPopup();
       } catch (error) {
         const errorMessage =
-          mode === 'edit'
+          mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);

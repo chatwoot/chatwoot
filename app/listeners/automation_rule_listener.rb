@@ -1,4 +1,14 @@
 class AutomationRuleListener < BaseListener
+  def conversation_updated(event_obj)
+    conversation = event_obj.data[:conversation]
+    return unless rule_present?('conversation_updated', conversation)
+
+    @rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      AutomationRules::ActionService.new(rule, conversation).perform if conditions_match.present?
+    end
+  end
+
   def conversation_status_changed(event_obj)
     conversation = event_obj.data[:conversation]
     return unless rule_present?('conversation_status_changed', conversation)
