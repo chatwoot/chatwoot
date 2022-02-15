@@ -60,53 +60,53 @@
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "روز"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "روز"
       },
       {
         "id": 0,
-        "groupBy": "Week"
+        "groupBy": "هفته"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "روز"
       },
       {
         "id": 0,
-        "groupBy": "Week"
+        "groupBy": "هفته"
       },
       {
         "id": 0,
-        "groupBy": "Month"
+        "groupBy": "ماه"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "روز"
       },
       {
         "id": 0,
-        "groupBy": "Week"
+        "groupBy": "هفته"
       },
       {
         "id": 0,
-        "groupBy": "Month"
+        "groupBy": "ماه"
       },
       {
         "id": 0,
-        "groupBy": "Year"
+        "groupBy": "سال"
       }
     ]
   },
