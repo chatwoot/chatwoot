@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Wyślij"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Wyślij wiadomość ponownie",
+      "ERROR_MESSAGE": "Nie udało się wysłać! Spróbuj ponownie"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,11 +22,12 @@
     "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia"
   },
   "START_CONVERSATION": "Rozpocznij rozmowę",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "CONTINUE_CONVERSATION": "Kontynuuj rozmowę",
+  "START_NEW_CONVERSATION": "Rozpocznij rozmowę",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
     "CLOSE_MESSAGES_BUTTON": "Zamknij",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "od",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,21 +56,21 @@
         "ERROR": "Wiadomość za krótka"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy"
   },
   "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Nieprawidłowe pole"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Oceń udzielone Ci wsparcie",
+    "SUBMITTED_TITLE": "Dziękujemy za przesłanie oceny",
+    "PLACEHOLDER": "Dodaj swój komentarz..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Poproś o skrypt rozmowy",
     "SEND_EMAIL_SUCCESS": "Transkrypcja czatu została wysłana pomyślnie",
     "SEND_EMAIL_ERROR": "Wystąpił błąd, spróbuj ponownie"
   }

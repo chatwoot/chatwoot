@@ -1,9 +1,9 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "അവലോകനം",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "ഏജന്റ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
@@ -41,31 +41,31 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "കഴിഞ്ഞ 3 മാസം"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "കഴിഞ്ഞ 6 മാസം"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "കഴിഞ്ഞ വർഷം"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "അപേക്ഷിക്കുക",
+      "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "ഏജന്റുമാരുടെ അവലോകനം",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "ഏജന്റ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
     "FILTER_DROPDOWN_LABEL": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
     "METRICS": {
       "CONVERSATIONS": {
@@ -104,32 +104,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "കഴിഞ്ഞ 3 മാസം"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "കഴിഞ്ഞ 6 മാസം"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "കഴിഞ്ഞ വർഷം"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "അപേക്ഷിക്കുക",
+      "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "ലേബലുകൾ അവലോകനം",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "ലേബൽ റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
+    "FILTER_DROPDOWN_LABEL": "ലേബൽ തിരഞ്ഞെടുക്കുക",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
@@ -167,32 +167,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "കഴിഞ്ഞ 3 മാസം"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "കഴിഞ്ഞ 6 മാസം"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "കഴിഞ്ഞ വർഷം"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "അപേക്ഷിക്കുക",
+      "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "ഇൻബോക്സ് അവലോകനം",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "DOWNLOAD_INBOX_REPORTS": "ഇൻബോക്സ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
+    "FILTER_DROPDOWN_LABEL": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
@@ -230,32 +230,32 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "കഴിഞ്ഞ 3 മാസം"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "കഴിഞ്ഞ 6 മാസം"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "കഴിഞ്ഞ വർഷം"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "അപേക്ഷിക്കുക",
+      "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "ടീം അവലോകനം",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "ടീം റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
+    "FILTER_DROPDOWN_LABEL": "ടീം തിരഞ്ഞെടുക്കുക",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
@@ -293,49 +293,49 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "കഴിഞ്ഞ 3 മാസം"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "കഴിഞ്ഞ 6 മാസം"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "കഴിഞ്ഞ വർഷം"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "അപേക്ഷിക്കുക",
+      "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "CSAT റിപ്പോർട്ടുകൾ",
+    "NO_RECORDS": "CSAT സർവേ പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "ബന്ധപ്പെടുക",
+        "AGENT_NAME": "നിയോഗിച്ച ഏജന്റ്",
+        "RATING": "റേറ്റിംഗ്",
+        "FEEDBACK_TEXT": "ഫീഡ്ബാക്ക് അഭിപ്രായം"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "ആകെ പ്രതികരണങ്ങൾ",
+        "TOOLTIP": "ശേഖരിച്ച പ്രതികരണങ്ങളുടെ ആകെ എണ്ണം"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "സംതൃപ്തി സ്കോർ",
+        "TOOLTIP": "പോസിറ്റീവ് പ്രതികരണങ്ങളുടെ ആകെ എണ്ണം / പ്രതികരണങ്ങളുടെ ആകെ എണ്ണം * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "പ്രതികരണ നിരക്ക്",
+        "TOOLTIP": "മൊത്തം പ്രതികരണങ്ങളുടെ എണ്ണം / അയച്ച CSAT സർവേ സന്ദേശങ്ങളുടെ ആകെ എണ്ണം * 100"
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "FILTER": {
-    "TITLE": "تصفية المحادثة",
+    "TITLE": "تصفية المحادثات",
     "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية المحادثات.",
     "ADD_NEW_FILTER": "إضافة فلتر",
     "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
@@ -19,7 +19,9 @@
       "contains": "يحتوي",
       "does_not_contain": "لا يحتوي",
       "is_present": "موجود",
-      "is_not_present": "غير موجود"
+      "is_not_present": "غير موجود",
+      "is_greater_than": "هو أكبر من",
+      "is_lesser_than": "هو أقل من"
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
@@ -31,7 +33,54 @@
       "LABELS": "الوسوم",
       "BROWSER_LANGUAGE": "لغة المتصفح",
       "COUNTRY_NAME": "اسم الدولة",
-      "REFERER_LINK": "رابط المرجع"
+      "REFERER_LINK": "رابط المرجع",
+      "CUSTOM_ATTRIBUTE_LIST": "القائمة",
+      "CUSTOM_ATTRIBUTE_TEXT": "النص",
+      "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
+      "CUSTOM_ATTRIBUTE_LINK": "الرابط",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "الفلاتر القياسية",
+      "ADDITIONAL_FILTERS": "فلاتر إضافية",
+      "CUSTOM_ATTRIBUTES": "سمات مخصصة"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "هل تريد حفظ هذا الفلتر؟",
+        "LABEL": "تسمية هذا الفلتر",
+        "PLACEHOLDER": "أدخل اسم لهذا الفلتر",
+        "ERROR_MESSAGE": "الاسم مطلوب",
+        "SAVE_BUTTON": "حفظ الفلتر",
+        "CANCEL_BUTTON": "إلغاء",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "حذف الفلتر",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تأكيد الحذف",
+            "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
+            "YES": "نعم، احذف",
+            "NO": "لا، احتفظ به"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم حذف طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة"
+        }
+      }
     }
   }
 }

@@ -19,6 +19,18 @@
         "TITLE": "Profil",
         "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
         "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Parola",
+        "LABEL": "New password",
         "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
         "PLACEHOLDER": "Lütfen yeni bir şifre girin"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Yeni şifreyi onayla",
         "ERROR": "Onay parolası, parolayla eşleşmelidir",
-        "PLACEHOLDER": "lütfen şifrenizi tekrar girin"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

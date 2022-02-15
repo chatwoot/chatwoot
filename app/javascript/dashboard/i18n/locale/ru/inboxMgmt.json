@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS канал через Twilio",
-        "DESC": "Начните поддерживать своих клиентов через SMS с Twilio интеграцией."
+        "TITLE": "SMS-канал",
+        "DESC": "Начните поддерживать ваших клиентов с помощью SMS.",
+        "PROVIDERS": {
+          "LABEL": "Поставщик API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Не удалось сохранить SMS-канал"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID аккаунта",
+            "PLACEHOLDER": "Пожалуйста, введите ваш идентификатор аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_KEY": {
+            "LABEL": "Ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_SECRET": {
+            "LABEL": "Секретный ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш секретный ключ аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "ID приложения",
+            "PLACEHOLDER": "Пожалуйста, введите ваш ID аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Имя источника",
+            "PLACEHOLDER": "Пожалуйста введите имя канала",
+            "ERROR": "Это поле обязательно"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Номер телефона",
+            "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
+            "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+          },
+          "SUBMIT_BUTTON": "Создать канал Bandwidth",
+          "API": {
+            "ERROR_MESSAGE": "Мы не смогли авторизоваться в Bandwidth. Пожалуйста, попробуйте еще раз"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL",
+            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth используя этот URL."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp канал",
@@ -305,6 +353,14 @@
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "Включить автоназначение",
       "ENABLE_CSAT": "Включить CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность разговоров по электронной почте",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Разговоры будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "Идентификатор входящего канала",
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email."
+      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "Домен",
         "PLACE_HOLDER": "Домен"
-      }
+      },
+      "ENCRYPTION": "Шифрование",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL"
     }
   }
 }

@@ -6,11 +6,15 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "സമർപ്പിക്കുക"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "വീണ്ടും സന്ദേശം അയയ്‌ക്കുക",
+      "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല, വീണ്ടും ശ്രമിക്കുക"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "ഞങ്ങൾ ഓൺലൈനിലാണ്",
+    "OFFLINE": "ഞങ്ങൾ ഇപ്പോൾ അകലെയാണ്"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
@@ -18,17 +22,18 @@
     "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു"
   },
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "START_NEW_CONVERSATION": "ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
     "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "നിന്ന്",
     "BOT": "ബോട്ട്"
   },
   "BUBBLE": {
     "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "പ്രായോജകർ Chatwoot",
   "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
   "CHAT_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക",
   "TODAY": "ഇന്ന്",
@@ -38,34 +43,34 @@
       "FULL_NAME": {
         "LABEL": "പൂർണ്ണമായ പേര്",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക",
-        "ERROR": "Full Name is required"
+        "ERROR": "മുഴുവൻ പേര് ആവശ്യമാണ്"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ഇമെയിൽ വിലാസം",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
+        "ERROR": "ഇമെയിൽ വിലാസം അസാധുവാണ്"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "സന്ദേശം",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ സന്ദേശം നൽകുക",
+        "ERROR": "സന്ദേശം വളരെ ചെറുതാണ്"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "സംഭാഷണം ആരംഭിക്കുന്നതിന് മുമ്പ് ദയവായി നിങ്ങളുടെ പേരും ഇമെയിലും നൽകുക"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "ഫയൽ {MAXIMUM_FILE_UPLOAD_SIZE} അറ്റാച്ച്‌മെന്റ് പരിധി കവിഞ്ഞു",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "അസാധുവായ ഫീൽഡ്"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "നിങ്ങളുടെ സംഭാഷണം റേറ്റുചെയ്യുക",
+    "SUBMITTED_TITLE": "റേറ്റിംഗ് സമർപ്പിച്ചതിന് നന്ദി",
+    "PLACEHOLDER": "ഞങ്ങളോട് കൂടുതൽ പറയൂ..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "ഒരു സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അഭ്യർത്ഥിക്കുക",
     "SEND_EMAIL_SUCCESS": "ചാറ്റ് ട്രാൻസ്ക്രിപ്റ്റ് വിജയകരമായി അയച്ചു",
     "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   }

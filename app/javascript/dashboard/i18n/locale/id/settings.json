@@ -19,6 +19,18 @@
         "TITLE": "Profil",
         "NOTE": "Alamat email Anda adalah identitas Anda dan digunakan untuk masuk."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Kata Sandi",
         "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Silakan masukkan kata sandi saat ini"
       },
       "PASSWORD": {
-        "LABEL": "Kata Sandi",
+        "LABEL": "New password",
         "ERROR": "Silakan masukkan sandi dengan panjang 6 karakter atau lebih",
         "PLACEHOLDER": "Silakan masukkan kata sandi baru"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Konfirmasi kata sandi baru",
         "ERROR": "Konfirmasi kata sandi harus sama dengan kata sandi",
-        "PLACEHOLDER": "Harap masukkan kembali kata sandi anda"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -136,7 +148,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Sebutkan",
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
@@ -151,13 +163,15 @@
     "APPLICATIONS": "Aplikasi",
     "LABELS": "Label",
     "CUSTOM_ATTRIBUTES": "Atribut Kustom",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Otomatisasi",
     "TEAMS": "Tim",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Semua Kontak",
     "TAGGED_WITH": "Tandai dengan",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Label baru",
+    "NEW_TEAM": "Tim baru",
+    "NEW_INBOX": "Katak masuk baru",
     "REPORTS_OVERVIEW": "Gambaran",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",

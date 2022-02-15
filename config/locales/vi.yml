@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 vi:
-  hello: "Hello world"
+  hello: "Xin chào bạn"
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
@@ -29,75 +29,75 @@ vi:
       failed: Đăng ký thât bại
     contacts:
       import:
-        failed: File is blank
+        failed: Chưa chọn file
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Thời gian báo cáo từ %{since} đến %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Tên nhà cung cấp
+      conversations_count: Số cuộc trò chuyện
+      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
+      avg_resolution_time: Thời gian giải quyết trung bình (phút)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      team_name: Tên nhóm
+      conversations_count: Số cuộc trò chuyện
+      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
+      avg_resolution_time: Thời gian giải quyết trung bình (phút)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
+      conversation_assignment: "[Phân công cho bạn] - #%{display_id} đã được phân công cho bạn"
+      assigned_conversation_new_message: "[Tin nhắn mới] - #%{display_id} %{content}"
+      conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Tin nhắn đã bị xoá
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
+        snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"
+        auto_resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} phân công chính mình vào cuộc trò chuyện này"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
         removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
       team:
         assigned: "Chỉ định %{team_name} bởi %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Phân công cho %{assignee_name} thông qua %{team_name} bởi %{user_name}"
+        removed: "Huỷ phân công cho %{team_name} bởi %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} thêm %{labels}"
+        removed: "%{user_name} xoá %{labels}"
+      muted: "%{user_name} đã tắt tiếng cuộc trò chuyện"
+      unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
     templates:
       greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
       ways_to_reach_you_message_body: "Cung cấp cho nhóm một cách để tiếp cận bạn."
       email_input_box_message_body: "Nhận thông báo qua email"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Bạn hãy vui lòng đánh giá cuộc trò chuyện"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} từ %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Tin nhắn mới về cuộc trò chuyện này"
       transcript_subject: "Bản ghi cuộc hội thoại"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Bạn hãy vui lòng đánh giá cuộc trò chuyện, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack là một công cụ trò chuyện giúp mang tất cả các cuộc giao tiếp của bạn lại với nhau ở một nơi. Bằng cách tích hợp Slack, bạn có thể nhận được thông báo về tất cả các cuộc trò chuyện mới trong tài khoản của mình ngay bên trong Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Sự kiện webhook cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản của bạn. Bạn có thể sử dụng webhook để truyền tải các sự kiện tới các ứng dụng yêu thích của mình như Slack hoặc Github. Nhấp vào Cấu hình để thiết lập webhook của bạn."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Xây dựng chatbot bằng Dialogflow và kết nối chúng với hộp thư đến của bạn một cách nhanh chóng. Hãy để các bot xử lý các truy vấn trước khi giao chúng cho đại lý dịch vụ khách hàng."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."

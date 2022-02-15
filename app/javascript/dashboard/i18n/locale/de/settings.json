@@ -19,6 +19,18 @@
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Persönliche Nachrichtensignatur",
+        "NOTE": "Erstelle eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Du von der Plattform sendest. Verwende den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
+        "BTN_TEXT": "Nachrichten-Signatur speichern",
+        "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
+        "API_SUCCESS": "Signatur erfolgreich gespeichert"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Nachrichten-Signatur",
+        "ERROR": "Nachrichten-Signatur darf nicht leer sein",
+        "PLACEHOLDER": "Füge hier Deine persönliche Nachrichtensignatur ein."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Passwort",
         "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt.",
@@ -89,7 +101,7 @@
         "PLACEHOLDER": "Bitte geben Sie das aktuelle Passwort ein"
       },
       "PASSWORD": {
-        "LABEL": "Passwort",
+        "LABEL": "Passwort zurücksetzen",
         "ERROR": "Bitte geben Sie ein Passwort mit einer Länge von 6 oder mehr ein",
         "PLACEHOLDER": "Bitte geben Sie ein neues Passwort ein"
       },
@@ -127,7 +139,7 @@
       "SUBMIT": "Abschicken"
     }
   },
-  "CONFIRM_EMAIL": "Überprüft...",
+  "CONFIRM_EMAIL": "Überprüfen...",
   "SETTINGS": {
     "INBOXES": {
       "NEW_INBOX": "Posteingang hinzufügen"
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Ordner",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Alle Kontakte",
     "TAGGED_WITH": "Markiert mit",
     "NEW_LABEL": "Neues Label",
@@ -192,14 +206,14 @@
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
       "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
       "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
-      "GO_TO_CONVERSATION_DASHBOARD": "Gehe zur Konversationsübersicht",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
       "ADD_ATTACHMENT": "Anhang hinzufügen",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
       "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
       "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
       "GO_TO_SETTINGS": "Zu den Einstellungen",
-      "SWITCH_CONVERSATION_STATUS": "Zum nächsten Konversations-Status wechseln",
+      "SWITCH_CONVERSATION_STATUS": "Zum nächsten Gesprächsstatus wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",

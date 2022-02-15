@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Načítavajú sa konverzácie",
     "CANNOT_REPLY": "Neviete odpovedať, pretože",
     "24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Prideliť mne",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
     "SELECT_A_TWEET_TO_REPLY": "Vyberte tweet, na ktorý chcete odpovedať.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter pre nový riadok. Ak chcete vybrať Uloženú odpoveď, začnite klávesou '/'.",
       "PRIVATE_MSG_INPUT": "Shift + enter pre nový riadok. Toto bude viditeľné len pre agentov"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "Remove",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvite členov svojho tímu",
-      "DESCRIPTION": "Keďže sa pripravujete na rozhovor so zákazníkom, pozvite si na pomoc kolegov z tímu. Svojich tímových kolegov môžete pozvať pridaním ich e-mailovej adresy do zoznamu agentov.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknite sem pre pozvanie člena tímu"
     },
     "INBOXES": {
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Pre",
     "BCC": "Skrytá kópia",
     "CC": "Kópia",

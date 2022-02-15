@@ -29,7 +29,7 @@ pl:
       failed: Rejestracja nie powiodła się
     contacts:
       import:
-        failed: File is blank
+        failed: Plik jest pusty
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
@@ -38,7 +38,7 @@ pl:
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     team_csv:
-      team_name: Team name
+      team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
@@ -56,7 +56,7 @@ pl:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        snoozed: "Rozmowa została uśpiona przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
@@ -75,19 +75,19 @@ pl:
       greeting_message_body: "%{account_name} zazwyczaj odpowiada w ciągu kilku godzin."
       ways_to_reach_you_message_body: "Daj zespołowi możliwość dotarcia do Ciebie."
       email_input_box_message_body: "Otrzymuj powiadomienia przez e-mail"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Oceń rozmowę"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} z %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} z %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nowe wiadomości w tej dyskusji"
       transcript_subject: "Transkrypcja rozmowy"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Oceń tę rozmowę, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} jest online, spróbuj ponownie później"
   integration_apps:
     slack:
       name: "Slack"
@@ -96,8 +96,8 @@ pl:
       name: "Webhooki"
       description: "Webhooki dostarczają informacji o tym, co dzieje się na Twoim koncie do usług zewnętrznych. Możesz wykorzystać webhooki do przekazywania wydarzeń do ulubionych aplikacji, takich jak Slack lub Github. Kliknij na Konfiguruj, aby skonfigurować webhooki."
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      name: "Przepływ Dialogu"
+      description: "Zbuduj czatboty używając Dialogflow i szybko podłącz je do skrzynki odbiorczej. Pozwól botom na obsługę zapytań przed oddaniem ich agentowi obsługi klienta."
     fullcontact:
-      name: "Fullcontact"
+      name: "Pełny kontakt"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

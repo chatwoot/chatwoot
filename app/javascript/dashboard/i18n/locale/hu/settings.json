@@ -3,9 +3,9 @@
     "LINK": "Profilbeállítások",
     "TITLE": "Profilbeállítások",
     "BTN_TEXT": "Profil frissítése",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "DELETE_AVATAR": "Avatár Törlése",
+    "AVATAR_DELETE_SUCCESS": "Az avatár sikeresen törlésre került",
+    "AVATAR_DELETE_FAILED": "Hiba lépett fel az avatár törlése során, kérjük próbáld újra",
     "UPDATE_SUCCESS": "A fiókod sikeresen frissítetted",
     "PASSWORD_UPDATE_SUCCESS": "A jelszavad sikeresen megváltoztattad",
     "AFTER_EMAIL_CHANGED": "A profilod sikeresen frissítésre került, kérjük lépj be újra, mivel megváltoztak a belépési adataid",
@@ -18,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Profil",
         "NOTE": "Az e-mailcímed az identitásod és a belépésre használhatod."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Jelszó",
@@ -32,8 +44,8 @@
         "TITLE": "Hangüzenetek",
         "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
         "NONE": "Nincs",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ASSIGNED": "Hozzárendelt Beszélgetések",
+        "ALL_CONVERSATIONS": "Beszélgetések"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail értesítések",
@@ -84,19 +96,19 @@
         "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Jelenlegi jelszó",
+        "ERROR": "Kérjük add meg a jelenlegi jelszavad",
+        "PLACEHOLDER": "Kérjük add meg a jelenlegi jelszavad"
       },
       "PASSWORD": {
-        "LABEL": "Jelszó",
+        "LABEL": "Új jelszó",
         "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
         "PLACEHOLDER": "Kérjük adj meg egy új jelszót"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Jelszó megerősítése",
         "ERROR": "A két jelszónak egyeznie kell",
-        "PLACEHOLDER": "Kérjük add meg egy ismét a jelszót"
+        "PLACEHOLDER": "Kérjük add meg egy ismét új jelszavad"
       }
     }
   },
@@ -135,8 +147,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Beszélgetések",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Beszélgetések",
+    "MENTIONED_CONVERSATIONS": "Megemlítések",
     "REPORTS": "Jelentések",
     "SETTINGS": "Beállítások",
     "CONTACTS": "Kontaktok",
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
     "AUTOMATION": "Automation",
     "TEAMS": "Csapatok",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
@@ -165,7 +179,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Ügynökök",
     "REPORTS_LABEL": "Cimkék",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Fiók",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as"
   },

@@ -169,6 +169,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "Zrušit",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Zobrazit",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Hledat",
     "SEARCH_INPUT_PLACEHOLDER": "Hledat kontakty",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Načítání kontaktů...",
       "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
