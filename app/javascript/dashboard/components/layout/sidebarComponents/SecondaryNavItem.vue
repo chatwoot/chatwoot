@@ -20,7 +20,8 @@
         data-view-component="true"
         label="Beta"
         class="beta"
-        >Beta
+      >
+        Beta
       </span>
     </router-link>
 
