@@ -42,6 +42,7 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
