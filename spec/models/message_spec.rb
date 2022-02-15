@@ -111,12 +111,19 @@ RSpec.describe Message, type: :model do
 
     it 'return false if private message' do
       message.private = true
+      message.message_type = 'outgoing'
       expect(message.email_notifiable_message?).to be false
     end
 
     it 'return false if incoming message' do
       message.private = false
       message.message_type = 'incoming'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if activity message' do
+      message.private = false
+      message.message_type = 'activity'
       expect(message.email_notifiable_message?).to be false
     end
 
