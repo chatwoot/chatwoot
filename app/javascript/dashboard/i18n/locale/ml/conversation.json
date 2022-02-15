@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഒരു ക്യാൻഡ് പ്രതികരണം തിരഞ്ഞു എടുക്കാൻ വേണ്ടി '/ ' വച്ച് ടൈപ്പ് ചെയ്തു തുടങ്ങുക.",
       "PRIVATE_MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഇത് ഏജന്റുമാർക്ക് മാത്രമേ ദൃശ്യമാകൂ"
     },

@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
+      "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
+      "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar"
     },
@@ -184,7 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Von",
     "TO": "An",
     "BCC": "Bcc",
     "CC": "Cc",
