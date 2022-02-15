@@ -24,7 +24,14 @@ export const actions = {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
-    const { inboxId, message, contactId, sourceId, mailSubject } = params;
+    const {
+      inboxId,
+      message,
+      contactId,
+      sourceId,
+      mailSubject,
+      assigneeId,
+    } = params;
     try {
       const { data } = await ConversationApi.create({
         inbox_id: inboxId,
@@ -34,11 +41,13 @@ export const actions = {
           mail_subject: mailSubject,
         },
         message,
+        assignee_id: assigneeId,
       });
       commit(types.default.ADD_CONTACT_CONVERSATION, {
         id: contactId,
         data,
       });
+      return data;
     } catch (error) {
       throw new Error(error);
     } finally {

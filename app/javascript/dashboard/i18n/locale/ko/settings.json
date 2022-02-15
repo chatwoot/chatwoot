@@ -19,6 +19,18 @@
         "TITLE": "프로필",
         "NOTE": "당신의 이메일 주소는 당신의 신분이고 로그인에 사용됩니다."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "비밀번호",
         "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "비밀번호",
+        "LABEL": "New password",
         "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
         "PLACEHOLDER": "새 비밀번호를 입력하십시오."
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "새 비밀번호 확인",
         "ERROR": "비밀번호가 비밀번호와 일치하는지 확인",
-        "PLACEHOLDER": "비밀번호를 다시 입력하십시오."
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
     "AUTOMATION": "Automation",
     "TEAMS": "팀",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

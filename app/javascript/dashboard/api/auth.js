@@ -138,19 +138,23 @@ export default {
     password,
     password_confirmation,
     displayName,
+    avatar,
     ...profileAttributes
   }) {
     const formData = new FormData();
     Object.keys(profileAttributes).forEach(key => {
-      const value = profileAttributes[key];
-      if (value) {
-        formData.append(`profile[${key}]`, value);
+      const hasValue = profileAttributes[key] === undefined;
+      if (!hasValue) {
+        formData.append(`profile[${key}]`, profileAttributes[key]);
       }
     });
     formData.append('profile[display_name]', displayName || '');
     if (password && password_confirmation) {
       formData.append('profile[password]', password);
       formData.append('profile[password_confirmation]', password_confirmation);
+    }
+    if (avatar) {
+      formData.append('profile[avatar]', avatar);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
   },

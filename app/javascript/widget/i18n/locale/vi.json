@@ -6,11 +6,15 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Gửi lại tin nhắn",
+      "ERROR_MESSAGE": "Không thể gửi, xin thử lại"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Hiện tại chúng tôi đang ngoại tuyến"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -18,17 +22,18 @@
     "IN_A_DAY": "Thường trả lời trong một ngày"
   },
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "CONTINUE_CONVERSATION": "Tiếp tục cuộc trò chuyện",
+  "START_NEW_CONVERSATION": "Bắt đầu cuộc trò chuyện mới",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "từ",
     "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Trò chuyện với chúng tôi"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Cung cấp bởi Chatwoot",
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
   "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
   "TODAY": "Hôm nay",
@@ -38,34 +43,34 @@
       "FULL_NAME": {
         "LABEL": "Tên đầy đủ",
         "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Tên đầy đủ là bắt buộc"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Email",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Vui lòng nhập email",
+        "ERROR": "Email không hợp lệ"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "PLACEHOLDER": "Vui lòng nhập tin nhắn",
+        "ERROR": "Tin nhắnn quá ngắn"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu cuộc trò chuyện"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Trường không hợp lệ"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Đánh giá cuộc trò chuyện",
+    "SUBMITTED_TITLE": "Cảm ơn vì đã đánh giá",
+    "PLACEHOLDER": "Cho chúng tôi biết thêm..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Yêu cầu bản ghi cuộc trò chuyện",
     "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
     "SEND_EMAIL_ERROR": "Đã có lỗi, vui lòng thử lại"
   }

@@ -19,7 +19,9 @@
       "contains": "شامل",
       "does_not_contain": "شامل نمی‌شود",
       "is_present": "در حال حاضر وجود دارد",
-      "is_not_present": "در حال حاضر وجود ندارد"
+      "is_not_present": "در حال حاضر وجود ندارد",
+      "is_greater_than": "بزرگتر از",
+      "is_lesser_than": "کوچکتر از"
     },
     "ATTRIBUTES": {
       "STATUS": "وضعیت",
@@ -31,7 +33,54 @@
       "LABELS": "برچسب‌ها",
       "BROWSER_LANGUAGE": "مرور زبان",
       "COUNTRY_NAME": "نام کشور",
-      "REFERER_LINK": "پیوند ارجاع‌دهنده"
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "CUSTOM_ATTRIBUTE_LIST": "فهرست",
+      "CUSTOM_ATTRIBUTE_TEXT": "متن",
+      "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
+      "CUSTOM_ATTRIBUTE_LINK": "پیوند",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "فیلترهای استاندارد",
+      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "آیا می‌خواهید این فیلتر را ذخیره کنید؟",
+        "LABEL": "نام این فیلتر",
+        "PLACEHOLDER": "یک نام برای این فیلتر وارد کنید",
+        "ERROR_MESSAGE": "نام الزامی است",
+        "SAVE_BUTTON": "ذخیره فیلتر",
+        "CANCEL_BUTTON": "انصراف",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "پوشه با موفقیت ایجاد شد",
+          "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد",
+          "ERROR_MESSAGE": "خطا هنگام ایجاد بخش"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "حذف فیلتر",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تاییدیه حذف",
+            "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
+            "YES": "بله، حذف شود",
+            "NO": "خیر، بماند"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "پوشه با موفقیت حذف شد",
+          "ERROR_MESSAGE": "در هنگام حذف پوشه خطایی رخ داد"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "بخش با موفقیت حذف شد",
+          "ERROR_MESSAGE": "خطا هنگام حذف بخش"
+        }
+      }
     }
   }
 }

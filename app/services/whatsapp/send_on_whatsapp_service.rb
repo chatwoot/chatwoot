@@ -56,7 +56,16 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   def build_template_match_regex(template_text)
     # Converts the whatsapp template to a comparable regex string to check against the message content
     # the variables are of the format {{num}} ex:{{1}}
-    template_match_string = "^#{template_text.gsub(/{{\d}}/, '(.*)')}$"
+
+    # transform the template text into a regex string
+    # we need to replace the {{num}} with matchers that can be used to capture the variables
+    template_text = template_text.gsub(/{{\d}}/, '(.*)')
+    # escape if there are regex characters in the template text
+    template_text = Regexp.escape(template_text)
+    # ensuring only the variables remain as capture groups
+    template_text = template_text.gsub(Regexp.escape('(.*)'), '(.*)')
+
+    template_match_string = "^#{template_text}$"
     Regexp.new template_match_string
   end
 

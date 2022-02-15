@@ -33,7 +33,7 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Label in der Seitenleiste anzeigen"
       },
-      "EDIT": "Speichern",
+      "EDIT": "Bearbeiten",
       "CREATE": "Erstellen",
       "DELETE": "Löschen",
       "CANCEL": "Abbrechen"
@@ -61,7 +61,7 @@
       },
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
-        "MESSAGE": "Bist du sicher, das du das löschen möchtest",
+        "MESSAGE": "Bist du sicher, dass du das löschen möchtest ",
         "YES": "Ja, löschen",
         "NO": "Nein, behalten "
       }
