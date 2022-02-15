@@ -3,7 +3,7 @@
     "HEADER": "Automatisierung",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
       "SUBMIT": "Erstellen",
