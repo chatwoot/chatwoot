@@ -89,7 +89,6 @@ export default {
       try {
         await this.$store.dispatch('updateProfile', {
           message_signature: this.messageSignature,
-          message_signature_enabled: true,
         });
         this.errorMessage = this.$t(
           'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
