@@ -1,7 +1,7 @@
 require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
-  def initialize(rule, conversation)
+  def initialize(rule, conversation=nil)
     super([], nil)
     @rule = rule
     @conversation = conversation
@@ -42,6 +42,18 @@ class AutomationRules::ConditionsFilterService < FilterService
     when 'standard'
       " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
     end
+  end
+
+  def contact_conditions(_contact)
+    conversation_filters = @filters['conversations']
+
+    @rule.conditions.each_with_index do |query_hash, current_index|
+      current_filter = conversation_filters[query_hash['attribute_key']]
+      @query_string += conversation_query_string(current_filter, query_hash.with_indifferent_access, current_index)
+    end
+
+    records = contact.conversations.where(@query_string, @filter_values.with_indifferent_access)
+    records.any?
   end
 
   def conversation_query_string(current_filter, query_hash, current_index)
