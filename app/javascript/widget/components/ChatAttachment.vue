@@ -80,8 +80,8 @@ export default {
               });
             } else {
               this.onAttach({
-                fileType: blob.content_type,
                 file: blob.signed_id,
+                ...this.getLocalFileAttributes(file),
               });
             }
           });
@@ -104,11 +104,9 @@ export default {
       this.isUploading = true;
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-          const thumbUrl = window.URL.createObjectURL(file.file);
           await this.onAttach({
-            fileType: this.getFileType(file.type),
             file: file.file,
-            thumbUrl,
+            ...this.getLocalFileAttributes(file),
           });
         } else {
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
@@ -121,6 +119,12 @@ export default {
         // Error
       }
       this.isUploading = false;
+    },
+    getLocalFileAttributes(file) {
+      return {
+        thumbUrl: window.URL.createObjectURL(file.file),
+        fileType: this.getFileType(file.type),
+      };
     },
   },
 };

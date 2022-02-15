@@ -567,13 +567,7 @@ export default {
           if (error) {
             this.showAlert(error);
           } else {
-            this.attachedFiles.push({
-              currentChatId: this.currentChat.id,
-              resource: blob,
-              isPrivate: this.isPrivate,
-              thumb: null,
-              blobSignedId: blob.signed_id,
-            });
+            this.attachFile({ file, blob });
           }
         });
       } else {
@@ -589,17 +583,7 @@ export default {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        this.attachedFiles = [];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-        reader.onloadend = () => {
-          this.attachedFiles.push({
-            currentChatId: this.currentChat.id,
-            resource: file,
-            isPrivate: this.isPrivate,
-            thumb: reader.result,
-          });
-        };
+        this.attachFile({ file });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -607,6 +591,19 @@ export default {
           })
         );
       }
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
