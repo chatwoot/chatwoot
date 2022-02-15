@@ -103,7 +103,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def original_sender
-    @mail['X-Original-Sender'].try(:value) || from.first
+    @mail[:reply_to].try(:value) || @mail['X-Original-Sender'].try(:value) || from.first
   end
 
   def email_forwarded_for
