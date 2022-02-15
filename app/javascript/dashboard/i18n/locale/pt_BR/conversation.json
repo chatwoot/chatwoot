@@ -57,9 +57,9 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
+      "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
+      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes"
     },
