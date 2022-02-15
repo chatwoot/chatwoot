@@ -14,7 +14,7 @@
         class="secondary-menu--icon"
         size="14"
       />
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      {{ labelName }}
     </router-link>
 
     <ul v-if="hasSubMenu" class="nested vertical menu">
@@ -102,6 +102,11 @@ export default {
         this.$store.state.route.name === 'settings_applications_integration' &&
         this.menuItem.toStateName === 'settings_applications'
       );
+    },
+    labelName() {
+      return this.menuItem.label === 'AUTOMATION'
+        ? this.$t(`SIDEBAR.${this.menuItem.label}`) + ' (Beta)'
+        : this.$t(`SIDEBAR.${this.menuItem.label}`);
     },
 
     computedClass() {
