@@ -66,8 +66,16 @@
         :remove-attachment="removeAttachment"
       />
     </div>
+    <div
+      v-if="showMessageSignature"
+      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      class="message-signature-wrap"
+    >
+      <p class="message-signature" v-html="formatMessage(messageSignature)" />
+    </div>
     <reply-bottom-panel
       :mode="replyType"
+      :inbox="inbox"
       :send-button-text="replyButtonLabel"
       :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
@@ -101,6 +109,7 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -128,7 +137,13 @@ export default {
     WootMessageEditor,
     Banner,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    messageFormatterMixin,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -162,6 +177,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
     }),
 
@@ -333,6 +349,13 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
+    showMessageSignature() {
+      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -444,7 +467,10 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        let newMessage = this.message;
+        if (this.sendWithSignature && this.messageSignature) {
+          newMessage += '\n\n' + this.messageSignature;
+        }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
@@ -621,6 +647,25 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
+}
+
+.message-signature-wrap {
+  margin: 0 var(--space-normal);
+  padding: var(--space-small);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 1px dashed var(--s-100);
+  border-radius: var(--border-radius-small);
+
+  &:hover {
+    background: var(--s-25);
+  }
+}
+
+.message-signature {
+  width: fit-content;
+  margin: 0;
 }
 
 .attachment-preview-box {

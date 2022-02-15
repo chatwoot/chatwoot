@@ -156,5 +156,47 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation_1.messages.count).to eq(2)
       end
     end
+
+    describe 'when mail part is not present' do
+      let(:support_mail) { create_inbound_email_from_fixture('support_1.eml') }
+      let(:described_subject) { described_class.receive support_mail }
+
+      it 'Considers raw html mail body' do
+        described_subject
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+        expect(conversation.messages.last.content).to include(
+          <<-BODY.strip_heredoc.chomp
+            Hi,
+            We are providing you platform from here you can sellpaid posts on your website.
+
+            Chatwoot | CS team | [C](https://d33wubrfki0l68.cloudfront.net/973467c532160fd8b940300a43fa85fa2d060307/dc9a0/static/brand-73f58cdefae282ae74cebfa74c1d7003.svg)
+
+            Skype: live:.cid.something
+
+            []
+          BODY
+        )
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('Get Paid to post an article')
+      end
+    end
+
+    describe 'Sender with reply_to email address' do
+      let(:reply_to_mail) { create_inbound_email_from_fixture('reply_to.eml') }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+
+      it 'prefer reply-to over from address' do
+        email_channel
+        described_class.receive reply_to_mail
+
+        conversation_1 = Conversation.last
+        email = conversation_1.messages.last.content_attributes['email']
+
+        expect(reply_to_mail.mail['From'].value).to be_present
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(reply_to_mail.mail['Reply-To'].value).to include(email['from'][0])
+        expect(reply_to_mail.mail['Reply-To'].value).to include(conversation_1.contact.email)
+        expect(reply_to_mail.mail['From'].value).not_to include(conversation_1.contact.email)
+      end
+    end
   end
 end
