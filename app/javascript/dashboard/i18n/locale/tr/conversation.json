@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir"
     },

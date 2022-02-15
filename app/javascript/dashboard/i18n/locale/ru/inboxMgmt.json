@@ -522,10 +522,10 @@
         "LABEL": "Домен",
         "PLACE_HOLDER": "Домен"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Шифрование",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
+      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL"
     }
   }
 }
