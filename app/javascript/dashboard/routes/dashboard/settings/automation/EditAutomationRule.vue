@@ -351,10 +351,9 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
-        // case 'send_email_to_team':
-        // return this.$store.getters['teams/getTeams'];
-        // eslint-disable-next-line
-        case 'add_label':
+        case 'send_email_to_team':
+        return this.$store.getters['teams/getTeams'];
+         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
               id: i.title,
