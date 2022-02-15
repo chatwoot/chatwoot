@@ -15,6 +15,13 @@
         size="14"
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      <span
+        v-if="menuItem.label === 'AUTOMATION'"
+        data-view-component="true"
+        label="Beta"
+        class="beta"
+        >Beta
+      </span>
     </router-link>
 
     <ul v-if="hasSubMenu" class="nested vertical menu">
@@ -220,5 +227,18 @@ export default {
   &:hover {
     color: var(--w-500);
   }
+}
+.beta {
+  padding-right: var(--space-smaller) !important;
+  padding-left: var(--space-smaller) !important;
+  margin-left: var(--space-half) !important;
+  display: inline-block;
+  font-size: var(--font-size-mini);
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  color: var(--g-800);
+  border-color: var(--g-700);
 }
 </style>
