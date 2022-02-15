@@ -29,10 +29,12 @@ class Messages::MessageBuilder
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
-      @message.attachments.build(
+      attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
       )
+
+      attachment.file_type = file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
     end
   end
 

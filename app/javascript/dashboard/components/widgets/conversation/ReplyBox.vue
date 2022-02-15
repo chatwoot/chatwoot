@@ -77,7 +77,7 @@
       :mode="replyType"
       :inbox="inbox"
       :send-button-text="replyButtonLabel"
-      :on-direct-file-upload="onDirectFileUpload"
+      :on-file-upload="onFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -179,6 +179,7 @@ export default {
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
 
     showRichContentEditor() {
@@ -544,6 +545,13 @@ export default {
         isPrivate,
       });
     },
+    onFileUpload(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
     onDirectFileUpload(file) {
       if (!file) {
         return;
@@ -559,13 +567,7 @@ export default {
           if (error) {
             this.showAlert(error);
           } else {
-            this.attachedFiles.push({
-              currentChatId: this.currentChat.id,
-              resource: blob,
-              isPrivate: this.isPrivate,
-              thumb: null,
-              blobSignedId: blob.signed_id,
-            });
+            this.attachFile({ file, blob });
           }
         });
       } else {
@@ -576,22 +578,12 @@ export default {
         );
       }
     },
-    onFileUpload(file) {
+    onIndirectFileUpload(file) {
       if (!file) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        this.attachedFiles = [];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-        reader.onloadend = () => {
-          this.attachedFiles.push({
-            currentChatId: this.currentChat.id,
-            resource: file,
-            isPrivate: this.isPrivate,
-            thumb: reader.result,
-          });
-        };
+        this.attachFile({ file });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -599,6 +591,19 @@ export default {
           })
         );
       }
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
@@ -619,7 +624,11 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          messagePayload.files.push(attachment.blobSignedId);
+          if (this.globalConfig.directUploadsEnabled) {
+            messagePayload.files.push(attachment.blobSignedId);
+          } else {
+            messagePayload.files.push(attachment.resource.file);
+          }
         });
       }
 

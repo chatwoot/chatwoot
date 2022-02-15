@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
       "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. 에이전트만 볼 수 있습니다."
     },
