@@ -41,8 +41,7 @@ const sendAttachment = ({ attachment }) => {
   const { file } = attachment;
 
   const formData = new FormData();
-
-  if (file instanceof String) {
+  if (typeof file === 'string') {
     formData.append('message[attachments][]', file);
   } else {
     formData.append('message[attachments][]', file, file.name);
