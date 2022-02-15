@@ -131,4 +131,32 @@ describe('#getters', () => {
       expect(getters.getAppliedConversationFilters(state)).toEqual(filtersList);
     });
   });
+
+  describe('#getLastEmailInSelectedChat', () => {
+    it('Returns cc in last email', () => {
+      const state = {};
+      const getSelectedChat = {
+        messages: [
+          {
+            content_attributes: {
+              email: {
+                from: 'why@how.my',
+                cc: ['nithin@me.co', 'we@who.why'],
+              },
+            },
+          },
+        ],
+      };
+      expect(
+        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
+      ).toEqual({
+        content_attributes: {
+          email: {
+            from: 'why@how.my',
+            cc: ['nithin@me.co', 'we@who.why'],
+          },
+        },
+      });
+    });
+  });
 });
