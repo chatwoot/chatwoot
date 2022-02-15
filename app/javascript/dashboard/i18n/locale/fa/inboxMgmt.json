@@ -141,7 +141,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "پهنای‌باند"
+          "BANDWIDTH": "Bandwidth"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
