@@ -1,5 +1,4 @@
 class AutomationRuleListener < BaseListener
-
   def conversation_status_changed(event_obj)
     conversation = event_obj.data[:conversation]
     return unless rule_present?('conversation_status_changed', conversation)
