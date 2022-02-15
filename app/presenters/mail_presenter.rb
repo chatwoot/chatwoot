@@ -17,7 +17,7 @@ class MailPresenter < SimpleDelegator
 
     body = EmailReplyTrimmer.trim(@decoded_text_content)
 
-    return {} if @decoded_text_content.blank?
+    return {} unless text_mail_body?
 
     @text_content ||= {
       full: select_body(text_part),
@@ -38,7 +38,7 @@ class MailPresenter < SimpleDelegator
 
     encoded = encode_to_unicode(decoded)
 
-    if mail.text_part
+    if text_mail_body?
       encoded
     elsif html_mail_body?
       ::HtmlParser.parse_reply(encoded)
@@ -48,7 +48,7 @@ class MailPresenter < SimpleDelegator
   def html_content
     @decoded_html_content = select_body(html_part) || ''
 
-    return {} if @decoded_html_content.blank?
+    return {} unless html_mail_body?
 
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
