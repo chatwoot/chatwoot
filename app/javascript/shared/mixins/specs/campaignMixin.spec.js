@@ -6,7 +6,7 @@ describe('campaignMixin', () => {
     global.window = Object.create(window);
   });
   it('returns the correct campaign type', () => {
-    const url = 'http://localhost:3000/app/accounts/1/campaigns/one_off';
+    const url = 'http://localhost:3002/app/accounts/1/campaigns/one_off';
     Object.defineProperty(window, 'location', {
       value: {
         href: url,
@@ -14,21 +14,21 @@ describe('campaignMixin', () => {
     });
     window.location.href = url;
     const Component = {
-      render() {},
+      render() { },
       mixins: [campaignMixin],
     };
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.campaignType).toBe('one_off');
   });
   it('isOnOffType returns true if campaign type is one_off', () => {
-    const url = 'http://localhost:3000/app/accounts/1/campaigns/one_off';
+    const url = 'http://localhost:3002/app/accounts/1/campaigns/one_off';
     Object.defineProperty(window, 'location', {
       value: {
         href: url,
       },
     });
     const Component = {
-      render() {},
+      render() { },
       mixins: [campaignMixin],
     };
     const wrapper = shallowMount(Component);

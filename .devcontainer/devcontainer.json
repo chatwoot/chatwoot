@@ -2,12 +2,9 @@
   "name": "Chatwoot Development Codespace",
   "service": "app",
   "dockerComposeFile": "docker-compose.yml",
-
   "settings": {
     "terminal.integrated.shell.linux": "/bin/zsh"
   },
-
-
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "rebornix.Ruby",
@@ -18,18 +15,20 @@
     "github.copilot",
     "mrmlnc.vscode-duplicate"
   ],
-
-
   // 5432 postgres
   // 6379 redis
   // 1025,8025 mailhog
-  "forwardPorts": [8025],
+  "forwardPorts": [
+    8025
+  ],
   //your application may need to listen on all interfaces (0.0.0.0) not just localhost for it to be available externally. Defaults to []
-  "appPort": [3000, 3035],
-
+  "appPort": [
+    3002,
+    3035
+  ],
   "postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
   "portsAttributes": {
-    "3000": {
+    "3002": {
       "label": "Rails Server"
     },
     "8025": {

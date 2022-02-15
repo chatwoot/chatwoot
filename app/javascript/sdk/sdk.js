@@ -51,7 +51,7 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot-widget-bubble.woot-widget--expanded {
-  bottom: 24px;
+  bottom: 10px;
   display: flex;
   height: 48px !important;
   width: auto !important;
@@ -81,7 +81,7 @@ export const SDK_CSS = `.woot-widget-holder {
 }
 
 .woot-widget-bubble.woot-elements--right {
-  right: 20px;
+  left: 35%;
 }
 
 .woot-widget-bubble:hover {

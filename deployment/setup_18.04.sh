@@ -78,7 +78,7 @@ systemctl enable chatwoot.target
 systemctl start chatwoot.target
 
 echo "Woot! Woot!! Chatwoot server installation is complete"
-echo "The server will be accessible at http://<server-ip>:3000"
+echo "The server will be accessible at http://<server-ip>:3002"
 echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
 
 # TODO: Auto-configure Nginx with SSL certificate

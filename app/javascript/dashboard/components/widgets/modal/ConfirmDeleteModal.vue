@@ -10,7 +10,7 @@
         @blur="$v.value.$touch"
       />
       <div class="button-wrapper">
-        <woot-button color-scheme="alert" :is-disabled="$v.value.$invalid">
+        <woot-button color-scheme="alert" >
           {{ confirmText }}
         </woot-button>
         <woot-button class="clear" @click.prevent="closeModal">

@@ -7,9 +7,9 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>
-  username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
+  username: postgres
+  password: postgres
+  database: chatwoot_dev
 
 test:
   <<: *default

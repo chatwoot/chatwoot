@@ -144,7 +144,7 @@ ln -s /etc/nginx/sites-available/nginx_chatwoot.conf /etc/nginx/sites-enabled/ng
 systemctl restart nginx
 sudo -i -u chatwoot << EOF
 cd chatwoot
-sed -i "s/http:\/\/0.0.0.0:3000/https:\/\/$domain_name/g" .env
+sed -i "s/http:\/\/0.0.0.0:3002/https:\/\/$domain_name/g" .env
 EOF
 systemctl restart chatwoot.target
 echo -en "\n\n***************************************************************************\n"
