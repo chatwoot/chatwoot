@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
       "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter"
     },

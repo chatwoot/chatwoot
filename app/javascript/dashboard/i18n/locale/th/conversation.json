@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น"
     },

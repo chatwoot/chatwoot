@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
       "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý"
     },
