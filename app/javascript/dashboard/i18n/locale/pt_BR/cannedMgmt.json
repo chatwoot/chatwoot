@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Adicionar Atalho",
     "LOADING": "Buscando Atalhos",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p> <b> Atalho </b> </p> <p> são modelos de resposta pré-configuradas que poderão ser utilizadas ​​para enviar rapidamente uma resposta em uma conversa. </p> <p> Para criar um Atalho, basta clicar em <b> Adicionar Atalho </b>. Você também pode editar ou excluir um Atalho, clicando no botão Editar ou Excluir. </p> <p> Os atalhos são usadas com a ajuda de um <b> código </b>. Durante a conversa, os agentes podem acessar a lista dos atalhos digitando <b> '/' </b> . </p>",
+    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são templates de resposta salvos que podem ser usados para enviar rapidamente uma resposta a uma conversa. </p><p> Para criar uma Resposta Pronta, clique no <b>Adicionar Resposta Pronta</b>. Você também pode editar ou excluir uma resposta existente clicando no botão Editar ou Excluir </p><p> respostas prontas são usadas com a ajuda de <b>Código Curto</b>. Os agentes podem acessar as respostas prontas enquanto estiverem em um chat digitando <b>'/'</b> seguido pelo pequeno código. </p>",
     "LIST": {
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Adicionar Atalho",
-      "DESC": "Atalhos são modelos de resposta que podem ser usados ​​para enviar rapidamente respostas à conversa.",
+      "DESC": "Respostas prontas são modelos de resposta salvos que podem ser usados para enviar rapidamente uma resposta para conversa.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código curto",
-          "PLACEHOLDER": "Insira o código",
+          "PLACEHOLDER": "Por favor, insira um código curto",
           "ERROR": "É necessário um código"
         },
         "CONTENT": {

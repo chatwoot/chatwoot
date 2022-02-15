@@ -33,12 +33,14 @@
 #  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
 #  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
+require 'uri'
 class Campaign < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true
   validates :message, presence: true
   validate :validate_campaign_inbox
+  validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
   belongs_to :account
   belongs_to :inbox
@@ -84,6 +86,21 @@ class Campaign < ApplicationRecord
       self.campaign_type = 'ongoing'
       self.scheduled_at = nil
     end
+  end
+
+  def validate_url
+    return unless trigger_rules['url']
+
+    errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !url_valid?(trigger_rules['url'])
+  end
+
+  def url_valid?(url)
+    url = begin
+      URI.parse(url)
+    rescue StandardError
+      false
+    end
+    url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)
   end
 
   def prevent_completed_campaign_from_update

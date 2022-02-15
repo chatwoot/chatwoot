@@ -111,7 +111,7 @@
         "LABEL": "מספר טלפון",
         "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
         "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר."
       },
       "LOCATION": {
         "PLACEHOLDER": "הזן את המיקום של איש הקשר",
@@ -169,6 +169,7 @@
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
       "SUCCESS_MESSAGE": "הודעה נשלחה!",
+      "GO_TO_CONVERSATION": "צפה",
       "ERROR_MESSAGE": "לא ניתן לשלוח! נסה שוב"
     }
   },
@@ -177,7 +178,9 @@
     "FIELDS": "שדות איש קשר",
     "SEARCH_BUTTON": "חפש",
     "SEARCH_INPUT_PLACEHOLDER": "חפש איש קשר",
-    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS": "סנן",
+    "FILTER_CONTACTS_SAVE": "שמור סנן",
+    "FILTER_CONTACTS_DELETE": "מחק סנן",
     "LIST": {
       "LOADING_MESSAGE": "טוען אנשי קשר...",
       "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
@@ -265,7 +268,7 @@
         "PLACEHOLDER": "למשל: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "צור מאפיין חדש ",
         "SUCCESS": "מאפיין נוסף בהצלחה",
         "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
       },
@@ -284,9 +287,9 @@
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "בחר ערך",
+          "SEARCH_INPUT_PLACEHOLDER": "חפש ערך",
+          "NO_RESULT": "לא נמצאו תוצאות"
         }
       }
     },

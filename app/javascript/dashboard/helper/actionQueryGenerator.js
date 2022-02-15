@@ -1,5 +1,6 @@
 const generatePayload = data => {
-  let payload = data.map(item => {
+  const actions = JSON.parse(JSON.stringify(data));
+  let payload = actions.map(item => {
     if (Array.isArray(item.action_params)) {
       item.action_params = item.action_params.map(val => val.id);
     } else if (typeof item.values === 'object') {

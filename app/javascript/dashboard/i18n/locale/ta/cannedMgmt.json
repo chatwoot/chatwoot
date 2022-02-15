@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "பதிவு செய்யப்பட்ட பதில்களை சேர்க்க",
     "LOADING": "பதிவு செய்யப்பட்ட பதில்களைப் பெற",
     "SEARCH_404": "இந்த கேள்விக்கு பொருந்தக்கூடியவை எதுவும் இல்லை",
-    "SIDEBAR_TXT": "<p> <b> பதிவு செய்யப்பட்ட பதில்கள் </b> </p> <p> பதிவு செய்யப்பட்ட பதில்கள் சேமிக்கப்பட்ட பதில் மாதிரிகளாக சேமிக்கப்படுகின்றன, அவை உரையாடலுக்கு விரைவாக பதிலை அனுப்ப பயன்படும். </p> <p> பதிவு செய்யப்பட்ட பதிலை உருவாக்க, <b> பதிவு செய்யப்பட்ட பதிலைச் சேர் </b> என்பதைக் கிளிக் செய்யவும். திருத்து என்பதைக் கிளிக் செய்வதன் மூலம் ஏற்கனவே உள்ள பதிவு செய்யப்பட்ட பதிலைத் திருத்தலாம் அல்லது நீக்கலாம்</p> <p> பதிவு செய்யப்பட்ட பதில்கள் <b>குறுகிய குறியீடுகள் </b> உதவியுடன் பயன்படுத்தப்படுகின்றன. அரட்டையில் இருக்கும்போது முகவர்கள் பதிவு செய்யப்பட்ட பதில்களை <b> '/' </b> எனத் தட்டச்சு செய்வதன் மூலம் குறுகிய குறியீட்டை அணுகலாம். </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "இந்த கணக்கில் பதிவு செய்யப்பட்ட பதில்கள் எதுவும் இல்லை.",
       "TITLE": "பதிவு செய்யப்பட்ட பதில்களை நிர்வகிக்கவும்",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "பதிவு செய்யப்பட்ட பதில்களை சேர்க்க",
-      "DESC": "பதிவு செய்யப்பட்ட பதில்கள் சேமிக்கப்பட்ட பதில்கலாக மாறி உரையாடலுக்கு விரைவாக பதிலை அனுப்ப பயன்படும்.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "ரத்துசெய்",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "குறுகிய குறியீடு",
-          "PLACEHOLDER": "ஷார்ட் கோடை உள்ளிடவும்",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "ஷார்ட் கோடு தேவை"
         },
         "CONTENT": {

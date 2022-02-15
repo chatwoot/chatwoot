@@ -1,6 +1,89 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule"
+    "HEADER": "Automazione",
+    "HEADER_BTN_TXT": "Aggiungi regola di automazione",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Aggiungi regola di automazione",
+      "SUBMIT": "Crea",
+      "CANCEL_BUTTON_TEXT": "annulla",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "DESC": {
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "La descrizione è obbligatoria"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Azioni"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nome",
+        "Descrizione",
+        "Attivo",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Elimina",
+      "CANCEL_BUTTON_TEXT": "annulla",
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, elimina ",
+        "NO": "No, Conserva "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Modifica",
+      "CANCEL_BUTTON_TEXT": "annulla",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Modifica",
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "CANCEL": "annulla",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    }
   }
 }

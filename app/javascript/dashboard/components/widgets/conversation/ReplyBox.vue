@@ -1,5 +1,13 @@
 <template>
   <div class="reply-box" :class="replyBoxClass">
+    <banner
+      v-if="showSelfAssignBanner"
+      color-scheme="secondary"
+      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+      :has-action-button="true"
+      :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+      @click="onClickSelfAssign"
+    />
     <reply-top-panel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
@@ -58,8 +66,16 @@
         :remove-attachment="removeAttachment"
       />
     </div>
+    <div
+      v-if="showMessageSignature"
+      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      class="message-signature-wrap"
+    >
+      <p class="message-signature" v-html="formatMessage(messageSignature)" />
+    </div>
     <reply-bottom-panel
       :mode="replyType"
+      :inbox="inbox"
       :send-button-text="replyButtonLabel"
       :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
@@ -90,8 +106,10 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
@@ -116,8 +134,15 @@ export default {
     ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
+    Banner,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    messageFormatterMixin,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -149,6 +174,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      messageSignature: 'getMessageSignature',
+      currentUser: 'getCurrentUser',
+    }),
+
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -163,7 +194,36 @@ export default {
       }
       return false;
     },
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    showSelfAssignBanner() {
+      if (this.message !== '' && !this.isOnPrivateNote) {
+        if (!this.assignedAgent) {
+          return true;
+        }
+        if (this.assignedAgent.id !== this.currentUser.id) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -288,6 +348,13 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
+    showMessageSignature() {
+      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -371,12 +438,38 @@ export default {
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
+    onClickSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+      this.assignedAgent = selfAssign;
+    },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        let newMessage = this.message;
+        if (this.sendWithSignature && this.messageSignature) {
+          newMessage += '\n\n' + this.messageSignature;
+        }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
@@ -552,6 +645,25 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
+}
+
+.message-signature-wrap {
+  margin: 0 var(--space-normal);
+  padding: var(--space-small);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 1px dashed var(--s-100);
+  border-radius: var(--border-radius-small);
+
+  &:hover {
+    background: var(--s-25);
+  }
+}
+
+.message-signature {
+  width: fit-content;
+  margin: 0;
 }
 
 .attachment-preview-box {
