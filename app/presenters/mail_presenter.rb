@@ -12,17 +12,14 @@ class MailPresenter < SimpleDelegator
   end
 
   def text_content
+    return {} unless text_mail_body?
+
     @decoded_text_content = select_body(text_part) || ''
-    encoding = @decoded_text_content.encoding
-
-    body = EmailReplyTrimmer.trim(@decoded_text_content)
-
-    return {} if @decoded_text_content.blank?
 
     @text_content ||= {
       full: select_body(text_part),
       reply: @decoded_text_content,
-      quoted: body.force_encoding(encoding).encode('UTF-8')
+      quoted: trimmed_body(@decoded_text_content)
     }
   end
 
@@ -38,7 +35,7 @@ class MailPresenter < SimpleDelegator
 
     encoded = encode_to_unicode(decoded)
 
-    if mail.text_part
+    if text_mail_body?
       encoded
     elsif html_mail_body?
       ::HtmlParser.parse_reply(encoded)
@@ -46,16 +43,14 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_content
+    return {} unless html_mail_body?
+
     @decoded_html_content = select_body(html_part) || ''
-
-    return {} if @decoded_html_content.blank?
-
-    body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
       full: select_body(html_part),
       reply: @decoded_html_content,
-      quoted: body
+      quoted: trimmed_body(@decoded_html_content)
     }
   end
 
@@ -146,5 +141,13 @@ class MailPresenter < SimpleDelegator
     return @mail.body.decoded if html_mail_body? || text_mail_body?
 
     ''
+  end
+
+  def trimmed_body(decoded_content)
+    trimmed_body = EmailReplyTrimmer.trim(decoded_content)
+    return unless trimmed_body
+
+    encoding = decoded_content.encoding
+    trimmed_body.force_encoding(encoding).encode('UTF-8')
   end
 end
