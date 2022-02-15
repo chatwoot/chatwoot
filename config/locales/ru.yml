@@ -42,6 +42,7 @@ ru:
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"
