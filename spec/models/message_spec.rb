@@ -120,6 +120,12 @@ RSpec.describe Message, type: :model do
       expect(message.email_notifiable_message?).to be false
     end
 
+    it 'return false if activity message' do
+      message.private = false
+      message.message_type = 'activity'
+      expect(message.email_notifiable_message?).to be false
+    end
+
     it 'return false if message type is template and content type is not input_csat or text' do
       message.private = false
       message.message_type = 'template'
