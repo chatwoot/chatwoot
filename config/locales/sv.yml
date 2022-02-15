@@ -42,6 +42,7 @@ sv:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
