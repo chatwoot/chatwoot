@@ -5,6 +5,7 @@
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
+      :folders-id="foldersId"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -53,6 +54,10 @@ export default {
     conversationType: {
       type: String,
       default: '',
+    },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
     },
   },
   data() {

@@ -19,6 +19,18 @@
         "TITLE": "プロフィール",
         "NOTE": "あなたのメールアドレスはあなたのIDであり、ログインに使用されます。"
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "パスワード",
         "NOTE": "パスワードを更新すると、複数のデバイスでログインがリセットされます。",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "パスワード",
+        "LABEL": "New password",
         "ERROR": "6文字以上のパスワードを入力してください",
         "PLACEHOLDER": "新しいパスワードを入力してください"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "パスワードの確認",
         "ERROR": "パスワードは一致している必要があります",
-        "PLACEHOLDER": "パスワードを再入力してください"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "カスタム属性",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

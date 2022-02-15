@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Etkinlik yoksa, bir biletin otomatik olarak çözülmesi gereken gün sayısı",
         "PLACEHOLDER": "30",
-        "ERROR": "Lütfen geçerli bir otomatik çözüm süresi girin (minimum 1 gün)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-postalarla görüşme sürekliliği etkinleştirildi.",

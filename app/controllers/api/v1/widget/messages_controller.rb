@@ -29,11 +29,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return if params[:message][:attachments].blank?
 
     params[:message][:attachments].each do |uploaded_attachment|
-      @message.attachments.new(
+      attachment = @message.attachments.new(
         account_id: @message.account_id,
-        file_type: helpers.file_type(uploaded_attachment&.content_type),
         file: uploaded_attachment
       )
+
+      attachment.file_type = helpers.file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
     end
   end
 

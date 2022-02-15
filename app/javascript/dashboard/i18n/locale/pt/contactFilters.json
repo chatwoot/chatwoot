@@ -2,25 +2,27 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "Adicionar Filtro",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
         "SUBMIT_BUTTON_LABEL": "submeter",
         "CANCEL_BUTTON_LABEL": "cancelar",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CLEAR_BUTTON_LABEL": "Limpar Filtros",
+        "EMPTY_VALUE_ERROR": "Valor obrigatório",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "E",
+            "OR": "OU"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "equal_to": "Igual a",
+            "not_equal_to": "Não é igual a",
+            "contains": "Contém",
+            "does_not_contain": "Não contém",
+            "is_present": "Está presente",
+            "is_not_present": "Não está presente",
+            "is_greater_than": "É maior do que",
+            "is_lesser_than": "É menor do que"
         },
         "ATTRIBUTES": {
             "NAME": "Nome:",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "Número de telefone",
             "IDENTIFIER": "Identifier",
             "CITY": "Cidade",
-            "COUNTRY": "País"
+            "COUNTRY": "País",
+            "CUSTOM_ATTRIBUTE_LIST": "Lista",
+            "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+            "CUSTOM_ATTRIBUTE_LINK": "Endereço",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Filtros Padrão",
+            "ADDITIONAL_FILTERS": "Filtros Adicionais",
+            "CUSTOM_ATTRIBUTES": "Atributos personalizados"
         }
     }
 }

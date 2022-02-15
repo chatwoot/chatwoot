@@ -19,6 +19,18 @@
         "TITLE": "പ്രൊഫൈൽ",
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നിങ്ങളുടെ ഐഡന്റിറ്റിയാണ്, ഒപ്പം ലോഗിൻ ചെയ്യാൻ ഇതാണ്  ഉപയോഗിക്കേണ്ടത്."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "പാസ്‌വേഡ്",
         "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "പാസ്‌വേഡ്",
+        "LABEL": "പുതിയ പാസ്‌വേഡ്",
         "ERROR": "ദയവായി 6 അല്ലെങ്കിൽ അതിൽ കൂടുതൽ ദൈർഘ്യമുള്ള പാസ്‌വേഡ് നൽകുക",
         "PLACEHOLDER": "ദയവായി ഒരു പുതിയ പാസ്‌വേഡ് നൽകുക"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "പുതിയ പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",
         "ERROR": "പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല",
-        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ പാസ്‌വേഡ് വീണ്ടും നൽകുക"
+        "PLACEHOLDER": "നിങ്ങളുടെ പുതിയ പാസ്‌വേഡ് വീണ്ടും നൽകുക"
       }
     }
   },
@@ -136,7 +148,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "പരാമർശിക്കുന്നു",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "CONTACTS": "കോൺ‌ടാക്റ്റുകൾ",
@@ -153,12 +165,14 @@
     "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "ഫോൾഡറുകൾ",
+    "CUSTOM_VIEWS_SEGMENTS": "അംശങ്ങൾ",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "അവലോകനം",
     "CSAT": "CSAT",
     "CAMPAIGNS": "പ്രചാരണങ്ങൾ",
     "ONGOING": "Ongoing",

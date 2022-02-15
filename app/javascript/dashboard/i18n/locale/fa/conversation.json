@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
+    "ASSIGN_TO_ME": "اختصاص به من",
     "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
     "SELECT_A_TWEET_TO_REPLY": "لطفا برای پاسخ دادن، یک توییت را انتخاب کنید.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
       "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
     "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
+    "BOT": "ربات",
+    "SEND_FAILED": "پیام ارسال نشد! دوباره امتحان کنید",
+    "TRY_AGAIN": "دوباره امتحان کنید",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
       "REMOVE": "حذف",
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "از",
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",

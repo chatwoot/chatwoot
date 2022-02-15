@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activer l'accueil du canal",
-          "HELP_TEXT": "Envoyer un message de bienvenue à l'utilisateur lorsqu'il démarre la conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "Canal SMS via Twilio",
-        "DESC": "Commencez à assister vos clients par SMS avec l'intégration Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Ce champ est requis"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Ce champ est requis"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Ce champ est requis"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Ce champ est requis"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Nom de la boîte de réception",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "Ce champ est requis"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Numéro de téléphone",
+            "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
+            "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL de rappel (callback)",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -305,6 +353,14 @@
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Activer"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
       "ENABLE_CSAT": "Activer CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
       "FORWARD_EMAIL_TITLE": "Transférer par e-mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante."
+      "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Réautoriser",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "Domaine",
         "PLACE_HOLDER": "Domaine"
-      }
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

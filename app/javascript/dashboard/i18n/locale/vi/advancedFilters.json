@@ -1,37 +1,86 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Lọc cuộc trò chuyện",
+    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc cuộc trò chuyện.",
+    "ADD_NEW_FILTER": "Thêm Bộ lọc",
+    "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
+    "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
     "CANCEL_BUTTON_LABEL": "Huỷ",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
+    "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
+    "TOOLTIP_LABEL": "Lọc cuộc trò chuyện",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "VÀ",
+      "OR": "HOẶC"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present"
+      "equal_to": "Bằng",
+      "not_equal_to": "Không bằng",
+      "contains": "Bao gồm",
+      "does_not_contain": "Không bao gồm",
+      "is_present": "Có",
+      "is_not_present": "Không có",
+      "is_greater_than": "Lớn hơn",
+      "is_lesser_than": "Nhỏ hơn"
     },
     "ATTRIBUTES": {
       "STATUS": "Trạng thái",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Tên Người được phân công",
       "INBOX_NAME": "Tên hộp thư đến",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Tên Nhóm",
+      "CONVERSATION_IDENTIFIER": "Định danh cuộc trò chuyện",
+      "CAMPAIGN_NAME": "Tên Chiến dịch",
       "LABELS": "Nhãn",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
+      "COUNTRY_NAME": "Tên Nước",
+      "REFERER_LINK": "Liên kết người giới thiệu",
+      "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
+      "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Số",
+      "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
+      "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Bạn có muốn lưu bộ lọc này không?",
+        "LABEL": "Đặt tên bộ lọc này",
+        "PLACEHOLDER": "Điền tên cho bộ lọc này",
+        "ERROR_MESSAGE": "Tên bắt buộc có",
+        "SAVE_BUTTON": "Lưu bộ lọc",
+        "CANCEL_BUTTON": "Huỷ",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Thư mục được tạo thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo thư mục"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Phân khúc được tạo thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo phân khúc"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Xoá bộ lọc",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Xác nhận xoá",
+            "MESSAGE": "Bạn có chắc chắn muốn xoá bộ lọc ",
+            "YES": "Có, Xoá",
+            "NO": "Không, Giữ"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Thư mục bị xoá thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá thư mục"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Phân khúc được xoá thành công",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá phân khúc"
+        }
+      }
     }
   }
 }

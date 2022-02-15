@@ -2,11 +2,11 @@
   "CONVERSATION": {
     "404": "Si prega di selezionare una conversazione dal pannello sinistro",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua casella di posta.",
+    "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua posta in arrivo.",
     "NO_MESSAGE_2": " per inviare un messaggio alla tua pagina!",
     "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna posta in arrivo.",
     "NO_INBOX_2": " per iniziare",
-    "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella di posta. Per favore contatta il tuo amministratore",
+    "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna posta in arrivo. Per favore contatta il tuo amministratore",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
       "TITLE": "Search messages",
@@ -22,12 +22,14 @@
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Scaricare",
+    "DOWNLOAD": "Scarica",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -38,7 +40,7 @@
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
       "OPEN_ACTION": "Apri",
-      "OPEN": "Ulteriori",
+      "OPEN": "Altro",
       "CLOSE": "Chiudi",
       "DETAILS": "Dettagli",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
@@ -55,13 +57,16 @@
       }
     },
     "FOOTER": {
-      "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta preconfezionata.",
-      "PRIVATE_MSG_INPUT": "Shift + enter per nuova linea. Questo sarà visibile solo agli agenti"
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta predefinita.",
+      "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti"
     },
     "REPLYBOX": {
-      "REPLY": "Rispondere",
-      "PRIVATE_NOTE": "Nota Privata",
-      "SEND": "Inviare",
+      "REPLY": "Rispondi",
+      "PRIVATE_NOTE": "Nota privata",
+      "SEND": "Invia",
       "CREATE": "Aggiungi nota",
       "TWEET": "Twitta",
       "TIP_FORMAT_ICON": "Show rich text editor",
@@ -85,11 +90,14 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
     "CHANGE_STATUS": "Stato conversazione cambiato",
-    "CHANGE_AGENT": "Modifica conversazione assegnatario",
+    "CHANGE_AGENT": "Modifica assegnatario conversazione",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "Rimuovi",
@@ -97,14 +105,14 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copia",
-      "DELETE": "Cancellare"
+      "DELETE": "Elimina"
     }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
     "SUBMIT": "Invia",
-    "CANCEL": "annulla",
+    "CANCEL": "Annulla",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova",
     "FORM": {
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -151,7 +159,7 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Etichette Di Conversazione",
+      "CONVERSATION_LABELS": "Etichette conversazione",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Conversazioni precedenti"
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

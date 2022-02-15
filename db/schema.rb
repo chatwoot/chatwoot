@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_223630) do
+ActiveRecord::Schema.define(version: 2022_02_15_060751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
@@ -201,6 +202,8 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true
     t.string "smtp_authentication", default: "login"
+    t.string "smtp_openssl_verify_mode", default: "none"
+    t.boolean "smtp_enable_ssl_tls", default: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -225,6 +228,16 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
+  end
+
+  create_table "channel_sms", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "provider", default: "default"
+    t.jsonb "provider_config", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
   create_table "channel_telegram", force: :cascade do |t|
@@ -273,6 +286,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.boolean "pre_chat_form_enabled", default: false
     t.jsonb "pre_chat_form_options", default: {}
     t.boolean "hmac_mandatory", default: false
+    t.boolean "continuity_via_email", default: true, null: false
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
@@ -650,20 +664,6 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "super_admins", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_super_admins_on_email", unique: true
-  end
-
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -744,6 +744,8 @@ ActiveRecord::Schema.define(version: 2022_01_11_223630) do
     t.integer "availability", default: 0
     t.jsonb "ui_settings", default: {}
     t.jsonb "custom_attributes", default: {}
+    t.string "type"
+    t.text "message_signature"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

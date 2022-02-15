@@ -56,9 +56,14 @@ as defined by the routes in the `admin/` namespace
     </li>
   </ul>
   <ul class="logout">
+   
     <li class="navigation__link">
       <i class="ion ion-log-out"></i>
       <%= link_to "Logout", super_admin_logout_url %>
+    </li>
+    <li class="navigation__link">
+      <i class="ion ion-android-contacts"></i>
+      <%= link_to "Agent Dashboard", '/' %>
     </li>
   </ul>
 </div>

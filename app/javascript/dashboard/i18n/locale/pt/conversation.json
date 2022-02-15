@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
     "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Enviado por:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Escolher Agente",
       "REMOVE": "Excluir",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar os membros da sua equipa",
-      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando o seu endereço de e-mail na lista de agentes.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Clique aqui para convidar um membro para a equipa"
     },
     "INBOXES": {
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Para",
     "BCC": "BCC",
     "CC": "Cc",

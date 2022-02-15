@@ -7,7 +7,7 @@
     "COMPANY": "Cég",
     "LOCATION": "Hely",
     "CONVERSATION_TITLE": "Beszélgetés részletei",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Profil megtekintése",
     "BROWSER": "Böngésző",
     "OS": "Operációs rendszer",
     "INITIATED_FROM": "Kezdeményezve",
@@ -20,8 +20,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Kapcsolattartó címkéi",
+        "ERROR": "Nem lehetett frissíteni a címkéket"
       },
       "CONVERSATION": {
         "TITLE": "Beszélgetés cimkék",
@@ -33,8 +33,8 @@
         "NO_RESULT": "Nem találtunk címkét"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Kapcsolattartók összevonása",
+    "CONTACT_ACTIONS": "Kapcsolattartói tevékenységek",
     "MUTE_CONTACT": "Beszélgetés elnémítása",
     "UNMUTE_CONTACT": "Beszélgetés elnémításának feloldása",
     "MUTED_SUCCESS": "A beszélgetés 6 órára elnémítva",
@@ -43,7 +43,7 @@
     "EDIT_LABEL": "Szerkesztés",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Kontakt címkéi",
       "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések"
     }
   },
@@ -58,32 +58,32 @@
     "DESC": "Alapvető információ a kontaktról."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importálás",
+    "TITLE": "Kontaktok importálása",
+    "DESC": "Kontaktok importálása CSV fájlból.",
+    "DOWNLOAD_LABEL": "Minta CSV fájl letöltése.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV fájl",
+      "SUBMIT": "Importálás",
       "CANCEL": "Mégse"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kontaktok sikeresen elmentve",
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Kontakt Törlése",
+    "TITLE": "Kontakt törlése",
+    "DESC": "Kontakt részletek törlése",
     "CONFIRM": {
       "TITLE": "Törlés megerősítése",
       "MESSAGE": "Biztos abban, hogy törli ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "PLACE_HOLDER": "Kérlek gépeld be, hogy {contactName} a megerősítéshez",
       "YES": "Igen, Törlés ",
       "NO": "Nem, Mégse "
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Kontakt sikeresen törölve",
+      "ERROR_MESSAGE": "A kontakt törlése nem lehetséges. Kérjük próbáld később."
     }
   },
   "CONTACT_FORM": {
@@ -111,7 +111,7 @@
         "LABEL": "Telefonszám",
         "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
         "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
       },
       "LOCATION": {
         "PLACEHOLDER": "A kontakt helyének megadása",
@@ -150,38 +150,41 @@
     "NO_INBOX": "Nem találtam postafiókot, hogy új beszélgetést kezdeményezzek ezzel a kapcsolattal.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Ide"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Fiók",
+        "ERROR": "Válassz egy fiókot"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Tárgy",
+        "PLACEHOLDER": "Tárgy",
+        "ERROR": "A tárgy nem lehet üres"
       },
       "MESSAGE": {
         "LABEL": "Üzenet",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Írd ide üzeneted",
+        "ERROR": "Az üzenet nem lehet üres"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Üzenet elküldése",
       "CANCEL": "Mégse",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Üzenet elküldve!",
+      "GO_TO_CONVERSATION": "Megtekintés",
+      "ERROR_MESSAGE": "Nem sikerült az elküldés! Kérjük próbáld később"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontaktok",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Kontakt mezői",
     "SEARCH_BUTTON": "Keresés",
     "SEARCH_INPUT_PLACEHOLDER": "Kontaktok keresése",
-    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS": "Szűrő",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Kontaktok betöltése...",
       "404": "Nincs a keresésnek megfelelő kontakt 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Nincsenek elérhető kontaktok",
       "TABLE_HEADER": {
         "NAME": "Név",
         "PHONE_NUMBER": "Telefonszám",
@@ -198,43 +201,43 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Kontaktok",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "A kontakt profiljának betöltése..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Hozzáadás",
+      "TITLE": "Shift + Enter egy feladat létrehozásához"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Lejárati idő",
+      "LABEL_TITLE": "Típus megadása"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Megjegyzések letöltése...",
+    "NOT_AVAILABLE": "Ehhez a kontakthoz nincs megjegyzés létrehozva",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "Megjegyzések"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "hozzáadott egy megjegyzést"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Hozzáadás",
+      "PLACEHOLDER": "Megjegyzés hozzáadása",
+      "TITLE": "Shift + Enter egy megjegyzés létrehozásához"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Megjegyzés törlése"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Tevékenységek"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "megjegyzések",
+      "PILL_BUTTON_EVENTS": "események",
       "PILL_BUTTON_CONVO": "beszélgetések"
     }
   },
