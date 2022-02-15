@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "புதிய வரிக்கு Shift + Enter ஐ அழுத்தவும். பதிவு செய்யப்பட்ட பதிலைத் தேர்ந்தெடுக்க '/' உடன் தொடங்கவும்.",
       "PRIVATE_MSG_INPUT": "புதிய வரிக்கு Shift + Enter ஐ அழுத்தவும். இது ஏஜென்ட்களுக்கு மட்டுமே தெரியும்"
     },

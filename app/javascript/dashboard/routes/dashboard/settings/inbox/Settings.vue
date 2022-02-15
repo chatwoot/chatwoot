@@ -149,7 +149,7 @@
             :richtext="!textAreaChannels"
           />
         </div>
-        <label class="medium-9 columns settings-item">
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
             <option key="in_a_few_minutes" value="in_a_few_minutes">

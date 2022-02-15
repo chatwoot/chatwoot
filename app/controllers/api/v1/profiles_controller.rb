@@ -39,7 +39,6 @@ class Api::V1::ProfilesController < Api::BaseController
       :display_name,
       :avatar,
       :message_signature,
-      :message_signature_enabled,
       ui_settings: {}
     )
   end
