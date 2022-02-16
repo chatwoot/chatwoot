@@ -1,5 +1,12 @@
 <template>
   <div id="app" class="app-wrapper app-root">
+    <update-banner
+      v-if="
+        hasAnUpdateAvailable && globalConfig.displayManifest && showUpdateBanner
+      "
+      :latest-chatwoot-version="latestChatwootVersion"
+      :dismiss-update-banner="dismissUpdateBanner"
+    />
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -16,8 +23,11 @@
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
+import UpdateBanner from './components/ui/UpdateBanner';
+
 import NetworkNotification from './components/NetworkNotification';
 import { accountIdFromPathname } from './helper/URLHelper';
+const semver = require('semver');
 
 export default {
   name: 'App',
@@ -26,11 +36,14 @@ export default {
     WootSnackbarBox,
     AddAccountModal,
     NetworkNotification,
+    UpdateBanner,
   },
 
   data() {
     return {
       showAddAccountModal: false,
+      latestChatwootVersion: null,
+      showUpdateBanner: true,
     };
   },
 
@@ -38,6 +51,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
     hasAccounts() {
       return (
@@ -45,6 +59,23 @@ export default {
         this.currentUser.accounts &&
         this.currentUser.accounts.length !== 0
       );
+    },
+    hasAnUpdateAvailable() {
+      if (!semver.valid(this.latestChatwootVersion)) {
+        return false;
+      }
+      return (
+        semver.lt(this.globalConfig.appVersion, this.latestChatwootVersion) &&
+        this.checkUpdateDismissedOrNot(this.latestChatwootVersion)
+      );
+    },
+    getDismissedUpdates() {
+      const storedNames = JSON.parse(localStorage.getItem('dismissedUpdates'));
+      return storedNames || [];
+    },
+    setDismissedUpdates() {
+      const storedNames = JSON.parse(localStorage.getItem('dismissedUpdates'));
+      return storedNames;
     },
   },
 
@@ -72,9 +103,25 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const { locale } = this.getAccount(accountId);
+        const {
+          locale,
+          latest_chatwoot_version: latestChatwootVersion,
+        } = this.getAccount(accountId);
         this.setLocale(locale);
+        this.latestChatwootVersion = latestChatwootVersion;
       }
+    },
+    checkUpdateDismissedOrNot(version) {
+      return !this.getDismissedUpdates.includes(version);
+    },
+    dismissUpdateBanner() {
+      const updatedDismissedItems = this.getDismissedUpdates;
+      updatedDismissedItems.push(this.latestChatwootVersion);
+      localStorage.setItem(
+        'dismissedUpdates',
+        JSON.stringify(updatedDismissedItems)
+      );
+      this.showUpdateBanner = false;
     },
   },
 };
