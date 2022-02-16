@@ -297,7 +297,7 @@ export default {
   height: 19px;
   width: 34px;
   border: 2px solid transparent;
-  border-radius: 9999px;
+  border-radius: var(--border-radius-large);
   cursor: pointer;
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
