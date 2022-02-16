@@ -351,7 +351,7 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
-        case 'send_message':
+        case 'send_email_to_team':
           return this.$store.getters['teams/getTeams'];
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
@@ -365,12 +365,24 @@ export default {
       }
     },
     appendNewCondition() {
-      this.automation.conditions.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-      });
+      switch (this.automation.event_name) {
+        case 'message_created':
+          this.automation.conditions.push({
+            attribute_key: 'message_type',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+        default:
+          this.automation.conditions.push({
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+      }
     },
     appendNewAction() {
       this.automation.actions.push({

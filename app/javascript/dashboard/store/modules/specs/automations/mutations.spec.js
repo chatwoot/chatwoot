@@ -18,40 +18,18 @@ describe('#mutations', () => {
     });
   });
 
-  // describe('#EDIT_AUTOMATION', () => {
-  //   it('update automation record', () => {
-  //     const state = { records: [automations[0]] };
-  //     mutations[types.EDIT_AUTOMATION](state, {
-  //       id: 12,
-  //       account_id: 1,
-  //       name: 'Test Automation',
-  //       description: 'This is a test',
-  //       event_name: 'conversation_created',
-  //       conditions: [
-  //         {
-  //           values: ['open'],
-  //           attribute_key: 'status',
-  //           query_operator: null,
-  //           filter_operator: 'equal_to',
-  //         },
-  //       ],
-  //       actions: [
-  //         {
-  //           action_name: 'add_label',
-  //           action_params: [{}],
-  //         },
-  //       ],
-  //       created_on: '2022-01-14T09:17:55.689Z',
-  //       active: true,
-  //     });
-  //     expect(state.records[0].name).toEqual('Test Automation');
-  //   });
-  // });
+  describe('#EDIT_AUTOMATION', () => {
+    it('update automation record', () => {
+      const state = { records: [automations[0]] };
+      mutations[types.EDIT_AUTOMATION](state, automations[0]);
+      expect(state.records[0].name).toEqual('Test 5');
+    });
+  });
 
   describe('#DELETE_AUTOMATION', () => {
     it('delete automation record', () => {
       const state = { records: [automations[0]] };
-      mutations[types.DELETE_AUTOMATION](state, 12);
+      mutations[types.DELETE_AUTOMATION](state, 46);
       expect(state.records).toEqual([]);
     });
   });
