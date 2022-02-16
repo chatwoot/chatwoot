@@ -69,7 +69,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   onMessageCreated = data => {
     newMessageNotification(data);
     this.app.$store.dispatch('addMessage', data);
-    bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+    if (data.message_type === 1) {
+      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+    }
   };
 
   onReload = () => window.location.reload();
