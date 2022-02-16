@@ -251,7 +251,6 @@ export default {
   created() {
     bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
-    bus.$on('message-created-event-for-scroll', this.onScrollToMessage);
   },
 
   mounted() {
@@ -267,7 +266,6 @@ export default {
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
-      bus.$off('message-created-event-for-scroll', this.onScrollToMessage);
     },
     setSelectedTweet(tweetId) {
       this.selectedTweetId = tweetId;

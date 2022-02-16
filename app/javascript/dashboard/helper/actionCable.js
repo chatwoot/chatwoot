@@ -1,6 +1,7 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import { newMessageNotification } from 'shared/helpers/AudioNotificationHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -68,7 +69,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onMessageCreated = data => {
     newMessageNotification(data);
     this.app.$store.dispatch('addMessage', data);
-    bus.$emit('message-created-event-for-scroll');
+    bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
   };
 
   onReload = () => window.location.reload();
