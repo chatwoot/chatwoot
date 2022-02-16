@@ -310,6 +310,7 @@ export default {
 }
 
 .toggle-button span {
+  --space-one-point-five: 1.5rem;
   height: var(--space-one-point-five);
   width: var(--space-one-point-five);
   display: inline-block;
