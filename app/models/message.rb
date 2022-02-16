@@ -136,6 +136,14 @@ class Message < ApplicationRecord
     I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
   end
 
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
+  end
+
   private
 
   def ensure_content_type
@@ -192,13 +200,6 @@ class Message < ApplicationRecord
 
   def email_notifiable_channel?
     email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
-  end
-
-  def email_notifiable_message?
-    return false unless outgoing? || input_csat?
-    return false if private?
-
-    true
   end
 
   def can_notify_via_mail?
