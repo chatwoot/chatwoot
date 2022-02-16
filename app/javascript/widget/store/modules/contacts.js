@@ -1,5 +1,5 @@
 import ContactsAPI from '../../api/contacts';
-
+import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 const state = {
   currentUser: {},
 };
@@ -38,7 +38,11 @@ export const actions = {
         dispatch('conversation/fetchOldConversations', {}, { root: true });
       }
     } catch (error) {
-      // Ignore error
+      const {
+        response: { data },
+      } = error;
+
+      dispatchWindowEvent({ eventName: 'chatwoot:error', data: data.error });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {

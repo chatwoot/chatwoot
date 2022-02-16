@@ -129,7 +129,7 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      dispatchWindowEvent(EVENT_NAME);
+      dispatchWindowEvent({ eventName: EVENT_NAME });
     },
 
     setBubbleLabel(message) {

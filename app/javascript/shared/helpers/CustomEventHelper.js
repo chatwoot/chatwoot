@@ -1,7 +1,7 @@
-export const createEvent = eventName => {
+export const createEvent = ({ eventName, data }) => {
   let event;
   if (typeof window.CustomEvent === 'function') {
-    event = new CustomEvent(eventName);
+    event = new CustomEvent(eventName, { detail: data });
   } else {
     event = document.createEvent('CustomEvent');
     event.initCustomEvent(eventName, false, false, null);
@@ -9,7 +9,7 @@ export const createEvent = eventName => {
   return event;
 };
 
-export const dispatchWindowEvent = eventName => {
-  const event = createEvent(eventName);
-  window.dispatchEvent(event);
+export const dispatchWindowEvent = ({ eventName, data }) => {
+  const event = createEvent({ eventName, data });
+  window.parent.dispatchEvent(event);
 };
