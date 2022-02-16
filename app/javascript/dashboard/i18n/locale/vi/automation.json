@@ -1,6 +1,6 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
+    "HEADER": "Tự động hoá",
     "HEADER_BTN_TXT": "Thêm Quy tắc Tự động hoá",
     "LOADING": "Đang lấy quy tắc tự động hoá",
     "SIDEBAR_TXT": "<p><b>Quy tắc tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
@@ -86,10 +86,10 @@
       "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save"
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu"
     }
   }
 }
