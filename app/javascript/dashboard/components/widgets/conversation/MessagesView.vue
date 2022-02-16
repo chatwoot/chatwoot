@@ -35,7 +35,7 @@
       >
       </woot-button>
     </div>
-    <ul ref="conversationPanel" class="conversation-panel">
+    <ul class="conversation-panel">
       <transition name="slide-up">
         <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
@@ -87,6 +87,7 @@
         :selected-tweet="selectedTweet"
         :popout-reply-box.sync="isPopoutReplyBox"
         @click="showPopoutReplyBox"
+        @scrollToMessage="scrollToBottom"
       />
     </div>
   </div>
@@ -103,6 +104,7 @@ import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import { mixin as clickaway } from 'vue-clickaway';
@@ -246,28 +248,31 @@ export default {
     },
   },
 
-  updated() {
-    this.$nextTick(() => this.scrollToEndOfMessages());
+  created() {
+    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
-  created() {
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+  updated() {
+    this.addScrollListener();
   },
 
   beforeDestroy() {
     this.removeBusListeners();
+    this.removeScrollListener();
   },
 
   methods: {
-    scrollToEndOfMessages() {
-      const panel = this.$refs.conversationPanel;
-      panel.scrollTop = panel.scrollHeight;
-    },
     removeBusListeners() {
+      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
       bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
     },
     setSelectedTweet(tweetId) {
       this.selectedTweetId = tweetId;
+    },
+    onScrollToMessage() {
+      this.$nextTick(() => this.scrollToBottom());
+      this.makeMessagesRead();
     },
     showPopoutReplyBox() {
       this.isPopoutReplyBox = !this.isPopoutReplyBox;
@@ -280,9 +285,70 @@ export default {
         this.closePopoutReplyBox();
       }
     },
+    addScrollListener() {
+      this.conversationPanel = this.$el.querySelector('.conversation-panel');
+      this.setScrollParams();
+      this.conversationPanel.addEventListener('scroll', this.handleScroll);
+      this.$nextTick(() => this.scrollToBottom());
+      this.isLoadingPrevious = false;
+    },
+    removeScrollListener() {
+      this.conversationPanel.removeEventListener('scroll', this.handleScroll);
+    },
+    scrollToBottom() {
+      let relevantMessages = [];
+      if (this.getUnreadCount > 0) {
+        // capturing only the unread messages
+        relevantMessages = this.conversationPanel.querySelectorAll(
+          '.message--unread'
+        );
+      } else {
+        // capturing last message from the messages list
+        relevantMessages = Array.from(
+          this.conversationPanel.querySelectorAll('.message--read')
+        ).slice(-1);
+      }
+      this.conversationPanel.scrollTop = calculateScrollTop(
+        this.conversationPanel.scrollHeight,
+        this.$el.scrollHeight,
+        relevantMessages
+      );
+    },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
     },
+    setScrollParams() {
+      this.heightBeforeLoad = this.conversationPanel.scrollHeight;
+      this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
+    },
+
+    handleScroll(e) {
+      this.setScrollParams();
+
+      const dataFetchCheck =
+        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
+      if (
+        e.target.scrollTop < 100 &&
+        !this.isLoadingPrevious &&
+        dataFetchCheck
+      ) {
+        this.isLoadingPrevious = true;
+        this.$store
+          .dispatch('fetchPreviousMessages', {
+            conversationId: this.currentChat.id,
+            before: this.getMessages.messages[0].id,
+          })
+          .then(() => {
+            const heightDifference =
+              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
+            this.conversationPanel.scrollTop =
+              this.scrollTopBeforeLoad + heightDifference;
+            this.isLoadingPrevious = false;
+            this.setScrollParams();
+          });
+      }
+    },
+
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
