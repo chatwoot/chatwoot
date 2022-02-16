@@ -73,10 +73,6 @@ export default {
       const storedNames = JSON.parse(localStorage.getItem('dismissedUpdates'));
       return storedNames || [];
     },
-    setDismissedUpdates() {
-      const storedNames = JSON.parse(localStorage.getItem('dismissedUpdates'));
-      return storedNames;
-    },
   },
 
   watch: {
@@ -103,10 +99,8 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const {
-          locale,
-          latest_chatwoot_version: latestChatwootVersion,
-        } = this.getAccount(accountId);
+        const { locale, latest_chatwoot_version: latestChatwootVersion } =
+          this.getAccount(accountId);
         this.setLocale(locale);
         this.latestChatwootVersion = latestChatwootVersion;
       }
