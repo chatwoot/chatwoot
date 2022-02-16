@@ -352,8 +352,8 @@ export default {
       switch (type) {
         case 'assign_team':
         case 'send_email_to_team':
-        return this.$store.getters['teams/getTeams'];
-         case 'add_label':
+          return this.$store.getters['teams/getTeams'];
+        case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
               id: i.title,
@@ -441,9 +441,8 @@ export default {
       const formattedConditions = automation.conditions.map(condition => {
         const inputType = this.automationTypes[
           automation.event_name
-        ].conditions.find(
-          item => item.key === condition.attribute_key
-        ).inputType;
+        ].conditions.find(item => item.key === condition.attribute_key)
+          .inputType;
         if (inputType === 'plain_text') {
           return {
             ...condition,
