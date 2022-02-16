@@ -21,7 +21,7 @@
         label="Beta"
         class="beta"
       >
-        Beta
+        {{ $t('SIDEBAR.BETA') }}
       </span>
     </router-link>
 
