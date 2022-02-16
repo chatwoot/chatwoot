@@ -42,7 +42,7 @@ vi:
       conversations_count: Số cuộc trò chuyện
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
-    default_group_by: day
+    default_group_by: ngày
   notifications:
     notification_title:
       conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
