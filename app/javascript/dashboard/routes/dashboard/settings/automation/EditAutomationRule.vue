@@ -121,10 +121,10 @@
               variant="clear"
               @click.prevent="onClose"
             >
-              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
+              {{ $t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT') }}
             </woot-button>
             <woot-button @click="submitAutomation">
-              {{ $t('AUTOMATION.ADD.SUBMIT') }}
+              {{ $t('AUTOMATION.EDIT.SUBMIT') }}
             </woot-button>
           </div>
         </div>
@@ -351,9 +351,9 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
-        case 'send_message':
-          return this.$store.getters['teams/getTeams'];
-        case 'add_label':
+        case 'send_email_to_team':
+        return this.$store.getters['teams/getTeams'];
+         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
               id: i.title,
@@ -365,12 +365,32 @@ export default {
       }
     },
     appendNewCondition() {
-      this.automation.conditions.push({
-        attribute_key: 'status',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-      });
+      if (
+        !this.automation.conditions[this.automation.conditions.length - 1]
+          .query_operator
+      ) {
+        this.automation.conditions[
+          this.automation.conditions.length - 1
+        ].query_operator = 'and';
+      }
+      switch (this.automation.event_name) {
+        case 'message_created':
+          this.automation.conditions.push({
+            attribute_key: 'message_type',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+        default:
+          this.automation.conditions.push({
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          });
+          break;
+      }
     },
     appendNewAction() {
       this.automation.actions.push({
@@ -380,14 +400,14 @@ export default {
     },
     removeFilter(index) {
       if (this.automation.conditions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
+        this.showAlert(this.$t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
       } else {
         this.automation.conditions.splice(index, 1);
       }
     },
     removeAction(index) {
       if (this.automation.actions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
+        this.showAlert(this.$t('AUTOMATION.ACTION.DELETE_MESSAGE'));
       } else {
         this.automation.actions.splice(index, 1);
       }
@@ -421,8 +441,9 @@ export default {
       const formattedConditions = automation.conditions.map(condition => {
         const inputType = this.automationTypes[
           automation.event_name
-        ].conditions.find(item => item.key === condition.attribute_key)
-          .inputType;
+        ].conditions.find(
+          item => item.key === condition.attribute_key
+        ).inputType;
         if (inputType === 'plain_text') {
           return {
             ...condition,

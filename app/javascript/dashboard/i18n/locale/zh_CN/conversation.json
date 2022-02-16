@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见"
     },

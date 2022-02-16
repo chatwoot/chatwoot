@@ -57,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。"
     },
