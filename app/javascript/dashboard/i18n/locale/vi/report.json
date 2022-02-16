@@ -60,53 +60,53 @@
       "CONFIRM": "Áp dụng",
       "PLACEHOLDER": "Chọn phạm vi ngày"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Ngày"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Ngày"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Tuần"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Ngày"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Tuần"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Tháng"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Ngày"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Tuần"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Tháng"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Năm"
       }
     ]
   },
