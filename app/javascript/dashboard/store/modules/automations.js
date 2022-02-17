@@ -48,7 +48,7 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: true });
     try {
       const response = await AutomationAPI.update(id, updateObj);
-      commit(types.EDIT_AUTOMATION, response.data);
+      commit(types.EDIT_AUTOMATION, response.data.payload);
     } catch (error) {
       throw new Error(error);
     } finally {
