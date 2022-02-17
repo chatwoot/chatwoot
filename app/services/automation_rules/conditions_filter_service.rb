@@ -1,10 +1,10 @@
 require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
-  def initialize(rule, conversation=nil)
+  def initialize(rule, conversation_ids=nil)
     super([], nil)
     @rule = rule
-    @conversation = conversation
+    @conversation_ids = conversation_ids
     file = File.read('./lib/filters/filter_keys.json')
     @filters = JSON.parse(file)
   end
@@ -21,14 +21,14 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   end
 
-  def message_conditions(message)
+  def message_conditions
     message_filters = @filters['messages']
 
     @rule.conditions.each_with_index do |query_hash, current_index|
       current_filter = message_filters[query_hash['attribute_key']]
       @query_string += message_query_string(current_filter, query_hash.with_indifferent_access, current_index)
     end
-    records = Message.where(id: message.id).where(@query_string, @filter_values.with_indifferent_access)
+    records = Message.where(conversation: @conversation_ids).where(@query_string, @filter_values.with_indifferent_access)
     records.any?
   end
 
@@ -52,7 +52,7 @@ class AutomationRules::ConditionsFilterService < FilterService
       @query_string += conversation_query_string(current_filter, query_hash.with_indifferent_access, current_index)
     end
 
-    records = contact.conversations.where(@query_string, @filter_values.with_indifferent_access)
+    records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
     records.any?
   end
 
@@ -75,6 +75,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def base_relation
-    Conversation.where(id: @conversation)
+    Conversation.where(id: @conversation_ids)
   end
 end

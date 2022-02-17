@@ -211,6 +211,14 @@ export const AUTOMATION_RULE_EVENTS = [
     key: 'message_created',
     value: 'Message Created',
   },
+  {
+    key: 'contact_created',
+    value: 'Contact Created',
+  },
+  {
+    key: 'contact_updated',
+    value: 'Contact Updated',
+  }
 ];
 
 export const AUTOMATION_ACTION_TYPES = [
