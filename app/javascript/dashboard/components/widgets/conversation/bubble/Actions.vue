@@ -19,14 +19,16 @@
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
       icon="lock-closed"
-      class="action--icon"
+      class="action--icon lock--icon--private"
       size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <button @click="onTweetReply">
+    <button
+      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
+      @click="onTweetReply"
+    >
       <fluent-icon
-        v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
         v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
         icon="arrow-reply"
         class="action--icon cursor-pointer"
@@ -141,6 +143,10 @@ export default {
     .action--icon {
       color: var(--white);
     }
+
+    .lock--icon--private {
+      color: var(--s-400);
+    }
   }
 }
 
@@ -205,7 +211,7 @@ export default {
 
 .is-private {
   .message-text--metadata {
-    align-items: flex-end;
+    align-items: center;
 
     .time {
       color: var(--s-400);
