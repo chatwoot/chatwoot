@@ -33,6 +33,7 @@ export const actions = {
         location,
         description,
         social_profiles,
+        custom_attributes,
       } = userObject;
       const user = {
         email,
@@ -46,6 +47,7 @@ export const actions = {
           description,
           social_profiles,
         },
+        custom_attributes,
       };
       await ContactsAPI.update(identifier, user);
 
