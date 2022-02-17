@@ -1,9 +1,7 @@
 <template>
   <div id="app" class="app-wrapper app-root">
     <update-banner
-      v-if="
-        hasAnUpdateAvailable && globalConfig.displayManifest && showUpdateBanner
-      "
+      v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
       :latest-chatwoot-version="latestChatwootVersion"
       :dismiss-update-banner="dismissUpdateBanner"
     />
@@ -43,7 +41,6 @@ export default {
     return {
       showAddAccountModal: false,
       latestChatwootVersion: null,
-      showUpdateBanner: true,
     };
   },
 
@@ -116,6 +113,7 @@ export default {
         JSON.stringify(updatedDismissedItems)
       );
       this.showUpdateBanner = false;
+      this.latestChatwootVersion = this.globalConfig.appVersion;
     },
   },
 };
