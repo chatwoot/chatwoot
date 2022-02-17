@@ -32,7 +32,6 @@ export const actions = {
         company_name,
         location,
         description,
-        social_profiles,
         custom_attributes,
       } = userObject;
       const user = {
@@ -45,7 +44,6 @@ export const actions = {
           company_name,
           location,
           description,
-          social_profiles,
         },
         custom_attributes,
       };
