@@ -320,7 +320,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Betyg",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },

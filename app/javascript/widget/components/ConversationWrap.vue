@@ -120,15 +120,3 @@ export default {
   text-align: center;
 }
 </style>
-<style lang="scss">
-.conversation-wrap.is-typing .messages-wrap div:last-child {
-  .agent-message {
-    .agent-name {
-      display: none;
-    }
-    .user-thumbnail-box {
-      margin-top: 0;
-    }
-  }
-}
-</style>

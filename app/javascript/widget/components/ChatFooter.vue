@@ -1,30 +1,31 @@
 <template>
-  <div>
-    <footer v-if="!hideReplyBox" class="footer">
-      <ChatInputWrap
-        :on-send-message="handleSendMessage"
-        :on-send-attachment="handleSendAttachment"
-      />
-    </footer>
-    <div v-else>
-      <custom-button
-        class="font-medium"
-        block
-        :bg-color="widgetColor"
-        :text-color="textColor"
-        @click="startNewConversation"
-      >
-        {{ $t('START_NEW_CONVERSATION') }}
-      </custom-button>
-      <custom-button
-        v-if="showEmailTranscriptButton"
-        type="clear"
-        class="font-normal"
-        @click="sendTranscript"
-      >
-        {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-      </custom-button>
-    </div>
+  <footer
+    v-if="!hideReplyBox"
+    class="shadow-sm rounded-lg bg-white mb-1 z-50 relative"
+  >
+    <chat-input-wrap
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
+  </footer>
+  <div v-else>
+    <custom-button
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startNewConversation"
+    >
+      {{ $t('START_NEW_CONVERSATION') }}
+    </custom-button>
+    <custom-button
+      v-if="showEmailTranscriptButton"
+      type="clear"
+      class="font-normal"
+      @click="sendTranscript"
+    >
+      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+    </custom-button>
   </div>
 </template>
 
@@ -58,9 +59,9 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     hideReplyBox() {
-      const { csatSurveyEnabled } = window.chatwootWebChannel;
+      const { allowMessagesAfterResolved } = window.chatwootWebChannel;
       const { status } = this.conversationAttributes;
-      return csatSurveyEnabled && status === 'resolved';
+      return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
       return this.currentUser && this.currentUser.email;
@@ -115,19 +116,8 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
-
-.footer {
-  background: $color-white;
-  box-sizing: border-box;
-  width: 100%;
-  border-radius: 7px;
-  @include shadow-big;
-}
 
 .branding {
   align-items: center;

@@ -33,7 +33,8 @@ class ContactBuilder
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],
-      additional_attributes: contact_attributes[:additional_attributes]
+      additional_attributes: contact_attributes[:additional_attributes],
+      custom_attributes: contact_attributes[:custom_attributes]
     )
   end
 

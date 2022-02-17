@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Персонализирани атрибути",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "ADD": {
+      "TITLE": "Add Custom Attribute",
+      "SUBMIT": "Създаване",
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter custom attribute display name",
+          "ERROR": "Name is required"
+        },
+        "DESC": {
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "Description is required"
+        },
+        "MODEL": {
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Тип",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
+        },
+        "KEY": {
+          "LABEL": "Ключ",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required",
+          "IN_VALID": "Невалиден ключ"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
+        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Изтрий",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the custom attribute",
+        "YES": "Изтриване ",
+        "NO": "Отмени"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Промяна на персонализиран атрибут",
+      "UPDATE_BUTTON_TEXT": "Обновяване",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Показване на стойности",
+          "PLACEHOLDER": "Моля, въведете стойност и натиснете клавиш enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Персонализирания атрибут е обновен успешно",
+        "ERROR_MESSAGE": "Възникна грешка при обновяване на персонализирания атрибут, моля опитайте отново"
+      }
+    },
+    "TABS": {
+      "HEADER": "Персонализирани атрибути",
+      "CONVERSATION": "Разговор",
+      "CONTACT": "Контакт"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Име",
+        "Описание",
+        "Тип",
+        "Ключ"
+      ],
+      "BUTTONS": {
+        "EDIT": "Редактирай",
+        "DELETE": "Изтрий"
+      },
+      "EMPTY_RESULT": {
+        "404": "Няма създадени персонализирани атрибути",
+        "NOT_FOUND": "Няма настроени персонализирани атрибути"
+      }
+    }
+  }
+}

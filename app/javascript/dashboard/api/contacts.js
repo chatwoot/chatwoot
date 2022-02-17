@@ -1,5 +1,6 @@
 /* global axios */
 import ApiClient from './ApiClient';
+import { ODOO_SERVICE_URL } from '../constants';
 
 export const buildContactParams = (page, sortAttr, label, search) => {
   let params = `include_contact_inboxes=false&page=${page}&sort=${sortAttr}`;
@@ -25,6 +26,33 @@ class ContactAPI extends ApiClient {
       ''
     )}`;
     return axios.get(requestURL);
+  }
+
+  async create(data) {
+    const result = await axios.post(this.url, data);
+    // Send chatwoot contact to our odoo connector service
+    const payload = {
+      "method": "contact_create",
+      "data": {
+        contact: result.data.payload.contact
+      }
+    }
+    axios.post(ODOO_SERVICE_URL, payload);
+    return result;
+  }
+
+  async update(id, data) {
+    const result = await axios.patch(`${this.url}/${id}`, data);
+    const payload = {
+      "method": "contact_update",
+      "data": {
+        contact: result.data.payload
+      }
+    }
+    // console.log(ODOO_SERVICE_URL)
+    // Send the data to our service
+    axios.post(ODOO_SERVICE_URL, payload);
+    return result;
   }
 
   getConversations(contactId) {
@@ -53,11 +81,22 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  filter(page = 1, sortAttr = 'name', queryPayload) {
+    let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
+    return axios.post(requestURL, queryPayload);
+  }
+
   importContacts(file) {
     const formData = new FormData();
     formData.append('import_file', file);
     return axios.post(`${this.url}/import`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  }
+
+  destroyCustomAttributes(contactId, customAttributes) {
+    return axios.post(`${this.url}/${contactId}/destroy_custom_attributes`, {
+      custom_attributes: customAttributes,
     });
   }
 }

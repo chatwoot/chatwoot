@@ -251,11 +251,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Resumo da Equipe",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios da equipe",
+    "FILTER_DROPDOWN_LABEL": "Selecionar time",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",

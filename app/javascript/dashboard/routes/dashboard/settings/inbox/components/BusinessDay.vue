@@ -24,7 +24,7 @@
           :allow-empty="false"
         />
         <div class="separator-icon">
-          <i class="ion-minus-round" />
+          <fluent-icon icon="subtract" type="solid" size="16" />
         </div>
         <multiselect
           v-model="toTime"

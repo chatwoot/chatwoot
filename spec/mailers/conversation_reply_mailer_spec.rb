@@ -25,6 +25,15 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
                  bcc_emails: 'agent_bcc1@example.com'
                })
       end
+      let(:new_message) do
+        create(:message,
+               account: account,
+               conversation: conversation,
+               content_attributes: {
+                 cc_emails: 'agent_cc2@example.com',
+                 bcc_emails: 'agent_bcc2@example.com'
+               })
+      end
       let(:cc_message) do
         create(:message,
                account: account,
@@ -39,8 +48,15 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
       let(:cc_mail) { described_class.reply_with_summary(cc_message.conversation, message.id).deliver_now }
 
-      it 'renders the subject' do
+      it 'renders the default subject' do
         expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the subject in conversation as reply' do
+        conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+        conversation.save
+        new_message.save
+        expect(mail.subject).to eq('Re: Mail Subject')
       end
 
       it 'not have private notes' do
@@ -91,8 +107,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         message_2.save
       end
 
-      it 'renders the subject' do
+      it 'renders the default subject' do
         expect(mail.subject).to eq("[##{message_2.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'renders the subject in conversation' do
+        conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+        conversation.save
+        expect(mail.subject).to eq('Mail Subject')
       end
 
       it 'not have private notes' do
@@ -129,6 +151,32 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'updates the source_id' do
         expect(mail.message_id).to eq message.source_id
+      end
+    end
+
+    context 'when smtp enabled for email channel' do
+      let(:smtp_email_channel) do
+        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_email: 'smtp@gmail.com',
+                               smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: account)
+      end
+      let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_email_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'use smtp mail server' do
+        mail = described_class.email_reply(message)
+        expect(mail.delivery_method.settings.empty?).to be false
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+    end
+
+    context 'when smtp disabled for email channel', :test do
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'use default mail server' do
+        mail = described_class.email_reply(message)
+        expect(mail.delivery_method.settings).to be_empty
       end
     end
 

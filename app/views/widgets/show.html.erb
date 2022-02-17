@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TJX2TS9');</script>
+    <!-- End Google Tag Manager -->
     <title><%= @global_config['INSTALLATION_NAME'] %></title>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
@@ -23,12 +30,13 @@
         csatSurveyEnabled: <%= @web_widget.inbox.csat_survey_enabled %>,
         workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
         outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
-        utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>'
+        utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>',
+        allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
       }
-      window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
+      window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
@@ -36,6 +44,10 @@
     <%= stylesheet_pack_tag 'widget' %>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJX2TS9"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="app"></div>
     <%= yield %>
   </body>

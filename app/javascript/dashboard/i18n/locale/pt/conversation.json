@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
     "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
@@ -89,6 +92,9 @@
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Enviado por:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Escolher Agente",
       "REMOVE": "Excluir",
@@ -126,7 +132,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar os membros da sua equipa",
-      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando o seu endereço de e-mail na lista de agentes.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Clique aqui para convidar um membro para a equipa"
     },
     "INBOXES": {
@@ -154,6 +160,27 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Conversas anteriores"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Adicionar",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {

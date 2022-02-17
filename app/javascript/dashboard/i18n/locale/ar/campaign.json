@@ -54,7 +54,7 @@
           "ERROR": "الوقت على الصفحة مطلوب"
         },
         "ENABLED": "تفعيل الحملة",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "تشغيل فقط خلال ساعات العمل",
         "SUBMIT": "إضافة حملة"
       },
       "API": {

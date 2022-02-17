@@ -3,7 +3,8 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
 
   def perform
     set_inbox
-    return if message_already_exist? || user_has_blocked?
+
+    return if !tweets_enabled? || message_already_exist? || user_has_blocked?
 
     create_message
   end
@@ -36,6 +37,10 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
 
   def user_has_blocked?
     payload['user_has_blocked'] == true
+  end
+
+  def tweets_enabled?
+    @inbox.channel.tweets_enabled?
   end
 
   def parent_tweet_id

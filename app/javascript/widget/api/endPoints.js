@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 import { generateEventParams } from './events';
 
@@ -10,6 +11,7 @@ const createConversation = params => {
       contact: {
         name: params.fullName,
         email: params.emailAddress,
+        phone_number: params.phoneNumber
       },
       message: {
         content: params.message,
@@ -41,7 +43,7 @@ const sendAttachment = ({ attachment }) => {
   const { file } = attachment;
 
   const formData = new FormData();
-  formData.append('message[attachments][]', file, file.name);
+  formData.append('message[attachments][]', file);
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
   return {

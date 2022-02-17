@@ -4,7 +4,7 @@ class ContactInboxBuilder
   def perform
     @contact = Contact.find(contact_id)
     @inbox = @contact.account.inboxes.find(inbox_id)
-    return unless ['Channel::TwilioSms', 'Channel::Email', 'Channel::Api'].include? @inbox.channel_type
+    return unless ['Channel::TwilioSms', 'Channel::Sms', 'Channel::Email', 'Channel::Api', 'Channel::Whatsapp'].include? @inbox.channel_type
 
     source_id = @source_id || generate_source_id
     create_contact_inbox(source_id) if source_id.present?
@@ -13,11 +13,25 @@ class ContactInboxBuilder
   private
 
   def generate_source_id
-    return twilio_source_id if @inbox.channel_type == 'Channel::TwilioSms'
-    return @contact.email if @inbox.channel_type == 'Channel::Email'
-    return SecureRandom.uuid if @inbox.channel_type == 'Channel::Api'
+    case @inbox.channel_type
+    when 'Channel::TwilioSms'
+      twilio_source_id
+    when 'Channel::Whatsapp'
+      wa_source_id
+    when 'Channel::Email'
+      @contact.email
+    when 'Channel::Sms'
+      @contact.phone_number
+    when 'Channel::Api'
+      SecureRandom.uuid
+    end
+  end
 
-    nil
+  def wa_source_id
+    return unless @contact.phone_number
+
+    # whatsapp doesn't want the + in e164 format
+    "#{@contact.phone_number}.delete('+')"
   end
 
   def twilio_source_id

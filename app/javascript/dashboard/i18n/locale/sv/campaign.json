@@ -34,7 +34,7 @@
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "Meddelande",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -88,8 +88,8 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
-        "INBOX": "Inbox",
+        "MESSAGE": "Meddelande",
+        "INBOX": "Inkorg",
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",

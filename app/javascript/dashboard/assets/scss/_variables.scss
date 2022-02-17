@@ -44,11 +44,14 @@ $woot-logo-padding: $space-large $space-two;
 $color-woot: #1f93ff;
 $color-gray: #6e6f73;
 $color-light-gray: #999a9b;
-$color-border: #e0e6ed;
-$color-border-light: #f0f4f5;
-$color-border-dark: #cad0d4;
-$color-background: #f4f6fb;
-$color-background-light: #f9fafc;
+
+$color-border: var(--s-75);
+$color-border-light: var(--s-50);
+$color-border-dark: var(--s-100);
+
+$color-background: var(--s-50);
+$color-background-light: var(--s-25);
+
 $color-white: #fff;
 $color-body: #3c4858;
 $color-heading: #1f2d3d;

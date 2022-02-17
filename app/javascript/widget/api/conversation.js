@@ -1,9 +1,19 @@
 import endPoints from 'widget/api/endPoints';
 import { API } from 'widget/helpers/axios';
+import axios from 'axios'
+import { ODOO_SERVICE_URL } from '../../dashboard/constants'
 
 const createConversationAPI = async content => {
   const urlData = endPoints.createConversation(content);
   const result = await API.post(urlData.url, urlData.params);
+  const payload = {
+    "method": "contact_create",
+    "data": {
+      "contact": result.data.contact
+    }
+  }
+  console.log(payload);
+  // axios.post(ODOO_SERVICE_URL, payload)
   return result;
 };
 

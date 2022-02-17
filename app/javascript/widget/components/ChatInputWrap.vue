@@ -23,13 +23,13 @@
       />
       <button
         v-if="hasEmojiPickerEnabled"
-        class="emoji-toggle"
+        class="icon-button flex justify-center items-center"
         aria-label="Emoji picker"
-        @click="toggleEmojiPicker()"
+        @click="toggleEmojiPicker"
       >
-        <i
-          class="icon ion-happy-outline"
-          :class="{ active: showEmojiPicker }"
+        <fluent-icon
+          icon="emoji"
+          :class="{ 'text-woot-500': showEmojiPicker }"
         />
       </button>
       <emoji-input
@@ -50,11 +50,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import ChatSendButton from 'widget/components/ChatSendButton.vue';
+
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-import EmojiInput from 'shared/components/emoji/EmojiInput';
+import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
+import EmojiInput from 'shared/components/emoji/EmojiInput';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   name: 'ChatInputWrap',
@@ -62,6 +64,7 @@ export default {
     ChatAttachmentButton,
     ChatSendButton,
     EmojiInput,
+    FluentIcon,
     ResizableTextArea,
   },
   mixins: [clickaway, configMixin],
@@ -87,6 +90,7 @@ export default {
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
+      isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
     showAttachment() {
       return this.hasAttachmentsEnabled && this.userInput.length === 0;
@@ -94,13 +98,10 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
-    isOpen() {
-      return this.$store.state.events.isOpen;
-    },
   },
   watch: {
-    isOpen(isOpen) {
-      if (isOpen) {
+    isWidgetOpen(isWidgetOpen) {
+      if (isWidgetOpen) {
         this.focusInput();
       }
     },
@@ -110,7 +111,7 @@ export default {
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
-    if (this.isOpen) {
+    if (this.isWidgetOpen) {
       this.focusInput();
     }
   },
@@ -178,14 +179,6 @@ export default {
   }
 }
 
-.emoji-toggle {
-  @include button-size;
-
-  font-size: $font-size-large;
-  color: $color-gray;
-  cursor: pointer;
-}
-
 .emoji-dialog {
   right: $space-one;
 }
@@ -203,7 +196,8 @@ export default {
   max-height: 2.4 * $space-mega;
   resize: none;
   padding: 0;
-  padding-top: $space-small;
+  padding-top: $space-smaller;
+  padding-bottom: $space-smaller;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

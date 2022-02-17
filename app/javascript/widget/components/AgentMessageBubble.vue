@@ -129,22 +129,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.chat-bubble {
-  &.agent {
-    background: $color-white;
-    border-bottom-left-radius: $space-smaller;
-    color: $color-body;
-
-    .link {
-      word-break: break-word;
-      color: $color-woot;
-    }
-  }
-}
-</style>
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 

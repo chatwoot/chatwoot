@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Twitterプロフィールをチャンネルとして追加するには、「Twitterでサインイン」をクリックしてTwitterプロフィールを認証する必要があります。 ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "ウェブサイトのチャンネル",
@@ -79,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "チャンネルグリーティングを有効にする",
-          "HELP_TEXT": "会話を開始したときに、ユーザーに挨拶メッセージを送信します。",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "有効です",
           "DISABLED": "無効です"
         },
@@ -133,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "INBOX_NAME": {
+            "LABEL": "受信トレイ名",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "このフィールドは必須項目です"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "電話番号",
+            "PLACEHOLDER": "送信先の電話番号を入力してください。",
+            "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "コールバック URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -302,6 +353,14 @@
         "ENABLED": "有効です",
         "DISABLED": "無効です"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "有効です",
+        "DISABLED": "無効です"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "有効です",
+        "DISABLED": "無効です"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -348,6 +407,8 @@
       "AUTO_ASSIGNMENT": "自動割り当てを有効にする",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "受信トレイの設定",
       "INBOX_UPDATE_SUB_TEXT": "受信トレイの設定を更新する",
       "AUTO_ASSIGNMENT_SUB_TEXT": "この受信トレイに追加された担当者への新しい会話の自動割り当てを有効または無効にします。",
@@ -358,7 +419,9 @@
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "以下のメールアドレスにメールを転送します。"
+      "FORWARD_EMAIL_SUB_TEXT": "以下のメールアドレスにメールを転送します。",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "再認証",
@@ -399,6 +462,65 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
+      }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Eメール",
+        "PLACE_HOLDER": "Eメール"
+      },
+      "PASSWORD": {
+        "LABEL": "パスワード",
+        "PLACE_HOLDER": "パスワード"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "Eメール",
+        "PLACE_HOLDER": "Eメール"
+      },
+      "PASSWORD": {
+        "LABEL": "パスワード",
+        "PLACE_HOLDER": "パスワード"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
       }
     }
   }

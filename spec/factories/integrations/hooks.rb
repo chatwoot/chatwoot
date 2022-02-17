@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :integrations_hook, class: 'Integrations::Hook' do
     app_id { 'slack' }
-    inbox
     account
     settings { { test: 'test' } }
     status { Integrations::Hook.statuses['enabled'] }

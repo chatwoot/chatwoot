@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  base: &base
+    image: chatwoot:smsp
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      # args:
+      #   BUNDLE_WITHOUT: ''
+      #   EXECJS_RUNTIME: 'Node'
+      #   RAILS_ENV: 'production'
+      #   RAILS_SERVE_STATIC_FILES: 'false'
+    tty: true
+    stdin_open: true
+    env_file: .env ## Change this file for customized env variables
+    #volumes:
+      #- /data/storage:/app/storage
+
+  rails:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+    expose:
+      - 3000
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+
+  sidekiq:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  postgres:
+    image: postgres:12
+    restart: always
+    expose:
+      - 5432
+    volumes:
+      - /data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      # Please provide your own password.
+      - POSTGRES_PASSWORD=s0f!a_s3xy?!
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    env_file: .env
+    volumes:
+      - /data/redis:/data
+    expose:
+      - 6379
+
+  # nginx-chatwoot:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile_nginx
+  #   ports:
+  #     - '0.0.0.0:443:443'
+  #   container_name: nginx-chatwoot
+  #   depends_on:
+  #     - rails

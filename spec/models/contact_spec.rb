@@ -9,22 +9,38 @@ RSpec.describe Contact do
 
   context 'associations' do
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to have_many(:conversations).dependent(:destroy) }
+    it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
   end
 
-  describe 'pubsub_token' do
-    let(:user) { create(:user) }
-
-    it 'gets created on object create' do
-      obj = user
-      expect(obj.pubsub_token).not_to eq(nil)
+  context 'pepare contact attributes before validation' do
+    it 'sets email to lowercase' do
+      contact = create(:contact, email: 'Test@test.com')
+      expect(contact.email).to eq('test@test.com')
     end
 
-    it 'does not get updated on object update' do
-      obj = user
-      old_token = obj.pubsub_token
-      obj.update(name: 'test')
-      expect(obj.pubsub_token).to eq(old_token)
+    it 'sets email to nil when empty string' do
+      contact = create(:contact, email: '')
+      expect(contact.email).to be_nil
+    end
+
+    it 'sets custom_attributes to {} when nil' do
+      contact = create(:contact, custom_attributes: nil)
+      expect(contact.custom_attributes).to eq({})
+    end
+
+    it 'sets custom_attributes to {} when empty string' do
+      contact = create(:contact, custom_attributes: '')
+      expect(contact.custom_attributes).to eq({})
+    end
+
+    it 'sets additional_attributes to {} when nil' do
+      contact = create(:contact, additional_attributes: nil)
+      expect(contact.additional_attributes).to eq({})
+    end
+
+    it 'sets additional_attributes to {} when empty string' do
+      contact = create(:contact, additional_attributes: '')
+      expect(contact.additional_attributes).to eq({})
     end
   end
 end

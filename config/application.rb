@@ -13,8 +13,11 @@ module Chatwoot
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
-    config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('enterprise/lib')
+    # rubocop:disable Rails/FilePath
+    config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
+    # rubocop:enable Rails/FilePath
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

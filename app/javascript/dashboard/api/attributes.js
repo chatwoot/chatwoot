@@ -6,8 +6,8 @@ class AttributeAPI extends ApiClient {
     super('custom_attribute_definitions', { accountScoped: true });
   }
 
-  getAttributesByModel(modelId) {
-    return axios.get(`${this.url}?attribute_model=${modelId}`);
+  getAttributesByModel() {
+    return axios.get(this.url);
   }
 }
 

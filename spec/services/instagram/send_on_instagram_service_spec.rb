@@ -4,6 +4,7 @@ describe Instagram::SendOnInstagramService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   before do
+    stub_request(:post, /graph.facebook.com/)
     create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
   end
 
@@ -21,7 +22,7 @@ describe Instagram::SendOnInstagramService do
         allow(Facebook::Messenger::Configuration::AppSecretProofCalculator).to receive(:call).and_return('app_secret_key', 'access_token')
         allow(HTTParty).to receive(:post).and_return(
           {
-            body: { recipient: { id: contact_inbox.source_id } }
+            'message_id': 'anyrandommessageid1234567890'
           }
         )
       end
@@ -29,7 +30,8 @@ describe Instagram::SendOnInstagramService do
       it 'if message is sent from chatwoot and is outgoing' do
         message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
         response = ::Instagram::SendOnInstagramService.new(message: message).perform
-        expect(response).to eq({ recipient: { id: contact_inbox.source_id } })
+
+        expect(response).to eq({  message_id: 'anyrandommessageid1234567890' })
       end
 
       it 'if message with attachment is sent from chatwoot and is outgoing' do
@@ -38,7 +40,8 @@ describe Instagram::SendOnInstagramService do
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
         message.save!
         response = ::Instagram::SendOnInstagramService.new(message: message).perform
-        expect(response).to eq({ recipient: { id: contact_inbox.source_id } })
+
+        expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
       end
     end
   end

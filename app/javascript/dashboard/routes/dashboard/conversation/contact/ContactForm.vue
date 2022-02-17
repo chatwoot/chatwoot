@@ -121,8 +121,6 @@ export default {
   },
   data() {
     return {
-      hasADuplicateContact: false,
-      duplicateContact: {},
       companyName: '',
       description: '',
       email: '',
@@ -201,12 +199,7 @@ export default {
         },
       };
     },
-    resetDuplicate() {
-      this.hasADuplicateContact = false;
-      this.duplicateContact = {};
-    },
     async handleSubmit() {
-      this.resetDuplicate();
       this.$v.$touch();
 
       if (this.$v.$invalid) {
@@ -218,9 +211,13 @@ export default {
         this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
       } catch (error) {
         if (error instanceof DuplicateContactException) {
-          this.hasADuplicateContact = true;
-          this.duplicateContact = error.data;
-          this.showAlert(this.$t('CONTACT_FORM.CONTACT_ALREADY_EXIST'));
+          if (error.data.includes('email')) {
+            this.showAlert(
+              this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE')
+            );
+          } else if (error.data.includes('phone_number')) {
+            this.showAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+          }
         } else if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);
         } else {

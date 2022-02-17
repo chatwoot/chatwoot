@@ -3,6 +3,9 @@
     "LINK": "إعدادات الملف الشخصي",
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
+    "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الرمزية بنجاح",
+    "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الرمزية، الرجاء المحاولة مرة أخرى",
     "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
@@ -86,7 +89,7 @@
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD": {
-        "LABEL": "كلمة المرور",
+        "LABEL": "كلمة مرور جديدة",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
@@ -100,6 +103,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "تبديل الحساب",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
@@ -107,7 +111,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
-    "TRAIL_BUTTON": "اشترك الآن"
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "حذف المستخدم"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "المحادثات",
+    "ALL_CONVERSATIONS": "كل المحادثات",
+    "MENTIONED_CONVERSATIONS": "الإشارات",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
@@ -139,13 +146,20 @@
     "NOTIFICATIONS": "الإشعارات",
     "CANNED_RESPONSES": "الردود السريعة",
     "INTEGRATIONS": "خيارات الربط",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
     "APPLICATIONS": "التطبيقات",
     "LABELS": "الوسوم",
-    "ATTRIBUTES": "السمات",
+    "CUSTOM_ATTRIBUTES": "سمات مخصصة",
+    "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
+    "CUSTOM_VIEWS_FOLDER": "المجلدات",
+    "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
-    "TAGGED_WITH": "Tagged with",
+    "TAGGED_WITH": "مشار إليه بواسطة",
+    "NEW_LABEL": "علامة جديدة",
+    "NEW_TEAM": "فريق جديد",
+    "NEW_INBOX": "صندوق الوارد الجديد",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
@@ -154,7 +168,8 @@
     "REPORTS_AGENT": "موظف الدعم",
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "الفريق",
+    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
@@ -186,14 +201,14 @@
       "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
       "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
+      "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
+      "TOGGLE_RICH_CONTENT_EDITOR": "تبديل محرر المحتوى المتقدم",
+      "SWITCH_TO_REPLY": "التبديل إلى الرد",
+      "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
       "ALT_OR_OPTION_KEY": "Alt / ⌥",
       "FORWARD_SLASH_KEY": "/"
     }

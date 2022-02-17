@@ -44,7 +44,7 @@ class Integrations::Facebook::MessageParser
 
   # TODO : does this work ?
   def sent_from_chatwoot_app?
-    app_id && app_id == ENV['FB_APP_ID'].to_i
+    app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
   end
 end
 

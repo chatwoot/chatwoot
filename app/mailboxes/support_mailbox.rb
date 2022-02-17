@@ -7,6 +7,9 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    # prevent loop from chatwoot notification emails
+    return if notification_email_from_chatwoot?
+
     ActiveRecord::Base.transaction do
       find_or_create_contact
       find_or_create_conversation
@@ -73,21 +76,6 @@ class SupportMailbox < ApplicationMailbox
     else
       create_contact
     end
-  end
-
-  def create_contact
-    @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
-      inbox: @inbox,
-      contact_attributes: {
-        name: identify_contact_name,
-        email: @processed_mail.original_sender,
-        additional_attributes: {
-          source_id: "email:#{processed_mail.message_id}"
-        }
-      }
-    ).perform
-    @contact = @contact_inbox.contact
   end
 
   def identify_contact_name

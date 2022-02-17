@@ -50,8 +50,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message
   def send_to_facebook_page(message_content)
     access_token = channel.page_access_token
-    app_secret_proof = calculate_app_secret_proof(ENV['FB_APP_SECRET'], access_token)
-
+    app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('FB_APP_SECRET', ''), access_token)
     query = { access_token: access_token }
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
@@ -63,9 +62,10 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("Instagram response: #{response} : #{message_content}") if response[:body]
+    Rails.logger.info("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    message.update!(source_id: response['message_id']) if response['message_id'].present?
 
-    response[:body]
+    response
   end
 
   def calculate_app_secret_proof(app_secret, access_token)

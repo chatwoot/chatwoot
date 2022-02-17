@@ -45,7 +45,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)
         expect(response_data.keys).to include(*response_keys)
-        expect(response_data['contact']['pubsub_token']).to eq(contact.pubsub_token)
+        expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
       end
     end
 

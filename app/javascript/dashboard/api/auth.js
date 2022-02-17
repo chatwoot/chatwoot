@@ -166,4 +166,8 @@ export default {
       profile: { ...availabilityData },
     });
   },
+
+  deleteAvatar() {
+    return axios.delete(endPoints('deleteAvatar').url);
+  },
 };

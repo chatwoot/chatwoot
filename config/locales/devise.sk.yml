@@ -2,34 +2,34 @@
 sk:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: "Vaša e-mailová adresa bola úspešne potvrdená."
+      send_instructions: "O niekoľko minút dostanete e-mail s pokynmi, ako potvrdiť svoju e-mailovú adresu."
+      send_paranoid_instructions: "Ak vaša e-mailová adresa existuje v našej databáze, do niekoľkých minút dostanete e-mail s pokynmi, ako potvrdiť svoju e-mailovú adresu."
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      already_authenticated: "Už ste prihlásení."
+      inactive: "Vaše konto ešte nie je aktivované."
+      invalid: "Neplatné %{authentication_keys}/heslo alebo konto ešte nie je overené."
+      locked: "Vaše konto je zablokované."
+      last_attempt: "Pred zablokovaním konta máte ešte jeden pokus."
+      not_found_in_database: "Neplatné %{authentication_keys} alebo heslo."
+      timeout: "Vaše sedenie vypršalo. Ak chcete pokračovať, prihláste sa znova."
+      unauthenticated: "Pred pokračovaním sa musíte prihlásiť alebo zaregistrovať."
+      unconfirmed: "Pred pokračovaním musíte potvrdiť svoju e-mailovú adresu."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation Instructions"
+        subject: "Pokyny na potvrdenie"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Pokyny na obnovenie hesla"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Pokyny na odomknutie"
       password_change:
-        subject: "Password Changed"
+        subject: "Heslo bolo zmenené"
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: "Nepodarilo sa vás overiť z %{kind}, pretože \"%{reason}\"."
+      success: "Úspešne overené z konta %{kind}."
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      no_token: "Na túto stránku sa nedostanete bez toho, aby ste prišli z e-mailovej správy o obnovení hesla. Ak prichádzate z e-mailu s obnovením hesla, uistite sa, že ste použili celú uvedenú adresu URL."
+      send_instructions: "Do niekoľkých minút dostanete e-mail s pokynmi na obnovenie hesla."
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password has been changed successfully. You are now signed in."
       updated_not_active: "Your password has been changed successfully."

@@ -3,6 +3,9 @@
     "LINK": "تنظیمات پروفایل",
     "TITLE": "تنظیمات پروفایل",
     "BTN_TEXT": "تغییر دادن پروفایل",
+    "DELETE_AVATAR": "حذف آواتار",
+    "AVATAR_DELETE_SUCCESS": "آواتار با موفقیت حذف شد",
+    "AVATAR_DELETE_FAILED": "هنگام حذف آواتار خطایی رخ داده، لطفا دوباره امتحان کنید",
     "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد",
     "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
     "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
@@ -30,7 +33,7 @@
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
         "NONE": "هیچکدام",
         "ASSIGNED": "مکالمات اختصاص داده شده",
-        "ALL_CONVERSATIONS": "همه مکالمات"
+        "ALL_CONVERSATIONS": "همه گفتگوها"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -65,7 +68,7 @@
       "DISPLAY_NAME": {
         "LABEL": "نام نمایشی",
         "ERROR": "لطفا یک نام نمایشی معتبر وارد کنید",
-        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در مکالمات نمایش داده می‌شود"
+        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در گفتگوها نمایش داده می‌شود"
       },
       "AVAILABILITY": {
         "LABEL": "در دسترس",
@@ -86,28 +89,30 @@
         "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
       },
       "PASSWORD": {
-        "LABEL": "رمز عبور",
+        "LABEL": "رمز عبور جدید",
         "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
         "PLACEHOLDER": "لطفا رمز عبور جدیدی وارد کنید"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "تکرار رمز عبور",
         "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد",
-        "PLACEHOLDER": "لطفا رمز عبور را مجددا وارد کنید"
+        "PLACEHOLDER": "لطفا رمز عبور جدید را مجددا وارد کنید"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
+    "CHANGE_AVAILABILITY_STATUS": "تغییر",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
+    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
-    "LOGOUT": "خروج از حساب"
+    "LOGOUT": "خروج از حساب‌کاربری"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
-    "TRAIL_BUTTON": "الان بخرید"
+    "TRAIL_BUTTON": "الان بخرید",
+    "DELETED_USER": "کاربر حذف شده"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "گفتگوها",
+    "ALL_CONVERSATIONS": "همه گفتگوها",
+    "MENTIONED_CONVERSATIONS": "اشاره",
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
@@ -139,13 +146,20 @@
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
+    "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
     "APPLICATIONS": "برنامه های کاربردی",
     "LABELS": "برچسب‌ها",
-    "ATTRIBUTES": "ویژگی ها",
+    "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
+    "AUTOMATION": "خودکارسازی",
     "TEAMS": "تیم‌ها",
+    "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
+    "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
+    "NEW_LABEL": "برچسب جدید",
+    "NEW_TEAM": "تیم جدید",
+    "NEW_INBOX": "صندوق ورودی جدید",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
@@ -154,7 +168,8 @@
     "REPORTS_AGENT": "ایجنت ها",
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",
-    "REPORTS_TEAM": "تیم‌"
+    "REPORTS_TEAM": "تیم‌",
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
@@ -175,7 +190,7 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "باز کردن مکالمه",
+      "OPEN_CONVERSATION": "باز کردن گفتگو",
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
       "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
       "RESOLVE_CONVERSATION": "حل مکالمه",

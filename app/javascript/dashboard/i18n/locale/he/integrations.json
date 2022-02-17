@@ -1,81 +1,81 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "אינטגרציות",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "הגדר",
+      "HEADER": "הגדרןת Webhook",
+      "HEADER_BTN_TXT": "הוסף Webhook חדש",
+      "LOADING": "מביאים ל-webhooks מחוברים",
+      "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks הם התקשרות חוזרת של HTTP שניתן להגדיר עבור כל חשבון. הם מופעלים על ידי אירועים כמו יצירת הודעות ב-Chatwoot. אתה יכול ליצור יותר מ-webhook אחד עבור חשבון זה. <br /><br /> ליצירת <b>הוסף אינטרנט</b>, לחץ על הלחצן <b>הוסף אינטרנט חדש</b>. אתה יכול גם להסיר כל webhook קיים על ידי לחיצה על הלחצן Delete.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "לא הוגדרו webhooks עבור חשבון זה.",
+        "TITLE": "נהל webhooks",
         "TABLE_HEADER": [
-          "Webhook endpoint",
+          "נקודת קצה של Webhook",
           "פעולות"
         ]
       },
       "EDIT": {
         "BUTTON_TEXT": "ערוך",
-        "TITLE": "Edit webhook",
+        "TITLE": "ערוך webhook",
         "CANCEL": "ביטול",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "PLACEHOLDER": "דוגמה: https://example/api/webhook",
             "ERROR": "אנא הכנס כתובת URL חוקית"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "ערוך webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "כתובת האתר של Webhook עודכנה בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
       "ADD": {
         "CANCEL": "ביטול",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "TITLE": "הוסף Webhook חדש",
+        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "PLACEHOLDER": "דוגמה: https://example/api/webhook",
             "ERROR": "אנא הכנס כתובת URL חוקית"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "צור webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
+          "SUCCESS_MESSAGE": "Webhook נוסף בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "מחק",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "SUCCESS_MESSAGE": "Webhook נמחק בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
           "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
           "YES": "כן, מחק ",
-          "NO": "No, Keep it"
+          "NO": "לא, השאר"
         }
       }
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "שימוש ב-Slack Integration",
+        "BODY": "<br/><p>Chatwoot תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות chatwoot.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-chatwoot תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "האינטגרציה נמחקה בהצלחה"
       }
     },
     "CONNECT": {

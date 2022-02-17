@@ -98,7 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "هل أنت متأكد من أنك تريد حذف - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "PLACE_HOLDER": "الرجاء كتابة {teamName} للتأكيد",
         "MESSAGE": "سيؤدي حذف الفريق إلى إزالة مهمة الفريق من المحادثات التي تم تعيينها لهذا الفريق.",
         "YES": "حذف ",
         "NO": "إلغاء"

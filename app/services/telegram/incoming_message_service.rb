@@ -13,7 +13,7 @@ class Telegram::IncomingMessageService
     update_contact_avatar
     set_conversation
     @message = @conversation.messages.create(
-      content: params[:message][:text],
+      content: params[:message][:text].presence || params[:message][:caption],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,

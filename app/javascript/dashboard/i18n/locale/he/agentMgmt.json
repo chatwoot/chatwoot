@@ -3,7 +3,7 @@
     "HEADER": "סוכנים",
     "HEADER_BTN_TXT": "הוסף סוכן",
     "LOADING": "טוען רשימת סוכנים",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "SIDEBAR_TXT": "<p> <b> נציג</b> </p> <p> <b> נציג</b> חבר בצוות תמיכת הלקוחות שלך. </p> <p> נציגים יוכלו לצפות ולהשיב להודעות מהמשתמשים שלך. הרשימה מציגה את כל הסוכנים הנמצאים כעת בחשבונך. </p> <p> לחץ על <b> הוסף נציג</b> כדי להוסיף נציג חדש. הנציג שאתה מוסיף יקבל דוא\"ל עם קישור אישור להפעלת חשבונו, ולאחר מכן יוכל לגשת ל- Chatwoot ולהגיב להודעות. </p> <p> הגישה לתכונות של Chatwoot מבוססת על תפקידים הבאים. </p> <p> <b> נציג </b> - סוכנים בעלי התפקיד הזה יכולים לגשת לתיבות דואר נכנס, לדוחות ולשיחות בלבד. הם יכולים להקצות שיחות לסוכנים אחרים או לעצמם ולפתור שיחות. </P> <p> <b> מנהל </b> - למנהל תהיה גישה לכל תכונות Chatwoot המופעלות בחשבון שלך, כולל הגדרות, יחד עם כל הרשאות נציגים רגילות. </p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "אדמין",
       "AGENT": "סוכן"
@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "לא נמצאו תוצאות."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "אין",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "בחר נציג",
+        "TEAM": "בחר קבוצה"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "לא נמצא סוכן",
-          "TEAM": "No teams found"
+          "TEAM": "לא נמצאו קבוצות"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "חפש נציגים",
+          "TEAM": "חפש קבוצות"
         }
       }
     }

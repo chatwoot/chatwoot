@@ -10,7 +10,14 @@
       />
       <div class="user--profile__meta">
         <h3 class="user--name text-truncate">
-          {{ currentContact.name }}
+          <span class="margin-right-smaller">{{ currentContact.name }}</span>
+          <fluent-icon
+            v-if="!isHMACVerified"
+            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+            class="text-y-800"
+            size="14"
+            icon="warning"
+          />
         </h3>
         <div class="conversation--header--actions">
           <inbox-name :inbox="inbox" class="margin-right-small" />
@@ -73,11 +80,15 @@ export default {
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
-
     chatMetadata() {
       return this.chat.meta;
     },
-
+    isHMACVerified() {
+      if (!this.isAWebWidgetInbox) {
+        return true;
+      }
+      return this.chatMetadata.hmac_verified;
+    },
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id

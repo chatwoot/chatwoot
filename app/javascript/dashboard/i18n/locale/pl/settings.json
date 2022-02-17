@@ -3,6 +3,9 @@
     "LINK": "Ustawienia profilu",
     "TITLE": "Ustawienia profilu",
     "BTN_TEXT": "Aktualizuj profil",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Twój profil został pomyślnie zaktualizowany, zaloguj się ponownie po zmianie danych logowania",
@@ -86,20 +89,21 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Hasło",
+        "LABEL": "New password",
         "ERROR": "Wprowadź hasło o długości 6 lub więcej",
         "PLACEHOLDER": "Wprowadź nowe hasło"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Potwierdź nowe hasło",
         "ERROR": "Potwierdź hasło powinno być zgodne z hasłem",
-        "PLACEHOLDER": "Wprowadź ponownie hasło"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Zmienić",
     "CHANGE_ACCOUNTS": "Switch Account",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Ustawienia profilu",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -107,7 +111,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRAIL_BUTTON": "Buy Now",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +135,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Rozmowy",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Wzmianki",
     "REPORTS": "Raporty",
     "SETTINGS": "Ustawienia",
     "CONTACTS": "Kontakty",
@@ -139,22 +146,30 @@
     "NOTIFICATIONS": "Powiadomienia",
     "CANNED_RESPONSES": "Gotowe odpowiedzi",
     "INTEGRATIONS": "Integracje",
+    "PROFILE_SETTINGS": "Ustawienia profilu",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "LABELS": "Etykiety",
+    "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
+    "AUTOMATION": "Automation",
     "TEAMS": "Zespoły",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampania",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenci",
-    "REPORTS_LABEL": "Labels",
+    "REPORTS_LABEL": "Etykiety",
     "REPORTS_INBOX": "Skrzynka odbiorcza",
-    "REPORTS_TEAM": "Team"
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

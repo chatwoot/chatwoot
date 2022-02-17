@@ -1,8 +1,8 @@
 <template>
-  <span class="inbox--name">
-    <i :class="computedInboxClass" />
+  <div class="inbox--name">
+    <fluent-icon class="inbox--icon" :icon="computedInboxClass" size="12" />
     {{ inbox.name }}
-  </span>
+  </div>
 </template>
 <script>
 import { getInboxClassByType } from 'dashboard/helper/inbox';
@@ -25,11 +25,16 @@ export default {
 </script>
 <style scoped>
 .inbox--name {
+  display: inline-flex;
   padding: var(--space-micro) 0;
   line-height: var(--space-slab);
   font-weight: var(--font-weight-medium);
   background: none;
   color: var(--s-500);
   font-size: var(--font-size-mini);
+}
+
+.inbox--icon {
+  margin-right: var(--space-micro);
 }
 </style>

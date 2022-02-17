@@ -15,7 +15,7 @@
         @input="changeFilterSelection"
       >
         <template slot="singleLabel" slot-scope="props">
-          <div class="display-flex">
+          <div class="reports-option__wrap">
             <thumbnail
               src="props.option.thumbnail"
               :username="props.option.name"
@@ -28,7 +28,7 @@
           </div>
         </template>
         <template slot="option" slot-scope="props">
-          <div class="display-flex">
+          <div class="reports-option__wrap">
             <thumbnail
               src="props.option.thumbnail"
               :username="props.option.name"
@@ -55,7 +55,7 @@
         @input="changeFilterSelection"
       >
         <template slot="singleLabel" slot-scope="props">
-          <div class="display-flex">
+          <div class="reports-option__wrap">
             <div
               :style="{ backgroundColor: props.option.color }"
               class="reports-option__rounded--item margin-right-small"
@@ -68,7 +68,7 @@
           </div>
         </template>
         <template slot="option" slot-scope="props">
-          <div class="display-flex">
+          <div class="reports-option__wrap">
             <div
               :style="{ backgroundColor: props.option.color }"
               class="
