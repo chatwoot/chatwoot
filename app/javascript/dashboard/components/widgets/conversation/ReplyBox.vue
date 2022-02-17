@@ -479,7 +479,7 @@ export default {
             'createPendingMessageAndSend',
             messagePayload
           );
-          this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
             error?.response?.data?.error ||
