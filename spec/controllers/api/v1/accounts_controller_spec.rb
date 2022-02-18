@@ -30,6 +30,25 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
+      it 'calls ChatwootCaptcha' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          captcha = double
+          allow(account_builder).to receive(:perform).and_return([user, account])
+          allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
+          allow(captcha).to receive(:valid?).and_return(true)
+
+          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!',
+                     h_captcha_client_response: '123' }
+
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(ChatwootCaptcha).to have_received(:new).with('123')
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+
       it 'renders error response on invalid params' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)

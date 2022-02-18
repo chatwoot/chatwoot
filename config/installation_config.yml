@@ -47,3 +47,9 @@
 - name: DIRECT_UPLOADS_ENABLED
   value: false
   locked: false
+- name: HCAPTCHA_SITE_KEY
+  value:
+  locked: false
+- name: HCAPTCHA_SERVER_KEY
+  value:
+  locked: false
