@@ -22,6 +22,14 @@ describe ::ContactIdentifyAction do
       expect(contact.reload.identifier).to eq 'test_id'
     end
 
+    it 'merge deeply nested additional attributes' do
+      create(:contact, account: account, identifier: '', email: 'test@test.com',
+                       additional_attributes: { location: 'Bengaulru', company_name: 'Meta', social_profiles: { linkedin: 'saras' } })
+      params = { email: 'test@test.com', additional_attributes: { social_profiles: { twitter: 'saras' } } }
+      result = described_class.new(contact: contact, params: params).perform
+      expect(result.additional_attributes['social_profiles']).to eq({ 'linkedin' => 'saras', 'twitter' => 'saras' })
+    end
+
     it 'enques avatar job when avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
       expect(ContactAvatarJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
