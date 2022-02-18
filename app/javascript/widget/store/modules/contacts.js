@@ -30,7 +30,8 @@ export const actions = {
         identifier_hash,
         phone_number,
         company_name,
-        location,
+        city_name,
+        country_code,
         description,
         custom_attributes,
       } = userObject;
@@ -42,8 +43,9 @@ export const actions = {
         phone_number,
         additional_attributes: {
           company_name,
-          location,
+          city_name,
           description,
+          country_code,
         },
         custom_attributes,
       };
