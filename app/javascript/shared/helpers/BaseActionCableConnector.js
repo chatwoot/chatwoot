@@ -1,4 +1,5 @@
 import { createConsumer } from '@rails/actioncable';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const PRESENCE_INTERVAL = 20000;
 
@@ -18,6 +19,7 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
+        disconnected: this.onDisconnected,
       }
     );
     this.app = app;
@@ -31,6 +33,11 @@ class BaseActionCableConnector {
 
   disconnect() {
     this.consumer.disconnect();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onDisconnected() {
+    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   }
 
   onReceived = ({ event, data } = {}) => {
