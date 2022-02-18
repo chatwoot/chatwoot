@@ -162,6 +162,7 @@ class Conversation < ApplicationRecord
   def execute_after_update_commit_callbacks
     notify_status_change
     create_activity
+    notify_conversation_updation
   end
 
   def ensure_snooze_until_reset
@@ -179,6 +180,10 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_creation
     dispatcher_dispatch(CONVERSATION_CREATED)
+  end
+
+  def notify_conversation_updation
+    dispatcher_dispatch(CONVERSATION_UPDATED)
   end
 
   def self_assign?(assignee_id)

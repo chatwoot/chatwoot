@@ -25,7 +25,8 @@ class DashboardController < ActionController::Base
       'API_CHANNEL_NAME',
       'API_CHANNEL_THUMBNAIL',
       'ANALYTICS_TOKEN',
-      'ANALYTICS_HOST'
+      'ANALYTICS_HOST',
+      'DIRECT_UPLOADS_ENABLED'
     ).merge(app_config)
   end
 

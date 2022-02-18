@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     fromMail() {
-      const from = this.emailAttributes.from;
+      const from = this.emailAttributes.from || [];
       return from.join(', ');
     },
     toMails() {

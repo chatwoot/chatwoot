@@ -156,5 +156,24 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation_1.messages.count).to eq(2)
       end
     end
+
+    describe 'Sender with reply_to email address' do
+      let(:reply_to_mail) { create_inbound_email_from_fixture('reply_to.eml') }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+
+      it 'prefer reply-to over from address' do
+        email_channel
+        described_class.receive reply_to_mail
+
+        conversation_1 = Conversation.last
+        email = conversation_1.messages.last.content_attributes['email']
+
+        expect(reply_to_mail.mail['From'].value).to be_present
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+        expect(reply_to_mail.mail['Reply-To'].value).to include(email['from'][0])
+        expect(reply_to_mail.mail['Reply-To'].value).to include(conversation_1.contact.email)
+        expect(reply_to_mail.mail['From'].value).not_to include(conversation_1.contact.email)
+      end
+    end
   end
 end
