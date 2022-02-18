@@ -637,11 +637,11 @@ export default {
         });
       }
 
-      if (this.ccEmails) {
+      if (this.ccEmails && !this.isOnPrivateNote) {
         messagePayload.ccEmails = this.ccEmails;
       }
 
-      if (this.bccEmails) {
+      if (this.bccEmails && !this.isOnPrivateNote) {
         messagePayload.bccEmails = this.bccEmails;
       }
 
