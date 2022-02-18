@@ -75,8 +75,13 @@
             "
             @blur="$v.credentials.confirmPassword.$touch"
           />
+          <vue-hcaptcha
+            v-if="globalConfig.hCaptchaSiteKey"
+            :sitekey="globalConfig.hCaptchaSiteKey"
+            @verify="onRecaptchaVerified"
+          />
           <woot-submit-button
-            :disabled="isSignupInProgress"
+            :disabled="isSignupInProgress && hasAValidCaptcha"
             :button-text="$t('REGISTER.SUBMIT')"
             :loading="isSignupInProgress"
             button-class="large expanded"
@@ -107,8 +112,11 @@ import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
-
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 export default {
+  components: {
+    VueHcaptcha,
+  },
   mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
@@ -118,6 +126,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        hCaptchaVerificationToken: '',
       },
       isSignupInProgress: false,
       error: '',
@@ -153,9 +162,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     termsLink() {
       return this.$t('REGISTER.TERMS_ACCEPT')
         .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
@@ -163,6 +170,12 @@ export default {
           'https://www.chatwoot.com/privacy-policy',
           this.globalConfig.privacyURL
         );
+    },
+    hasAValidCaptcha() {
+      if (this.globalConfig.hCaptchaSiteKey) {
+        return !!this.credentials.hCaptchaVerificationToken;
+      }
+      return true;
     },
   },
   methods: {
@@ -186,6 +199,9 @@ export default {
       } finally {
         this.isSignupInProgress = false;
       }
+    },
+    onRecaptchaVerified(token) {
+      this.hCaptchaVerificationToken = token;
     },
   },
 };

@@ -30,6 +30,7 @@ export default {
           user_full_name: creds.fullName.trim(),
           email: creds.email,
           password: creds.password,
+          h_captcha_verification_token: creds.hCaptchaVerificationToken,
         })
         .then(response => {
           setAuthCredentials(response);
