@@ -12,11 +12,11 @@ class ChatwootCaptcha
   end
 
   def validate_client_response?
-    response = HTTParty.post("https://hcaptcha.com/siteverify",
-                  body: {
-                    response: @client_response ,
-                    secret: @server_key
-              })
+    response = HTTParty.post('https://hcaptcha.com/siteverify',
+                             body: {
+                               response: @client_response,
+                               secret: @server_key
+                             })
 
     return unless response.success?
 
