@@ -34,7 +34,7 @@
       }
     },
     "MERGE_CONTACT": "Gộp liên lạc",
-    "CONTACT_ACTIONS": "Hành động của liên lạc",
+    "CONTACT_ACTIONS": "Hành động của người liên hệ",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
@@ -60,7 +60,7 @@
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Nhập",
     "TITLE": "Nhập liên lạc",
-    "DESC": "Nhập liên lạc qua một file CSV.",
+    "DESC": "Nhập liên lạc bằng một file CSV.",
     "DOWNLOAD_LABEL": "Tải xuống file CSV mẫu.",
     "FORM": {
       "LABEL": "CSV File",
