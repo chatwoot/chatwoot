@@ -75,11 +75,12 @@
             "
             @blur="$v.credentials.confirmPassword.$touch"
           />
-          <vue-hcaptcha
-            v-if="globalConfig.hCaptchaSiteKey"
-            :sitekey="globalConfig.hCaptchaSiteKey"
-            @verify="onRecaptchaVerified"
-          />
+          <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
+            <vue-hcaptcha
+              :sitekey="globalConfig.hCaptchaSiteKey"
+              @verify="onRecaptchaVerified"
+            />
+          </div>
           <woot-submit-button
             :disabled="isSignupInProgress || !hasAValidCaptcha"
             :button-text="$t('REGISTER.SUBMIT')"
@@ -249,6 +250,10 @@ export default {
     font-size: var(--font-size-small);
     text-align: center;
     margin: var(--space-normal) 0 0 0;
+  }
+
+  .h-captcha--box {
+    margin-bottom: var(--space-one);
   }
 }
 </style>
