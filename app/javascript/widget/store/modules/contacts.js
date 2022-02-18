@@ -1,6 +1,6 @@
+import { IFrameHelper } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
-import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_ERROR } from '../../constants/sdkEvents';
+import { SET_USER_ERROR } from '../../constants/errorTypes';
 const state = {
   currentUser: {},
 };
@@ -42,8 +42,11 @@ export const actions = {
       const {
         response: { data },
       } = error;
-
-      dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data.error });
+      IFrameHelper.sendMessage({
+        event: 'error',
+        errorType: SET_USER_ERROR,
+        data,
+      });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {

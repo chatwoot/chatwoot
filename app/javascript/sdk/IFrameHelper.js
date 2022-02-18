@@ -23,7 +23,9 @@ import {
   removeUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import { SET_USER_ERROR } from '../widget/constants/errorTypes';
+import { getUserCookieName } from './cookieHelpers';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -129,6 +131,13 @@ export const IFrameHelper = {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
       dispatchWindowEvent({ eventName: CHATWOOT_READY });
+    },
+    error: ({ errorType, data }) => {
+      dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
+
+      if (errorType === SET_USER_ERROR) {
+        Cookies.remove(getUserCookieName());
+      }
     },
 
     setBubbleLabel(message) {
