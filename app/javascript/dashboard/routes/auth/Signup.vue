@@ -81,7 +81,7 @@
             @verify="onRecaptchaVerified"
           />
           <woot-submit-button
-            :disabled="isSignupInProgress && hasAValidCaptcha"
+            :disabled="isSignupInProgress || !hasAValidCaptcha"
             :button-text="$t('REGISTER.SUBMIT')"
             :loading="isSignupInProgress"
             button-class="large expanded"
@@ -126,7 +126,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
-        hCaptchaVerificationToken: '',
+        hCaptchaClientResponse: '',
       },
       isSignupInProgress: false,
       error: '',
@@ -173,7 +173,7 @@ export default {
     },
     hasAValidCaptcha() {
       if (this.globalConfig.hCaptchaSiteKey) {
-        return !!this.credentials.hCaptchaVerificationToken;
+        return !!this.credentials.hCaptchaClientResponse;
       }
       return true;
     },
@@ -201,7 +201,7 @@ export default {
       }
     },
     onRecaptchaVerified(token) {
-      this.hCaptchaVerificationToken = token;
+      this.credentials.hCaptchaClientResponse = token;
     },
   },
 };
