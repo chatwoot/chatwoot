@@ -1,4 +1,5 @@
 import authAPI from '../../../api/auth';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
@@ -23,9 +24,15 @@ const getters = {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
-      const { content_attributes: contentAttributes = {} } = message;
+      const {
+        content_attributes: contentAttributes = {},
+        message_type: messageType,
+      } = message;
       const { email = {} } = contentAttributes;
-      if (email.from) {
+      const isIncomingOrOutgoing =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.INCOMING;
+      if (email.from && isIncomingOrOutgoing) {
         return true;
       }
       return false;
