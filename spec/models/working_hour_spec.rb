@@ -50,4 +50,23 @@ RSpec.describe WorkingHour do
       expect(described_class.today.closed_now?).to be true
     end
   end
+
+  context 'when open all day selected' do
+    let(:inbox) { create(:inbox) }
+
+    before do
+      Time.zone = 'UTC'
+      inbox.working_hours.find_by(day_of_week: 5).update(open_all_day: true)
+      travel_to '18.02.2022 11:00'.to_datetime
+    end
+
+    it 'updates open hour and close hour' do
+      expect(described_class.today.open_all_day?).to be true
+      expect(described_class.today.open_hour).to be 0
+      expect(described_class.today.open_minutes).to be 0
+      expect(described_class.today.close_hour).to be 23
+      expect(described_class.today.close_minutes).to be 59
+      expect(described_class.today.closed_all_day).to be false
+    end
+  end
 end
