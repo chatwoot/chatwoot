@@ -23,8 +23,7 @@ import {
   removeUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-
-const EVENT_NAME = 'chatwoot:ready';
+import { CHATWOOT_READY } from '../widget/constants/sdkEvents';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -129,7 +128,7 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      dispatchWindowEvent({ eventName: EVENT_NAME });
+      dispatchWindowEvent({ eventName: CHATWOOT_READY });
     },
 
     setBubbleLabel(message) {

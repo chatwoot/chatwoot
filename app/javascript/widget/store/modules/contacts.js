@@ -1,5 +1,6 @@
 import ContactsAPI from '../../api/contacts';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
+import { CHATWOOT_ERROR } from '../../constants/sdkEvents';
 const state = {
   currentUser: {},
 };
@@ -42,7 +43,7 @@ export const actions = {
         response: { data },
       } = error;
 
-      dispatchWindowEvent({ eventName: 'chatwoot:error', data: data.error });
+      dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data.error });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
