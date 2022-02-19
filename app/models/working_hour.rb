@@ -23,8 +23,8 @@
 class WorkingHour < ApplicationRecord
   belongs_to :inbox
 
+  before_validation :ensure_open_all_day_hours
   before_save :assign_account
-  before_update :update_open_all_day_hours
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
   validates :open_minutes,  presence: true, unless: :closed_all_day?
@@ -72,10 +72,13 @@ class WorkingHour < ApplicationRecord
     errors.add(:close_hour, 'Closing time cannot be before opening time')
   end
 
-  def update_open_all_day_hours
+  def ensure_open_all_day_hours
     return unless open_all_day?
 
-    WorkingHour.find_by(day_of_week: day_of_week, open_all_day: false)&.update(closed_all_day: false, open_hour: 0, open_minutes: 0, close_hour: 23,
-                                                                               close_minutes: 59)
+    self.closed_all_day = false
+    self.open_hour = 0
+    self.open_minutes = 0
+    self.close_hour = 23
+    self.close_minutes = 59
   end
 end
