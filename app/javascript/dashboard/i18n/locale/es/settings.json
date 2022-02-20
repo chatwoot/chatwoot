@@ -19,6 +19,18 @@
         "TITLE": "Perfil",
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
         "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Por favor, introduzca su contraseña actual"
       },
       "PASSWORD": {
-        "LABEL": "Contraseña",
+        "LABEL": "Nueva contraseña",
         "ERROR": "Por favor, introduzca una contraseña de longitud 6 o más",
         "PLACEHOLDER": "Por favor, introduzca una nueva contraseña"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmar nueva contraseña",
         "ERROR": "Confirmar contraseña debe coincidir con la contraseña",
-        "PLACEHOLDER": "Por favor, vuelva a introducir su contraseña"
+        "PLACEHOLDER": "Por favor, vuelva a introducir su nueva contraseña"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
     "TEAMS": "Equipos",
+    "CUSTOM_VIEWS_FOLDER": "Carpetas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
     "TAGGED_WITH": "Etiquetado con",
     "NEW_LABEL": "Nueva etiqueta",

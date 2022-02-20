@@ -15,6 +15,7 @@
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  message_signature      :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
@@ -66,7 +67,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1
+  validates_length_of :name, minimum: 1, maximum: 255
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users

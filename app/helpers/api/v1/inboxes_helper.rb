@@ -26,8 +26,48 @@ module Api::V1::InboxesHelper
   def validate_smtp(channel_data)
     return unless channel_data.key?('smtp_enabled') && channel_data[:smtp_enabled]
 
-    smtp = Net::SMTP.start(channel_data[:smtp_address], channel_data[:smtp_port], channel_data[:smtp_domain], channel_data[:smtp_email],
-                           channel_data[:smtp_password], :login)
+    smtp = Net::SMTP.new(channel_data[:smtp_address], channel_data[:smtp_port])
+
+    set_smtp_encryption(channel_data, smtp)
+
+    smtp.start(channel_data[:smtp_domain], channel_data[:smtp_email], channel_data[:smtp_password], :login)
     smtp.finish unless smtp&.nil?
+  end
+
+  def set_smtp_encryption(channel_data, smtp)
+    if channel_data[:smtp_enable_ssl_tls]
+      set_enable_tls(channel_data, smtp)
+    elsif channel_data[:smtp_enable_starttls_auto]
+      set_enable_starttls_auto(channel_data, smtp)
+    end
+  end
+
+  def set_enable_starttls_auto(channel_data, smtp)
+    return unless smtp.respond_to?(:enable_starttls_auto)
+
+    if channel_data[:smtp_openssl_verify_mode]
+      context = enable_openssl_mode(channel_data[:smtp_openssl_verify_mode])
+      smtp.enable_starttls_auto(context)
+    else
+      smtp.enable_starttls_auto
+    end
+  end
+
+  def set_enable_tls(channel_data, smtp)
+    return unless smtp.respond_to?(:enable_tls)
+
+    if channel_data[:smtp_openssl_verify_mode]
+      context = enable_openssl_mode(channel_data[:smtp_openssl_verify_mode])
+      smtp.enable_tls(context)
+    else
+      smtp.enable_tls
+    end
+  end
+
+  def enable_openssl_mode(smtp_openssl_verify_mode)
+    openssl_verify_mode = "OpenSSL::SSL::VERIFY_#{smtp_openssl_verify_mode.upcase}".constantize if smtp_openssl_verify_mode.is_a?(String)
+    context = Net::SMTP.default_ssl_context
+    context.verify_mode = openssl_verify_mode
+    context
   end
 end

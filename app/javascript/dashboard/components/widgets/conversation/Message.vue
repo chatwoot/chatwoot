@@ -57,22 +57,26 @@
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
-      <a
-        v-if="isATweet && isIncoming && sender"
+      <div
+        v-if="showAvatar"
+        v-tooltip.top="tooltipForSender"
         class="sender--info"
-        :href="twitterProfileLink"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
       >
         <woot-thumbnail
           :src="sender.thumbnail"
-          :username="sender.name"
+          :username="senderNameForAvatar"
           size="16px"
         />
-        <div class="sender--available-name">
+        <a
+          v-if="isATweet && isIncoming"
+          class="sender--available-name"
+          :href="twitterProfileLink"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
           {{ sender.name }}
-        </div>
-      </a>
+        </a>
+      </div>
       <div v-if="isFailed" class="message-failed--alert">
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
@@ -113,7 +117,6 @@ import BubbleActions from './bubble/Actions';
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
 
-import { isEmptyObject } from 'dashboard/helper/commons';
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -242,6 +245,12 @@ export default {
     isIncoming() {
       return this.data.message_type === MESSAGE_TYPE.INCOMING;
     },
+    isOutgoing() {
+      return this.data.message_type === MESSAGE_TYPE.OUTGOING;
+    },
+    isTemplate() {
+      return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
+    },
     emailHeadAttributes() {
       return {
         email: this.contentAttributes.email,
@@ -258,6 +267,19 @@ export default {
     hasText() {
       return !!this.data.content;
     },
+    tooltipForSender() {
+      const name = this.senderNameForAvatar;
+      const { message_type: messageType } = this.data;
+      const showTooltip =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.TEMPLATE;
+      return showTooltip
+        ? {
+            content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
+            classes: 'top',
+          }
+        : false;
+    },
     messageToolTip() {
       if (this.isMessageDeleted) {
         return false;
@@ -265,13 +287,7 @@ export default {
       if (this.isFailed) {
         return this.$t(`CONVERSATION.SEND_FAILED`);
       }
-      const { sender } = this;
-      return this.data.message_type === 1 && !isEmptyObject(sender)
-        ? {
-            content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
-            classes: 'top',
-          }
-        : false;
+      return false;
     },
     wrapClass() {
       return {
@@ -312,6 +328,19 @@ export default {
     errorMessage() {
       const { meta } = this.data;
       return meta ? meta.error : '';
+    },
+    showAvatar() {
+      if (this.isOutgoing || this.isTemplate) {
+        return true;
+      }
+      return this.isATweet && this.isIncoming && this.sender;
+    },
+    senderNameForAvatar() {
+      if (this.isOutgoing || this.isTemplate) {
+        const { name = this.$t('CONVERSATION.BOT') } = this.sender || {};
+        return name;
+      }
+      return '';
     },
   },
   watch: {

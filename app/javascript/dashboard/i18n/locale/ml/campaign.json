@@ -53,9 +53,9 @@
           "PLACEHOLDER": "ദയവായി സമയം നൽകുക",
           "ERROR": "പേജിൽ സമയം ആവശ്യമാണ്"
         },
-        "ENABLED": "Enable campaign",
+        "ENABLED": "പ്രചാരണം പ്രവർത്തനക്ഷമമാക്കുക",
         "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Add Campaign"
+        "SUBMIT": "പ്രചാരണം ചേർക്കുക"
       },
       "API": {
         "SUCCESS_MESSAGE": "കാമ്പെയ്‌ൻ വിജയകരമായി സൃഷ്‌ടിച്ചു",
@@ -76,16 +76,16 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "പ്രചാരണം എഡിറ്റ് ചെയ്യുക",
       "UPDATE_BUTTON_TEXT": "അപ്‌ഡേറ്റ്",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "കാമ്പെയ്‌ൻ വിജയകരമായി അപ്‌ഡേറ്റ് ചെയ്‌തു",
         "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "കാമ്പെയ്‌നുകൾ ലോഡുചെയ്യുന്നു...",
+      "404": "ഈ ഇൻബോക്‌സിനായി കാമ്പെയ്‌നുകളൊന്നും സൃഷ്‌ടിച്ചിട്ടില്ല.",
       "TABLE_HEADER": {
         "TITLE": "തലക്കെട്ട്",
         "MESSAGE": "സന്ദേശം",
@@ -113,14 +113,14 @@
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
+      "HEADER": "ഒരു ഓഫ് കാമ്പെയ്‌നുകൾ",
+      "404": "ആരും ഓഫ് കാമ്പെയ്‌നുകൾ സൃഷ്‌ടിച്ചിട്ടില്ല",
       "INBOXES_NOT_FOUND": "ദയവായി ഒരു എസ്എംഎസ് ഇൻബോക്സ് സൃഷ്ടിച്ച് കാമ്പെയ്‌നുകൾ ചേർക്കാൻ ആരംഭിക്കുക"
     },
     "ONGOING": {
       "HEADER": "നടന്നുകൊണ്ടിരിക്കുന്ന പ്രചാരണങ്ങൾ",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "404": "നിലവിലുള്ള പ്രചാരണങ്ങളൊന്നും സൃഷ്ടിച്ചിട്ടില്ല",
+      "INBOXES_NOT_FOUND": "ദയവായി ഒരു വെബ്‌സൈറ്റ് ഇൻബോക്‌സ് സൃഷ്‌ടിച്ച് കാമ്പെയ്‌നുകൾ ചേർക്കാൻ ആരംഭിക്കുക"
     }
   }
 }

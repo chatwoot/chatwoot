@@ -2,6 +2,7 @@
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
       <woot-button
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="emoji"
         emoji="😊"
@@ -14,6 +15,7 @@
       <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
@@ -23,7 +25,7 @@
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
         }"
-        @input-file="onDirectFileUpload"
+        @input-file="onFileUpload"
       >
         <woot-button
           v-if="showAttachButton"
@@ -38,6 +40,7 @@
       </file-upload>
       <woot-button
         v-if="enableRichEditor && !isOnPrivateNote"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         icon="quote"
         emoji="🖊️"
         color-scheme="secondary"
@@ -67,6 +70,16 @@
       >
         <span>{{ recordingAudioDurationText }}</span>
       </woot-button>
+      <woot-button
+        v-if="showMessageSignatureButton"
+        v-tooltip.top-end="signatureToggleTooltip"
+        icon="signature"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="signatureToggleTooltip"
+        @click="toggleMessageSignature"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -111,13 +124,16 @@ import {
   hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import inboxMixin from 'shared/mixins/inboxMixin';
+
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
   components: { FileUpload },
-  mixins: [eventListenerMixins],
+  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -135,15 +151,15 @@ export default {
       type: String,
       default: '',
     },
+    inbox: {
+      type: Object,
+      default: () => ({}),
+    },
     showFileUpload: {
       type: Boolean,
       default: false,
     },
-    showAudioRecorder: {
-      type: Boolean,
-      default: false,
-    },
-    onDirectFileUpload: {
+    onFileUpload: {
       type: Function,
       default: () => {},
     },
@@ -239,6 +255,18 @@ export default {
           return 'microphone-stop';
       }
     },
+    showMessageSignatureButton() {
+      return !this.isPrivate && this.isAnEmailChannel;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -257,6 +285,11 @@ export default {
     },
     toggleEnterToSend() {
       this.$emit('toggleEnterToSend', !this.enterToSendEnabled);
+    },
+    toggleMessageSignature() {
+      this.updateUISettings({
+        send_with_signature: !this.sendWithSignature,
+      });
     },
   },
 };

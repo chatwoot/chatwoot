@@ -19,6 +19,18 @@
         "TITLE": "پروفایل",
         "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
         "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
@@ -33,7 +45,7 @@
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
         "NONE": "هیچکدام",
         "ASSIGNED": "مکالمات اختصاص داده شده",
-        "ALL_CONVERSATIONS": "همه مکالمات"
+        "ALL_CONVERSATIONS": "همه گفتگوها"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -68,7 +80,7 @@
       "DISPLAY_NAME": {
         "LABEL": "نام نمایشی",
         "ERROR": "لطفا یک نام نمایشی معتبر وارد کنید",
-        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در مکالمات نمایش داده می‌شود"
+        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در گفتگوها نمایش داده می‌شود"
       },
       "AVAILABILITY": {
         "LABEL": "در دسترس",
@@ -89,25 +101,25 @@
         "PLACEHOLDER": "لطفاً رمز عبور فعلی را وارد کنید"
       },
       "PASSWORD": {
-        "LABEL": "رمز عبور",
+        "LABEL": "رمز عبور جدید",
         "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
         "PLACEHOLDER": "لطفا رمز عبور جدیدی وارد کنید"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "تکرار رمز عبور",
         "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد",
-        "PLACEHOLDER": "لطفا رمز عبور را مجددا وارد کنید"
+        "PLACEHOLDER": "لطفا رمز عبور جدید را مجددا وارد کنید"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
+    "CHANGE_AVAILABILITY_STATUS": "تغییر",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
     "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",
     "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
-    "LOGOUT": "خروج از حساب"
+    "LOGOUT": "خروج از حساب‌کاربری"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "AUTOMATION": "خودکارسازی",
     "TEAMS": "تیم‌ها",
+    "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
+    "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
     "TAGGED_WITH": "برچسب گذاری شده با",
     "NEW_LABEL": "برچسب جدید",
@@ -188,7 +202,7 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "باز کردن مکالمه",
+      "OPEN_CONVERSATION": "باز کردن گفتگو",
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
       "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
       "RESOLVE_CONVERSATION": "حل مکالمه",

@@ -68,7 +68,7 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Nutzung von Slack Integration",
+        "TITLE": "Slack-Integration verwenden",
         "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Unterhaltungen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>"
       }
     },

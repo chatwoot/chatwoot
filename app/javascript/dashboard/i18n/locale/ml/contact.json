@@ -7,7 +7,7 @@
     "COMPANY": "കമ്പനി",
     "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "വ്യക്തിവിവരങ്ങൾ കാണുക",
     "BROWSER": "ബ്രൗസർ",
     "OS": "ഓപ്പറേറ്റിംഗ് സിസ്റ്റം",
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
@@ -63,15 +63,15 @@
     "DESC": "Import contacts through a CSV file.",
     "DOWNLOAD_LABEL": "Download a sample csv.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "CSV ഫയൽ",
       "SUBMIT": "Import",
       "CANCEL": "റദ്ദാക്കുക"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "കോൺടാക്റ്റുകൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
+    "BUTTON_LABEL": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "DESC": "ബന്ധപ്പെടാനുള്ള വിശദാംശങ്ങൾ ഇല്ലാതാക്കുക",
     "CONFIRM": {
@@ -163,13 +163,14 @@
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക",
+        "ERROR": "സന്ദേശം ശൂന്യമാക്കാൻ കഴിയില്ല"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "സന്ദേശം അയയ്ക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "സന്ദേശം അയച്ചു!",
+      "GO_TO_CONVERSATION": "കാണുക",
+      "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക"
     }
   },
   "CONTACTS_PAGE": {
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "തിരയുക",
     "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "ഫിൽട്ടർ സേവ് ചെയുക",
+    "FILTER_CONTACTS_DELETE": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
     "LIST": {
       "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
       "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
@@ -186,14 +189,14 @@
         "NAME": "പേര്",
         "PHONE_NUMBER": "ഫോൺ നമ്പർ",
         "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
+        "COUNTRY": "രാജ്യം",
+        "CITY": "നഗരം",
+        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ",
         "COMPANY": "കമ്പനി",
         "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക"
     }
   },
   "CONTACT_PROFILE": {
@@ -202,7 +205,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
+      "BUTTON": "ചേർക്കുക",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
@@ -220,17 +223,17 @@
       "LABEL": "added a note"
     },
     "ADD": {
-      "BUTTON": "Add",
+      "BUTTON": "ചേർക്കുക",
       "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "TITLE": "ഒരു കുറിപ്പ് സൃഷ്ടിക്കാൻ Shift + Enter"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "കുറിപ്പ് ഇല്ലാതാക്കുക"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "പ്രവർത്തനങ്ങൾ"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notes",

@@ -2,8 +2,11 @@
   <file-upload
     :size="4096 * 2048"
     :accept="allowedFileTypes"
-    :data="{ direct_upload_url: '', direct_upload: true }"
-    @input-file="onDirectFileUpload"
+    :data="{
+      direct_upload_url: '/rails/active_storage/direct_uploads',
+      direct_upload: true,
+    }"
+    @input-file="onFileUpload"
   >
     <button class="icon-button flex items-center justify-center">
       <fluent-icon v-if="!isUploading.image" icon="attach" />
@@ -23,6 +26,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -36,6 +40,7 @@ export default {
     return { isUploading: false };
   },
   computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
@@ -47,6 +52,13 @@ export default {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },
+    async onFileUpload(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
     async onDirectFileUpload(file) {
       if (!file) {
         return;
@@ -54,7 +66,12 @@ export default {
       this.isUploading = true;
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-          const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+          const upload = new DirectUpload(
+            file.file,
+            '/rails/active_storage/direct_uploads',
+            null,
+            file.file.name
+          );
 
           upload.create((error, blob) => {
             if (error) {
@@ -63,8 +80,8 @@ export default {
               });
             } else {
               this.onAttach({
-                fileType: blob.content_type,
-                file: blob.signed_id
+                file: blob.signed_id,
+                ...this.getLocalFileAttributes(file),
               });
             }
           });
@@ -80,18 +97,16 @@ export default {
       }
       this.isUploading = false;
     },
-    async onFileUpload(file) {
+    async onIndirectFileUpload(file) {
       if (!file) {
         return;
       }
       this.isUploading = true;
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-          const thumbUrl = window.URL.createObjectURL(file.file);
           await this.onAttach({
-            fileType: this.getFileType(file.type),
             file: file.file,
-            thumbUrl,
+            ...this.getLocalFileAttributes(file),
           });
         } else {
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
@@ -104,6 +119,12 @@ export default {
         // Error
       }
       this.isUploading = false;
+    },
+    getLocalFileAttributes(file) {
+      return {
+        thumbUrl: window.URL.createObjectURL(file.file),
+        fileType: this.getFileType(file.type),
+      };
     },
   },
 };

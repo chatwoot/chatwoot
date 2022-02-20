@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Nachricht erneut senden",
+      "ERROR_MESSAGE": "Senden nicht möglich, versuchen Sie es noch einmal"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -17,7 +21,8 @@
     "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
-  "START_CONVERSATION": "Sende uns eine Nachricht",
+  "START_CONVERSATION": "Unterhaltung beginnen",
+  "CONTINUE_CONVERSATION": "Konversation fortsetzen",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
@@ -28,7 +33,7 @@
   "BUBBLE": {
     "LABEL": "Chatten Sie mit uns"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Unterstützt von Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein",
   "CHAT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht",
   "TODAY": "Heute",
@@ -53,7 +58,7 @@
     },
     "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie das Gespräch beginnen"
   },
-  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Ungültiges Feld"

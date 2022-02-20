@@ -15,6 +15,7 @@
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  message_signature      :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string

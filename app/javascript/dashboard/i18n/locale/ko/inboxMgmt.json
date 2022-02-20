@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "채널 인사말 사용",
-          "HELP_TEXT": "대화를 시작할 때 사용자에게 인사말을 보내십시오.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "사용함",
           "DISABLED": "사용 안 함"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "해당 입력란은 필수 입력 사항입니다."
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "해당 입력란은 필수 입력 사항입니다."
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "해당 입력란은 필수 입력 사항입니다."
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "해당 입력란은 필수 입력 사항입니다."
+          },
+          "INBOX_NAME": {
+            "LABEL": "받은 메시지함 이름",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "해당 입력란은 필수 입력 사항입니다."
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "휴대폰 번호",
+            "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
+            "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "콜백 URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -305,6 +353,14 @@
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "자동 할당 사용",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "당신의 이메일 주소로 이메일 전달을 시작하십시오."
+      "FORWARD_EMAIL_SUB_TEXT": "당신의 이메일 주소로 이메일 전달을 시작하십시오.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
-      }
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

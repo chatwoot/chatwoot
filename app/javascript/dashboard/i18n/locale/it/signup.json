@@ -1,15 +1,15 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Registra un account",
-    "TITLE": "Registrazione",
-    "TERMS_ACCEPT": "Registrandoti, accetti la nostra <a href=\"https://www.chatwoot.com/terms\">T & C</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">informativa sulla privacy</a>",
+    "TITLE": "Registrati",
+    "TERMS_ACCEPT": "Registrandoti, accetti i nostri <a href=\"https://www.chatwoot.com/terms\">T & C</a> e l'<a href=\"https://www.chatwoot.com/privacy-policy\">informativa sulla privacy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Nome del conto",
+      "LABEL": "Nome dell'account",
       "PLACEHOLDER": "Inserisci il nome dell'account, es.: Wayne Enterprises",
       "ERROR": "Nome account troppo corto"
     },
     "FULL_NAME": {
-      "LABEL": "Nome Completo",
+      "LABEL": "Nome completo",
       "PLACEHOLDER": "Inserisci il tuo nome completo, es.: Bruce Wayne",
       "ERROR": "Nome account troppo corto"
     },
@@ -19,13 +19,13 @@
       "ERROR": "Indirizzo email non valido"
     },
     "PASSWORD": {
-      "LABEL": "password",
-      "PLACEHOLDER": "password",
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password",
       "ERROR": "Password troppo corta"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Conferma Password",
-      "PLACEHOLDER": "Conferma Password",
+      "LABEL": "Conferma password",
+      "PLACEHOLDER": "Conferma password",
       "ERROR": "La password non corrisponde"
     },
     "API": {

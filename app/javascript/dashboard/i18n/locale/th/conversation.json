@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "กรุณาเลือกการสนทนาจากด้านซ้าย",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "ข้อมูลประจำตัวของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
     "NO_INBOX_1": "โฮล่า! ดูเหมือนว่าคุณยังไม่ได้เพิ่มกล่องจดหมายเลยนะ",
@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
     "CANNOT_REPLY": "คุณไม่สามารถตอบกลับได้เนื่องจาก",
     "24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
     "TWILIO_WHATSAPP_CAN_REPLY": "คุณสามารถตอบกลับการสนทนานี้ได้โดยการใช้เเม่เเบบเวลาที่กำหนด",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
     "SELECT_A_TWEET_TO_REPLY": "กรุณาเลือกทวีตที่ต้อวการติบกลับ",
@@ -41,9 +43,9 @@
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "ปิดการแจ้งเตือนจนถึงพรุ่งนี้",
+      "SNOOZED_UNTIL_NEXT_WEEK": "ปิดการแจ้งเตือนจนถึงอาทิตย์หน้า",
+      "SNOOZED_UNTIL_NEXT_REPLY": "ปิดการแจ้งเตือนจนการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างการรอ",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น"
     },
@@ -79,7 +84,7 @@
         "BCC": {
           "LABEL": "BCC",
           "PLACEHOLDER": "อีเมล์ถูกเเยกโดยคอมม่า",
-          "ERROR": "กรุณากรอกอีเมล์มห้ถูกต้อง"
+          "ERROR": "กรุณากรอกอีเมล์ให้ถูกต้อง"
         }
       }
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ กรุณาลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
+    "BOT": "บอท",
+    "SEND_FAILED": "ไม่สามารถส่งข้อความได้กรุณาลองอีกครั้ง",
+    "TRY_AGAIN": "กรุณาลองอีกครั้ง",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",
       "REMOVE": "ลบออก",
@@ -132,7 +140,7 @@
     },
     "INBOXES": {
       "TITLE": "เชื่อมต่อกล่องข้อความ",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "DESCRIPTION": "เชื่อมต่อช่องทางต่างๆ ที่ลูกค้าของคุณจะพูดคุยกับคุณ อาจเป็นเว็บไซต์แชทสด หน้า Facebook หรือ Twitter ของคุณ หรือแม้แต่หมายเลข WhatsApp ของคุณ",
       "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
     },
     "LABELS": {
@@ -142,46 +150,47 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "ตัวแทนที่ได้รับมอบหมาย",
+    "SELF_ASSIGN": "มอบหมายให้ฉัน",
+    "TEAM_LABEL": "ทีมที่ได้รับมอบหมาย",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "ไม่มี"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "รายละเอียดการติดต่อ",
+      "CONVERSATION_ACTIONS": "การดำเนินการสนทนา",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "ข้อมูลการสนทนา",
+      "CONTACT_ATTRIBUTES": "แอตทริบิวต์การติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "สร้างแอตทริบิวต์",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
     },
     "ADD": {
       "TITLE": "เพิ่ม",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "ทำการลบเรียบร้อย",
+      "ERROR": "ไม่สามารถลบได้ กรุณาลองใหม่อีกครั้ง"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "เพิ่มแอตทริบิวต์",
+      "PLACEHOLDER": "ค้นหาแอตทริบิวต์",
+      "NO_RESULT": "ไม่พบข้อมูล"
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "ถึง",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "BCC": "สำเนาลับ",
+    "CC": "สำเนา",
+    "SUBJECT": "หัวเรื่อง"
   }
 }

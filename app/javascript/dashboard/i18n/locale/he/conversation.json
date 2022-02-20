@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "אנא בחר שיחה מהחלונית השמאלית",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
     "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
     "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
     "NO_INBOX_1": "שלום! נראה שעדיין לא הוספת תיבות דואר נכנס.",
@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
+    "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
     "SELECT_A_TWEET_TO_REPLY": "אנא בחר ציוץ להשיב.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים"
     },
@@ -65,69 +70,72 @@
       "CREATE": "הוסף הערה",
       "TWEET": "ציוץ",
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
+      "TIP_ATTACH_ICON": "הוסף קבצים",
+      "ENTER_TO_SEND": "אנטר לשליחה",
+      "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
+          "ERROR": "בבקשה הכנס כתוכת אימייל"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "BBC",
+          "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
+          "ERROR": "בבקשה הכנס כתוכת אימייל"
         }
       }
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "CHANGE_TEAM": "Conversation team changed",
+    "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
+    "CHANGE_STATUS": "סטטוס השיחה השתנה",
+    "CHANGE_AGENT": "שיוך שיחה השתנתה",
+    "CHANGE_TEAM": "שיחת קבוצה השתנתה",
     "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
+    "BOT": "בוט",
+    "SEND_FAILED": "לא ניתן לשלוח הודעה! נסה שוב",
+    "TRY_AGAIN": "נסה שוב",
     "ASSIGNMENT": {
       "SELECT_AGENT": "בחר סוכן",
-      "REMOVE": "Remove",
-      "ASSIGN": "Assign"
+      "REMOVE": "הסר",
+      "ASSIGN": "שייך"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "העתק",
       "DELETE": "מחק"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "שלח תמליל של השיחה",
+    "DESC": "שלח את תמליל השיחה למייל ספציפי",
     "SUBMIT": "שלח",
     "CANCEL": "ביטול",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "תמליל השיחה נשלח בהצלחה",
     "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "שלח תמליל ללקוח",
+      "SEND_TO_AGENT": "שלח תמליל לסוכן המשוייך לשיחה",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "שלח תמליל לאימייל אחר",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "הכנס כתובת אימייל",
+        "ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "היי 👋, ברוך הבא ל%{installationName}!",
+    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ %{installationName}. הינה כמה דברים שאתה יכול לעשות עם %{installationName} לחוויה טובה.",
+    "READ_LATEST_UPDATES": "תקרא את העדכונים אחרונים",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "כל השיחות שלך במקום אחד",
+      "DESCRIPTION": "צפה בכל השיחות שלך עם הלקוחות בדאשבורד אחד. אתה יכול לסנן את השיחות לפי הערוץ, התווית והסטטוס."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "TITLE": "הזמן את חברי הצוות שלך",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "אל",
     "BCC": "Bcc",
     "CC": "עותק",
