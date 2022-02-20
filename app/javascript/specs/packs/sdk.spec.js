@@ -1,11 +1,4 @@
-import { getUserCookieName, getUserString, hasUserKeys } from '../../packs/sdk';
-
-describe('#getUserCookieName', () => {
-  it('returns correct cookie name', () => {
-    global.$chatwoot = { websiteToken: '123456' };
-    expect(getUserCookieName()).toBe('cw_user_123456');
-  });
-});
+import { getUserString, hasUserKeys } from '../../packs/sdk';
 
 describe('#getUserString', () => {
   it('returns correct user string', () => {
