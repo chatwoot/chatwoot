@@ -19,7 +19,10 @@
         :multiple="enableMultipleFileUpload"
         :drop="true"
         :drop-directory="false"
-        :data="{ direct_upload_url: '/rails/active_storage/direct_uploads', direct_upload: true }"
+        :data="{
+          direct_upload_url: '/rails/active_storage/direct_uploads',
+          direct_upload: true,
+        }"
         @input-file="onDirectFileUpload"
       >
         <woot-button
@@ -43,6 +46,27 @@
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       />
+      <woot-button
+        v-if="showAudioRecorderButton"
+        :icon="!this.isRecordingAudio ? 'microphone' : 'microphone-off'"
+        emoji="🎤"
+        :color-scheme="!this.isRecordingAudio ? 'secondary' : 'alert'"
+        variant="smooth"
+        size="small"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+        @click="toggleAudioRecorder"
+      />
+      <woot-button
+        v-if="showAudioPlayStopButton"
+        :icon="audioRecorderPlayStopIcon"
+        emoji="🎤"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleAudioRecorderPlayPause"
+      >
+        <span>{{ recordingAudioDurationText }}</span>
+      </woot-button>
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -81,7 +105,7 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
-import * as ActiveStorage from "activestorage";
+import * as ActiveStorage from 'activestorage';
 import {
   hasPressedAltAndWKey,
   hasPressedAltAndAKey,
@@ -107,7 +131,15 @@ export default {
       type: String,
       default: '',
     },
+    recordingAudioDurationText: {
+      type: String,
+      default: '',
+    },
     showFileUpload: {
+      type: Boolean,
+      default: false,
+    },
+    showAudioRecorder: {
       type: Boolean,
       default: false,
     },
@@ -122,6 +154,22 @@ export default {
     toggleEmojiPicker: {
       type: Function,
       default: () => {},
+    },
+    toggleAudioRecorder: {
+      type: Function,
+      default: () => {},
+    },
+    toggleAudioRecorderPlayPause: {
+      type: Function,
+      default: () => {},
+    },
+    isRecordingAudio: {
+      type: Boolean,
+      default: false,
+    },
+    recordingAudioState: {
+      type: String,
+      default: '',
     },
     isSendDisabled: {
       type: Boolean,
@@ -152,9 +200,6 @@ export default {
       default: true,
     },
   },
-  mounted() {
-    ActiveStorage.start();
-  },
   computed: {
     isNote() {
       return this.mode === REPLY_EDITOR_MODES.NOTE;
@@ -172,9 +217,31 @@ export default {
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
+    showAudioRecorderButton() {
+      return this.showAudioRecorder;
+    },
+    showAudioPlayStopButton() {
+      return this.showAudioRecorder && this.isRecordingAudio;
+    },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
     },
+    audioRecorderPlayStopIcon() {
+      switch (this.recordingAudioState) {
+        // playing paused recording stopped inactive destroyed
+        case 'playing':
+          return 'microphone-pause';
+        case 'paused':
+          return 'microphone-play';
+        case 'stopped':
+          return 'microphone-play';
+        default:
+          return 'microphone-stop';
+      }
+    },
+  },
+  mounted() {
+    ActiveStorage.start();
   },
   methods: {
     handleKeyEvents(e) {

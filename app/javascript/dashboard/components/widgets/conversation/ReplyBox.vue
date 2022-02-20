@@ -25,8 +25,14 @@
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
       />
+      <woot-audio-recorder
+        v-if="showAudioRecorderEditor"
+        ref="audioRecorderInput"
+        @state-recorder-timer-changed="onStateRecorderTimerChanged"
+        @state-recorder-changed="onStateRecorderChanged"
+      />
       <resizable-text-area
-        v-if="!showRichContentEditor"
+        v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
         class="input"
@@ -63,10 +69,16 @@
       :send-button-text="replyButtonLabel"
       :on-direct-file-upload="onDirectFileUpload"
       :show-file-upload="showFileUpload"
+      :show-audio-recorder="showAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
+      :toggle-audio-recorder="toggleAudioRecorder"
+      :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :show-emoji-picker="showEmojiPicker"
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
+      :recording-audio-duration-text="recordingAudioDuration"
+      :recording-audio-state="recordingAudioState"
+      :is-recording-audio="isRecordingAudio"
       :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
@@ -92,6 +104,7 @@ import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -117,6 +130,7 @@ export default {
     ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
+    WootAudioRecorder,
   },
   mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
@@ -140,6 +154,9 @@ export default {
       showEmojiPicker: false,
       showMentions: false,
       attachedFiles: [],
+      isRecordingAudio: false,
+      recordingAudioState: '',
+      recordingAudioDuration: '',
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
@@ -196,7 +213,7 @@ export default {
         return true;
       }
 
-      if (this.hasAttachments) return false;
+      if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
         this.isMessageEmpty ||
@@ -258,8 +275,22 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
+    hasRecordedAudio() {
+      return (
+        this.$refs.audioRecorderInput &&
+        this.$refs.audioRecorderInput.hasAudio()
+      );
+    },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
+    },
+    showAudioRecorder() {
+      return !this.isOnPrivateNote && this.showFileUpload;
+    },
+    showAudioRecorderEditor() {
+      return (
+        !this.isOnPrivateNote && this.showFileUpload && this.isRecordingAudio
+      );
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -422,6 +453,19 @@ export default {
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
+    toggleAudioRecorder() {
+      this.isRecordingAudio = !this.isRecordingAudio;
+      this.isRecorderAudioStopped = !this.isRecordingAudio;
+    },
+    toggleAudioRecorderPlayPause() {
+      if (this.isRecordingAudio && !this.isRecorderAudioStopped) {
+        this.isRecorderAudioStopped = true;
+        this.$refs.audioRecorderInput.stopAudioRecording();
+        this.onDirectFileUpload(this.$refs.audioRecorderInput.getAudioFile());
+      } else if (this.isRecordingAudio && this.isRecorderAudioStopped) {
+        this.$refs.audioRecorderInput.playPause();
+      }
+    },
     hideEmojiPicker() {
       if (this.showEmojiPicker) {
         this.toggleEmojiPicker();
@@ -442,6 +486,15 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
+    onStateRecorderTimerChanged(time) {
+      this.recordingAudioDuration = time;
+    },
+    onStateRecorderChanged(state) {
+      this.recordingAudioState = state;
+      if (state.includes('notallowederror')) {
+        this.toggleAudioRecorder();
+      }
+    },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
       const isPrivate = this.isPrivate;
@@ -456,12 +509,15 @@ export default {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        const upload = new DirectUpload(file.file, '/rails/active_storage/direct_uploads', null, file.file.name);
+        const upload = new DirectUpload(
+          file.file || file,
+          '/rails/active_storage/direct_uploads',
+          null,
+          file.file?.name || file.name
+        );
         upload.create((error, blob) => {
           if (error) {
-            this.showAlert(
-              error
-            );
+            this.showAlert(error);
           } else {
             this.attachedFiles.push({
               currentChatId: this.currentChat.id,
@@ -469,6 +525,7 @@ export default {
               isPrivate: this.isPrivate,
               thumb: null,
               blobSignedId: blob.signed_id,
+              content_type: blob.content_type,
             });
           }
         });
@@ -523,7 +580,11 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          messagePayload.files.push(attachment.blobSignedId);
+          // messagePayload.files.push(attachment.blobSignedId);
+          messagePayload.files.push({
+            content_type: attachment.content_type,
+            blobSignedId: attachment.blobSignedId,
+          });
         });
       }
 
