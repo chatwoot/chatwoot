@@ -37,6 +37,7 @@ class WorkingHour < ApplicationRecord
   validates :close_minutes, inclusion: 0..59, unless: :closed_all_day?
 
   validate :close_after_open, unless: :closed_all_day?
+  validate :open_all_day_and_closed_all_day
 
   def self.today
     find_by(day_of_week: Date.current.wday)
@@ -75,10 +76,15 @@ class WorkingHour < ApplicationRecord
   def ensure_open_all_day_hours
     return unless open_all_day?
 
-    self.closed_all_day = false
     self.open_hour = 0
     self.open_minutes = 0
     self.close_hour = 23
     self.close_minutes = 59
+  end
+
+  def open_all_day_and_closed_all_day
+    return unless open_all_day? && closed_all_day?
+
+    errors.add(:base, 'open_all_day and closed_all_day cannot be true at the same time')
   end
 end
