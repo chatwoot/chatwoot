@@ -1,3 +1,12 @@
+import { getters } from 'dashboard/store/modules/attributes.js';
+
+function attrs() {
+  let attrss = getters.getAttributesByModel('attributeModel');
+  console.log(attrss);
+}
+
+attrs();
+
 const OPERATOR_TYPES_1 = [
   {
     value: 'equal_to',
@@ -44,6 +53,51 @@ const OPERATOR_TYPES_3 = [
   {
     value: 'is_not_present',
     label: 'Is not present',
+  },
+];
+
+const CONV_LABEL_CONDITIONS = [
+  {
+    key: 'status',
+    name: 'Status',
+    attributeI18nKey: 'STATUS',
+    inputType: 'multi_select',
+    filterOperators: OPERATOR_TYPES_1,
+  },
+  {
+    key: 'browser_language',
+    name: 'Browser Language',
+    attributeI18nKey: 'BROWSER_LANGUAGE',
+    inputType: 'search_select',
+    filterOperators: OPERATOR_TYPES_1,
+  },
+  {
+    key: 'country_code',
+    name: 'Country',
+    attributeI18nKey: 'COUNTRY_NAME',
+    inputType: 'search_select',
+    filterOperators: OPERATOR_TYPES_1,
+  },
+  {
+    key: 'referer',
+    name: 'Referrer Link',
+    attributeI18nKey: 'REFERER_LINK',
+    inputType: 'plain_text',
+    filterOperators: OPERATOR_TYPES_2,
+  },
+  {
+    key: 'assignee_id',
+    name: 'Assignee',
+    attributeI18nKey: 'ASSIGNEE_NAME',
+    inputType: 'search_select',
+    filterOperators: OPERATOR_TYPES_3,
+  },
+  {
+    key: 'team_id',
+    name: 'Team',
+    attributeI18nKey: 'TEAM_NAME',
+    inputType: 'search_select',
+    filterOperators: OPERATOR_TYPES_3,
   },
 ];
 
@@ -133,50 +187,7 @@ export const AUTOMATIONS = {
     ],
   },
   conversation_updated: {
-    conditions: [
-      {
-        key: 'status',
-        name: 'Status',
-        attributeI18nKey: 'STATUS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'browser_language',
-        name: 'Browser Language',
-        attributeI18nKey: 'BROWSER_LANGUAGE',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'country_code',
-        name: 'Country',
-        attributeI18nKey: 'COUNTRY_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'referer',
-        name: 'Referrer Link',
-        attributeI18nKey: 'REFERER_LINK',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
-      },
-      {
-        key: 'assignee_id',
-        name: 'Assignee',
-        attributeI18nKey: 'ASSIGNEE_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
-      {
-        key: 'team_id',
-        name: 'Team',
-        attributeI18nKey: 'TEAM_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
-    ],
+    conditions: CONV_LABEL_CONDITIONS,
     actions: [
       {
         key: 'assign_team',
@@ -188,6 +199,38 @@ export const AUTOMATIONS = {
       //   name: 'Send an email to team',
       //   attributeI18nKey: 'SEND_MESSAGE',
       // },
+      {
+        key: 'assign_agent',
+        name: 'Assign an agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+        attributeKey: 'assignee_id',
+      },
+    ],
+  },
+  label_added: {
+    conditions: CONV_LABEL_CONDITIONS,
+    actions: [
+      {
+        key: 'assign_team',
+        name: 'Assign a team',
+        attributeI18nKey: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'assign_agent',
+        name: 'Assign an agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+        attributeKey: 'assignee_id',
+      },
+    ],
+  },
+  label_removed: {
+    conditions: CONV_LABEL_CONDITIONS,
+    actions: [
+      {
+        key: 'assign_team',
+        name: 'Assign a team',
+        attributeI18nKey: 'ASSIGN_TEAM',
+      },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
@@ -210,6 +253,14 @@ export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'message_created',
     value: 'Message Created',
+  },
+  {
+    key: 'label_added',
+    value: 'Label Added',
+  },
+  {
+    key: 'label_removed',
+    value: 'Label Removed',
   },
 ];
 
