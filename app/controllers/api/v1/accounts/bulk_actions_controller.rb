@@ -1,27 +1,26 @@
 class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseController
-  def create
-    ::BulkActionsJob.perform_later(
-      account: @current_account,
-      params: permitted_params,
-      method_type: :update,
-      user: current_user
-    )
-    head :ok
-  end
+  before_action :type_matches?
 
-  def destroy
-    ::BulkActionsJob.perform_later(
-      account: @current_account,
-      params: permitted_params,
-      method_type: :delete,
-      user: current_user,
-    )
-    head :ok
+  def create
+    if type_matches?
+      ::BulkActionsJob.perform_later(
+        account: @current_account,
+        user: current_user,
+        params: permitted_params
+      )
+      head :ok
+    else
+      render json: { success: false }, status: :unprocessable_entity
+    end
   end
 
   private
 
+  def type_matches?
+    ['Conversation'].include?(params[:type])
+  end
+
   def permitted_params
-    params.permit(:status, :assignee_id, :team_id, conversation_ids: [], labels: [])
+    params.permit(:type, ids: [], fields: [:status, :assignee_id, :team_id], labels: [add: [], remove: []])
   end
 end

@@ -22,7 +22,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/bulk_actions",
              headers: agent.create_new_auth_token,
-             params: { status: 'open', conversation_ids: [1, 2, 3] }
+             params: { type: 'Conversation', fields: { status: 'open' }, ids: [1, 2, 3] }
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -31,21 +31,25 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'Bulk update conversation status' do
-        params = { status: 'snoozed', conversation_ids: Conversation.first(3).pluck(:display_id) }
+      it 'Ignores bulk_actions for wrong type' do
+        post "/api/v1/accounts/#{account.id}/bulk_actions",
+             headers: agent.create_new_auth_token,
+             params: { type: 'Test', fields: { status: 'snoozed' }, ids: %w[1 2 3] }
 
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'Bulk update conversation status' do
         expect(Conversation.first.status).to eq('open')
         expect(Conversation.last.status).to eq('open')
         expect(Conversation.first.assignee_id).to eq(nil)
 
-        post "/api/v1/accounts/#{account.id}/bulk_actions",
-             headers: agent.create_new_auth_token,
-             params: { status: 'snoozed', conversation_ids: %w[1 2 3] }
-
-        expect(response).to have_http_status(:success)
-
         perform_enqueued_jobs do
-          ::BulkActionsJob.new.perform(account: account, params: params, method_type: :update)
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Conversation', fields: { status: 'snoozed' }, ids: Conversation.first(3).pluck(:display_id) }
+
+          expect(response).to have_http_status(:success)
         end
 
         expect(Conversation.first.status).to eq('snoozed')
@@ -54,20 +58,18 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
 
       it 'Bulk update conversation assignee id' do
-        params = { assignee_id: agent_1.id, conversation_ids: Conversation.first(3).pluck(:display_id) }
+        params = { type: 'Conversation', fields: { assignee_id: agent_1.id }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')
         expect(Conversation.first.assignee_id).to eq(nil)
         expect(Conversation.second.assignee_id).to eq(nil)
 
-        post "/api/v1/accounts/#{account.id}/bulk_actions",
-             headers: agent.create_new_auth_token,
-             params: { assignee_id: agent_1.id, conversation_ids: %w[1 2 3] }
-
-        expect(response).to have_http_status(:success)
-
         perform_enqueued_jobs do
-          ::BulkActionsJob.new.perform(account: account, params: params, method_type: :update)
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
         end
 
         expect(Conversation.first.assignee_id).to eq(agent_1.id)
@@ -76,19 +78,17 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
 
       it 'Bulk update conversation status and assignee id' do
-        params = { assignee_id: agent_1.id, conversation_ids: Conversation.first(3).pluck(:display_id), status: 'snoozed' }
+        params = { type: 'Conversation', fields: { assignee_id: agent_1.id, status: 'snoozed' }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')
         expect(Conversation.second.assignee_id).to eq(nil)
 
-        post "/api/v1/accounts/#{account.id}/bulk_actions",
-             headers: agent.create_new_auth_token,
-             params: { assignee_id: agent_1.id, conversation_ids: %w[1 2 3], status: 'snoozed' }
-
-        expect(response).to have_http_status(:success)
-
         perform_enqueued_jobs do
-          ::BulkActionsJob.new.perform(account: account, params: params, method_type: :update)
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
         end
 
         expect(Conversation.first.assignee_id).to eq(agent_1.id)
@@ -98,19 +98,17 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
 
       it 'Bulk update conversation labels' do
-        params = { conversation_ids: Conversation.first(3).pluck(:display_id), labels: %w[support priority_customer] }
+        params = { type: 'Conversation', ids: Conversation.first(3).pluck(:display_id), labels: { add: %w[support priority_customer] } }
 
         expect(Conversation.first.labels).to eq([])
         expect(Conversation.second.labels).to eq([])
 
-        post "/api/v1/accounts/#{account.id}/bulk_actions",
-             headers: agent.create_new_auth_token,
-             params: { conversation_ids: %w[1 2 3], labels: %w[support priority_customer] }
-
-        expect(response).to have_http_status(:success)
-
         perform_enqueued_jobs do
-          ::BulkActionsJob.new.perform(account: account, params: params, method_type: :update)
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
         end
 
         expect(Conversation.first.label_list).to eq(%w[support priority_customer])
@@ -119,7 +117,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/accounts/{account.id}/bulk_actions' do
+  describe 'POST /api/v1/accounts/{account.id}/bulk_actions' do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
@@ -128,19 +126,17 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         Conversation.second.add_labels(%w[support priority_customer])
         Conversation.third.add_labels(%w[support priority_customer])
 
-        params = { conversation_ids: Conversation.first(3).pluck(:display_id), labels: %w[support] }
+        params = { type: 'Conversation', ids: Conversation.first(3).pluck(:display_id), labels: { remove: %w[support] } }
 
         expect(Conversation.first.label_list).to eq(%w[support priority_customer])
         expect(Conversation.second.label_list).to eq(%w[support priority_customer])
 
-        delete "/api/v1/accounts/#{account.id}/bulk_actions",
-               headers: agent.create_new_auth_token,
-               params: { conversation_ids: %w[1 2 3], labels: %w[support] }
-
-        expect(response).to have_http_status(:success)
-
         perform_enqueued_jobs do
-          ::BulkActionsJob.new.perform(account: account, params: params, method_type: :delete)
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
         end
 
         expect(Conversation.first.label_list).to eq(['priority_customer'])
