@@ -469,7 +469,7 @@ export default {
       }
       if (!this.showMentions) {
         let newMessage = this.message;
-        if (this.sendWithSignature && this.messageSignature) {
+        if (this.showMessageSignature && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
