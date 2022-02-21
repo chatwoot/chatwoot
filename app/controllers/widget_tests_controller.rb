@@ -7,7 +7,12 @@ class WidgetTestsController < ActionController::Base
 
   private
 
+  def inbox_id
+    @inbox_id ||= params[:inbox_id] || Channel::WebWidget.first.inbox_id
+  end
+
   def set_web_widget
-    @web_widget = Channel::WebWidget.first
+    @inbox = Inbox.find(inbox_id)
+    @web_widget = @inbox.channel
   end
 end
