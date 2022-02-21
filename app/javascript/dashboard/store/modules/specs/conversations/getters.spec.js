@@ -138,6 +138,7 @@ describe('#getters', () => {
       const getSelectedChat = {
         messages: [
           {
+            message_type: 1,
             content_attributes: {
               email: {
                 from: 'why@how.my',
@@ -150,6 +151,7 @@ describe('#getters', () => {
       expect(
         getters.getLastEmailInSelectedChat(state, { getSelectedChat })
       ).toEqual({
+        message_type: 1,
         content_attributes: {
           email: {
             from: 'why@how.my',
