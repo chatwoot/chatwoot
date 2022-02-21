@@ -11,6 +11,15 @@ class MailPresenter < SimpleDelegator
     encode_to_unicode(@mail.subject)
   end
 
+  def mail_content
+    if mail.text_mail_body?
+    elsif mail.html_mail_body?
+    elsif mail.multipart_mail_body?
+    end
+
+
+  end
+
   def text_content
     @decoded_text_content = select_body(text_part) || ''
     encoding = @decoded_text_content.encoding
@@ -131,11 +140,15 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_mail_body?
-    ((mail.content_type || '').include? 'text/html') || @mail.html_part || @mail.html_part.content_type.include?('text/html')
+    ((mail.content_type || '').include? 'text/html') || @mail.html_part&.content_type&.include?('text/html')
   end
 
   def text_mail_body?
     ((mail.content_type || '').include? 'text/plain') || @mail.text_part&.content_type&.include?('text/plain')
+  end
+
+  def multipart_mail_body?
+    ((mail.content_type || '').include? 'multipart')
   end
 
   def decoded_raw_mail_body
