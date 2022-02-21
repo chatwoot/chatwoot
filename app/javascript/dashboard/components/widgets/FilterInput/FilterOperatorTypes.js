@@ -73,3 +73,14 @@ export const OPERATOR_TYPES_4 = [
     label: 'Is lesser than',
   },
 ];
+
+export const OPERATOR_TYPES_5 = [
+  {
+    value: 'is_greater_than',
+    label: 'Is greater than',
+  },
+  {
+    value: 'is_lesser_than',
+    label: 'Is lesser than',
+  },
+];
