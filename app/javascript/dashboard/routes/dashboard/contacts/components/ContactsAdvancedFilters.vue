@@ -147,6 +147,12 @@ export default {
       switch (key) {
         case 'date':
           return 'date';
+        case 'text':
+          return 'plain_text';
+        case 'list':
+          return 'plain_text';
+        case 'checkbox':
+          return 'search_select';
         default:
           return 'plain_text';
       }
@@ -164,6 +170,30 @@ export default {
       return type.filterOperators;
     },
     getDropdownValues(type) {
+      const allCustomAttributes = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ](this.attributeModel);
+      const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
+        if (
+          attr.attribute_key === type &&
+          attr.attribute_display_type === 'checkbox'
+        ) {
+          return true;
+        }
+        return false;
+      });
+      if (isCustomAttributeCheckbox) {
+        return [
+          {
+            id: true,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+          },
+          {
+            id: false,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+          },
+        ];
+      }
       switch (type) {
         case 'country_code':
           return countries;
