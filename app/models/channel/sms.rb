@@ -35,13 +35,13 @@ class Channel::Sms < ApplicationRecord
 
   def send_message(contact_number, message)
     body = {
-        'to' => contact_number,
-        'from' => phone_number,
-        'text' => message.content,
-        'applicationId' => provider_config['application_id']
+      'to' => contact_number,
+      'from' => phone_number,
+      'text' => message.content,
+      'applicationId' => provider_config['application_id']
     }
     body['media'] = message.attachments.map(&:file_url) if message.attachments.present?
-  
+
     response = HTTParty.post(
       "#{api_base_path}/users/#{provider_config['account_id']}/messages",
       basic_auth: bandwidth_auth,
