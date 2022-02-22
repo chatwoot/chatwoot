@@ -15,6 +15,7 @@ class BulkActionsJob < ApplicationJob
   def bulk_update
     bulk_remove_labels
     bulk_conversation_update
+    unset_current_user
   end
 
   def bulk_conversation_update
@@ -53,5 +54,9 @@ class BulkActionsJob < ApplicationJob
     return unless MODEL_TYPE.include?(current_model)
 
     current_model.constantize&.where(account_id: @account.id, display_id: ids)
+  end
+
+  def unset_current_user
+    Current.user = nil
   end
 end
