@@ -463,7 +463,7 @@
         "VALIDATION_ERROR": "زمان شروع باید قبل از زمان بسته شدن باشد.",
         "CHOOSE": "انتخاب کنید"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "تمام روز"
     },
     "IMAP": {
       "TITLE": "IMAP",
