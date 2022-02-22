@@ -34,14 +34,29 @@ class Channel::Sms < ApplicationRecord
   end
 
   def send_message(contact_number, message)
-    body = {
-      'to' => contact_number,
-      'from' => phone_number,
-      'text' => message.content,
-      'applicationId' => provider_config['application_id']
-    }
+    body = message_body(contact_number, message.content)
     body['media'] = message.attachments.map(&:file_url) if message.attachments.present?
 
+    send_to_bandwidth(body)
+  end
+
+  def send_text_message(contact_number, message_content)
+    body = message_body(contact_number, message_content)
+    send_to_bandwidth(body)
+  end
+
+  private
+
+  def message_body(contact_number, message_content)
+    {
+      'to' => contact_number,
+      'from' => phone_number,
+      'text' => message_content,
+      'applicationId' => provider_config['application_id']
+    }
+  end
+
+  def send_to_bandwidth(body)
     response = HTTParty.post(
       "#{api_base_path}/users/#{provider_config['account_id']}/messages",
       basic_auth: bandwidth_auth,
@@ -50,12 +65,6 @@ class Channel::Sms < ApplicationRecord
     )
 
     response.success? ? response.parsed_response['id'] : nil
-  end
-
-  private
-
-  def send_attachment_message(phone_number, message)
-    # fix me
   end
 
   def bandwidth_auth
