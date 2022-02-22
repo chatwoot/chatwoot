@@ -33,26 +33,20 @@ class Channel::Sms < ApplicationRecord
     'https://messaging.bandwidth.com/api/v2'
   end
 
-  # Extract later into provider Service
-  def send_message(phone_number, message)
-    if message.attachments.present?
-      send_attachment_message(phone_number, message)
-    else
-      send_text_message(phone_number, message.content)
-    end
-  end
-
-  def send_text_message(contact_number, message)
+  def send_message(contact_number, message)
+    body = {
+        'to' => contact_number,
+        'from' => phone_number,
+        'text' => message.content,
+        'applicationId' => provider_config['application_id']
+    }
+    body['media'] = message.attachments.map(&:file_url) if message.attachments.present?
+  
     response = HTTParty.post(
       "#{api_base_path}/users/#{provider_config['account_id']}/messages",
       basic_auth: bandwidth_auth,
       headers: { 'Content-Type' => 'application/json' },
-      body: {
-        'to' => contact_number,
-        'from' => phone_number,
-        'text' => message,
-        'applicationId' => provider_config['application_id']
-      }.to_json
+      body: body.to_json
     )
 
     response.success? ? response.parsed_response['id'] : nil
