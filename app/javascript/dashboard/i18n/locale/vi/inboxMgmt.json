@@ -462,7 +462,8 @@
         "HOURS": "giờ",
         "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
         "CHOOSE": "Chọn"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
