@@ -463,7 +463,7 @@
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Todos os Dias"
     },
     "IMAP": {
       "TITLE": "IMAP",
