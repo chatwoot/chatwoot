@@ -462,7 +462,8 @@
         "HOURS": "hores",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Tria"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
