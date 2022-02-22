@@ -2,9 +2,9 @@
   <td>
     <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
       Hello <%= @contact.name %>,
-      Here's the summary of conversation with <%= @account.name %> through <%= @inbox.channel.name %>,
+      Here's the summary of conversation with <strong><%= @account.name %></strong> through <strong><%= @inbox.channel.name %></strong>,
       <br />
-      View converation <a href="<%= @conversation_url %>">here</a>
+
     </p>
   </td>
 </tr>

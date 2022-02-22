@@ -62,7 +62,6 @@ class ConversationReplyMailer < ApplicationMailer
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
     @channel = @inbox.channel
-    @conversation_url = app_account_conversation_url(account_id: @account.id, id: @conversation.display_id)
   end
 
   def should_use_conversation_email_address?
