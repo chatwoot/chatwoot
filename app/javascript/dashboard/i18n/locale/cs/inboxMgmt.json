@@ -462,7 +462,8 @@
         "HOURS": "hodiny",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Vyberte"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
