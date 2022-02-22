@@ -187,7 +187,13 @@ export default {
         required,
         $each: {
           action_params: {
-            required,
+            required: requiredIf(prop => {
+              return !(
+                prop.action_name === 'mute_conversation' ||
+                prop.action_name === 'snooze_convresation' ||
+                prop.action_name === 'resolve_convresation'
+              );
+            }),
           },
         },
       },
