@@ -462,7 +462,8 @@
         "HOURS": "hodiny",
         "VALIDATION_ERROR": "Začiatočný čas by mal byť pred zatváracím časom.",
         "CHOOSE": "Vybrať"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
