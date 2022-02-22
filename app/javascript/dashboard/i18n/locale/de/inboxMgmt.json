@@ -463,7 +463,7 @@
         "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
         "CHOOSE": "Auswählen"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Den ganzen Tag"
     },
     "IMAP": {
       "TITLE": "IMAP",
