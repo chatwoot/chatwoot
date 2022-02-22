@@ -84,7 +84,7 @@ class Sms::IncomingMessageService
 
       @message.attachments.new(
         account_id: @message.account_id,
-        file_type: file_content_type,
+        file_type: attachment_file.content_type,
         file: {
           io: attachment_file,
           filename: attachment_file,
