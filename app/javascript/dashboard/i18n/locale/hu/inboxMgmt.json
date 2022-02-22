@@ -462,7 +462,8 @@
         "HOURS": "óra",
         "VALIDATION_ERROR": "A kezés idejének a zárás ideje előttinek kell lennie.",
         "CHOOSE": "Kiválasztás"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
