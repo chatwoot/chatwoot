@@ -13,61 +13,58 @@ class MailPresenter < SimpleDelegator
 
   # encode decoded mail text_part or html_part if mail is multipart email
   # encode decoded mail raw bodyt if mail is not multipart email but the body content is text/html
-  def mail_content
+  def mail_content(mail_part)
     if multipart_mail_body?
-      decoded_multipart_mail
+      decoded_multipart_mail(mail_part)
     else
-      text_html_mail
+      text_html_mail(mail_part)
     end
   end
 
   # encodes mail if mail.parts is present
   # encodes mail content type is multipart
-  def decoded_multipart_mail
-    if text_part
-      encode_to_unicode(text_part.decoded)
-    elsif html_part
-      ::HtmlParser.parse_reply(html_part.decoded)
-    end
+  def decoded_multipart_mail(mail_part)
+    encoded = encode_to_unicode(mail_part&.decoded)
+
+    encoded if text_mail_body? || html_mail_body?
   end
 
   # encodes mail raw body if mail.parts is empty
   # encodes mail raw body if mail.content_type is plain/text
   # encodes mail raw body if mail.content_type is html/text
-  def text_html_mail
-    encoded = encode_to_unicode(decoded_mail_body)
+  def text_html_mail(mail_part)
+    decoded = mail_part&.decoded || @mail.body&.decoded
+    encoded = encode_to_unicode(decoded)
 
-    if html_mail_body?
-      ::HtmlParser.parse_reply(encoded)
-    elsif text_mail_body?
-      encoded
-    end
+    encoded if html_mail_body? || text_mail_body?
   end
 
   def text_content
-    @decoded_text_content = mail_content
+    @decoded_text_content = mail_content(text_part) || ''
+
     encoding = @decoded_text_content.encoding
 
     body = EmailReplyTrimmer.trim(@decoded_text_content)
 
-    return {} if @decoded_text_content.blank?
+    return {} if @decoded_text_content.blank? || !text_mail_body?
 
     @text_content ||= {
-      full: mail_content,
+      full: mail_content(text_part),
       reply: @decoded_text_content,
       quoted: body.force_encoding(encoding).encode('UTF-8')
     }
   end
 
   def html_content
-    @decoded_html_content = mail_content
+    encoded = mail_content(html_part) || ''
+    @decoded_html_content = ::HtmlParser.parse_reply(encoded)
 
-    return {} if @decoded_html_content.blank?
+    return {} if @decoded_html_content.blank? || !html_mail_body?
 
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
-      full: mail_content,
+      full: mail_content(html_part),
       reply: @decoded_html_content,
       quoted: body
     }
@@ -158,9 +155,5 @@ class MailPresenter < SimpleDelegator
 
   def multipart_mail_body?
     ((mail.content_type || '').include? 'multipart') || @mail.parts.any?
-  end
-
-  def decoded_mail_body
-    text_part&.decoded || html_part&.decoded || @mail.body.decoded
   end
 end
