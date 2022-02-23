@@ -2,16 +2,11 @@ import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
 import { getBubbleView } from '../sdk/bubbleHelpers';
 import md5 from 'md5';
+import { getUserCookieName } from '../sdk/cookieHelpers';
 
 const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
 
 const ALLOWED_USER_ATTRIBUTES = [...REQUIRED_USER_KEYS, 'identifier_hash'];
-
-export const getUserCookieName = () => {
-  const SET_USER_COOKIE_PREFIX = 'cw_user_';
-  const { websiteToken: websiteIdentifier } = window.$chatwoot;
-  return `${SET_USER_COOKIE_PREFIX}${websiteIdentifier}`;
-};
 
 export const getUserString = ({ identifier = '', user }) => {
   const userStringWithSortedKeys = ALLOWED_USER_ATTRIBUTES.reduce(
