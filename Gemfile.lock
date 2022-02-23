@@ -91,7 +91,7 @@ GEM
     ast (2.4.2)
     attr_extras (6.2.5)
     aws-eventstream (1.2.0)
-    aws-partitions (1.556.0)
+    aws-partitions (1.557.0)
     aws-sdk-core (3.126.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -257,8 +257,6 @@ GEM
       googleauth (>= 0.16.2, < 2.a)
       mini_mime (~> 1.0)
     google-protobuf (3.19.4)
-    google-protobuf (3.19.4-x86_64-darwin)
-    google-protobuf (3.19.4-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -277,12 +275,6 @@ GEM
     grpc (1.43.1)
       google-protobuf (~> 3.18)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.43.1-universal-darwin)
-      google-protobuf (~> 3.18)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.43.1-x86_64-linux)
-      google-protobuf (~> 3.18)
-      googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (0.2.25)
       activerecord (>= 5.0, < 8)
@@ -292,8 +284,8 @@ GEM
     hashdiff (1.0.1)
     hashie (5.0.0)
     hkdf (0.3.0)
-    html2text (0.2.1)
-      nokogiri (~> 1.6)
+    html2text (0.3.1)
+      nokogiri (~> 1.10.3)
     http-accept (1.7.0)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
@@ -363,7 +355,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
+    mini_portile2 (2.4.0)
     minitest (5.15.0)
     mock_redis (0.30.0)
       ruby2_keywords
@@ -378,15 +370,8 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (8.4.0)
     nio4r (2.5.8)
-    nokogiri (1.13.3)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
-    nokogiri (1.13.3-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.13.3-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.13.3-x86_64-linux)
-      racc (~> 1.4)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
     oauth (0.5.8)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -394,7 +379,7 @@ GEM
     parser (3.1.1.0)
       ast (~> 2.4.1)
     path_expander (1.1.0)
-    pg (1.3.2)
+    pg (1.3.3)
     procore-sift (0.16.0)
       rails (> 4.2.0)
     pry (0.14.1)
@@ -408,7 +393,6 @@ GEM
     pundit (2.2.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
-    racc (1.6.0)
     rack (2.2.3)
     rack-attack (6.6.0)
       rack (>= 1.0, < 3)
@@ -639,12 +623,7 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
-  arm64-darwin-20
   ruby
-  x86_64-darwin-18
-  x86_64-darwin-20
-  x86_64-darwin-21
-  x86_64-linux
 
 DEPENDENCIES
   active_record_query_trace
@@ -751,4 +730,4 @@ RUBY VERSION
    ruby 3.0.2p107
 
 BUNDLED WITH
-   2.2.25
+   2.2.22
