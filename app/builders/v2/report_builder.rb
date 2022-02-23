@@ -9,7 +9,7 @@ class V2::ReportBuilder
     @params = params
 
     timezone_offset = (params[:timezone_offset] || 0).to_f
-    @timezone = ActiveSupport::TimeZone[timezone_offset]
+    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
 
   def timeseries
@@ -67,59 +67,59 @@ class V2::ReportBuilder
     @team ||= account.teams.find(params[:id])
   end
 
+  def get_grouped_values(object_scope)
+    object_scope.where(created_at: range).group_by_period(
+      params[:group_by] || DEFAULT_GROUP_BY,
+      :created_at,
+      default_value: 0,
+      range: range,
+      permit: %w[day week month year],
+      time_zone: @timezone
+    )
+  end
+
   def conversations_count
-    scope.conversations
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year],
-                                       time_zone: @timezone)
-         .count
+    (get_grouped_values scope.conversations).count
   end
 
   def incoming_messages_count
-    scope.messages.incoming.unscope(:order)
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year],
-                                       time_zone: @timezone)
-         .count
+    (get_grouped_values scope.messages.incoming.unscope(:order)).count
   end
 
   def outgoing_messages_count
-    scope.messages.outgoing.unscope(:order)
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year],
-                                       time_zone: @timezone)
-         .count
+    (get_grouped_values scope.messages.outgoing.unscope(:order)).count
   end
 
   def resolutions_count
-    scope.conversations
-         .resolved
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year],
-                                       time_zone: @timezone)
-         .count
+    (get_grouped_values scope.conversations.resolved).count
   end
 
   def avg_first_response_time
-    scope.events
-         .where(name: 'first_response', created_at: range)
-         .average(:value)
+    (get_grouped_values scope.events.where(name: 'first_response')).average(:value)
   end
 
   def avg_resolution_time
-    scope.events.where(name: 'conversation_resolved', created_at: range)
-         .average(:value)
+    (get_grouped_values scope.events.where(name: 'conversation_resolved')).average(:value)
   end
 
   def avg_resolution_time_summary
-    return 0 if avg_resolution_time.blank?
+    avg_rt = scope.events
+                  .where(name: 'conversation_resolved', created_at: range)
+                  .average(:value)
 
-    avg_resolution_time
+    return 0 if avg_rt.blank?
+
+    avg_rt
   end
 
   def avg_first_response_time_summary
-    return 0 if avg_first_response_time.blank?
 
-    avg_first_response_time
+    avg_frt = scope.events
+                   .where(name: 'first_response', created_at: range)
+                   .average(:value)
+
+    return 0 if avg_frt.blank?
+
+    avg_frt
   end
 end

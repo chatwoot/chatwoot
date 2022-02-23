@@ -8,7 +8,7 @@ class WidgetTestsController < ActionController::Base
   private
 
   def inbox_id
-    @inbox_id ||= params[:inbox_id] || Channel::WebWidget.first.inbox_id
+    @inbox_id ||= params[:inbox_id] || Channel::WebWidget.first.inbox.id
   end
 
   def set_web_widget
