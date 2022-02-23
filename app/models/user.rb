@@ -47,6 +47,8 @@ class User < ApplicationRecord
   include Reportable
   include SsoAuthenticatable
 
+  before_save -> { skip_confirmation! }
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,
