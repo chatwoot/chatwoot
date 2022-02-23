@@ -101,6 +101,7 @@
                 getActionDropdownValues(automation.actions[i].action_name)
               "
               :v="$v.automation.actions.$each[i]"
+              @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -429,6 +430,9 @@ export default {
         condition => condition.key === currentCondition.attribute_key
       ).filterOperators[0].value;
       this.automation.conditions[index].values = '';
+    },
+    resetAction(index) {
+      this.automation.actions[index].action_params = [];
     },
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')

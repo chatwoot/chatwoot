@@ -8,7 +8,7 @@
         v-model="action_name"
         class="action__question"
         :class="{ 'full-width': !inputType }"
-        @change="resetFilter()"
+        @change="resetAction()"
       >
         <option
           v-for="attribute in actionTypes"
@@ -120,8 +120,8 @@ export default {
     removeAction() {
       this.$emit('removeAction');
     },
-    resetFilter() {
-      this.$emit('resetFilter');
+    resetAction() {
+      this.$emit('resetAction');
     },
   },
 };
