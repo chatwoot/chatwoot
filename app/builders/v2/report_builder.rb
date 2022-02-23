@@ -113,7 +113,6 @@ class V2::ReportBuilder
   end
 
   def avg_first_response_time_summary
-
     avg_frt = scope.events
                    .where(name: 'first_response', created_at: range)
                    .average(:value)
