@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Přiřadit mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
       "PRIVATE_MSG_INPUT": "Shift + zadejte pro nový řádek. Toto bude viditelné pouze pro agenty"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Odeslal:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
       "REMOVE": "Odebrat",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvěte své členy týmu",
-      "DESCRIPTION": "Vzhledem k tomu, že se připravujete na rozhovory se zákazníkem, vdechněte své týmové spolupracovníky, kteří vám pomohou. Můžete pozvat své přátele přidáním jejich e-mailové adresy do seznamu agentů.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Klikněte zde pro pozvání člena týmu"
     },
     "INBOXES": {
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Komu",
     "BCC": "Bcc",
     "CC": "Cc",

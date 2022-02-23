@@ -5,11 +5,6 @@ RSpec.describe 'Accounts API', type: :request do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
 
-    before do
-      # to clear redis cache
-      GlobalConfig.clear_cache
-    end
-
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:account) { create(:account) }
@@ -20,56 +15,81 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'calls account builder' do
-        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'nil')
-        allow(account_builder).to receive(:perform).and_return([user, account])
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
+          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
-        expect(account_builder).to have_received(:perform)
-        expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
+          expect(account_builder).to have_received(:perform)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+
+      it 'calls ChatwootCaptcha' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          captcha = double
+          allow(account_builder).to receive(:perform).and_return([user, account])
+          allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
+          allow(captcha).to receive(:valid?).and_return(true)
+
+          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!',
+                     h_captcha_client_response: '123' }
+
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(ChatwootCaptcha).to have_received(:new).with('123')
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
       end
 
       it 'renders error response on invalid params' do
-        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'nil')
-        allow(account_builder).to receive(:perform).and_return(nil)
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
+          params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
 
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
-        expect(account_builder).to have_received(:perform)
-        expect(response).to have_http_status(:forbidden)
-        expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
+          expect(account_builder).to have_received(:perform)
+          expect(response).to have_http_status(:forbidden)
+          expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+        end
       end
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
-        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
-        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
-        expect(response).to have_http_status(:not_found)
+        params = { account_name: 'test', email: email, user_full_name: user_full_name }
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+        end
       end
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
-        GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'api_only')
-        post api_v1_accounts_url,
-             params: params,
-             as: :json
-        expect(response).to have_http_status(:success)
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+        end
       end
     end
   end
@@ -156,6 +176,19 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
+      end
+
+      it 'Throws error 422' do
+        params[:name] = 'test' * 999
+
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
     end
   end

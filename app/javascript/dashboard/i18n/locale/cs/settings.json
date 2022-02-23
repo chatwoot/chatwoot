@@ -19,6 +19,18 @@
         "TITLE": "Profil",
         "NOTE": "Vaše e-mailová adresa je Vaše identita a používá se k přihlášení."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Heslo",
         "NOTE": "Aktualizace hesla by obnovila vaše přihlašovací údaje na více zařízeních.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Heslo",
+        "LABEL": "New password",
         "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
         "PLACEHOLDER": "Zadejte prosím nové heslo"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Potvrdit nové heslo",
         "ERROR": "Potvrzení hesla by mělo odpovídat heslu",
-        "PLACEHOLDER": "Zadejte prosím znovu své heslo"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Vlastní atributy",
     "AUTOMATION": "Automation",
     "TEAMS": "Týmy",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

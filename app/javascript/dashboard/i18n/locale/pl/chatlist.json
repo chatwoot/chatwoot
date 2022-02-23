@@ -41,16 +41,16 @@
     ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Otwórz"
+        "TEXT": "Otwarte"
       },
       "resolved": {
-        "TEXT": "Rozwiązano"
+        "TEXT": "Rozwiązane"
       },
       "pending": {
         "TEXT": "Oczekujące"
       },
       "snoozed": {
-        "TEXT": "Odłożone"
+        "TEXT": "Uśpione"
       }
     },
     "ATTACHMENTS": {

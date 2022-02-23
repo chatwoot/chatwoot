@@ -23,8 +23,9 @@ import {
   removeUnreadClass,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-
-const EVENT_NAME = 'chatwoot:ready';
+import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import { SET_USER_ERROR } from '../widget/constants/errorTypes';
+import { getUserCookieName } from './cookieHelpers';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -129,7 +130,14 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      dispatchWindowEvent(EVENT_NAME);
+      dispatchWindowEvent({ eventName: CHATWOOT_READY });
+    },
+    error: ({ errorType, data }) => {
+      dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
+
+      if (errorType === SET_USER_ERROR) {
+        Cookies.remove(getUserCookieName());
+      }
     },
 
     setBubbleLabel(message) {
@@ -150,11 +158,14 @@ export const IFrameHelper = {
       onBubbleClick(bubbleState);
     },
 
+    closeWindow: () => {
+      onBubbleClick({ toggleValue: false });
+      removeUnreadClass();
+    },
+
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
-      if (!isOpen) {
-        IFrameHelper.events.resetUnreadMode();
-      } else {
+      if (isOpen) {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
@@ -164,40 +175,18 @@ export const IFrameHelper = {
         referrerHost,
       });
     },
-
-    setUnreadMode: message => {
-      const { unreadMessageCount } = message;
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-
-      if (!isOpen && unreadMessageCount > 0) {
-        IFrameHelper.sendMessage('set-unread-view');
-        onBubbleClick({ toggleValue });
-        addUnreadClass();
-      }
-    },
-
-    setCampaignMode: () => {
-      const { isOpen } = window.$chatwoot;
-      const toggleValue = true;
-      if (!isOpen) {
-        onBubbleClick({ toggleValue });
-        addUnreadClass();
-      }
-    },
-
     updateIframeHeight: message => {
       const { extraHeight = 0, isFixedHeight } = message;
-      if (!extraHeight) return;
 
       IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
 
-    resetUnreadMode: () => {
-      IFrameHelper.sendMessage('unset-unread-view');
-      removeUnreadClass();
+    setUnreadMode: () => {
+      addUnreadClass();
+      onBubbleClick({ toggleValue: true });
     },
 
+    resetUnreadMode: () => removeUnreadClass(),
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
@@ -253,14 +242,10 @@ export const IFrameHelper = {
     }
   },
   toggleCloseButton: () => {
+    let isMobile = false;
     if (window.matchMedia('(max-width: 668px)').matches) {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: true,
-      });
-    } else {
-      IFrameHelper.sendMessage('toggle-close-button', {
-        showClose: false,
-      });
+      isMobile = true;
     }
+    IFrameHelper.sendMessage('toggle-close-button', { isMobile });
   },
 };

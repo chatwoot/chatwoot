@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send message again",
+      "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,6 +22,7 @@
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
   },
   "START_CONVERSATION": "Розпочати розмову",
+  "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",

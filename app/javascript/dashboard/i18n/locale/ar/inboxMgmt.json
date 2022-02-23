@@ -49,7 +49,7 @@
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
         "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "إنشاء محادثات من التغريدات المشار إليها"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "قناة SMS عبر Twilio",
-        "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة بإستخدام Twilio."
+        "TITLE": "قناة SMS",
+        "DESC": "ابدأ في دعم عملائك عبر الرسائل القصيرة.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "تويليو",
+          "BANDWIDTH": "سعة الإنترنت"
+        },
+        "API": {
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة الرسائل القصيرة"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "معرف الحساب",
+            "PLACEHOLDER": "الرجاء إدخال معرف حساب النطاق الترددي الخاص بك",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "API_KEY": {
+            "LABEL": "مفتاح API",
+            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "API_SECRET": {
+            "LABEL": "سرية API",
+            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "معرف التطبيق",
+            "PLACEHOLDER": "الرجاء إدخال معرف تطبيق النطاق الترددي الخاص بك",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "INBOX_NAME": {
+            "LABEL": "اسم صندوق الوارد لقناة التواصل",
+            "PLACEHOLDER": "الرجاء إدخال اسم القناة",
+            "ERROR": "هذا الحقل مطلوب"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "رقم الهاتف",
+            "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
+            "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
+          },
+          "SUBMIT_BUTTON": "إنشاء قناة عرض التردد",
+          "API": {
+            "ERROR_MESSAGE": "تعذر تكوين المصادقة بواسطة بيانات الاعتماد الخاصة بحسابك على Twilio، يرجى المحاولة مرة أخرى"
+          },
+          "API_CALLBACK": {
+            "TITLE": "عنوان Callback URL",
+            "SUBTITLE": "يتوجب تهيئة عنوان callback URL في إعدادات Twilio بإدخال القيمة أدناه."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "قناة واتساب",
@@ -305,6 +353,14 @@
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
+      },
       "ENABLE_HMAC": {
         "LABEL": "تمكين"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
       "ENABLE_CSAT": "تمكين تقييم خدمة العملاء",
       "ENABLE_CSAT_SUB_TEXT": "تمكين/تعطيل تقييم خدمة العملاء بعد إنتهاء المحادثة",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "تمكين استمرارية المحادثة عبر البريد الإلكتروني",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "المحادثات ستستمر عبر البريد الإلكتروني إذا كان عنوان البريد الإلكتروني لجهة الاتصال متاحاً.",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "معرف صندوق الوارد",
       "INBOX_IDENTIFIER_SUB_TEXT": "استخدم رمز 'inbox_identifier' المعروض هنا للمصادقة على عملاء API الخاص بك.",
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
-      "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
+      "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "الدومين",
         "PLACE_HOLDER": "الدومين"
-      }
+      },
+      "ENCRYPTION": "التشفير",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL"
     }
   }
 }

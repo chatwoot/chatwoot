@@ -46,6 +46,8 @@ class AutomationRules::ActionService
       TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])
     when 'conversation_updated'
       TeamNotifications::AutomationNotificationMailer.conversation_updated(@conversation, team, params[:message])
+    when 'message_created'
+      TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])
     end
   end
 

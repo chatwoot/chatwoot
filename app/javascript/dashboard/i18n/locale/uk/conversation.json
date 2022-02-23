@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Завантаження бесід",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Призначити мені",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
+    "BOT": "Бот",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Виберіть агента",
       "REMOVE": "Видалити",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Запросити членів команди",
-      "DESCRIPTION": "Оскільки Ви готуєтеся поговорити зі своїм клієнтом, запросіть ваших партнерів по команді, щоб допомогти вам. Ви можете запросити ваших товаришів по команді, додавши їх адреси електронної пошти до списку співробітників.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Натисніть тут, щоб запросити учасника"
     },
     "INBOXES": {
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

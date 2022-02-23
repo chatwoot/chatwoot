@@ -107,6 +107,8 @@ class Inbox < ApplicationRecord
     case channel_type
     when 'Channel::TwilioSms'
       "#{ENV['FRONTEND_URL']}/twilio/callback"
+    when 'Channel::Sms'
+      "#{ENV['FRONTEND_URL']}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
       "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
     end

@@ -159,6 +159,12 @@ export default {
   border-right: 1px solid var(--color-border);
 }
 
+.list-group {
+  .list-group-item {
+    background-color: var(--white);
+  }
+}
+
 .close-button {
   position: absolute;
   right: var(--space-normal);

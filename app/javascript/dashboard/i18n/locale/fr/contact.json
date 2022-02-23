@@ -169,6 +169,7 @@
       "SUBMIT": "Envoyer un message",
       "CANCEL": "Annuler",
       "SUCCESS_MESSAGE": "Message envoyé !",
+      "GO_TO_CONVERSATION": "Voir",
       "ERROR_MESSAGE": "Impossible d'envoyer ! Veuillez réessayer"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Rechercher",
     "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
     "FILTER_CONTACTS": "Filtrer",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",

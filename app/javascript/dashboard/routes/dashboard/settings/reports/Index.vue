@@ -9,7 +9,12 @@
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
 
-    <report-date-range-selector @date-range-change="onDateRangeChange" />
+    <report-filter-selector
+      :selected-group-by-filter="selectedGroupByFilter"
+      :filter-items-list="filterItemsList"
+      @date-range-change="onDateRangeChange"
+      @filter-change="onFilterChange"
+    />
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
@@ -41,7 +46,8 @@
 import { mapGetters } from 'vuex';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import ReportDateRangeSelector from './components/DateRangeSelector';
+import ReportFilterSelector from './components/FilterSelector';
+import { GROUP_BY_FILTER } from './constants';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -54,10 +60,17 @@ const REPORTS_KEYS = {
 
 export default {
   components: {
-    ReportDateRangeSelector,
+    ReportFilterSelector,
   },
   data() {
-    return { from: 0, to: 0, currentSelection: 0 };
+    return {
+      from: 0,
+      to: 0,
+      currentSelection: 0,
+      groupBy: GROUP_BY_FILTER[1],
+      filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
+      selectedGroupByFilter: {},
+    };
   },
   computed: {
     ...mapGetters({
@@ -69,9 +82,28 @@ export default {
         return {};
       }
       if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element =>
-        format(fromUnixTime(element.timestamp), 'dd/MMM')
-      );
+      const labels = this.accountReport.data.map(element => {
+        if (this.groupBy.period === GROUP_BY_FILTER[2].period) {
+          let week_date = new Date(fromUnixTime(element.timestamp));
+          const first_day = week_date.getDate() - week_date.getDay();
+          const last_day = first_day + 6;
+
+          const week_first_date = new Date(week_date.setDate(first_day));
+          const week_last_date = new Date(week_date.setDate(last_day));
+
+          return `${format(week_first_date, 'dd/MM/yy')} - ${format(
+            week_last_date,
+            'dd/MM/yy'
+          )}`;
+        }
+        if (this.groupBy.period === GROUP_BY_FILTER[3].period) {
+          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+        }
+        if (this.groupBy.period === GROUP_BY_FILTER[4].period) {
+          return format(fromUnixTime(element.timestamp), 'yyyy');
+        }
+        return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
+      });
       const data = this.accountReport.data.map(element => element.value);
       return {
         labels,
@@ -102,16 +134,21 @@ export default {
   },
   methods: {
     fetchAllData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', { from, to });
+      const { from, to, groupBy } = this;
+      this.$store.dispatch('fetchAccountSummary', {
+        from,
+        to,
+        groupBy: groupBy.period,
+      });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to } = this;
+      const { from, to, groupBy } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
+        groupBy: groupBy.period,
       });
     },
     downloadAgentReports() {
@@ -126,10 +163,36 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to }) {
+    onDateRangeChange({ from, to, groupBy }) {
       this.from = from;
       this.to = to;
+      this.filterItemsList = this.fetchFilterItems(groupBy);
+      const filterItems = this.filterItemsList.filter(
+        item => item.id === this.groupBy.id
+      );
+      if (filterItems.length > 0) {
+        this.selectedGroupByFilter = filterItems[0];
+      } else {
+        this.selectedGroupByFilter = this.filterItemsList[0];
+        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
+      }
       this.fetchAllData();
+    },
+    onFilterChange(payload) {
+      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.fetchAllData();
+    },
+    fetchFilterItems(group_by) {
+      switch (group_by) {
+        case GROUP_BY_FILTER[2].period:
+          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
+        case GROUP_BY_FILTER[3].period:
+          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
+        case GROUP_BY_FILTER[4].period:
+          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+        default:
+          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
+      }
     },
   },
 };

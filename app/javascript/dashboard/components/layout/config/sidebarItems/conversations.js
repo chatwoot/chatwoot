@@ -14,6 +14,8 @@ const conversations = accountId => ({
     'conversations_through_team',
     'conversation_mentions',
     'conversation_through_mentions',
+    'folder_conversations',
+    'conversations_through_folders',
   ],
   menuItems: [
     {

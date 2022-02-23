@@ -19,7 +19,9 @@
       "contains": "Contiene",
       "does_not_contain": "No contiene",
       "is_present": "Está presente",
-      "is_not_present": "No está presente"
+      "is_not_present": "No está presente",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than"
     },
     "ATTRIBUTES": {
       "STATUS": "Estado",
@@ -31,7 +33,54 @@
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma del navegador",
       "COUNTRY_NAME": "Nombre del país",
-      "REFERER_LINK": "Enlace de referencia"
+      "REFERER_LINK": "Enlace de referencia",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "El nombre es requerido",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "Cancelar",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Carpeta creada con éxito",
+          "ERROR_MESSAGE": "Error al crear la carpeta"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento creado con éxito",
+          "ERROR_MESSAGE": "Error al crear segmento"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirmar eliminación",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "Sí, eliminar",
+            "NO": "No, mantenerlo"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito",
+          "ERROR_MESSAGE": "Error al eliminar carpeta"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento eliminado con éxito",
+          "ERROR_MESSAGE": "Error al eliminar segmento"
+        }
+      }
     }
   }
 }

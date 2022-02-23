@@ -46,7 +46,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       type: params[:type].to_sym,
       since: params[:since],
       until: params[:until],
-      id: params[:id]
+      id: params[:id],
+      group_by: params[:group_by]
     }
   end
 
@@ -56,7 +57,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       type: params[:type].to_sym,
       since: params[:since],
       until: params[:until],
-      id: params[:id]
+      id: params[:id],
+      group_by: params[:group_by]
     }
   end
 

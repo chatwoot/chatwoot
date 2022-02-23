@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
     "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
     "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഒരു ക്യാൻഡ് പ്രതികരണം തിരഞ്ഞു എടുക്കാൻ വേണ്ടി '/ ' വച്ച് ടൈപ്പ് ചെയ്തു തുടങ്ങുക.",
       "PRIVATE_MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഇത് ഏജന്റുമാർക്ക് മാത്രമേ ദൃശ്യമാകൂ"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "അയച്ചത്:",
+    "BOT": "ബോട്ട്",
+    "SEND_FAILED": "സന്ദേശം അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക",
+    "TRY_AGAIN": "വീണ്ടും ശ്രമിക്കുക",
     "ASSIGNMENT": {
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
       "REMOVE": "നീക്കം ചെയ്യുക",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -164,7 +172,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "ചേർക്കുക",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",
