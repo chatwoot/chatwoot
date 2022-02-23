@@ -1,14 +1,17 @@
 <template>
   <div class="modal-mask">
-    <div v-on-clickaway="closeNotificationCentre" class="notification-wrap">
-      <div class="header-wrap">
-        <div class="header-title--wrap">
+    <div
+      v-on-clickaway="closeNotificationCentre"
+      class="notification-wrap flex-space-between"
+    >
+      <div class="header-wrap w-full flex-space-between">
+        <div class="header-title--wrap flex-view">
           <span class="header-title">Notifications</span>
-          <span v-if="totalNotifications" class="total-count">
+          <span v-if="totalNotifications" class="total-count block-title">
             {{ totalNotifications }}
           </span>
         </div>
-        <div class="header-action--button">
+        <div class="flex-view">
           <woot-button
             color-scheme="primary"
             variant="smooth"
@@ -33,8 +36,8 @@
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"
       />
-      <div v-if="records.length !== 0" class="footer-wrap">
-        <div class="page-button--wrap">
+      <div v-if="records.length !== 0" class="footer-wrap flex-space-between">
+        <div class="flex-view">
           <woot-button
             size="medium"
             variant="clear"
@@ -60,10 +63,8 @@
           >
           </woot-button>
         </div>
-        <span class="page-count">
-          {{ currentPage }}
-        </span>
-        <div class="page-button--wrap">
+        <span class="page-count"> {{ currentPage }} - {{ lastPage }} </span>
+        <div class="flex-view">
           <woot-button
             color-scheme="secondary"
             variant="clear"
@@ -124,14 +125,15 @@ export default {
     currentPage() {
       return Number(this.meta.currentPage);
     },
+    lastPage() {
+      return Math.ceil(this.totalNotifications / this.pageSize) - 1;
+    },
     inFirstPage() {
       const page = Number(this.meta.currentPage);
       return page === 1;
     },
     inLastPage() {
-      return (
-        this.currentPage === Math.ceil(this.totalNotifications / this.pageSize)
-      );
+      return this.currentPage === this.lastPage;
     },
   },
   mounted() {
@@ -192,7 +194,7 @@ export default {
     },
     onClickLastPage() {
       if (!this.inLastPage) {
-        const page = Math.ceil(this.totalNotifications / this.pageSize);
+        const page = this.lastPage;
         this.onPageChange(page);
       }
     },
@@ -207,40 +209,30 @@ export default {
 </script>
 <style lang="scss" scoped>
 .notification-wrap {
-  display: flex;
-  justify-content: space-between;
   flex-direction: column;
   height: 90vh;
   width: 52rem;
   background-color: var(--white);
   border-radius: var(--border-radius-medium);
   position: absolute;
-  left: var(--space-jumbo);
   top: 4%;
+  left: var(--space-jumbo);
   margin: var(--space-small);
 }
 .header-wrap {
-  display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
   border-bottom: 1px solid var(--s-50);
   padding: var(--space-two) var(--space-medium) var(--space-slab)
     var(--space-medium);
 
   .header-title--wrap {
-    display: flex;
     align-items: center;
   }
 
   .header-title {
     font-size: var(--font-size-two);
     font-weight: var(--font-weight-black);
-  }
-
-  .header-action--button {
-    display: flex;
   }
 
   .total-count {
@@ -264,18 +256,11 @@ export default {
 }
 
 .footer-wrap {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: var(--space-smaller) var(--space-two);
 }
 
-.page-button--wrap {
-  display: flex;
-  align-items: baseline;
-
-  .page-change--button:hover {
-    background: var(--s-50);
-  }
+.page-change--button:hover {
+  background: var(--s-50);
 }
 </style>
