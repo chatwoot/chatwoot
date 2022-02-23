@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
     <div
-      v-on-clickaway="closeNotificationCentre"
+      v-on-clickaway="closeNotificationPanel"
       class="notification-wrap flex-space-between"
     >
       <div class="header-wrap w-full flex-space-between">
@@ -30,11 +30,11 @@
             variant="link"
             size="tiny"
             icon="dismiss"
-            @click="closeNotificationCentre"
+            @click="closeNotificationPanel"
           />
         </div>
       </div>
-      <notification-centre-list-items
+      <notification-panel-list
         :notifications="getUnreadNotifications"
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"
@@ -104,11 +104,11 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
-import NotificationCentreListItems from './NotificationCentreListItems';
+import NotificationPanelList from './NotificationPanelList';
 
 export default {
   components: {
-    NotificationCentreListItems,
+    NotificationPanelList,
   },
   mixins: [clickaway],
   data() {
@@ -201,7 +201,7 @@ export default {
     onMarkAllDoneClick() {
       this.$store.dispatch('notifications/readAll');
     },
-    closeNotificationCentre() {
+    closeNotificationPanel() {
       this.$emit('close');
     },
   },
@@ -215,7 +215,6 @@ export default {
   background-color: var(--white);
   border-radius: var(--border-radius-medium);
   position: absolute;
-  top: 4%;
   left: var(--space-jumbo);
   margin: var(--space-small);
 }

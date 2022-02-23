@@ -2,29 +2,29 @@
   <div class="notifications-link">
     <button
       class="notifications-link--button button clear"
-      :class="{ 'is-active': isNotificationCentreActive }"
-      @click="openNotificationCentre"
+      :class="{ 'is-active': isNotificationPanelActive }"
+      @click="openNotificationPanel"
     >
       <fluent-icon icon="alert" />
       <span v-if="unreadCount" class="badge warning">{{ unreadCount }}</span>
     </button>
-    <notification-centre
-      v-if="isNotificationCentre"
-      @close="closeNotificationCentre"
+    <notification-panel
+      v-if="isNotificationPanel"
+      @close="closeNotificationPanel"
     />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import NotificationCentre from 'dashboard/routes/dashboard/notifications/components/NotificationCentre.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 
 export default {
   components: {
-    NotificationCentre,
+    NotificationPanel,
   },
   data() {
     return {
-      isNotificationCentre: false,
+      isNotificationPanel: false,
     };
   },
   computed: {
@@ -41,21 +41,21 @@ export default {
         ? `${this.notificationMetadata.unreadCount}`
         : '99+';
     },
-    isNotificationCentreActive() {
+    isNotificationPanelActive() {
       return (
-        this.isNotificationCentre === true ||
+        this.isNotificationPanel === true ||
         this.$route.name === 'notifications_index'
       );
     },
   },
   methods: {
-    openNotificationCentre() {
+    openNotificationPanel() {
       if (this.$route.name !== 'notifications_index') {
-        this.isNotificationCentre = true;
+        this.isNotificationPanel = true;
       }
     },
-    closeNotificationCentre() {
-      this.isNotificationCentre = false;
+    closeNotificationPanel() {
+      this.isNotificationPanel = false;
     },
   },
 };
