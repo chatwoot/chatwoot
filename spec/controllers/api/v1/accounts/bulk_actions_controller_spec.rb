@@ -7,8 +7,6 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
   let(:agent_2) { create(:user, account: account, role: :agent) }
 
   before do
-    Rails.application.config.active_job.queue_adapter = :inline
-
     create(:conversation, account_id: account.id, status: :open)
     create(:conversation, account_id: account.id, status: :open)
     create(:conversation, account_id: account.id, status: :open)

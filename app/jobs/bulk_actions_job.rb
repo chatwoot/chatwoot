@@ -10,6 +10,9 @@ class BulkActionsJob < ApplicationJob
     @params = params
     @records = records_to_updated(params[:ids])
     bulk_update
+  rescue StandardError => e
+    Current.reset
+    Sentry.capture_exception(e)
   end
 
   def bulk_update
@@ -57,6 +60,6 @@ class BulkActionsJob < ApplicationJob
   end
 
   def unset_current_user
-    Current.user = nil
+    Current.reset
   end
 end
