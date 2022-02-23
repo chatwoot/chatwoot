@@ -138,7 +138,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?('EDITABLE_ATTRS')
+    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
       channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
