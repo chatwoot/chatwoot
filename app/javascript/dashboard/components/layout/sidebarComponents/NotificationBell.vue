@@ -1,19 +1,32 @@
 <template>
   <div class="notifications-link">
-    <primary-nav-item
-      name="NOTIFICATIONS"
-      icon="alert"
-      :to="`/app/accounts/${accountId}/notifications`"
-      :count="unreadCount"
+    <button
+      class="notifications-link--button button clear"
+      :class="{ 'is-active': isNotificationCentre }"
+      @click="openNotificationCentre"
+    >
+      <fluent-icon icon="alert" />
+      <span v-if="unreadCount" class="badge warning">{{ unreadCount }}</span>
+    </button>
+    <notification-centre
+      v-if="isNotificationCentre"
+      @close="closeNotificationCentre"
     />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import PrimaryNavItem from './PrimaryNavItem';
+import NotificationCentre from 'dashboard/routes/dashboard/notifications/components/NotificationCentre.vue';
 
 export default {
-  components: { PrimaryNavItem },
+  components: {
+    NotificationCentre,
+  },
+  data() {
+    return {
+      isNotificationCentre: false,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -29,12 +42,48 @@ export default {
         : '99+';
     },
   },
-  methods: {},
+
+  methods: {
+    openNotificationCentre() {
+      this.isNotificationCentre = true;
+    },
+    closeNotificationCentre() {
+      this.isNotificationCentre = false;
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .notifications-link {
   margin-bottom: var(--space-small);
+}
+
+.badge {
+  position: absolute;
+  right: var(--space-minus-smaller);
+  top: var(--space-minus-smaller);
+}
+.notifications-link--button {
+  display: flex;
+  position: relative;
+  border-radius: var(--border-radius-large);
+  border: 1px solid transparent;
+  color: var(--s-600);
+  margin: var(--space-small) 0;
+
+  &:hover {
+    background: var(--w-50);
+    color: var(--s-600);
+  }
+
+  &:focus {
+    border-color: var(--w-500);
+  }
+
+  &.is-active {
+    background: var(--w-50);
+    color: var(--w-500);
+  }
 }
 </style>
