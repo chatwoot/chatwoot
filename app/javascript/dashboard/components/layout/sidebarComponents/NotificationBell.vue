@@ -2,7 +2,7 @@
   <div class="notifications-link">
     <button
       class="notifications-link--button button clear"
-      :class="{ 'is-active': isNotificationCentre }"
+      :class="{ 'is-active': isNotificationCentreActive }"
       @click="openNotificationCentre"
     >
       <fluent-icon icon="alert" />
@@ -41,11 +41,18 @@ export default {
         ? `${this.notificationMetadata.unreadCount}`
         : '99+';
     },
+    isNotificationCentreActive() {
+      return (
+        this.isNotificationCentre === true ||
+        this.$route.name === 'notifications_index'
+      );
+    },
   },
-
   methods: {
     openNotificationCentre() {
-      this.isNotificationCentre = true;
+      if (this.$route.name !== 'notifications_index') {
+        this.isNotificationCentre = true;
+      }
     },
     closeNotificationCentre() {
       this.isNotificationCentre = false;

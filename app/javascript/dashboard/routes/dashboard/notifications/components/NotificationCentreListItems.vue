@@ -53,11 +53,23 @@
     </div>
     <empty-state
       v-if="showEmptyResult"
-      :title="$t('NOTIFICATIONS_PAGE.LIST.404')"
+      :title="$t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.EMPTY_MESSAGE')"
     />
+    <woot-button
+      v-if="!isLoading && inLastPage"
+      size="medium"
+      variant="clear"
+      color-scheme="primary"
+      class-names="action-button"
+      @click="openNotificationPage"
+    >
+      {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.ALL_NOTIFICATIONS') }}
+    </woot-button>
     <div v-if="isLoading" class="notifications-loader flex-view">
       <spinner />
-      <span>{{ $t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE') }}</span>
+      <span>{{
+        $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.LOADING_UNREAD_MESSAGE')
+      }}</span>
     </div>
   </div>
 </template>
@@ -90,6 +102,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    inLastPage: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -97,6 +113,15 @@ export default {
     }),
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
+    },
+  },
+  methods: {
+    openNotificationPage() {
+      if (this.$route.name !== 'notifications_index') {
+        this.$router.push({
+          name: 'notifications_index',
+        });
+      }
     },
   },
 };
@@ -172,10 +197,14 @@ export default {
   background: var(--color-woot);
 }
 
+.action-button {
+  margin-top: var(--space-slab);
+}
+
 .notifications-loader {
   align-items: center;
   justify-content: center;
-  margin: var(--space-small);
+  margin: var(--space-larger) var(--space-small);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
 }

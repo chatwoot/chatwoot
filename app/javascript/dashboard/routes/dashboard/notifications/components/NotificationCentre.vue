@@ -6,13 +6,16 @@
     >
       <div class="header-wrap w-full flex-space-between">
         <div class="header-title--wrap flex-view">
-          <span class="header-title">Notifications</span>
-          <span v-if="totalNotifications" class="total-count block-title">
-            {{ totalNotifications }}
+          <span class="header-title">
+            {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.TITLE') }}
+          </span>
+          <span v-if="totalUnreadNotifications" class="total-count block-title">
+            {{ totalUnreadNotifications }}
           </span>
         </div>
         <div class="flex-view">
           <woot-button
+            v-if="!noUnreadNotificationAvailable"
             color-scheme="primary"
             variant="smooth"
             size="tiny"
@@ -20,7 +23,7 @@
             :is-loading="uiFlags.isUpdating"
             @click="onMarkAllDoneClick"
           >
-            Mark All Done
+            {{ $t('NOTIFICATIONS_PAGE.MARK_ALL_DONE') }}
           </woot-button>
           <woot-button
             color-scheme="secondary"
@@ -32,9 +35,10 @@
         </div>
       </div>
       <notification-centre-list-items
-        :notifications="records"
+        :notifications="getUnreadNotifications"
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"
+        :in-last-page="inLastPage"
       />
       <div v-if="records.length !== 0" class="footer-wrap flex-space-between">
         <div class="flex-view">
@@ -119,14 +123,23 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
-    totalNotifications() {
-      return this.meta.count;
+    totalUnreadNotifications() {
+      return this.meta.unreadCount;
+    },
+    noUnreadNotificationAvailable() {
+      return this.meta.unreadCount === 0;
+    },
+    getUnreadNotifications() {
+      return this.records.filter(notification => notification.read_at === null);
     },
     currentPage() {
       return Number(this.meta.currentPage);
     },
     lastPage() {
-      return Math.ceil(this.totalNotifications / this.pageSize) - 1;
+      if (this.totalUnreadNotifications > 15) {
+        return Math.ceil(this.totalUnreadNotifications / this.pageSize);
+      }
+      return 1;
     },
     inFirstPage() {
       const page = Number(this.meta.currentPage);
@@ -155,23 +168,10 @@ export default {
         primaryActorType,
         unreadCount: this.meta.unreadCount,
       });
-      if (Number(this.$route.params.conversation_id) === conversationId) {
-        this.$emit('close');
-        return;
-      }
       this.$router.push({
         name: 'inbox_conversation',
         params: { conversation_id: conversationId },
       });
-      if (
-        this.$route.name === 'home' ||
-        this.$route.name === 'inbox_conversation'
-      ) {
-        this.$router.go();
-      } else {
-        return;
-      }
-
       this.$emit('close');
     },
     onClickNextPage() {

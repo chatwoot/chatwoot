@@ -17,7 +17,7 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="">
+            <div class="flex-view notification-contant--wrap">
               <h5 class="notification--title">
                 {{
                   `#${
@@ -27,7 +27,7 @@
                   }`
                 }}
               </h5>
-              <span class="notification--message-title">
+              <span class="notification--message-title text-truncate">
                 {{ notificationItem.push_message_title }}
               </span>
             </div>
@@ -195,6 +195,11 @@ export default {
 .timestamp--column {
   min-width: 13rem;
   text-align: right;
+}
+
+.notification-contant--wrap {
+  flex-direction: column;
+  max-width: 50rem;
 }
 
 .notification--message-title {

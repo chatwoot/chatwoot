@@ -9,6 +9,7 @@
     >
       <fluent-icon :icon="icon" />
       <span class="show-for-sr">{{ name }}</span>
+      <span v-if="count" class="badge warning">{{ count }}</span>
     </a>
   </router-link>
 </template>
@@ -24,6 +25,10 @@ export default {
       default: '',
     },
     icon: {
+      type: String,
+      default: '',
+    },
+    count: {
       type: String,
       default: '',
     },
@@ -60,7 +65,14 @@ export default {
     color: var(--w-500);
   }
 }
+
 .icon {
   font-size: var(--font-size-default);
+}
+
+.badge {
+  position: absolute;
+  right: var(--space-minus-smaller);
+  top: var(--space-minus-smaller);
 }
 </style>
