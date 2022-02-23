@@ -26,6 +26,8 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Style/OpenStructUse:
+  Enabled: false
 Style/OptionalBooleanParameter:
   Exclude:
     - 'app/services/email_templates/db_resolver_service.rb'
@@ -68,20 +70,28 @@ Rails/ApplicationController:
     - 'app/controllers/platform_controller.rb'
     - 'app/controllers/public_controller.rb'
     - 'app/controllers/survey/responses_controller.rb'
+Rails/CompactBlank:
+  Enabled: false
 Rails/EnvironmentVariableAccess:
   Enabled: false
 Rails/TimeZoneAssignment:
+  Enabled: false
+Rails/RedundantPresenceValidationOnBelongsTo:
   Enabled: false
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:
     - 'config/application.rb'
+Style/MapToHash:
+  Enabled: false
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
 RSpec/MessageSpies:
   Enabled: false
 RSpec/StubbedMock:
+  Enabled: false
+RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
 Naming/VariableNumber:
   Enabled: false
@@ -119,6 +129,7 @@ Rails/ReversibleMigration:
     - 'db/migrate/20191020085608_rename_old_tables.rb'
     - 'db/migrate/20191126185833_update_user_invite_foreign_key.rb'
     - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
+    - 'db/migrate/20210513083044_remove_not_null_from_webhook_url_channel_api.rb'
 Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20161025070152_removechannelsfrommodels.rb'
