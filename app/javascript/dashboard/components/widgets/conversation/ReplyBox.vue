@@ -399,12 +399,19 @@ export default {
   methods: {
     onPaste(e) {
       const data = e.clipboardData.files;
+      if (!this.showRichContentEditor && data.length !== 0) {
+        this.$refs.messageInput.$el.blur();
+      }
       if (!data.length || !data[0]) {
         return;
       }
-      const file = data[0];
-      const { name, type, size } = file;
-      this.onFileUpload({ name, type, size, file });
+      const file = data;
+      let i = 0;
+      const fileCount = file.length;
+      for (i; i < fileCount; i += 1) {
+        const { name, type, size } = file[i];
+        this.onFileUpload({ name, type, size, file: file[i] });
+      }
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;

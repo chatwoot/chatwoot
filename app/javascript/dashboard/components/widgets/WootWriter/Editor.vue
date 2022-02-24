@@ -140,6 +140,11 @@ export default {
         }),
       ];
     },
+    hasImgTag() {
+      return this.$refs.editor
+        .querySelector('.ProseMirror-woot-style > p')
+        .getElementsByTagName('IMG');
+    },
   },
   watch: {
     showUserMentions(updatedValue) {
@@ -149,6 +154,18 @@ export default {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
     value(newValue = '') {
+      if (this.hasImgTag && this.hasImgTag.length !== 0) {
+        const imgElWrap = this.$refs.editor.querySelector(
+          '.ProseMirror-woot-style > p'
+        ).children[0];
+        const el = this.$refs.editor.querySelector(
+          '.ProseMirror-woot-style > p > img'
+        );
+        this.removeFocusEditorInputFileld();
+        this.$nextTick(() => {
+          imgElWrap.remove(el);
+        });
+      }
       if (newValue !== this.lastValue) {
         const { tr } = this.state;
         if (this.isFormatMode) {
@@ -201,6 +218,9 @@ export default {
     },
     focusEditorInputField() {
       this.$refs.editor.querySelector('div.ProseMirror-woot-style').focus();
+    },
+    removeFocusEditorInputFileld() {
+      this.$refs.editor.querySelector('div.ProseMirror-woot-style').blur();
     },
     insertMentionNode(mentionItem) {
       if (!this.view) {
