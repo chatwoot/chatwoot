@@ -71,15 +71,15 @@ describe Integrations::Slack::SendOnSlackService do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
 
-        expect(slack_client).to receive(:files_upload).with(
-          channels: hook.reference_id,
-          initial_comment: 'Attached File!',
-          content: anything,
-          filename: attachment.file.filename,
-          filetype: 'png',
-          thread_ts: conversation.identifier,
-          title: anything
-        ).and_return(file_attachment)
+        expect(slack_client).to receive(:files_upload).with(hash_including(
+                                                              channels: hook.reference_id,
+                                                              thread_ts: conversation.identifier,
+                                                              initial_comment: 'Attached File!',
+                                                              filetype: 'png',
+                                                              content: anything,
+                                                              filename: attachment.file.filename,
+                                                              title: attachment.file.filename
+                                                            )).and_return(file_attachment)
 
         message.save!
 
