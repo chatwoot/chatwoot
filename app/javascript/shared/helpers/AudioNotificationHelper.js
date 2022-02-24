@@ -1,4 +1,6 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { IFrameHelper } from 'widget/helpers/utils';
+
 import axios from 'axios';
 import { showBadgeOnFavicon } from './faviconHelper';
 
@@ -90,11 +92,15 @@ export const newMessageNotification = data => {
     assigneeId
   );
   if (playAudio && isNotificationEnabled) {
-    window.playAudioAlert();
+    IFrameHelper.sendMessage({
+      event: 'playAudio',
+    });
     showBadgeOnFavicon();
   }
 };
 
 export const playNewMessageNotificationInWidget = () => {
-  window.playAudioAlert();
+  IFrameHelper.sendMessage({
+    event: 'playAudio',
+  });
 };
