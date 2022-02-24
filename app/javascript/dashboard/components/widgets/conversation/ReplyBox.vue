@@ -38,6 +38,7 @@
         ref="audioRecorderInput"
         @state-recorder-timer-changed="onStateRecorderTimerChanged"
         @state-recorder-changed="onStateRecorderChanged"
+        @recorder-blob="onRecorderBlob"
       />
       <resizable-text-area
         v-else-if="!showRichContentEditor"
@@ -543,6 +544,7 @@ export default {
       this.attachedFiles = [];
       this.ccEmails = '';
       this.bccEmails = '';
+      this.isRecordingAudio = false;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -550,12 +552,14 @@ export default {
     toggleAudioRecorder() {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
+      if (!this.isRecordingAudio) {
+        this.clearMessage();
+      }
     },
     toggleAudioRecorderPlayPause() {
       if (this.isRecordingAudio && !this.isRecorderAudioStopped) {
         this.isRecorderAudioStopped = true;
         this.$refs.audioRecorderInput.stopAudioRecording();
-        this.onDirectFileUpload(this.$refs.audioRecorderInput.getAudioFile());
       } else if (this.isRecordingAudio && this.isRecorderAudioStopped) {
         this.$refs.audioRecorderInput.playPause();
       }
@@ -587,6 +591,11 @@ export default {
       this.recordingAudioState = state;
       if (state.includes('notallowederror')) {
         this.toggleAudioRecorder();
+      }
+    },
+    onRecorderBlob(blob) {
+      if (blob) {
+        this.onFileUpload({ file: blob });
       }
     },
     toggleTyping(status) {

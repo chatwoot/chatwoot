@@ -24,7 +24,6 @@ export default {
       recordingDateStarted: new Date().getTime(),
       timeDuration: '00:00',
       initialTimeDuration: '00:00',
-      blobAudio: false,
       options: {
         container: '#audio-wave',
         backend: 'WebAudio',
@@ -48,7 +47,7 @@ export default {
         disableLogs: true,
         recorderType: RecordRTC.StereoAudioRecorder,
         sampleRate: 44100,
-        numberOfAudioChannels: 1,
+        numberOfAudioChannels: 2,
         checkForInactiveTracks: true,
         bufferSize: 4096,
       },
@@ -89,26 +88,22 @@ export default {
       if (this.isRecording) {
         this.recorder.stopRecording(() => {
           this.wavesurfer.microphone.stopDevice();
-          this.blobAudio = this.recorder.getBlob();
-          this.wavesurfer.loadBlob(this.blobAudio);
+          this.wavesurfer.loadBlob(this.recorder.getBlob());
           this.wavesurfer.stop();
+          this.fireRecorderBlob(this.getAudioFile());
         });
       }
     },
     getAudioFile() {
       if (this.hasAudio()) {
-        return new File([this.blobAudio], this.getAudioFileName(), {
+        return new File([this.recorder.getBlob()], this.getAudioFileName(), {
           type: 'audio/wav',
         });
       }
       return false;
     },
     hasAudio() {
-      return !(
-        this.isRecording ||
-        this.wavesurfer.isPlaying() ||
-        this.blobAudio
-      );
+      return !(this.isRecording || this.wavesurfer.isPlaying());
     },
     playingRecorder() {
       this.fireStateRecorderChanged('playing');
@@ -180,6 +175,9 @@ export default {
     playPause() {
       this.wavesurfer.playPause();
     },
+    fireRecorderBlob(blob) {
+      this.$emit('recorder-blob', blob);
+    },
     fireStateRecorderChanged(state) {
       this.$emit('state-recorder-changed', state);
     },
@@ -188,7 +186,6 @@ export default {
     },
     getAudioFileName() {
       const d = new Date();
-      // return `audio-${this.channelType()}-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${this.getRandomString()}.wav`;
       return `audio-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${this.getRandomString()}.wav`;
     },
     getRandomString() {

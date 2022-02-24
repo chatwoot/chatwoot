@@ -11,7 +11,6 @@
         size="small"
         @click="toggleEmojiPicker"
       />
-
       <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
@@ -156,6 +155,10 @@ export default {
       default: () => ({}),
     },
     showFileUpload: {
+      type: Boolean,
+      default: false,
+    },
+    showAudioRecorder: {
       type: Boolean,
       default: false,
     },
