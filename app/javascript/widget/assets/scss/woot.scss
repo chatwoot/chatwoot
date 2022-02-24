@@ -67,7 +67,7 @@ body {
     box-shadow: none;
   }
 
-  button, button.button {
+  button {
     border-radius: 0 !important;
   }
 
@@ -75,12 +75,12 @@ body {
     border-radius: 0;
   }
 
-  div.chat-message--input {
-    border-radius: 0;
-    box-shadow: none;
+  .chat-message--input {
+    border-radius: 0 !important;
+    box-shadow: none !important;
 
     &.is-focused {
-      box-shadow: none;
+      box-shadow: none !important;
     }
   }
 }
