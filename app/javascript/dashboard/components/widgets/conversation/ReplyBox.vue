@@ -47,6 +47,7 @@
       />
       <woot-message-editor
         v-else
+        ref="advancedEditor"
         v-model="message"
         class="input"
         :is-private="isOnPrivateNote"
@@ -172,6 +173,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      hasFiles: false,
     };
   },
   computed: {
@@ -372,6 +374,19 @@ export default {
       }
     },
     message(updatedMessage) {
+      if (this.hasFiles === true) {
+        const el = this.$refs.advancedEditor.$el.querySelector(
+          '.ProseMirror-woot-style > p > img'
+        );
+        const imgElWrap = el.parentNode;
+        if (el) {
+          this.removeFocusEditorInputFileld();
+          this.$nextTick(() => {
+            imgElWrap.removeChild(el);
+          });
+        }
+        this.hasFiles = false;
+      }
       this.hasSlashCommand =
         updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
@@ -405,6 +420,9 @@ export default {
       if (!data.length || !data[0]) {
         return;
       }
+      if (data) {
+        this.hasFiles = true;
+      }
       const file = data;
       let i = 0;
       const fileCount = file.length;
@@ -412,6 +430,11 @@ export default {
         const { name, type, size } = file[i];
         this.onFileUpload({ name, type, size, file: file[i] });
       }
+    },
+    removeFocusEditorInputFileld() {
+      this.$refs.advancedEditor.$el
+        .querySelector('div.ProseMirror-woot-style')
+        .blur();
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
