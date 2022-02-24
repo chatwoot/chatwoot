@@ -1,7 +1,7 @@
 {
     "CONTACTS_FILTER": {
         "TITLE": "فیلتر مخاطبین",
-        "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای اعمال فیلتر کردن مخاطبین، برروی «ارسال» ضربه بزنید.",
+        "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای اعمال فیلتر کردن مخاطبین، برروی «ثبت» ضربه بزنید.",
         "ADD_NEW_FILTER": "افزودن فیلتر",
         "CLEAR_ALL_FILTERS": "پاک کردن همه فیلترها",
         "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
@@ -20,7 +20,9 @@
             "contains": "شامل",
             "does_not_contain": "شامل نمی‌شود",
             "is_present": "در حال حاضر وجود دارد",
-            "is_not_present": "در حال حاضر وجود ندارد"
+            "is_not_present": "در حال حاضر وجود ندارد",
+            "is_greater_than": "بزرگتر از",
+            "is_lesser_than": "کوچکتر از"
         },
         "ATTRIBUTES": {
             "NAME": "نام",
@@ -28,7 +30,17 @@
             "PHONE_NUMBER": "شماره تلفن",
             "IDENTIFIER": "شناسه",
             "CITY": "شهر",
-            "COUNTRY": "کشور"
+            "COUNTRY": "کشور",
+            "CUSTOM_ATTRIBUTE_LIST": "فهرست",
+            "CUSTOM_ATTRIBUTE_TEXT": "متن",
+            "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
+            "CUSTOM_ATTRIBUTE_LINK": "پیوند",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "فیلترهای استاندارد",
+            "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+            "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
         }
     }
 }

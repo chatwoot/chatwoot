@@ -5,7 +5,7 @@
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
-      :custom-views-id="customViewsId"
+      :folders-id="foldersId"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -55,7 +55,7 @@ export default {
       type: String,
       default: '',
     },
-    customViewsId: {
+    foldersId: {
       type: [String, Number],
       default: 0,
     },

@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "فعال کردن پیام پاسخگویی",
-          "HELP_TEXT": "به محض اینکه کاربر گفتگویی را شروع کرد، پیام مشخصی در جواب او ارسال می‌شود",
+          "HELP_TEXT": "هنگامی که کاربران گفتگو را شروع می‌کند، یک پیام تبریک ارسال کنید.",
           "ENABLED": "فعال شد",
           "DISABLED": "غیرفعال شد"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "کانال پیامک از طریق Twilio",
-        "DESC": "با ادغام Twilio از طریق SMS از مشتریان خود پشتیبانی کنید."
+        "TITLE": "کانال پیامک",
+        "DESC": "شروع به پشتیبانی از مشتریان از طریق پیامک.",
+        "PROVIDERS": {
+          "LABEL": "ارائه دهنده API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "پهنای‌باند"
+        },
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "شناسه حساب‌کاربری",
+            "PLACEHOLDER": "لطفا شناسه حساب Bandwidth خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_KEY": {
+            "LABEL": "API key",
+            "PLACEHOLDER": "لطفاً کلید Bandwith API خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "لطفا Bandwith API Secret خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "شناسه برنامه",
+            "PLACEHOLDER": "لطفا شناسه برنامه Bandwidth خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "INBOX_NAME": {
+            "LABEL": "عنوان صندوق ورودی",
+            "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "شماره تلفن",
+            "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+            "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+          },
+          "SUBMIT_BUTTON": "ایجاد کانال Bandwidth",
+          "API": {
+            "ERROR_MESSAGE": "ما نتوانستیم اعتبارنامه Bandwidth را احراز هویت کنیم، لطفاً دوباره امتحان کنید"
+          },
+          "API_CALLBACK": {
+            "TITLE": "آدرس URL مربوط به API",
+            "SUBTITLE": "شما باید URL بازگشت به تماس پیام را در Bandwidth با URL ذکر شده در اینجا پیکربندی کنید."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "کانال واتس اپ",
@@ -305,6 +353,14 @@
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
       "ENABLE_HMAC": {
         "LABEL": "فعال"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
       "ENABLE_CSAT": "فعال کردن رضایت مشتری",
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
-      "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید."
+      "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "دامنه",
         "PLACE_HOLDER": "دامنه"
-      }
+      },
+      "ENCRYPTION": "رمزگذاری",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL"
     }
   }
 }

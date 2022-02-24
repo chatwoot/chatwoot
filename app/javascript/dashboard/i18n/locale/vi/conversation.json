@@ -1,39 +1,41 @@
 {
   "CONVERSATION": {
     "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
     "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
     "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong cuộc trò chuyện",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Tìm kiếm tin nhắn",
+      "RESULT_TITLE": "Kết quả tìm kiếm",
+      "LOADING_MESSAGE": "Định dạng dữ liệu...",
+      "PLACEHOLDER": "Nhập để tìm kiếm tin nhắn",
+      "NO_MATCHING_RESULTS": "Không tìm thấy kết quả."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Tin nhắn chưa đọc",
+    "UNREAD_MESSAGE": "Tin nhắn chưa đọc",
     "CLICK_HERE": "Click vào đây",
     "LOADING_INBOXES": "Đang tải hộp thư đến",
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "NOT_ASSIGNED_TO_YOU": "Cuộc trò chuyện này không được phân công cho bạn. Bạn có muốn phân công cuộc trò chuyện này cho chính mình?",
+    "ASSIGN_TO_ME": "Phân công cho tôi",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi cuộc trò chuyện này dùng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Xin chọn một tweet để trả lời.",
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Đang tải đính kèm...",
+    "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
+    "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
+    "NO_RESPONSE": "Không có kết quả trả về",
+    "RATING_TITLE": "Đánh giá",
+    "FEEDBACK_TITLE": "Phản hồi",
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
@@ -41,20 +43,23 @@
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Đánh dấu chưa giải quyết",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Tạm dừng đến khi",
+        "NEXT_REPLY": "Phản hồi kế tiếp",
+        "TOMORROW": "Ngày mai",
+        "NEXT_WEEK": "Tuần sau"
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
       "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý"
     },
@@ -64,36 +69,39 @@
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
+      "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
+      "TIP_ATTACH_ICON": "Đính kèm files",
+      "ENTER_TO_SEND": "Nhấn Enter để gửi",
+      "DRAG_DROP": "Kéo thả vào đây để đính kèm",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Thêm bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Email tách ra bởi dấu phẩy",
+          "ERROR": "Vui lòng điền địa chỉ email hợp lệ"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Email tách ra bởi dấu phẩy",
+          "ERROR": "Vui lòng điền địa chỉ email hợp lệ"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
     "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
     "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Nhóm của cuộc trò chuyện đã thay đổi",
+    "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
+    "SENT_BY": "Gửi bởi:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Không thể gửi tin nhắn! Thử lại",
+    "TRY_AGAIN": "thử lại",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Chọn đại lý",
       "REMOVE": "Xoá",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Phân công"
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
@@ -109,7 +117,7 @@
     "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
       "SEND_TO_CONTACT": "Gửi bảng điểm cho khách hàng",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Gửi bản ghi cho người đại lý được phân công",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Gửi bản ghi tới một địa chỉ email khác",
       "EMAIL": {
         "PLACEHOLDER": "Nhập địa chỉ emai",
@@ -118,70 +126,71 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Xin chào 👋, Chào mừng đến với %{installationName}!",
+    "DESCRIPTION": "Cảm ơn bạn đã đăng ký. Chúng tôi muốn bạn khai thác tối đa %{installationName}. Dưới đây là một số điều bạn có thể làm trong %{installationName} để mang lại trải nghiệm thú vị.",
+    "READ_LATEST_UPDATES": "Đọc cập nhật mới nhất của chúng tôi",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Tất cả cuộc trò chuyện của bạn ở một nơi",
+      "DESCRIPTION": "Xem tất cả các cuộc trò chuyện từ khách hàng của bạn trong một trang tổng quan duy nhất. Bạn có thể lọc các cuộc trò chuyện theo kênh đến, nhãn và trạng thái."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Mời các thành viên trong nhóm của bạn",
+      "DESCRIPTION": "Vì bạn đã sẵn sàng để nói chuyện với khách hàng của mình, hãy mang theo đồng đội để hỗ trợ bạn. Bạn có thể mời đồng đội của mình bằng cách thêm địa chỉ email của họ vào danh sách đại lý.",
+      "NEW_LINK": "Bấm vào đây để mời đồng đội"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Kết nối hộp thư đến",
+      "DESCRIPTION": "Kết nối các kênh khác nhau mà qua đó khách hàng sẽ nói chuyện với bạn. Nó có thể là một trang web trò chuyện trực tiếp, trang Facebook hoặc Twitter của bạn hoặc thậm chí là số WhatsApp của bạn.",
+      "NEW_LINK": "Bấm vào đây để tạo hộp thư đến"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Tổ chức cuộc trò chuyện với nhãn",
+      "DESCRIPTION": "Nhãn cung cấp một cách dễ dàng hơn để phân loại cuộc trò chuyện của bạn. Tạo một số nhãn như #support-inquiry, #billing-question, v. v. để bạn có thể sử dụng chúng trong cuộc trò chuyện sau này.",
+      "NEW_LINK": "Bấm vào đây để tạo nhãn"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Đại lý được phân công",
+    "SELF_ASSIGN": "Phân công cho tôi",
+    "TEAM_LABEL": "Nhóm được phân công",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Không có"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Chi tiết liên hệ",
+      "CONVERSATION_ACTIONS": "Hành động của cuộc trò chuyện",
       "CONVERSATION_LABELS": "Nhãn hội thoại",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Thông tin cuộc trò chuyện",
+      "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Tạo thuộc tính",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Thuộc tính cập nhật thành công",
+      "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Thêm",
+      "SUCCESS": "Thuộc tính được thêm thành công",
+      "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Thuộc tính xoá thành công",
+      "ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Thêm thuộc tính",
+      "PLACEHOLDER": "Tìm kiếm thuộc tính",
+      "NO_RESULT": "Không có thuộc tính nào được tìm thấy"
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "FROM": "From",
+    "TO": "Đến",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Chủ đề"
   }
 }

@@ -1,13 +1,13 @@
 {
   "CONVERSATION": {
     "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
-    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers wird nicht überprüft",
+    "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
     "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
     "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
-    "SEARCH_MESSAGES": "Nachrichten durchsuchen",
+    "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
       "RESULT_TITLE": "Suchergebnisse",
@@ -22,22 +22,24 @@
     "LOADING_CONVERSATIONS": "Gespräche laden",
     "CANNOT_REPLY": "Du kannst nicht Antworten aufgrund von",
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
+    "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
+    "ASSIGN_TO_ME": "Mir zuweisen",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
-    "REPLYING_TO": "Du antwortest auf:",
+    "REPLYING_TO": "Sie antworten auf:",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
-    "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuche es erneut",
+    "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
       "REOPEN_ACTION": "Wieder öffnen",
-      "OPEN_ACTION": "Offen",
+      "OPEN_ACTION": "Öffnen",
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
@@ -48,13 +50,16 @@
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
       "SNOOZE": {
-        "TITLE": "Erinnern",
+        "TITLE": "Schlummern bis",
         "NEXT_REPLY": "Bei Antwort",
         "TOMORROW": "Morgen",
         "NEXT_WEEK": "Nächste Woche"
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
+      "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
+      "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar"
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
+    "TRY_AGAIN": "neu versuchen",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Laden Sie Ihre Teammitglieder ein",
-      "DESCRIPTION": "Du bist nun bereit, mit deinen Kunden zu kommunizieren. Besorge dir nun Unterstützung. Du kannst deine Teamkollegen einladen, indem du die E-Mail-Adresse der Agentenliste hinzufügst.",
+      "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
       "NEW_LINK": "Klicke hier, um ein Teammitglied einzuladen"
     },
     "INBOXES": {
@@ -151,7 +159,7 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Kontakt-Details",
       "CONVERSATION_ACTIONS": "Aktionen für Unterhaltung",
-      "CONVERSATION_LABELS": "Konversationsetiketten",
+      "CONVERSATION_LABELS": "Konversationslabels",
       "CONVERSATION_INFO": "Informationen über Unterhaltung",
       "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Gespräche"
@@ -179,6 +187,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "Von",
     "TO": "An",
     "BCC": "Bcc",
     "CC": "Cc",

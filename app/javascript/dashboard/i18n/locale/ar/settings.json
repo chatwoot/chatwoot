@@ -4,8 +4,8 @@
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
     "DELETE_AVATAR": "حذف الصورة الرمزية",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الرمزية بنجاح",
+    "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الرمزية، الرجاء المحاولة مرة أخرى",
     "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
@@ -18,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "الملف الشخصي",
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "كلمة المرور",
@@ -89,7 +101,7 @@
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
       "PASSWORD": {
-        "LABEL": "كلمة المرور",
+        "LABEL": "كلمة مرور جديدة",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
         "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
       },
@@ -103,7 +115,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "تبديل الحساب",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
@@ -136,7 +148,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "الإشارات",
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
@@ -153,11 +165,13 @@
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
+    "CUSTOM_VIEWS_FOLDER": "المجلدات",
+    "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
     "TAGGED_WITH": "مشار إليه بواسطة",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "علامة جديدة",
+    "NEW_TEAM": "فريق جديد",
+    "NEW_INBOX": "صندوق الوارد الجديد",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
@@ -167,7 +181,7 @@
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

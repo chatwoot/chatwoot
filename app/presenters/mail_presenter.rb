@@ -8,30 +8,50 @@ class MailPresenter < SimpleDelegator
   end
 
   def subject
-    encode_to_unicode(@mail.subject || '')
+    encode_to_unicode(@mail.subject)
   end
 
   def text_content
-    @decoded_text_content ||= encode_to_unicode(text_part&.decoded || decoded_message || '')
+    @decoded_text_content = select_body(text_part) || ''
+    encoding = @decoded_text_content.encoding
+
+    body = EmailReplyTrimmer.trim(@decoded_text_content)
 
     return {} if @decoded_text_content.blank?
 
     @text_content ||= {
-      full: @decoded_text_content,
-      reply: extract_reply(@decoded_text_content)[:reply],
-      quoted: extract_reply(@decoded_text_content)[:quoted_text]
+      full: select_body(text_part),
+      reply: @decoded_text_content,
+      quoted: body.force_encoding(encoding).encode('UTF-8')
     }
   end
 
+  # returns encoded mail body text_part if available.
+  # returns encoded mail body as it is if mail_part not available.
+  # else returns parsed the html body if contains text/html content.
+  def select_body(mail_part)
+    return encoded_mail_body unless mail_part
+
+    decoded = encode_to_unicode(mail_part.decoded)
+
+    if mail.text_part
+      decoded
+    elsif html_mail_body?
+      ::HtmlParser.parse_reply(decoded)
+    end
+  end
+
   def html_content
-    @decoded_html_content ||= encode_to_unicode(html_part&.decoded)
+    @decoded_html_content = select_body(html_part) || ''
 
     return {} if @decoded_html_content.blank?
 
+    body = EmailReplyTrimmer.trim(@decoded_html_content)
+
     @html_content ||= {
-      full: @decoded_html_content,
-      reply: extract_reply(@decoded_html_content)[:reply],
-      quoted: extract_reply(@decoded_html_content)[:quoted_text]
+      full: select_body(html_part),
+      reply: @decoded_html_content,
+      quoted: body
     }
   end
 
@@ -45,14 +65,6 @@ class MailPresenter < SimpleDelegator
       )
       { original: attachment, blob: blob }
     end
-  end
-
-  def decoded_message
-    if mail.multipart?
-      return mail.text_part ? mail.text_part.decoded : nil
-    end
-
-    mail.decoded
   end
 
   def number_of_attachments
@@ -79,15 +91,15 @@ class MailPresenter < SimpleDelegator
 
   def from
     # changing to downcase to avoid case mismatch while finding contact
-    @mail.from.map(&:downcase)
+    (@mail.reply_to.presence || @mail.from).map(&:downcase)
   end
 
   def sender_name
-    Mail::Address.new(@mail[:from].value).name
+    Mail::Address.new((@mail[:reply_to] || @mail[:from]).value).name
   end
 
   def original_sender
-    @mail['X-Original-Sender'].try(:value) || from.first
+    @mail[:reply_to].try(:value) || @mail['X-Original-Sender'].try(:value) || from.first
   end
 
   def email_forwarded_for
@@ -114,13 +126,18 @@ class MailPresenter < SimpleDelegator
     return str if current_encoding == 'UTF-8'
 
     str.encode(current_encoding, 'UTF-8', invalid: :replace, undef: :replace, replace: '?')
+  rescue StandardError
+    ''
   end
 
-  def extract_reply(content)
-    # NOTE: implement the reply parser over here
-    {
-      reply: content.strip,
-      quoted_text: content.strip
-    }
+  def html_mail_body?
+    ((mail.content_type || '').include? 'text/html') || @mail.html_part || @mail.html_part.content_type.include?('text/html')
+  end
+
+  # returns mail body if mail content_type is text/plain
+  def encoded_mail_body
+    return encode_to_unicode(@mail.body.decoded) if (@mail.content_type || '').include? 'text/plain'
+
+    ''
   end
 end

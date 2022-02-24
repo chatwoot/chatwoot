@@ -1,6 +1,6 @@
 <template>
   <div class="column content-box">
-    <report-date-range-selector @date-range-change="onDateRangeChange" />
+    <report-filter-selector @date-range-change="onDateRangeChange" />
     <csat-metrics />
     <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
@@ -8,14 +8,14 @@
 <script>
 import CsatMetrics from './components/CsatMetrics';
 import CsatTable from './components/CsatTable';
-import ReportDateRangeSelector from './components/DateRangeSelector';
+import ReportFilterSelector from './components/FilterSelector';
 
 export default {
   name: 'CsatResponses',
   components: {
     CsatMetrics,
     CsatTable,
-    ReportDateRangeSelector,
+    ReportFilterSelector,
   },
   data() {
     return { pageIndex: 1, from: 0, to: 0 };

@@ -2,13 +2,13 @@
   "PROFILE_SETTINGS": {
     "LINK": "Impostazioni profilo",
     "TITLE": "Impostazioni profilo",
-    "BTN_TEXT": "Aggiorna Profilo",
+    "BTN_TEXT": "Aggiorna profilo",
     "DELETE_AVATAR": "Delete Avatar",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
     "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Il tuo profilo è stato aggiornato con successo",
     "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
-    "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente il login quando le tue credenziali di accesso sono state modificate",
+    "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente l'accesso, siccome le tue credenziali di accesso sono state modificate",
     "FORM": {
       "AVATAR": "Immagine del profilo",
       "ERROR": "Correggi gli errori del modulo",
@@ -19,9 +19,21 @@
         "TITLE": "Profilo",
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
-        "TITLE": "password",
-        "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi.",
+        "TITLE": "Password",
+        "NOTE": "Aggiornare la tua password reimposterà i tuoi accessi in più dispositivi.",
         "BTN_TEXT": "Cambia password"
       },
       "ACCESS_TOKEN": {
@@ -29,26 +41,26 @@
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notifiche Audio",
+        "TITLE": "Notifiche audio",
         "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
         "NONE": "Nessuno",
-        "ASSIGNED": "Conversazioni Assegnate",
-        "ALL_CONVERSATIONS": "Tutte Le Conversazioni"
+        "ASSIGNED": "Conversazioni assegnate",
+        "ALL_CONVERSATIONS": "Tutte le conversazioni"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
         "NOTE": "Aggiorna qui le tue preferenze di notifica email",
-        "CONVERSATION_ASSIGNMENT": "Invia notifiche via email quando viene assegnata una conversazione a me",
-        "CONVERSATION_CREATION": "Invia notifiche via email quando viene creata una nuova conversazione",
+        "CONVERSATION_ASSIGNMENT": "Invia notifiche email quando viene assegnata una conversazione a me",
+        "CONVERSATION_CREATION": "Invia notifiche email quando viene creata una nuova conversazione",
         "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche via e-mail quando viene creato un nuovo messaggio in una conversazione assegnata"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando viene creato un nuovo messaggio in una conversazione assegnata"
       },
       "API": {
         "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
         "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento delle preferenze, si prega di riprovare"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notifiche Push",
+        "TITLE": "Notifiche push",
         "NOTE": "Aggiorna qui le tue preferenze di notifiche push",
         "CONVERSATION_ASSIGNMENT": "Invia notifiche push quando una conversazione mi viene assegnata",
         "CONVERSATION_CREATION": "Invia notifiche push quando una conversazione mi viene assegnata",
@@ -66,7 +78,7 @@
         "PLACEHOLDER": "Per favore inserisci il nome completo"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Nome Visualizzato",
+        "LABEL": "Nome visualizzato",
         "ERROR": "Inserisci un nome di visualizzazione valido",
         "PLACEHOLDER": "Inserisci un nome di visualizzazione, questo verrà visualizzato nelle conversazioni"
       },
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Inserisci la password attuale"
       },
       "PASSWORD": {
-        "LABEL": "password",
+        "LABEL": "New password",
         "ERROR": "Inserisci una password di lunghezza 6 o più",
         "PLACEHOLDER": "Inserisci una nuova password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Conferma nuova password",
         "ERROR": "La password di conferma deve corrispondere alla password",
-        "PLACEHOLDER": "Inserisci nuovamente la tua password"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -135,7 +147,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversazioni",
-    "ALL_CONVERSATIONS": "Tutte Le Conversazioni",
+    "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
@@ -150,9 +162,11 @@
     "ACCOUNT_SETTINGS": "Impostazioni Account",
     "APPLICATIONS": "Applicazioni",
     "LABELS": "Etichette",
-    "CUSTOM_ATTRIBUTES": "Attributi Personalizzati",
-    "AUTOMATION": "Automation",
+    "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
+    "AUTOMATION": "Automazione",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tutti I Contatti",
     "TAGGED_WITH": "Etichettato con",
     "NEW_LABEL": "New label",

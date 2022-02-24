@@ -1,6 +1,89 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule"
+    "HEADER": "Tự động hoá",
+    "HEADER_BTN_TXT": "Thêm Quy tắc Tự động hoá",
+    "LOADING": "Đang lấy quy tắc tự động hoá",
+    "SIDEBAR_TXT": "<p><b>Quy tắc tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
+    "ADD": {
+      "TITLE": "Thêm Quy tắc Tự động hoá",
+      "SUBMIT": "Tạo",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên Quy tắc",
+          "PLACEHOLDER": "Điền tên quy tắc",
+          "ERROR": "Tên bắt buộc có"
+        },
+        "DESC": {
+          "LABEL": "Mô tả",
+          "PLACEHOLDER": "Điền mô tả quy tắc",
+          "ERROR": "Mô tả bắt buộc có"
+        },
+        "EVENT": {
+          "LABEL": "Sự kiện",
+          "PLACEHOLDER": "Vui lòng chọn một",
+          "ERROR": "Sự kiện bắt buộc có"
+        },
+        "CONDITIONS": {
+          "LABEL": "Điều kiện"
+        },
+        "ACTIONS": {
+          "LABEL": "Hành động"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Thêm Điều kiện",
+      "ACTION_BUTTON_LABEL": "Thêm Hành động",
+      "API": {
+        "SUCCESS_MESSAGE": "Quy tắc tự động hoá thêm thành công",
+        "ERROR_MESSAGE": "Không thể tạo quy tắc tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Tên",
+        "Mô tả",
+        "Có hiệu lực",
+        "Được tạo trên"
+      ],
+      "404": "Không tìm thấy quy tắc tự động hoá"
+    },
+    "DELETE": {
+      "TITLE": "Xoá Quy tắc Tự động hoá",
+      "SUBMIT": "Xoá",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Quy tắc tự động hoá xoá thành công",
+        "ERROR_MESSAGE": "Không thể xoá quy tắc tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Sửa Quy tắc Tự động hoá",
+      "SUBMIT": "Chỉnh sửa",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "API": {
+        "SUCCESS_MESSAGE": "Quy tắc tự động hoá thêm thành công",
+        "ERROR_MESSAGE": "Không thể cập nhật quy tắc tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Mô phỏng",
+      "API": {
+        "SUCCESS_MESSAGE": "Quy tắc tự động hoá mô phỏng thành công",
+        "ERROR_MESSAGE": "Không thể mô phỏng quy tắc tự động hoá, Vui lòng thử lại sau"
+      }
+    },
+    "FORM": {
+      "EDIT": "Chỉnh sửa",
+      "CREATE": "Tạo",
+      "DELETE": "Xoá",
+      "CANCEL": "Huỷ",
+      "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
+    }
   }
 }

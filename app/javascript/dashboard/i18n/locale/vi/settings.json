@@ -3,10 +3,10 @@
     "LINK": "Cài Đặt Hồ Sơ",
     "TITLE": "Cài Đặt Hồ Sơ",
     "BTN_TEXT": "Cập Nhật Hồ Sơ",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "DELETE_AVATAR": "Xoá hình đại diện",
+    "AVATAR_DELETE_SUCCESS": "Ảnh đại diện đã được xoá thành công",
+    "AVATAR_DELETE_FAILED": "Đã xảy ra lỗi khi xoá ảnh đại diện, vui lòng thử lại",
+    "UPDATE_SUCCESS": "Hồ sơ của bạn đã được cập nhật thành công",
     "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
     "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
@@ -19,29 +19,41 @@
         "TITLE": "Hồ sơ cá nhân",
         "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Mật khẩu",
         "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Thay đổi mật khẩu"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
+        "TITLE": "Token truy cập",
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Âm thanh Thông báo",
+        "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
+        "NONE": "Không có",
+        "ASSIGNED": "Cuộc trò chuyện được phân công",
+        "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
         "NOTE": "Cập nhật tùy chọn thông báo qua email của bạn tại đây",
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công"
       },
       "API": {
         "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
@@ -52,8 +64,8 @@
         "NOTE": "Cập nhật tùy chọn thông báo của bạn tại đây",
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
         "REQUEST_PUSH": "Bật thông báo"
       },
@@ -84,35 +96,35 @@
         "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc trò chuyện"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Mật khẩu hiện tại",
+        "ERROR": "Vui lòng nhập mật khẩu hiện tại",
+        "PLACEHOLDER": "Vui lòng nhập mật khẩu hiện tại"
       },
       "PASSWORD": {
-        "LABEL": "Mật khẩu",
+        "LABEL": "Mật khẩu mới",
         "ERROR": "Vui lòng nhập mật khẩu có độ dài từ 6 trở lên",
         "PLACEHOLDER": "Vui lòng nhập mật khẩu mới"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Xác nhận mật khẩu mới",
         "ERROR": "Xác nhận mật khẩu phải khớp với mật khẩu",
-        "PLACEHOLDER": "Vui lòng nhập lại mật khẩu của bạn"
+        "PLACEHOLDER": "Vui lòng nhập lại mật khẩu \bmới"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Đổi",
     "CHANGE_ACCOUNTS": "Chuyển tài khoản",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Liên hệ Hỗ trợ",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Phím tắt",
     "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
     "TRAIL_BUTTON": "Mua Ngay",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Người dùng bị xoá"
   },
   "COMPONENTS": {
     "CODE": {
@@ -135,42 +147,44 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Cuộc trò chuyện",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
+    "MENTIONED_CONVERSATIONS": "Nhắn đến",
     "REPORTS": "Báo cáo",
     "SETTINGS": "Cài Đặt",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Liên hệ",
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
     "INBOXES": "Hộp thư đến",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Thông báo",
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
     "INTEGRATIONS": "Tích hợp",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ",
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Ứng dụng",
     "LABELS": "Nhãn",
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Tự động hoá",
     "TEAMS": "Nhóm",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "CUSTOM_VIEWS_FOLDER": "Thư mục",
+    "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
+    "ALL_CONTACTS": "Tất cả liên lạc",
+    "TAGGED_WITH": "Được gắn thẻ với",
+    "NEW_LABEL": "Nhãn mới",
+    "NEW_TEAM": "Nhóm mới",
+    "NEW_INBOX": "Hộp thư đến mới",
+    "REPORTS_OVERVIEW": "Tổng quan",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "Chiến dịch",
+    "ONGOING": "Đang diễn ra",
+    "ONE_OFF": "Một lần",
     "REPORTS_AGENT": "Nhà cung cấp",
     "REPORTS_LABEL": "Nhãn",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "REPORTS_INBOX": "Hộp thư đến",
+    "REPORTS_TEAM": "Nhóm",
+    "SET_AVAILABILITY_TITLE": "Đặt chính mình như"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
     "NEW_ACCOUNT": "Tạo mới tài khoản",
     "SELECTOR_SUBTITLE": "Tạo mới một tài khoản",
     "API": {
@@ -188,22 +202,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Mở cuộc trò chuyện",
+      "RESOLVE_AND_NEXT": "Giải quyết và đi đến cái tiếp theo",
+      "NAVIGATE_DROPDOWN": "Điều hướng các mục thả xuống",
+      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
+      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
+      "ADD_ATTACHMENT": "Thêm đính kèm",
+      "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
+      "TOGGLE_SIDEBAR": "Chuyển đổi thanh bên",
+      "GO_TO_REPORTS_SIDEBAR": "Đi đến thanh bên Báo cáo",
+      "MOVE_TO_NEXT_TAB": "Di chuyển đến tab tiếp theo trong danh sách cuộc trò chuyện",
+      "GO_TO_SETTINGS": "Đi đến Cài đặt",
+      "SWITCH_CONVERSATION_STATUS": "Chuyển sang trạng thái cuộc trò chuyện tiếp theo",
+      "SWITCH_TO_PRIVATE_NOTE": "Chuyển sang Ghi chú Riêng tư",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Chuyển đổi trình chỉnh sửa Nội dung đa dạng thức",
+      "SWITCH_TO_REPLY": "Chuyển sang phản hồi",
+      "TOGGLE_SNOOZE_DROPDOWN": "Chuyển đổi thả xuống tạm dừng"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

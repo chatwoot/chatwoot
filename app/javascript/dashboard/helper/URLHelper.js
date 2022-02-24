@@ -12,7 +12,7 @@ export const conversationUrl = ({
   label,
   teamId,
   conversationType = '',
-  customViewsId,
+  foldersId,
 }) => {
   let url = `accounts/${accountId}/conversations/${id}`;
   if (activeInbox) {
@@ -21,8 +21,8 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/label/${label}/conversations/${id}`;
   } else if (teamId) {
     url = `accounts/${accountId}/team/${teamId}/conversations/${id}`;
-  } else if (customViewsId && customViewsId !== 0) {
-    url = `accounts/${accountId}/custom_view/${customViewsId}/conversations/${id}`;
+  } else if (foldersId && foldersId !== 0) {
+    url = `accounts/${accountId}/custom_view/${foldersId}/conversations/${id}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
   }
@@ -36,4 +36,10 @@ export const accountIdFromPathname = pathname => {
   const isScoped = isInsideAccountScopedURLs && !isNaN(urlParam);
   const accountId = isScoped ? Number(urlParam) : '';
   return accountId;
+};
+
+export const isValidURL = value => {
+  /* eslint-disable no-useless-escape */
+  const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+  return URL_REGEX.test(value);
 };

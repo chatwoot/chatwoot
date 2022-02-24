@@ -1,5 +1,6 @@
+import { IFrameHelper } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
-
+import { SET_USER_ERROR } from '../../constants/errorTypes';
 const state = {
   currentUser: {},
 };
@@ -38,7 +39,14 @@ export const actions = {
         dispatch('conversation/fetchOldConversations', {}, { root: true });
       }
     } catch (error) {
-      // Ignore error
+      const {
+        response: { data },
+      } = error;
+      IFrameHelper.sendMessage({
+        event: 'error',
+        errorType: SET_USER_ERROR,
+        data,
+      });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
