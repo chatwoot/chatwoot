@@ -1,9 +1,6 @@
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
-import compareAsc from 'date-fns/compareAsc';
-import fromUnixTime from 'date-fns/fromUnixTime';
-
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
