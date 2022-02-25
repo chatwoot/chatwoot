@@ -99,6 +99,7 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
 </template>
