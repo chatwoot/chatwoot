@@ -14,10 +14,11 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
-  position: 'left',
+  position: '<%= @widget_position %>',
   locale: 'en',
-  type: 'expanded_bubble',
+  type: '<%= @widget_type %>',
   showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
 };
 
 (function(d,t) {
