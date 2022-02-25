@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Rozmowy",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
