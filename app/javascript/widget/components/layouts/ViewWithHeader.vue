@@ -97,7 +97,6 @@ export default {
 @import '~widget/assets/scss/mixins';
 
 .header-wrap {
-  border-radius: $space-normal $space-normal 0 0;
   flex-shrink: 0;
   transition: max-height 300ms;
   z-index: 99;

@@ -48,7 +48,10 @@
               @input="$v.displayName.$touch"
             />
           </label>
-          <label :class="{ error: $v.email.$error }">
+          <label
+            v-if="!globalConfig.disableUserProfileUpdate"
+            :class="{ error: $v.email.$error }"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
               v-model.trim="email"
@@ -67,7 +70,7 @@
       </div>
     </form>
     <message-signature />
-    <change-password />
+    <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
     <div class="profile--settings--row row">
       <div class="columns small-3">
