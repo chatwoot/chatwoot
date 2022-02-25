@@ -53,3 +53,6 @@
 - name: HCAPTCHA_SERVER_KEY
   value:
   locked: false
+- name: LOGOUT_REDIRECT_LINK
+  value: /app/login
+  locked: false
