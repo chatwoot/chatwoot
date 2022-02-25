@@ -110,7 +110,7 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
-  name: 'ReplyTopPanel',
+  name: 'ReplyBottomPanel',
   components: { FileUpload },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
@@ -174,6 +174,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    isSignatureAvailable: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -196,7 +200,9 @@ export default {
       return ALLOWED_FILE_TYPES;
     },
     showMessageSignatureButton() {
-      return !this.isPrivate && this.isAnEmailChannel;
+      return (
+        !this.isPrivate && this.isAnEmailChannel && this.isSignatureAvailable
+      );
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;

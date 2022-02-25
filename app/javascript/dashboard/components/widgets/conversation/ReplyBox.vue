@@ -67,7 +67,7 @@
       />
     </div>
     <div
-      v-if="isSignatureEnabledForInbox"
+      v-if="isSignatureEnabledForInbox && isSignatureAvailable"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
@@ -89,7 +89,7 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      @toggleEnterToSend="toggleEnterToSend"
+      :is-signature-available="isSignatureAvailable"
     />
   </div>
 </template>
@@ -352,6 +352,9 @@ export default {
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    isSignatureAvailable() {
+      return !!this.messageSignature;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
@@ -711,6 +714,14 @@ export default {
     bottom: 10px;
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
+.message-signature {
+  margin-bottom: 0;
+
+  ::v-deep p:last-child {
+    margin-bottom: 0;
   }
 }
 </style>
