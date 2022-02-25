@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Percakapan",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Sebutkan",
