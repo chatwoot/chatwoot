@@ -26,8 +26,10 @@ import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName } from './cookieHelpers';
-
-const events = ['click', 'touchstart', 'keypress'];
+import {
+  getAlertAudio,
+  initOnEvents,
+} from 'shared/helpers/AudioNotificationHelper';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -111,43 +113,18 @@ export const IFrameHelper = {
       iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
-  getAlertAudio: callback => {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const playsound = audioBuffer => {
-      window.playAudioAlert = () => {
-        const source = audioCtx.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(audioCtx.destination);
-        source.loop = false;
-        source.start();
-      };
-      callback();
-    };
-
-    try {
-      const audioRequest = new Request('/dashboard/audios/ding.mp3');
-
-      fetch(audioRequest)
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-          audioCtx.decodeAudioData(buffer).then(playsound);
-        });
-    } catch (error) {
-      // error
-    }
-  },
-
   setupAudioListeners: () => {
-    IFrameHelper.getAlertAudio(() => {
-      events.forEach(event => {
+    getAlertAudio().then(() =>
+      initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
           IFrameHelper.setupAudioListeners,
           false
         );
-      });
-    });
+      })
+    );
   },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -173,7 +150,7 @@ export const IFrameHelper = {
 
       window.playAudioAlert = () => {};
 
-      events.forEach(e => {
+      initOnEvents.forEach(e => {
         document.addEventListener(e, IFrameHelper.setupAudioListeners, false);
       });
     },
