@@ -86,10 +86,10 @@
       "RESET_MESSAGE": "Changer le type d'événement réinitialisera les conditions et les événements que vous avez ajoutés ci-dessous"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer"
     }
   }
 }
