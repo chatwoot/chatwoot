@@ -68,7 +68,7 @@ class V2::ReportBuilder
   end
 
   def get_grouped_values(object_scope)
-    object_scope.where(created_at: range).group_by_period(
+    object_scope.group_by_period(
       params[:group_by] || DEFAULT_GROUP_BY,
       :created_at,
       default_value: 0,
