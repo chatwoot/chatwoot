@@ -183,6 +183,9 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_updation
+    return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
+                                                                                custom_attributes]).present?
+
     dispatcher_dispatch(CONVERSATION_UPDATED)
   end
 
