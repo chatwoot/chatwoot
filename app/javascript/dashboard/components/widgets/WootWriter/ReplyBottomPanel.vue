@@ -174,10 +174,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    isSignatureAvailable: {
-      type: Boolean,
-      default: false,
-    },
   },
   computed: {
     isNote() {
@@ -200,9 +196,7 @@ export default {
       return ALLOWED_FILE_TYPES;
     },
     showMessageSignatureButton() {
-      return (
-        !this.isPrivate && this.isAnEmailChannel && this.isSignatureAvailable
-      );
+      return !this.isPrivate && this.isAnEmailChannel;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;

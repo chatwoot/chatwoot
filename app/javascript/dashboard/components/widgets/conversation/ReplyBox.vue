@@ -67,11 +67,21 @@
       />
     </div>
     <div
-      v-if="isSignatureEnabledForInbox && isSignatureAvailable"
+      v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
-      <p class="message-signature" v-html="formatMessage(messageSignature)" />
+      <p
+        v-if="isSignatureAvailable"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
+        <router-link :to="profilePath">
+          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
+        </router-link>
+      </p>
     </div>
     <reply-bottom-panel
       :mode="replyType"
@@ -89,7 +99,6 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      :is-signature-available="isSignatureAvailable"
     />
   </div>
 </template>
@@ -124,6 +133,7 @@ import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -180,6 +190,7 @@ export default {
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
 
     showRichContentEditor() {
@@ -359,6 +370,9 @@ export default {
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
+    },
+    profilePath() {
+      return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
   },
   watch: {
