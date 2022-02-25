@@ -67,7 +67,7 @@
       />
     </div>
     <div
-      v-if="showMessageSignature"
+      v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
@@ -350,7 +350,7 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
-    showMessageSignature() {
+    isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
     },
     sendWithSignature() {
@@ -469,7 +469,7 @@ export default {
       }
       if (!this.showMentions) {
         let newMessage = this.message;
-        if (this.showMessageSignature && this.messageSignature) {
+        if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
