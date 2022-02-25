@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Rozhovory",
     "ALL_CONVERSATIONS": "Všetky konverzácie",
     "MENTIONED_CONVERSATIONS": "Zmienky",
