@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "RATING": {
+      "LABEL": "Califica tu conversación",
+      "SUCCESS_MESSAGE": "Gracias por enviar la valoración"
+    },
+    "FEEDBACK": {
+      "LABEL": "Do you have any thoughts you'd like to share?",
+      "PLACEHOLDER": "Your feedback (optional)",
+      "BUTTON_TEXT": "Submit feedback"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+    }
+  },
+  "POWERED_BY": "Desarrollado por Chatwoot"
+}
