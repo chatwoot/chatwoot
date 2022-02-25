@@ -48,7 +48,8 @@ export const actions = {
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
-        el => compareAsc(new Date(), fromUnixTime(el.timestamp)) > -1
+        el =>
+          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
       if (
         reportObj.metric === 'avg_first_response_time' ||
