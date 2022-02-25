@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Ενεργοποίηση υπογραφής",
       "DISABLE_SIGN_TOOLTIP": "Απενεργοποίηση υπογραφής",
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
-      "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες."
+      "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Απάντηση",
