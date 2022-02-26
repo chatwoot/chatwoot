@@ -44,5 +44,9 @@ export const clearCookiesOnLogout = () => {
 
   Cookies.remove('auth_data');
   Cookies.remove('user');
-  window.location = frontendURL('login');
+
+  const globalConfig = window.globalConfig || {};
+  const logoutRedirectLink =
+    globalConfig.LOGOUT_REDIRECT_LINK || frontendURL('login');
+  window.location = logoutRedirectLink;
 };

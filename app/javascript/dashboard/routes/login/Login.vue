@@ -50,7 +50,7 @@
           </div>
         </form>
         <div class="column text-center sigin__footer">
-          <p>
+          <p v-if="!globalConfig.disableUserProfileUpdate">
             <router-link to="auth/reset/password">
               {{ $t('LOGIN.FORGOT_PASSWORD') }}
             </router-link>
