@@ -66,10 +66,28 @@
         :remove-attachment="removeAttachment"
       />
     </div>
+    <div
+      v-if="isSignatureEnabledForInbox"
+      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      class="message-signature-wrap"
+    >
+      <p
+        v-if="isSignatureAvailable"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
+        <router-link :to="profilePath">
+          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
+        </router-link>
+      </p>
+    </div>
     <reply-bottom-panel
       :mode="replyType"
+      :inbox="inbox"
       :send-button-text="replyButtonLabel"
-      :on-direct-file-upload="onDirectFileUpload"
+      :on-file-upload="onFileUpload"
       :show-file-upload="showFileUpload"
       :toggle-emoji-picker="toggleEmojiPicker"
       :show-emoji-picker="showEmojiPicker"
@@ -101,6 +119,7 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -115,6 +134,7 @@ import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -128,7 +148,13 @@ export default {
     WootMessageEditor,
     Banner,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    messageFormatterMixin,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -162,7 +188,10 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
 
     showRichContentEditor() {
@@ -333,6 +362,19 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
+    isSignatureEnabledForInbox() {
+      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    isSignatureAvailable() {
+      return !!this.messageSignature;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    profilePath() {
+      return frontendURL(`accounts/${this.accountId}/profile/settings`);
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -444,7 +486,10 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        let newMessage = this.message;
+        if (this.isSignatureEnabledForInbox && this.messageSignature) {
+          newMessage += '\n\n' + this.messageSignature;
+        }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
@@ -452,7 +497,7 @@ export default {
             'createPendingMessageAndSend',
             messagePayload
           );
-          this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
             error?.response?.data?.error ||
@@ -518,6 +563,13 @@ export default {
         isPrivate,
       });
     },
+    onFileUpload(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
     onDirectFileUpload(file) {
       if (!file) {
         return;
@@ -533,13 +585,7 @@ export default {
           if (error) {
             this.showAlert(error);
           } else {
-            this.attachedFiles.push({
-              currentChatId: this.currentChat.id,
-              resource: blob,
-              isPrivate: this.isPrivate,
-              thumb: null,
-              blobSignedId: blob.signed_id,
-            });
+            this.attachFile({ file, blob });
           }
         });
       } else {
@@ -550,22 +596,12 @@ export default {
         );
       }
     },
-    onFileUpload(file) {
+    onIndirectFileUpload(file) {
       if (!file) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        this.attachedFiles = [];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-        reader.onloadend = () => {
-          this.attachedFiles.push({
-            currentChatId: this.currentChat.id,
-            resource: file,
-            isPrivate: this.isPrivate,
-            thumb: reader.result,
-          });
-        };
+        this.attachFile({ file });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -573,6 +609,19 @@ export default {
           })
         );
       }
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
@@ -593,7 +642,11 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          messagePayload.files.push(attachment.blobSignedId);
+          if (this.globalConfig.directUploadsEnabled) {
+            messagePayload.files.push(attachment.blobSignedId);
+          } else {
+            messagePayload.files.push(attachment.resource.file);
+          }
         });
       }
 
@@ -621,6 +674,25 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
+}
+
+.message-signature-wrap {
+  margin: 0 var(--space-normal);
+  padding: var(--space-small);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 1px dashed var(--s-100);
+  border-radius: var(--border-radius-small);
+
+  &:hover {
+    background: var(--s-25);
+  }
+}
+
+.message-signature {
+  width: fit-content;
+  margin: 0;
 }
 
 .attachment-preview-box {
@@ -657,6 +729,14 @@ export default {
     bottom: 10px;
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
+.message-signature {
+  margin-bottom: 0;
+
+  ::v-deep p:last-child {
+    margin-bottom: 0;
   }
 }
 </style>

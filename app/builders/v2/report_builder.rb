@@ -2,6 +2,8 @@ class V2::ReportBuilder
   include DateRangeHelper
   attr_reader :account, :params
 
+  DEFAULT_GROUP_BY = 'day'.freeze
+
   def initialize(account, params)
     @account = account
     @params = params
@@ -64,26 +66,30 @@ class V2::ReportBuilder
 
   def conversations_count
     scope.conversations
-         .group_by_day(:created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def incoming_messages_count
     scope.messages.incoming.unscope(:order)
-         .group_by_day(:created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def outgoing_messages_count
     scope.messages.outgoing.unscope(:order)
-         .group_by_day(:created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
   def resolutions_count
     scope.conversations
          .resolved
-         .group_by_day(:created_at, range: range, default_value: 0)
+         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
+                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
          .count
   end
 
