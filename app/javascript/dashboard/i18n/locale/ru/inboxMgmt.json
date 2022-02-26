@@ -463,7 +463,7 @@
         "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
         "CHOOSE": "Выбрать"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Весь день"
     },
     "IMAP": {
       "TITLE": "IMAP",
