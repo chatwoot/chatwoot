@@ -71,6 +71,19 @@ export const getters = {
 
     return messageSignature || '';
   },
+
+  getCurrentAccount(_state) {
+    const { accounts = [] } = _state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === _state.currentAccountId
+    );
+    return currentAccount || {};
+  },
+
+  getUserAccounts(_state) {
+    const { accounts = [] } = _state.currentUser;
+    return accounts;
+  },
 };
 
 // actions
