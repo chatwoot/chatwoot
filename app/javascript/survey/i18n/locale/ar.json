@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "نسعد بخدمتكم دائما 🤍 شاركنا تجربتك بتقييم أداء الخدمة للإرتقاء وتقديم الأفضل شكراً لوقتك.",
     "RATING": {
       "LABEL": "قيم محادثتك",
       "SUCCESS_MESSAGE": "شكرا لك على تقييم المحادثة"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "هل لديك أي أفكار ترغب في مشاركتها؟",
+      "PLACEHOLDER": "ملاحظاتك على الخدمة المقدمة (اختياري)",
+      "BUTTON_TEXT": "إرسال التقييم"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "SUCCESS_MESSAGE": "تم تحديث الاستبيان بنجاح",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     }
   },
