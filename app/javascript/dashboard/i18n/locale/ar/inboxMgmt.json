@@ -463,7 +463,7 @@
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
         "CHOOSE": "اختر"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "جميع الأيام"
     },
     "IMAP": {
       "TITLE": "IMAP",
