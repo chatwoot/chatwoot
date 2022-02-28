@@ -27,6 +27,7 @@ describe('#Reports API', () => {
           since: 1621103400,
           until: 1621621800,
           type: 'account',
+          timezone_offset: -0,
         },
       });
     });

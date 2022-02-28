@@ -53,4 +53,60 @@ describe('#getters', () => {
       ).toEqual('');
     });
   });
+
+  describe('#getCurrentAccount', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {},
+          currentAccountId: 1,
+        })
+      ).toEqual({});
+
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+          currentAccountId: 1,
+        })
+      ).toEqual({
+        name: 'Chatwoot',
+        id: 1,
+      });
+    });
+  });
+
+  describe('#getUserAccounts', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getUserAccounts({
+          currentUser: {},
+        })
+      ).toEqual([]);
+
+      expect(
+        getters.getUserAccounts({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+        })
+      ).toEqual([
+        {
+          name: 'Chatwoot',
+          id: 1,
+        },
+      ]);
+    });
+  });
 });
