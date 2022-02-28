@@ -150,7 +150,7 @@ export default {
         case 'text':
           return 'plain_text';
         case 'list':
-          return 'plain_text';
+          return 'search_select';
         case 'checkbox':
           return 'search_select';
         default:
@@ -174,13 +174,10 @@ export default {
         'attributes/getAttributesByModel'
       ](this.attributeModel);
       const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
-        if (
+        return (
           attr.attribute_key === type &&
           attr.attribute_display_type === 'checkbox'
-        ) {
-          return true;
-        }
-        return false;
+        );
       });
       if (isCustomAttributeCheckbox) {
         return [
@@ -193,6 +190,23 @@ export default {
             name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
           },
         ];
+      }
+
+      const isCustomAttributeList = allCustomAttributes.find(attr => {
+        return (
+          attr.attribute_key === type && attr.attribute_display_type === 'list'
+        );
+      });
+
+      if (isCustomAttributeList) {
+        return allCustomAttributes
+          .find(attr => attr.attribute_key === type)
+          .attribute_values.map(item => {
+            return {
+              id: item,
+              name: item,
+            };
+          });
       }
       switch (type) {
         case 'country_code':
