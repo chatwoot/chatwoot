@@ -148,13 +148,15 @@
   </div>
 </template>
 <script>
-import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
-const CUSTOM_DATE_RANGE_ID = 5;
-import subDays from 'date-fns/subDays';
-import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+
 import { GROUP_BY_FILTER } from '../constants';
+const CUSTOM_DATE_RANGE_ID = 5;
 
 export default {
   components: {
@@ -194,9 +196,9 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return this.fromCustomDate(new Date());
+      return this.toCustomDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
@@ -253,6 +255,7 @@ export default {
   },
   methods: {
     onDateRangeChange() {
+      console.log(this.from, this.to);
       this.$emit('date-range-change', {
         from: this.from,
         to: this.to,
@@ -261,6 +264,9 @@ export default {
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
+    },
+    toCustomDate(date) {
+      return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;
