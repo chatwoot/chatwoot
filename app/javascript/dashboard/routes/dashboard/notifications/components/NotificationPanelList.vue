@@ -1,56 +1,60 @@
 <template>
   <div class="notification-list-item--wrap h-full flex-view ">
-    <div
+    <woot-button
       v-for="notificationItem in notifications"
       v-show="!isLoading"
       :key="notificationItem.id"
-      class="notification-list--wrap flex-view "
+      size="expanded"
+      color-scheme="secondary"
+      variant="link"
       @click="() => onClickNotification(notificationItem)"
     >
-      <div
-        v-if="!notificationItem.read_at"
-        class="notification-unread--indicator"
-      ></div>
-      <div v-else class="empty flex-view"></div>
-      <div class="notification-content--wrap w-full flex-space-between">
-        <div class="flex-space-between">
-          <div class="title-wrap flex-view ">
-            <span class="notification-title">
-              {{
-                `#${
-                  notificationItem.primary_actor
-                    ? notificationItem.primary_actor.id
-                    : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
-                }`
-              }}
-            </span>
-            <span class="notification-type">
-              {{
-                $t(
-                  `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
-                )
-              }}
+      <div class="notification-list--wrap flex-view w-full">
+        <div
+          v-if="!notificationItem.read_at"
+          class="notification-unread--indicator"
+        ></div>
+        <div v-else class="empty flex-view"></div>
+        <div class="notification-content--wrap w-full flex-space-between">
+          <div class="flex-space-between">
+            <div class="title-wrap flex-view ">
+              <span class="notification-title">
+                {{
+                  `#${
+                    notificationItem.primary_actor
+                      ? notificationItem.primary_actor.id
+                      : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
+                  }`
+                }}
+              </span>
+              <span class="notification-type">
+                {{
+                  $t(
+                    `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
+                  )
+                }}
+              </span>
+            </div>
+            <div>
+              <thumbnail
+                v-if="notificationItem.primary_actor.meta.assignee"
+                :src="notificationItem.primary_actor.meta.assignee.thumbnail"
+                size="16px"
+                :username="notificationItem.primary_actor.meta.assignee.name"
+              />
+            </div>
+          </div>
+          <div class="w-full flex-view ">
+            <span class="notification-message text-truncate">
+              {{ notificationItem.push_message_title }}
             </span>
           </div>
-          <div>
-            <thumbnail
-              v-if="notificationItem.primary_actor.meta.assignee"
-              :src="notificationItem.primary_actor.meta.assignee.thumbnail"
-              size="18px"
-              :username="notificationItem.primary_actor.meta.assignee.name"
-            />
-          </div>
-        </div>
-        <div class="w-full flex-view ">
-          <span class="notification-message text-truncate">
-            {{ notificationItem.push_message_title }}
+          <span class="timestamp flex-view">
+            {{ dynamicTime(notificationItem.created_at) }}
           </span>
         </div>
-        <span class="timestamp">
-          {{ dynamicTime(notificationItem.created_at) }}
-        </span>
       </div>
-    </div>
+    </woot-button>
     <empty-state
       v-if="showEmptyResult"
       :title="$t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.EMPTY_MESSAGE')"
@@ -128,6 +132,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex-view {
+  display: flex;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .notification-list-item--wrap {
   flex-direction: column;
   padding: var(--space-small) var(--space-slab);
@@ -142,6 +155,7 @@ export default {
   flex-direction: row;
   align-items: center;
   padding: var(--space-slab);
+  line-height: 1.4;
   border-bottom: 1px solid var(--b-50);
 }
 
@@ -158,19 +172,14 @@ export default {
 
 .title-wrap {
   align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
 }
 
 .notification-title {
-  font-size: var(--font-size-small);
   font-weight: var(--font-weight-black);
 }
 
 .notification-type {
   font-size: var(--font-size-micro);
-  color: var(--s-700);
-  font-weight: var(--font-weight-medium);
   padding: var(--space-micro) var(--space-smaller);
   margin-left: var(--space-small);
   background: var(--s-50);
@@ -179,7 +188,6 @@ export default {
 
 .notification-message {
   color: var(--color-body);
-  font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
 }
 

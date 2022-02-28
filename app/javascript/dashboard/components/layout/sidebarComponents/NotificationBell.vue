@@ -1,13 +1,15 @@
 <template>
   <div class="notifications-link">
-    <button
-      class="notifications-link--button button clear"
+    <woot-button
+      class-names="notifications-link--button"
+      variant="clear"
+      color-scheme="secondary"
       :class="{ 'is-active': isNotificationPanelActive }"
       @click="openNotificationPanel"
     >
       <fluent-icon icon="alert" />
       <span v-if="unreadCount" class="badge warning">{{ unreadCount }}</span>
-    </button>
+    </woot-button>
     <notification-panel
       v-if="isNotificationPanel"
       @close="closeNotificationPanel"

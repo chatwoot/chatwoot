@@ -208,6 +208,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.flex-view {
+  display: flex;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .notification-wrap {
   flex-direction: column;
   height: 90vh;
