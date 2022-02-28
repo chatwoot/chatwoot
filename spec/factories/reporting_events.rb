@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :event do
+  factory :reporting_event do
     name { 'MyString' }
     value { 1.5 }
     account_id { 1 }
