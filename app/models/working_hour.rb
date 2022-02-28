@@ -7,6 +7,7 @@
 #  close_minutes  :integer
 #  closed_all_day :boolean          default(FALSE)
 #  day_of_week    :integer          not null
+#  open_all_day   :boolean          default(FALSE)
 #  open_hour      :integer
 #  open_minutes   :integer
 #  created_at     :datetime         not null
@@ -22,6 +23,7 @@
 class WorkingHour < ApplicationRecord
   belongs_to :inbox
 
+  before_validation :ensure_open_all_day_hours
   before_save :assign_account
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
@@ -35,6 +37,7 @@ class WorkingHour < ApplicationRecord
   validates :close_minutes, inclusion: 0..59, unless: :closed_all_day?
 
   validate :close_after_open, unless: :closed_all_day?
+  validate :open_all_day_and_closed_all_day
 
   def self.today
     find_by(day_of_week: Date.current.wday)
@@ -68,5 +71,20 @@ class WorkingHour < ApplicationRecord
     return unless open_hour.hours + open_minutes.minutes >= close_hour.hours + close_minutes.minutes
 
     errors.add(:close_hour, 'Closing time cannot be before opening time')
+  end
+
+  def ensure_open_all_day_hours
+    return unless open_all_day?
+
+    self.open_hour = 0
+    self.open_minutes = 0
+    self.close_hour = 23
+    self.close_minutes = 59
+  end
+
+  def open_all_day_and_closed_all_day
+    return unless open_all_day? && closed_all_day?
+
+    errors.add(:base, 'open_all_day and closed_all_day cannot be true at the same time')
   end
 end

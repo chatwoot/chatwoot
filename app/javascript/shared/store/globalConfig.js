@@ -7,12 +7,14 @@ const {
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
   DISPLAY_MANIFEST: displayManifest,
+  HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
   PRIVACY_URL: privacyURL,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
+  DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
 } = window.globalConfig || {};
 
 const state = {
@@ -23,7 +25,9 @@ const state = {
   chatwootInboxToken,
   createNewAccountFromDashboard,
   directUploadsEnabled: directUploadsEnabled === 'true',
+  disableUserProfileUpdate: disableUserProfileUpdate === 'true',
   displayManifest,
+  hCaptchaSiteKey,
   installationName,
   logo,
   logoThumbnail,
