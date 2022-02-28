@@ -29,7 +29,7 @@ RSpec.describe Inbox do
 
     it { is_expected.to have_many(:webhooks).dependent(:destroy_async) }
 
-    it { is_expected.to have_many(:events) }
+    it { is_expected.to have_many(:reporting_events) }
 
     it { is_expected.to have_many(:hooks) }
   end
