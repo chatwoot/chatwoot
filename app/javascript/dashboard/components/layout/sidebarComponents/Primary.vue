@@ -93,8 +93,9 @@ export default {
   width: var(--space-jumbo);
   border-right: 1px solid var(--s-50);
   box-sizing: content-box;
-  height: 100vh;
+  height: 100%;
   flex-shrink: 0;
+  overflow: auto;
 }
 
 .menu {

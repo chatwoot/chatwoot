@@ -11,6 +11,9 @@ body {
 .app-wrapper {
   @include full-height;
   width: 100%;
+  min-height: 0;
+  flex-grow: 0;
+  min-height: 0;
 }
 
 .app-root {
@@ -22,6 +25,7 @@ body {
   @include flex;
   @include full-height;
   overflow: hidden;
+  min-height: 0;
 }
 
 .view-box {

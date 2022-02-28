@@ -223,6 +223,8 @@ export default {
 .woot-sidebar {
   background: var(--white);
   display: flex;
+  min-height: 0;
+  height: 100%;
 }
 </style>
 
