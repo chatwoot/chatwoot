@@ -8,7 +8,10 @@
               latestChatwootVersion: latestChatwootVersion,
             })
           }}
-          <a href="https://github.com/chatwoot/chatwoot/releases">
+          <a
+            href="https://github.com/chatwoot/chatwoot/releases"
+            target="_blank"
+          >
             {{ $t('GENERAL_SETTINGS.LEARN_MORE') }}
             <span aria-hidden="true">→</span>
           </a>
