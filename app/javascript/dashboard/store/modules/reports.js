@@ -1,9 +1,6 @@
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
-import compareAsc from 'date-fns/compareAsc';
-import fromUnixTime from 'date-fns/fromUnixTime';
-
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
@@ -48,7 +45,8 @@ export const actions = {
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
-        el => compareAsc(new Date(), fromUnixTime(el.timestamp)) > -1
+        el =>
+          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
       if (
         reportObj.metric === 'avg_first_response_time' ||

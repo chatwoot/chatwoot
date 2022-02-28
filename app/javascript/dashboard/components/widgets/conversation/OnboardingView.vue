@@ -65,7 +65,7 @@
         </div>
         <div class="features-item">
           <h2 class="block-title">
-            <span class="emoji">🏷</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
+            <span class="emoji">🔖</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
           </h2>
           <p class="intro-body">
             {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
