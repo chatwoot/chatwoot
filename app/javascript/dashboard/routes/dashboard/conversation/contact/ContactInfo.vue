@@ -199,7 +199,6 @@ export default {
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
-    // eslint-disable-next-line vue/return-in-computed-property
     location() {
       const {
         country = '',
