@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Aggiornamento",
+      "SUBMIT": "Aggiorna",
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
