@@ -20,7 +20,7 @@
                 `#${
                   notificationItem.primary_actor
                     ? notificationItem.primary_actor.id
-                    : 'deleted'
+                    : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
                 }`
               }}
             </span>

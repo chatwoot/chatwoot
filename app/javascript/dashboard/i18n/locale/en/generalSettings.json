@@ -59,6 +59,7 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
+    "DELETE_TITLE": "deleted",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
       "ALL_NOTIFICATIONS": "View all notifications",
