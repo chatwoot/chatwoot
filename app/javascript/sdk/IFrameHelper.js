@@ -136,7 +136,9 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      dispatchWindowEvent({ eventName: CHATWOOT_READY });
+      if (!window.$chatwoot.resetTriggered) {
+        dispatchWindowEvent({ eventName: CHATWOOT_READY });
+      }
     },
     error: ({ errorType, data }) => {
       dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
