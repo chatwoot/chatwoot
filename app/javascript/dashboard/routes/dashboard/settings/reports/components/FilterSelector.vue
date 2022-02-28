@@ -50,6 +50,7 @@ import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import { GROUP_BY_FILTER } from '../constants';
+import endOfDay from 'date-fns/endOfDay';
 
 export default {
   components: {
@@ -79,9 +80,9 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return this.fromCustomDate(new Date());
+      return this.toCustomDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
@@ -133,6 +134,9 @@ export default {
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
+    },
+    toCustomDate(date) {
+      return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;
