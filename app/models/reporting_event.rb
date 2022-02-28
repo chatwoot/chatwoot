@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: events
+# Table name: reporting_events
 #
 #  id              :bigint           not null, primary key
 #  name            :string
@@ -14,14 +14,14 @@
 #
 # Indexes
 #
-#  index_events_on_account_id  (account_id)
-#  index_events_on_created_at  (created_at)
-#  index_events_on_inbox_id    (inbox_id)
-#  index_events_on_name        (name)
-#  index_events_on_user_id     (user_id)
+#  index_reporting_events_on_account_id  (account_id)
+#  index_reporting_events_on_created_at  (created_at)
+#  index_reporting_events_on_inbox_id    (inbox_id)
+#  index_reporting_events_on_name        (name)
+#  index_reporting_events_on_user_id     (user_id)
 #
 
-class Event < ApplicationRecord
+class ReportingEvent < ApplicationRecord
   validates :account_id, presence: true
   validates :name, presence: true
   validates :value, presence: true
