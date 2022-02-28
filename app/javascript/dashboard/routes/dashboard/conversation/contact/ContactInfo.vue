@@ -210,8 +210,7 @@ export default {
       if (!cityAndCountry) {
         return '';
       }
-      const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${cityAndCountry} ${countryFlag}`;
+      return this.findCountryFlag(countryCode, cityAndCountry);
     },
     socialProfiles() {
       const {
@@ -260,6 +259,14 @@ export default {
       this.showDeleteModal = false;
       this.showConversationModal = false;
       this.showEditModal = false;
+    },
+    findCountryFlag(countryCode, cityAndCountry) {
+      try {
+        const countryFlag = countryCode ? flag(countryCode) : '🌎';
+        return `${cityAndCountry} ${countryFlag}`;
+      } catch (error) {
+        return '';
+      }
     },
     async deleteContact({ id }) {
       try {
