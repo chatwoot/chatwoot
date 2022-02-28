@@ -21,7 +21,10 @@ import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import { getAlertAudio } from '../shared/helpers/AudioNotificationHelper';
+import {
+  getAlertAudio,
+  initOnEvents,
+} from '../shared/helpers/AudioNotificationHelper';
 import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router from '../dashboard/routes';
 import store from '../dashboard/store';
@@ -102,6 +105,13 @@ window.onload = () => {
   vueActionCable.init();
 };
 
+const setupAudioListeners = () => {
+  getAlertAudio().then(() => {
+    initOnEvents.forEach(event => {
+      document.removeEventListener(event, setupAudioListeners, false);
+    });
+  });
+};
 window.addEventListener('load', () => {
   verifyServiceWorkerExistence(registration =>
     registration.pushManager.getSubscription().then(subscription => {
@@ -110,6 +120,9 @@ window.addEventListener('load', () => {
       }
     })
   );
-  getAlertAudio();
+  window.playAudioAlert = () => {};
+  initOnEvents.forEach(e => {
+    document.addEventListener(e, setupAudioListeners, false);
+  });
   initFaviconSwitcher();
 });
