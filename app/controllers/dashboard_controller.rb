@@ -27,7 +27,9 @@ class DashboardController < ActionController::Base
       'ANALYTICS_TOKEN',
       'ANALYTICS_HOST',
       'DIRECT_UPLOADS_ENABLED',
-      'HCAPTCHA_SITE_KEY'
+      'HCAPTCHA_SITE_KEY',
+      'LOGOUT_REDIRECT_LINK',
+      'DISABLE_USER_PROFILE_UPDATE'
     ).merge(app_config)
   end
 
