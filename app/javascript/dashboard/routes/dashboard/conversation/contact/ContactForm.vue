@@ -63,9 +63,7 @@
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
     <div class="medium-12 columns">
-      <label>
-        Social Profiles
-      </label>
+      <label> Social Profiles </label>
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
@@ -130,11 +128,13 @@ export default {
         facebook: '',
         twitter: '',
         linkedin: '',
+        github: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
+        { key: 'github', prefixURL: 'https://github.com/' },
       ],
     };
   },
@@ -183,6 +183,7 @@ export default {
         twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
+        github: socialProfiles.github || '',
       };
     },
     getContactObject() {
