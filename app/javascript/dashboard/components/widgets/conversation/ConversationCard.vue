@@ -255,6 +255,9 @@ export default {
         foldersId: this.foldersId,
         conversationType: this.conversationType,
       });
+      if (this.isActiveChat) {
+        return;
+      }
       router.push({ path: frontendURL(path) });
     },
   },

@@ -23,6 +23,24 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
+    <div
+      v-if="notLast7Days"
+      class="small-12 medium-3 pull-right margin-left-small"
+    >
+      <p aria-hidden="true" class="hide">
+        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedFilter"
+        track-by="id"
+        label="groupBy"
+        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+        :options="filterItemsList"
+        :allow-empty="false"
+        :show-labels="false"
+        @input="changeFilterSelection"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -31,16 +49,29 @@ const CUSTOM_DATE_RANGE_ID = 5;
 import subDays from 'date-fns/subDays';
 import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
+import { GROUP_BY_FILTER } from '../constants';
+import endOfDay from 'date-fns/endOfDay';
 
 export default {
   components: {
     WootDateRangePicker,
+  },
+  props: {
+    filterItemsList: {
+      type: Array,
+      default: () => [],
+    },
+    selectedGroupByFilter: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
+      currentSelectedFilter: null,
     };
   },
   computed: {
@@ -49,9 +80,9 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return this.fromCustomDate(new Date());
+      return this.toCustomDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
@@ -68,16 +99,44 @@ export default {
       const fromDate = subDays(new Date(), diff);
       return this.fromCustomDate(fromDate);
     },
+    groupBy() {
+      if (this.isDateRangeSelected) {
+        return GROUP_BY_FILTER[4].period;
+      }
+      const groupRange = {
+        0: GROUP_BY_FILTER[1].period,
+        1: GROUP_BY_FILTER[2].period,
+        2: GROUP_BY_FILTER[3].period,
+        3: GROUP_BY_FILTER[3].period,
+        4: GROUP_BY_FILTER[3].period,
+      };
+      return groupRange[this.currentDateRangeSelection.id];
+    },
+    notLast7Days() {
+      return this.groupBy !== GROUP_BY_FILTER[1].period;
+    },
+  },
+  watch: {
+    filterItemsList() {
+      this.currentSelectedFilter = this.selectedGroupByFilter;
+    },
   },
   mounted() {
     this.onDateRangeChange();
   },
   methods: {
     onDateRangeChange() {
-      this.$emit('date-range-change', { from: this.from, to: this.to });
+      this.$emit('date-range-change', {
+        from: this.from,
+        to: this.to,
+        groupBy: this.groupBy,
+      });
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
+    },
+    toCustomDate(date) {
+      return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;
@@ -86,6 +145,9 @@ export default {
     onChange(value) {
       this.customDateRange = value;
       this.onDateRangeChange();
+    },
+    changeFilterSelection() {
+      this.$emit('filter-change', this.currentSelectedFilter);
     },
   },
 };

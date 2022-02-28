@@ -25,7 +25,11 @@ class DashboardController < ActionController::Base
       'API_CHANNEL_NAME',
       'API_CHANNEL_THUMBNAIL',
       'ANALYTICS_TOKEN',
-      'ANALYTICS_HOST'
+      'ANALYTICS_HOST',
+      'DIRECT_UPLOADS_ENABLED',
+      'HCAPTCHA_SITE_KEY',
+      'LOGOUT_REDIRECT_LINK',
+      'DISABLE_USER_PROFILE_UPDATE'
     ).merge(app_config)
   end
 
