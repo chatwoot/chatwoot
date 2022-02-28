@@ -82,18 +82,17 @@ export default {
       required,
       $each: {
         values: {
+          ensureBetween0to999(value, prop) {
+            if (prop.filter_operator === 'is_x_days_before') {
+              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
+            }
+            return true;
+          },
           required: requiredIf(prop => {
             return !(
               prop.filter_operator === 'is_present' ||
               prop.filter_operator === 'is_not_present'
             );
-          }),
-          between: requiredIf(prop => {
-            if (prop.filter_operator === 'is_x_days_before') {
-              if (prop.values > 0 && prop.values < 999) return true;
-              return false;
-            }
-            return true;
           }),
         },
       },
