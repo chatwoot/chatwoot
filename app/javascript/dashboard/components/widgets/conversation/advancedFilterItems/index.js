@@ -95,6 +95,14 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'last_activity',
+    attributeI18nKey: 'LAST_ACTIVITY',
+    inputType: 'date',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_5,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'referer',
     attributeI18nKey: 'REFERER_LINK',
     inputType: 'plain_text',

@@ -83,4 +83,8 @@ export const OPERATOR_TYPES_5 = [
     value: 'is_lesser_than',
     label: 'Is lesser than',
   },
+  {
+    value: 'is_x_days_before',
+    label: 'Is x days before',
+  },
 ];
