@@ -1,7 +1,7 @@
 require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
-  def initialize(rule, conversation_ids=nil)
+  def initialize(rule, conversation_ids = nil)
     super([], nil)
     @rule = rule
     @conversation_ids = conversation_ids

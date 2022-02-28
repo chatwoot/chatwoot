@@ -1,11 +1,13 @@
 class AutomationRuleListener < BaseListener
   def conversation_updated(event_obj)
     conversation = event_obj.data[:conversation]
-    return unless rule_present?('conversation_updated', conversation)
+    account = conversation.try(:account)
+
+    return unless rule_present?('conversation_updated', account)
 
     @rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
-      AutomationRules::ActionService.new(rule, conversation).perform if conditions_match.present?
+      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
 
@@ -69,11 +71,9 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def label_added(event_obj)
-  end
+  def label_added(event_obj); end
 
-  def label_removed(event_obj)
-  end
+  def label_removed(event_obj); end
 
   def rule_present?(event_name, account)
     return if account.blank?

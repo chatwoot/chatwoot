@@ -13,4 +13,9 @@ module Labelable
     new_labels << labels
     update!(label_list: new_labels)
   end
+
+  def add_automation_labels(new_labels = nil)
+    new_labels << labels if labels.any?
+    update(label_list: new_labels)
+  end
 end

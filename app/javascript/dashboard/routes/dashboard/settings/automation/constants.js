@@ -76,11 +76,26 @@ export const AUTOMATIONS = {
         name: 'Add a label',
         attributeI18nKey: 'ADD_LABEL',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_message',
+        name: 'Send message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript to the email',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPTT',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute Conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
     ],
   },
   conversation_created: {
@@ -120,15 +135,20 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_message',
+        name: 'Send message in the conversation',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute Conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
       },
     ],
   },
@@ -183,16 +203,31 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_message',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
         attributeKey: 'assignee_id',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript to the email',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPTT',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute Conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
       },
     ],
   },
@@ -211,14 +246,6 @@ export const AUTOMATION_RULE_EVENTS = [
     key: 'message_created',
     value: 'Message Created',
   },
-  {
-    key: 'contact_created',
-    value: 'Contact Created',
-  },
-  {
-    key: 'contact_updated',
-    value: 'Contact Updated',
-  }
 ];
 
 export const AUTOMATION_ACTION_TYPES = [
@@ -230,8 +257,20 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'add_label',
     label: 'Add a label',
   },
-  // {
-  //   key: 'send_email_to_team',
-  //   label: 'Send an email to team',
-  // },
+  {
+    key: 'send_message',
+    label: 'Send an email to team',
+  },
+  {
+    key: 'send_email_transcript',
+    name: 'Send an email transcript to the email',
+  },
+  {
+    key: 'send_email_to_team',
+    name: 'Send an email to team',
+  },
+  {
+    key: 'mute_conversation',
+    name: 'Mute Conversation',
+  },
 ];
