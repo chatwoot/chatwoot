@@ -12,6 +12,7 @@
       'is-mobile': isMobile,
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
+      'is-flat-design': isWidgetStyleFlat,
     }"
   >
     <router-view></router-view>
@@ -61,6 +62,7 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
