@@ -14,10 +14,11 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
-  position: 'left',
+  position: '<%= @widget_position %>',
   locale: 'en',
-  type: 'expanded_bubble',
+  type: '<%= @widget_type %>',
   showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
 };
 
 (function(d,t) {
@@ -36,14 +37,18 @@ window.chatwootSettings = {
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  console.log(window.$chatwoot);
+  console.log('chatwoot:ready', window.$chatwoot);
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
-      identifier_hash: '<%= user_hash %>',
+      identifier_hash: 'a<%= user_hash %>',
       email: 'jane@example.com',
       name: 'Jane Doe',
       phone_number: ''
     });
   }
+})
+
+window.addEventListener('chatwoot:error', function(e) {
+  console.log('chatwoot:error', e.details)
 })
 </script>

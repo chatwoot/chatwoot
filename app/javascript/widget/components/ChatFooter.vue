@@ -1,7 +1,8 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="shadow-sm rounded-lg bg-white mb-1 z-50 relative"
+    class="shadow-sm bg-white mb-1 z-50 relative"
+    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
   >
     <chat-input-wrap
       :on-send-message="handleSendMessage"
@@ -54,6 +55,7 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
       getConversationSize: 'conversation/getConversationSize',
       currentUser: 'contacts/getCurrentUser',
+      isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
