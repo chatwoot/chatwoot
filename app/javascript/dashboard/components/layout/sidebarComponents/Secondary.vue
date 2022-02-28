@@ -1,5 +1,6 @@
 <template>
   <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
+    <account-context />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -18,9 +19,11 @@
 <script>
 import { frontendURL } from '../../../helper/URLHelper';
 import SecondaryNavItem from './SecondaryNavItem.vue';
+import AccountContext from './AccountContext.vue';
 
 export default {
   components: {
+    AccountContext,
     SecondaryNavItem,
   },
   props: {

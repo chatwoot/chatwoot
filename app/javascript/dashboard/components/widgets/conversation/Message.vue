@@ -1,5 +1,8 @@
 <template>
-  <li v-if="hasAttachments || data.content" :class="alignBubble">
+  <li
+    v-if="hasAttachments || data.content || isEmailContentType"
+    :class="alignBubble"
+  >
     <div :class="wrapClass">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
