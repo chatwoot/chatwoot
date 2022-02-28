@@ -21,8 +21,9 @@
   }
 
   .metric {
-    font-size: $font-size-bigger;
+    font-size: $font-size-big;
     font-weight: $font-weight-feather;
+    margin-top: $space-smaller;
   }
 
   .desc {
