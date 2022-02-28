@@ -67,11 +67,21 @@
       />
     </div>
     <div
-      v-if="showMessageSignature"
+      v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
-      <p class="message-signature" v-html="formatMessage(messageSignature)" />
+      <p
+        v-if="isSignatureAvailable"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
+        <router-link :to="profilePath">
+          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
+        </router-link>
+      </p>
     </div>
     <reply-bottom-panel
       :mode="replyType"
@@ -124,6 +134,7 @@ import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -180,6 +191,7 @@ export default {
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
 
     showRichContentEditor() {
@@ -350,12 +362,18 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
-    showMessageSignature() {
+    isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    isSignatureAvailable() {
+      return !!this.messageSignature;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
+    },
+    profilePath() {
+      return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
   },
   watch: {
@@ -469,7 +487,7 @@ export default {
       }
       if (!this.showMentions) {
         let newMessage = this.message;
-        if (this.sendWithSignature && this.messageSignature) {
+        if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
@@ -711,6 +729,14 @@ export default {
     bottom: 10px;
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
+.message-signature {
+  margin-bottom: 0;
+
+  ::v-deep p:last-child {
+    margin-bottom: 0;
   }
 }
 </style>
