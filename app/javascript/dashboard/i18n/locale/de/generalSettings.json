@@ -89,7 +89,7 @@
     "SECTIONS": {
       "GENERAL": "Generell",
       "REPORTS": "Berichte",
-      "CONVERSATION": "Unterhaltung",
+      "CONVERSATION": "Konversation",
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
       "CHANGE_TEAM": "Team wechseln",
       "ADD_LABEL": "Label zur Unterhaltung hinzufügen",
