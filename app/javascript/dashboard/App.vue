@@ -1,3 +1,4 @@
+
 <template>
   <div id="app" class="app-wrapper app-root">
     <update-banner
@@ -18,14 +19,17 @@
 </template>
 
 <script>
+/* eslint-disable prettier/prettier */
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
 import UpdateBanner from './components/ui/UpdateBanner';
-
+import LocalStorage from './helper/localStorage';
 import NetworkNotification from './components/NetworkNotification';
 import { accountIdFromPathname } from './helper/URLHelper';
 const semver = require('semver');
+
+const dismissedUpdates = new LocalStorage('dismissedUpdates');
 
 export default {
   name: 'App',
@@ -66,10 +70,6 @@ export default {
         this.checkUpdateDismissedOrNot(this.latestChatwootVersion)
       );
     },
-    getDismissedUpdates() {
-      const storedNames = JSON.parse(localStorage.getItem('dismissedUpdates'));
-      return storedNames || [];
-    },
   },
 
   watch: {
@@ -96,24 +96,19 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const {
-          locale,
-          latest_chatwoot_version: latestChatwootVersion,
-        } = this.getAccount(accountId);
+        const { locale, latest_chatwoot_version: latestChatwootVersion } =
+          this.getAccount(accountId);
         this.setLocale(locale);
         this.latestChatwootVersion = latestChatwootVersion;
       }
     },
     checkUpdateDismissedOrNot(version) {
-      return !this.getDismissedUpdates.includes(version);
+      return !dismissedUpdates.get().includes(version);
     },
     dismissUpdateBanner() {
-      const updatedDismissedItems = this.getDismissedUpdates;
+      const updatedDismissedItems = dismissedUpdates.get();
       updatedDismissedItems.push(this.latestChatwootVersion);
-      localStorage.setItem(
-        'dismissedUpdates',
-        JSON.stringify(updatedDismissedItems)
-      );
+      dismissedUpdates.store(updatedDismissedItems);
       this.showUpdateBanner = false;
       this.latestChatwootVersion = this.globalConfig.appVersion;
     },
