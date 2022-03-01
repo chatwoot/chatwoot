@@ -182,7 +182,8 @@
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Bandeja de entrada",
     "REPORTS_TEAM": "Equipo",
-    "SET_AVAILABILITY_TITLE": "Ponte como"
+    "SET_AVAILABILITY_TITLE": "Ponte como",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",
