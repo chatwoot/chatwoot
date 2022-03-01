@@ -92,14 +92,14 @@
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Automatisierungsregel aktivieren",
+      "DEACTIVATION_TITLE": "Automatisierungsregel deaktivieren",
+      "ACTIVATION_DESCRIPTION": "Diese Aktion aktiviert die Automatisierungsregel '{automationName}'. Sind Sie sicher, dass Sie fortfahren möchten?",
+      "DEACTIVATION_DESCRIPTION": "Diese Aktion deaktiviert die Automatisierungsregel '{automationName}'. Sind Sie sicher, dass Sie fortfahren möchten?",
+      "ACTIVATION_SUCCESFUL": "Automatisierungsregel erfolgreich aktiviert",
+      "DEACTIVATION_SUCCESFUL": "Automatisierungsregel erfolgreich deaktiviert",
+      "ACTIVATION_ERROR": "Automatisierung konnte nicht aktiviert werden. Bitte versuchen Sie es später erneut",
+      "DEACTIVATION_ERROR": "Die Automatisierung konnte nicht deaktiviert werden. Bitte versuchen Sie es später erneut",
       "CONFIRMATION_LABEL": "Ja",
       "CANCEL_LABEL": "Nein"
     }
