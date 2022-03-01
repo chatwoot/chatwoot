@@ -142,14 +142,14 @@
   "CONFIRM_EMAIL": "Verifica...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Aggiungi Posta in arrivo"
+      "NEW_INBOX": "Aggiungi Casella"
     }
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Conversazioni",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Menzioni",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
@@ -182,7 +182,8 @@
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
