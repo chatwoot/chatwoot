@@ -6,6 +6,11 @@ class BaseListener
     [conversation, conversation.account]
   end
 
+  def extract_notification_and_account(event)
+    notification = event.data[:notification]
+    [notification, notification.account]
+  end
+
   def extract_message_and_account(event)
     message = event.data[:message]
     [message, message.account]
