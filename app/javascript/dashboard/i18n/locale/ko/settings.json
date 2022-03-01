@@ -182,7 +182,8 @@
     "REPORTS_LABEL": "라벨",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
