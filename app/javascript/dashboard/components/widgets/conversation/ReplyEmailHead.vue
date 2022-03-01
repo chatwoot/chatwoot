@@ -83,6 +83,10 @@ export default {
       }
     },
   },
+  mounted() {
+    this.ccEmailsVal = this.ccEmails;
+    this.bccEmailsVal = this.bccEmails;
+  },
   validations: {
     ccEmailsVal: {
       hasValidEmails(value) {
