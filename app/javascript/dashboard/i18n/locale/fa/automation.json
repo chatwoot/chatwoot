@@ -90,6 +90,18 @@
     },
     "ACTION": {
       "DELETE_MESSAGE": "برای ذخیره باید حداقل یک اکشن داشته باشید"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "فعال کردن قانون اتوماسیون",
+      "DEACTIVATION_TITLE": "غیرفعال کردن قانون اتوماسیون",
+      "ACTIVATION_DESCRIPTION": "این اقدام قانون اتوماسیون «{automationName}» را فعال خواهد کرد. مطمئنی که می‌خوای ادامه بدی؟",
+      "DEACTIVATION_DESCRIPTION": "این اقدام قانون اتوماسیون «{automationName}» را غیرفعال خواهد کرد. مطمئنی که می‌خوای ادامه بدی؟",
+      "ACTIVATION_SUCCESFUL": "قانون اتوماسیون با موفقیت فعال شد",
+      "DEACTIVATION_SUCCESFUL": "قانون اتوماسیون با موفقیت غیرفعال شد",
+      "ACTIVATION_ERROR": "اتوماسیون نمی‌توان فعال شد، لطفا بعدا دوباره امتحان کنید",
+      "DEACTIVATION_ERROR": "اتوماسیون نمی‌توان غیرفعال شد، لطفا بعدا دوباره امتحان کنید",
+      "CONFIRMATION_LABEL": "بله",
+      "CANCEL_LABEL": "خیر"
     }
   }
 }
