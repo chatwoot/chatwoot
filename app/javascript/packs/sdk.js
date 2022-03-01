@@ -25,6 +25,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
     widgetStyle: chatwootSettings.widgetStyle || 'standard',
+    resetTriggered: false,
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);
@@ -100,6 +101,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         baseUrl: window.$chatwoot.baseUrl,
         websiteToken: window.$chatwoot.websiteToken,
       });
+
+      window.$chatwoot.resetTriggered = true;
     },
   };
 
