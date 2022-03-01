@@ -92,14 +92,14 @@
       "DELETE_MESSAGE": "Πρέπει να έχετε τουλάχιστον μία ενέργεια για να αποθηκεύσετε"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Ενεργοποίηση Κανόνα Αυτοματισμού",
+      "DEACTIVATION_TITLE": "Απενεργοποίηση Κανόνα Αυτοματισμού",
+      "ACTIVATION_DESCRIPTION": "Αυτή η ενέργεια θα ενεργοποιήσει τον κανόνα αυτοματισμού '{automationName}'. Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+      "DEACTIVATION_DESCRIPTION": "Αυτή η ενέργεια θα απενεργοποιήσει τον κανόνα αυτοματισμού '{automationName}'. Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
+      "ACTIVATION_SUCCESFUL": "Κανόνας Αυτοματισμού Ενεργοποιήθηκε Επιτυχώς",
+      "DEACTIVATION_SUCCESFUL": "Ο Κανόνας Αυτοματισμού Απενεργοποιήθηκε Επιτυχώς",
+      "ACTIVATION_ERROR": "Δεν ήταν δυνατή η ενεργοποίηση του Αυτοματισμού, παρακαλώ προσπαθήστε ξανά αργότερα",
+      "DEACTIVATION_ERROR": "Δεν ήταν δυνατή η απενεργοποίηση του Αυτοματισμού, παρακαλώ προσπαθήστε ξανά αργότερα",
       "CONFIRMATION_LABEL": "Ναι",
       "CANCEL_LABEL": "Όχι"
     }
