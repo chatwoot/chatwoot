@@ -32,11 +32,11 @@ describe AutomationRuleListener do
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                         { 'action_name' => 'send_webhook_events', 'action_params' => 'https://www.example.com' },
-                                        { 'action_name' => 'assign_best_agents', 'action_params' => [user_1.id] },
-                                        { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] },
+                                        { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
+                                        { 'action_name' => 'send_email_transcript', 'action_params' => 'new_agent@example.com' },
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
-                                        { 'action_name' => 'change_status', 'action_params' => 'snoozed' },
-                                        { 'action_name' => 'send_message', 'action_params' => 'Send this message.' }
+                                        { 'action_name' => 'change_status', 'action_params' => ['snoozed'] },
+                                        { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }
                                       ])
   end
 
@@ -137,8 +137,6 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation rule send email to the team' do
-        team_mail = double
-
         automation_rule
 
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
@@ -237,14 +235,15 @@ describe AutomationRuleListener do
         expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
       end
 
-      it 'triggers automation rule to assign best agents' do
-        team_mail = double
-
+      it 'triggers automation rule to assign best agent' do
+        expect(conversation.assignee).to be_nil
         automation_rule
 
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
 
         listener.message_created(event)
+
+        conversation.reload
 
         expect(conversation.assignee).to eq(user_1)
       end

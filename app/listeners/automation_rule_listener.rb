@@ -7,7 +7,7 @@ class AutomationRuleListener < BaseListener
 
     @rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
-      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+      AutomationRules::ActionService.new(rule, account, conversation.id).perform if conditions_match.present?
     end
   end
 
