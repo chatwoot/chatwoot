@@ -7,6 +7,9 @@ class V2::ReportBuilder
   def initialize(account, params)
     @account = account
     @params = params
+
+    timezone_offset = (params[:timezone_offset] || 0).to_f
+    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
 
   def timeseries
@@ -64,60 +67,58 @@ class V2::ReportBuilder
     @team ||= account.teams.find(params[:id])
   end
 
+  def get_grouped_values(object_scope)
+    object_scope.group_by_period(
+      params[:group_by] || DEFAULT_GROUP_BY,
+      :created_at,
+      default_value: 0,
+      range: range,
+      permit: %w[day week month year],
+      time_zone: @timezone
+    )
+  end
+
   def conversations_count
-    scope.conversations
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
-         .count
+    (get_grouped_values scope.conversations).count
   end
 
   def incoming_messages_count
-    scope.messages.incoming.unscope(:order)
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
-         .count
+    (get_grouped_values scope.messages.incoming.unscope(:order)).count
   end
 
   def outgoing_messages_count
-    scope.messages.outgoing.unscope(:order)
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
-         .count
+    (get_grouped_values scope.messages.outgoing.unscope(:order)).count
   end
 
   def resolutions_count
-    scope.conversations
-         .resolved
-         .group_by_period(params[:group_by] || DEFAULT_GROUP_BY,
-                          :created_at, range: range, default_value: 0, permit: %w[day week month year])
-         .count
+    (get_grouped_values scope.conversations.resolved).count
   end
 
   def avg_first_response_time
-    scope.events
-         .where(name: 'first_response')
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .average(:value)
+    (get_grouped_values scope.reporting_events.where(name: 'first_response')).average(:value)
   end
 
   def avg_resolution_time
-    scope.events.where(name: 'conversation_resolved')
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .average(:value)
+    (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved')).average(:value)
   end
 
-  # Taking average of average is not too accurate
-  # https://en.wikipedia.org/wiki/Simpson's_paradox
-  # TODO: Will optimize this later
   def avg_resolution_time_summary
-    return 0 if avg_resolution_time.values.empty?
+    avg_rt = scope.reporting_events
+                  .where(name: 'conversation_resolved', created_at: range)
+                  .average(:value)
 
-    (avg_resolution_time.values.sum / avg_resolution_time.values.length)
+    return 0 if avg_rt.blank?
+
+    avg_rt
   end
 
   def avg_first_response_time_summary
-    return 0 if avg_first_response_time.values.empty?
+    avg_frt = scope.reporting_events
+                   .where(name: 'first_response', created_at: range)
+                   .average(:value)
 
-    (avg_first_response_time.values.sum / avg_first_response_time.values.length)
+    return 0 if avg_frt.blank?
+
+    avg_frt
   end
 end
