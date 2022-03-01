@@ -3,7 +3,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
 
   def index
-    @automation_rules = Current.account.automation_rules.active
+    @automation_rules = Current.account.automation_rules
   end
 
   def create
@@ -32,7 +32,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def automation_rules_permit
     params.permit(
-      :name, :description, :event_name, :account_id,
+      :name, :description, :event_name, :account_id, :active,
       conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
       actions: [:action_name, { action_params: [] }]
     )
