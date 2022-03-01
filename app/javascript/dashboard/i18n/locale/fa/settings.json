@@ -182,7 +182,8 @@
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
-    "SET_AVAILABILITY_TITLE": "خود را به عنوان"
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان",
+    "BETA": "آزمایشی"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
