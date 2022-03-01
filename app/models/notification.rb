@@ -39,7 +39,8 @@ class Notification < ApplicationRecord
 
   enum notification_type: NOTIFICATION_TYPES
 
-  after_create_commit :process_notification_delivery
+  after_create_commit :process_notification_delivery, :dispatch_create_event
+
   default_scope { order(id: :desc) }
 
   PRIMARY_ACTORS = ['Conversation'].freeze
@@ -107,5 +108,9 @@ class Notification < ApplicationRecord
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
     Notification::EmailNotificationJob.perform_later(self)
+  end
+
+  def dispatch_create_event
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
   end
 end

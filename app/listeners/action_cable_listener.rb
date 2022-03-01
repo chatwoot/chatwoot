@@ -8,6 +8,14 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
+  def notification_created(event)
+    # byebug
+    # conversation, account = extract_conversation_and_account(event)
+    # tokens = user_tokens(account, conversation.inbox.members)
+
+    # broadcast(account, tokens, NOTIFICATION_CREATED, notification.push_event_data)
+  end
+
   def conversation_read(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
