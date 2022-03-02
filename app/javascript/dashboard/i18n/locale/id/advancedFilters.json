@@ -23,6 +23,10 @@
       "is_greater_than": "Is greater than",
       "is_lesser_than": "Is lesser than"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Assignee Name",
