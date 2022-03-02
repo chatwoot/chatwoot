@@ -700,6 +700,8 @@ export default {
   justify-content: space-between;
   border: 1px dashed var(--s-100);
   border-radius: var(--border-radius-small);
+  max-height: 8vh;
+  overflow: auto;
 
   &:hover {
     background: var(--s-25);
