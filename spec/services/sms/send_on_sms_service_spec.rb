@@ -41,7 +41,7 @@ describe Sms::SendOnSmsService do
           basic_auth: { username: '1', password: '1' },
           headers: { 'Content-Type' => 'application/json' },
           body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1',
-                  'media' => [attachment.file_url, attachment2.file_url] }.to_json
+                  'media' => [attachment.download_url, attachment2.download_url] }.to_json
         )
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
