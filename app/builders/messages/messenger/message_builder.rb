@@ -1,10 +1,13 @@
 class Messages::Messenger::MessageBuilder
+  include ::FileTypeHelper
+
   def process_attachment(attachment)
     return if attachment['type'].to_sym == :template
 
     attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
     attachment_obj.save!
     attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+    update_attachment_file_type(attachment_obj)
   end
 
   def attach_file(attachment, file_url)
@@ -22,7 +25,7 @@ class Messages::Messenger::MessageBuilder
     file_type = attachment['type'].to_sym
     params = { file_type: file_type, account_id: @message.account_id }
 
-    if [:image, :file, :audio, :video].include? file_type
+    if [:image, :file, :audio, :video, :share, :story_mention].include? file_type
       params.merge!(file_type_params(attachment))
     elsif file_type == :location
       params.merge!(location_params(attachment))
@@ -38,5 +41,12 @@ class Messages::Messenger::MessageBuilder
       external_url: attachment['payload']['url'],
       remote_file_url: attachment['payload']['url']
     }
+  end
+
+  def update_attachment_file_type(attachment)
+    return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
+
+    attachment.file_type = file_type(attachment.file&.content_type)
+    attachment.save!
   end
 end
