@@ -30,6 +30,7 @@
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   mixins: [globalConfigMixin],
@@ -46,6 +47,9 @@ export default {
 
   mounted() {
     window.addEventListener('offline', this.updateOnlineStatus);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
+      this.updateOnlineStatus({ type: 'offline' });
+    });
   },
 
   beforeDestroy() {

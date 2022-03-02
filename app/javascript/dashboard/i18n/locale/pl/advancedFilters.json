@@ -25,7 +25,7 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Nazwa osoby przypisanej",
       "INBOX_NAME": "Nazwa skrzynki odbiorczej",
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
@@ -47,15 +47,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Czy chcesz zapisać ten filtr?",
+        "LABEL": "Nazwij filtr",
+        "PLACEHOLDER": "Wprowadź nazwę dla tego filtra",
+        "ERROR_MESSAGE": "Nazwa jest wymagana",
+        "SAVE_BUTTON": "Zapisz filtr",
         "CANCEL_BUTTON": "Anuluj",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Folder utworzony pomyślnie",
+          "ERROR_MESSAGE": "Błąd podczas tworzenia folderu"
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Segment created successfully",
@@ -63,13 +63,13 @@
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Usuń filtr",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Potwierdź usunięcie",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Czy na pewno chcesz usunąć filtr ",
             "YES": "Tak, usuń",
-            "NO": "No, Keep it"
+            "NO": "Nie, zachowaj"
           }
         },
         "API_FOLDERS": {

@@ -37,4 +37,76 @@ describe('#getters', () => {
       })
     ).toEqual({ is_contact_sidebar_open: true });
   });
+  describe('#getMessageSignature', () => {
+    it('Return signature when signature is present', () => {
+      expect(
+        getters.getMessageSignature({
+          currentUser: { message_signature: 'Thanks' },
+        })
+      ).toEqual('Thanks');
+    });
+    it('Return empty string when signature is not present', () => {
+      expect(
+        getters.getMessageSignature({
+          currentUser: {},
+        })
+      ).toEqual('');
+    });
+  });
+
+  describe('#getCurrentAccount', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {},
+          currentAccountId: 1,
+        })
+      ).toEqual({});
+
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+          currentAccountId: 1,
+        })
+      ).toEqual({
+        name: 'Chatwoot',
+        id: 1,
+      });
+    });
+  });
+
+  describe('#getUserAccounts', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getUserAccounts({
+          currentUser: {},
+        })
+      ).toEqual([]);
+
+      expect(
+        getters.getUserAccounts({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+        })
+      ).toEqual([
+        {
+          name: 'Chatwoot',
+          id: 1,
+        },
+      ]);
+    });
+  });
 });

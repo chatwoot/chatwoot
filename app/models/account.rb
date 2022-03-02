@@ -78,6 +78,7 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
+  before_validation :validate_limit_keys
   after_create_commit :notify_creation
 
   def agents
@@ -115,8 +116,8 @@ class Account < ApplicationRecord
 
   def usage_limits
     {
-      agents: ChatwootApp.max_limit,
-      inboxes: ChatwootApp.max_limit
+      agents: ChatwootApp.max_limit.to_i,
+      inboxes: ChatwootApp.max_limit.to_i
     }
   end
 
@@ -124,6 +125,10 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+  
+  def validate_limit_keys
+    # method overridden in enterprise module
   end
 
   trigger.after(:insert).for_each(:row) do

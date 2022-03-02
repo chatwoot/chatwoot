@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_081750) do
+ActiveRecord::Schema.define(version: 2022_02_18_120357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -473,22 +473,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
-  create_table "events", force: :cascade do |t|
-    t.string "name"
-    t.float "value"
-    t.integer "account_id"
-    t.integer "inbox_id"
-    t.integer "user_id"
-    t.integer "conversation_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_events_on_account_id"
-    t.index ["created_at"], name: "index_events_on_created_at"
-    t.index ["inbox_id"], name: "index_events_on_inbox_id"
-    t.index ["name"], name: "index_events_on_name"
-    t.index ["user_id"], name: "index_events_on_user_id"
-  end
-
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -703,18 +687,20 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "super_admins", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
+  create_table "reporting_events", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.integer "user_id"
+    t.integer "conversation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_super_admins_on_email", unique: true
+    t.index ["account_id"], name: "index_reporting_events_on_account_id"
+    t.index ["created_at"], name: "index_reporting_events_on_created_at"
+    t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
+    t.index ["name"], name: "index_reporting_events_on_name"
+    t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -798,7 +784,6 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.jsonb "ui_settings", default: {}
     t.jsonb "custom_attributes", default: {}
     t.string "type"
-    t.boolean "message_signature_enabled", default: false, null: false
     t.text "message_signature"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
@@ -827,6 +812,7 @@ ActiveRecord::Schema.define(version: 2022_01_31_081750) do
     t.integer "close_minutes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "open_all_day", default: false
     t.index ["account_id"], name: "index_working_hours_on_account_id"
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
