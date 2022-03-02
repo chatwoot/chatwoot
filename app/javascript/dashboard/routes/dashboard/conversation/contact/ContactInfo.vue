@@ -106,6 +106,14 @@
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
         />
+        <woot-button
+          title="Create Leads"
+          class="delete-contact"
+          variant="smooth"
+          icon="warning"
+          size="small"
+          @click="createLeads"
+        />
       </div>
       <edit-contact
         v-if="showEditModal"
@@ -154,6 +162,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
 import flag from 'country-code-emoji';
+import axios from 'axios'
 
 export default {
   components: {
@@ -240,6 +249,46 @@ export default {
     },
   },
   methods: {
+    createLeads(){
+      //kirim dari sini
+    },
+    async createLeads() {
+      try {
+        //await this.$store.dispatch('contacts/delete', id);
+        let data = {
+          "contact":{
+            "name": this.contact.name,
+            "email": this.contact.email ? this.contact.email : "",
+            "phone": this.contact.phone_number ? this.contact.phone_number : "",
+            "source": "From Chatwoot",
+            "utm_campaign": this.contact.custom_attributes.utm_campaign,
+            "utm_medium": this.contact.custom_attributes.utm_medium,
+            "utm_source": this.contact.custom_attributes.utm_source
+          },
+          "lead":{
+            "name": this.contact.name,
+            "note": `<a href='${window.location.href}' target='_blan'>conversation link</a>`
+          }
+        }
+        let request = await axios.post(`https://odoo-connector.smsperkasa.com/form_webhook/`, data, {
+          headers: {
+              'Content-Type': 'application/json',
+          }
+        })
+        if(request.status===200){
+          this.showAlert("Leads Created")
+        }else{
+          this.showAlert("Create leads gagal! Segera tanya Ifung")
+        }
+      } catch (error) {
+        this.showAlert("Ajur guys, ndang kontak ifung")
+        // this.showAlert(
+        //   error.message
+        //     ? error.message
+        //     : "Error! Segera tanya Ifung"
+        // );
+      }
+    },
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
