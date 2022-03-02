@@ -23,6 +23,10 @@
       "is_greater_than": "بزرگتر از",
       "is_lesser_than": "کوچکتر از"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "وضعیت",
       "ASSIGNEE_NAME": "نام مسئول",
