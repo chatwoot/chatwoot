@@ -23,6 +23,10 @@
       "is_greater_than": "هو أكبر من",
       "is_lesser_than": "هو أقل من"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
       "ASSIGNEE_NAME": "اسم المحال إليه",
