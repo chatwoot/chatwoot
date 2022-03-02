@@ -23,6 +23,29 @@ describe Sms::SendOnSmsService do
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
       end
+
+      it 'calls channel.send_message with attachments' do
+        message = build(:message, message_type: :outgoing, content: 'test',
+                                  conversation: conversation)
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        message.save!
+
+        allow(HTTParty).to receive(:post).and_return(sms_request)
+        allow(sms_request).to receive(:success?).and_return(true)
+        allow(sms_request).to receive(:parsed_response).and_return({ 'id' => '123456789' })
+        expect(HTTParty).to receive(:post).with(
+          'https://messaging.bandwidth.com/api/v2/users/1/messages',
+          basic_auth: { username: '1', password: '1' },
+          headers: { 'Content-Type' => 'application/json' },
+          body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1',
+                  'media' => [attachment.download_url, attachment2.download_url] }.to_json
+        )
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
     end
   end
 end

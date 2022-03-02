@@ -293,7 +293,7 @@ export default {
       if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isATwilioSMSChannel) {
+      if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isATwitterInbox) {
@@ -310,7 +310,7 @@ export default {
         this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel ||
+        this.isASmsInbox ||
         this.isATelegramChannel
       );
     },

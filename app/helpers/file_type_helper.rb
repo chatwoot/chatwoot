@@ -3,7 +3,7 @@ module FileTypeHelper
   def file_type(content_type)
     return :image if image_file?(content_type)
     return :video if video_file?(content_type)
-    return :audio if content_type.include?('audio/')
+    return :audio if content_type&.include?('audio/')
 
     :file
   end
