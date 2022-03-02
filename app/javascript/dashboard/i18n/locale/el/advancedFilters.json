@@ -23,6 +23,10 @@
       "is_greater_than": "Είναι μεγαλύτερο από",
       "is_lesser_than": "Είναι μικρότερο από"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Κατάσταση",
       "ASSIGNEE_NAME": "Όνομα Εντεταλμένου",
