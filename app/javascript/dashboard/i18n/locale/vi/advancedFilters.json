@@ -23,6 +23,10 @@
       "is_greater_than": "Lớn hơn",
       "is_lesser_than": "Nhỏ hơn"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Trạng thái",
       "ASSIGNEE_NAME": "Tên Người được phân công",
