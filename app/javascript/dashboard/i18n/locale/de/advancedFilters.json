@@ -23,6 +23,10 @@
       "is_greater_than": "Ist größer als",
       "is_lesser_than": "Ist kleiner als"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Name des Bevollmächtigten",
