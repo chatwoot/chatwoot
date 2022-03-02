@@ -30,7 +30,7 @@ class AutomationRules::ActionService
 
   def change_status(status)
     @conversations.each do |conversation|
-      conversation.update_column(:status, status[0])
+      conversation.update!(status: status[0])
     end
   end
 
@@ -53,7 +53,7 @@ class AutomationRules::ActionService
     return unless team_belongs_to_account?(team_ids)
 
     @conversations.each do |conversation|
-      conversation.update_column(:team_id, team_ids[0])
+      conversation.update!(team_id: team_ids[0])
     end
   end
 
@@ -63,7 +63,7 @@ class AutomationRules::ActionService
     @agent = @account.users.find_by(id: agent_ids)
 
     @conversations.each do |conversation|
-      conversation.update_column(:assignee_id, @agent.id) if @agent.present?
+      conversation.update!(assignee_id: @agent.id) if @agent.present?
     end
   end
 

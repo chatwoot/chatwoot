@@ -70,9 +70,6 @@ Rails/ApplicationController:
     - 'app/controllers/platform_controller.rb'
     - 'app/controllers/public_controller.rb'
     - 'app/controllers/survey/responses_controller.rb'
-Rails/SkipsModelValidations:
-   Exclude:
-    - 'app/services/automation_rules/action_service.rb'
 Rails/CompactBlank:
   Enabled: false
 Rails/EnvironmentVariableAccess:

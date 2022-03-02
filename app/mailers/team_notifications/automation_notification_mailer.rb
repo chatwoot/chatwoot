@@ -4,7 +4,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
 
     @agents = team.team_members
     @conversation = conversations[0]
-    @message = message
+    @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
     send_an_email_to_team and return
@@ -15,7 +15,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
 
     @agents = team.team_members
     @conversation = conversations[0]
-    @message = message
+    @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
     send_an_email_to_team and return
@@ -26,7 +26,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
 
     @agents = team.team_members
     @conversation = conversations[0]
-    @message = message
+    @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
     send_an_email_to_team and return
@@ -47,9 +47,14 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
   def liquid_droppables
     super.merge!({
                    user: @agent.user,
-                   message: @message,
                    conversation: @conversation,
                    inbox: @conversation.inbox
+                 })
+  end
+
+  def liquid_locals
+    super.merge!({
+                   custom_message: @custom_message
                  })
   end
 end

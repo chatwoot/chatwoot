@@ -46,8 +46,7 @@ class ApplicationMailer < ActionMailer::Base
       account: Current.account,
       user: @agent,
       conversation: @conversation,
-      inbox: @conversation&.inbox,
-      message: @message
+      inbox: @conversation&.inbox
     }
   end
 

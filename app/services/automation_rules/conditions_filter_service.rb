@@ -44,6 +44,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
+  # This will be used in future for contact automation rule
   def contact_conditions(_contact)
     conversation_filters = @filters['conversations']
 
