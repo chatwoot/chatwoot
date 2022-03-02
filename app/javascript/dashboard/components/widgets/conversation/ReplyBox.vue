@@ -67,11 +67,21 @@
       />
     </div>
     <div
-      v-if="showMessageSignature"
+      v-if="isSignatureEnabledForInbox"
       v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
       class="message-signature-wrap"
     >
-      <p class="message-signature" v-html="formatMessage(messageSignature)" />
+      <p
+        v-if="isSignatureAvailable"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
+        <router-link :to="profilePath">
+          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
+        </router-link>
+      </p>
     </div>
     <reply-bottom-panel
       :mode="replyType"
@@ -124,6 +134,7 @@ import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -179,7 +190,9 @@ export default {
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
+      lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
 
     showRichContentEditor() {
@@ -280,7 +293,7 @@ export default {
       if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isATwilioSMSChannel) {
+      if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isATwitterInbox) {
@@ -297,7 +310,7 @@ export default {
         this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel ||
+        this.isASmsInbox ||
         this.isATelegramChannel
       );
     },
@@ -350,12 +363,18 @@ export default {
     enableMultipleFileUpload() {
       return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
     },
-    showMessageSignature() {
+    isSignatureEnabledForInbox() {
       return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    isSignatureAvailable() {
+      return !!this.messageSignature;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
       return isEnabled;
+    },
+    profilePath() {
+      return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
   },
   watch: {
@@ -370,6 +389,8 @@ export default {
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
+
+      this.setCCEmailFromLastChat();
     },
     message(updatedMessage) {
       this.hasSlashCommand =
@@ -391,6 +412,8 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
+
+    this.setCCEmailFromLastChat();
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
@@ -469,7 +492,7 @@ export default {
       }
       if (!this.showMentions) {
         let newMessage = this.message;
-        if (this.sendWithSignature && this.messageSignature) {
+        if (this.isSignatureEnabledForInbox && this.messageSignature) {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
@@ -632,11 +655,11 @@ export default {
         });
       }
 
-      if (this.ccEmails) {
+      if (this.ccEmails && !this.isOnPrivateNote) {
         messagePayload.ccEmails = this.ccEmails;
       }
 
-      if (this.bccEmails) {
+      if (this.bccEmails && !this.isOnPrivateNote) {
         messagePayload.bccEmails = this.bccEmails;
       }
 
@@ -648,6 +671,17 @@ export default {
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
+    },
+    setCCEmailFromLastChat() {
+      if (this.lastEmail) {
+        const {
+          content_attributes: { email: emailAttributes = {} },
+        } = this.lastEmail;
+        const cc = emailAttributes.cc || [];
+        const bcc = emailAttributes.bcc || [];
+        this.ccEmails = cc.join(', ');
+        this.bccEmails = bcc.join(', ');
+      }
     },
   },
 };
@@ -666,6 +700,8 @@ export default {
   justify-content: space-between;
   border: 1px dashed var(--s-100);
   border-radius: var(--border-radius-small);
+  max-height: 8vh;
+  overflow: auto;
 
   &:hover {
     background: var(--s-25);
@@ -711,6 +747,14 @@ export default {
     bottom: 10px;
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
+.message-signature {
+  margin-bottom: 0;
+
+  ::v-deep p:last-child {
+    margin-bottom: 0;
   }
 }
 </style>

@@ -58,7 +58,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       since: params[:since],
       until: params[:until],
       id: params[:id],
-      group_by: params[:group_by]
+      group_by: params[:group_by],
+      timezone_offset: params[:timezone_offset]
     }
   end
 
