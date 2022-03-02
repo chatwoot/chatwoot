@@ -23,6 +23,10 @@
       "is_greater_than": "É maior que",
       "is_lesser_than": "É menor que"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "SItuação",
       "ASSIGNEE_NAME": "Nome do Responsável",
