@@ -14,12 +14,18 @@ class Sms::IncomingMessageService
       sender: @contact,
       source_id: params[:id]
     )
+    attach_files
+    @message.save!
   end
 
   private
 
   def account
     @account ||= @inbox.account
+  end
+
+  def channel
+    @channel ||= @inbox.channel
   end
 
   def phone_number
@@ -62,5 +68,29 @@ class Sms::IncomingMessageService
       name: formatted_phone_number,
       phone_number: phone_number
     }
+  end
+
+  def attach_files
+    return if params[:media].blank?
+
+    params[:media].each do |media_url|
+      # we don't need to process this files since chatwoot doesn't support it
+      next if media_url.end_with? '.smil'
+
+      attachment_file = Down.download(
+        media_url,
+        http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']]
+      )
+
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_type(attachment_file.content_type),
+        file: {
+          io: attachment_file,
+          filename: attachment_file,
+          content_type: attachment_file.content_type
+        }
+      )
+    end
   end
 end

@@ -190,6 +190,7 @@ export default {
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
+      lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
     }),
@@ -292,7 +293,7 @@ export default {
       if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isATwilioSMSChannel) {
+      if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isATwitterInbox) {
@@ -309,7 +310,7 @@ export default {
         this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel ||
+        this.isASmsInbox ||
         this.isATelegramChannel
       );
     },
@@ -388,6 +389,8 @@ export default {
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
+
+      this.setCCEmailFromLastChat();
     },
     message(updatedMessage) {
       this.hasSlashCommand =
@@ -409,6 +412,8 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
+
+    this.setCCEmailFromLastChat();
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
@@ -650,11 +655,11 @@ export default {
         });
       }
 
-      if (this.ccEmails) {
+      if (this.ccEmails && !this.isOnPrivateNote) {
         messagePayload.ccEmails = this.ccEmails;
       }
 
-      if (this.bccEmails) {
+      if (this.bccEmails && !this.isOnPrivateNote) {
         messagePayload.bccEmails = this.bccEmails;
       }
 
@@ -666,6 +671,17 @@ export default {
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
+    },
+    setCCEmailFromLastChat() {
+      if (this.lastEmail) {
+        const {
+          content_attributes: { email: emailAttributes = {} },
+        } = this.lastEmail;
+        const cc = emailAttributes.cc || [];
+        const bcc = emailAttributes.bcc || [];
+        this.ccEmails = cc.join(', ');
+        this.bccEmails = bcc.join(', ');
+      }
     },
   },
 };
@@ -684,6 +700,8 @@ export default {
   justify-content: space-between;
   border: 1px dashed var(--s-100);
   border-radius: var(--border-radius-small);
+  max-height: 8vh;
+  overflow: auto;
 
   &:hover {
     background: var(--s-25);
