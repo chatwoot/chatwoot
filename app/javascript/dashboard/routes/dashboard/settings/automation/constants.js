@@ -1,51 +1,51 @@
 const OPERATOR_TYPES_1 = [
   {
     value: 'equal_to',
-    label: 'Equal to'
+    label: 'Equal to',
   },
   {
     value: 'not_equal_to',
-    label: 'Not equal to'
-  }
-].freeze
+    label: 'Not equal to',
+  },
+];
 
 const OPERATOR_TYPES_2 = [
   {
     value: 'equal_to',
-    label: 'Equal to'
+    label: 'Equal to',
   },
   {
     value: 'not_equal_to',
-    label: 'Not equal to'
+    label: 'Not equal to',
   },
   {
     value: 'contains',
-    label: 'Contains'
+    label: 'Contains',
   },
   {
     value: 'does_not_contain',
-    label: 'Does not contain'
-  }
-].freeze
+    label: 'Does not contain',
+  },
+];
 
 const OPERATOR_TYPES_3 = [
   {
     value: 'equal_to',
-    label: 'Equal to'
+    label: 'Equal to',
   },
   {
     value: 'not_equal_to',
-    label: 'Not equal to'
+    label: 'Not equal to',
   },
   {
     value: 'is_present',
-    label: 'Is present'
+    label: 'Is present',
   },
   {
     value: 'is_not_present',
-    label: 'Is not present'
-  }
-].freeze
+    label: 'Is not present',
+  },
+];
 
 export const AUTOMATIONS = {
   message_created: {
@@ -55,58 +55,33 @@ export const AUTOMATIONS = {
         name: 'Message Type',
         attributeI18nKey: 'MESSAGE_TYPE',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'content',
         name: 'Message Content',
         attributeI18nKey: 'MESSAGE_CONTAINS',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2
-      }
+        filterOperators: OPERATOR_TYPES_2,
+      },
     ],
     actions: [
       {
         key: 'assign_team',
         name: 'Assign a team',
-        attributeI18nKey: 'ASSIGN_TEAM'
+        attributeI18nKey: 'ASSIGN_TEAM',
       },
       {
         key: 'add_label',
         name: 'Add a label',
-        attributeI18nKey: 'ADD_LABEL'
+        attributeI18nKey: 'ADD_LABEL',
       },
-      {
-        key: 'assign_best_agent',
-        name: 'Assign an agent',
-        attributeI18nKey: 'ASSIGN_AGENT'
-      },
-      {
-        key: 'send_email_transcript',
-        name: 'Send an email transcript to the email',
-        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPTT'
-      },
-      {
-        key: 'send_email_to_team',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_EMAIL_TO_TEAM'
-      },
-      {
-        key: 'mute_conversation',
-        name: 'Mute Conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION'
-      },
-      {
-        key: 'change_status',
-        name: 'Change Status',
-        attributeI18nKey: 'CHANGE_STATUS'
-      },
-      {
-        key: 'send_webhook_events',
-        name: 'Send webhook events',
-        attributeI18nKey: 'SEND_WEBHOOK_EVENTS'
-      }
-    ]
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      // },
+    ],
   },
   conversation_created: {
     conditions: [
@@ -115,72 +90,47 @@ export const AUTOMATIONS = {
         name: 'Status',
         attributeI18nKey: 'STATUS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'browser_language',
         name: 'Browser Language',
         attributeI18nKey: 'BROWSER_LANGUAGE',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'country_code',
         name: 'Country',
         attributeI18nKey: 'COUNTRY_NAME',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'referrer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2
-      }
+        filterOperators: OPERATOR_TYPES_2,
+      },
     ],
     actions: [
       {
         key: 'assign_team',
         name: 'Assign a team',
-        attributeI18nKey: 'ASSIGN_TEAM'
+        attributeI18nKey: 'ASSIGN_TEAM',
       },
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_MESSAGE',
+      // },
       {
-        key: 'send_message',
-        name: 'Send message in the conversation',
-        attributeI18nKey: 'SEND_MESSAGE'
-      },
-      {
-        key: 'assign_best_agent',
+        key: 'assign_agent',
         name: 'Assign an agent',
-        attributeI18nKey: 'ASSIGN_AGENT'
+        attributeI18nKey: 'ASSIGN_AGENT',
       },
-      {
-        key: 'send_email_transcript',
-        name: 'Send an email transcript to the email',
-        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPTT'
-      },
-      {
-        key: 'mute_conversation',
-        name: 'Mute Conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION'
-      },
-      {
-        key: 'send_email_to_team',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_EMAIL_TO_TEAM'
-      },
-      {
-        key: 'change_status',
-        name: 'Change Status',
-        attributeI18nKey: 'CHANGE_STATUS'
-      },
-      {
-        key: 'send_webhook_events',
-        name: 'Send webhook events',
-        attributeI18nKey: 'SEND_WEBHOOK_EVENTS'
-      }
-    ]
+    ],
   },
   conversation_updated: {
     conditions: [
@@ -189,140 +139,91 @@ export const AUTOMATIONS = {
         name: 'Status',
         attributeI18nKey: 'STATUS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'browser_language',
         name: 'Browser Language',
         attributeI18nKey: 'BROWSER_LANGUAGE',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'country_code',
         name: 'Country',
         attributeI18nKey: 'COUNTRY_NAME',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'referer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2
+        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'assignee_id',
         name: 'Assignee',
         attributeI18nKey: 'ASSIGNEE_NAME',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3
+        filterOperators: OPERATOR_TYPES_3,
       },
       {
         key: 'team_id',
         name: 'Team',
         attributeI18nKey: 'TEAM_NAME',
         inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3
-      }
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
         key: 'assign_team',
         name: 'Assign a team',
-        attributeI18nKey: 'ASSIGN_TEAM'
+        attributeI18nKey: 'ASSIGN_TEAM',
       },
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      // },
       {
-        key: 'send_message',
-        name: 'Send message',
-        attributeI18nKey: 'SEND_MESSAGE'
-      },
-      {
-        key: 'assign_best_agent',
+        key: 'assign_agent',
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
-        attributeKey: 'assignee_id'
+        attributeKey: 'assignee_id',
       },
-      {
-        key: 'send_email_transcript',
-        name: 'Send an email transcript to the email',
-        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPTT'
-      },
-      {
-        key: 'send_email_to_team',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_EMAIL_TO_TEAM'
-      },
-      {
-        key: 'mute_conversation',
-        name: 'Mute Conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION'
-      },
-      {
-        key: 'change_status',
-        name: 'Change Status',
-        attributeI18nKey: 'CHANGE_STATUS'
-      },
-      {
-        key: 'send_webhook_events',
-        name: 'Send webhook events',
-        attributeI18nKey: 'SEND_WEBHOOK_EVENTS'
-      }
-    ]
-  }
-}.freeze
+    ],
+  },
+};
 
 export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'conversation_created',
-    value: 'Conversation Created'
+    value: 'Conversation Created',
   },
   {
     key: 'conversation_updated',
-    value: 'Conversation Updated'
+    value: 'Conversation Updated',
   },
   {
     key: 'message_created',
-    value: 'Message Created'
-  }
-].freeze
+    value: 'Message Created',
+  },
+];
 
 export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'assign_team',
-    label: 'Assign a team'
+    label: 'Assign a team',
   },
   {
     key: 'add_label',
-    label: 'Add a label'
+    label: 'Add a label',
   },
-  {
-    key: 'send_message',
-    label: 'Send an email to team'
-  },
-  {
-    key: 'send_email_transcript',
-    name: 'Send an email transcript to the email'
-  },
-  {
-    key: 'send_email_to_team',
-    name: 'Send an email to team'
-  },
-  {
-    key: 'mute_conversation',
-    name: 'Mute Conversation'
-  },
-  {
-    key: 'assign_best_agent',
-    name: 'Assign an agent'
-  },
-  {
-    key: 'change_status',
-    name: 'Change Status'
-  },
-  {
-    key: 'send_webhook_events',
-    name: 'Send webhook events'
-  }
-].freeze
+  // {
+  //   key: 'send_email_to_team',
+  //   label: 'Send an email to team',
+  // },
+];

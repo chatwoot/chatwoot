@@ -42,6 +42,8 @@ class AutomationRules::ActionService
   end
 
   def send_message(message)
+    return if @rule.event_name == 'message_created'
+
     params = { content: message[0], private: false }
     @conversations.each do |conversation|
       mb = Messages::MessageBuilder.new(@administrator, conversation, params)

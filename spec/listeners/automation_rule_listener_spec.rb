@@ -190,6 +190,42 @@ describe AutomationRuleListener do
 
         expect(conversation.assignee).to eq(user_1)
       end
+
+      it 'triggers automation rule send email transcript to the mentioned email' do
+        mailer = double
+
+        automation_rule
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        allow(mailer).to receive(:conversation_transcript)
+      end
+
+      it 'triggers automation rule send email to the team' do
+        automation_rule
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+
+        listener.conversation_updated(event)
+      end
+
+      it 'triggers automation rule send message to the contacts' do
+        expect(conversation.messages).to be_empty
+
+        automation_rule
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        expect(conversation.messages.last.content).to eq('Send this message.')
+      end
     end
   end
 
@@ -246,6 +282,20 @@ describe AutomationRuleListener do
         conversation.reload
 
         expect(conversation.assignee).to eq(user_1)
+      end
+
+      it 'triggers automation rule send email transcript to the mentioned email' do
+        mailer = double
+
+        automation_rule
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+
+        listener.message_created(event)
+
+        conversation.reload
+
+        allow(mailer).to receive(:conversation_transcript)
       end
     end
   end

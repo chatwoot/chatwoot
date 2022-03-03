@@ -47,34 +47,6 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def contact_created(event_obj)
-    contact = event_obj.data[:contact]
-    account = contact.try(:account)
-
-    return unless rule_present?('contact_created', account)
-
-    @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, contact.try(:conversation_ids)).contact_conditions(contact)
-      ::AutomationRules::ActionService.new(rule, account, contact.try(:conversation_ids)).perform if conditions_match.present?
-    end
-  end
-
-  def contact_updated(event_obj)
-    contact = event_obj.data[:contact]
-    account = contact.try(:account)
-
-    return unless rule_present?('contact_updated', account)
-
-    @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, contact.try(:conversation_ids)).contact_conditions(contact)
-      ::AutomationRules::ActionService.new(rule, account, contact.try(:conversation_ids)).perform if conditions_match.present?
-    end
-  end
-
-  def label_added(event_obj); end
-
-  def label_removed(event_obj); end
-
   def rule_present?(event_name, account)
     return if account.blank?
 
