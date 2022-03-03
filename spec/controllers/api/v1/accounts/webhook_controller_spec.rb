@@ -48,6 +48,15 @@ RSpec.describe 'Webhooks API', type: :request do
 
         expect(JSON.parse(response.body)['payload']['webhook']['url']).to eql 'https://hello.com'
       end
+
+      it 'throws error when invalid url provided' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { account_id: account.id, inbox_id: inbox.id, url: 'javascript:alert(1)' },
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['message']).to eql 'Url is invalid'
+      end
     end
   end
 
