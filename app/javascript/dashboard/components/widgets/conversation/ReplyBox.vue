@@ -293,7 +293,7 @@ export default {
       if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isATwilioSMSChannel) {
+      if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isATwitterInbox) {
@@ -310,7 +310,7 @@ export default {
         this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel ||
+        this.isASmsInbox ||
         this.isATelegramChannel
       );
     },
@@ -700,6 +700,8 @@ export default {
   justify-content: space-between;
   border: 1px dashed var(--s-100);
   border-radius: var(--border-radius-small);
+  max-height: 8vh;
+  overflow: auto;
 
   &:hover {
     background: var(--s-25);

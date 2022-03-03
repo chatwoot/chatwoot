@@ -48,6 +48,10 @@ class Attachment < ApplicationRecord
     file.attached? ? url_for(file) : ''
   end
 
+  def download_url
+    file.attached? ? rails_storage_proxy_url(file) : ''
+  end
+
   def thumb_url
     if file.attached? && file.representable?
       url_for(file.representation(resize: '250x250'))
