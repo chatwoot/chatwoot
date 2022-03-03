@@ -32,6 +32,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
       Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
     )
     @csat_survey_responses = @csat_survey_responses.where(created_at: range) if range.present?
+    @csat_survey_responses = @csat_survey_responses.where(assigned_agent_id: params[:user_ids]) if params[:user_ids].present?
   end
 
   def set_current_page_surveys
