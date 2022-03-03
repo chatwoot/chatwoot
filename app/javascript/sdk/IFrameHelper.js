@@ -152,7 +152,7 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      
+
       dispatchWindowEvent({ eventName: CHATWOOT_READY });
 
       window.playAudioAlert = () => {};
