@@ -7,6 +7,7 @@ class Messages::Messenger::MessageBuilder
     attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
     attachment_obj.save!
     attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+    fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
     update_attachment_file_type(attachment_obj)
   end
 
@@ -48,5 +49,24 @@ class Messages::Messenger::MessageBuilder
 
     attachment.file_type = file_type(attachment.file&.content_type)
     attachment.save!
+  end
+
+  def fetch_story_link(attachment)
+    message = attachment.message
+    begin
+      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
+      result = k.get_object(message.source_id, fields: %w[story from]) || {}
+    rescue Koala::Facebook::AuthenticationError
+      @inbox.channel.authorization_error!
+      raise
+    rescue StandardError => e
+      result = {}
+      Sentry.capture_exception(e)
+    end
+    story_id = result['story']['mention']['id']
+    story_sender = result['from']['username']
+    link_to_the_stroy = "https://www.instagram.com/stories/#{story_sender}/#{story_id}"
+    message.content = "#{story_sender} mentioned you in the story: #{link_to_the_stroy}"
+    message.save!
   end
 end
