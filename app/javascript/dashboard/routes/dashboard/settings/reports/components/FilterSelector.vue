@@ -54,7 +54,7 @@
         :close-on-select="false"
         :clear-on-select="false"
         :hide-selected="true"
-        placeholder="Choose Agents"
+        :placeholder="$t('CSAT_REPORTS.FILTERS.AGENTS.PLACEHOLDER')"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
