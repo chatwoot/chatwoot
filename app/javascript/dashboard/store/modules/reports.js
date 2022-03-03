@@ -1,13 +1,11 @@
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
-import compareAsc from 'date-fns/compareAsc';
-import fromUnixTime from 'date-fns/fromUnixTime';
-
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
 import { downloadCsvFile } from '../../helper/downloadCsvFile';
+import { formatTime } from '@chatwoot/utils';
 
 const state = {
   fetchingStatus: false,
@@ -48,7 +46,8 @@ export const actions = {
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
-        el => compareAsc(new Date(), fromUnixTime(el.timestamp)) > -1
+        el =>
+          reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
       if (
         reportObj.metric === 'avg_first_response_time' ||
@@ -129,18 +128,12 @@ const mutations = {
     // Average First Response Time
     let avgFirstResTimeInHr = 0;
     if (summaryData.avg_first_response_time) {
-      avgFirstResTimeInHr = (
-        summaryData.avg_first_response_time / 3600
-      ).toFixed(2);
-      avgFirstResTimeInHr = `${avgFirstResTimeInHr} Hr`;
+      avgFirstResTimeInHr = formatTime(summaryData.avg_first_response_time);
     }
     // Average Resolution Time
     let avgResolutionTimeInHr = 0;
     if (summaryData.avg_resolution_time) {
-      avgResolutionTimeInHr = (summaryData.avg_resolution_time / 3600).toFixed(
-        2
-      );
-      avgResolutionTimeInHr = `${avgResolutionTimeInHr} Hr`;
+      avgResolutionTimeInHr = formatTime(summaryData.avg_resolution_time);
     }
     _state.accountSummary.avg_first_response_time = avgFirstResTimeInHr;
     _state.accountSummary.avg_resolution_time = avgResolutionTimeInHr;

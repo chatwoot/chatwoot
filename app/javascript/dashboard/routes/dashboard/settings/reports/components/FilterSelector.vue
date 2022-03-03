@@ -71,6 +71,7 @@ import startOfDay from 'date-fns/startOfDay';
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import { GROUP_BY_FILTER } from '../constants';
+import endOfDay from 'date-fns/endOfDay';
 
 export default {
   components: {

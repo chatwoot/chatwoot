@@ -45,7 +45,7 @@ class Team < ApplicationRecord
     account.messages.where(conversation_id: conversations.pluck(:id))
   end
 
-  def events
-    account.events.where(conversation_id: conversations.pluck(:id))
+  def reporting_events
+    account.reporting_events.where(conversation_id: conversations.pluck(:id))
   end
 end
