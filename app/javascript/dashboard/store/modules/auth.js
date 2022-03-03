@@ -6,8 +6,7 @@ import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
-import { frontendURL } from '../../helper/URLHelper';
+import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const state = {
   currentUser: {
@@ -87,17 +86,6 @@ export const getters = {
   },
 };
 
-export const getRedirectUrl = (ssoAccountId, user) => {
-  const { accounts = [] } = user || {};
-  const ssoAccount = accounts.find(
-    account => account.id === Number(ssoAccountId)
-  );
-  if (ssoAccount) {
-    return frontendURL(`accounts/${ssoAccountId}/dashboard`);
-  }
-  return DEFAULT_REDIRECT_URL;
-};
-
 // actions
 export const actions = {
   login({ commit }, { ssoAccountId, ...credentials }) {
@@ -109,7 +97,7 @@ export const actions = {
           window.axios = createAxios(axios);
           actionCable.init(Vue);
 
-          window.location = getRedirectUrl(ssoAccountId, response.data);
+          window.location = getLoginRedirectURL(ssoAccountId, response.data);
           resolve();
         })
         .catch(error => {
