@@ -1,6 +1,6 @@
 {
   "AUTOMATION": {
-    "HEADER": "Otomatisasi",
+    "HEADER": "Automations",
     "HEADER_BTN_TXT": "Tambah aturan otomatisasi",
     "LOADING": "Fetching automation rules",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Edit",
+      "SUBMIT": "Perbarui",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
@@ -84,6 +84,24 @@
       "DELETE": "Hapus",
       "CANCEL": "Batalkan",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Ya",
+      "CANCEL_LABEL": "Tidak"
     }
   }
 }
