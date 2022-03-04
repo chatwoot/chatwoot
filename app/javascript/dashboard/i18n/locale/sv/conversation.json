@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter för att skicka",
       "DRAG_DROP": "Dra och släpp hit för att bifoga",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Lägg till bcc",
         "CC": {
