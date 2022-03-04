@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
-      "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents"
+      "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Répondre",
