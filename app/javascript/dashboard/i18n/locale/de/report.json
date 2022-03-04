@@ -367,7 +367,7 @@
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Agenten wählen"
       }
     },
     "TABLE": {
