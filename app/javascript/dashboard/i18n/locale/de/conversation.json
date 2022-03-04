@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
+      "TIP_AUDIORECORDER_ICON": "Audio aufzeichnen",
+      "TIP_AUDIORECORDER_PERMISSION": "Zugriff auf Audio zulassen",
+      "TIP_AUDIORECORDER_ERROR": "Audio konnte nicht geöffnet werden",
       "ENTER_TO_SEND": "Zum senden ENTER drücken",
       "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen",
+      "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
+      "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "BCC hinzufügen",
         "CC": {
