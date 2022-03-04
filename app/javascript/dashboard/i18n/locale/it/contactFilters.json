@@ -21,25 +21,25 @@
             "does_not_contain": "Non contiene",
             "is_present": "È presente",
             "is_not_present": "Non è presente",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than"
+            "is_greater_than": "È maggiore di",
+            "is_lesser_than": "È minore di"
         },
         "ATTRIBUTES": {
             "NAME": "Nome",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Numero di telefono",
-            "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "IDENTIFIER": "Identificatore",
+            "CITY": "Città",
+            "COUNTRY": "Paese",
+            "CUSTOM_ATTRIBUTE_LIST": "Elenco",
+            "CUSTOM_ATTRIBUTE_TEXT": "Testo",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Numero",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Filtri standard",
+            "ADDITIONAL_FILTERS": "Filtri addizionali",
             "CUSTOM_ATTRIBUTES": "Attributi personalizzati"
         }
     }
