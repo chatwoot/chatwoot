@@ -278,10 +278,10 @@ export default {
         if(request.status===200){
           this.showAlert("Leads Created")
         }else{
-          this.showAlert("Create leads gagal! Segera tanya Ifung")
+          this.showAlert("Failed creating leads! Please contact Engineer Team")
         }
       } catch (error) {
-        this.showAlert("Ajur guys, ndang kontak ifung")
+        this.showAlert(`Error!${error && error.message ? `${error.message}.` : ""} Please contact Engineer Team`)
         // this.showAlert(
         //   error.message
         //     ? error.message
