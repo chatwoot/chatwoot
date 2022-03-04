@@ -24,8 +24,8 @@
       "is_lesser_than": "É menor que"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Verdadeiro",
+      "FALSE": "Falso"
     },
     "ATTRIBUTES": {
       "STATUS": "SItuação",
