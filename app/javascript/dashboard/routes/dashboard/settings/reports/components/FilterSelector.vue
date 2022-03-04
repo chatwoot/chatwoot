@@ -24,7 +24,7 @@
       @change="onChange"
     />
     <div
-      v-if="notLast7Days"
+      v-if="notLast7Days && groupByFilter"
       class="small-12 medium-3 pull-right margin-left-small"
     >
       <p aria-hidden="true" class="hide">
@@ -39,6 +39,26 @@
         :allow-empty="false"
         :show-labels="false"
         @input="changeFilterSelection"
+      />
+    </div>
+    <div
+      v-if="agentsFilter"
+      class="small-12 medium-3 pull-right margin-left-small"
+    >
+      <multiselect
+        v-model="selectedAgents"
+        :options="agentsFilterItemsList"
+        track-by="id"
+        label="name"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        :hide-selected="true"
+        :placeholder="$t('CSAT_REPORTS.FILTERS.AGENTS.PLACEHOLDER')"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        @input="handleAgentsFilterSelection"
       />
     </div>
   </div>
@@ -61,9 +81,21 @@ export default {
       type: Array,
       default: () => [],
     },
+    agentsFilterItemsList: {
+      type: Array,
+      default: () => [],
+    },
     selectedGroupByFilter: {
       type: Object,
       default: () => {},
+    },
+    groupByFilter: {
+      type: Boolean,
+      default: false,
+    },
+    agentsFilter: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -72,6 +104,7 @@ export default {
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
       currentSelectedFilter: null,
+      selectedAgents: [],
     };
   },
   computed: {
@@ -148,6 +181,9 @@ export default {
     },
     changeFilterSelection() {
       this.$emit('filter-change', this.currentSelectedFilter);
+    },
+    handleAgentsFilterSelection() {
+      this.$emit('agents-filter-change', this.selectedAgents);
     },
   },
 };
