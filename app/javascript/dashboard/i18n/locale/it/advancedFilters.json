@@ -23,10 +23,14 @@
       "is_greater_than": "Is greater than",
       "is_lesser_than": "Is lesser than"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Stato",
       "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Nome Posta in arrivo",
+      "INBOX_NAME": "Nome Casella",
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
