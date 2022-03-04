@@ -42,6 +42,7 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
