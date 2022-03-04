@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Добавить bcc",
         "CC": {
