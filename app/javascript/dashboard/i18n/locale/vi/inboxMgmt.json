@@ -183,13 +183,13 @@
           },
           "API_CALLBACK": {
             "TITLE": "URL gọi lại",
-            "SUBTITLE": "Bạn phải cấu hình tin nhắn URL gọi lại trong Bandwith với URL được đề cập ở đây."
+            "SUBTITLE": "Bạn phải cấu hình tin nhắn URL gọi lại trong Bandwith với URL đã được đề cập ở đây."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "Kênh WhatsApp",
-        "DESC": "Bắt đầu hỗ trợ khách hàng thông qua \bWhatsApp.",
+        "DESC": "Bắt đầu hỗ trợ khách hàng thông qua WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Nhà cung cấp API",
           "TWILIO": "Twilio",
@@ -405,7 +405,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
       "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
-      "ENABLE_CSAT": "Bật CSAT",
+      "ENABLE_CSAT": "Bật chỉ số đo lường sự hài lòng khách hàng",
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
@@ -462,7 +462,8 @@
         "HOURS": "giờ",
         "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
         "CHOOSE": "Chọn"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
