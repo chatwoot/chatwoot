@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Изменить правило автоматизации",
-      "SUBMIT": "Редактировать",
+      "SUBMIT": "Обновить",
       "CANCEL_BUTTON_TEXT": "Отменить",
       "API": {
         "SUCCESS_MESSAGE": "Правило автоматизации успешно обновлено",
@@ -84,6 +84,24 @@
       "DELETE": "Удалить",
       "CANCEL": "Отменить",
       "RESET_MESSAGE": "Изменение типа события сбросит условия и события, добавленные вами ниже"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Да",
+      "CANCEL_LABEL": "Нет"
     }
   }
 }
