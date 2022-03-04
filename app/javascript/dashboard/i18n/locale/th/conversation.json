@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "เเสดงที่เเก้ไขข้อความ",
       "TIP_EMOJI_ICON": "โชว์ตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "กดเอ็นเทอร์เพื่อส่ง",
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "เพิ่ม BCC",
         "CC": {
