@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
