@@ -5,6 +5,7 @@ import login from './login/login.routes';
 import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
+import { clearBrowserSessionCookies } from '../store/utils/api';
 
 const routes = [
   ...login.routes,
@@ -101,6 +102,13 @@ export const validateAuthenticateRoutePermission = (to, from, next) => {
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
+const validateSSOLoginParams = to => {
+  const isLoginRoute = to.name === 'login';
+  const { email, sso_auth_token: ssoAuthToken } = to.query || {};
+  const hasValidSSOParams = email && ssoAuthToken;
+  return isLoginRoute && hasValidSSOParams;
+};
+
 const validateRouteAccess = (to, from, next) => {
   if (
     window.chatwootConfig.signupEnabled !== 'true' &&
@@ -109,6 +117,11 @@ const validateRouteAccess = (to, from, next) => {
   ) {
     const user = auth.getCurrentUser();
     next(frontendURL(`accounts/${user.account_id}/dashboard`));
+  }
+
+  if (validateSSOLoginParams(to)) {
+    clearBrowserSessionCookies();
+    return next();
   }
 
   if (authIgnoreRoutes.includes(to.name)) {
