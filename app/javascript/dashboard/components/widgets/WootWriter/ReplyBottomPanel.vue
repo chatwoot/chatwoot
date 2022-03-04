@@ -50,9 +50,9 @@
       />
       <woot-button
         v-if="showAudioRecorderButton"
-        :icon="!this.isRecordingAudio ? 'microphone' : 'microphone-off'"
+        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
         emoji="🎤"
-        :color-scheme="!this.isRecordingAudio ? 'secondary' : 'alert'"
+        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
         variant="smooth"
         size="small"
         :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
