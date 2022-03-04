@@ -23,6 +23,10 @@
       "is_greater_than": "Больше чем",
       "is_lesser_than": "Меньше чем"
     },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
     "ATTRIBUTES": {
       "STATUS": "Статус",
       "ASSIGNEE_NAME": "Имя назначенного",
