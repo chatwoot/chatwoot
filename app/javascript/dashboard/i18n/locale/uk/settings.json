@@ -19,6 +19,18 @@
         "TITLE": "Анкета",
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
         "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Будь ласка, введіть поточний пароль"
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
+        "LABEL": "New password",
         "ERROR": "Будь ласка, введіть пароль довжиною 6 або більше символів",
         "PLACEHOLDER": "Будь ласка, введіть новий пароль"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Підвердіть новий пароль",
         "ERROR": "Підтвердження пароля має відповідати паролю",
-        "PLACEHOLDER": "Введіть ваш пароль ще раз"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Automation",
     "TEAMS": "Команди",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Усі контакти",
     "TAGGED_WITH": "З тегами",
     "NEW_LABEL": "New label",

@@ -15,7 +15,6 @@ class HtmlParser
 
   def filter_replies!
     document.xpath('//blockquote').each { |n| n.replace('&gt; ') }
-    document.xpath('//table').each(&:remove)
   end
 
   def filtered_html

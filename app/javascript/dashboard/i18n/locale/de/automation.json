@@ -1,6 +1,89 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatisierung",
-    "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen"
+    "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
+    "LOADING": "Automatisierungsregeln abrufen",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
+    "ADD": {
+      "TITLE": "Automatisierungsregel hinzufügen",
+      "SUBMIT": "Erstellen",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Regelname",
+          "PLACEHOLDER": "Regelnamen eingeben",
+          "ERROR": "Name wird benötigt"
+        },
+        "DESC": {
+          "LABEL": "Beschreibung",
+          "PLACEHOLDER": "Regelbeschreibung eingeben",
+          "ERROR": "Beschreibung wird benötigt"
+        },
+        "EVENT": {
+          "LABEL": "Ereignis",
+          "PLACEHOLDER": "Bitte auswählen",
+          "ERROR": "Ereignis ist erforderlich"
+        },
+        "CONDITIONS": {
+          "LABEL": "Bedingungen"
+        },
+        "ACTIONS": {
+          "LABEL": "Aktionen"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Bedingung hinzufügen",
+      "ACTION_BUTTON_LABEL": "Aktion hinzufügen",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Automatisierungsregel konnte nicht erstellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Beschreibung",
+        "Aktiv",
+        "Erstellt am"
+      ],
+      "404": "Keine Automatisierungsregeln gefunden"
+    },
+    "DELETE": {
+      "TITLE": "Automatisierungsregel löschen",
+      "SUBMIT": "Löschen",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "YES": "Ja, löschen ",
+        "NO": "Nein, behalten "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Eine Automatisierungsregel konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Automatisierungsregel bearbeiten",
+      "SUBMIT": "Bearbeiten",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Die Automatisierungsregel konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonen",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisierung erfolgreich geklont",
+        "ERROR_MESSAGE": "Die Automatisierungsregel konnte nicht geklont werden. Bitte später erneut versuchen"
+      }
+    },
+    "FORM": {
+      "EDIT": "Bearbeiten",
+      "CREATE": "Erstellen",
+      "DELETE": "Löschen",
+      "CANCEL": "Stornieren",
+      "RESET_MESSAGE": "Durch das Ändern des Ereignistyps werden die unten hinzugefügten Bedingungen und Ereignisse zurückgesetzt"
+    }
   }
 }

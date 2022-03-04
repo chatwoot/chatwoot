@@ -8,6 +8,7 @@ export const INBOX_TYPES = {
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
+  SMS: 'Channel::Sms',
 };
 
 export default {
@@ -42,6 +43,9 @@ export default {
     isATwilioSMSChannel() {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'sms';
+    },
+    isASmsInbox() {
+      return this.channelType === INBOX_TYPES.SMS || this.isATwilioSMSChannel;
     },
     isATwilioWhatsappChannel() {
       const { medium: medium = '' } = this.inbox;

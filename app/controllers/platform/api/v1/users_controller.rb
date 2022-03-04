@@ -13,7 +13,8 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def login
-    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{@resource.email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
+    encoded_email = ERB::Util.url_encode(@resource.email)
+    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
   def show; end

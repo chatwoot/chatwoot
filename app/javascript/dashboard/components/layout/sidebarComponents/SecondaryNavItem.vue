@@ -7,7 +7,7 @@
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
       :class="computedClass"
-      :to="menuItem.toState"
+      :to="menuItem && menuItem.toState"
     >
       <fluent-icon
         :icon="menuItem.icon"
@@ -15,6 +15,14 @@
         size="14"
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      <span
+        v-if="menuItem.label === 'AUTOMATION'"
+        data-view-component="true"
+        label="Beta"
+        class="beta"
+      >
+        {{ $t('SIDEBAR.BETA') }}
+      </span>
     </router-link>
 
     <ul v-if="hasSubMenu" class="nested vertical menu">
@@ -73,14 +81,48 @@ export default {
     hasSubMenu() {
       return !!this.menuItem.children;
     },
+    isInboxConversation() {
+      return (
+        this.$store.state.route.name === 'inbox_conversation' &&
+        this.menuItem.toStateName === 'home'
+      );
+    },
+    isTeamsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_teams_edit' &&
+        this.menuItem.toStateName === 'settings_teams_list'
+      );
+    },
+    isInboxsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_inbox_show' &&
+        this.menuItem.toStateName === 'settings_inbox_list'
+      );
+    },
+    isIntegrationsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_integrations_webhook' &&
+        this.menuItem.toStateName === 'settings_integrations'
+      );
+    },
+    isApplicationsSettings() {
+      return (
+        this.$store.state.route.name === 'settings_applications_integration' &&
+        this.menuItem.toStateName === 'settings_applications'
+      );
+    },
+
     computedClass() {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
 
       if (
-        this.$store.state.route.name === 'inbox_conversation' &&
-        this.menuItem.toStateName === 'home'
+        this.isInboxConversation ||
+        this.isTeamsSettings ||
+        this.isInboxsSettings ||
+        this.isIntegrationsSettings ||
+        this.isApplicationsSettings
       ) {
         return 'is-active';
       }
@@ -186,5 +228,18 @@ export default {
   &:hover {
     color: var(--w-500);
   }
+}
+.beta {
+  padding-right: var(--space-smaller) !important;
+  padding-left: var(--space-smaller) !important;
+  margin-left: var(--space-half) !important;
+  display: inline-block;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  line-height: 18px;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  color: var(--g-800);
+  border-color: var(--g-700);
 }
 </style>

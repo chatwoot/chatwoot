@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Abilita messaggio di benvenuto sul canale",
-          "HELP_TEXT": "Invia un messaggio di saluto all'utente quando inizia la conversazione.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Nome Posta In Arrivo",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Numero di telefono",
+            "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
+            "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -305,6 +353,14 @@
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address."
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",
@@ -423,12 +483,12 @@
         "PLACE_HOLDER": "Port"
       },
       "EMAIL": {
-        "LABEL": "email",
-        "PLACE_HOLDER": "email"
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
       },
       "PASSWORD": {
-        "LABEL": "password",
-        "PLACE_HOLDER": "password"
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
       },
       "ENABLE_SSL": "Enable SSL"
     },
@@ -451,17 +511,21 @@
         "PLACE_HOLDER": "Port"
       },
       "EMAIL": {
-        "LABEL": "email",
-        "PLACE_HOLDER": "email"
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
       },
       "PASSWORD": {
-        "LABEL": "password",
-        "PLACE_HOLDER": "password"
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
       },
       "DOMAIN": {
         "LABEL": "Dominio",
         "PLACE_HOLDER": "Dominio"
-      }
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

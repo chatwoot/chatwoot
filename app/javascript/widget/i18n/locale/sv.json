@@ -6,11 +6,15 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Skicka"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Skicka meddelande igen",
+      "ERROR_MESSAGE": "Kunde inte skicka, försök igen"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi är online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Vi är borta för tillfället"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
@@ -18,11 +22,12 @@
     "IN_A_DAY": "Svar vanligtvis inom en dag"
   },
   "START_CONVERSATION": "Starta konversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "CONTINUE_CONVERSATION": "Fortsätt konversation",
+  "START_NEW_CONVERSATION": "Starta konversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
     "CLOSE_MESSAGES_BUTTON": "Stäng",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "från",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -38,34 +43,34 @@
       "FULL_NAME": {
         "LABEL": "Fullständigt namn",
         "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
-        "ERROR": "Full Name is required"
+        "ERROR": "Fullständigt namn krävs"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadress",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Vänligen ange din e-postadress",
+        "ERROR": "Ogiltig e-postadress"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Meddelande",
+        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
+        "ERROR": "Meddelandet är för kort"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Ogiltigt fält"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Betygsätt din konversation",
+    "SUBMITTED_TITLE": "Tack för att du lämnat in omdömet",
+    "PLACEHOLDER": "Berätta mer för oss!"
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Skicka konversationstranskribering",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen"
   }

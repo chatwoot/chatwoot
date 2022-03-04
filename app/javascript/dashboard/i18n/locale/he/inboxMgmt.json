@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "אפשר ברכה בערוץ",
-          "HELP_TEXT": "שלח הודעת ברכה למשתמש כאשר הוא מתחיל את השיחה.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "מופעל",
           "DISABLED": "כבוי"
         },
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "ערוץ SMS דרך Twilio",
-        "DESC": "התחל לתמוך בלקוחות שלך באמצעות SMS עם שילוב Twilio."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "ספק API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "שדה חובה"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "שדה חובה"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "שדה חובה"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "שדה חובה"
+          },
+          "INBOX_NAME": {
+            "LABEL": "שם תיבת הדואר הנכנס",
+            "PLACEHOLDER": "נא להזין שם תיבת דואר נכנס",
+            "ERROR": "שדה חובה"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "מספר טלפון",
+            "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
+            "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "כתובת אתר להתקשרות חוזרת",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "ערוץ וואטסאפ",
@@ -305,6 +353,14 @@
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
+      },
       "ENABLE_HMAC": {
         "LABEL": "אפשר"
       }
@@ -351,6 +407,8 @@
       "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
       "ENABLE_CSAT": "אפשר CSAT",
       "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
       "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
       "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
       "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
       "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
-      "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה."
+      "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "הרשאה מחדש",
@@ -461,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
-      }
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

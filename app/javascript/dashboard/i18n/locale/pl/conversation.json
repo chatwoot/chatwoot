@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Wybierz rozmowę z lewej strony",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "Tożsamość tego użytkownika nie jest zweryfikowana",
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
     "NO_MESSAGE_2": " aby wysłać wiadomość na swoją stronę!",
     "NO_INBOX_1": "Hola! Wygląda na to, że nie dodałeś jeszcze żadnej skrzynki odbiorczej.",
@@ -10,7 +10,7 @@
     "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
     "SEARCH": {
       "TITLE": "Szukaj wiadomości",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Wyniki wyszukiwania",
       "LOADING_MESSAGE": "Trwa przetwarzanie danych...",
       "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
       "NO_MATCHING_RESULTS": "Brak wyników."
@@ -22,18 +22,20 @@
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "NOT_ASSIGNED_TO_YOU": "Ta konwersacja nie jest Ci przypisana. Czy chcesz przypisać tę konwersację do siebie?",
+    "ASSIGN_TO_ME": "Przypisz do mnie",
     "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Wybierz tweeta, na który chcesz odpowiedzieć.",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
+    "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
     "NO_RESPONSE": "Brak odpowiedzi",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Ocena",
+    "FEEDBACK_TITLE": "Opinia",
     "HEADER": {
       "RESOLVE_ACTION": "Rozwiąż",
       "REOPEN_ACTION": "Otwórz ponownie",
@@ -41,20 +43,23 @@
       "OPEN": "Więcej",
       "CLOSE": "Zamknij",
       "DETAILS": "szczegóły",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Drzemka do jutra",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Drzemka do następnego tygodnia",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Drzemka do następnej odpowiedzi"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Oznacz jako oczekujące",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Uśpij do",
+        "NEXT_REPLY": "Następna odpowiedź",
+        "TOMORROW": "Jutro",
+        "NEXT_WEEK": "Następny tydzień"
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
       "PRIVATE_MSG_INPUT": "Shift + wprowadź dla nowej linii. Będzie to widoczne tylko dla agentów"
     },
@@ -68,18 +73,18 @@
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
       "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "DRAG_DROP": "Przeciągnij i upuść tutaj, aby dołączyć",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Dodaj bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-maile oddzielone przecinkami",
+          "ERROR": "Wprowadź poprawny adres e-mail"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "E-maile oddzielone przecinkami",
+          "ERROR": "Wprowadź poprawny adres e-mail"
         }
       }
     },
@@ -90,6 +95,9 @@
     "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Wysłane przez:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Wybierz Agenta",
       "REMOVE": "Usuń",
@@ -127,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Zaproś członków swojego zespołu",
-      "DESCRIPTION": "Ponieważ jesteś gotów porozmawiać ze swoim klientem, przynieś swoich kolegów z drużyny, aby Ci pomóc. Możesz zaprosić znajomych z drużyny, dodając ich adres e-mail do listy agentów.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknij tutaj, aby zaprosić członka zespołu"
     },
     "INBOXES": {
@@ -160,25 +168,26 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atrybut zaktualizowany pomyślnie",
+      "ERROR": "Nie można dodać atrybutu. Spróbuj ponownie później"
     },
     "ADD": {
       "TITLE": "Dodaj",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "SUCCESS": "Atrybut dodany pomyślnie",
+      "ERROR": "Nie można dodać atrybutu. Spróbuj ponownie później"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atrybut usunięty pomyślnie",
+      "ERROR": "Nie można usunąć atrybutu. Spróbuj ponownie później"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Dodaj atrybuty",
+      "PLACEHOLDER": "Szukaj atrybutów",
+      "NO_RESULT": "Nie znaleziono atrybutów"
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Do",
     "BCC": "Bcc",
     "CC": "Cc",

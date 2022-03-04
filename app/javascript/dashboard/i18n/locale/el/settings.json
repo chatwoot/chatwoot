@@ -4,8 +4,8 @@
     "TITLE": "Ρυθμίσεις Προφίλ",
     "BTN_TEXT": "Ενημέρωση Προφίλ",
     "DELETE_AVATAR": "Διαγραφή Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "AVATAR_DELETE_SUCCESS": "Το Avatar διαγράφηκε με επιτυχία",
+    "AVATAR_DELETE_FAILED": "Παρουσιάστηκε σφάλμα κατά τη διαγραφή του avatar, παρακαλώ προσπαθήστε ξανά",
     "UPDATE_SUCCESS": "Το προφίλ σας ενημερώθηκε επιτυχώς",
     "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
     "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
@@ -18,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Προφίλ",
         "NOTE": "Η διεύθυνση email είναι η ταυτότητά σας και χρησιμοποιείται για την είσοδο (login) σας."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Κωδικός",
@@ -89,7 +101,7 @@
         "PLACEHOLDER": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης"
       },
       "PASSWORD": {
-        "LABEL": "Κωδικός (Password)",
+        "LABEL": "Νέος κωδικός πρόσβασης",
         "ERROR": "Παρακαλώ εισάγετε κωδικό τουλάχιστον 6 χαρακτήρων",
         "PLACEHOLDER": "Παρακαλώ εισάγετε ένα νέο κωδικό (password)"
       },
@@ -103,7 +115,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
     "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Υποστήριξη Επαφών",
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
     "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
@@ -112,7 +124,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
     "TRAIL_BUTTON": "Αγόρασε τώρα",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Διαγραμμένος Χρήστης"
   },
   "COMPONENTS": {
     "CODE": {
@@ -136,7 +148,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Συζητήσεις",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Αναφορές",
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
     "CONTACTS": "Επαφές",
@@ -153,11 +165,13 @@
     "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
     "AUTOMATION": "Αυτοματισμός",
     "TEAMS": "Ομάδες",
+    "CUSTOM_VIEWS_FOLDER": "Φάκελοι",
+    "CUSTOM_VIEWS_SEGMENTS": "Τμήματα",
     "ALL_CONTACTS": "Όλες Οι Επαφές",
     "TAGGED_WITH": "Ετικέτα με",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Νέα ετικέτα",
+    "NEW_TEAM": "Νέα ομάδα",
+    "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
     "REPORTS_OVERVIEW": "Επισκόπηση",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Καμπάνιες",
@@ -167,7 +181,7 @@
     "REPORTS_LABEL": "Ετικέτες",
     "REPORTS_INBOX": "Εισερχόμενα",
     "REPORTS_TEAM": "Ομάδα",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",

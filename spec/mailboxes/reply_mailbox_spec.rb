@@ -7,6 +7,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
+    let(:reply_to_mail) { create_inbound_email_from_fixture('reply_to.eml') }
     let(:mail_with_quote) { create_inbound_email_from_fixture('mail_with_quote.eml') }
     let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
@@ -59,9 +60,34 @@ RSpec.describe ReplyMailbox, type: :mailbox do
         reply_mail_without_uuid.mail['In-Reply-To'] = '<conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123@test.com>'
       end
 
-      it 'find channel with reply to mail' do
+      it 'find channel with in-reply-to mail' do
         described_subject
         expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+      end
+    end
+
+    context 'with reply_to email address present' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:conversation_1) do
+        create(
+          :conversation,
+          assignee: agent,
+          inbox: email_channel.inbox,
+          account: account,
+          additional_attributes: { mail_subject: "Discussion: Let's debate these attachments" }
+        )
+      end
+
+      before do
+        conversation_1.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+      end
+
+      it 'prefer reply-to over from address' do
+        described_class.receive reply_to_mail
+        expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+
+        email = conversation_1.messages.last.content_attributes['email']
+        expect(reply_to_mail.mail['Reply-To'].value).to include(email['from'][0])
       end
     end
 
@@ -94,6 +120,58 @@ RSpec.describe ReplyMailbox, type: :mailbox do
                                     inbox_id: email_channel.inbox.id).save!
         described_class.receive in_reply_to_email
         expect(conversation_1.messages.last.content).to eq("Let's talk about these images:")
+      end
+    end
+
+    context 'with quotes in email' do
+      let(:described_subject) { described_class.receive mail_with_quote }
+
+      before do
+        # this UUID is hardcoded in the reply.eml, that's why we are updating this
+        conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
+        conversation.save
+      end
+
+      it 'add the mail content as new message on the conversation' do
+        described_subject
+        current_message = conversation.messages.last
+        expect(current_message.content).to eq(
+          <<-BODY.strip_heredoc.chomp
+            Yes, I am providing you step how to reproduce this issue
+
+            On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
+
+            > Any update on this?
+            >
+            >
+
+            --
+            * Sony Mathew*
+            Software developer
+            *Mob:9999999999
+          BODY
+        )
+      end
+
+      it 'add the mail content as new message on the conversation with broken html' do
+        described_subject
+        current_message = conversation.messages.last
+        expect(current_message.reload.content_attributes[:email][:text_content][:reply]).to eq(
+          <<-BODY.strip_heredoc.chomp
+            Yes, I am providing you step how to reproduce this issue
+
+            On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
+
+            > Any update on this?
+            >
+            >
+
+            --
+            * Sony Mathew*
+            Software developer
+            *Mob:9999999999
+          BODY
+        )
       end
     end
   end

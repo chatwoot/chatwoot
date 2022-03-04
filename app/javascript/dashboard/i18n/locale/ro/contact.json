@@ -169,6 +169,7 @@
       "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
       "SUCCESS_MESSAGE": "Mesaj trimis!",
+      "GO_TO_CONVERSATION": "Vizualizare",
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Caută",
     "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",

@@ -19,6 +19,18 @@
         "TITLE": "Profiili",
         "NOTE": "Sähköpostiosoitteesi on identiteettisi ja sitä käytetään sisäänkirjautumiseen."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Salasana",
         "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Salasana",
+        "LABEL": "New password",
         "ERROR": "Anna salasana jonka pituus on 6 tai enemmän",
         "PLACEHOLDER": "Anna uusi salasana"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Vahvista salasana",
         "ERROR": "Salasanat eivät täsmää",
-        "PLACEHOLDER": "Syötä salasana uudelleen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
@@ -153,6 +165,8 @@
     "CUSTOM_ATTRIBUTES": "Mukautetut attribuutit",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",

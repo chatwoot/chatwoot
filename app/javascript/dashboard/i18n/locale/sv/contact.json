@@ -169,6 +169,7 @@
       "SUBMIT": "Skicka meddelande",
       "CANCEL": "Avbryt",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Visa",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +179,8 @@
     "SEARCH_BUTTON": "Sök",
     "SEARCH_INPUT_PLACEHOLDER": "Sök kontakter",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Laddar kontakter...",
       "404": "Inga kontakter matchar din sökning 🔍",
