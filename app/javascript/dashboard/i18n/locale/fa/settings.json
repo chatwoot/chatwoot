@@ -20,16 +20,16 @@
         "NOTE": "آدرس ایمیل شما هویت شماست و برای ورود به سیستم استفاده می شود."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "امضای پیام شخصی",
+        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از پلتفرم ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
+        "BTN_TEXT": "ذخیره امضای پیام",
+        "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
+        "API_SUCCESS": "امضا با موفقیت ذخیره شد"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "امضای پیام",
+        "ERROR": "امضای پیام نمی تواند خالی باشد",
+        "PLACEHOLDER": "امضای پیام شخصی خود را در اینجا وارد کنید."
       },
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
-    "SET_AVAILABILITY_TITLE": "خود را به عنوان"
+    "SET_AVAILABILITY_TITLE": "خود را به عنوان",
+    "BETA": "آزمایشی"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
