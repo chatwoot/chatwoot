@@ -5,7 +5,12 @@ export default {
   methods: {
     formatMessage(message, isATweet) {
       const messageFormatter = new MessageFormatter(message, isATweet);
-      return messageFormatter.formattedMessage;
+      console.log('OG Message', messageFormatter.formattedMessage);
+      console.log(
+        'Sanitized Message',
+        DOMPurify.sanitize(messageFormatter.formattedMessage)
+      );
+      return DOMPurify.sanitize(messageFormatter.formattedMessage);
     },
     getPlainText(message, isATweet) {
       const messageFormatter = new MessageFormatter(message, isATweet);
