@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter-rel elküld",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
