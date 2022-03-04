@@ -462,7 +462,8 @@
         "HOURS": "시간",
         "VALIDATION_ERROR": "영업시작 시간은 영업종료 시간보다 빨라야 합니다.",
         "CHOOSE": "선택"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
