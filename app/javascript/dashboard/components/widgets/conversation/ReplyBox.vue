@@ -363,9 +363,7 @@ export default {
       return !this.isOnPrivateNote && this.showFileUpload;
     },
     showAudioRecorderEditor() {
-      return (
-        !this.isOnPrivateNote && this.showFileUpload && this.isRecordingAudio
-      );
+      return this.showAudioRecorder && this.isRecordingAudio;
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -555,6 +553,9 @@ export default {
 
       if (canReply || this.isAWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
@@ -616,9 +617,9 @@ export default {
         this.toggleAudioRecorder();
       }
     },
-    onRecorderBlob(blob) {
-      if (blob) {
-        this.onFileUpload({ file: blob });
+    onRecorderBlob(file) {
+      if (file) {
+        this.onFileUpload(file);
       }
     },
     toggleTyping(status) {

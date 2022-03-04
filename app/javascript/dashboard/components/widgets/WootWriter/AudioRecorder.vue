@@ -176,7 +176,12 @@ export default {
       this.wavesurfer.playPause();
     },
     fireRecorderBlob(blob) {
-      this.$emit('recorder-blob', blob);
+      this.$emit('recorder-blob', {
+        name: blob.name,
+        type: blob.type,
+        size: blob.size,
+        file: blob,
+      });
     },
     fireStateRecorderChanged(state) {
       this.$emit('state-recorder-changed', state);
@@ -213,6 +218,6 @@ export default {
 .audio-wave-wrapper {
   min-height: 8rem;
   max-height: 12rem;
-  overflow: auto;
+  overflow: hidden;
 }
 </style>
