@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
+      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط"
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "CLICK_HERE": "انقر هنا للتحديث"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
