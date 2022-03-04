@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "അപേക്ഷിക്കുക",
       "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "ഗ്രൂപ്പ് പ്രകാരം",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      },
+      {
+        "id": 3,
+        "groupBy": "മാസം"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      },
+      {
+        "id": 3,
+        "groupBy": "മാസം"
+      },
+      {
+        "id": 4,
+        "groupBy": "വർഷം"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "ഏജന്റുമാരുടെ അവലോകനം",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT റിപ്പോർട്ടുകൾ",
     "NO_RECORDS": "CSAT സർവേ പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "ബന്ധപ്പെടുക",
