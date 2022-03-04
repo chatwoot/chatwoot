@@ -367,7 +367,7 @@
     "NO_RECORDS": "There are no CSAT survey responses available.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Temsilcileri Seç"
       }
     },
     "TABLE": {
