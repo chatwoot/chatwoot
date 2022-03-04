@@ -74,8 +74,14 @@
       "TIP_FORMAT_ICON": "Arată editorul de text",
       "TIP_EMOJI_ICON": "Arată emoji",
       "TIP_ATTACH_ICON": "Ataşează fişiere",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Introduceţi pentru a trimite",
       "DRAG_DROP": "Trageți și plasați aici pentru atașare",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adaugă bcc",
         "CC": {
