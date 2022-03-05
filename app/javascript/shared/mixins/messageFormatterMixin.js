@@ -5,12 +5,7 @@ export default {
   methods: {
     formatMessage(message, isATweet) {
       const messageFormatter = new MessageFormatter(message, isATweet);
-      DOMPurify.addHook('afterSanitizeAttributes', function(node) {
-        if ('target' in node) {
-          node.setAttribute('target', '_blank');
-        }
-      });
-      return DOMPurify.sanitize(messageFormatter.formattedMessage);
+      return messageFormatter.formattedMessage;
     },
     getPlainText(message, isATweet) {
       const messageFormatter = new MessageFormatter(message, isATweet);

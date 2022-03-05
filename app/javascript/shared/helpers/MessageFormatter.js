@@ -51,7 +51,10 @@ class MessageFormatter {
   }
 
   get formattedMessage() {
-    return this.formatMessage();
+    DOMPurify.addHook('afterSanitizeAttributes', node => {
+      if ('target' in node) node.setAttribute('target', '_blank');
+    });
+    return DOMPurify.sanitize(this.formatMessage());
   }
 
   get plainText() {
