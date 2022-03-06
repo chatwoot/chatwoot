@@ -78,8 +78,8 @@
     "REPLY_TO_TWEET": "Odgovori na tweet",
     "SENT": "Uspešno poslano",
     "NO_MESSAGES": "Nema poruka",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "NO_CONTENT": "Nema sadržaja",
+    "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
+    "SHOW_QUOTED_TEXT": "Prikaži citirani tekst"
   }
 }
