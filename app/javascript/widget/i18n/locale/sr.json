@@ -1,59 +1,59 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Preuzimanje",
+      "UPLOADING": "Dodavanje..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Pošalji"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Ponovo pošalji poruku",
+      "ERROR_MESSAGE": "Slanje neuspešno, pokušajte ponovo"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Dostupni smo",
+    "OFFLINE": "Trenutno nismo dostupni"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
+    "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
+    "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Započnite razgovor",
+  "CONTINUE_CONVERSATION": "Nastavi razgovor",
+  "START_NEW_CONVERSATION": "Započnite novi razgovor",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close",
-    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
+    "CLOSE_MESSAGES_BUTTON": "Zatvori",
+    "COMPANY_FROM": "od",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Razgovarajte sa nama"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "POWERED_BY": "Pokreće Chatwoot",
+  "EMAIL_PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
+  "CHAT_PLACEHOLDER": "Napišite vašu poruku",
+  "TODAY": "Danas",
+  "YESTERDAY": "Juče",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "Puno ime",
+        "PLACEHOLDER": "Molimo unesite vaše puno ime",
+        "ERROR": "Puno ime je obavezno"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-mail adresa",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
+        "ERROR": "Neispravna e-mail adresa"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Poruka",
+        "PLACEHOLDER": "Molimo unesite vašu poruku",
+        "ERROR": "Poruka prekratka"
       }
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
@@ -65,12 +65,12 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "Ocenite razgovor",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "Pričajte nam više..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Zatražite kopiju razgovora",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again"
   }
