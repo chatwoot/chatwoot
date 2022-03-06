@@ -26,12 +26,12 @@
       "FORM": {
         "NAME": {
           "LABEL": "Ime agenta",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "PLACEHOLDER": "Unesite ime agenta"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Uloga",
+          "PLACEHOLDER": "Izaberite ulogu",
+          "ERROR": "Uloga je obavezna"
         },
         "EMAIL": {
           "LABEL": "E-mail adresa",
@@ -42,18 +42,18 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent je uspešno dodat",
         "EXIST_MESSAGE": "E-mail adresa agenta je već u upotrebi, pokušajte sa drugom e-mail adresom",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Izbriši",
       "API": {
         "SUCCESS_MESSAGE": "Agent je uspešno obrisan",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       },
       "CONFIRM": {
         "TITLE": "Potvrdite brisanje",
-        "MESSAGE": "Are you sure to delete ",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
         "YES": "Da, izbriši ",
         "NO": "Ne, zadrži "
       }
@@ -101,7 +101,7 @@
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nema pronađenih agenata",
-          "TEAM": "No teams found"
+          "TEAM": "Nema pronađenih timova"
         },
         "PLACEHOLDER": {
           "AGENT": "Traži agente",
