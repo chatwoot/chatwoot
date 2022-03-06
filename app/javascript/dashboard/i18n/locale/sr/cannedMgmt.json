@@ -67,7 +67,7 @@
       },
       "CONFIRM": {
         "TITLE": "Potvrdite brisanje",
-        "MESSAGE": "Are you sure to delete ",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
         "YES": "Da, izbriši ",
         "NO": "Ne, zadrži "
       }
