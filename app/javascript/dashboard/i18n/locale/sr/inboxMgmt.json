@@ -370,7 +370,7 @@
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Potvrdite brisanje",
-        "MESSAGE": "Are you sure to delete ",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Da, izbriši ",
         "NO": "Ne, zadrži "
