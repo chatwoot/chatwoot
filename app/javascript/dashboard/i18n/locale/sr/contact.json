@@ -1,6 +1,6 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Nije dostupno",
     "EMAIL_ADDRESS": "E-mail adresa",
     "PHONE_NUMBER": "Broj telefona",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
@@ -76,7 +76,7 @@
     "DESC": "Delete contact details",
     "CONFIRM": {
       "TITLE": "Potvrdite brisanje",
-      "MESSAGE": "Are you sure to delete ",
+      "MESSAGE": "Sigurni ste da želite izbrisati ",
       "PLACE_HOLDER": "Please type {contactName} to confirm",
       "YES": "Da, izbriši ",
       "NO": "Ne, zadrži "
