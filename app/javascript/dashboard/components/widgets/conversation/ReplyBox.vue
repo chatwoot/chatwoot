@@ -377,7 +377,7 @@ export default {
     },
   },
   watch: {
-    currentChat(conversation) {
+    currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
       if (this.isOnPrivateNote) {
         return;
@@ -387,6 +387,15 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
+      }
+
+      if (oldConversation.id !== conversation.id) {
+        const draft = this.message;
+        if (draft) {
+          localStorage.setItem(oldConversation.id, draft || '');
+        }
+
+        this.setFromDraft();
       }
     },
     message(updatedMessage) {
@@ -402,9 +411,13 @@ export default {
         this.showMentions = false;
       }
     },
+    conversationId() {
+      return this.currentChat.id;
+    },
   },
 
   mounted() {
+    this.setFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -415,6 +428,19 @@ export default {
     document.removeEventListener('paste', this.onPaste);
   },
   methods: {
+    setFromDraft() {
+      debugger;
+      if (this.conversationId) {
+        const draft = localStorage.getItem(this.conversationId) || '';
+
+        this.message = draft;
+      }
+    },
+    removeFromDraft() {
+      if (this.conversationId) {
+        localStorage.setItem(this.conversationId, '');
+      }
+    },
     onPaste(e) {
       const data = e.clipboardData.files;
       if (!data.length || !data[0]) {
@@ -498,6 +524,7 @@ export default {
             messagePayload
           );
           bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          this.removeFromDraft();
         } catch (error) {
           const errorMessage =
             error?.response?.data?.error ||
