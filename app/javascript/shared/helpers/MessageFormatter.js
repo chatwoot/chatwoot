@@ -1,4 +1,4 @@
-import marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { escapeHtml } from './HTMLSanitizer';
 

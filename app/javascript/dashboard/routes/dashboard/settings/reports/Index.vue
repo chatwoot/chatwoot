@@ -10,6 +10,7 @@
     </woot-button>
 
     <report-filter-selector
+      group-by-filter
       :selected-group-by-filter="selectedGroupByFilter"
       :filter-items-list="filterItemsList"
       @date-range-change="onDateRangeChange"
