@@ -1,0 +1,112 @@
+<tr style="text-align:left">
+  <td style="text-align:left">
+    <a href="<%= ENV['FRONTEND_URL'] %>" _target="blank">
+      <img src="<%= ENV['FRONTEND_URL'] %>/brand-assets/logo_with_name.svg" alt="Chatwoot" width="200" height="60">
+    </a>
+  </td>
+  <td width="10"></td>
+</tr>
+
+<tr>
+  <td style="line-height:20px;font-size:20px" height="20" bgcolor="#ffffff">&nbsp;</td>
+</tr>
+
+<tr style="text-align:left">
+  <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;text-transform:uppercase;line-height:normal;font-weight:700">
+    Checkout your bi-weekly customer satisfaction metrics.
+  </td>
+</tr>
+
+<tr>
+  <td style="line-height:20px;font-size:20px" height="20" bgcolor="#fff">&nbsp;</td>
+</tr>
+<tr>
+  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
+</tr>
+
+<tr>
+  <td align="center">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <td style="line-height:20px;font-size:20px" height="20" bgcolor="#ffffff">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:150%;font-weight:normal" width="480">
+            <table cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td width="280" valign="middle" height="45" align="left">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="10" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
+                            Conversation Created:
+                          </td>
+                          <td width="20">
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="10" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:150%;font-weight:400"><%= @data[:conversation_created]%>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="80">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td width="280" valign="middle" height="45" align="left">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="10" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
+                            Conversation Resolved:
+                          </td>
+                          <td width="20">
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="10" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:150%;font-weight:400"><%= @data[:conversation_resolved]%>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="80">
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="line-height:20px;font-size:20px" height="20" bgcolor="#ffffff">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>

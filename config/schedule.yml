@@ -19,3 +19,9 @@ trigger_imap_email_inboxes_job:
   cron: '*/5 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
   queue: scheduled_jobs
+
+# Send chatwoot metrics email
+trigger_email_digest_job:
+  cron: '0 12 * * 0'
+  class: 'Notification::EmailDigestScheduledJob'
+  queue: scheduled_jobs
