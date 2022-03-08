@@ -19,7 +19,8 @@ class Notification::EmailDigestService
       total_conversation_created: total_conversations.count,
       total_conversation_resolved:  total_resolved_conversations.count
     }
-    AccountNotifications::DigestMailer.send_email_digest(account, user, data).deliver_now
+    prepare_chart_resolution_data
+    AccountNotifications::DigestMailer.send_email_digest(account, user, data, @chart_data).deliver_now
   end
 
   private
@@ -46,5 +47,63 @@ class Notification::EmailDigestService
 
   def total_resolved_conversations
     total_conversations.resolved
+  end
+
+
+  def prepare_chart_resolution_data
+    total_last_month_resolution
+    @chart_data = {
+      last_week: last_week,
+      second_last_week: second_last_week,
+      third_last_week: third_last_week,
+      fourth_last_week: fourth_last_week,
+      last_week_count: @last_week,
+      second_last_week_count: @second_last_week,
+      third_last_week_count: @third_last_week,
+      fourth_last_week_count: @fourth_last_week
+    }
+  end
+
+  def last_week
+    @last_week = total_resolved_conversations.where(
+      'last_activity_at >= ? AND last_activity_at < ?',
+      1.weeks.ago, Time.zone.now
+    ).count
+
+    (@last_week*100)/@total_last_month_resolution
+  end
+
+  def second_last_week
+    @second_last_week = total_resolved_conversations.where(
+      'last_activity_at >= ? AND last_activity_at < ?',
+      2.weeks.ago, 1.weeks.ago
+    ).count
+
+    (@second_last_week*100)/@total_last_month_resolution
+  end
+
+  def third_last_week
+    @third_last_week = total_resolved_conversations.where(
+      'last_activity_at >= ? AND last_activity_at < ?',
+      3.weeks.ago, 2.weeks.ago
+    ).count
+
+    (@third_last_week*100)/@total_last_month_resolution
+  end
+
+  def fourth_last_week
+    @fourth_last_week = total_resolved_conversations.where(
+      'last_activity_at >= ? AND last_activity_at < ?',
+      4.weeks.ago, 3.weeks.ago
+    ).count
+
+    (@fourth_last_week*100)/@total_last_month_resolution
+  end
+
+  def total_last_month_resolution
+    @total_last_month_resolution ||= total_resolved_conversations.where(
+      'last_activity_at >= ? AND last_activity_at < ?',
+      4.weeks.ago, Time.zone.now
+    ).count
   end
 end

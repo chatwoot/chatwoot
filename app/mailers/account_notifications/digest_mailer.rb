@@ -1,9 +1,10 @@
 class AccountNotifications::DigestMailer < ApplicationMailer
-  def send_email_digest(account, user, data)
+  def send_email_digest(account, user, data, chart_data)
     return unless smtp_config_set_or_development?
 
     @account = account
     @data = data
+    @chart_data = chart_data
 
     mail({
            to: user.email,
