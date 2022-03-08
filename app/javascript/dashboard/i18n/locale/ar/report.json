@@ -367,7 +367,7 @@
     "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "اختر الوكلاء"
       }
     },
     "TABLE": {
