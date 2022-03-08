@@ -92,14 +92,14 @@
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
+      "DEACTIVATION_TITLE": "تغطيل قاعدة الأتمتة",
+      "ACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",
+      "DEACTIVATION_SUCCESFUL": "تم تعطيل قاعدة الأتمتة بنجاح",
+      "ACTIVATION_ERROR": "تعذر تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
       "CONFIRMATION_LABEL": "نعم",
       "CANCEL_LABEL": "لا"
     }
