@@ -73,6 +73,8 @@ class ConversationFinder
     if params[:conversation_type] == 'mention'
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = current_account.conversations.where(id: conversation_ids)
+    elsif params[:conversation_type] == 'participating'
+      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     else
       @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
     end

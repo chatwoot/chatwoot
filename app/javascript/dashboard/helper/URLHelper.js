@@ -38,6 +38,9 @@ export const conversationUrl = ({
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
   }
+  else if (conversationType === 'participating') {
+    url = `accounts/${accountId}/participating/conversations/${id}`;
+  }
   return url;
 };
 

@@ -300,6 +300,9 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
+      if (this.conversationType === 'participating') {
+        return 'Participating';
+      }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;
       }

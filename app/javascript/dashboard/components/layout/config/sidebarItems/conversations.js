@@ -14,6 +14,8 @@ const conversations = accountId => ({
     'conversations_through_team',
     'conversation_mentions',
     'conversation_through_mentions',
+    'conversation_participating',
+    'conversation_through_participating',
     'folder_conversations',
     'conversations_through_folders',
   ],
@@ -32,6 +34,13 @@ const conversations = accountId => ({
       key: 'conversation_mentions',
       toState: frontendURL(`accounts/${accountId}/mentions/conversations`),
       toStateName: 'conversation_mentions',
+    },
+    {
+      icon: 'people-team',
+      label: 'PARTICIPATING_CONVERSATIONS',
+      key: 'conversation_participating',
+      toState: frontendURL(`accounts/${accountId}/participating/conversations`),
+      toStateName: 'conversation_participating',
     },
   ],
 });
