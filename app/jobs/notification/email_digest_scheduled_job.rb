@@ -1,4 +1,4 @@
-class Notification::EmailDigestScheduledJob
+class Notification::EmailDigestScheduledJob < ApplicationJob
   queue_as :scheduled_jobs
 
   # Send email to customer about the recent chatwoot metrics

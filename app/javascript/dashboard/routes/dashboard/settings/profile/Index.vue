@@ -63,6 +63,19 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <label>
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.EMAIL_DIGEST'
+              )
+            }}
+            <input
+              v-model="emailDigestEnabled"
+              class="email-digest--checkbox"
+              type="checkbox"
+              value="email_digest_enabled"
+            />
+          </label>
           <woot-button type="submit" :is-loading="isProfileUpdating">
             {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
           </woot-button>
@@ -119,6 +132,7 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
+      emailDigestEnabled: true,
     };
   },
   validations: {
@@ -157,6 +171,7 @@ export default {
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
+      this.emailDigestEnabled = this.currentUser.email_digest_enabled;
     },
     async updateUser() {
       this.$v.$touch();
@@ -173,6 +188,7 @@ export default {
           email: this.email,
           avatar: this.avatarFile,
           displayName: this.displayName,
+          emailDigestEnabled: this.emailDigestEnabled,
         });
         this.isProfileUpdating = false;
         if (hasEmailChanged) {

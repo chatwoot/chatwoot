@@ -139,6 +139,7 @@ export default {
     password,
     password_confirmation,
     displayName,
+    emailDigestEnabled,
     avatar,
     ...profileAttributes
   }) {
@@ -150,6 +151,7 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
+    formData.append('profile[email_digest_enabled]', emailDigestEnabled || '');
     if (password && password_confirmation) {
       formData.append('profile[password]', password);
       formData.append('profile[password_confirmation]', password_confirmation);

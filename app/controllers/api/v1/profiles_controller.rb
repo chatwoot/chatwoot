@@ -39,6 +39,7 @@ class Api::V1::ProfilesController < Api::BaseController
       :display_name,
       :avatar,
       :message_signature,
+      :email_digest_enabled,
       ui_settings: {}
     )
   end

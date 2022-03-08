@@ -10,7 +10,7 @@ class Account::EmailDigestJob
       next if account_users.empty?
 
       account_users.each do |user|
-        return unless user_subscribed_to_notification?(user, account)
+        return unless user_subscribed_to_notification?(user)
 
         Notification::EmailDigestService.new(user, account).perform
       end
@@ -19,10 +19,7 @@ class Account::EmailDigestJob
 
   private
 
-  def user_subscribed_to_notification?(user, account)
-    notification_setting = user.notification_settings.find_by(account_id: account.id)
-    # return true if notification_setting.public_send("email_email_digest")
-
-    true
+  def user_subscribed_to_notification?(user)
+    return user.email_digest_enabled?
   end
 end
