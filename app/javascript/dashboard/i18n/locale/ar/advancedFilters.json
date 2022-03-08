@@ -24,8 +24,8 @@
       "is_lesser_than": "هو أقل من"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "صحيح",
+      "FALSE": "خاطئ"
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
