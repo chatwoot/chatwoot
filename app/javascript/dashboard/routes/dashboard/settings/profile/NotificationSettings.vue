@@ -134,6 +134,23 @@
             }}
           </label>
         </div>
+
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_email_digest"
+            @input="handleEmailInput"
+          />
+          <label for="email_digest">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.EMAIL_DIGEST'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div

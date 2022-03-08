@@ -34,7 +34,8 @@ class Notification < ApplicationRecord
     conversation_creation: 1,
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
-    conversation_mention: 4
+    conversation_mention: 4,
+    email_digest: 5
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES

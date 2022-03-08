@@ -15,7 +15,9 @@ class Notification::EmailDigestService
 
     data = {
       conversation_created: conversation_created_count,
-      conversation_resolved: conversation_resolved_count
+      conversation_resolved: conversation_resolved_count,
+      total_conversation_created: total_conversations.count,
+      total_conversation_resolved:  total_resolved_conversations.count
     }
     AccountNotifications::DigestMailer.send_email_digest(account, user, data).deliver_now
   end
@@ -24,7 +26,7 @@ class Notification::EmailDigestService
 
   # default last_two_weeks
   def conversation_created_count
-    account.conversations.where(
+    total_conversations.where(
       'created_at >= ? AND created_at < ?',
       2.weeks.ago, Time.zone.now
     ).count
@@ -32,9 +34,17 @@ class Notification::EmailDigestService
 
   # default last_two_weeks
   def conversation_resolved_count
-    account.conversations.resolved.where(
+    total_resolved_conversations.where(
       'last_activity_at >= ? AND last_activity_at < ?',
       2.weeks.ago, Time.zone.now
     ).count
+  end
+
+  def total_conversations
+    account.conversations
+  end
+
+  def total_resolved_conversations
+    total_conversations.resolved
   end
 end

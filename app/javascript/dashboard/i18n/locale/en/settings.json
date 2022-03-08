@@ -53,7 +53,8 @@
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "EMAIL_DIGEST": "Send email notification for bi-weekly account metrics."
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
