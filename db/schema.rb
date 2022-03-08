@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_120357) do
+ActiveRecord::Schema.define(version: 2022_03_08_193420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -335,6 +335,17 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
+  end
+
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_conversation_participants_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -787,6 +798,9 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
   add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
+  add_foreign_key "conversation_participants", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_participants", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_participants", "users", on_delete: :cascade
   add_foreign_key "conversations", "campaigns", on_delete: :cascade
   add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
   add_foreign_key "conversations", "teams", on_delete: :cascade

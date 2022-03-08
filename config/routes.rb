@@ -71,6 +71,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :participants, only: [:show, :create, :destroy]
             end
             member do
               post :mute
