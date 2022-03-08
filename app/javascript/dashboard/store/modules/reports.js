@@ -5,7 +5,6 @@ import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
 import { downloadCsvFile } from '../../helper/downloadCsvFile';
-import { formatTime } from '@chatwoot/utils';
 
 const state = {
   fetchingStatus: false,
@@ -14,7 +13,15 @@ const state = {
     isFetching: false,
     data: [],
   },
-  accountSummary: {
+  currentAccountSummary: {
+    avg_first_response_time: 0,
+    avg_resolution_time: 0,
+    conversations_count: 0,
+    incoming_messages_count: 0,
+    outgoing_messages_count: 0,
+    resolutions_count: 0,
+  },
+  previousAccountSummary: {
     avg_first_response_time: 0,
     avg_resolution_time: 0,
     conversations_count: 0,
@@ -28,8 +35,11 @@ const getters = {
   getAccountReports(_state) {
     return _state.accountReport;
   },
-  getAccountSummary(_state) {
-    return _state.accountSummary;
+  getCurrentAccountSummary(_state) {
+    return _state.currentAccountSummary;
+  },
+  getPreviousAccountSummary(_state) {
+    return _state.previousAccountSummary;
   },
 };
 
@@ -65,14 +75,24 @@ export const actions = {
   },
   fetchAccountSummary({ commit }, reportObj) {
     Report.getSummary(
-      reportObj.from,
-      reportObj.to,
+      reportObj.currDateFrom,
+      reportObj.currDateTo,
+      reportObj.prevDateFrom,
+      reportObj.prevDateTo,
       reportObj.type,
       reportObj.id,
       reportObj.groupBy
     )
       .then(accountSummary => {
-        commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
+        console.log(accountSummary);
+        commit(
+          types.default.SET_CURRENT_ACCOUNT_SUMMARY,
+          accountSummary.data.current
+        );
+        commit(
+          types.default.SET_PREVIOUS_ACCOUNT_SUMMARY,
+          accountSummary.data.previous
+        );
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
@@ -123,20 +143,11 @@ const mutations = {
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, flag) {
     _state.accountReport.isFetching = flag;
   },
-  [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
-    _state.accountSummary = summaryData;
-    // Average First Response Time
-    let avgFirstResTimeInHr = 0;
-    if (summaryData.avg_first_response_time) {
-      avgFirstResTimeInHr = formatTime(summaryData.avg_first_response_time);
-    }
-    // Average Resolution Time
-    let avgResolutionTimeInHr = 0;
-    if (summaryData.avg_resolution_time) {
-      avgResolutionTimeInHr = formatTime(summaryData.avg_resolution_time);
-    }
-    _state.accountSummary.avg_first_response_time = avgFirstResTimeInHr;
-    _state.accountSummary.avg_resolution_time = avgResolutionTimeInHr;
+  [types.default.SET_CURRENT_ACCOUNT_SUMMARY](_state, summaryData) {
+    _state.currentAccountSummary = summaryData;
+  },
+  [types.default.SET_PREVIOUS_ACCOUNT_SUMMARY](_state, summaryData) {
+    _state.previousAccountSummary = summaryData;
   },
 };
 

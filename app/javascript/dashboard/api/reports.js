@@ -22,11 +22,21 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getSummary(since, until, type = 'account', id, group_by) {
+  getSummary(
+    current_since,
+    current_until,
+    previous_since,
+    previous_until,
+    type = 'account',
+    id,
+    group_by
+  ) {
     return axios.get(`${this.url}/summary`, {
       params: {
-        since,
-        until,
+        current_since,
+        current_until,
+        previous_since,
+        previous_until,
         type,
         id,
         group_by,

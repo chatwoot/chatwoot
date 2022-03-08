@@ -23,7 +23,8 @@
         :heading="metric.NAME"
         :index="index"
         :on-click="changeSelection"
-        :point="accountSummary[metric.KEY]"
+        :point="displayMetric(metric.KEY)"
+        :trend="calculateTrend(metric.KEY)"
         :selected="index === currentSelection"
       />
     </div>
@@ -48,6 +49,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER } from './constants';
+import { formatTime } from '@chatwoot/utils';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -64,8 +66,10 @@ export default {
   },
   data() {
     return {
-      from: 0,
-      to: 0,
+      currDateFrom: 0,
+      currDateTo: 0,
+      prevDateFrom: 0,
+      prevDateTo: 0,
       currentSelection: 0,
       groupBy: GROUP_BY_FILTER[1],
       filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
@@ -74,7 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountSummary: 'getAccountSummary',
+      currentAccountSummary: 'getCurrentAccountSummary',
+      previousAccountSummary: 'getPreviousAccountSummary',
       accountReport: 'getAccountReports',
     }),
     collection() {
@@ -131,41 +136,76 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
+    calculateTrend() {
+      return metric_key => {
+        return Math.round(
+          ((this.currentAccountSummary[metric_key] -
+            this.previousAccountSummary[metric_key]) /
+            this.previousAccountSummary[metric_key]) *
+            100
+        );
+      };
+    },
+    displayMetric() {
+      return metric_key => {
+        if (metric_key === 'avg_first_response_time') {
+          return formatTime(this.currentAccountSummary[metric_key]);
+        }
+        if (metric_key === 'avg_resolution_time') {
+          return formatTime(this.currentAccountSummary[metric_key]);
+        }
+        return this.currentAccountSummary[metric_key];
+      };
+    },
   },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy } = this;
+      const {
+        currDateFrom,
+        currDateTo,
+        prevDateFrom,
+        prevDateTo,
+        groupBy,
+      } = this;
       this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
+        currDateFrom,
+        currDateTo,
+        prevDateFrom,
+        prevDateTo,
         groupBy: groupBy.period,
       });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { currDateFrom, currDateTo, groupBy } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
+        from: currDateFrom,
+        to: currDateTo,
         groupBy: groupBy.period,
       });
     },
     downloadAgentReports() {
-      const { from, to } = this;
+      const { currDateFrom, currDateTo } = this;
       const fileName = `agent-report-${format(
-        fromUnixTime(to),
+        fromUnixTime(currDateTo),
         'dd-MM-yyyy'
       )}.csv`;
-      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+      this.$store.dispatch('downloadAgentReports', {
+        from: currDateFrom,
+        to: currDateTo,
+        fileName,
+      });
     },
     changeSelection(index) {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to, groupBy }) {
-      this.from = from;
-      this.to = to;
+    onDateRangeChange({ currentDateRange, previousDateRange, groupBy }) {
+      this.currDateFrom = currentDateRange.from;
+      this.currDateTo = currentDateRange.to;
+      this.prevDateFrom = previousDateRange.from;
+      this.prevDateTo = previousDateRange.to;
       this.filterItemsList = this.fetchFilterItems(groupBy);
       const filterItems = this.filterItemsList.filter(
         item => item.id === this.groupBy.id
