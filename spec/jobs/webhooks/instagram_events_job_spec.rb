@@ -73,7 +73,9 @@ describe Webhooks::InstagramEventsJob do
 
         instagram_inbox.reload
 
-        expect(instagram_inbox.messages.count).to be 0
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
+        expect(instagram_inbox.messages.last.reload.deleted).to eq true
       end
     end
   end
