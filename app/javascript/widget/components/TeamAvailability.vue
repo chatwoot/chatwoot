@@ -1,7 +1,7 @@
 <template>
   <div class="px-5">
     <div class="flex items-center justify-between mb-4">
-      <div class="text-black-700">
+      <div :class="teamAvailabilityDarkMode">
         <div class="text-base leading-5 font-medium mb-1">
           {{
             isOnline
@@ -36,6 +36,7 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
+import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'TeamAvailability',
@@ -43,7 +44,7 @@ export default {
     AvailableAgents,
     CustomButton,
   },
-  mixins: [configMixin, availabilityMixin],
+  mixins: [configMixin, availabilityMixin, isDarkOrWhiteOrAutoMode],
   props: {
     availableAgents: {
       type: Array,
@@ -55,9 +56,17 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    teamAvailabilityDarkMode() {
+      return this.isDarkOrWhiteOrAutoMode({
+        dark: 'dark:text-slate-50',
+        light: 'text-black-700',
+      });
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;

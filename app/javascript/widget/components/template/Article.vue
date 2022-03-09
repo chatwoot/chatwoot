@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!!items.length" class="chat-bubble agent">
+  <div v-if="!!items.length" class="chat-bubble bg-white agent">
     <div v-for="item in items" :key="item.link" class="article-item">
       <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
         <span class="title flex items-center text-black-900 font-medium">

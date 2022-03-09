@@ -1,6 +1,10 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
-import { getBubbleView } from '../sdk/settingsHelper';
+import {
+  getBubbleView,
+  getDarkMode,
+  getWidgetStyle,
+} from '../sdk/settingsHelper';
 import {
   computeHashForUserData,
   getUserCookieName,
@@ -24,8 +28,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
-    widgetStyle: chatwootSettings.widgetStyle || 'standard',
+    widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
+    darkMode: getDarkMode(chatwootSettings.darkMode),
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);

@@ -42,7 +42,6 @@
   }
 
   .agent-name {
-    color: $color-body;
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     margin: $space-small 0;
@@ -207,7 +206,6 @@
 
 .chat-bubble {
   @include light-shadow;
-  background: $color-woot;
   border-radius: $space-two;
   color: $color-white;
   display: inline-block;
@@ -236,7 +234,6 @@
   }
 
   &.agent {
-    background: $color-white;
     border-bottom-left-radius: $space-smaller;
     color: $color-body;
 

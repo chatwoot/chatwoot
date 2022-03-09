@@ -16,7 +16,7 @@
           <tbody>
             <tr v-for="item in teamsList" :key="item.id">
               <td>
-                <span class="agent-name">{{ item.name }}</span>
+                <span class="agent-name text-slate-700">{{ item.name }}</span>
                 <p>{{ item.description }}</p>
               </td>
 

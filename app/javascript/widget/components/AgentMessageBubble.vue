@@ -5,6 +5,7 @@
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
+      :class="widgetChatBubbleDarkMode"
     >
       <div class="message-content" v-html="formatMessage(message, false)"></div>
       <email-input
@@ -60,6 +61,7 @@ import ChatOptions from 'shared/components/ChatOptions';
 import ChatArticle from './template/Article';
 import EmailInput from './template/EmailInput';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
+import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'AgentMessageBubble',
@@ -71,7 +73,7 @@ export default {
     EmailInput,
     CustomerSatisfaction,
   },
-  mixins: [messageFormatterMixin],
+  mixins: [messageFormatterMixin, isDarkOrWhiteOrAutoMode],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -83,6 +85,12 @@ export default {
     },
   },
   computed: {
+    widgetChatBubbleDarkMode() {
+      return this.isDarkOrWhiteOrAutoMode({
+        dark: 'dark:bg-slate-50',
+        light: 'bg-white',
+      });
+    },
     isTemplate() {
       return this.messageType === 3;
     },

@@ -32,7 +32,7 @@
               </td>
               <!-- Short Code  -->
               <td>
-                <span class="agent-name">{{ item.name }}</span>
+                <span class="agent-name text-slate-700">{{ item.name }}</span>
                 <span v-if="item.channel_type === 'Channel::FacebookPage'">
                   Facebook
                 </span>

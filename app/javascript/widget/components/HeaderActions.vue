@@ -5,7 +5,7 @@
       class="button transparent compact new-window--button "
       @click="popoutWindow"
     >
-      <fluent-icon icon="open" size="22" class="text-black-900" />
+      <fluent-icon icon="open" size="22" :class="actionButtonDarkMode" />
     </button>
     <button
       class="button transparent compact close-button"
@@ -14,7 +14,7 @@
       }"
       @click="closeWindow"
     >
-      <fluent-icon icon="dismiss" size="24" class="text-black-900" />
+      <fluent-icon icon="dismiss" size="24" :class="actionButtonDarkMode" />
     </button>
   </div>
 </template>
@@ -22,10 +22,12 @@
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
+  mixins: [isDarkOrWhiteOrAutoMode],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -41,6 +43,12 @@ export default {
     },
     showHeaderActions() {
       return this.isIframe || this.isRNWebView;
+    },
+    actionButtonDarkMode() {
+      return this.isDarkOrWhiteOrAutoMode({
+        dark: 'dark:text-slate-50',
+        light: 'text-black-900',
+      });
     },
   },
   methods: {

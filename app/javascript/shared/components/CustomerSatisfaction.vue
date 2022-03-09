@@ -1,5 +1,9 @@
 <template>
-  <div class="customer-satisfcation" :style="{ borderColor: widgetColor }">
+  <div
+    class="customer-satisfaction"
+    :class="customerSatisfactionDarkMode"
+    :style="{ borderColor: widgetColor }"
+  >
     <h6 class="title">
       {{ title }}
     </h6>
@@ -22,7 +26,7 @@
         v-model="feedback"
         class="form-input"
         :placeholder="$t('CSAT.PLACEHOLDER')"
-        @keyup.enter="onSubmit"
+        @keydown.enter="onSubmit"
       />
       <button
         class="button small"
@@ -41,12 +45,14 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
   },
+  mixins: [isDarkOrWhiteOrAutoMode],
   props: {
     messageContentAttributes: {
       type: Object,
@@ -70,6 +76,12 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    customerSatisfactionDarkMode() {
+      return this.isDarkOrWhiteOrAutoMode({
+        dark: 'dark:bg-slate-50',
+        light: 'bg-white',
+      });
+    },
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },
@@ -136,10 +148,9 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
 
-.customer-satisfcation {
+.customer-satisfaction {
   @include light-shadow;
 
-  background: $color-white;
   border-bottom-left-radius: $space-smaller;
   border-radius: $space-small;
   border-top: $space-micro solid $color-woot;

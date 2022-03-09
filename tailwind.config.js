@@ -85,7 +85,11 @@ module.exports = {
         900: '#C30011',
       },
     },
-    extend: {},
+    extend: {
+      screens: {
+        dark: { raw: '(prefers-color-scheme: dark)' },
+      },
+    },
   },
   variants: {},
   plugins: [],

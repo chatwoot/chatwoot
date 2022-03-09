@@ -1,5 +1,5 @@
 <template>
-  <div class="options-message chat-bubble agent">
+  <div class="options-message chat-bubble bg-white agent">
     <div class="card-body">
       <h4 class="title">
         {{ title }}

@@ -35,12 +35,14 @@
                 </td>
                 <!-- Agent Name + Email -->
                 <td>
-                  <span class="agent-name">{{ agent.name }}</span>
+                  <span class="agent-name text-slate-700">
+                    {{ agent.name }}
+                  </span>
                   <span>{{ agent.email }}</span>
                 </td>
                 <!-- Agent Role + Verification Status -->
                 <td>
-                  <span class="agent-name">
+                  <span class="agent-name text-slate-700">
                     {{
                       $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
                     }}
