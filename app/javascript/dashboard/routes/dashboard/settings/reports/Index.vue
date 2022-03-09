@@ -138,6 +138,9 @@ export default {
     },
     calculateTrend() {
       return metric_key => {
+        if (this.previousAccountSummary[metric_key] === 0) {
+          return 0;
+        }
         return Math.round(
           ((this.currentAccountSummary[metric_key] -
             this.previousAccountSummary[metric_key]) /

@@ -35,10 +35,10 @@
     margin-left: $space-small;
   }
   .metric-up {
-    color: lightgreen;
+    color: $success-color;
   }
   .metric-down {
-    color: red;
+    color: $alert-color;
   }
 
   .desc {

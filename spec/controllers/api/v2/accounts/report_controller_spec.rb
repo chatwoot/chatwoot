@@ -89,7 +89,7 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        expect(json_response['conversations_count']).to eq(10)
+        expect(json_response['current']['conversations_count']).to eq(10)
       end
     end
   end

@@ -27,7 +27,8 @@
           :heading="metric.NAME"
           :index="index"
           :on-click="changeSelection"
-          :point="accountSummary[metric.KEY]"
+          :point="displayMetric(metric.KEY)"
+          :trend="calculateTrend(metric.KEY)"
           :selected="index === currentSelection"
         />
       </div>
@@ -55,6 +56,7 @@ import ReportFilters from './ReportFilters';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { GROUP_BY_FILTER } from '../constants';
+import { formatTime } from '@chatwoot/utils';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -88,8 +90,10 @@ export default {
   },
   data() {
     return {
-      from: 0,
-      to: 0,
+      currDateFrom: 0,
+      currDateTo: 0,
+      prevDateFrom: 0,
+      prevDateTo: 0,
       currentSelection: 0,
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
@@ -101,8 +105,11 @@ export default {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
-    accountSummary() {
-      return this.$store.getters.getAccountSummary || [];
+    currentAccountSummary() {
+      return this.$store.getters.getCurrentAccountSummary || [];
+    },
+    previousAccountSummary() {
+      return this.$store.getters.getPreviousAccountSummary || [];
     },
     accountReport() {
       return this.$store.getters.getAccountReports || [];
@@ -167,6 +174,30 @@ export default {
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
     },
+    calculateTrend() {
+      return metric_key => {
+        if (this.previousAccountSummary[metric_key] === 0) {
+          return 0;
+        }
+        return Math.round(
+          ((this.currentAccountSummary[metric_key] -
+            this.previousAccountSummary[metric_key]) /
+            this.previousAccountSummary[metric_key]) *
+            100
+        );
+      };
+    },
+    displayMetric() {
+      return metric_key => {
+        if (metric_key === 'avg_first_response_time') {
+          return formatTime(this.currentAccountSummary[metric_key]);
+        }
+        if (metric_key === 'avg_resolution_time') {
+          return formatTime(this.currentAccountSummary[metric_key]);
+        }
+        return this.currentAccountSummary[metric_key];
+      };
+    },
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
@@ -174,10 +205,18 @@ export default {
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to, groupBy } = this;
+        const {
+          currDateFrom,
+          currDateTo,
+          prevDateFrom,
+          prevDateTo,
+          groupBy,
+        } = this;
         this.$store.dispatch('fetchAccountSummary', {
-          from,
-          to,
+          currDateFrom,
+          currDateTo,
+          prevDateFrom,
+          prevDateTo,
           type: this.type,
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
@@ -186,34 +225,50 @@ export default {
       }
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { currDateFrom, currDateTo, groupBy } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
+        from: currDateFrom,
+        to: currDateTo,
         type: this.type,
         id: this.selectedFilter.id,
         groupBy: groupBy.period,
       });
     },
     downloadReports() {
-      const { from, to } = this;
+      const { currDateFrom, currDateTo } = this;
       const fileName = `${this.type}-report-${format(
-        fromUnixTime(to),
+        fromUnixTime(currDateTo),
         'dd-MM-yyyy'
       )}.csv`;
       switch (this.type) {
         case 'agent':
-          this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+          this.$store.dispatch('downloadAgentReports', {
+            currDateFrom,
+            currDateTo,
+            fileName,
+          });
           break;
         case 'label':
-          this.$store.dispatch('downloadLabelReports', { from, to, fileName });
+          this.$store.dispatch('downloadLabelReports', {
+            currDateFrom,
+            currDateTo,
+            fileName,
+          });
           break;
         case 'inbox':
-          this.$store.dispatch('downloadInboxReports', { from, to, fileName });
+          this.$store.dispatch('downloadInboxReports', {
+            currDateFrom,
+            currDateTo,
+            fileName,
+          });
           break;
         case 'team':
-          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
+          this.$store.dispatch('downloadTeamReports', {
+            currDateFrom,
+            currDateTo,
+            fileName,
+          });
           break;
         default:
           break;
@@ -223,9 +278,11 @@ export default {
       this.currentSelection = index;
       this.fetchChartData();
     },
-    onDateRangeChange({ from, to, groupBy }) {
-      this.from = from;
-      this.to = to;
+    onDateRangeChange({ currentDateRange, previousDateRange, groupBy }) {
+      this.currDateFrom = currentDateRange.from;
+      this.currDateTo = currentDateRange.to;
+      this.prevDateFrom = previousDateRange.from;
+      this.prevDateTo = previousDateRange.to;
       this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
       const filterItems = this.groupByfilterItemsList.filter(
         item => item.id === this.groupBy.id

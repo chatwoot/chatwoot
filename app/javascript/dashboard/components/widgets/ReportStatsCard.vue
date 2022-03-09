@@ -11,8 +11,7 @@
       <h4 class="metric">
         {{ point }}
       </h4>
-      <span v-if="trend > 0" :class="trendClass">+{{ trend }}%</span>
-      <span v-if="trend < 0" :class="trendClass">{{ trend }}%</span>
+      <span v-if="trend !== 0" :class="trendClass">{{ trendValue }}</span>
     </div>
     <p class="desc">
       {{ desc }}
@@ -37,6 +36,13 @@ export default {
       }
 
       return 'metric-trend metric-down';
+    },
+    trendValue() {
+      if (this.trend > 0) {
+        return `+${this.trend}%`;
+      }
+
+      return `${this.trend}%`;
     },
   },
 };

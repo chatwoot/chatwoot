@@ -84,7 +84,6 @@ export const actions = {
       reportObj.groupBy
     )
       .then(accountSummary => {
-        console.log(accountSummary);
         commit(
           types.default.SET_CURRENT_ACCOUNT_SUMMARY,
           accountSummary.data.current

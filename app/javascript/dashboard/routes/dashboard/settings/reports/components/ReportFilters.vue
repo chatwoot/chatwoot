@@ -155,6 +155,8 @@ import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+
 import { GROUP_BY_FILTER } from '../constants';
 const CUSTOM_DATE_RANGE_ID = 5;
 
@@ -194,26 +196,52 @@ export default {
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
-    to() {
-      if (this.isDateRangeSelected) {
-        return this.toCustomDate(this.customDateRange[1]);
-      }
-      return this.toCustomDate(new Date());
-    },
-    from() {
-      if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[0]);
-      }
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
+    currentDateRange() {
+      let dateRange = {
+        from: null,
+        to: null,
       };
-      const diff = dateRange[this.currentDateRangeSelection.id];
-      const fromDate = subDays(new Date(), diff);
-      return this.fromCustomDate(fromDate);
+      if (this.isDateRangeSelected) {
+        dateRange.from = this.fromCustomDate(this.customDateRange[0]);
+        dateRange.to = this.toCustomDate(this.customDateRange[1]);
+      } else {
+        const fromDate = subDays(
+          new Date(),
+          this.daysRange(this.currentDateRangeSelection.id)
+        );
+
+        dateRange.from = this.fromCustomDate(fromDate);
+        dateRange.to = this.toCustomDate(new Date());
+      }
+      return dateRange;
+    },
+    previousDateRange() {
+      let dateRange = {
+        from: null,
+        to: null,
+      };
+      if (this.isDateRangeSelected) {
+        const daysCount = differenceInCalendarDays(
+          this.customDateRange[1],
+          this.customDateRange[0]
+        );
+        const fromDate = subDays(new Date(), daysCount * 2);
+        const toDate = subDays(new Date(), daysCount);
+        dateRange.from = this.fromCustomDate(fromDate);
+        dateRange.to = this.toCustomDate(toDate);
+      } else {
+        const fromDate = subDays(
+          new Date(),
+          this.daysRange(this.currentDateRangeSelection.id) * 2
+        );
+        const toDate = subDays(
+          new Date(),
+          this.daysRange(this.currentDateRangeSelection.id)
+        );
+        dateRange.from = this.fromCustomDate(fromDate);
+        dateRange.to = this.toCustomDate(toDate);
+      }
+      return dateRange;
     },
     multiselectLabel() {
       const typeLabels = {
@@ -255,10 +283,9 @@ export default {
   },
   methods: {
     onDateRangeChange() {
-      console.log(this.from, this.to);
       this.$emit('date-range-change', {
-        from: this.from,
-        to: this.to,
+        currentDateRange: this.currentDateRange,
+        previousDateRange: this.previousDateRange,
         groupBy: this.groupBy,
       });
     },
@@ -281,6 +308,16 @@ export default {
     },
     changeGroupByFilterSelection() {
       this.$emit('group-by-filter-change', this.currentSelectedGroupByFilter);
+    },
+    daysRange(currentDateRangeId) {
+      const dateRange = {
+        0: 6,
+        1: 29,
+        2: 89,
+        3: 179,
+        4: 364,
+      };
+      return dateRange[currentDateRangeId];
     },
   },
 };
