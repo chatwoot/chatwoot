@@ -15,61 +15,62 @@
           </option>
         </select>
       </label>
-
-      <label class="medium-9">
-        {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
-        <textarea
-          v-model.trim="preChatMessage"
-          type="text"
-          :placeholder="
-            $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
-          "
-        />
-      </label>
-      <label> {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }} </label>
-      <table class="table table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">
-              {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
-            </th>
-            <th scope="col">
-              {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
-            </th>
-          </tr>
-        </thead>
-        <draggable v-model="preChatFields" tag="tbody">
-          <tr v-for="(item, index) in preChatFields" :key="index">
-            <td scope="row">
-              <button
-                type="button"
-                class="toggle-button"
-                :class="{ active: item['enabled'] }"
-                role="switch"
-                @click="handlePreChatFieldOptions($event, 'enabled', item)"
-              >
-                <span
-                  aria-hidden="true"
+      <div v-if="preChatFormEnabled">
+        <label class="medium-9">
+          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
+          <textarea
+            v-model.trim="preChatMessage"
+            type="text"
+            :placeholder="
+              $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
+            "
+          />
+        </label>
+        <label> {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }} </label>
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
+              </th>
+              <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
+              </th>
+            </tr>
+          </thead>
+          <draggable v-model="preChatFields" tag="tbody">
+            <tr v-for="(item, index) in preChatFields" :key="index">
+              <td scope="row">
+                <button
+                  type="button"
+                  class="toggle-button"
                   :class="{ active: item['enabled'] }"
-                ></span>
-              </button>
-            </td>
-            <td :class="{ 'disabled-text': !item['enabled'] }">
-              {{ item.label }}
-            </td>
-            <td>
-              <input
-                v-if="item['enabled']"
-                v-model="item['required']"
-                type="checkbox"
-                :value="`${item.name}-required`"
-                @click="handlePreChatFieldOptions($event, 'required', item)"
-              />
-            </td>
-          </tr>
-        </draggable>
-      </table>
+                  role="switch"
+                  @click="handlePreChatFieldOptions($event, 'enabled', item)"
+                >
+                  <span
+                    aria-hidden="true"
+                    :class="{ active: item['enabled'] }"
+                  ></span>
+                </button>
+              </td>
+              <td :class="{ 'disabled-text': !item['enabled'] }">
+                {{ item.label }}
+              </td>
+              <td>
+                <input
+                  v-model="item['required']"
+                  type="checkbox"
+                  :value="`${item.name}-required`"
+                  :disabled="!item['enabled']"
+                  @click="handlePreChatFieldOptions($event, 'required', item)"
+                />
+              </td>
+            </tr>
+          </draggable>
+        </table>
+      </div>
 
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
@@ -204,5 +205,12 @@ export default {
 .disabled-text {
   font-size: var(--font-size-small);
   color: var(--s-500);
+}
+
+table thead th {
+  text-transform: none;
+}
+checkbox {
+  margin: 0;
 }
 </style>
