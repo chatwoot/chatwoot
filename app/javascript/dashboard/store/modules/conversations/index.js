@@ -12,6 +12,7 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  conversationParticipants: [],
 };
 
 // mutations
@@ -193,6 +194,14 @@ export const mutations = {
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+  },
+
+  [types.SET_CONVERSATION_PARTICIPANTS](_state, data) {
+    _state.conversationParticipants = data;
+  },
+
+  [types.CLEAR_CONVERSATION_PARTICIPANTS](_state) {
+    _state.conversationParticipants = [];
   },
 };
 

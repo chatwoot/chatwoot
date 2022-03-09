@@ -33,7 +33,7 @@ class ConversationParticipant < ApplicationRecord
   before_validation :ensure_account_id
 
   private
-  
+
   def ensure_account_id
     self.account_id = conversation&.account_id
   end

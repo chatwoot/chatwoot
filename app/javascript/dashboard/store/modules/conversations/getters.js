@@ -92,6 +92,9 @@ const getters = {
       value => value.id === Number(conversationId)
     );
   },
+  getConversationParticipants: _state => {
+    return _state.conversationParticipants;
+  },
 };
 
 export default getters;

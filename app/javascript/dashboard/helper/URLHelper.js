@@ -37,8 +37,7 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/custom_view/${foldersId}/conversations/${id}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
-  }
-  else if (conversationType === 'participating') {
+  } else if (conversationType === 'participating') {
     url = `accounts/${accountId}/participating/conversations/${id}`;
   }
   return url;

@@ -330,6 +330,43 @@ const actions = {
   clearConversationFilters({ commit }) {
     commit(types.CLEAR_CONVERSATION_FILTERS);
   },
+
+  fetchConversationParticipants: async ({ commit }, id) => {
+    try {
+      const response = await ConversationApi.fecthParticipants(id);
+      commit(types.SET_CONVERSATION_PARTICIPANTS, response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  createConversationParticipants: async (
+    { commit },
+    conversationId,
+    user_ids
+  ) => {
+    const response = await ConversationApi.createParticipants(
+      conversationId,
+      user_ids
+    );
+    commit(types.SET_CONVERSATION_PARTICIPANTS, response.data);
+  },
+
+  updateConversationParticipants: async (
+    { commit },
+    conversationId,
+    user_ids
+  ) => {
+    const response = await ConversationApi.updateParticipants(
+      conversationId,
+      user_ids
+    );
+    commit(types.SET_CONVERSATION_PARTICIPANTS, response.data);
+  },
+
+  clearConversationParticipants({ commit }) {
+    commit(types.CLEAR_CONVERSATION_PARTICIPANTS);
+  },
 };
 
 export default actions;
