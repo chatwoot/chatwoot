@@ -16,7 +16,7 @@
 #
 # Indexes
 #
-#  attribute_key_model_index                         (attribute_key,attribute_model) UNIQUE
+#  attribute_key_model_index                         (attribute_key,attribute_model,account_id) UNIQUE
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord

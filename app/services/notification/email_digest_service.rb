@@ -14,10 +14,12 @@ class Notification::EmailDigestService
     # return unless user_subscribed_to_email_digest?
 
     data = {
-      conversation_created: conversation_created_count,
-      conversation_resolved: conversation_resolved_count,
+      conversation_created: conversation_created.count,
+      conversation_resolved: conversation_resolved.count,
       total_conversation_created: total_conversations.count,
-      total_conversation_resolved: total_resolved_conversations.count
+      total_conversation_resolved: total_resolved_conversations.count,
+      conversation_assigned_to_agent: conversation_assigned_to_agent.count,
+      conversation_resolved_by_agent: conversation_resolved_by_agent.count
     }
     prepare_chart_resolution_data
     AccountNotifications::DigestMailer.send_email_digest(account, user, data, @chart_data).deliver_now
@@ -26,19 +28,19 @@ class Notification::EmailDigestService
   private
 
   # default last_two_weeks
-  def conversation_created_count
+  def conversation_created
     total_conversations.where(
       'created_at >= ? AND created_at < ?',
       2.weeks.ago, Time.zone.now
-    ).count
+    )
   end
 
   # default last_two_weeks
-  def conversation_resolved_count
+  def conversation_resolved
     total_resolved_conversations.where(
       'last_activity_at >= ? AND last_activity_at < ?',
       2.weeks.ago, Time.zone.now
-    ).count
+    )
   end
 
   def total_conversations
@@ -61,6 +63,14 @@ class Notification::EmailDigestService
       third_last_week_count: @third_last_week,
       fourth_last_week_count: @fourth_last_week
     }
+  end
+
+  def conversation_assigned_to_agent
+    conversation_created.where(assignee_id: @user.id)
+  end
+
+  def conversation_resolved_by_agent
+    conversation_resolved.where(assignee_id: @user.id)
   end
 
   def last_week
@@ -103,6 +113,6 @@ class Notification::EmailDigestService
     @total_last_month_resolution ||= total_resolved_conversations.where(
       'last_activity_at >= ? AND last_activity_at < ?',
       4.weeks.ago, Time.zone.now
-    ).count
+    ).count || 1
   end
 end

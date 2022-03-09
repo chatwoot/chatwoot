@@ -20,6 +20,6 @@ class Account::EmailDigestJob
   private
 
   def user_subscribed_to_notification?(user)
-    return user.email_digest_enabled?
+    user.email_digest_enabled?
   end
 end

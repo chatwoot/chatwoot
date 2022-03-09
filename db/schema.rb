@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 2022_03_08_195031) do
     t.string "name", null: false
     t.text "description"
     t.string "event_name", null: false
-    t.jsonb "conditions", default: "[]", null: false
-    t.jsonb "actions", default: "[]", null: false
+    t.jsonb "conditions", default: "{}", null: false
+    t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 2022_03_08_195031) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -396,7 +396,7 @@ ActiveRecord::Schema.define(version: 2022_03_08_195031) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|

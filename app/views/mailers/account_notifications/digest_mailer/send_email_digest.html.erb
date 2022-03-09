@@ -1,3 +1,7 @@
+<tr>
+  <td style="line-height:3px;font-size:3px" height="250px">&nbsp;</td>
+</tr>
+
 <tr style="text-align:left">
   <td style="text-align:left">
     <a href="<%= ENV['FRONTEND_URL'] %>" _target="blank">
@@ -119,7 +123,7 @@
                         </tr>
                         <tr>
                           <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
-                            Total client query received till date:
+                            Total conversations created till date:
                           </td>
                         </tr>
                         <tr>
@@ -148,7 +152,7 @@
                         </tr>
                         <tr>
                           <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
-                            Total Client support queries resolved till date:
+                            Total conversations resolved till date:
                           </td>
                         </tr>
                         <tr>
@@ -175,6 +179,85 @@
     </table>
   </td>
 </tr>
+
+<tr>
+  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
+</tr>
+
+<tr>
+  <td align="center">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:100%;font-weight:normal" width="480">
+            <table cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td width="350" valign="middle" height="35" align="left">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
+                            Total conversations assigned to you in last two weeks:
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400"><%= @data[:conversation_assigned_to_agent]%>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="80">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td width="350" valign="middle" height="35" align="left">
+                    <table cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;text-transform:uppercase;line-height:normal;font-weight:700" valign="top">
+                            Total conversations resolved by you in the last two weeks:
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400"><%= @data[:conversation_resolved_by_agent]%>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="line-height:20px;font-size:20px" height="5" bgcolor="#ffffff">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>Ω
 
 <tr>
   <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
