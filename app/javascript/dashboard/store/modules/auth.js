@@ -6,7 +6,7 @@ import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
+import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const state = {
   currentUser: {
@@ -88,15 +88,16 @@ export const getters = {
 
 // actions
 export const actions = {
-  login({ commit }, credentials) {
+  login({ commit }, { ssoAccountId, ...credentials }) {
     return new Promise((resolve, reject) => {
       authAPI
         .login(credentials)
-        .then(() => {
+        .then(response => {
           commit(types.default.SET_CURRENT_USER);
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-          window.location = DEFAULT_REDIRECT_URL;
+
+          window.location = getLoginRedirectURL(ssoAccountId, response.data);
           resolve();
         })
         .catch(error => {
