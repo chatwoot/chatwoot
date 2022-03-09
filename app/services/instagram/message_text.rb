@@ -56,7 +56,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     message_to_delete = @inbox.messages.find_by(
       source_id: @messaging[:message][:mid]
     )
-    return unless message_to_delete.present?
+    return if message_to_delete.blank?
 
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
