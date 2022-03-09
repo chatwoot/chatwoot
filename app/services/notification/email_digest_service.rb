@@ -110,9 +110,11 @@ class Notification::EmailDigestService
   end
 
   def total_last_month_resolution
-    @total_last_month_resolution ||= total_resolved_conversations.where(
+    total = total_resolved_conversations.where(
       'last_activity_at >= ? AND last_activity_at < ?',
       4.weeks.ago, Time.zone.now
-    ).count || 1
+    ).count
+    @total_last_month_resolution = total
+    @total_last_month_resolution = 1 if total.zero?
   end
 end
