@@ -11,7 +11,7 @@
     </div>
     <div v-for="(item, index) in preChatFields" :key="index">
       <form-input
-        v-if="areContactFieldsVisible('fullName', item)"
+        v-if="isContactFieldVisible('fullName', item)"
         v-model="fullName"
         class="mt-5"
         :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
@@ -24,7 +24,7 @@
         "
       />
       <form-input
-        v-if="areContactFieldsVisible('emailAddress', item)"
+        v-if="isContactFieldVisible('emailAddress', item)"
         v-model="emailAddress"
         class="mt-5"
         :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
@@ -33,7 +33,7 @@
         :error="$v.emailAddress && emailErrorMessage"
       />
       <form-input
-        v-if="areContactFieldsVisible('phoneNumber', item)"
+        v-if="isContactFieldVisible('phoneNumber', item)"
         v-model="phoneNumber"
         class="mt-5"
         :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
@@ -71,7 +71,7 @@ import FormTextArea from '../Form/TextArea';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-// import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -96,7 +96,7 @@ export default {
   },
   validations() {
     let identityValidations = {};
-    if (this.areContactFieldsRequired('emailAddress')) {
+    if (this.isContactFieldRequired('emailAddress')) {
       identityValidations = {
         ...identityValidations,
         emailAddress: {
@@ -105,16 +105,16 @@ export default {
         },
       };
     }
-    if (this.areContactFieldsRequired('phoneNumber')) {
+    if (this.isContactFieldRequired('phoneNumber')) {
       identityValidations = {
         ...identityValidations,
         phoneNumber: {
           required,
-          // isPhoneE164OrEmpty,
+          isPhoneE164OrEmpty,
         },
       };
     }
-    if (this.areContactFieldsRequired('fullName')) {
+    if (this.isContactFieldRequired('fullName')) {
       identityValidations = {
         ...identityValidations,
         fullName: {
@@ -200,13 +200,13 @@ export default {
     },
   },
   methods: {
-    areContactFieldsVisible(field, item) {
+    isContactFieldVisible(field, item) {
       return (
         item.name === field &&
         this.preChatFields.find(option => option.name === field).enabled
       );
     },
-    areContactFieldsRequired(field) {
+    isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
     onSubmit() {

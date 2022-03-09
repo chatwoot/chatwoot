@@ -26,13 +26,17 @@
           "
         />
       </label>
-      <label> Set your fields </label>
+      <label> {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }} </label>
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
             <th scope="col"></th>
-            <th scope="col">Field</th>
-            <th scope="col">Required</th>
+            <th scope="col">
+              {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
+            </th>
+            <th scope="col">
+              {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
+            </th>
           </tr>
         </thead>
         <draggable v-model="preChatFields" tag="tbody">
@@ -124,8 +128,7 @@ export default {
       this.preChatFields = preChatFields;
     },
     handlePreChatFieldOptions(event, type, item) {
-      // eslint-disable-next-line
-      this.preChatFields.map((field, index) => {
+      this.preChatFields.forEach((field, index) => {
         if (field.name === item.name) {
           this.preChatFields[index][type] = !item[type];
         }
