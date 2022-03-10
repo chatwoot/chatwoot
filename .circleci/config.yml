@@ -141,11 +141,11 @@ jobs:
       - run:
           name: Code Climate Test Coverage
           command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend.json buildreports/lcov.info
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json buildreports/lcov.info
       - persist_to_workspace:
           root: coverage
           paths:
-            - codeclimate.frontend.json
+            - codeclimate.frontend_*.json
 
       # collect reports
       - store_test_results:
