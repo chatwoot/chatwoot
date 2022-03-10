@@ -31,6 +31,7 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col"></th>
+              <th scope="col"></th>
               <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
               </th>
@@ -41,6 +42,7 @@
           </thead>
           <draggable v-model="preChatFields" tag="tbody">
             <tr v-for="(item, index) in preChatFields" :key="index">
+              <th scope="col"><fluent-icon icon="drag" /></th>
               <td scope="row">
                 <toggle-button
                   :active="item['enabled']"
