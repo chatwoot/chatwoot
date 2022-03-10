@@ -127,8 +127,8 @@
                                                         <tr>
                                                             <td class="table-cw-1-hide" width="30"></td>
                                                             <td style="color:#838487;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:150%;font-weight:normal"
-                                                                align="left">You resolved <br><strong
-                                                                    style="color:#2e3543">70%</strong> of your assigned
+                                                                align="left">You resolved <strong
+                                                                    style="color:#2e3543"><%= ((@data[:conversation_resolved].to_f/@data[:conversation_assigned_to_agent])*100).to_i%>%</strong> of your assigned
                                                                 Chatwoot
                                                                 conversations.</td>
                                                         </tr>
@@ -142,7 +142,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:32px;line-height:normal;font-weight:bold"
-                                                                align="right">3,838</td>
+                                                                align="right"><%= @data[:conversation_assigned_to_agent] %></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
