@@ -38,8 +38,8 @@ describe('#Reports API', () => {
         '/api/v2/reports/summary',
         {
           params: {
-            since: 1621103400,
-            until: 1621621800,
+            current_since: 1621103400,
+            current_until: 1621621800,
             type: 'account',
           },
         }
