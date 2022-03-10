@@ -1,489 +1,758 @@
-<%# <tr>
-  <td style="line-height:3px;font-size:3px" height="250px">&nbsp;</td>
-</tr> %>
-
-<tr style="text-align:left">
-  <td style="text-align:left">
-    <a href="<%= ENV['FRONTEND_URL'] %>" _target="blank">
-      <img src="<%= ENV['FRONTEND_URL'] %>/brand-assets/logo_with_name.svg" alt="Chatwoot" width="200" height="60">
-    </a>
-  </td>
-  <td width="10"></td>
-</tr>
-
-<tr>
-  <td style="line-height:20px;font-size:20px" height="5" bgcolor="#ffffff">&nbsp;</td>
-</tr>
-
-<tr style="text-align:left">
-  <td
-    style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:25px;line-height:150%;font-weight:400"
-    width="480" align="center">
-    Your bi-weekly Chatwoot Insights
-  </td>
-</tr>
-
-<tr>
-  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
-</tr>
-
-<tr>
-  <td align="center">
-    <table cellspacing="0" cellpadding="0" border="0">
-      <tbody>
+<table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#F5F6FB" align="center">
+    <tbody>
         <tr>
-          <td style="line-height:20px;font-size:20px" height="5" bgcolor="#ffffff">&nbsp;</td>
-        </tr>
-        <tr>
-          <td
-            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:100%;font-weight:normal"
-            width="480">
-            <table cellspacing="0" cellpadding="0" border="0">
-              <tbody>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
+            <td valign="top" align="center">
+                <table class="table-cw-0" style="margin:0 auto" width="550" cellspacing="0"
+                    cellpadding="0" border="0" bgcolor="#F5F6FB" align="center">
+                    <tbody>
                         <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Conversations created in the last two weeks:
-                          </td>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:conversation_created]%>
-                          </td>
+                            <td valign="top" align="center">
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#F5F6FB" align="center">
+                                                <table class="table-cw-2" width="100%" cellspacing="0"
+                                                    cellpadding="0" border="0" bgcolor="#F5F6FB" align="center">
+                                                    <tbody>
+                                                        <tr style="text-align:center">
+                                                            <td style="text-align:center">
+                                                                <a href="<%= ENV['FRONTEND_URL'] %>" _target="blank">
+                                                                    <img src="<%= ENV['FRONTEND_URL'] %>/brand-assets/logo_with_name.svg"
+                                                                        alt="Chatwoot" width="200" height="60">
+                                                                </a>
+                                                            </td>
+                                                            <td width="10"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:30px;font-size:30px" height="30" bgcolor="#ffffff">
+                                                &nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:#c7ced9;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:400"
+                                                align="center">
+                                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="color:#c7ced9;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:400;text-align:center"
+                                                                width="100%" align="center">FEBRUARY 27 - MARCH 06</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <table class="table-cw-2" cellspacing="0" cellpadding="0"
+                                                    border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="line-height:5px;font-size:5px" height="5"
+                                                                bgcolor="#ffffff">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:25px;line-height:150%;font-weight:400"
+                                                                width="480" align="center"> Your Weekly Chatwoot
+                                                                Insights
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="line-height:10px;font-size:10px" height="10"
+                                                                bgcolor="#ffffff">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:150%;font-weight:400"
+                                                                width="480" align="center"> Did you know that you are
+                                                                faster than 99% of Chatwoot users? Check it
+                                                                out, and keep up the great work!</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="line-height:40px;font-size:40px" height="40"
+                                                                bgcolor="#ffffff">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="table-cw-1-left-graph" width="342" valign="middle"
+                                                bgcolor="#FFFFFF" align="left">
+                                                <table class="table-cw-2" cellspacing="0" cellpadding="0"
+                                                    border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="table-cw-1-hide" width="30"></td>
+                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase"
+                                                                align="left">
+                                                                <table width="95%" cellspacing="0" cellpadding="0"
+                                                                    border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase;letter-spacing:1px"
+                                                                                align="left"> Conversations</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="line-height:20px;font-size:20px"
+                                                                height="20" bgcolor="#FFFFFF">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="table-cw-1-hide" width="30"></td>
+                                                            <td style="color:#838487;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:150%;font-weight:normal"
+                                                                align="left">You resolved <br><strong
+                                                                    style="color:#2e3543">70%</strong> of your assigned
+                                                                Chatwoot
+                                                                conversations.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td class="table-cw-1-right-graph" width="208" valign="middle"
+                                                height="210" bgcolor="#1f93ff" align="right">
+                                                <table class="table-cw-2" cellspacing="0" cellpadding="0"
+                                                    border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:32px;line-height:normal;font-weight:bold"
+                                                                align="right">3,838</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                align="right">conversations assigned</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" style="line-height:37px;font-size:37px"
+                                                                height="37" bgcolor="#1f93ff">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                width="160" valign="bottom" align="right">
+                                                            </td>
+                                                            <td width="15"></td>
+                                                            <td class="table-cw-1-hide" width="15"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" style="line-height:10px;font-size:10px"
+                                                                height="10" bgcolor="#1f93ff">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="table-cw-1-left-graph" width="342" valign="middle"
+                                                bgcolor="#FFFFFF" align="left">
+                                                <table class="table-cw-2" cellspacing="0" cellpadding="0"
+                                                    border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="table-cw-1-hide" width="30"></td>
+                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,lsans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase"
+                                                                align="left">
+                                                                <table width="85%" cellspacing="0" cellpadding="0"
+                                                                    border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase;letter-spacing:1px"
+                                                                                align="left">Time</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="line-height:20px;font-size:20px"
+                                                                height="20" bgcolor="#FFFFFF">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="table-cw-1-hide" width="30"></td>
+                                                            <td style="color:#838487;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:150%;font-weight:normal"
+                                                                align="left">You were faster than <br
+                                                                    class="table-cw-1-hide"><strong
+                                                                    style="color:#2e3543">48%</strong> of Chatwoot
+                                                                users.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td class="table-cw-1-right-graph" width="208" valign="middle"
+                                                height="210" bgcolor="#ff382d" align="right">
+                                                <table class="table-cw-2" cellspacing="0" cellpadding="0"
+                                                    border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:32px;line-height:normal;font-weight:bold"
+                                                                align="right">37</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                align="right"> seconds first response time</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" style="line-height:37px;font-size:37px"
+                                                                height="37" bgcolor="#ff382d">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                width="160" valign="bottom" align="right">
+                                                            </td>
+                                                            <td width="15"></td>
+                                                            <td class="table-cw-1-hide" width="15"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" style="line-height:10px;font-size:10px"
+                                                                height="10" bgcolor="#ff382d">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="table-cw-0" bgcolor="#FFFFFF" align="center">
+                                                <table class="table-cw-0" width="100%" cellspacing="0"
+                                                    cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="table-cw-1-left-graph" width="342"
+                                                                valign="middle" bgcolor="#FFFFFF" align="left">
+                                                                <table class="table-cw-2" cellspacing="0"
+                                                                    cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="table-cw-1-hide"
+                                                                                width="30"></td>
+                                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase"
+                                                                                align="left">
+                                                                                <table cellspacing="0" cellpadding="0"
+                                                                                    border="0">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:bold;text-transform:uppercase;letter-spacing:1px"
+                                                                                                align="left"> Happiness
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2"
+                                                                                style="line-height:20px;font-size:20px"
+                                                                                height="20" bgcolor="#FFFFFF">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="table-cw-1-hide"
+                                                                                width="30"></td>
+                                                                            <td style="color:#838487;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:150%;font-weight:normal"
+                                                                                align="left"><br><strong
+                                                                                    style="color:#2e3543">79%</strong>
+                                                                                of your users are loving you.</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td class="table-cw-1-right-graph" width="208"
+                                                                valign="middle" height="210" bgcolor="#fdad2a"
+                                                                align="right">
+                                                                <table class="table-cw-2" cellspacing="0"
+                                                                    cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="color:#ebebeb;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:32px;line-height:normal;font-weight:bold"
+                                                                                align="right">1,283</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="color:#ebebeb;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                                align="right"> csat
+                                                                                responses</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="3"
+                                                                                style="line-height:37px;font-size:37px"
+                                                                                height="37" bgcolor="#fdad2a">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:normal;font-weight:normal"
+                                                                                width="160" valign="bottom"
+                                                                                align="right">
+                                                                            </td>
+                                                                            <td width="15"></td>
+                                                                            <td class="table-cw-1-hide"
+                                                                                width="15"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="3"
+                                                                                style="line-height:10px;font-size:10px"
+                                                                                height="10" bgcolor="#fdad2a">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" bgcolor="#ffffff" align="left">
+                                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="line-height:30px;font-size:30px" height="30"
+                                                                bgcolor="#ffffff">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="40" valign="top" align="left">&nbsp;</td>
+                                                            <td class="table-cw-2" width="470"
+                                                                valign="top" align="left">
+                                                                <table width="100%" cellspacing="0" cellpadding="0"
+                                                                    border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="line-height:15px;font-size:15px"
+                                                                                height="15" bgcolor="#ffffff">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="cw-table-4"
+                                                                                style="color:#1c1e29;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:700;text-align:left"
+                                                                                valign="top">MESSAGES POWERED BY
+                                                                                CHATWOOT OVER TIME</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="line-height:15px;font-size:15px"
+                                                                                height="15" bgcolor="#ffffff">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <table width="100%" cellspacing="0" cellpadding="0"
+                                                                    border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th class="m_7233011767277835134stack"
+                                                                                style="line-height:100%" width="155"
+                                                                                valign="middle" align="center"><img
+                                                                                    src="<%= ENV['FRONTEND_URL'] %>/chat.gif"
+                                                                                    style="display:block"
+                                                                                    class="CToWUd a6T" tabindex="0"
+                                                                                    width="150" height="150" border="0">
+                                                                            </th>
+                                                                            <th class="m_7233011767277835134stack"
+                                                                                width="20" valign="top" align="left">
+                                                                                &nbsp;</th>
+                                                                            <th class="m_7233011767277835134stack"
+                                                                                valign="top" align="left">
+                                                                                <table width="100%" cellspacing="0"
+                                                                                    cellpadding="0" border="0">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td style="line-height:15px;font-size:15px"
+                                                                                                height="15"
+                                                                                                bgcolor="#ffffff">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="cw-table-4"
+                                                                                                style="color:#1c1e29;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:54px;line-height:54px;font-weight:700"
+                                                                                                valign="middle">90,668
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:15px;font-size:15px"
+                                                                                                height="15"
+                                                                                                bgcolor="#ffffff">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="cw-table-4"
+                                                                                                style="color:#838487;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:150%;font-weight:400"
+                                                                                                valign="top">messages
+                                                                                                powered by Chatwoot<br>
+                                                                                                since Jun 20, 2021
+                                                                                                (3,838 last week)</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td width="40" valign="top" align="left">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="line-height:50px;font-size:50px" height="50"
+                                                                bgcolor="#ffffff">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="line-height:20px;font-size:20px" height="20" bgcolor="#F5F6FB">
+                                                &nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" bgcolor="#ffffff" align="center">
+                                                <table class="table-cw-0" width="85%" cellspacing="0"
+                                                    cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <table class="table-cw-2" cellspacing="0"
+                                                                    cellpadding="0" border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="line-height:40px;font-size:40px"
+                                                                                height="40" bgcolor="#FFFFFF">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="color:#fdfdfd;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:32px;line-height:150%;font-weight:400"
+                                                                                align="center">
+                                                                                <img 
+                                                                                src="<%= ENV['FRONTEND_URL'] %>/blog.png"
+                                                                                    style="display:block" class="CToWUd"
+                                                                                    width="75" height="70" border="0">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="line-height:10px;font-size:10px"
+                                                                                height="10" bgcolor="#FFFFFF">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;font-weight:700;text-transform:uppercase;letter-spacing:.78px"
+                                                                                align="center">this week's blog posts
+                                                                                &amp;
+                                                                                tips</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="line-height:2px;font-size:2px"
+                                                                                width="100%" height="2"
+                                                                                bgcolor="#F5F5F5">&nbsp;</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="line-height:22px;font-size:22px"
+                                                                                height="22" bgcolor="#FFFFFF">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="table-cw-2"
+                                                                                style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:19px;line-height:150%;font-weight:400"
+                                                                                width="100%" align="center">
+                                                                                <table
+                                                                                    class="table-cw-0"
+                                                                                    width="470" cellspacing="0"
+                                                                                    cellpadding="0" border="0">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td align="left">
+                                                                                                <table width="100%"
+                                                                                                    cellspacing="0"
+                                                                                                    cellpadding="0"
+                                                                                                    border="0">
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td
+                                                                                                                style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px">
+                                                                                                                Releases
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                                <table width="100%"
+                                                                                                    cellspacing="0"
+                                                                                                    cellpadding="0"
+                                                                                                    border="0">
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td style="line-height:6px;font-size:6px"
+                                                                                                                height="6">
+                                                                                                                &nbsp;
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                                <table width="100%"
+                                                                                                    cellspacing="0"
+                                                                                                    cellpadding="0"
+                                                                                                    border="0">
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td
+                                                                                                                style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:24px;letter-spacing:0px;font-weight:400">
+                                                                                                                <a href="https://www.chatwoot.com/blog/v2-2-0/"
+                                                                                                                    style="text-decoration:none;color:#2e3543"
+                                                                                                                    target="_blank">
+                                                                                                                    Chatwoot
+                                                                                                                    v2.2.0</a>
+                                                                                                                    </td>
+                                                                                                                    </tr>
+                                                                                                                    </tbody>
+                                                                                                                    </table>
+                                                                                                                    </td>
+                                                                                                                    <td
+                                                                                                                    width="20">
+                                                                                                            </td>
+                                                                                                            <td style="font-family:'Inter',Helvetica,Arial,sans-serif;font-size:30px;line-height:normal;letter-spacing:0px;font-weight:400"
+                                                                                                                align="right">
+                                                                                                                <a href="https://www.chatwoot.com/blog/v2-2-0/"
+                                                                                                                    style="text-decoration:none;color:#a6adc9"
+                                                                                                                    target="_blank"
+                                                                                                                >›</a>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:18px;font-size:18px"
+                                                                                                height="18"
+                                                                                                bgcolor="#FFFFFF">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:2px;font-size:2px"
+                                                                                                width="100%" height="2"
+                                                                                                bgcolor="#F5F5F5">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:22px;font-size:22px"
+                                                                                                height="22"
+                                                                                                bgcolor="#FFFFFF">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="table-cw-2"
+                                                                                                style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:19px;line-height:150%;font-weight:400"
+                                                                                                width="100%"
+                                                                                                align="center">
+                                                                                                <table
+                                                                                                    class="table-cw-0"
+                                                                                                    width="470"
+                                                                                                    cellspacing="0"
+                                                                                                    cellpadding="0"
+                                                                                                    border="0">
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td
+                                                                                                                align="left">
+                                                                                                                <table
+                                                                                                                    width="100%"
+                                                                                                                    cellspacing="0"
+                                                                                                                    cellpadding="0"
+                                                                                                                    border="0">
+                                                                                                                    <tbody>
+                                                                                                                        <tr>
+                                                                                                                            <td
+                                                                                                                                style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px">
+                                                                                                                                Tips
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </tbody>
+                                                                                                                </table>
+                                                                                                                <table
+                                                                                                                    width="100%"
+                                                                                                                    cellspacing="0"
+                                                                                                                    cellpadding="0"
+                                                                                                                    border="0">
+                                                                                                                    <tbody>
+                                                                                                                        <tr>
+                                                                                                                            <td style="line-height:6px;font-size:6px"
+                                                                                                                                height="6">
+                                                                                                                                &nbsp;
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </tbody>
+                                                                                                                </table>
+                                                                                                                <table
+                                                                                                                    width="100%"
+                                                                                                                    cellspacing="0"
+                                                                                                                    cellpadding="0"
+                                                                                                                    border="0">
+                                                                                                                    <tbody>
+                                                                                                                        <tr>
+                                                                                                                            <td
+                                                                                                                                style="color:#2e3543;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:17px;line-height:24px;letter-spacing:0px;font-weight:400">
+                                                                                                                                <a href="https://www.chatwoot.com/docs/user-guide/features/commandbar"
+                                                                                                                                    style="text-decoration:none;color:#2e3543"
+                                                                                                                                    target="_blank">
+                                                                                                                                    Get
+                                                                                                                                    things
+                                                                                                                                    done
+                                                                                                                                    faster
+                                                                                                                                    with
+                                                                                                                                    commandbar
+                                                                                                                                </a>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </tbody>
+                                                                                                                </table>
+                                                                                                            </td>
+                                                                                                            <td
+                                                                                                                width="20">
+                                                                                                            </td>
+                                                                                                            <td style="font-family:'Inter',Helvetica,Arial,sans-serif;font-size:30px;line-height:normal;letter-spacing:0px;font-weight:400"
+                                                                                                                align="right">
+                                                                                                                <a href="https://www.chatwoot.com/docs/user-guide/features/commandbar"
+                                                                                                                    style="text-decoration:none;color:#a6adc9"
+                                                                                                                    target="_blank"
+                                                                                                                    >›</a>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:18px;font-size:18px"
+                                                                                                height="18"
+                                                                                                bgcolor="#FFFFFF">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:2px;font-size:2px"
+                                                                                                width="100%" height="2"
+                                                                                                bgcolor="#F5F5F5">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:22px;font-size:22px"
+                                                                                                height="22"
+                                                                                                bgcolor="#FFFFFF">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="line-height:18px;font-size:18px"
+                                                                                                height="18"
+                                                                                                bgcolor="#FFFFFF">&nbsp;
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <table width="100%" cellspacing="0" cellpadding="0"
+                                                                    border="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="line-height:40px;font-size:40px"
+                                                                                height="40" bgcolor="#FFFFFF">&nbsp;
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                  </td>
-                </tr>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Conversations resolved in the last two weeks:
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:conversation_resolved]%>
-
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </td>
-</tr>
-
-<tr>
-  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
-</tr>
-
-<tr>
-  <td align="center">
-    <table cellspacing="0" cellpadding="0" border="0">
-      <tbody>
-        <tr>
-          <td
-            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:100%;font-weight:normal"
-            width="480">
-            <table cellspacing="0" cellpadding="0" border="0">
-              <tbody>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Total conversations created till date:
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:total_conversation_created]%>
-
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  <td width="80">
-
-                  </td>
-                </tr>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Total conversations resolved till date:
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:total_conversation_resolved]%>
-
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="line-height:20px;font-size:20px" height="5" bgcolor="#ffffff">&nbsp;</td>
-        </tr>
-      </tbody>
-    </table>
-  </td>
-</tr>
-
-<tr>
-  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
-</tr>
-
-<tr>
-  <td align="center">
-    <table cellspacing="0" cellpadding="0" border="0">
-      <tbody>
-        <tr>
-          <td
-            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:15px;line-height:100%;font-weight:normal"
-            width="480">
-            <table cellspacing="0" cellpadding="0" border="0">
-              <tbody>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Total conversations assigned to you in last two weeks:
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:conversation_assigned_to_agent]%>
-
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  <td width="80">
-
-                  </td>
-                </tr>
-                <tr>
-                  <td width="350" valign="middle" height="35" align="left">
-                    <table cellspacing="0" cellpadding="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            style="color:#555c6a;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;line-height:normal;font-weight:700"
-                            valign="top">
-                            Total conversations resolved by you in the last two weeks:
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" style="line-height:10px;font-size:10px" height="5" bgcolor="#ffffff">&nbsp;
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3"
-                            style="color:#1f93ff;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:24px;line-height:100%;font-weight:400">
-                            <%= @data[:conversation_resolved_by_agent]%>
-
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="line-height:20px;font-size:20px" height="5" bgcolor="#ffffff">&nbsp;</td>
-        </tr>
-      </tbody>
-    </table>
-  </td>
-</tr>
-
-<tr>
-  <td style="line-height:3px;font-size:3px" height="3" bgcolor="#0080f8">&nbsp;</td>
-</tr>
-<table id="q-graph" style="height:auto;">
-  <caption style="width:100%;">Customer queries resolved in the last 4 weeks</caption>
-</table>
-
-<table id="q-graph">
-
-  <tbody>
-    <tr class="qtr" id="q1">
-      <th scope="row">Fourth week</th>
-      <td class="paid bar" style="height: <%= @chart_data[:last_week]%>%">
-        <p><%= @chart_data[:last_week_count]%></p>
-      </td>
-    </tr>
-    <tr class="qtr" id="q2">
-      <th scope="row">Third week</th>
-      <td class="paid bar" style="height: <%= @chart_data[:second_last_week]%>%">
-        <p><%= @chart_data[:second_last_week_count]%></p>
-      </td>
-    </tr>
-    <tr class="qtr" id="q3">
-      <th scope="row">Second week</th>
-      <td class="paid bar" style="height: <%= @chart_data[:third_last_week]%>%">
-        <p><%= @chart_data[:third_last_week_count]%></p>
-      </td>
-    </tr>
-    <tr class="qtr" id="q4">
-      <th scope="row">First week</th>
-      <td class="paid bar" style="height: <%= @chart_data[:fourth_last_week]%>%">
-        <p><%= @chart_data[:fourth_last_week_count]%></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<style type="text/css">
-  body,
-  html {
-    height: 100%;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: "fira-sans-2", Verdana, sans-serif;
-  }
-
-  #q-graph {
-    display: block;
-    /* fixes layout wonkiness in FF1.5 */
-    position: relative;
-    width: 600px;
-    height: 200px;
-    margin: 1.1em 0 0;
-    padding: 0;
-    background: transparent;
-    font-size: 11px;
-  }
-
-  #q-graph caption {
-    caption-side: top;
-    width: 600px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    top: -40px;
-    position: relative;
-    z-index: 10;
-    font-weight: bold;
-  }
-
-  #q-graph tr,
-  #q-graph th,
-  #q-graph td {
-    position: absolute;
-    bottom: 0;
-    width: 150px;
-    z-index: 2;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-
-  #q-graph td {
-    transition: all 0.3s ease;
-  }
-
-  #q-graph td:hover {
-    background-color: #4d4d4d;
-    opacity: 0.9;
-    color: white;
-  }
-
-  #q-graph thead tr {
-    left: 100%;
-    top: 50%;
-    bottom: auto;
-    margin: -2.5em 0 0 5em;
-  }
-
-  #q-graph thead th {
-    width: 7.5em;
-    height: auto;
-    padding: 0.5em 1em;
-  }
-
-  #q-graph thead th.sent {
-    top: 0;
-    left: 0;
-    line-height: 2;
-  }
-
-  #q-graph thead th.paid {
-    top: 2.75em;
-    line-height: 2;
-    left: 0;
-  }
-
-  #q-graph tbody tr {
-    height: 100%;
-    padding-top: 2px;
-    border-right: 1px dotted #C4C4C4;
-    color: #AAA;
-  }
-
-  #q-graph #q1 {
-    left: 0;
-  }
-
-  #q-graph #q2 {
-    left: 150px;
-  }
-
-  #q-graph #q3 {
-    left: 300px;
-  }
-
-  #q-graph #q4 {
-    left: 450px;
-    border-right: none;
-  }
-
-  #q-graph tbody th {
-    bottom: -1.75em;
-    vertical-align: top;
-    font-weight: normal;
-    color: #333;
-  }
-
-  #q-graph .bar {
-    width: 60px;
-    border: 1px solid;
-    border-bottom: none;
-    color: #000;
-  }
-
-  #q-graph .bar p {
-    margin: 5px 0 0;
-    padding: 0;
-    opacity: 0.4;
-  }
-
-  #q-graph .sent {
-    left: 13px;
-    background-color: #39cccc;
-    border-color: transparent;
-  }
-
-  #q-graph .paid {
-    left: 77px;
-    background-color: #7fdbff;
-    border-color: transparent;
-  }
-
-  #ticks {
-    position: relative;
-    top: -300px;
-    left: 2px;
-    width: 596px;
-    height: 300px;
-    z-index: 1;
-    margin-bottom: -300px;
-    font-size: 10px;
-    font-family: "fira-sans-2", Verdana, sans-serif;
-  }
-
-  #ticks .tick {
-    position: relative;
-    border-bottom: 1px dotted #C4C4C4;
-    width: 600px;
-  }
-
-  #ticks .tick p {
-    position: absolute;
-    left: -5em;
-    top: -0.8em;
-    margin: 0 0 0 0.5em;
-  }
-
-</style>
+                    </tbody>
+                </table>
