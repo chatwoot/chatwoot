@@ -51,6 +51,7 @@ ar:
       conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: تم حذف هذه الرسالة
     activity:
       status:
