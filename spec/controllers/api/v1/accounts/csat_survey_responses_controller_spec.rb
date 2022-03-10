@@ -48,6 +48,25 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(response_data.pluck('id')).not_to include(csat_10_days_ago.id)
       end
 
+      it 'filters csat responses based on a date range and agent ids' do
+        csat1_assigned_agent = create(:user, account: account, role: :agent)
+        csat2_assigned_agent = create(:user, account: account, role: :agent)
+
+        create(:csat_survey_response, account: account, created_at: 10.days.ago, assigned_agent: csat1_assigned_agent)
+        create(:csat_survey_response, account: account, created_at: 3.days.ago, assigned_agent: csat2_assigned_agent)
+        create(:csat_survey_response, account: account, created_at: 5.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses",
+            params: { since: 11.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s,
+                      user_ids: [csat1_assigned_agent.id, csat2_assigned_agent.id] },
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data.size).to eq 2
+      end
+
       it 'returns csat responses even if the agent is deleted from account' do
         deleted_agent_csat = create(:csat_survey_response, account: account, assigned_agent: agent)
         deleted_agent_csat.assigned_agent.account_users.destroy_all
@@ -105,6 +124,27 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(response_data['total_count']).to eq 1
         expect(response_data['total_sent_messages_count']).to eq 0
         expect(response_data['ratings_count']).to eq({ '1' => 1 })
+      end
+
+      it 'filters csat metrics based on a date range and agent ids' do
+        csat1_assigned_agent = create(:user, account: account, role: :agent)
+        csat2_assigned_agent = create(:user, account: account, role: :agent)
+
+        create(:csat_survey_response, account: account, created_at: 10.days.ago, assigned_agent: csat1_assigned_agent)
+        create(:csat_survey_response, account: account, created_at: 3.days.ago, assigned_agent: csat2_assigned_agent)
+        create(:csat_survey_response, account: account, created_at: 5.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/metrics",
+            params: { since: 11.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s,
+                      user_ids: [csat1_assigned_agent.id, csat2_assigned_agent.id] },
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data['total_count']).to eq 2
+        expect(response_data['total_sent_messages_count']).to eq 0
+        expect(response_data['ratings_count']).to eq({ '1' => 2 })
       end
     end
   end

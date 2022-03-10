@@ -33,35 +33,38 @@ class Channel::Sms < ApplicationRecord
     'https://messaging.bandwidth.com/api/v2'
   end
 
-  # Extract later into provider Service
-  def send_message(phone_number, message)
-    if message.attachments.present?
-      send_attachment_message(phone_number, message)
-    else
-      send_text_message(phone_number, message.content)
-    end
+  def send_message(contact_number, message)
+    body = message_body(contact_number, message.content)
+    body['media'] = message.attachments.map(&:download_url) if message.attachments.present?
+
+    send_to_bandwidth(body)
   end
 
-  def send_text_message(contact_number, message)
-    response = HTTParty.post(
-      "#{api_base_path}/users/#{provider_config['account_id']}/messages",
-      basic_auth: bandwidth_auth,
-      headers: { 'Content-Type' => 'application/json' },
-      body: {
-        'to' => contact_number,
-        'from' => phone_number,
-        'text' => message,
-        'applicationId' => provider_config['application_id']
-      }.to_json
-    )
-
-    response.success? ? response.parsed_response['id'] : nil
+  def send_text_message(contact_number, message_content)
+    body = message_body(contact_number, message_content)
+    send_to_bandwidth(body)
   end
 
   private
 
-  def send_attachment_message(phone_number, message)
-    # fix me
+  def message_body(contact_number, message_content)
+    {
+      'to' => contact_number,
+      'from' => phone_number,
+      'text' => message_content,
+      'applicationId' => provider_config['application_id']
+    }
+  end
+
+  def send_to_bandwidth(body)
+    response = HTTParty.post(
+      "#{api_base_path}/users/#{provider_config['account_id']}/messages",
+      basic_auth: bandwidth_auth,
+      headers: { 'Content-Type' => 'application/json' },
+      body: body.to_json
+    )
+
+    response.success? ? response.parsed_response['id'] : nil
   end
 
   def bandwidth_auth
