@@ -406,6 +406,9 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
+    conversationId() {
+      return this.currentChat.id;
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -425,7 +428,7 @@ export default {
         if (draft) {
           localStorage.setItem(oldConversation.id, draft || '');
         }
-
+        this.message = '';
         this.setFromDraft();
       }
       this.setCCEmailFromLastChat();
@@ -442,9 +445,6 @@ export default {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
-    },
-    conversationId() {
-      return this.currentChat.id;
     },
   },
 
