@@ -92,8 +92,6 @@ export default {
     return {
       from: 0,
       to: 0,
-      prevDateFrom: 0,
-      prevDateTo: 0,
       currentSelection: 0,
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],

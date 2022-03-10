@@ -184,11 +184,7 @@ export default {
         fromUnixTime(to),
         'dd-MM-yyyy'
       )}.csv`;
-      this.$store.dispatch('downloadAgentReports', {
-        from,
-        to,
-        fileName,
-      });
+      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
     },
     changeSelection(index) {
       this.currentSelection = index;
