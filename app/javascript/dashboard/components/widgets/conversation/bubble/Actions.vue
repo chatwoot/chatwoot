@@ -80,6 +80,10 @@ export default {
       type: String,
       default: '',
     },
+    storySender: {
+      type: String,
+      default: '',
+    },
     isEmail: {
       type: Boolean,
       default: true,
@@ -128,9 +132,6 @@ export default {
         this.sender || {};
       return additionalAttributes?.screen_name || '';
     },
-    storySender() {
-      return this.contentAttributes.story_sender;
-    },
     linkToTweet() {
       if (!this.sourceId || !this.inbox.name) {
         return '';
@@ -140,7 +141,7 @@ export default {
         this.inbox.name}/status/${sourceId}`;
     },
     linkToStory() {
-      if (!this.sourceId || !this.inbox.name || !this.senderId) {
+      if (!this.sourceId || !this.senderId) {
         return '';
       }
       const { storySender, sourceId } = this;

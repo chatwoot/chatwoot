@@ -50,7 +50,9 @@
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
+          :story-sender="storySender"
           :is-a-tweet="isATweet"
+          :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
@@ -146,6 +148,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasInstagramStory: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -208,6 +214,9 @@ export default {
     },
     sender() {
       return this.data.sender || {};
+    },
+    storySender() {
+      return this.contentAttributes.story_sender || {};
     },
     contentType() {
       const {
