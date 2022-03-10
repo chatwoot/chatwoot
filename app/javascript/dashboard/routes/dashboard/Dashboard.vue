@@ -3,12 +3,22 @@
     <sidebar
       :route="currentRoute"
       :class="sidebarClassName"
+      @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     ></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+        @show-create-account-modal="openCreateAccountModal"
+      />
+      <add-account-modal
+        :show="showCreateAccountModal"
+        @close-account-create-modal="closeCreateAccountModal"
+      />
       <woot-key-shortcut-modal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
@@ -23,17 +33,23 @@ import Sidebar from '../../components/layout/Sidebar';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 
 export default {
   components: {
     Sidebar,
     CommandBar,
     WootKeyShortcutModal,
+    AddAccountModal,
+    AccountSelector,
   },
   data() {
     return {
       isSidebarOpen: false,
       isOnDesktop: true,
+      showAccountModal: false,
+      showCreateAccountModal: false,
       showShortcutModal: false,
     };
   },
@@ -80,6 +96,16 @@ export default {
     },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    openCreateAccountModal() {
+      this.showAccountModal = false;
+      this.showCreateAccountModal = true;
+    },
+    closeCreateAccountModal() {
+      this.showCreateAccountModal = false;
+    },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
     },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;

@@ -19,15 +19,6 @@
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
-    <account-selector
-      :show-account-modal="showAccountModal"
-      @close-account-modal="toggleAccountModal"
-      @show-create-account-modal="openCreateAccountModal"
-    />
-    <add-account-modal
-      :show="showCreateAccountModal"
-      @close-account-create-modal="closeCreateAccountModal"
-    />
     <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
       <add-label-modal @close="hideAddLabelPopup" />
     </woot-modal>
@@ -41,8 +32,6 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import AccountSelector from './sidebarComponents/AccountSelector.vue';
-import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
@@ -59,8 +48,6 @@ import router from '../../routes';
 
 export default {
   components: {
-    AccountSelector,
-    AddAccountModal,
     AddLabelModal,
     PrimarySidebar,
     SecondarySidebar,
@@ -69,8 +56,6 @@ export default {
   data() {
     return {
       showOptionsMenu: false,
-      showAccountModal: false,
-      showCreateAccountModal: false,
       showAddLabelModal: false,
     };
   },
@@ -192,14 +177,7 @@ export default {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.showAccountModal = !this.showAccountModal;
-    },
-    openCreateAccountModal() {
-      this.showAccountModal = false;
-      this.showCreateAccountModal = true;
-    },
-    closeCreateAccountModal() {
-      this.showCreateAccountModal = false;
+      this.$emit('toggle-account-modal');
     },
     showAddLabelPopup() {
       this.showAddLabelModal = true;
