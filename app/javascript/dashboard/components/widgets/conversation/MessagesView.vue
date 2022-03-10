@@ -215,6 +215,10 @@ export default {
       return this.conversationType === 'tweet';
     },
 
+    hasInstagramStory() {
+      return this.conversationType === 'instagram_direct_message';
+    },
+
     selectedTweet() {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;

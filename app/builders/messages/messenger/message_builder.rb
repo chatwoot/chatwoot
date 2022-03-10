@@ -66,7 +66,7 @@ class Messages::Messenger::MessageBuilder
     story_id = result['story']['mention']['id']
     story_sender = result['from']['username']
     link_to_the_stroy = "https://www.instagram.com/stories/#{story_sender}/#{story_id}"
-    message.content = "#{story_sender} mentioned you in the story: #{link_to_the_stroy}"
+    message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
     message.save!
   end
 end
