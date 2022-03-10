@@ -7,9 +7,11 @@
       "404": "ไม่มีการสนทนาที่ใช้งานในกลุ่มนี้"
     },
     "TAB_HEADING": "การสนทนา",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "ค้นหาผู้คน, เเชท, หรือการตอบกลับ"
     },
+    "FILTER_ALL": "ทั้งหมด",
     "STATUS_TABS": [
       {
         "NAME": "เปิด",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "เปิด",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "เปิด"
       },
-      {
-        "TEXT": "เสร็จสิ้น",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "เสร็จสิ้น"
       },
-      {
-        "TEXT": "กำลังร้องขอ",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "กำลังร้องขอ"
       },
-      {
-        "TEXT": "หลับ",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "หลับ"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "ข้อความภาพ"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "ข้อความเสียง"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "ข้อความวิดิโอ"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "เเนบไฟล์"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "สถานที่"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ได้เเชร์ลิ้ง"
       }
     },
     "RECEIVED_VIA_EMAIL": "ได้รับทางอีเมลล์",
     "VIEW_TWEET_IN_TWITTER": "ดูทวิตในทวิตเตอร์",
     "REPLY_TO_TWEET": "ตอบกลับทวิตนี้",
+    "SENT": "จัดส่งสำเร็จ",
     "NO_MESSAGES": "ไม่มีข้อความ",
-    "NO_CONTENT": "ไม่มีเนื้อหา"
+    "NO_CONTENT": "ไม่มีเนื้อหา",
+    "HIDE_QUOTED_TEXT": "ซ่อนข้อความในเครื่องหมายคำพูด",
+    "SHOW_QUOTED_TEXT": "แสดงข้อความในเครื่องหมายคำพูด"
   }
 }

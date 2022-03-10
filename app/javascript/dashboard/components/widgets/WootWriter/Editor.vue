@@ -64,6 +64,7 @@ export default {
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
     isFormatMode: { type: Boolean, default: false },
+    enableSuggestions: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -78,6 +79,10 @@ export default {
   },
   computed: {
     plugins() {
+      if (!this.enableSuggestions) {
+        return [];
+      }
+
       return [
         suggestionsPlugin({
           matcher: triggerCharacters('@'),
@@ -289,6 +294,13 @@ export default {
   min-height: 8rem;
   max-height: 12rem;
   overflow: auto;
+}
+
+.ProseMirror-prompt {
+  z-index: var(--z-index-highest);
+  background: var(--color-background-light);
+  border-radius: var(--border-radius-normal);
+  border: 1px solid var(--color-border);
 }
 
 .is-private {

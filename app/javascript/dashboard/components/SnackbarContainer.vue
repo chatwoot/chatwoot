@@ -4,6 +4,7 @@
       v-for="snackMessage in snackMessages"
       :key="snackMessage.key"
       :message="snackMessage.message"
+      :action="snackMessage.action"
     />
   </transition-group>
 </template>
@@ -29,12 +30,22 @@ export default {
   },
 
   mounted() {
-    bus.$on('newToastMessage', message => {
-      this.snackMessages.push({ key: new Date().getTime(), message });
+    bus.$on('newToastMessage', this.onNewToastMessage);
+  },
+  beforeDestroy() {
+    bus.$off('newToastMessage', this.onNewToastMessage);
+  },
+  methods: {
+    onNewToastMessage(message, action) {
+      this.snackMessages.push({
+        key: new Date().getTime(),
+        message,
+        action,
+      });
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
       }, this.duration);
-    });
+    },
   },
 };
 </script>

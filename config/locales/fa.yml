@@ -25,12 +25,20 @@ fa:
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
-      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
+      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
       failed: ثبت نام ناموفق بود
+    contacts:
+      import:
+        failed: پرونده خالی است
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
       agent_name: اسم ایجنت
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: نام تیم
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -69,10 +77,17 @@ fa:
       email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
       csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
+          reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
       email_subject: "پیام‌های جدید در این مکالمه"
       transcript_subject: "متن مکالمه"
     survey:
       response: "لطفاً به مکالمه امتیاز دهید %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
   integration_apps:
     slack:
       name: "Slack"

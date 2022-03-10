@@ -7,9 +7,11 @@
       "404": "Det finns inga aktiva konversationer i denna grupp."
     },
     "TAB_HEADING": "Konversationer",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
+    "FILTER_ALL": "Alla",
     "STATUS_TABS": [
       {
         "NAME": "Öppna",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Öppna",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öppna"
       },
-      {
-        "TEXT": "Lösta",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Löst"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Väntande"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Pausad"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildmeddelande"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Ljudmeddelande"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videomeddelande"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bifogad fil"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plats"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delat en webbadress"
       }
     },
     "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
     "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
     "REPLY_TO_TWEET": "Svara på detta tweet",
+    "SENT": "Skickades framgångsrikt",
     "NO_MESSAGES": "Inga meddelanden",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "Inget innehåll tillgängligt",
+    "HIDE_QUOTED_TEXT": "Dölj citerad text",
+    "SHOW_QUOTED_TEXT": "Visa citerad text"
   }
 }

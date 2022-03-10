@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "左のリストから会話を選択してください",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "まだ受信トレイを追加していないようです。",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -39,7 +42,10 @@
       "OPEN_ACTION": "開く",
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
-      "DETAILS": "詳細"
+      "DETAILS": "詳細",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -51,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。"
     },
@@ -84,7 +93,11 @@
     "CHANGE_AGENT": "会話の担当者が変更されました",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
       "REMOVE": "削除",
@@ -122,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -152,7 +165,29 @@
       "PREVIOUS_CONVERSATION": "前の会話"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "Add",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

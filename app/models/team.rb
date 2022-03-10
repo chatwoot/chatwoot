@@ -17,11 +17,11 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
 #
 class Team < ApplicationRecord
   belongs_to :account
-  has_many :team_members, dependent: :destroy
+  has_many :team_members, dependent: :destroy_async
   has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
 
@@ -45,7 +45,7 @@ class Team < ApplicationRecord
     account.messages.where(conversation_id: conversations.pluck(:id))
   end
 
-  def events
-    account.events.where(conversation_id: conversations.pluck(:id))
+  def reporting_events
+    account.reporting_events.where(conversation_id: conversations.pluck(:id))
   end
 end

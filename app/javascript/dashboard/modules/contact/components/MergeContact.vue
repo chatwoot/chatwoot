@@ -1,9 +1,15 @@
 <template>
   <form @submit.prevent="onSubmit">
     <div class="merge-contacts">
-      <div class="multiselect-wrap--small">
+      <div class="multiselect-wrap--medium">
         <label class="multiselect__label">
           {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
+          <woot-label
+            :title="$t('MERGE_CONTACTS.PRIMARY.HELP_LABEL')"
+            color-scheme="success"
+            small
+            class="label--merge-warning"
+          ></woot-label>
         </label>
         <multiselect
           :value="primaryContact"
@@ -17,6 +23,9 @@
             <contact-dropdown-item
               :thumbnail="props.option.thumbnail"
               :name="props.option.name"
+              :identifier="props.option.id"
+              :email="props.option.email"
+              :phone-number="props.option.phoneNumber"
             />
           </template>
         </multiselect>
@@ -24,14 +33,20 @@
 
       <div class="child-contact-wrap">
         <div class="child-arrow">
-          <i class="ion-ios-arrow-up up" />
+          <fluent-icon icon="arrow-up" class="up" size="17" />
         </div>
         <div
-          class="child-contact multiselect-wrap--small"
+          class="child-contact multiselect-wrap--medium"
           :class="{ error: $v.childContact.$error }"
         >
           <label class="multiselect__label">
-            {{ $t('MERGE_CONTACTS.CHILD.TITLE') }}
+            {{ $t('MERGE_CONTACTS.CHILD.TITLE')
+            }}<woot-label
+              :title="$t('MERGE_CONTACTS.CHILD.HELP_LABEL')"
+              color-scheme="alert"
+              small
+              class="label--merge-warning"
+            ></woot-label>
           </label>
           <multiselect
             v-model="childContact"
@@ -51,7 +66,19 @@
             <template slot="singleLabel" slot-scope="props">
               <contact-dropdown-item
                 :thumbnail="props.option.thumbnail"
+                :identifier="props.option.id"
                 :name="props.option.name"
+                :email="props.option.email"
+                :phone-number="props.option.phone_number"
+              />
+            </template>
+            <template slot="option" slot-scope="props">
+              <contact-dropdown-item
+                :thumbnail="props.option.thumbnail"
+                :identifier="props.option.id"
+                :name="props.option.name"
+                :email="props.option.email"
+                :phone-number="props.option.phone_number"
               />
             </template>
             <span slot="noResult">
@@ -186,14 +213,8 @@ export default {
 
 .up {
   position: absolute;
-  top: -11px;
-  left: var(--space-normal);
-}
-
-::v-deep .multiselect__tags .option__title {
-  display: inline-flex;
-  align-items: center;
-  margin-left: var(--space-small);
+  top: var(--space-minus-smaller);
+  left: var(--space-slab);
 }
 
 .footer {
@@ -205,5 +226,9 @@ export default {
 /* TDOD: Clean errors in forms style */
 .error .message {
   margin-top: 0;
+}
+
+.label--merge-warning {
+  margin-left: var(--space-small);
 }
 </style>

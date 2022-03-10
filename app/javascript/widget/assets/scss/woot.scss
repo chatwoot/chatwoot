@@ -6,9 +6,10 @@
 @import 'buttons';
 @import 'mixins';
 @import 'forms';
+@import 'utilities';
 @import 'shared/assets/fonts/widget_fonts';
-@import '~shared/assets/stylesheets/ionicons';
 @import '~spinkit/scss/spinners/7-three-bounce';
+@import 'views/conversation';
 
 html,
 body {
@@ -16,13 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
-}
-
-.woot-widget-wrap {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: flex-end;
 }
 
 .is-mobile {
@@ -61,5 +55,32 @@ body {
   ol {
     list-style: decimal;
     padding-left: $space-normal;
+  }
+}
+
+.is-flat-design {
+  .chat-bubble {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    box-shadow: none;
+  }
+
+  button {
+    border-radius: 0 !important;
+  }
+
+  input {
+    border-radius: 0;
+  }
+
+  .chat-message--input {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    &.is-focused {
+      box-shadow: none !important;
+    }
   }
 }

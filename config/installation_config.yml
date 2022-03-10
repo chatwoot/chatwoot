@@ -44,3 +44,18 @@
   value:
 - name: ANALYTICS_HOST
   value:
+- name: DIRECT_UPLOADS_ENABLED
+  value: false
+  locked: false
+- name: HCAPTCHA_SITE_KEY
+  value:
+  locked: false
+- name: HCAPTCHA_SERVER_KEY
+  value:
+  locked: false
+- name: LOGOUT_REDIRECT_LINK
+  value: /app/login
+  locked: false
+- name: DISABLE_USER_PROFILE_UPDATE
+  value: false
+  locked: false

@@ -19,8 +19,8 @@
         },
         "SCHEDULED_AT": {
           "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
+          "PLACEHOLDER": "請選擇時間",
+          "CONFIRM": "確定",
           "ERROR": "Scheduled time is required"
         },
         "AUDIENCE": {
@@ -29,8 +29,8 @@
           "ERROR": "Audience is required"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
+          "LABEL": "選擇收件匣",
+          "PLACEHOLDER": "選擇收件匣",
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
@@ -54,18 +54,19 @@
           "ERROR": "Time on page is required"
         },
         "ENABLED": "Enable campaign",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Add Campaign"
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "ERROR_MESSAGE": "出現錯誤，請重試。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "CONFIRM": {
         "TITLE": "確認刪除",
-        "MESSAGE": "Are you sure to delete?",
+        "MESSAGE": "您確定要刪除嗎？",
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       },
@@ -104,7 +105,7 @@
       "STATUS": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用",
-        "COMPLETED": "Completed",
+        "COMPLETED": "已完成",
         "ACTIVE": "Active"
       },
       "SENDER": {

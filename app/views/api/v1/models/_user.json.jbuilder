@@ -4,6 +4,7 @@ json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
+json.message_signature resource.message_signature
 json.email resource.email
 json.hmac_identifier resource.hmac_identifier if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
 json.id resource.id
@@ -21,6 +22,9 @@ json.accounts do
     json.name account_user.account.name
     json.active_at account_user.active_at
     json.role account_user.role
+    # the actual availability user has configured
+    json.availability account_user.availability
+    # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
   end

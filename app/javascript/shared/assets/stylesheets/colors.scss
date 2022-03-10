@@ -2,16 +2,18 @@
   --white: #fff;
   --white-transparent: rgba(255, 255, 255, 0.9);
 
-  --w-50: #E3F2FF;
-  --w-100: #BBDDFF;
-  --w-200: #8FC9FF;
-  --w-300: #61B3FF;
-  --w-400: #3FA3FF;
+  --w-25: #F5FAFF;
+  --w-50: #EBF5FF;
+  --w-75: #D6EBFF;
+  --w-100: #C2E1FF;
+  --w-200: #99CEFF;
+  --w-300: ##70BAFF;
+  --w-400: #47A6FF;
   --w-500: #1F93FF;
-  --w-600: #2284F0;
-  --w-700: #2272DC;
-  --w-800: #2161CA;
-  --w-900: #1F41AB;
+  --w-600: #1976CC;
+  --w-700: #135899;
+  --w-800: #0C3B66;
+  --w-900: #061D33;
 
   --g-50: #E6F8E6;
   --g-100: #C4EEC2;
@@ -35,16 +37,18 @@
   --y-800: #FDAD2A;
   --y-900: #F9841B;
 
-  --s-50: #E7EEFB;
-  --s-100: #C8D6E6;
-  --s-200: #ABBACE;
-  --s-300: #8C9EB6;
-  --s-400: #7489A4;
-  --s-500: #5D7592;
-  --s-600: #506781;
-  --s-700: #40546B;
-  --s-800: #314155;
-  --s-900: #1F2D3D;
+  --s-25: #F8FAFC;
+  --s-50: #F1F5F8;
+  --s-75: #EBF0F5;
+  --s-100: #E4EBF1;
+  --s-200: #C9D7E3;
+  --s-300: #AEC3D5;
+  --s-400: #93AFC8;
+  --s-500: #779BBB;
+  --s-600: #446888;
+  --s-700: #37546D;
+  --s-800: #293F51;
+  --s-900: #1B2836;
 
   --b-50: #F8F9FE;
   --b-100: #F2F3F7;
@@ -85,12 +89,12 @@
   --color-heading: #1f2d3d;
   --color-body: #3c4858;
 
-  --color-border: #e0e6ed;
-  --color-border-light: #f0f4f5;
-  --color-border-dark: #cad0d4;
+  --color-border: var(--s-75);
+  --color-border-light: var(--s-50);
+  --color-border-dark: var(--s-100);
 
-  --color-background: #f4f6fb;
-  --color-background-light: #f9fafc;
+  --color-background: var(--s-50);
+  --color-background-light: var(--s-25);
 
   // Social and inboxes brand colors
   --color-facebook-brand: #3b5998;

@@ -7,9 +7,11 @@
       "404": "No hay conversaciones activas en este grupo."
     },
     "TAB_HEADING": "Conversaciones",
+    "MENTION_HEADING": "Menciones",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
+    "FILTER_ALL": "Todos",
     "STATUS_TABS": [
       {
         "NAME": "Abrir",
@@ -22,12 +24,12 @@
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mina",
+        "NAME": "Mías",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Sin asignar",
+        "NAME": "Unassigned",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abrir",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abrir"
       },
-      {
-        "TEXT": "Resuelto",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Resueltas"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pendientes"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Postpuestas"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensaje de imagen"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensaje de audio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensaje de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Archivo adjunto"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Ubicación"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ha compartido una url"
       }
     },
     "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
     "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
     "REPLY_TO_TWEET": "Responder a éste trino",
+    "SENT": "Enviado con éxito",
     "NO_MESSAGES": "No hay mensajes",
-    "NO_CONTENT": "No hay contenido disponible"
+    "NO_CONTENT": "No hay contenido disponible",
+    "HIDE_QUOTED_TEXT": "Ocultar texto citado",
+    "SHOW_QUOTED_TEXT": "Mostrar texto citado"
   }
 }

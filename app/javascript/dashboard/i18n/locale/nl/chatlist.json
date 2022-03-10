@@ -7,9 +7,11 @@
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
     "TAB_HEADING": "Gesprekken",
+    "MENTION_HEADING": "Vermeldingen",
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
+    "FILTER_ALL": "Allemaal",
     "STATUS_TABS": [
       {
         "NAME": "Open",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Open",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
       },
-      {
-        "TEXT": "Opgelost",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Opgelost"
       },
-      {
-        "TEXT": "Afwachtend",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Afwachtend"
       },
-      {
-        "TEXT": "Gesluimerd",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Gesluimerd"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bericht met foto"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Audiobericht"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videobericht"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bestandsbijlage"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Locatie"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "heeft een url gedeeld"
       }
     },
     "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
     "REPLY_TO_TWEET": "Antwoord op deze tweet",
+    "SENT": "Succesvol verzonden",
     "NO_MESSAGES": "Geen berichten",
-    "NO_CONTENT": "Geen inhoud beschikbaar"
+    "NO_CONTENT": "Geen inhoud beschikbaar",
+    "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst"
   }
 }

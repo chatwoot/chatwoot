@@ -3,6 +3,9 @@
     "LINK": "Configurações do Perfil",
     "TITLE": "Configurações do Perfil",
     "BTN_TEXT": "Atualizar o Perfil",
+    "DELETE_AVATAR": "Apagar Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar apagado com sucesso",
+    "AVATAR_DELETE_FAILED": "Ocorreu um erro ao excluir o avatar. Tente novamente",
     "UPDATE_SUCCESS": "Seu perfil foi atualizado com sucesso",
     "PASSWORD_UPDATE_SUCCESS": "A sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
@@ -86,20 +101,21 @@
         "PLACEHOLDER": "Por favor, digite a senha atual"
       },
       "PASSWORD": {
-        "LABEL": "Senha",
+        "LABEL": "Nova senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
         "PLACEHOLDER": "Por favor, digite uma nova senha"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirme a nova senha",
         "ERROR": "A confirmação da senha é diferente. Favor digitar novamente",
-        "PLACEHOLDER": "Por favor, digite sua senha novamente"
+        "PLACEHOLDER": "Por favor, digite sua nova senha "
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar Conta",
+    "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
@@ -107,7 +123,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
-    "TRAIL_BUTTON": "Comprar agora"
+    "TRAIL_BUTTON": "Comprar agora",
+    "DELETED_USER": "Deletar Usuário"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +147,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
+    "ALL_CONVERSATIONS": "Todas as conversas",
+    "MENTIONED_CONVERSATIONS": "Menções",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
@@ -139,18 +158,30 @@
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Atalhos",
     "INTEGRATIONS": "Integrações",
+    "PROFILE_SETTINGS": "Configurações do Perfil",
     "ACCOUNT_SETTINGS": "Configurações da conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Marcadores",
-    "ATTRIBUTES": "Atributos",
+    "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
+    "AUTOMATION": "Automação",
     "TEAMS": "Times",
+    "CUSTOM_VIEWS_FOLDER": "Pastas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Novo time",
+    "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_OVERVIEW": "Visão geral",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
-    "ONE_OFF": "Única"
+    "ONE_OFF": "Única",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Marcadores",
+    "REPORTS_INBOX": "Caixa de Entrada",
+    "REPORTS_TEAM": "Times",
+    "SET_AVAILABILITY_TITLE": "Defina como"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

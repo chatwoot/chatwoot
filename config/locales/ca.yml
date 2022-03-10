@@ -27,10 +27,18 @@ ca:
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       failed: El registre ha fallat
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Període d'informes %{since} a %{until}
     agent_csv:
       agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    team_csv:
+      team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -69,10 +77,17 @@ ca:
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
       csat_input_message_body: "Please rate the conversation"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
     survey:
       response: "Please rate this conversation, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

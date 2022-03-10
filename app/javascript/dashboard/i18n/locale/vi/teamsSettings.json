@@ -2,34 +2,34 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Tạo nhóm mới",
     "HEADER": "Nhóm",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Nhóm</b></p> <p>Nhóm cho phép bạn tổ chức các đại lý của mình thành các nhóm dựa trên trách nhiệm của họ. <br /> Một đại lý có thể là một phần của nhiều nhóm. Bạn có thể chỉ định các cuộc trò chuyện cho một nhóm khi bạn đang làm việc cộng tác. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Không có nhóm nào được tạo đối với tài khoản này.",
+      "EDIT_TEAM": "Sửa nhóm"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Tạo nhóm mới",
+        "DESC": "Thêm tiêu đề và mô tả cho nhóm mới."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Thêm đại lý vào nhóm",
+        "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+        "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện."
       },
       "WIZARD": [
         {
           "title": "Tạo",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Tạo ra một nhóm đại lý mới."
         },
         {
           "title": "Thêm đại lý",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Thêm đại lý vào nhóm."
         },
         {
-          "title": "Finish",
+          "title": "Hoàn tất",
           "route": "settings_teams_finish",
           "body": "Bạn đã sẵn sàng để đi!"
         }
@@ -37,89 +37,89 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Sửa chi tiết nhóm",
+        "DESC": "Sửa tiêu đề và mô tả cho nhóm.",
+        "BUTTON_TEXT": "Cập nhật nhóm"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Cập nhật đại lý trong nhóm",
+        "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+        "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Tất cả các đại lý được thêm vào sẽ nhận được thông báo khi có cuộc trò chuyện được phân công cho nhóm này."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Chi tiết nhóm",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Đổi tên, mô tả và các chi tiết khác."
         },
         {
-          "title": "Edit Agents",
+          "title": "Sửa đại lý",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Sửa đại lý trong nhóm của bạn."
         },
         {
-          "title": "Finish",
+          "title": "Hoàn tất",
           "route": "settings_teams_edit_finish",
           "body": "Bạn đã sẵn sàng để đi!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Không thể lưu chi tiết nhóm. Thử lại."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "ĐẠI LÝ",
       "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Thêm các nhà cung cấp",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Thêm đại lý vào nhóm của bạn...",
+      "SELECT": "chọn",
+      "SELECT_ALL": "chọn tất cả đại lý",
+      "SELECTED_COUNT": "%{selected} trên %{total} đại lý được chọn."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+      "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện.",
+      "SELECT": "chọn",
+      "SELECT_ALL": "chọn tất cả đại lý",
+      "SELECTED_COUNT": "%{selected} trên %{total} đại lý được chọn.",
       "BUTTON_TEXT": "Thêm các nhà cung cấp",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Chọn ít nhất một đại lý."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Nhóm của bạn đã sẵn sàng!",
+      "MESSAGE": "Giờ đây, bạn có thể cộng tác với tư cách là một nhóm trong các cuộc trò chuyện. Chúc ủng hộ vui vẻ ",
+      "BUTTON_TEXT": "Hoàn tất"
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Nhóm được xoá thành công.",
+        "ERROR_MESSAGE": "Không thể xoá nhóm. Thử lại."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Bạn có chắc muốn xoá - %{teamName}",
+        "PLACE_HOLDER": "Vui lòng điền {teamName} để xác nhận",
+        "MESSAGE": "Xóa nhóm sẽ xóa phân công nhóm khỏi các cuộc trò chuyện được phân công cho nhóm này.",
         "YES": "Xoá ",
         "NO": "Huỷ"
       }
     },
     "SETTINGS": "Cài đặt",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Cập nhật nhóm",
+      "CREATE": "Tạo nhóm",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Tên nhóm",
+        "PLACEHOLDER": "Ví dụ: Bán hàng, Hỗ trợ khách hàng"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Mô tả nhóm",
+        "PLACEHOLDER": "Mô tả ngắn về nhóm này."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Cho phép tự động phân công đối với nhóm này."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Tạo nhóm"
     }
   }
 }

@@ -63,7 +63,7 @@ describe('#actions', () => {
       });
       await actions.updateAvailability(
         { commit, dispatch },
-        { availability: 'offline', account_id: 1 },
+        { availability: 'offline', account_id: 1 }
       );
       expect(setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
@@ -115,9 +115,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setCurrentUserAvailabilityStatus', () => {
+  describe('#setCurrentUserAvailability', () => {
     it('sends correct mutations if user id is available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },
@@ -130,7 +130,7 @@ describe('#actions', () => {
     });
 
     it('does not send correct mutations if user id is not available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },

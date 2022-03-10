@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Veuillez sélectionner une conversation à partir du panneau de gauche",
+    "UNVERIFIED_SESSION": "L'identité de cet utilisateur n'est pas vérifiée",
     "NO_MESSAGE_1": "Oh oh ! Il semble qu'il n'y ait aucun message de clients dans votre boîte de réception.",
     "NO_MESSAGE_2": " pour envoyer un message à votre page !",
     "NO_INBOX_1": "Oh ! On dirait que vous n'avez pas encore ajouté de boîte de réception.",
@@ -9,7 +10,7 @@
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
     "SEARCH": {
       "TITLE": "Rechercher des messages",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Résultats de recherche",
       "LOADING_MESSAGE": "Traitement des données ...",
       "PLACEHOLDER": "Saisissez n'importe quel texte pour rechercher des messages",
       "NO_MATCHING_RESULTS": "Aucun résultat trouvé."
@@ -21,9 +22,11 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "M’assigner la conversation",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Veuillez sélectionner un tweet auquel répondre.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
@@ -39,18 +42,24 @@
       "OPEN_ACTION": "Ouvert",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
-      "DETAILS": "détails"
+      "DETAILS": "détails",
+      "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Marquer comme en attente",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "Reporter jusqu'à",
         "NEXT_REPLY": "Réponse suivante",
         "TOMORROW": "Demain",
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
       "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents"
     },
@@ -66,15 +75,15 @@
       "ENTER_TO_SEND": "Entrer pour envoyer",
       "DRAG_DROP": "Glissez et déposez ici pour lier",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Ajouter cci",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "LABEL": "CCI",
+          "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         }
       }
@@ -84,7 +93,11 @@
     "CHANGE_AGENT": "Responsable de la conversation modifié",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+    "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
       "REMOVE": "Supprimer",
@@ -122,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invitez les membres de votre équipe",
-      "DESCRIPTION": "Puisque vous vous apprêtez à parler à votre client, faites venir vos coéquipiers pour vous aider. Vous pouvez inviter vos coéquipiers en ajoutant leur adresse email à la liste des agents.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Cliquez ici pour inviter un membre de l'équipe"
     },
     "INBOXES": {
@@ -147,15 +160,37 @@
       "CONTACT_DETAILS": "Détails du contact",
       "CONVERSATION_ACTIONS": "Actions de conversation",
       "CONVERSATION_LABELS": "Étiquettes de conversation",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informations de la conversation",
+      "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Créer un attribut",
+    "UPDATE": {
+      "SUCCESS": "Attribut mis à jour avec succès",
+      "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"
+    },
+    "ADD": {
+      "TITLE": "Ajouter",
+      "SUCCESS": "Attribut ajouté avec succès",
+      "ERROR": "Impossible d'ajouter l'attribut. Veuillez réessayer plus tard"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribut supprimé avec succès",
+      "ERROR": "Impossible de supprimer l'attribut. Veuillez réessayer plus tard"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Ajouter des attributs",
+      "PLACEHOLDER": "Rechercher des attributs",
+      "NO_RESULT": "Aucun attribut trouvé"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "À",
-    "BCC": "Bcc",
+    "BCC": "Cci",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Objet"
   }
 }

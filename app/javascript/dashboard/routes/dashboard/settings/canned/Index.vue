@@ -3,7 +3,7 @@
     <woot-button
       color-scheme="success"
       class-names="button--fixed-right-top"
-      icon="ion-android-add-circle"
+      icon="add-circle"
       @click="openAddPopup()"
     >
       {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
@@ -50,23 +50,24 @@
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
-                  icon="ion-edit"
-                  class-names="grey-btn"
+                  icon="edit"
                   @click="openEditPopup(cannedItem)"
                 >
-                  {{ $t('CANNED_MGMT.EDIT.BUTTON_TEXT') }}
                 </woot-button>
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loading[cannedItem.id]"
                   @click="openDeletePopup(cannedItem, index)"
                 >
-                  {{ $t('CANNED_MGMT.DELETE.BUTTON_TEXT') }}
                 </woot-button>
               </td>
             </tr>

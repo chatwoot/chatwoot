@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "ในการเพิ่มโปรไฟล์ Twitter ของคุณเป็นช่องคุณต้องตรวจสอบสิทธิ์โปรไฟล์ Twitter ของคุณโดยคลิกที่ \"ลงชื่อเข้าใช้ด้วย Twitter\" ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "ช่องเว็บไซต์",
@@ -55,6 +58,11 @@
         "LOADING_MESSAGE": "กำลังสร้างช่องช่วยเหลือสำหรับเว็บไซต์",
         "CHANNEL_AVATAR": {
           "LABEL": "รูปของช่อง"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "ลิ้ง Webhook",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "โดเมนเว็บไซต์",
@@ -74,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "เปิดข้อความต้อนรับ",
-          "HELP_TEXT": "ส่งข้อความต้นรับเมื่อการสนทนาเริ่มขึ้น",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "เปิด",
           "DISABLED": "ปิด"
         },
@@ -92,8 +100,8 @@
         "SUBMIT_BUTTON": "สร้างกล่องข้อความ"
       },
       "TWILIO": {
-        "TITLE": "ช่อง Twilio SMS/Whatsapp",
-        "DESC": "เพิ่ม Twilio และเริ่มสนับสนุนลูกค้าของคุณผ่าน SMS หรือ Whatsapp",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "กรุณากรอก Twilio Account SID",
@@ -109,8 +117,8 @@
           "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
         },
         "CHANNEL_NAME": {
-          "LABEL": "ชื่อช่อง",
-          "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
+          "LABEL": "ชื่อกล่องข้อความ",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
         },
         "PHONE_NUMBER": {
@@ -128,12 +136,86 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+          },
+          "INBOX_NAME": {
+            "LABEL": "ชื่อกล่องข้อความ",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "หมายเลขโทรศัพท์",
+            "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
+            "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "ลิ้งเรียกกลับ",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "ชื่อกล่องข้อความ",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "หมายเลขโทรศัพท์",
+          "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
+          "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "ช่อง API",
@@ -195,6 +277,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "ลิ้งเรียกกลับ",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +298,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "พนักงาน",
@@ -266,6 +352,17 @@
       "ENABLE_CSAT": {
         "ENABLED": "เปิด",
         "DISABLED": "ปิด"
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "เปิด",
+        "DISABLED": "ปิด"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -310,15 +407,21 @@
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์"
+      "FORWARD_EMAIL_SUB_TEXT": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
@@ -360,6 +463,69 @@
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
       }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "อีเมล์",
+        "PLACE_HOLDER": "อีเมล์"
+      },
+      "PASSWORD": {
+        "LABEL": "หรัสผ่าน",
+        "PLACE_HOLDER": "หรัสผ่าน"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "อีเมล์",
+        "PLACE_HOLDER": "อีเมล์"
+      },
+      "PASSWORD": {
+        "LABEL": "หรัสผ่าน",
+        "PLACE_HOLDER": "หรัสผ่าน"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

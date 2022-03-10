@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
-        "ERROR_MESSAGE": "Twitter'a bağlanırken bir hata oluştu, lütfen daha sonra tekrar deneyin"
+        "ERROR_MESSAGE": "Twitter'a bağlanırken bir hata oluştu, lütfen daha sonra tekrar deneyin",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website channel",
@@ -55,6 +58,11 @@
         "LOADING_MESSAGE": "Web Sitesi Destek Kanalı Oluşturma",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatarı"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Web kancası URL'si",
+          "PLACEHOLDER": "Enter your Webhook URL",
+          "ERROR": "Lütfen geçerli bir adres girin"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
@@ -74,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal karşılamasını etkinleştir",
-          "HELP_TEXT": "Kullanıcı konuşmayı başlattığında ona bir karşılama mesajı gönderin.",
+          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
           "ENABLED": "Etkin",
           "DISABLED": "Devre dışı"
         },
@@ -92,8 +100,8 @@
         "SUBMIT_BUTTON": "Gelen Kutusu Oluştur"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS / Whatsapp Kanalı",
-        "DESC": "Twilio'yu entegre edin ve müşterilerinizi SMS veya Whatsapp ile desteklemeye başlayın.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Hesap SID'si",
           "PLACEHOLDER": "Lütfen Twilio Hesabı SID'nizi girin",
@@ -109,8 +117,8 @@
           "ERROR": "Bu alan gereklidir"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Kanal ismi",
-          "PLACEHOLDER": "Lütfen bir kanal adı girin",
+          "LABEL": "Gelen Kutusu Adı",
+          "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Bu alan gereklidir"
         },
         "PHONE_NUMBER": {
@@ -128,12 +136,86 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel via Twilio",
-        "DESC": "Start supporting your customers via SMS with Twilio integration."
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Bu alan gereklidir"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "Bu alan gereklidir"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "Bu alan gereklidir"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Bu alan gereklidir"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Gelen Kutusu Adı",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "Bu alan gereklidir"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Telefon numarası",
+            "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını giriniz.",
+            "ERROR": "Lütfen geçerli bir değer girin. Telefon numarası '+' işaretiyle başlamalıdır."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Geri arama URL'si",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp Channel via Twilio",
-        "DESC": "Start supporting your customers via Whatsapp with Twilio integration."
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Gelen Kutusu Adı",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Bu alan gereklidir"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefon numarası",
+          "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını giriniz.",
+          "ERROR": "Lütfen geçerli bir değer girin. Telefon numarası '+' işaretiyle başlamalıdır."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
+          "ERROR": "Please enter a valid value."
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "API Kanalı",
@@ -195,6 +277,10 @@
         "SUBMIT_BUTTON": "Create LINE Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Geri arama URL'si",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +298,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, Whatsapp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
         "TITLE": "Kullanıcılar",
@@ -266,6 +352,17 @@
       "ENABLE_CSAT": {
         "ENABLED": "Etkin",
         "DISABLED": "Devre dışı"
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Etkin",
+        "DISABLED": "Devre dışı"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Etkin",
+        "DISABLED": "Devre dışı"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
       }
     },
     "DELETE": {
@@ -310,15 +407,21 @@
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
       "ENABLE_CSAT": "Enable CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni görüşmelerin otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın."
+      "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Yeniden yetkilendir",
@@ -360,6 +463,69 @@
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
       }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-Posta",
+        "PLACE_HOLDER": "E-Posta"
+      },
+      "PASSWORD": {
+        "LABEL": "Parola",
+        "PLACE_HOLDER": "Parola"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "EMAIL": {
+        "LABEL": "E-Posta",
+        "PLACE_HOLDER": "E-Posta"
+      },
+      "PASSWORD": {
+        "LABEL": "Parola",
+        "PLACE_HOLDER": "Parola"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
     }
   }
 }

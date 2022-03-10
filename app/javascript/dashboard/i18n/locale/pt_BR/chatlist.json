@@ -7,9 +7,11 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
+    "MENTION_HEADING": "Menções",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
+    "FILTER_ALL": "Todos",
     "STATUS_TABS": [
       {
         "NAME": "Abertas",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abertas",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abertas"
       },
-      {
-        "TEXT": "Resolvidas",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Resolvida"
       },
-      {
-        "TEXT": "Pendente",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "Pendente"
       },
-      {
-        "TEXT": "Adiado",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Adiado"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensagem de imagem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensagem de áudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Arquivo anexo"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Localização"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "compartilhou uma URL"
       }
     },
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
+    "SENT": "Enviado com sucesso",
     "NO_MESSAGES": "Nova Mensagem",
-    "NO_CONTENT": "Nenhum conteúdo disponível"
+    "NO_CONTENT": "Nenhum conteúdo disponível",
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado"
   }
 }

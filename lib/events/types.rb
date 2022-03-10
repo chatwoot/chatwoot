@@ -14,6 +14,7 @@ module Events::Types
 
   # conversation events
   CONVERSATION_CREATED = 'conversation.created'
+  CONVERSATION_UPDATED = 'conversation.updated'
   CONVERSATION_READ = 'conversation.read'
   # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   CONVERSATION_OPENED = 'conversation.opened'
@@ -25,6 +26,7 @@ module Events::Types
   TEAM_CHANGED = 'team.changed'
   CONVERSATION_TYPING_ON = 'conversation.typing_on'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
+  CONVERSATION_MENTIONED = 'conversation.mentioned'
 
   # message events
   MESSAGE_CREATED = 'message.created'

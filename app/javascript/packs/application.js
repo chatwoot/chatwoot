@@ -21,7 +21,10 @@ import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import { getAlertAudio } from '../shared/helpers/AudioNotificationHelper';
+import {
+  getAlertAudio,
+  initOnEvents,
+} from '../shared/helpers/AudioNotificationHelper';
 import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router from '../dashboard/routes';
 import store from '../dashboard/store';
@@ -39,6 +42,7 @@ import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
 } from '../dashboard/helper/scriptHelpers';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 Vue.config.env = process.env;
 
@@ -73,6 +77,7 @@ Vue.use(hljs.vuePlugin);
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
+Vue.component('fluent-icon', FluentIcon);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
@@ -100,6 +105,13 @@ window.onload = () => {
   vueActionCable.init();
 };
 
+const setupAudioListeners = () => {
+  getAlertAudio().then(() => {
+    initOnEvents.forEach(event => {
+      document.removeEventListener(event, setupAudioListeners, false);
+    });
+  });
+};
 window.addEventListener('load', () => {
   verifyServiceWorkerExistence(registration =>
     registration.pushManager.getSubscription().then(subscription => {
@@ -108,6 +120,9 @@ window.addEventListener('load', () => {
       }
     })
   );
-  getAlertAudio();
+  window.playAudioAlert = () => {};
+  initOnEvents.forEach(e => {
+    document.addEventListener(e, setupAudioListeners, false);
+  });
   initFaviconSwitcher();
 });

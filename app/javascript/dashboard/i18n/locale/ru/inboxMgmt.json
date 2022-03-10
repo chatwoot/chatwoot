@@ -47,7 +47,10 @@
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
-        "ERROR_MESSAGE": "Произошла ошибка при подключении к Twitter, попробуйте еще раз"
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к Twitter, попробуйте еще раз",
+        "TWEETS": {
+          "ENABLE": "Создать беседы из твитов с упоминанем"
+        }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Сайт",
@@ -55,6 +58,11 @@
         "LOADING_MESSAGE": "Подключение сайта в качестве источника",
         "CHANNEL_AVATAR": {
           "LABEL": "Изображение"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL вебхука",
+          "PLACEHOLDER": "Введите URL-адрес вебхука",
+          "ERROR": "Пожалуйста, введите правильный URL"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Домен сайта",
@@ -92,7 +100,7 @@
         "SUBMIT_BUTTON": "Создать источник"
       },
       "TWILIO": {
-        "TITLE": "Источник Twilio SMS/Whatsapp",
+        "TITLE": "Twilio SMS/WhatsApp канал",
         "DESC": "Интегрируйте Twilio и начните поддерживать ваших клиентов через SMS или Whatsapp.",
         "ACCOUNT_SID": {
           "LABEL": "SID аккаунта",
@@ -109,8 +117,8 @@
           "ERROR": "Это поле обязательно"
         },
         "CHANNEL_NAME": {
-          "LABEL": "имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя источника",
+          "LABEL": "Имя источника",
+          "PLACEHOLDER": "Пожалуйста введите имя канала",
           "ERROR": "Это поле обязательно"
         },
         "PHONE_NUMBER": {
@@ -128,12 +136,86 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS канал через Twilio",
-        "DESC": "Начните поддерживать своих клиентов через SMS с Twilio интеграцией."
+        "TITLE": "SMS-канал",
+        "DESC": "Начните поддерживать ваших клиентов с помощью SMS.",
+        "PROVIDERS": {
+          "LABEL": "Поставщик API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Не удалось сохранить SMS-канал"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID аккаунта",
+            "PLACEHOLDER": "Пожалуйста, введите ваш идентификатор аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_KEY": {
+            "LABEL": "Ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
+            "ERROR": "Это поле обязательно"
+          },
+          "API_SECRET": {
+            "LABEL": "Секретный ключ API",
+            "PLACEHOLDER": "Пожалуйста, введите ваш секретный ключ аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "ID приложения",
+            "PLACEHOLDER": "Пожалуйста, введите ваш ID аккаунта Bandwidth",
+            "ERROR": "Это поле обязательно"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Имя источника",
+            "PLACEHOLDER": "Пожалуйста введите имя канала",
+            "ERROR": "Это поле обязательно"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Номер телефона",
+            "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
+            "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+          },
+          "SUBMIT_BUTTON": "Создать канал Bandwidth",
+          "API": {
+            "ERROR_MESSAGE": "Мы не смогли авторизоваться в Bandwidth. Пожалуйста, попробуйте еще раз"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL",
+            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth используя этот URL."
+          }
+        }
       },
       "WHATSAPP": {
-        "TITLE": "Whatsapp канал через Twilio",
-        "DESC": "Начните поддерживать ваших клиентов через Whatsapp с помощью интеграции в Twilio."
+        "TITLE": "WhatsApp канал",
+        "DESC": "Начните поддерживать ваших клиентов через WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "Поставщик API",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Имя источника",
+          "PLACEHOLDER": "Пожалуйста введите имя канала",
+          "ERROR": "Это поле обязательно"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Номер телефона",
+          "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
+          "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+        },
+        "API_KEY": {
+          "LABEL": "Ключ API",
+          "SUBTITLE": "Настройте ключ API WhatsApp.",
+          "PLACEHOLDER": "Ключ API",
+          "APPLY_FOR_ACCESS": "У вас нет ключа API? Примените здесь",
+          "ERROR": "Пожалуйста, введите правильное значение."
+        },
+        "SUBMIT_BUTTON": "Создать канал WhatsApp",
+        "API": {
+          "ERROR_MESSAGE": "Не удалось сохранить канал WhatsApp"
+        }
       },
       "API_CHANNEL": {
         "TITLE": "Источник API",
@@ -195,6 +277,10 @@
         "SUBMIT_BUTTON": "Создать канал LINE",
         "API": {
           "ERROR_MESSAGE": "Не удалось сохранить канал LINE"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL",
+          "SUBTITLE": "Установите адрес webhook в приложении LINE, который указан здесь."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -212,7 +298,7 @@
       },
       "AUTH": {
         "TITLE": "Выберите источник",
-        "DESC": "Chatwoot поддерживает виджет живого-чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
+        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
       },
       "AGENTS": {
         "TITLE": "Операторы",
@@ -266,6 +352,17 @@
       "ENABLE_CSAT": {
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Включить"
       }
     },
     "DELETE": {
@@ -310,15 +407,21 @@
       "AUTO_ASSIGNMENT": "Включить автоназначение",
       "ENABLE_CSAT": "Включить CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность разговоров по электронной почте",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Разговоры будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
       "HMAC_VERIFICATION": "Проверка личности пользователя",
       "HMAC_DESCRIPTION": "Для проверки личности пользователя SDK предлагает вам передать параметр `identity_hash` для каждого пользователя. Вы можете сгенерировать HMAC с помощью шифрования методом 'sha256' с ключом, который указан ниже.",
+      "HMAC_MANDATORY_VERIFICATION": "Принудительная проверка личности пользователя",
+      "HMAC_MANDATORY_DESCRIPTION": "Если включено, метод Chatwoot SDK setUser не будет работать до тех пор, пока для каждого пользователя не будет указан метод `identifier_hash`.",
       "INBOX_IDENTIFIER": "Идентификатор входящего канала",
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email."
+      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
@@ -360,6 +463,69 @@
         "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
         "CHOOSE": "Выбрать"
       }
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Настроить параметры IMAP",
+      "UPDATE": "Обновить настройки IMAP",
+      "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
+      "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Настройки IMAP успешно обновлены",
+        "ERROR_MESSAGE": "Невозможно обновить настройки IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Адрес",
+        "PLACE_HOLDER": "Адрес (например, imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "ENABLE_SSL": "Включить SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Настроить параметры SMTP",
+      "UPDATE": "Обновить настройки SMTP",
+      "TOGGLE_AVAILABILITY": "Включить SMTP конфигурацию для этого ящика",
+      "TOGGLE_HELP": "Включение SMTP поможет пользователю отправлять почту",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Настройки SMTP успешно обновлены",
+        "ERROR_MESSAGE": "Невозможно обновить настройки SMTP"
+      },
+      "ADDRESS": {
+        "LABEL": "Адрес",
+        "PLACE_HOLDER": "Адрес (например, smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
+      },
+      "EMAIL": {
+        "LABEL": "Email",
+        "PLACE_HOLDER": "Email"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "PLACE_HOLDER": "Пароль"
+      },
+      "DOMAIN": {
+        "LABEL": "Домен",
+        "PLACE_HOLDER": "Домен"
+      },
+      "ENCRYPTION": "Шифрование",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL"
     }
   }
 }

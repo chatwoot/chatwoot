@@ -3,8 +3,7 @@ tags:
 operationId: update-a-contact
 summary: Update a contact
 description: Update a contact's attributes
-security:
-  - nil
+security: []
 parameters:
   - name: data
     in: body

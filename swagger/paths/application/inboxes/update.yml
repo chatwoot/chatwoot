@@ -16,17 +16,18 @@ patch:
       required: true
       schema:
         type: object
+        required:
+          - enable_auto_assignment
         properties:
           name:
             type: string
             description: The name of the inbox
           enable_auto_assignment:
             type: boolean
-            required: true
             description: 'Enable Auto Assignment'
           avatar:
-            type: file
-            required: false
+            type: string
+            format: binary
             description: 'Image file for avatar'
           channel:
             type: object

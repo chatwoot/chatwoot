@@ -6,6 +6,7 @@ import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
 
+import router from '../widget/router';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
 
@@ -21,6 +22,7 @@ Vue.config.productionTip = false;
 
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
+    router,
     store,
     i18n: i18nConfig,
     render: h => h(App),

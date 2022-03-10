@@ -27,10 +27,18 @@ tr:
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    contacts:
+      import:
+        failed: File is blank
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
       agent_name: Temsilci adı
+      conversations_count: Konuşma sayısı
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    team_csv:
+      team_name: Team name
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
@@ -69,10 +77,17 @@ tr:
       email_input_box_message_body: "E-posta ile haberdar olun"
       csat_input_message_body: "Lütfen konuşmayı oylayın"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:
       response: "Lütfen konuşmayı oylayın, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"

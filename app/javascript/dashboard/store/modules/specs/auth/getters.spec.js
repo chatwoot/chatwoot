@@ -20,11 +20,11 @@ describe('#getters', () => {
 
   it('get', () => {
     expect(
-      getters.getCurrentUserAvailabilityStatus({
+      getters.getCurrentUserAvailability({
         currentAccountId: 1,
         currentUser: {
           id: 1,
-          accounts: [{ id: 1, availability_status: 'busy' }],
+          accounts: [{ id: 1, availability: 'busy' }],
         },
       })
     ).toEqual('busy');
@@ -36,5 +36,77 @@ describe('#getters', () => {
         currentUser: { ui_settings: { is_contact_sidebar_open: true } },
       })
     ).toEqual({ is_contact_sidebar_open: true });
+  });
+  describe('#getMessageSignature', () => {
+    it('Return signature when signature is present', () => {
+      expect(
+        getters.getMessageSignature({
+          currentUser: { message_signature: 'Thanks' },
+        })
+      ).toEqual('Thanks');
+    });
+    it('Return empty string when signature is not present', () => {
+      expect(
+        getters.getMessageSignature({
+          currentUser: {},
+        })
+      ).toEqual('');
+    });
+  });
+
+  describe('#getCurrentAccount', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {},
+          currentAccountId: 1,
+        })
+      ).toEqual({});
+
+      expect(
+        getters.getCurrentAccount({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+          currentAccountId: 1,
+        })
+      ).toEqual({
+        name: 'Chatwoot',
+        id: 1,
+      });
+    });
+  });
+
+  describe('#getUserAccounts', () => {
+    it('returns correct values', () => {
+      expect(
+        getters.getUserAccounts({
+          currentUser: {},
+        })
+      ).toEqual([]);
+
+      expect(
+        getters.getUserAccounts({
+          currentUser: {
+            accounts: [
+              {
+                name: 'Chatwoot',
+                id: 1,
+              },
+            ],
+          },
+        })
+      ).toEqual([
+        {
+          name: 'Chatwoot',
+          id: 1,
+        },
+      ]);
+    });
   });
 });

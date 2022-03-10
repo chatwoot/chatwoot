@@ -1,4 +1,5 @@
 import authAPI from '../../../api/auth';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
@@ -19,6 +20,26 @@ const getters = {
     );
     return selectedChat || {};
   },
+  getLastEmailInSelectedChat: (stage, _getters) => {
+    const selectedChat = _getters.getSelectedChat;
+    const { messages = [] } = selectedChat;
+    const lastEmail = [...messages].reverse().find(message => {
+      const {
+        content_attributes: contentAttributes = {},
+        message_type: messageType,
+      } = message;
+      const { email = {} } = contentAttributes;
+      const isIncomingOrOutgoing =
+        messageType === MESSAGE_TYPE.OUTGOING ||
+        messageType === MESSAGE_TYPE.INCOMING;
+      if (email.from && isIncomingOrOutgoing) {
+        return true;
+      }
+      return false;
+    });
+
+    return lastEmail;
+  },
   getMineChats: _state => activeFilters => {
     const currentUserID = authAPI.getCurrentUser().id;
 
@@ -30,6 +51,9 @@ const getters = {
 
       return isChatMine;
     });
+  },
+  getAppliedConversationFilters: _state => {
+    return _state.appliedFilters;
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {

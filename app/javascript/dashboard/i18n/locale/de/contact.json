@@ -7,6 +7,7 @@
     "COMPANY": "Firma",
     "LOCATION": "Ort",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
+    "VIEW_PROFILE": "Profil anzeigen",
     "BROWSER": "Browser",
     "OS": "Betriebssystem",
     "INITIATED_FROM": "Initiiert von",
@@ -23,17 +24,19 @@
         "ERROR": "Labels konnten nicht aktualisiert werden"
       },
       "CONVERSATION": {
-        "TITLE": "Konversationsetiketten",
+        "TITLE": "Konversationslabels",
         "ADD_BUTTON": "Label hinzufügen"
       },
       "LABEL_SELECT": {
-        "TITLE": "Label hinzufügen",
+        "TITLE": "Labels hinzufügen",
         "PLACEHOLDER": "Labels suchen",
         "NO_RESULT": "Keine Labels gefunden"
       }
     },
+    "MERGE_CONTACT": "Kontakte zusammenführen",
+    "CONTACT_ACTIONS": "Kontakt-Aktionen",
     "MUTE_CONTACT": "Unterhaltung stummschalten",
-    "UNMUTE_CONTACT": "Unterhaltung entmuten",
+    "UNMUTE_CONTACT": "Unterhaltung entstummen",
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
     "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
     "SEND_TRANSCRIPT": "Transkript senden",
@@ -54,9 +57,38 @@
     "TITLE": "Neuen Kontakt erstellen",
     "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Importieren",
+    "TITLE": "Kontakte importieren",
+    "DESC": "Kontakte über CSV-Datei importieren.",
+    "DOWNLOAD_LABEL": "Ein CSV-Beispiel herunterladen.",
+    "FORM": {
+      "LABEL": "CSV-Datei",
+      "SUBMIT": "Importieren",
+      "CANCEL": "Stornieren"
+    },
+    "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
+    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Kontakt löschen",
+    "TITLE": "Kontakt löschen",
+    "DESC": "Kontakt-Details bearbeiten",
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+      "PLACE_HOLDER": "Bitte {contactName} zur Bestätigung eingeben",
+      "YES": "Ja, löschen ",
+      "NO": "Nein, behalten "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
+      "ERROR_MESSAGE": "Kontakt konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Speichern",
+      "SUBMIT": "Einreichen",
       "CANCEL": "Abbrechen",
       "AVATAR": {
         "LABEL": "Kontaktbild"
@@ -71,16 +103,18 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
-        "LABEL": "E-Mail-Addresse"
+        "LABEL": "E-Mail-Adresse",
+        "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
         "LABEL": "Telefonnummer",
         "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
-        "ERROR": "Telefonnummer muss leer sein oder im E.164-Format"
+        "ERROR": "Telefonnummer muss leer sein oder im E.164-Format",
+        "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
+        "PLACEHOLDER": "Standort des Kontakts eingeben",
         "LABEL": "Ort"
       },
       "COMPANY_NAME": {
@@ -101,13 +135,12 @@
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Gitub-Benutzernamen eingeben",
+          "PLACEHOLDER": "GitHub-Benutzernamen eingeben",
           "LABEL": "Github"
         }
       }
     },
     "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
-    "CONTACT_ALREADY_EXIST": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
   },
   "NEW_CONVERSATION": {
@@ -123,6 +156,11 @@
         "LABEL": "Posteingang",
         "ERROR": "Posteingang auswählen"
       },
+      "SUBJECT": {
+        "LABEL": "Betreff",
+        "PLACEHOLDER": "Betreff",
+        "ERROR": "Betreff darf nicht leer sein"
+      },
       "MESSAGE": {
         "LABEL": "Nachricht",
         "PLACEHOLDER": "Schreiben Sie Ihre Nachricht hier",
@@ -131,6 +169,7 @@
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
+      "GO_TO_CONVERSATION": "Aussicht",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
@@ -139,6 +178,9 @@
     "FIELDS": "Kontakt-Felder",
     "SEARCH_BUTTON": "Suchen",
     "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Filter speichern",
+    "FILTER_CONTACTS_DELETE": "Filter löschen",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
       "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
@@ -150,12 +192,16 @@
         "LAST_ACTIVITY": "Letzte Aktivität",
         "COUNTRY": "Land",
         "CITY": "Stadt",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Profile in sozialen Netzwerken",
         "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "E-Mail-Addresse"
+        "EMAIL_ADDRESS": "E-Mail-Adresse"
       },
       "VIEW_DETAILS": "Details anzeigen"
     }
+  },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontakte",
+    "LOADING": "Kontaktprofil wird geladen..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -168,16 +214,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Notizen werden geladen...",
+    "NOT_AVAILABLE": "Für diesen Kontakt wurden keine Notizen erstellt",
     "HEADER": {
       "TITLE": "Notizen"
+    },
+    "LIST": {
+      "LABEL": "Notiz hinzugefügt"
     },
     "ADD": {
       "BUTTON": "Hinzufügen",
       "PLACEHOLDER": "Notiz hinzufügen",
       "TITLE": "Shift + Enter um eine Notiz zu erstellen"
     },
-    "FOOTER": {
-      "BUTTON": "Alle Notizen anzeigen"
+    "CONTENT_HEADER": {
+      "DELETE": "Notiz löschen"
     }
   },
   "EVENTS": {
@@ -185,14 +236,21 @@
       "TITLE": "Aktivitäten"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_NOTES": "Notizen",
       "PILL_BUTTON_EVENTS": "Veranstaltungen",
       "PILL_BUTTON_CONVO": "gespräche"
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Attribute hinzufügen",
     "BUTTON": "Eigenes Attribut hinzufügen",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
+    "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
+    "ACTIONS": {
+      "COPY": "Attribut kopieren",
+      "DELETE": "Attribut löschen",
+      "EDIT": "Attribut hinzufügen"
+    },
     "ADD": {
       "TITLE": "Eigenes Attribut erstellen",
       "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."
@@ -208,22 +266,53 @@
       "VALUE": {
         "LABEL": "Attributwert",
         "PLACEHOLDER": "Bsp.: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Neues Attribut erstellen ",
+        "SUCCESS": "Attribut erfolgreich hinzugefügt",
+        "ERROR": "Attribut kann nicht hinzugefügt werden. Bitte versuchen Sie es später noch einmal"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribut erfolgreich aktualisiert",
+        "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribut erfolgreich gelöscht",
+        "ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Attribute hinzufügen",
+        "PLACEHOLDER": "Attribut suchen",
+        "NO_RESULT": "Keine Attribute gefunden"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Wert wählen",
+          "SEARCH_INPUT_PLACEHOLDER": "Wert suchen",
+          "NO_RESULT": "Kein Ergebnis gefunden"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Gültiger Wert ist erforderlich",
+      "INVALID_URL": "Ungültige URL"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Kontakte zusammenführen",
-    "DESCRIPTION": "Das Zusammenführen von Kontakten ist hilfreich, wenn Sie doppelte Einträge desselben Kontakts haben. Dabei kann ein primärer Kontakt und ein sekundärer Kontakt gewählt werden. Nach dem Zusammenführen bleiben alle Details im primären Kontakt unverändert. Wenn der primäre Kontakt kein Feld hat, wird der Wert des sekondären Kontakts verwendet. Falls ein Konflikt auftritt, bleiben die Felder im primären Kontakt unberührt, aber benutzerdefinierte Attribute vom sekundären Kontakt werden zum primären Kontakt kopiert.",
+    "DESCRIPTION": "Kontakte zusammenführen, um zwei Profile zu einem zu kombinieren, einschließlich aller Attribute und Gespräche. Im Falle eines Konflikts haben die Attribute des Hauptkontakts Vorrang.",
     "PRIMARY": {
-      "TITLE": "Hauptkontakt"
+      "TITLE": "Hauptkontakt",
+      "HELP_LABEL": "Zu erhalten"
     },
     "CHILD": {
       "TITLE": "Kontakt zum Zusammenführen",
-      "PLACEHOLDER": "Wählen Sie einen Kontakt"
+      "PLACEHOLDER": "Nach Kontakt suchen",
+      "HELP_LABEL": "Zu löschen"
     },
     "SUMMARY": {
       "TITLE": "Zusammenfassung",
-      "DELETE_WARNING": "Der Kontakt <strong>%{childContactName}</strong>wird gelöscht.",
+      "DELETE_WARNING": "Der Kontakt von <strong>%{childContactName}</strong> wird gelöscht.",
       "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{childContactName}</strong> wird zu <strong>%{primaryContactName}</strong> kopiert."
     },
     "SEARCH": {

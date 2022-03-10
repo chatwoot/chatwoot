@@ -54,6 +54,7 @@
           "ERROR": "Yayın süresi seçiniz"
         },
         "ENABLED": "Kampanyayı başlat",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Kampanya ekle"
       },
       "API": {

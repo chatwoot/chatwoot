@@ -19,6 +19,9 @@ export const getters = {
       record => record.campaign_type === campaignType
     );
   },
+  getAllCampaigns: _state => {
+    return _state.records;
+  },
 };
 
 export const actions = {

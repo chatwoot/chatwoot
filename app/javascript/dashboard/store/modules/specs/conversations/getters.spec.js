@@ -114,4 +114,51 @@ describe('#getters', () => {
       expect(getters.getConversationById(state)(1)).toEqual({ id: 1 });
     });
   });
+
+  describe('#getAppliedConversationFilters', () => {
+    it('getAppliedConversationFilters', () => {
+      const filtersList = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      const state = {
+        appliedFilters: filtersList,
+      };
+      expect(getters.getAppliedConversationFilters(state)).toEqual(filtersList);
+    });
+  });
+
+  describe('#getLastEmailInSelectedChat', () => {
+    it('Returns cc in last email', () => {
+      const state = {};
+      const getSelectedChat = {
+        messages: [
+          {
+            message_type: 1,
+            content_attributes: {
+              email: {
+                from: 'why@how.my',
+                cc: ['nithin@me.co', 'we@who.why'],
+              },
+            },
+          },
+        ],
+      };
+      expect(
+        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
+      ).toEqual({
+        message_type: 1,
+        content_attributes: {
+          email: {
+            from: 'why@how.my',
+            cc: ['nithin@me.co', 'we@who.why'],
+          },
+        },
+      });
+    });
+  });
 });

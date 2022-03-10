@@ -16,7 +16,7 @@ class NotificationListener < BaseListener
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
-    return unless conversation.notifiable_assignee_change?
+    return if event.data[:notifiable_assignee_change].blank?
     return if conversation.pending?
 
     NotificationBuilder.new(
@@ -58,11 +58,14 @@ class NotificationListener < BaseListener
 
     return if message.content.blank?
 
-    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+)\)}).map(&:second).uniq
+    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+?)\)}).map(&:second).uniq
 
     return if mentioned_ids.blank?
 
-    get_valid_mentioned_ids(mentioned_ids, message.inbox).each do |user_id|
+    valid_mentioned_ids = get_valid_mentioned_ids(mentioned_ids, message.inbox)
+    Conversations::UserMentionJob.perform_later(valid_mentioned_ids, message.conversation.id, account.id)
+
+    valid_mentioned_ids.each do |user_id|
       NotificationBuilder.new(
         notification_type: 'conversation_mention',
         user: User.find(user_id),

@@ -8,9 +8,11 @@ class Messages::MessageBuilder
     @conversation = conversation
     @user = user
     @message_type = params[:message_type] || 'outgoing'
-    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
     @attachments = params[:attachments]
+    return unless params.instance_of?(ActionController::Parameters)
+
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
+    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
   end
 
   def perform
@@ -27,11 +29,12 @@ class Messages::MessageBuilder
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
-      @message.attachments.build(
+      attachment = @message.attachments.build(
         account_id: @message.account_id,
-        file_type: file_type(uploaded_attachment&.content_type),
         file: uploaded_attachment
       )
+
+      attachment.file_type = file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
     end
   end
 

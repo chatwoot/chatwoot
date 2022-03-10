@@ -3,6 +3,9 @@
     "LINK": "Brukerinnstillinger",
     "TITLE": "Brukerinnstillinger",
     "BTN_TEXT": "Oppdater profil",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Ditt passord er endret",
     "AFTER_EMAIL_CHANGED": "Din profil har blitt oppdatert, vennligst logg inn igjen ettersom din innloggingsinformasjon er endret",
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Profil",
         "NOTE": "Din e-postadresse er din identitet og brukes til å logge inn."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Passord",
@@ -86,20 +101,21 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Passord",
+        "LABEL": "New password",
         "ERROR": "Skriv inn et passord som er 6 eller flere tegn langt",
         "PLACEHOLDER": "Vennligst angi et nytt passord"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekreft nytt passord",
         "ERROR": "Det bekreftende passordet burde samsvare med passordet",
-        "PLACEHOLDER": "Oppgi ditt passord på nytt"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Endre",
     "CHANGE_ACCOUNTS": "Bytt konto",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Velg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Brukerinnstillinger",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -107,7 +123,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dager gjenværende av prøveperioden.",
-    "TRAIL_BUTTON": "Kjøp nå"
+    "TRAIL_BUTTON": "Kjøp nå",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +147,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Samtaler",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Rapporter",
     "SETTINGS": "Innstillinger",
     "CONTACTS": "Kontakter",
@@ -139,18 +158,30 @@
     "NOTIFICATIONS": "Varsler",
     "CANNED_RESPONSES": "Forhåndslagde svar",
     "INTEGRATIONS": "Integrasjoner",
+    "PROFILE_SETTINGS": "Brukerinnstillinger",
     "ACCOUNT_SETTINGS": "Kontoinnstillinger",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Egendefinerte verdier",
+    "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "Agenter",
+    "REPORTS_LABEL": "Etiketter",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

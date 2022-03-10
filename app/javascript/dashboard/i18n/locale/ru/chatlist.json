@@ -7,9 +7,11 @@
       "404": "В этой группе нет активных диалогов."
     },
     "TAB_HEADING": "Диалоги",
+    "MENTION_HEADING": "Упоминания",
     "SEARCH": {
       "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
+    "FILTER_ALL": "Все",
     "STATUS_TABS": [
       {
         "NAME": "Открыть",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Открытые",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Открыть"
       },
-      {
-        "TEXT": "Закрытые",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Закрыт"
       },
-      {
-        "TEXT": "В ожидании",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "В ожидании"
       },
-      {
-        "TEXT": "Отложено",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Отложено"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Изображение"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Аудиосообщение"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Видео"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Прикрепленный файл"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Местоположение"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "поделился ссылкой"
       }
     },
     "RECEIVED_VIA_EMAIL": "Получено по email",
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
+    "SENT": "Успешно отправлено",
     "NO_MESSAGES": "Нет сообщений",
-    "NO_CONTENT": "Содержимое отсутствует"
+    "NO_CONTENT": "Содержимое отсутствует",
+    "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",
+    "SHOW_QUOTED_TEXT": "Показать цитируемый текст"
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="cw-accordion">
-    <button class="cw-accordion--title" @click="$emit('click')">
+    <button class="cw-accordion--title drag-handle" @click="$emit('click')">
       <div class="cw-accordion--title-wrap">
         <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
         <h5>
@@ -10,12 +10,16 @@
       <div class="button-icon--wrap">
         <slot name="button" />
         <div class="chevron-icon__wrap">
-          <i v-if="isOpen" class="ion-minus chevron-icon"></i>
-          <i v-else class="ion-plus chevron-icon"></i>
+          <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
+          <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
       </div>
     </button>
-    <div v-if="isOpen" class="cw-accordion--content">
+    <div
+      v-if="isOpen"
+      class="cw-accordion--content"
+      :class="{ compact: compact }"
+    >
       <slot />
     </div>
   </div>
@@ -32,6 +36,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    compact: {
+      type: Boolean,
+      default: false,
     },
     icon: {
       type: String,
@@ -58,10 +66,10 @@ export default {
 }
 .cw-accordion--title {
   align-items: center;
-  background: var(--b-50);
-  border-bottom: 1px solid var(--color-border);
-  border-top: 1px solid var(--color-border);
-  cursor: pointer;
+  background: var(--s-50);
+  border-bottom: 1px solid var(--s-100);
+  border-top: 1px solid var(--s-100);
+  cursor: grab;
   display: flex;
   justify-content: space-between;
   margin: 0;
@@ -106,5 +114,9 @@ export default {
 
 .cw-accordion--content {
   padding: var(--space-normal);
+
+  &.compact {
+    padding: 0;
+  }
 }
 </style>

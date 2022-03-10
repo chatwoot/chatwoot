@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "กรุณาเลือกการสนทนาจากด้านซ้าย",
+    "UNVERIFIED_SESSION": "ข้อมูลประจำตัวของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
     "NO_INBOX_1": "โฮล่า! ดูเหมือนว่าคุณยังไม่ได้เพิ่มกล่องจดหมายเลยนะ",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
     "CANNOT_REPLY": "คุณไม่สามารถตอบกลับได้เนื่องจาก",
     "24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
     "TWILIO_WHATSAPP_CAN_REPLY": "คุณสามารถตอบกลับการสนทนานี้ได้โดยการใช้เเม่เเบบเวลาที่กำหนด",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
     "SELECT_A_TWEET_TO_REPLY": "กรุณาเลือกทวีตที่ต้อวการติบกลับ",
@@ -39,7 +42,10 @@
       "OPEN_ACTION": "เปิด",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
-      "DETAILS": "รายละเอียด"
+      "DETAILS": "รายละเอียด",
+      "SNOOZED_UNTIL_TOMORROW": "ปิดการแจ้งเตือนจนถึงพรุ่งนี้",
+      "SNOOZED_UNTIL_NEXT_WEEK": "ปิดการแจ้งเตือนจนถึงอาทิตย์หน้า",
+      "SNOOZED_UNTIL_NEXT_REPLY": "ปิดการแจ้งเตือนจนการตอบกลับถัดไป"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างการรอ",
@@ -51,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น"
     },
@@ -61,7 +70,7 @@
       "CREATE": "เพิ่มโน้ต",
       "TWEET": "ทวิต",
       "TIP_FORMAT_ICON": "เเสดงที่เเก้ไขข้อความ",
-      "TIP_EMOJI_ICON": "โชว์ที่เบือกอีโมจิ",
+      "TIP_EMOJI_ICON": "โชว์ตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์",
       "ENTER_TO_SEND": "กดเอ็นเทอร์เพื่อส่ง",
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
@@ -75,7 +84,7 @@
         "BCC": {
           "LABEL": "BCC",
           "PLACEHOLDER": "อีเมล์ถูกเเยกโดยคอมม่า",
-          "ERROR": "กรุณากรอกอีเมล์มห้ถูกต้อง"
+          "ERROR": "กรุณากรอกอีเมล์ให้ถูกต้อง"
         }
       }
     },
@@ -84,7 +93,11 @@
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
     "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
+    "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ กรุณาลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
+    "BOT": "บอท",
+    "SEND_FAILED": "ไม่สามารถส่งข้อความได้กรุณาลองอีกครั้ง",
+    "TRY_AGAIN": "กรุณาลองอีกครั้ง",
     "ASSIGNMENT": {
       "SELECT_AGENT": "เลือกพนักงาน",
       "REMOVE": "ลบออก",
@@ -121,41 +134,63 @@
       "DESCRIPTION": "ดูการสนทนาทั้งหมดจากลูกค้าของคุณในหน้าเเดสบอรด์เดียว คุณสามารถกรอกการสนทนาโดยช่องที่เข้ามา หรือ ป้ายกำกับเเละสถานะ"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "เชิญสมาชิกในทีมของคุณ",
+      "DESCRIPTION": "เมื่อคุณพร้อมที่จะคุยกับลูกค้าของคุณ กรุณาให้เพื่อนในทีมมาช่วยคุณ คุณสามารถเชิญเพื่อนในทีมได้โดยการใส่อีเมลของเขาใน Agent List",
+      "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "เชื่อมต่อกล่องข้อความ",
+      "DESCRIPTION": "เชื่อมต่อช่องทางต่างๆ ที่ลูกค้าของคุณจะพูดคุยกับคุณ อาจเป็นเว็บไซต์แชทสด หน้า Facebook หรือ Twitter ของคุณ หรือแม้แต่หมายเลข WhatsApp ของคุณ",
+      "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "จัดกลุ่มบทสนทนาด้วยฉลาก",
+      "DESCRIPTION": "การติดฉลากเป็นวิธีง่ายๆ ในการจัดกลุ่มบทสนทนาของคุณ คุณสามารถสร้างฉลากเช่น #การช่วยเหลือ #คำถามเรื่องใบเสร็จ เพื่อนำมาใช้ในบทสนทนาต่อไป",
+      "NEW_LINK": "คลิกที่นี่เพื่อสร้างแท็ก"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "ตัวแทนที่ได้รับมอบหมาย",
+    "SELF_ASSIGN": "มอบหมายให้ฉัน",
+    "TEAM_LABEL": "ทีมที่ได้รับมอบหมาย",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "ไม่มี"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "รายละเอียดการติดต่อ",
+      "CONVERSATION_ACTIONS": "การดำเนินการสนทนา",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "ข้อมูลการสนทนา",
+      "CONTACT_ATTRIBUTES": "แอตทริบิวต์การติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "สร้างแอตทริบิวต์",
+    "UPDATE": {
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
+    },
+    "ADD": {
+      "TITLE": "เพิ่ม",
+      "SUCCESS": "อัปเดตเรียบร้อยแล้ว",
+      "ERROR": "ไม่สามารถอัปเดตได้ กรุณาลองใหม่อีกครั้ง"
+    },
+    "DELETE": {
+      "SUCCESS": "ทำการลบเรียบร้อย",
+      "ERROR": "ไม่สามารถลบได้ กรุณาลองใหม่อีกครั้ง"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "เพิ่มแอตทริบิวต์",
+      "PLACEHOLDER": "ค้นหาแอตทริบิวต์",
+      "NO_RESULT": "ไม่พบข้อมูล"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "ถึง",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "BCC": "สำเนาลับ",
+    "CC": "สำเนา",
+    "SUBJECT": "หัวเรื่อง"
   }
 }

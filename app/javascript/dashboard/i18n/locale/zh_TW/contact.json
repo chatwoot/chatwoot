@@ -7,6 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "對話詳細資訊",
+    "VIEW_PROFILE": "View Profile",
     "BROWSER": "瀏覽器",
     "OS": "作業系统",
     "INITIATED_FROM": "發起自：",
@@ -20,7 +21,7 @@
     "LABELS": {
       "CONTACT": {
         "TITLE": "聯絡人標籤",
-        "ERROR": "Couldn't update labels"
+        "ERROR": "無法更新標籤"
       },
       "CONVERSATION": {
         "TITLE": "對話標記",
@@ -32,6 +33,8 @@
         "NO_RESULT": "查無標籤"
       }
     },
+    "MERGE_CONTACT": "Merge contact",
+    "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "將對話靜音",
     "UNMUTE_CONTACT": "將對話解除靜音",
     "MUTED_SUCCESS": "將對話靜音 6 小時",
@@ -54,6 +57,35 @@
     "TITLE": "新增聯絡人",
     "DESC": "為聯絡人增加基本資訊"
   },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "匯入",
+    "TITLE": "匯入聯絡人",
+    "DESC": "透過 CSV 匯入聯絡人",
+    "DOWNLOAD_LABEL": "下載 CSV 範例",
+    "FORM": {
+      "LABEL": "CSV File",
+      "SUBMIT": "匯入",
+      "CANCEL": "取消"
+    },
+    "SUCCESS_MESSAGE": "聯絡人儲存成功",
+    "ERROR_MESSAGE": "出現錯誤，請重試"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "刪除聯絡人",
+    "TITLE": "刪除聯絡人",
+    "DESC": "刪除聯絡人資訊",
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "您確定要刪除嗎？ ",
+      "PLACE_HOLDER": "Please type {contactName} to confirm",
+      "YES": "是，刪除 ",
+      "NO": "不，保留 "
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "聯絡人刪除成功",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送出",
@@ -71,13 +103,15 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "請輸入聯絡人電子信箱",
-        "LABEL": "電子信箱地址"
+        "LABEL": "電子信箱地址",
+        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",
         "LABEL": "聯絡人電話",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "請輸入聯絡人位置",
@@ -107,7 +141,6 @@
       }
     },
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
-    "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "NEW_CONVERSATION": {
@@ -123,6 +156,11 @@
         "LABEL": "收件匣",
         "ERROR": "選擇一個收件匣"
       },
+      "SUBJECT": {
+        "LABEL": "主旨",
+        "PLACEHOLDER": "主旨",
+        "ERROR": "Subject can't be empty"
+      },
       "MESSAGE": {
         "LABEL": "訊息",
         "PLACEHOLDER": "在此填寫你的訊息",
@@ -131,6 +169,7 @@
       "SUBMIT": "傳送訊息",
       "CANCEL": "取消",
       "SUCCESS_MESSAGE": "訊息已傳送",
+      "GO_TO_CONVERSATION": "查看",
       "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
@@ -139,6 +178,9 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
@@ -157,6 +199,10 @@
       "VIEW_DETAILS": "查看詳細資訊"
     }
   },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "聯絡人",
+    "LOADING": "Loading contact profile..."
+  },
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "新增",
@@ -168,16 +214,21 @@
     }
   },
   "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "筆記"
+    },
+    "LIST": {
+      "LABEL": "added a note"
     },
     "ADD": {
       "BUTTON": "新增",
       "PLACEHOLDER": "新增筆記",
       "TITLE": "Shift + Enter to create a note"
     },
-    "FOOTER": {
-      "BUTTON": "查看所有筆記"
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
     }
   },
   "EVENTS": {
@@ -191,8 +242,15 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "新增自訂屬性",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "成功複製到剪貼簿",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "編輯屬性"
+    },
     "ADD": {
       "TITLE": "建立自訂屬性",
       "DESC": "為聯絡人新增自訂資訊"
@@ -208,22 +266,53 @@
       "VALUE": {
         "LABEL": "屬性值",
         "PLACEHOLDER": "例如：11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "屬性新增成功",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "屬性更新成功",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
       }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "合併聯絡人",
-    "DESCRIPTION": "Merge contact is helpful when you have duplicated entries of the same contact. Merging action takes a primary contact and a child contact. After merging, all details in the primary contact will remain the same. If the primary contact doesn't have a field, then the value from the child contact will be used after merging. If a conflict happens, fields in primary contact will remain unaffected, but fields from secondary will be copied to the custom attributes in the primary contact.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact"
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be kept"
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "選擇一個聯絡人"
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong>will be deleted.",
+      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -236,7 +325,7 @@
         "ERROR": "Select a child contact to merge"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contcts, try again!"
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }
 }

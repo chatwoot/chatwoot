@@ -5,6 +5,7 @@ import login from './login/login.routes';
 import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
+import { clearBrowserSessionCookies } from '../store/utils/api';
 
 const routes = [
   ...login.routes,
@@ -19,6 +20,11 @@ const routes = [
 window.roleWiseRoutes = {
   agent: [],
   administrator: [],
+};
+
+const getUserRole = ({ accounts } = {}, accountId) => {
+  const currentAccount = accounts.find(account => account.id === accountId);
+  return currentAccount ? currentAccount.role : null;
 };
 
 // generateRoleWiseRoute - updates window object with agent/admin route
@@ -57,7 +63,10 @@ const routeValidators = [
   {
     protected: false,
     loggedIn: true,
-    handler: () => 'dashboard',
+    handler: () => {
+      const user = auth.getCurrentUser();
+      return `accounts/${user.account_id}/dashboard`;
+    },
   },
   {
     protected: true,
@@ -69,8 +78,9 @@ const routeValidators = [
     loggedIn: true,
     handler: to => {
       const user = auth.getCurrentUser();
-      const isAccessible = routeIsAccessibleFor(to, user.role);
-      return isAccessible ? null : 'dashboard';
+      const userRole = getUserRole(user, Number(to.params.accountId));
+      const isAccessible = routeIsAccessibleFor(to.name, userRole);
+      return isAccessible ? null : `accounts/${to.params.accountId}/dashboard`;
     },
   },
   {
@@ -88,8 +98,15 @@ export const validateAuthenticateRoutePermission = (to, from, next) => {
       validator.protected === isProtectedRoute &&
       validator.loggedIn === isLoggedIn
   );
-  const nextRoute = strategy.handler(to.name);
+  const nextRoute = strategy.handler(to);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
+};
+
+const validateSSOLoginParams = to => {
+  const isLoginRoute = to.name === 'login';
+  const { email, sso_auth_token: ssoAuthToken } = to.query || {};
+  const hasValidSSOParams = email && ssoAuthToken;
+  return isLoginRoute && hasValidSSOParams;
 };
 
 const validateRouteAccess = (to, from, next) => {
@@ -100,6 +117,11 @@ const validateRouteAccess = (to, from, next) => {
   ) {
     const user = auth.getCurrentUser();
     next(frontendURL(`accounts/${user.account_id}/dashboard`));
+  }
+
+  if (validateSSOLoginParams(to)) {
+    clearBrowserSessionCookies();
+    return next();
   }
 
   if (authIgnoreRoutes.includes(to.name)) {

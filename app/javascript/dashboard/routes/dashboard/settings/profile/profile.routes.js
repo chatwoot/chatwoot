@@ -11,7 +11,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'ion-compose',
+        icon: 'edit',
         showNewButton: false,
       },
       children: [

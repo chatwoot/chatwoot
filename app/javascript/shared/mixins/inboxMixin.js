@@ -8,6 +8,7 @@ export const INBOX_TYPES = {
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
+  SMS: 'Channel::Sms',
 };
 
 export default {
@@ -43,6 +44,9 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'sms';
     },
+    isASmsInbox() {
+      return this.channelType === INBOX_TYPES.SMS || this.isATwilioSMSChannel;
+    },
     isATwilioWhatsappChannel() {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';
@@ -64,16 +68,17 @@ export default {
       return this.chatAdditionalAttributes.type || 'facebook';
     },
     inboxBadge() {
+      let badgeKey = '';
       if (this.isATwitterInbox) {
-        return this.twitterBadge;
+        badgeKey = this.twitterBadge;
+      } else if (this.isAFacebookInbox) {
+        badgeKey = this.facebookBadge;
+      } else if (this.isATwilioChannel) {
+        badgeKey = this.twilioBadge;
+      } else if (this.isAWhatsappChannel) {
+        badgeKey = 'whatsapp';
       }
-      if (this.isAFacebookInbox) {
-        return this.facebookBadge;
-      }
-      if (this.isATwilioChannel) {
-        return this.twilioBadge;
-      }
-      return this.channelType;
+      return badgeKey || this.channelType;
     },
     isAWhatsappChannel() {
       return (

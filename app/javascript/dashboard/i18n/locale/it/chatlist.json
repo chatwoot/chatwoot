@@ -1,30 +1,32 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Recupero conversazioni",
+    "LOADING": "Recupero delle conversazioni",
     "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
     "EOF": "Tutte le conversazioni caricate 🎉",
     "LIST": {
       "404": "Non ci sono conversazioni attive in questo gruppo."
     },
     "TAB_HEADING": "Conversazioni",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
+    "FILTER_ALL": "Tutti",
     "STATUS_TABS": [
       {
-        "NAME": "Apri",
-        "KEY": "openCount"
+        "NAME": "Aperte",
+        "KEY": "contaaperture"
       },
       {
         "NAME": "Risolti",
-        "KEY": "allConvCount"
+        "KEY": "Conteggio"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Miniera",
+        "NAME": "Mie",
         "KEY": "Io",
-        "COUNT_KEY": "mineCount"
+        "COUNT_KEY": "contaMinore"
       },
       {
         "NAME": "Non assegnato",
@@ -37,54 +39,47 @@
         "COUNT_KEY": "allCount"
       }
     ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Apri",
-        "VALUE": "open"
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Aperte"
       },
-      {
-        "TEXT": "Risolti",
-        "VALUE": "resolved"
+      "resolved": {
+        "TEXT": "Risolti"
       },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
+      "pending": {
+        "TEXT": "In sospeso"
       },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
+      "snoozed": {
+        "TEXT": "Posticipato"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Messaggio immagine"
       },
       "audio": {
-        "ICON": "-quantità-alto",
         "CONTENT": "Messaggio audio"
       },
       "video": {
-        "ICON": "videocam",
         "CONTENT": "Messaggio video"
       },
       "file": {
-        "ICON": "e-documento",
-        "CONTENT": "File Allegato"
+        "CONTENT": "File allegato"
       },
       "location": {
-        "ICON": "Posizione-ios",
-        "CONTENT": "Localizzazione"
+        "CONTENT": "Posizione"
       },
       "fallback": {
-        "ICON": "e-link",
         "CONTENT": "ha condiviso un url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available"
+    "RECEIVED_VIA_EMAIL": "Ricevuto via email",
+    "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
+    "REPLY_TO_TWEET": "Rispondi a questo tweet",
+    "SENT": "Sent successfully",
+    "NO_MESSAGES": "Nessun messaggio",
+    "NO_CONTENT": "Nessun contenuto disponibile",
+    "HIDE_QUOTED_TEXT": "Nascondi testo citato",
+    "SHOW_QUOTED_TEXT": "Mostra testo citato"
   }
 }

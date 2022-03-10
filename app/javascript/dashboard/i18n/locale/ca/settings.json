@@ -3,6 +3,9 @@
     "LINK": "Configuració del Perfil",
     "TITLE": "Configuració del Perfil",
     "BTN_TEXT": "Actualització del Perfil",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "La teva contrasenya ha estat canviada correctament",
     "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Perfil",
         "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contrasenya",
@@ -86,20 +101,21 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Contrasenya",
+        "LABEL": "New password",
         "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
         "PLACEHOLDER": "Introduïu una nova contrasenya"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmació de la nova contrasenya",
         "ERROR": "Confirmeu que les contrasenyes coincideixin",
-        "PLACEHOLDER": "Torneu a introduir la vostra contrasenya"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Canvia",
     "CHANGE_ACCOUNTS": "Canvia de compte",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Selecciona un compte de la llista següent",
     "PROFILE_SETTINGS": "Configuració del Perfil",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -107,7 +123,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dies de prova restants.",
-    "TRAIL_BUTTON": "Compra ara"
+    "TRAIL_BUTTON": "Compra ara",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +147,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Converses",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
@@ -139,18 +158,30 @@
     "NOTIFICATIONS": "Notificacions",
     "CANNED_RESPONSES": "Respostes predeterminades",
     "INTEGRATIONS": "Integracions",
+    "PROFILE_SETTINGS": "Configuració del Perfil",
     "ACCOUNT_SETTINGS": "Configuració del compte",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiquetes",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+    "AUTOMATION": "Automation",
     "TEAMS": "Equips",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "Agents",
+    "REPORTS_LABEL": "Etiquetes",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

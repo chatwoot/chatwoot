@@ -1,16 +1,17 @@
 {
   "CONVERSATION": {
     "404": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
+    "UNVERIFIED_SESSION": "هویت این کاربر تایید نشده است",
     "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
     "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
     "NO_INBOX_1": "سلام! به نظر می‌رسد هنوز صندوق ورودی اضافه نکرده‌اید.",
     "NO_INBOX_2": " برای شروع",
     "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
-    "SEARCH_MESSAGES": "پیامها را در مکالمات جستجو کنید",
+    "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
     "SEARCH": {
       "TITLE": "جستجو پیام‌ها",
       "RESULT_TITLE": "نتایج جستجو",
-      "LOADING_MESSAGE": "درحال پردازش داده...",
+      "LOADING_MESSAGE": "درحال پردازش اطلاعات...",
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
       "NO_MATCHING_RESULTS": "نتیجه‌ای یافت نشد."
     },
@@ -21,9 +22,11 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
+    "ASSIGN_TO_ME": "اختصاص به من",
     "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
-    "SELECT_A_TWEET_TO_REPLY": "لطفاً برای پاسخ دادن ، یک توییت را انتخاب کنید.",
+    "SELECT_A_TWEET_TO_REPLY": "لطفا برای پاسخ دادن، یک توییت را انتخاب کنید.",
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
@@ -39,7 +42,10 @@
       "OPEN_ACTION": "باز",
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
-      "DETAILS": "جزئیات"
+      "DETAILS": "جزئیات",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
@@ -51,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
       "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود"
     },
@@ -84,7 +93,11 @@
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
     "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+    "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
+    "BOT": "ربات",
+    "SEND_FAILED": "پیام ارسال نشد! دوباره امتحان کنید",
+    "TRY_AGAIN": "دوباره امتحان کنید",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",
       "REMOVE": "حذف",
@@ -144,15 +157,37 @@
       "PLACEHOLDER": "هیچکدام"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "اطلاعات تماس",
+      "CONVERSATION_ACTIONS": "عملیات مکالمات",
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "اطلاعات مکالمه",
+      "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
       "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "ایجاد ویژگی",
+    "UPDATE": {
+      "SUCCESS": "ویژگی با موفقیت به روز شد",
+      "ERROR": "امکان به روزرسانی ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "ADD": {
+      "TITLE": "افزودن",
+      "SUCCESS": "ویژگی با موفقیت اضافه شد",
+      "ERROR": "امکان افزودن ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "DELETE": {
+      "SUCCESS": "ویژگی با موفقیت حذف شد",
+      "ERROR": "امکان حذف ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "افزودن ویژگی‌ها",
+      "PLACEHOLDER": "جستجو ویژگی ها",
+      "NO_RESULT": "هیچ ویژگی یافت نشد"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "از",
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",

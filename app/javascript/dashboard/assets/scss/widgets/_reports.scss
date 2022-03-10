@@ -21,10 +21,7 @@
   border: 1px solid var(--color-border);
 }
 
-.margin-right-small {
-  margin-right: var(--space-small);
-}
-
-.display-flex {
+.reports-option__wrap {
+  align-items: center;
   display: flex;
 }

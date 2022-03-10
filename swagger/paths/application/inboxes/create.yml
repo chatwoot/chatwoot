@@ -16,7 +16,8 @@ post:
             type: string
             description: The name of the inbox
           avatar:
-            type: file
+            type: string
+            format: binary
             description: File for avatar image
           channel:
             type: object

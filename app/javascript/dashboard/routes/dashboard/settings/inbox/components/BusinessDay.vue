@@ -4,7 +4,7 @@
       <input
         v-model="isDayEnabled"
         name="enable-day"
-        class="enable-day"
+        class="enable-checkbox"
         type="checkbox"
         :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
       />
@@ -14,26 +14,38 @@
     </div>
     <div v-if="isDayEnabled" class="hours-select-wrap">
       <div class="hours-range">
+        <div class="checkbox-wrap open-all-day">
+          <input
+            v-model="isOpenAllDay"
+            name="enable-open-all-day"
+            class="enable-checkbox"
+            type="checkbox"
+            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
+          />
+          <span>{{ $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY') }}</span>
+        </div>
         <multiselect
           v-model="fromTime"
-          :options="timeSlots"
+          :options="fromTimeSlots"
           deselect-label=""
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
+          :disabled="isOpenAllDay"
         />
         <div class="separator-icon">
-          <i class="ion-minus-round" />
+          <fluent-icon icon="subtract" type="solid" size="16" />
         </div>
         <multiselect
           v-model="toTime"
-          :options="timeSlots"
+          :options="toTimeSlots"
           deselect-label=""
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
+          :disabled="isOpenAllDay"
         />
       </div>
       <div v-if="hasError" class="date-error">
@@ -79,8 +91,13 @@ export default {
     },
   },
   computed: {
-    timeSlots() {
+    fromTimeSlots() {
       return timeSlots;
+    },
+    toTimeSlots() {
+      return timeSlots.filter(slot => {
+        return slot !== '12:00 AM';
+      });
     },
     isDayEnabled: {
       get() {
@@ -93,12 +110,14 @@ export default {
               from: timeSlots[0],
               to: timeSlots[16],
               valid: true,
+              openAllDay: false,
             }
           : {
               ...this.timeSlot,
               from: '',
               to: '',
               valid: false,
+              openAllDay: false,
             };
         this.$emit('update', newSlot);
       },
@@ -146,14 +165,38 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
-      if (this.toTime === '12:00 AM') {
-        return 24 + totalHours;
+      if (this.timeSlot.openAllDay) {
+        return 24;
       }
+      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
       return totalHours;
     },
     hasError() {
       return !this.timeSlot.valid;
+    },
+    isOpenAllDay: {
+      get() {
+        return this.timeSlot.openAllDay;
+      },
+      set(value) {
+        if (value) {
+          this.$emit('update', {
+            ...this.timeSlot,
+            from: '12:00 AM',
+            to: '11:59 PM',
+            valid: true,
+            openAllDay: value,
+          });
+        } else {
+          this.$emit('update', {
+            ...this.timeSlot,
+            from: '09:00 AM',
+            to: '05:00 PM',
+            valid: true,
+            openAllDay: value,
+          });
+        }
+      },
     },
   },
 };
@@ -182,7 +225,7 @@ export default {
   box-sizing: content-box;
   border-bottom: 1px solid var(--color-border-light);
 }
-.enable-day {
+.enable-checkbox {
   margin: 0;
 }
 
@@ -239,5 +282,18 @@ export default {
 .error {
   font-size: var(--font-size-mini);
   color: var(--r-300);
+}
+
+.open-all-day {
+  margin-right: var(--space-medium);
+  span {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    margin-left: var(--space-smaller);
+  }
+  input {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+  }
 }
 </style>

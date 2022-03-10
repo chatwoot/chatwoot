@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Pilih percakapan dari panel kiri",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
     "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
     "NO_INBOX_1": "Halo! Sepertinya Anda belum menambahkan kotak masuk apa pun.",
@@ -21,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -39,7 +42,10 @@
       "OPEN_ACTION": "Terbuka",
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
-      "DETAILS": "detail"
+      "DETAILS": "detail",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -51,6 +57,9 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen"
     },
@@ -84,7 +93,11 @@
     "CHANGE_AGENT": "Petugas Percakapan berubah",
     "CHANGE_TEAM": "Tim percakapan berubah",
     "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Dikirim oleh:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",
       "REMOVE": "Hapus",
@@ -122,7 +135,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Undang anggota tim Anda",
-      "DESCRIPTION": "Saat Anda bersiap untuk berbicara dengan pelanggan Anda, bawa rekan satu tim untuk membantu Anda. Anda dapat mengundang rekan tim Anda dengan menambahkan alamat email mereka ke daftar agen.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Klik di sini untuk mengundang anggota tim"
     },
     "INBOXES": {
@@ -152,7 +165,29 @@
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Atribut berhasil diperbarui",
+      "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti"
+    },
+    "ADD": {
+      "TITLE": "Tambah",
+      "SUCCESS": "Atribut berhasil ditambahkan",
+      "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
+    },
+    "DELETE": {
+      "SUCCESS": "Atribut berhasil dihapus",
+      "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Tambahkan atribut",
+      "PLACEHOLDER": "Cari atribut",
+      "NO_RESULT": "Tidak ditemukan atribut"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Ke",
     "BCC": "Bcc",
     "CC": "Cc",

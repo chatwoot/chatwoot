@@ -3,6 +3,9 @@
     "LINK": "Profilinställningar",
     "TITLE": "Profilinställningar",
     "BTN_TEXT": "Uppdatera profil",
+    "DELETE_AVATAR": "Ta bort Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats. Vänligen logga in på nytt eftersom dina inloggningsuppgifter har ändrats",
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Profil",
         "NOTE": "Din e-postadress är din identitet och används för att logga in."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Lösenord",
@@ -86,20 +101,21 @@
         "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
-        "LABEL": "Lösenord",
+        "LABEL": "New password",
         "ERROR": "Ange ett lösenord med minst 6 tecken",
         "PLACEHOLDER": "Ange ett nytt lösenord"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekräfta nytt lösenord",
         "ERROR": "Bekräfta lösenord måste matcha lösenordet",
-        "PLACEHOLDER": "Ange ditt lösenord igen"
+        "PLACEHOLDER": "Please re-enter your new password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ändra",
     "CHANGE_ACCOUNTS": "Byt konto",
+    "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Välj ett konto från följande lista",
     "PROFILE_SETTINGS": "Profilinställningar",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -107,7 +123,8 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dagars provperiod återstår.",
-    "TRAIL_BUTTON": "Köp nu"
+    "TRAIL_BUTTON": "Köp nu",
+    "DELETED_USER": "Deleted User"
   },
   "COMPONENTS": {
     "CODE": {
@@ -130,6 +147,8 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Konversationer",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Rapporter",
     "SETTINGS": "Inställningar",
     "CONTACTS": "Kontakter",
@@ -139,18 +158,30 @@
     "NOTIFICATIONS": "Aviseringar",
     "CANNED_RESPONSES": "Svarsmallar",
     "INTEGRATIONS": "Integrationer",
+    "PROFILE_SETTINGS": "Profilinställningar",
     "ACCOUNT_SETTINGS": "Kontoinställningar",
     "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Egna egenskaper",
+    "AUTOMATION": "Automation",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
     "REPORTS_OVERVIEW": "Overview",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "ONE_OFF": "One off",
+    "REPORTS_AGENT": "Agenter",
+    "REPORTS_LABEL": "Etiketter",
+    "REPORTS_INBOX": "Inkorg",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
