@@ -19,11 +19,6 @@
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
-    <woot-key-shortcut-modal
-      v-if="showShortcutModal"
-      @close="closeKeyShortcutModal"
-      @clickaway="closeKeyShortcutModal"
-    />
     <account-selector
       :show-account-modal="showAccountModal"
       @close-account-modal="toggleAccountModal"
@@ -51,7 +46,6 @@ import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
 import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
-import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
   hasPressedAltAndRKey,
@@ -70,7 +64,6 @@ export default {
     AddLabelModal,
     PrimarySidebar,
     SecondarySidebar,
-    WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
   data() {
@@ -79,7 +72,6 @@ export default {
       showAccountModal: false,
       showCreateAccountModal: false,
       showAddLabelModal: false,
-      showShortcutModal: false,
     };
   },
 
@@ -162,10 +154,10 @@ export default {
       }
     },
     toggleKeyShortcutModal() {
-      this.showShortcutModal = true;
+      this.$emit('key-shortcut-modal');
     },
     closeKeyShortcutModal() {
-      this.showShortcutModal = false;
+      this.$emit('key-shortcut-modal-close');
     },
     handleKeyEvents(e) {
       if (hasPressedCommandAndForwardSlash(e)) {

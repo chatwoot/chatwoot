@@ -1,9 +1,19 @@
 <template>
   <div class="row app-wrapper">
-    <sidebar :route="currentRoute" :class="sidebarClassName"></sidebar>
+    <sidebar
+      :route="currentRoute"
+      :class="sidebarClassName"
+      @key-shortcut-modal="toggleKeyShortcutModal"
+      @key-shortcut-modal-close="closeKeyShortcutModal"
+    ></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
       <command-bar />
+      <woot-key-shortcut-modal
+        v-if="showShortcutModal"
+        @close="closeKeyShortcutModal"
+        @clickaway="closeKeyShortcutModal"
+      />
     </section>
   </div>
 </template>
@@ -12,16 +22,19 @@
 import Sidebar from '../../components/layout/Sidebar';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 
 export default {
   components: {
     Sidebar,
     CommandBar,
+    WootKeyShortcutModal,
   },
   data() {
     return {
       isSidebarOpen: false,
       isOnDesktop: true,
+      showShortcutModal: false,
     };
   },
   computed: {
@@ -67,6 +80,12 @@ export default {
     },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    toggleKeyShortcutModal() {
+      this.showShortcutModal = true;
+    },
+    closeKeyShortcutModal() {
+      this.showShortcutModal = false;
     },
   },
 };
