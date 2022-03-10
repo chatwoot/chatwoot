@@ -51,6 +51,7 @@ hu:
       conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Az üzenet törölve lett
     activity:
       status:
