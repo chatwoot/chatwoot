@@ -37,14 +37,14 @@ describe('#MessageFormatter', () => {
       const message =
         '@chatwootapp is an opensource tool thanks @longnonexistenttwitterusername';
       expect(new MessageFormatter(message, true).formattedMessage).toMatch(
-        '<p><a rel="noreferrer nofollow noopener" href="http://twitter.com/chatwootapp" target="_blank">@chatwootapp</a> is an opensource tool thanks @longnonexistenttwitterusername</p>'
+        '<p><a href="http://twitter.com/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">@chatwootapp</a> is an opensource tool thanks @longnonexistenttwitterusername</p>'
       );
     });
 
     it('should add links to #tags', () => {
       const message = '#chatwootapp is an opensource tool';
       expect(new MessageFormatter(message, true).formattedMessage).toMatch(
-        '<p><a rel="noreferrer nofollow noopener" href="https://twitter.com/hashtag/chatwootapp" target="_blank">#chatwootapp</a> is an opensource tool</p>'
+        '<p><a href="https://twitter.com/hashtag/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">#chatwootapp</a> is an opensource tool</p>'
       );
     });
   });
@@ -55,6 +55,16 @@ describe('#MessageFormatter', () => {
         '<b>Chatwoot is an opensource tool. https://www.chatwoot.com</b>';
       expect(new MessageFormatter(message).plainText).toMatch(
         'Chatwoot is an opensource tool. https://www.chatwoot.com'
+      );
+    });
+  });
+
+  describe('#sanitize', () => {
+    it('sanitizes markup and removes all unnecessary elements', () => {
+      const message =
+        '[xssLink](javascript:alert(document.cookie))\n[normalLink](https://google.com)**I am a bold text paragraph**';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p><a title="" class="link" rel="noreferrer noopener nofollow" target="_blank">xssLink</a><br><a title="" class="link" href="https://google.com" rel="noreferrer noopener nofollow" target="_blank">normalLink</a><strong>I am a bold text paragraph</strong></p>'
       );
     });
   });

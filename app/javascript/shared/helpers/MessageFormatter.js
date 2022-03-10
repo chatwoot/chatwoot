@@ -47,14 +47,16 @@ class MessageFormatter {
       const markedDownOutput = marked(withHash);
       return markedDownOutput;
     }
-    return marked(this.message, { breaks: true, gfm: true });
-  }
-
-  get formattedMessage() {
     DOMPurify.addHook('afterSanitizeAttributes', node => {
       if ('target' in node) node.setAttribute('target', '_blank');
     });
-    return DOMPurify.sanitize(this.formatMessage());
+    return DOMPurify.sanitize(
+      marked(this.message, { breaks: true, gfm: true })
+    );
+  }
+
+  get formattedMessage() {
+    return this.formatMessage();
   }
 
   get plainText() {
