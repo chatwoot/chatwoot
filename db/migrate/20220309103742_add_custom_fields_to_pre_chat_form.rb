@@ -1,8 +1,7 @@
 class AddCustomFieldsToPreChatForm < ActiveRecord::Migration[6.1]
   def change
-    Channel::WebWidget.find_in_batches do |inboxes_batch|
-      inboxes_batch.each do |inbox|
-        channel = inbox.channel
+    Channel::WebWidget.find_in_batches do |channels_batch|
+      channels_batch.each do |channel|
         pre_chat_message = channel[:pre_chat_form_options]['pre_chat_message'] || 'Share your queries or comments here.'
         pre_chat_fields = pre_chat_fields?(channel)
         channel[:pre_chat_form_options] = {
