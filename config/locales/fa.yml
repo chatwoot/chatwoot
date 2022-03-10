@@ -51,6 +51,7 @@ fa:
       conversation_mention: "نام شما در مکالمه [ID -%{display_id}] توسط %{name} ذکر شده است"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
       deleted: این پیام حذف شد
     activity:
       status:
