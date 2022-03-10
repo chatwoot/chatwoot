@@ -253,7 +253,7 @@ export default {
           this.$store.dispatch('contacts/get', requestParams);
         } else {
           this.$store.dispatch('contacts/search', {
-            search: value,
+            search: encodeURIComponent(value),
             ...requestParams,
           });
         }
