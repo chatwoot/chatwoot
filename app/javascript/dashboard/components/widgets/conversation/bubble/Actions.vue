@@ -84,6 +84,10 @@ export default {
       type: String,
       default: '',
     },
+    storyId: {
+      type: String,
+      default: '',
+    },
     isEmail: {
       type: Boolean,
       default: true,
@@ -141,11 +145,11 @@ export default {
         this.inbox.name}/status/${sourceId}`;
     },
     linkToStory() {
-      if (!this.sourceId || !this.senderId) {
+      if (!this.storyId || !this.storySender) {
         return '';
       }
-      const { storySender, sourceId } = this;
-      return `https://www.instagram.com/stories/${storySender}/${sourceId}`;
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showSentIndicator() {
       return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
