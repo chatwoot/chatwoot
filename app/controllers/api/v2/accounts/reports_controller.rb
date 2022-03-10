@@ -45,8 +45,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: params[:current_since],
-      until: params[:current_until],
+      since: params[:since],
+      until: params[:until],
       group_by: params[:group_by]
     }
   end
@@ -55,8 +55,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: params[:previous_since],
-      until: params[:previous_until],
+      since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
+      until: params[:since],
       group_by: params[:group_by]
     }
   end
@@ -74,9 +74,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def summary_metrics
-    {
-      current: V2::ReportBuilder.new(Current.account, current_summary_params).summary,
-      previous: V2::ReportBuilder.new(Current.account, previous_summary_params).summary
-    }
+    summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
+    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
+    summary
   end
 end

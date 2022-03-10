@@ -71,7 +71,6 @@ import startOfDay from 'date-fns/startOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import { GROUP_BY_FILTER } from '../constants';
 import endOfDay from 'date-fns/endOfDay';
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 export default {
   components: {
@@ -112,52 +111,26 @@ export default {
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
-    currentDateRange() {
-      let dateRange = {
-        from: null,
-        to: null,
-      };
+    to() {
       if (this.isDateRangeSelected) {
-        dateRange.from = this.fromCustomDate(this.customDateRange[0]);
-        dateRange.to = this.toCustomDate(this.customDateRange[1]);
-      } else {
-        const fromDate = subDays(
-          new Date(),
-          this.daysRange(this.currentDateRangeSelection.id)
-        );
-
-        dateRange.from = this.fromCustomDate(fromDate);
-        dateRange.to = this.toCustomDate(new Date());
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return dateRange;
+      return this.toCustomDate(new Date());
     },
-    previousDateRange() {
-      let dateRange = {
-        from: null,
-        to: null,
-      };
+    from() {
       if (this.isDateRangeSelected) {
-        const daysCount = differenceInCalendarDays(
-          this.customDateRange[1],
-          this.customDateRange[0]
-        );
-        const fromDate = subDays(new Date(), daysCount * 2);
-        const toDate = subDays(new Date(), daysCount);
-        dateRange.from = this.fromCustomDate(fromDate);
-        dateRange.to = this.toCustomDate(toDate);
-      } else {
-        const fromDate = subDays(
-          new Date(),
-          this.daysRange(this.currentDateRangeSelection.id) * 2
-        );
-        const toDate = subDays(
-          new Date(),
-          this.daysRange(this.currentDateRangeSelection.id)
-        );
-        dateRange.from = this.fromCustomDate(fromDate);
-        dateRange.to = this.toCustomDate(toDate);
+        return this.fromCustomDate(this.customDateRange[0]);
       }
-      return dateRange;
+      const dateRange = {
+        0: 6,
+        1: 29,
+        2: 89,
+        3: 179,
+        4: 364,
+      };
+      const diff = dateRange[this.currentDateRangeSelection.id];
+      const fromDate = subDays(new Date(), diff);
+      return this.fromCustomDate(fromDate);
     },
     groupBy() {
       if (this.isDateRangeSelected) {
@@ -187,8 +160,8 @@ export default {
   methods: {
     onDateRangeChange() {
       this.$emit('date-range-change', {
-        currentDateRange: this.currentDateRange,
-        previousDateRange: this.previousDateRange,
+        from: this.from,
+        to: this.to,
         groupBy: this.groupBy,
       });
     },
@@ -208,16 +181,6 @@ export default {
     },
     changeFilterSelection() {
       this.$emit('filter-change', this.currentSelectedFilter);
-    },
-    daysRange(currentDateRangeId) {
-      const dateRange = {
-        0: 6,
-        1: 29,
-        2: 89,
-        3: 179,
-        4: 364,
-      };
-      return dateRange[currentDateRangeId];
     },
     handleAgentsFilterSelection() {
       this.$emit('agents-filter-change', this.selectedAgents);
