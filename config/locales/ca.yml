@@ -51,6 +51,7 @@ ca:
       conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Aquest missatge a sigut eliminat
     activity:
       status:
