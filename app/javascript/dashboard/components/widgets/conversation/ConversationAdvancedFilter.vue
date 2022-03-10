@@ -141,6 +141,12 @@ export default {
       switch (key) {
         case 'date':
           return 'date';
+        case 'text':
+          return 'plain_text';
+        case 'list':
+          return 'search_select';
+        case 'checkbox':
+          return 'search_select';
         default:
           return 'plain_text';
       }
@@ -159,6 +165,47 @@ export default {
     },
     getDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const allCustomAttributes = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ](this.attributeModel);
+
+      const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
+        return (
+          attr.attribute_key === type &&
+          attr.attribute_display_type === 'checkbox'
+        );
+      });
+
+      if (isCustomAttributeCheckbox) {
+        return [
+          {
+            id: true,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+          },
+          {
+            id: false,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+          },
+        ];
+      }
+
+      const isCustomAttributeList = allCustomAttributes.find(attr => {
+        return (
+          attr.attribute_key === type && attr.attribute_display_type === 'list'
+        );
+      });
+
+      if (isCustomAttributeList) {
+        return allCustomAttributes
+          .find(attr => attr.attribute_key === type)
+          .attribute_values.map(item => {
+            return {
+              id: item,
+              name: item,
+            };
+          });
+      }
+
       switch (type) {
         case 'status':
           return [
