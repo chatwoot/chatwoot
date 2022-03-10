@@ -51,6 +51,7 @@ vi:
       conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Tin nhắn đã bị xoá
     activity:
       status:
