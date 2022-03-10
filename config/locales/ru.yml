@@ -51,6 +51,7 @@ ru:
       conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Это сообщение было удалено
     activity:
       status:
