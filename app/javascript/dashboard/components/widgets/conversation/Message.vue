@@ -217,10 +217,10 @@ export default {
       return this.data.sender || {};
     },
     storySender() {
-      return this.contentAttributes.story_sender || {};
+      return this.contentAttributes.story_sender || null;
     },
     storyId() {
-      return this.contentAttributes.story_id || {};
+      return this.contentAttributes.story_id || null;
     },
     contentType() {
       const {
