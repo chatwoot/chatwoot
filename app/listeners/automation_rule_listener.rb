@@ -45,7 +45,8 @@ class AutomationRuleListener < BaseListener
 
     @rules = AutomationRule.where(
       event_name: event_name,
-      account_id: conversation.account_id
+      account_id: conversation.account_id,
+      active: true
     )
     @rules.any?
   end
