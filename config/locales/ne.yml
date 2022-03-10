@@ -51,6 +51,7 @@ ne:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: This message was deleted
     activity:
       status:
