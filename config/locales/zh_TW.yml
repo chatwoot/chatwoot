@@ -51,6 +51,7 @@ zh_TW:
       conversation_mention: "你在對話 %{name} 的 [ID - %{display_id}] 中被提及"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: 訊息已被刪除
     activity:
       status:
