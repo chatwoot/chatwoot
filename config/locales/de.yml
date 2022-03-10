@@ -51,6 +51,7 @@ de:
       conversation_mention: "Sie wurden in dem Gespräch [ID - %{display_id}] von %{name} erwähnt"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:
