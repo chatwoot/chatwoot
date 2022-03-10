@@ -81,12 +81,12 @@ export default {
       default: '',
     },
     storySender: {
-      type: Object,
-      default: () => ({}),
+      type: String,
+      default: '',
     },
     storyId: {
-      type: Object,
-      default: () => ({}),
+      type: String,
+      default: '',
     },
     isEmail: {
       type: Boolean,
