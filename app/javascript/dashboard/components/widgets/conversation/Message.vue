@@ -51,6 +51,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
+          :story-id="storyId"
           :is-a-tweet="isATweet"
           :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
@@ -217,6 +218,9 @@ export default {
     },
     storySender() {
       return this.contentAttributes.story_sender || {};
+    },
+    storyId() {
+      return this.contentAttributes.story_id || {};
     },
     contentType() {
       const {

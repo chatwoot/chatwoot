@@ -43,7 +43,7 @@
     >
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
-        icon="arrow-reply"
+        icon="open"
         class="action--icon cursor-pointer"
         size="16"
       />
@@ -81,6 +81,10 @@ export default {
       default: '',
     },
     storySender: {
+      type: String,
+      default: '',
+    },
+    storyId: {
       type: String,
       default: '',
     },
@@ -141,11 +145,11 @@ export default {
         this.inbox.name}/status/${sourceId}`;
     },
     linkToStory() {
-      if (!this.sourceId || !this.senderId) {
+      if (!this.storyId || !this.storySender) {
         return '';
       }
-      const { storySender, sourceId } = this;
-      return `https://www.instagram.com/stories/${storySender}/${sourceId}`;
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showSentIndicator() {
       return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
