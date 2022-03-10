@@ -51,6 +51,7 @@ pt_BR:
       conversation_mention: "Você foi mencionado na conversa [ID - %{display_id}] por %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Esta mensagem foi apagada
     activity:
       status:
