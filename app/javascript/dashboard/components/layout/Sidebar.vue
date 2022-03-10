@@ -154,10 +154,10 @@ export default {
       }
     },
     toggleKeyShortcutModal() {
-      this.$emit('key-shortcut-modal');
+      this.$emit('open-key-shortcut-modal');
     },
     closeKeyShortcutModal() {
-      this.$emit('key-shortcut-modal-close');
+      this.$emit('close-key-shortcut-modal');
     },
     handleKeyEvents(e) {
       if (hasPressedCommandAndForwardSlash(e)) {

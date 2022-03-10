@@ -3,8 +3,8 @@
     <sidebar
       :route="currentRoute"
       :class="sidebarClassName"
-      @key-shortcut-modal="toggleKeyShortcutModal"
-      @key-shortcut-modal-close="closeKeyShortcutModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
     ></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
