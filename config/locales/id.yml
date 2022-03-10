@@ -51,6 +51,7 @@ id:
       conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Pesan ini telah terhapus
     activity:
       status:
