@@ -21,8 +21,8 @@
   }
 
   .metric-wrap {
-    display: flex;
     align-items: baseline;
+    display: flex;
   }
 
   .metric {
@@ -30,13 +30,16 @@
     font-weight: $font-weight-feather;
     margin-top: $space-smaller;
   }
+
   .metric-trend {
     font-size: $font-size-small;
     margin-left: $space-small;
   }
+
   .metric-up {
     color: $success-color;
   }
+
   .metric-down {
     color: $alert-color;
   }
