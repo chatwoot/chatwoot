@@ -62,6 +62,18 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isAWebWidgetInbox).toBe(true);
   });
 
+  it('isASmsInbox returns true if channel type is sms', () => {
+    const Component = {
+      render() {},
+      mixins: [inboxMixin],
+      data() {
+        return { inbox: { channel_type: 'Channel::Sms' } };
+      },
+    };
+    const wrapper = shallowMount(Component);
+    expect(wrapper.vm.isASmsInbox).toBe(true);
+  });
+
   it('isATwilioChannel returns true if channel type is Twilio', () => {
     const Component = {
       render() {},
@@ -94,6 +106,7 @@ describe('inboxMixin', () => {
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.isATwilioChannel).toBe(true);
     expect(wrapper.vm.isATwilioSMSChannel).toBe(true);
+    expect(wrapper.vm.isASmsInbox).toBe(true);
   });
 
   it('isATwilioWhatsappChannel returns true if channel type is Twilio and medium is whatsapp', () => {

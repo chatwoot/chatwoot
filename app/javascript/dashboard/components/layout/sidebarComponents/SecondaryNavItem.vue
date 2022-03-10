@@ -20,7 +20,8 @@
         data-view-component="true"
         label="Beta"
         class="beta"
-        >Beta
+      >
+        {{ $t('SIDEBAR.BETA') }}
       </span>
     </router-link>
 
@@ -233,7 +234,7 @@ export default {
   padding-left: var(--space-smaller) !important;
   margin-left: var(--space-half) !important;
   display: inline-block;
-  font-size: var(--font-size-mini);
+  font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
   line-height: 18px;
   border: 1px solid transparent;
