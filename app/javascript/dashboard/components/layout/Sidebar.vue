@@ -19,9 +19,6 @@
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
-    <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-      <add-label-modal @close="hideAddLabelPopup" />
-    </woot-modal>
   </aside>
 </template>
 
@@ -32,7 +29,6 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
 import {
@@ -48,7 +44,6 @@ import router from '../../routes';
 
 export default {
   components: {
-    AddLabelModal,
     PrimarySidebar,
     SecondarySidebar,
   },
@@ -56,7 +51,6 @@ export default {
   data() {
     return {
       showOptionsMenu: false,
-      showAddLabelModal: false,
     };
   },
 
@@ -180,10 +174,7 @@ export default {
       this.$emit('toggle-account-modal');
     },
     showAddLabelPopup() {
-      this.showAddLabelModal = true;
-    },
-    hideAddLabelPopup() {
-      this.showAddLabelModal = false;
+      this.$emit('show-add-label-popup');
     },
   },
 };

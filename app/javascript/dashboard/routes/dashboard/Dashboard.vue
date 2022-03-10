@@ -6,6 +6,7 @@
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
+      @show-add-label-popup="showAddLabelPopup"
     ></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
@@ -24,6 +25,9 @@
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
+      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
+        <add-label-modal @close="hideAddLabelPopup" />
+      </woot-modal>
     </section>
   </div>
 </template>
@@ -35,6 +39,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 
 export default {
   components: {
@@ -43,6 +48,7 @@ export default {
     WootKeyShortcutModal,
     AddAccountModal,
     AccountSelector,
+    AddLabelModal,
   },
   data() {
     return {
@@ -50,6 +56,7 @@ export default {
       isOnDesktop: true,
       showAccountModal: false,
       showCreateAccountModal: false,
+      showAddLabelModal: false,
       showShortcutModal: false,
     };
   },
@@ -112,6 +119,12 @@ export default {
     },
     closeKeyShortcutModal() {
       this.showShortcutModal = false;
+    },
+    showAddLabelPopup() {
+      this.showAddLabelModal = true;
+    },
+    hideAddLabelPopup() {
+      this.showAddLabelModal = false;
     },
   },
 };
