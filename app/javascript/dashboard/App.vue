@@ -1,4 +1,3 @@
-
 <template>
   <div id="app" class="app-wrapper app-root">
     <update-banner
