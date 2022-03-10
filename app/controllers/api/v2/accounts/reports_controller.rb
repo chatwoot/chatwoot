@@ -45,8 +45,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: params[:since],
-      until: params[:until],
+      since: range[:current][:since],
+      until: range[:current][:until],
       group_by: params[:group_by]
     }
   end
@@ -55,8 +55,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
-      until: params[:since],
+      since: range[:previous][:since],
+      until: range[:previous][:until],
       group_by: params[:group_by]
     }
   end
@@ -70,6 +70,19 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       id: params[:id],
       group_by: params[:group_by],
       timezone_offset: params[:timezone_offset]
+    }
+  end
+
+  def range
+    {
+      current: {
+        since: params[:since],
+        until: params[:until]
+      },
+      previous: {
+        since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
+        until: params[:since]
+      }
     }
   end
 

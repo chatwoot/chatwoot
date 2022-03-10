@@ -56,7 +56,7 @@ import ReportFilters from './ReportFilters';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { GROUP_BY_FILTER } from '../constants';
-import { formatTime } from '@chatwoot/utils';
+import reportMixin from '../../../../../mixins/reportMixin';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -70,6 +70,7 @@ export default {
   components: {
     ReportFilters,
   },
+  mixins: [reportMixin],
   props: {
     type: {
       type: String,
@@ -168,30 +169,6 @@ export default {
         KEY: REPORTS_KEYS[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
       }));
-    },
-    calculateTrend() {
-      return metric_key => {
-        if (this.accountSummary.previous[metric_key] === 0) {
-          return 0;
-        }
-        return Math.round(
-          ((this.accountSummary[metric_key] -
-            this.accountSummary.previous[metric_key]) /
-            this.accountSummary.previous[metric_key]) *
-            100
-        );
-      };
-    },
-    displayMetric() {
-      return metric_key => {
-        if (metric_key === 'avg_first_response_time') {
-          return formatTime(this.accountSummary[metric_key]);
-        }
-        if (metric_key === 'avg_resolution_time') {
-          return formatTime(this.accountSummary[metric_key]);
-        }
-        return this.accountSummary[metric_key];
-      };
     },
   },
   mounted() {
