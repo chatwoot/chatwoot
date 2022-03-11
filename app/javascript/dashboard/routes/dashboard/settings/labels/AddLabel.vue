@@ -76,7 +76,11 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
+      labels: 'labels/getLabels',
     }),
+    hasSameLabel() {
+      return this.labels.find(label => label.title === this.title);
+    },
   },
   mounted() {
     this.color = this.getRandomColor();
@@ -94,20 +98,24 @@ export default {
       return color;
     },
     addLabel() {
-      this.$store
-        .dispatch('labels/create', {
-          color: this.color,
-          description: this.description,
-          title: this.title,
-          show_on_sidebar: this.showOnSidebar,
-        })
-        .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
-          this.onClose();
-        })
-        .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE'));
-        });
+      if (this.hasSameLabel) {
+        this.showAlert(this.$t('LABEL_MGMT.ADD.API.NAME_EXISTS'));
+      } else {
+        this.$store
+          .dispatch('labels/create', {
+            color: this.color,
+            description: this.description,
+            title: this.title,
+            show_on_sidebar: this.showOnSidebar,
+          })
+          .then(() => {
+            this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
+            this.onClose();
+          })
+          .catch(() => {
+            this.showAlert(this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE'));
+          });
+      }
     },
   },
 };
