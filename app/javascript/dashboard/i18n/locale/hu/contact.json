@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Törlés megerősítése",
       "MESSAGE": "Biztos abban, hogy törli ",
-      "PLACE_HOLDER": "Kérlek gépeld be, hogy {contactName} a megerősítéshez",
-      "YES": "Igen, Törlés ",
-      "NO": "Nem, Mégse "
+      "YES": "Igen, Törlés",
+      "NO": "Nem, Mégse"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt sikeresen törölve",
