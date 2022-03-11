@@ -51,7 +51,7 @@ el:
       conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
       deleted: Το μήνυμα διαγράφηκε
     activity:
       status:
