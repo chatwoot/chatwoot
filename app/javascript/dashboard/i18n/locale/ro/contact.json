@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmă ștergerea",
       "MESSAGE": "Sigur doriți să ștergeți ",
-      "PLACE_HOLDER": "Te rugăm să introduci {contactName} pentru a confirma",
-      "YES": "Da, șterge ",
-      "NO": "Nu, păstreaza"
+      "YES": "Da, șterge",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact șters cu succes",
