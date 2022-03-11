@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
-      "PLACE_HOLDER": "Digite {contactName} para confirmar",
-      "YES": "Sim, excluir ",
-      "NO": "Não, Mantenha "
+      "YES": "Sim, excluir",
+      "NO": "Não, Mantenha"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contato excluído com sucesso",
