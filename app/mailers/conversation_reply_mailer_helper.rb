@@ -40,6 +40,10 @@ module ConversationReplyMailerHelper
   end
 
   def email_smtp_enabled
+    @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+  end
+
+  def email_imap_enabled
     @inbox.inbox_type == 'Email' && @channel.imap_enabled
   end
 
@@ -48,6 +52,6 @@ module ConversationReplyMailerHelper
   end
 
   def email_reply_to
-    email_smtp_enabled ? @channel.smtp_email : reply_email
+    email_imap_enabled ? @channel.imap_email : reply_email
   end
 end
