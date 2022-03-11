@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar eliminación",
       "MESSAGE": "¿Está seguro de eliminar ",
-      "PLACE_HOLDER": "Por favor, escriba {contactName} para confirmar",
-      "YES": "Sí, eliminar ",
-      "NO": "No, mantenerlo "
+      "YES": "Sí, eliminar",
+      "NO": "No, mantenerlo"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
