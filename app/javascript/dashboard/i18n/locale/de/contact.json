@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
       "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
-      "PLACE_HOLDER": "Bitte {contactName} zur Bestätigung eingeben",
-      "YES": "Ja, löschen ",
-      "NO": "Nein, behalten "
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalten"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
