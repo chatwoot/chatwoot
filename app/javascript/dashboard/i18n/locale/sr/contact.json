@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Potvrdite brisanje",
       "MESSAGE": "Sigurni ste da želite izbrisati ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Da, izbriši ",
-      "NO": "Ne, zadrži "
+      "YES": "Da, izbriši",
+      "NO": "Ne, zadrži"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt je uspešno obrisan",
