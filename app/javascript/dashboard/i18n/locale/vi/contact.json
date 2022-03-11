@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
       "MESSAGE": "Bạn có muốn xoá? ",
-      "PLACE_HOLDER": "Vui lòng nhập {contactName} để xác nhận",
-      "YES": "Có, xoá ",
-      "NO": "Không, giữ "
+      "YES": "Có, Xoá",
+      "NO": "Không, giữ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
