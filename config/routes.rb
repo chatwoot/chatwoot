@@ -179,6 +179,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]

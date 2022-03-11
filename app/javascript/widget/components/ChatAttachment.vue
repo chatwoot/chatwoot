@@ -3,7 +3,7 @@
     :size="4096 * 2048"
     :accept="allowedFileTypes"
     :data="{
-      direct_upload_url: '/rails/active_storage/direct_uploads',
+      direct_upload_url: '/api/v1/widget/direct_uploads',
       direct_upload: true,
     }"
     @input-file="onFileUpload"
@@ -27,6 +27,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
+import { setHeader } from 'widget/helpers/axios';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -53,7 +54,7 @@ export default {
       return fileType.includes('image') ? 'image' : 'file';
     },
     async onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
+      if (true) {
         this.onDirectFileUpload(file);
       } else {
         this.onIndirectFileUpload(file);
@@ -66,12 +67,14 @@ export default {
       this.isUploading = true;
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+          const { websiteToken } = window.chatwootWebChannel;
           const upload = new DirectUpload(
             file.file,
-            '/rails/active_storage/direct_uploads',
-            null,
-            file.file.name
-          );
+            `/api/v1/widget/direct_uploads?website_token=${websiteToken}`, {
+            directUploadWillCreateBlobWithXHR: xhr => {
+              xhr.setRequestHeader('X-Auth-Token', window.authToken);
+            }
+          });
 
           upload.create((error, blob) => {
             if (error) {
