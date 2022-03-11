@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Silmeyi onayla",
       "MESSAGE": "Silmek istediğinize emin misiniz ?",
-      "PLACE_HOLDER": "Onaylamak için {contactName} yazınız",
-      "YES": "Evet, Sil ",
-      "NO": "Hayır, Tut"
+      "YES": "Evet, Sil",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
