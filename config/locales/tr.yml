@@ -51,7 +51,7 @@ tr:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
       deleted: Bu mesaj silinmiş
     activity:
       status:
