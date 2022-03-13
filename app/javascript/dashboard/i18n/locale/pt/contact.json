@@ -59,15 +59,15 @@
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
+    "TITLE": "Importar Contactos",
+    "DESC": "Importar contactos através de um ficheiro CSV.",
     "DOWNLOAD_LABEL": "Download a sample csv.",
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
       "CANCEL": "cancelar"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Contactos guardados com sucesso",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "DELETE_CONTACT": {
@@ -173,17 +173,17 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contatos",
+    "HEADER": "Contactos",
     "FIELDS": "Campos do contato",
     "SEARCH_BUTTON": "Procurar",
-    "SEARCH_INPUT_PLACEHOLDER": "Procurar por contatos",
+    "SEARCH_INPUT_PLACEHOLDER": "Pesquisar por contactos",
     "FILTER_CONTACTS": "Filter",
     "FILTER_CONTACTS_SAVE": "Guardar Filtro",
     "FILTER_CONTACTS_DELETE": "Apagar filtro",
     "LIST": {
-      "LOADING_MESSAGE": "A carregar contatos...",
-      "404": "Nenhum contato corresponde à sua pesquisa 🔍",
-      "NO_CONTACTS": "Não há contatos disponíveis",
+      "LOADING_MESSAGE": "A carregar contactos...",
+      "404": "Nenhum contacto corresponde à sua pesquisa 🔍",
+      "NO_CONTACTS": "Não há contactos disponíveis",
       "TABLE_HEADER": {
         "NAME": "Nome:",
         "PHONE_NUMBER": "Número de telefone",
@@ -199,7 +199,7 @@
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contatos",
+    "BACK_BUTTON": "Contactos",
     "LOADING": "Loading contact profile..."
   },
   "REMINDER": {
