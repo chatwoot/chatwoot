@@ -54,7 +54,7 @@
         "TITLE": "Do you want to save this filter?",
         "LABEL": "Name this filter",
         "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
+        "ERROR_MESSAGE": "โปรดระบุชื่อ",
         "SAVE_BUTTON": "Save filter",
         "CANCEL_BUTTON": "ยกเลิก",
         "API_FOLDERS": {
