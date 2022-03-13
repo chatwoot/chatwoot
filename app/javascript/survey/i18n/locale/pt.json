@@ -6,12 +6,12 @@
       "SUCCESS_MESSAGE": "Obrigado pela sua Avaliação"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Você tem alguma ideia que gostaria de compartilhar?",
+      "PLACEHOLDER": "O seu feedback (opcional)",
+      "BUTTON_TEXT": "Submeter feedback"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "SUCCESS_MESSAGE": "Formulário atualizado com sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     }
   },
