@@ -173,7 +173,7 @@ export default {
       return type.attributeModel;
     },
     getInputType(key, operator) {
-      if (key === 'created_at' || key === 'last_activity')
+      if (key === 'created_at' || key === 'last_activity_at')
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.inputType;

@@ -61,7 +61,7 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
-    attributeKey: 'last_activity',
+    attributeKey: 'last_activity_at',
     attributeI18nKey: 'LAST_ACTIVITY',
     inputType: 'date',
     dataType: 'text',
@@ -112,7 +112,7 @@ export const filterAttributeGroups = [
         i18nKey: 'CREATED_AT',
       },
       {
-        key: 'last_activity',
+        key: 'last_activity_at',
         i18nKey: 'LAST_ACTIVITY',
       },
     ],
