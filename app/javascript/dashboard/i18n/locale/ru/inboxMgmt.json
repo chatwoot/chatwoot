@@ -431,6 +431,11 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Предварительные формы позволяют получить информацию о пользователе, прежде чем они начнут разговор.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Включить форму сбора предварительной информации",
         "OPTIONS": {
