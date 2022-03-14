@@ -19,7 +19,7 @@ class AddCustomFieldsToPreChatForm < ActiveRecord::Migration[6.1]
       {
         'label': 'Email Id', 'name': 'emailAddress', 'type': 'email', 'required': true, 'enabled': email_enabled
       }, {
-        'label': 'Full name', 'name': 'fullName', 'type': 'text', 'required': true, 'enabled': false
+        'label': 'Full name', 'name': 'fullName', 'type': 'text', 'required': true, 'enabled': email_enabled
       }, {
         'label': 'Phone number', 'name': 'phoneNumber', 'type': 'number', 'required': true, 'enabled': false
       }
