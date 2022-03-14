@@ -43,12 +43,19 @@
       "FULL_NAME": {
         "LABEL": "Vollständiger Name",
         "PLACEHOLDER": "Bitte geben Sie Ihren vollständigen Namen ein",
-        "ERROR": "Vollständiger Name ist erforderlich"
+        "REQUIRED_ERROR": "Vollständiger Name ist erforderlich"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Adresse",
         "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-        "ERROR": "Ungültige E-Mail-Adresse"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
