@@ -43,12 +43,19 @@
       "FULL_NAME": {
         "LABEL": "الاسم الكامل",
         "PLACEHOLDER": "الرجاء إدخال اسمك الكامل",
-        "ERROR": "الاسم الكامل مطلوب"
+        "REQUIRED_ERROR": "الاسم الكامل مطلوب"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "عنوان البريد الإلكتروني",
         "PLACEHOLDER": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
-        "ERROR": "عنوان بريد إلكتروني غير صحيح"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "رقم الهاتف",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
