@@ -16,8 +16,6 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
         contact
         payload
 
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
         post api_v1_widget_direct_uploads_url,
              params: {
                website_token: web_widget.website_token,

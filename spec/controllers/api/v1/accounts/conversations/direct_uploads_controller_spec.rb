@@ -13,8 +13,6 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       it 'creates attachment message in conversation' do
         contact
 
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
         post api_v1_account_conversation_direct_uploads_path(account_id: account.id, conversation_id: conversation.display_id),
              params: {
                blob: {
