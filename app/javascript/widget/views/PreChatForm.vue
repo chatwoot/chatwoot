@@ -35,13 +35,20 @@ export default {
     },
   },
   methods: {
-    onSubmit({ fullName, emailAddress, message, activeCampaignId }) {
+    onSubmit({
+      fullName,
+      emailAddress,
+      message,
+      activeCampaignId,
+      phoneNumber,
+    }) {
       if (activeCampaignId) {
         bus.$emit('execute-campaign', activeCampaignId);
         this.$store.dispatch('contacts/update', {
           user: {
             email: emailAddress,
             name: fullName,
+            phone_number: phoneNumber,
           },
         });
       } else {
@@ -49,6 +56,7 @@ export default {
           fullName: fullName,
           emailAddress: emailAddress,
           message: message,
+          phoneNumber: phoneNumber,
         });
       }
     },
