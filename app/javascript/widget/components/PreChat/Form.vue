@@ -9,30 +9,40 @@
     >
       {{ headerMessage }}
     </div>
-    <form-input
-      v-if="areContactFieldsVisible"
-      v-model="fullName"
-      class="mt-5"
-      :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
-      type="text"
-      :error="
-        $v.fullName.$error ? $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.ERROR') : ''
-      "
-    />
-    <form-input
-      v-if="areContactFieldsVisible"
-      v-model="emailAddress"
-      class="mt-5"
-      :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.PLACEHOLDER')"
-      type="email"
-      :error="
-        $v.emailAddress.$error
-          ? $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.ERROR')
-          : ''
-      "
-    />
+    <div v-for="(item, index) in preChatFields" :key="index">
+      <form-input
+        v-if="isContactFieldVisible('fullName', item)"
+        v-model="fullName"
+        class="mt-5"
+        :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
+        :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
+        type="text"
+        :error="
+          $v.fullName && $v.fullName.$error
+            ? $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.REQUIRED_ERROR')
+            : ''
+        "
+      />
+      <form-input
+        v-if="isContactFieldVisible('emailAddress', item)"
+        v-model="emailAddress"
+        class="mt-5"
+        :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
+        :placeholder="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.PLACEHOLDER')"
+        type="email"
+        :error="$v.emailAddress && emailErrorMessage"
+      />
+      <form-input
+        v-if="isContactFieldVisible('phoneNumber', item)"
+        v-model="phoneNumber"
+        class="mt-5"
+        :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
+        :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.PLACEHOLDER')"
+        type="number"
+        :error="$v.phoneNumber && phoneNumberErrorMessage"
+      />
+    </div>
+
     <form-text-area
       v-if="!hasActiveCampaign"
       v-model="message"
@@ -61,7 +71,9 @@ import FormTextArea from '../Form/TextArea';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 export default {
@@ -75,7 +87,7 @@ export default {
   props: {
     options: {
       type: Object,
-      default: () => ({}),
+      default: () => {},
     },
     disableContactFields: {
       type: Boolean,
@@ -83,15 +95,33 @@ export default {
     },
   },
   validations() {
-    const identityValidations = {
-      fullName: {
-        required,
-      },
-      emailAddress: {
-        required,
-        email,
-      },
-    };
+    let identityValidations = {};
+    if (this.isContactFieldRequired('emailAddress')) {
+      identityValidations = {
+        ...identityValidations,
+        emailAddress: {
+          required,
+          email,
+        },
+      };
+    }
+    if (this.isContactFieldRequired('phoneNumber')) {
+      identityValidations = {
+        ...identityValidations,
+        phoneNumber: {
+          required,
+          isPhoneE164OrEmpty,
+        },
+      };
+    }
+    if (this.isContactFieldRequired('fullName')) {
+      identityValidations = {
+        ...identityValidations,
+        fullName: {
+          required,
+        },
+      };
+    }
 
     const messageValidation = {
       message: {
@@ -103,18 +133,16 @@ export default {
     if (this.hasActiveCampaign) {
       return identityValidations;
     }
-    if (this.areContactFieldsVisible) {
-      return {
-        ...identityValidations,
-        ...messageValidation,
-      };
-    }
-    return messageValidation;
+    return {
+      ...identityValidations,
+      ...messageValidation,
+    };
   },
   data() {
     return {
       fullName: '',
       emailAddress: '',
+      phoneNumber: '',
       message: '',
     };
   },
@@ -139,11 +167,48 @@ export default {
       }
       return this.options.preChatMessage;
     },
-    areContactFieldsVisible() {
-      return this.options.requireEmail && !this.disableContactFields;
+    preChatFields() {
+      return this.options.preChatFields || [];
+    },
+    emailErrorMessage() {
+      let errorMessage = '';
+      if (!this.$v.emailAddress.$error) {
+        errorMessage = '';
+      } else if (!this.$v.emailAddress.required) {
+        errorMessage = this.$t(
+          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.REQUIRED_ERROR'
+        );
+      } else if (!this.$v.emailAddress.email) {
+        errorMessage = this.$t(
+          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'
+        );
+      }
+      return errorMessage;
+    },
+    phoneNumberErrorMessage() {
+      let errorMessage = '';
+      if (!this.$v.phoneNumber.$error) {
+        errorMessage = '';
+      } else if (!this.$v.phoneNumber.required) {
+        errorMessage = this.$t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.REQUIRED_ERROR'
+        );
+      } else if (!this.$v.phoneNumber.email) {
+        errorMessage = this.$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR');
+      }
+      return errorMessage;
     },
   },
   methods: {
+    isContactFieldVisible(field, item) {
+      return (
+        item.name === field &&
+        this.preChatFields.find(option => option.name === field).enabled
+      );
+    },
+    isContactFieldRequired(field) {
+      return this.preChatFields.find(option => option.name === field).required;
+    },
     onSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -151,6 +216,7 @@ export default {
       }
       this.$emit('submit', {
         fullName: this.fullName,
+        phoneNumber: this.phoneNumber,
         emailAddress: this.emailAddress,
         message: this.message,
         activeCampaignId: this.activeCampaign.id,
