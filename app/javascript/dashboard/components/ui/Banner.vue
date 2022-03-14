@@ -1,6 +1,6 @@
 <template>
   <div class="banner" :class="bannerClasses">
-    <span>
+    <span class="banner-message">
       {{ bannerMessage }}
       <a
         v-if="hrefLink"
@@ -10,17 +10,13 @@
       >
         {{ hrefLinkText }}
       </a>
-      <a v-if="hasLink" href="link" target="_blank">
-        {{ $t('GENERAL_SETTINGS.LEARN_MORE') }}
-        <span aria-hidden="true">→</span>
-      </a>
     </span>
     <woot-button
       v-if="hasActionButton"
       size="small"
       variant="link"
       icon="arrow-right"
-      color-scheme="warning"
+      color-scheme="primary"
       class-names="banner-action__button"
       @click="onClick"
     >
@@ -30,7 +26,7 @@
       v-if="hasCloseButton"
       size="small"
       variant="link"
-      color-scheme="white"
+      color-scheme="secondary"
       icon="dismiss-circle"
       class-names="banner-action__button"
       @click="onClickClose"
@@ -70,14 +66,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasLink: {
-      type: Boolean,
-      default: false,
-    },
-    link: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     bannerClasses() {
@@ -103,11 +91,20 @@ export default {
   padding: var(--space-slab) var(--space-normal);
   justify-content: center;
   position: sticky;
+
   &.primary {
     background: var(--w-500);
+    .banner-action__button {
+      color: var(--white);
+    }
   }
+
   &.secondary {
-    background: var(--s-300);
+    background: var(--s-200);
+    color: var(--s-800);
+    a {
+      color: var(--s-800);
+    }
   }
 
   &.alert {
@@ -124,9 +121,13 @@ export default {
 
   &.gray {
     background: var(--b-500);
+    .banner-action__button {
+      color: var(--white);
+    }
   }
 
   a {
+    margin-left: var(--space-smaller);
     text-decoration: underline;
     color: var(--white);
     font-size: var(--font-size-mini);
@@ -138,6 +139,11 @@ export default {
     ::v-deep .button__content {
       white-space: nowrap;
     }
+  }
+
+  .banner-message {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

@@ -2,10 +2,11 @@
   <div id="app" class="app-wrapper app-root">
     <banner
       v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
-      color-scheme="gray"
+      class="update-banner"
+      color-scheme="primary"
       :banner-message="bannerMessage"
-      link="https://github.com/chatwoot/chatwoot/releases"
-      has-link
+      href-link="https://github.com/chatwoot/chatwoot/releases"
+      :href-link-text="$t('GENERAL_SETTINGS.LEARN_MORE')"
       has-close-button
       @close="dismissUpdateBanner"
     />
@@ -126,6 +127,11 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
+.update-banner {
+  height: var(--space-larger);
+  align-items: center;
+  font-size: var(--font-size-small) !important;
+}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
