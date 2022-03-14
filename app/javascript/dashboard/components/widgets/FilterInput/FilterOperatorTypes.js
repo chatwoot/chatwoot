@@ -69,8 +69,8 @@ export const OPERATOR_TYPES_4 = [
     label: 'Is greater than',
   },
   {
-    value: 'is_lesser_than',
-    label: 'Is lesser than',
+    value: 'is_less_than',
+    label: 'Is less than',
   },
 ];
 
@@ -80,11 +80,11 @@ export const OPERATOR_TYPES_5 = [
     label: 'Is greater than',
   },
   {
-    value: 'is_lesser_than',
-    label: 'Is lesser than',
+    value: 'is_less_than',
+    label: 'Is less than',
   },
   {
-    value: 'is_x_days_before',
+    value: 'days_before',
     label: 'Is x days before',
   },
 ];

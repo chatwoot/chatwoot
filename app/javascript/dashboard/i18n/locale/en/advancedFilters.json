@@ -21,8 +21,8 @@
       "is_present": "Is present",
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than",
-      "is_x_days_before": "Is x days before"
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

@@ -23,7 +23,7 @@
             "is_not_present": "Is not present",
             "is_greater_than": "Is greater than",
             "is_lesser_than": "Is lesser than",
-            "is_x_days_before": "Is x days before"
+            "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
             "NAME": "Name",
