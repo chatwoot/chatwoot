@@ -8,5 +8,5 @@ json.features resource.all_features
 json.auto_resolve_duration resource.auto_resolve_duration
 json.created_at resource.created_at
 if ChatwootApp.chatwoot_saas?
-  json.billing_status resource.account_billing_subscriptions.present? ? "subscribed" : "trial"
+  json.billing_status resource.account_billing_subscriptions.present? ? 'subscribed' : 'trial'
 end

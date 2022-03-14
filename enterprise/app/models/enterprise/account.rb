@@ -17,28 +17,28 @@ module Enterprise::Account
   def create_checkout_link(product_price)
     billing_url = "#{ENV['FRONTEND_URL']}/app/accounts/#{id}/settings/billing"
     stripe_session = Stripe::Checkout::Session.create({
-      success_url: "#{billing_url}?subscription_status=success" ,
-      cancel_url: "#{billing_url}?subscription_status=cancel",
-      line_items: [
-        { price: product_price.price_stripe_id, quantity: account_users.count },
-      ],
-      customer: stripe_customer_id,
-      mode: 'subscription'
-    })
+                                                        success_url: "#{billing_url}?subscription_status=success",
+                                                        cancel_url: "#{billing_url}?subscription_status=cancel",
+                                                        line_items: [
+                                                          { price: product_price.price_stripe_id, quantity: account_users.count }
+                                                        ],
+                                                        customer: stripe_customer_id,
+                                                        mode: 'subscription'
+                                                      })
     stripe_session.url
   end
 
   def create_subscription(product_price)
     subscription = Stripe::Subscription.create({
-      customer: stripe_customer_id,
-      trial_end: (Date.today+5.days).to_time.to_i,
-      items: [
-        {
-          price: product_price.price_stripe_id,
-          quantity: account_users.count
-        }
-      ]
-    })
+                                                 customer: stripe_customer_id,
+                                                 trial_end: (Time.zone.today + 5.days).to_time.to_i,
+                                                 items: [
+                                                   {
+                                                     price: product_price.price_stripe_id,
+                                                     quantity: account_users.count
+                                                   }
+                                                 ]
+                                               })
 
     account_billing_subscriptions.create(subscription_stripe_id: subscription.id, billing_product_price: product_price)
   end
@@ -47,19 +47,19 @@ module Enterprise::Account
 
   def ensure_stripe_customer_id
     stripe_customer = Stripe::Customer.create({
-      description: name,
-      name: name,
-      email: billing_email, 
-      metadata: {account_id: id, created_at: created_at}
-    })
+                                                description: name,
+                                                name: name,
+                                                email: billing_email,
+                                                metadata: { account_id: id, created_at: created_at }
+                                              })
 
-    update_attribute(:custom_attributes, custom_attributes.merge(stripe_customer_id: stripe_customer['id']))
+    update(:custom_attributes, custom_attributes.merge(stripe_customer_id: stripe_customer['id']))
     stripe_customer['id']
   end
 
   def ensure_billing_email
     email = administrators.first.email
-    update_attribute(:custom_attributes, custom_attributes.merge(billing_email: email))
+    update(:custom_attributes, custom_attributes.merge(billing_email: email))
     email
   end
 

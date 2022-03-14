@@ -107,7 +107,7 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/general`),
       toStateName: 'general_settings_index',
     },
-    billing_settings_index: {
+    {
       icon: 'ion-card',
       label: 'BILLING',
       hasSubMenu: false,

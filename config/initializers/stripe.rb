@@ -1,3 +1,3 @@
-require "stripe"
+require 'stripe'
 
-Stripe.api_key = ENV["STRIPE_PRIVATE_API_KEY"]
+Stripe.api_key = ENV['STRIPE_PRIVATE_API_KEY']

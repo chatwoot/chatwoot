@@ -89,7 +89,9 @@ export default {
         this.planName = plan_name;
         this.agentCount = agent_count;
         this.availableProductPrices = available_product_prices;
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     },
     submitSubscription(event) {
       const payload = { product_price: event.target.value };

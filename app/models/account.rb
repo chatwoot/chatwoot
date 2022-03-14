@@ -4,10 +4,11 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
 #  limits                :jsonb
-#  locale                :integer          default("en")
+#  locale                :integer          default(0)
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
 #  support_email         :string(100)
@@ -35,7 +36,10 @@ class Account < ApplicationRecord
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :name, length: { maximum: 255 }
 
-  has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription' if ChatwootApp.ee?
+  if ChatwootApp.enterprise?
+    has_many :account_billing_subscriptions, dependent: :destroy_async,
+                                             class_name: '::Enterprise::AccountBillingSubscription'
+  end
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
@@ -126,7 +130,7 @@ class Account < ApplicationRecord
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
   end
-  
+
   def validate_limit_keys
     # method overridden in enterprise module
   end
