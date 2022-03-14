@@ -48,14 +48,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Adresse",
         "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "E-Mailadresse wird benötigt",
         "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
+        "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
+        "VALID_ERROR": "Die Telefonnummer sollte im E.164-Format vorliegen, z. B.: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
