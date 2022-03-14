@@ -431,6 +431,11 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Les formulaires précédant le chat vous permettent de saisir les informations de l'utilisateur avant qu'ils ne commencent à discuter avec vous.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Activer le formulaire précédant le chat",
         "OPTIONS": {
