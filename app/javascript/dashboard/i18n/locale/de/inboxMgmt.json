@@ -431,10 +431,10 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Chatformulare ermöglichen es dir, Benutzerinformationen zu erfassen, bevor ein Gespräch begonnen wird.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Formularfelder vor dem Chat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
+        "FIELDS": "Felder",
+        "REQUIRED": "Benötigt"
       },
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
