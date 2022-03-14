@@ -43,12 +43,19 @@
       "FULL_NAME": {
         "LABEL": "പൂർണ്ണമായ പേര്",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക",
-        "ERROR": "മുഴുവൻ പേര് ആവശ്യമാണ്"
+        "REQUIRED_ERROR": "മുഴുവൻ പേര് ആവശ്യമാണ്"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ഇമെയിൽ വിലാസം",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
-        "ERROR": "ഇമെയിൽ വിലാസം അസാധുവാണ്"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "ഫോൺ നമ്പർ",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
