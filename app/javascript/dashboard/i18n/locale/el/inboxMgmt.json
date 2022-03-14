@@ -431,10 +431,10 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Οι προ-φόρμες συνομιλίας σας επιτρέπουν να συλλέξετε πληροφορίες για τον χρήστη πριν να ξεκινήσει τη συνομιλία μαζί σας.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Πεδία προ συνομιλίας",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
+        "FIELDS": "Πεδία",
+        "REQUIRED": "Υποχρεωτικό"
       },
       "ENABLE": {
         "LABEL": "Ενεργοποίηση προ-φόρμας συνομιλίας",
