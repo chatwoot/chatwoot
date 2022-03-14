@@ -43,12 +43,19 @@
       "FULL_NAME": {
         "LABEL": "Повне ім`я",
         "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
-        "ERROR": "Потрібне повне ім'я"
+        "REQUIRED_ERROR": "Потрібне повне ім'я"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Адреса електронної пошти",
         "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
-        "ERROR": "Некоректна адреса ел. пошти"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Номер телефону",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
