@@ -8,6 +8,8 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_presence
+    return if @current_account.blank?
+
     update_subscription
     broadcast_presence
   end
