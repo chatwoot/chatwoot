@@ -19,7 +19,6 @@ class WidgetTestsController < ActionController::Base
     @dark_mode = params[:dark_mode] || 'light'
   end
 
-
   def ensure_widget_position
     @widget_position = params[:position] || 'left'
   end
