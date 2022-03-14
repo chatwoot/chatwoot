@@ -645,7 +645,7 @@ export default {
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         const upload = new DirectUpload(
           file.file,
-          '/rails/active_storage/direct_uploads',
+          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
           null,
           file.file.name
         );
