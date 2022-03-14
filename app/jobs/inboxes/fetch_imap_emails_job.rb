@@ -4,7 +4,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   def perform(channel)
     return unless channel.imap_enabled?
     return if channel.reauthorization_required?
-   
+
     process_mail_for_channel(channel)
   rescue Errno::ECONNREFUSED, Net::OpenTimeout
     channel.authorization_error!
@@ -12,9 +12,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Sentry.capture_exception(e)
   end
 
-
   private
-  
+
   def process_mail_for_channel(channel)
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
