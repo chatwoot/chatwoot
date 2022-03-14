@@ -48,14 +48,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-posta adresi",
         "PLACEHOLDER": "Lütfen E-postanızı girin",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "e-Posta adresi zorunludur",
         "VALID_ERROR": "Lütfen geçerli bir tam e-posta adresi"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefon numarası",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Lütfen telefon numaranızı yazınız",
+        "REQUIRED_ERROR": "Telefon numarası zorunludur",
+        "VALID_ERROR": "Telefon numarası E.164 formatında olmalıdır örn: +905555555"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
