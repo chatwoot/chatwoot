@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código curto",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Por favor, insira um código curto",
           "ERROR": "É necessário um código curto"
         },
         "CONTENT": {
