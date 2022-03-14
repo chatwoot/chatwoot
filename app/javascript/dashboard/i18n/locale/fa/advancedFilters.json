@@ -21,7 +21,8 @@
       "is_present": "در حال حاضر وجود دارد",
       "is_not_present": "در حال حاضر وجود ندارد",
       "is_greater_than": "بزرگتر از",
-      "is_lesser_than": "کوچکتر از"
+      "is_less_than": "کوچکتر از",
+      "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "درست",
@@ -42,7 +43,9 @@
       "CUSTOM_ATTRIBUTE_TEXT": "متن",
       "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
       "CUSTOM_ATTRIBUTE_LINK": "پیوند",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "آخرین فعالیت"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",
