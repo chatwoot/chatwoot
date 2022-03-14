@@ -27,7 +27,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
-import { setHeader } from 'widget/helpers/axios';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -70,11 +69,13 @@ export default {
           const { websiteToken } = window.chatwootWebChannel;
           const upload = new DirectUpload(
             file.file,
-            `/api/v1/widget/direct_uploads?website_token=${websiteToken}`, {
-            directUploadWillCreateBlobWithXHR: xhr => {
-              xhr.setRequestHeader('X-Auth-Token', window.authToken);
+            `/api/v1/widget/direct_uploads?website_token=${websiteToken}`,
+            {
+              directUploadWillCreateBlobWithXHR: xhr => {
+                xhr.setRequestHeader('X-Auth-Token', window.authToken);
+              },
             }
-          });
+          );
 
           upload.create((error, blob) => {
             if (error) {
