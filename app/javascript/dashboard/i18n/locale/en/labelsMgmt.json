@@ -39,8 +39,7 @@
       "DESC": "Labels let you group the conversations together.",
       "API": {
         "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again",
-        "NAME_EXISTS": "Label with this name already exists, please try with a different name."
+        "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
     "EDIT": {
