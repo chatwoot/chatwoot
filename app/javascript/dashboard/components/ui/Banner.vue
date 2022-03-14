@@ -10,6 +10,10 @@
       >
         {{ hrefLinkText }}
       </a>
+      <a v-if="hasLink" href="link" target="_blank">
+        {{ $t('GENERAL_SETTINGS.LEARN_MORE') }}
+        <span aria-hidden="true">→</span>
+      </a>
     </span>
     <woot-button
       v-if="hasActionButton"
@@ -26,7 +30,7 @@
       v-if="hasCloseButton"
       size="small"
       variant="link"
-      color-scheme="warning"
+      color-scheme="white"
       icon="dismiss-circle"
       class-names="banner-action__button"
       @click="onClickClose"
@@ -66,6 +70,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasLink: {
+      type: Boolean,
+      default: false,
+    },
+    link: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     bannerClasses() {
@@ -91,7 +103,9 @@ export default {
   padding: var(--space-slab) var(--space-normal);
   justify-content: center;
   position: sticky;
-
+  &.primary {
+    background: var(--w-500);
+  }
   &.secondary {
     background: var(--s-300);
   }

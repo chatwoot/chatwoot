@@ -1,9 +1,13 @@
 <template>
   <div id="app" class="app-wrapper app-root">
-    <update-banner
+    <banner
       v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
-      :latest-chatwoot-version="latestChatwootVersion"
-      :dismiss-update-banner="dismissUpdateBanner"
+      color-scheme="gray"
+      :banner-message="bannerMessage"
+      link="https://github.com/chatwoot/chatwoot/releases"
+      has-link
+      has-close-button
+      @close="dismissUpdateBanner"
     />
     <transition name="fade" mode="out-in">
       <router-view></router-view>
@@ -20,9 +24,9 @@
 <script>
 /* eslint-disable prettier/prettier */
 import { mapGetters } from 'vuex';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
-import UpdateBanner from './components/ui/UpdateBanner';
 import LocalStorage from './helper/localStorage';
 import NetworkNotification from './components/NetworkNotification';
 import { accountIdFromPathname } from './helper/URLHelper';
@@ -37,7 +41,7 @@ export default {
     WootSnackbarBox,
     AddAccountModal,
     NetworkNotification,
-    UpdateBanner,
+    Banner,
   },
 
   data() {
@@ -68,6 +72,11 @@ export default {
         semver.lt(this.globalConfig.appVersion, this.latestChatwootVersion) &&
         this.checkUpdateDismissedOrNot(this.latestChatwootVersion)
       );
+    },
+    bannerMessage() {
+      return this.$t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
+        latestChatwootVersion: this.latestChatwootVersion,
+      });
     },
   },
 
