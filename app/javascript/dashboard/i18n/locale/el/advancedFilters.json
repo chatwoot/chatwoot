@@ -22,7 +22,7 @@
       "is_not_present": "Δεν υπάρχει",
       "is_greater_than": "Είναι μεγαλύτερο από",
       "is_less_than": "Είναι μικρότερο από",
-      "days_before": "Is x days before"
+      "days_before": "Είναι x ημέρες πριν"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Αριθμός",
       "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Δημιουργήθηκε στις",
       "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
     },
     "GROUPS": {
