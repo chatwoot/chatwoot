@@ -63,7 +63,7 @@
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -74,13 +74,13 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
       "TIP_ATTACH_ICON": "Anexar ficheiros",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
+      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arrastar e soltar aqui para anexar",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
+      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adicionar bcc",
@@ -101,11 +101,11 @@
     "CHANGE_AGENT": "Responsável da conversa alterado",
     "CHANGE_TEAM": "Equipa de conversação alterada",
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
+    "TRY_AGAIN": "tentar novamente",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Escolher Agente",
       "REMOVE": "Excluir",
@@ -143,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar os membros da sua equipa",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando os seus endereço de e-mail na lista de agentes.",
       "NEW_LINK": "Clique aqui para convidar um membro para a equipa"
     },
     "INBOXES": {
@@ -165,16 +165,16 @@
       "PLACEHOLDER": "Nenhuma"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
+      "CONTACT_DETAILS": "Detalhes do Contacto",
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_ATTRIBUTES": "Atributos do Contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Criar atributo",
     "UPDATE": {
       "SUCCESS": "Atributo atualizado com sucesso",
       "ERROR": "Não foi possível atualizar o atributo. Por favor tente mais tarde"
@@ -195,7 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "De",
     "TO": "Para",
     "BCC": "BCC",
     "CC": "Cc",
