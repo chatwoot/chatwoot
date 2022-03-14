@@ -431,10 +431,10 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Sohbet giriş formu alanları",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
+        "FIELDS": "Alanlar",
+        "REQUIRED": "Zorunlu"
       },
       "ENABLE": {
         "LABEL": "Görüşme öncesi formu aktif et",
