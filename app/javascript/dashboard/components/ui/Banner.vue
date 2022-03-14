@@ -20,7 +20,7 @@
       size="small"
       variant="link"
       icon="arrow-right"
-      color-scheme="primary"
+      color-scheme="warning"
       class-names="banner-action__button"
       @click="onClick"
     >
