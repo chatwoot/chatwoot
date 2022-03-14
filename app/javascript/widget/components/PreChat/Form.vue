@@ -96,7 +96,7 @@ export default {
   },
   validations() {
     let identityValidations = {};
-    if (this.isContactFieldRequired('emailAddress')) {
+    if (this.isValidationEnabled('emailAddress')) {
       identityValidations = {
         ...identityValidations,
         emailAddress: {
@@ -105,7 +105,7 @@ export default {
         },
       };
     }
-    if (this.isContactFieldRequired('phoneNumber')) {
+    if (this.isValidationEnabled('phoneNumber')) {
       identityValidations = {
         ...identityValidations,
         phoneNumber: {
@@ -114,7 +114,7 @@ export default {
         },
       };
     }
-    if (this.isContactFieldRequired('fullName')) {
+    if (this.isValidationEnabled('fullName')) {
       identityValidations = {
         ...identityValidations,
         fullName: {
@@ -203,11 +203,21 @@ export default {
     isContactFieldVisible(field, item) {
       return (
         item.name === field &&
-        this.preChatFields.find(option => option.name === field).enabled
+        this.preChatFields.find(option => option.name === field).enabled &&
+        !this.disableContactFields
       );
     },
     isContactFieldRequired(field) {
-      return this.preChatFields.find(option => option.name === field).required;
+      return (
+        this.preChatFields.find(option => option.name === field).required &&
+        !this.disableContactFields
+      );
+    },
+    isValidationEnabled(field) {
+      return (
+        this.isContactFieldRequired(field) &&
+        this.isContactFieldVisible(field, { name: field })
+      );
     },
     onSubmit() {
       this.$v.$touch();

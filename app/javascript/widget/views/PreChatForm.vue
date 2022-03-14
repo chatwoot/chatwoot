@@ -21,10 +21,11 @@ export default {
   computed: {
     ...mapGetters({
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
     }),
     disableContactFields() {
       const { disableContactFields = false } = this.$route.params || {};
-      return disableContactFields;
+      return disableContactFields || this.currentUser.email;
     },
   },
   watch: {
