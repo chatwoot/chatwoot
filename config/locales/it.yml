@@ -51,7 +51,7 @@ it:
       conversation_mention: "Sei stato menzionato nella conversazione [ID - %{display_id}] da %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
       deleted: Questo messaggio è stato eliminato
     activity:
       status:
