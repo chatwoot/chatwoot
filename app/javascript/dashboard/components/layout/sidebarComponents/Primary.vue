@@ -95,7 +95,6 @@ export default {
   box-sizing: content-box;
   height: 100%;
   flex-shrink: 0;
-  overflow: auto;
 }
 
 .menu {

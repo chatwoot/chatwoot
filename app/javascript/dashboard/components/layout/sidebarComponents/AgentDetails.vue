@@ -1,6 +1,6 @@
 <template>
   <woot-button
-    v-tooltip.top="$t(`SIDEBAR.PROFILE_SETTINGS`)"
+    v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"
     variant="link"
     class="current-user"
     @click="handleClick"
