@@ -58,6 +58,7 @@ Rails.application.configure do
     allow do
       origins '*'
       resource '/packs/*', headers: :any, methods: [:get, :options]
+      resource '/dashboard/audios/ding.mp3', headers: :any, methods: [:get, :options]
     end
   end
 end
