@@ -43,12 +43,19 @@
       "FULL_NAME": {
         "LABEL": "Ad Soyad",
         "PLACEHOLDER": "lütfen tam adınızı giriniz",
-        "ERROR": "Tam isim gerekli"
+        "REQUIRED_ERROR": "Tam isim gerekli"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-posta adresi",
         "PLACEHOLDER": "Lütfen E-postanızı girin",
-        "ERROR": "Geçersiz email adresi"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Lütfen geçerli bir tam e-posta adresi"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefon numarası",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
