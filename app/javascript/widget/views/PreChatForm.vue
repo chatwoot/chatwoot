@@ -25,7 +25,7 @@ export default {
     }),
     disableContactFields() {
       const { disableContactFields = false } = this.$route.params || {};
-      return disableContactFields || this.currentUser.email;
+      return disableContactFields;
     },
   },
   watch: {
