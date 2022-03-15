@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "Fullt navn",
         "PLACEHOLDER": "Skriv inn fullt navn",
-        "REQUIRED_ERROR": "Fullt navn er påkrevd"
+        "ERROR": "Fullt navn er påkrevd"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadresse",
         "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Vennligst skriv inn en gyldig e-postadresse"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "ERROR": "Ugyldig e-postadresse"
       },
       "MESSAGE": {
         "LABEL": "Melding",
