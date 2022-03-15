@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "שם מלא",
         "PLACEHOLDER": "הכנס שם מלא בבקשה",
-        "REQUIRED_ERROR": "שם מלא שדה חובה"
+        "ERROR": "שם מלא שדה חובה"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "כתובת מייל",
         "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "מספר טלפון",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "ERROR": "כתובת מייל לא חוקית"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
