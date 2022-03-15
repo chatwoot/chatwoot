@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "Nom complet",
         "PLACEHOLDER": "Introdueix el vostre nom complet",
-        "REQUIRED_ERROR": "El Nom Complert és obligatori"
+        "ERROR": "El Nom Complert és obligatori"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
         "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "Número de telèfon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "ERROR": "Adreça email invàlida"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
