@@ -50,7 +50,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
     if @inbox.inbox_type == 'Email'
       validate_email_channel(channel_attributes)
-      @inbox.channel.reeauthorized!
+      @inbox.channel.reauthorized!
     end
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])

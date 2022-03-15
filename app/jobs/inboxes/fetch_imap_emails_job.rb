@@ -9,12 +9,15 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError 
     channel.authorization_error!
   rescue StandardError => e
+    channel.authorization_error!
     Sentry.capture_exception(e)
   end
 
   private
 
   def process_mail_for_channel(channel)
+    # TODO: rather than setting this as default method for all mail objects, lets if can do new mail object
+    # using Mail.retriever_method.new(params)
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,
