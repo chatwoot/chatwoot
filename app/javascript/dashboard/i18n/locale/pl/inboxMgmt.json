@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formularze czatu umożliwiają przechwytywanie informacji o użytkowniku przed rozpoczęciem rozmowy z Tobą.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "Włącz formularz przed czatem",
         "OPTIONS": {
