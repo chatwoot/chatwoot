@@ -225,7 +225,7 @@ export default {
 .secondary-menu {
   background: var(--white);
   border-right: 1px solid var(--s-50);
-  height: 100vh;
+  height: 100%;
   width: 19rem;
   flex-shrink: 0;
   overflow: hidden;
