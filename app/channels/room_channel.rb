@@ -1,5 +1,8 @@
 class RoomChannel < ApplicationCable::Channel
   def subscribed
+    # TODO: should we only do ensure stream  if current account is present?
+    # for now going ahead with guard clauses in update_subscription and broadcast_presence
+
     ensure_stream
     current_user
     current_account
@@ -8,8 +11,6 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_presence
-    return if @current_account.blank?
-
     update_subscription
     broadcast_presence
   end
@@ -17,6 +18,8 @@ class RoomChannel < ApplicationCable::Channel
   private
 
   def broadcast_presence
+    return if @current_account.blank?
+
     data = { account_id: @current_account.id, users: ::OnlineStatusTracker.get_available_users(@current_account.id) }
     data[:contacts] = ::OnlineStatusTracker.get_available_contacts(@current_account.id) if @current_user.is_a? User
     ActionCable.server.broadcast(@pubsub_token, { event: 'presence.update', data: data })
@@ -28,6 +31,8 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_subscription
+    return if @current_account.blank?
+
     ::OnlineStatusTracker.update_presence(@current_account.id, @current_user.class.name, @current_user.id)
   end
 
