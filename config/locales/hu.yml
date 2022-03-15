@@ -56,6 +56,7 @@ hu:
     activity:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
         pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
         snoozed: "A beszélgetést %{user_name} elnémította"
