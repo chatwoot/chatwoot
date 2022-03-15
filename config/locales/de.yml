@@ -56,6 +56,7 @@ de:
     activity:
       status:
         resolved: "Das Gespräch wurde von %{user_name} gelöst"
+        contact_resolved: "Konversation wurde von %{contact_name} gelöst"
         open: "Das Gespräch wurde von %{user_name} wieder eröffnet"
         pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
         snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
