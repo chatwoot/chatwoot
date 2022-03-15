@@ -56,6 +56,7 @@ id:
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Percakapan telah dibuka kembali oleh %{user_name}"
         pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
         snoozed: "Percakapan telah ditunda oleh %{user_name}"
