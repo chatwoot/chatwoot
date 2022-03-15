@@ -473,16 +473,11 @@ export default {
       if (!data.length || !data[0]) {
         return;
       }
-      if (data) {
-        this.hasFiles = true;
-      }
-      const file = data;
-      let i = 0;
-      const fileCount = file.length;
-      for (i; i < fileCount; i += 1) {
-        const { name, type, size } = file[i];
-        this.onFileUpload({ name, type, size, file: file[i] });
-      }
+      this.hasFiles = true;
+      data.forEach(file => {
+        const { name, type, size } = file;
+        this.onFileUpload({ name, type, size, file: file });
+      });
     },
     removeFocusEditorInputFileld() {
       this.$refs.advancedEditor.$el
