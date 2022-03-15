@@ -1,7 +1,7 @@
 class AutomationRuleListener < BaseListener
   def conversation_updated(event_obj)
     conversation = event_obj.data[:conversation]
-    account = conversation.try(:account)
+    account = conversation.account
 
     return unless rule_present?('conversation_updated', account)
 
@@ -13,7 +13,7 @@ class AutomationRuleListener < BaseListener
 
   def conversation_status_changed(event_obj)
     conversation = event_obj.data[:conversation]
-    account = conversation.try(:account)
+    account = conversation.account
 
     return unless rule_present?('conversation_status_changed', account)
 
@@ -25,7 +25,7 @@ class AutomationRuleListener < BaseListener
 
   def conversation_created(event_obj)
     conversation = event_obj.data[:conversation]
-    account = conversation.try(:account)
+    account = conversation.account
 
     return unless rule_present?('conversation_created', account)
 

@@ -3,6 +3,7 @@ class AutomationRules::ActionService
     @rule = rule
     @account = account
     @conversations = Conversation.where(id: conversation_ids)
+    Current.executed_by = rule
   end
 
   def perform
@@ -14,6 +15,8 @@ class AutomationRules::ActionService
         Sentry.capture_exception(e)
       end
     end
+  ensure
+    Current.reset
   end
 
   private

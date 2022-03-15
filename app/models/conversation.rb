@@ -210,7 +210,7 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name)
-    return if Current.user.nil?
+    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
 
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?)
   end

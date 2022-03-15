@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe AutomationRule, type: :model do
   describe 'associations' do
+    let(:account) { create(:account) }
     let(:params) do
       {
         name: 'Notify Conversation Created and mark priority query',
         description: 'Notify all administrator about conversation created and mark priority query',
         event_name: 'conversation_created',
+        account_id: account.id,
         conditions: [
           {
             attribute_key: 'browser_language',
