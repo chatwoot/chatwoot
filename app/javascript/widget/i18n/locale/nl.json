@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "Volledige Naam",
         "PLACEHOLDER": "Voer uw volledige naam in",
-        "REQUIRED_ERROR": "Volledige naam is vereist"
+        "ERROR": "Volledige naam is vereist"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Uw e-mailadres",
         "PLACEHOLDER": "Voer uw e-mailadres in",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Voer een geldig e-mailadres in"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "Telefoonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "ERROR": "Ongeldig e-mailadres"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
