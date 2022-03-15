@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Los formularios de Pre Chat le permiten capturar la información del usuario antes de que comiencen la conversación con usted.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "Activar formulario de pre-chat",
         "OPTIONS": {
