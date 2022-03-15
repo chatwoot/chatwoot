@@ -22,6 +22,7 @@
     "IN_A_DAY": "보통 하루 안에 응답"
   },
   "START_CONVERSATION": "대화 시작",
+  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
