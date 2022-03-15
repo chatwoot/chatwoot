@@ -227,7 +227,7 @@ describe ::V2::ReportBuilder do
       end
 
       it 'returns average first response time' do
-        label_2.events.update(value: 1.5)
+        label_2.reporting_events.update(value: 1.5)
 
         params = {
           metric: 'avg_first_response_time',
