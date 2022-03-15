@@ -2,8 +2,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   queue_as :low
 
   def perform(channel)
-    return unless channel.imap_enabled?
-    return if channel.reauthorization_required?
+    return unless should_fetch_email?(channel)
 
     process_mail_for_channel(channel)
   rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError
@@ -14,6 +13,10 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
   end
 
   private
+
+  def should_fetch_email?(channel)
+    channel.imap_enabled? && !channel.reauthorization_required?
+  end
 
   def process_mail_for_channel(channel)
     # TODO: rather than setting this as default method for all mail objects, lets if can do new mail object
