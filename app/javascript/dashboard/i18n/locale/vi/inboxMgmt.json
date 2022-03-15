@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Biểu mẫu trước khi trò chuyện cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc trò chuyện với bạn.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "Bật biểu mẫu trước khi trò chuyện",
         "OPTIONS": {
