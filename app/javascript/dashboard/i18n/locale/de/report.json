@@ -6,8 +6,8 @@
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "NAME": "Konversationen",
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
@@ -119,15 +119,15 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
@@ -139,7 +139,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -182,15 +182,15 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
@@ -202,7 +202,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -245,15 +245,15 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
@@ -265,7 +265,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -308,15 +308,15 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
@@ -328,7 +328,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
