@@ -21,7 +21,6 @@ export default {
   computed: {
     ...mapGetters({
       conversationSize: 'conversation/getConversationSize',
-      currentUser: 'contacts/getCurrentUser',
     }),
     disableContactFields() {
       const { disableContactFields = false } = this.$route.params || {};
