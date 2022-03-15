@@ -11,11 +11,13 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
 
   describe 'POST /api/v1/widget/direct_uploads' do
     context 'when post request is made' do
-      it 'creates attachment message in conversation' do
+      before do
         token
         contact
         payload
+      end
 
+      it 'creates attachment message in conversation' do
         post api_v1_widget_direct_uploads_url,
              params: {
                website_token: web_widget.website_token,

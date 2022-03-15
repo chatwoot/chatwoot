@@ -14,7 +14,8 @@ module FileTypeHelper
       'image/png',
       'image/gif',
       'image/bmp',
-      'image/webp'
+      'image/webp',
+      'image'
     ].include?(content_type)
   end
 
@@ -23,7 +24,8 @@ module FileTypeHelper
       'video/ogg',
       'video/mp4',
       'video/webm',
-      'video/quicktime'
+      'video/quicktime',
+      'video'
     ].include?(content_type)
   end
 end

@@ -24,7 +24,8 @@
         :heading="metric.NAME"
         :index="index"
         :on-click="changeSelection"
-        :point="accountSummary[metric.KEY]"
+        :point="displayMetric(metric.KEY)"
+        :trend="calculateTrend(metric.KEY)"
         :selected="index === currentSelection"
       />
     </div>
@@ -49,6 +50,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector';
 import { GROUP_BY_FILTER } from './constants';
+import reportMixin from '../../../../mixins/reportMixin';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -63,6 +65,7 @@ export default {
   components: {
     ReportFilterSelector,
   },
+  mixins: [reportMixin],
   data() {
     return {
       from: 0,
