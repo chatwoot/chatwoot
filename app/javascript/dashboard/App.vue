@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="app-wrapper app-root">
     <banner
-      v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
-      class="update-banner"
+      v-if="shouldShowBanner"
+      class="banner"
       color-scheme="primary"
       :banner-message="bannerMessage"
       href-link="https://github.com/chatwoot/chatwoot/releases"
@@ -79,6 +79,16 @@ export default {
         latestChatwootVersion: this.latestChatwootVersion,
       });
     },
+    isUserAdmin() {
+      return this.currentUser.role === 'administrator';
+    },
+    shouldShowBanner() {
+      return (
+        this.globalConfig.displayManifest &&
+        this.hasAnUpdateAvailable &&
+        this.isUserAdmin
+      );
+    },
   },
 
   watch: {
@@ -108,7 +118,7 @@ export default {
         const { locale, latest_chatwoot_version: latestChatwootVersion } =
           this.getAccount(accountId);
         this.setLocale(locale);
-        this.latestChatwootVersion = latestChatwootVersion;
+        this.latestChatwootVersion = '19.0.0';
       }
     },
     checkUpdateDismissedOrNot(version) {
@@ -127,7 +137,7 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
-.update-banner {
+.banner {
   height: var(--space-larger);
   align-items: center;
   font-size: var(--font-size-small) !important;
