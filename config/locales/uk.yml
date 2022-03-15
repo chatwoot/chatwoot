@@ -56,6 +56,7 @@ uk:
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Розмову знову відкрито %{user_name}"
         pending: "Бесіда була позначена як очікується %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
