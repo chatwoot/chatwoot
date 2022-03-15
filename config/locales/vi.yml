@@ -56,6 +56,7 @@ vi:
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
         pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
         snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"
