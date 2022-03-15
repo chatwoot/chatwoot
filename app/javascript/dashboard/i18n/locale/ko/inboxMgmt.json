@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "대화 전 설문을 통해, 실제 대화 전에 사용자 정보를 확보할 수 있습니다.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "대화 전 설문 사용하기",
         "OPTIONS": {
