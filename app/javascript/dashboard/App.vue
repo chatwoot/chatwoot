@@ -118,7 +118,7 @@ export default {
         const { locale, latest_chatwoot_version: latestChatwootVersion } =
           this.getAccount(accountId);
         this.setLocale(locale);
-        this.latestChatwootVersion = '19.0.0';
+        this.latestChatwootVersion = latestChatwootVersion;
       }
     },
     checkUpdateDismissedOrNot(version) {
