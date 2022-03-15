@@ -56,6 +56,7 @@ ml:
     activity:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
         pending: "%{user_name} സംഭാഷണം തീർച്ചപ്പെടുത്താത്തതായി അടയാളപ്പെടുത്തി"
         snoozed: "Conversation was snoozed by %{user_name}"
