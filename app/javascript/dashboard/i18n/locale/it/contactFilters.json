@@ -23,7 +23,7 @@
             "is_not_present": "Non è presente",
             "is_greater_than": "È maggiore di",
             "is_lesser_than": "È minore di",
-            "days_before": "Is x days before"
+            "days_before": "È x giorni prima"
         },
         "ATTRIBUTES": {
             "NAME": "Nome",
@@ -37,8 +37,8 @@
             "CUSTOM_ATTRIBUTE_NUMBER": "Numero",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity"
+            "CREATED_AT": "Creato il",
+            "LAST_ACTIVITY": "Ultima attività"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Filtri standard",
