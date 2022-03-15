@@ -14,13 +14,14 @@ body {
   min-height: 0;
   width: 100%;
 }
+
 .banner + .app-wrapper {
   .button--fixed-right-top {
     top: 56px;
   }
 }
-is-closed
-.app-root {
+
+is-closed .app-root {
   @include flex;
   flex-direction: column;
 }
