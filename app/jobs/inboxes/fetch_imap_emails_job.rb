@@ -1,3 +1,5 @@
+require 'net/imap'
+
 class Inboxes::FetchImapEmailsJob < ApplicationJob
   queue_as :low
 
