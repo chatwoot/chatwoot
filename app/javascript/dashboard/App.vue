@@ -2,7 +2,7 @@
   <div id="app" class="app-wrapper app-root">
     <banner
       v-if="shouldShowBanner"
-      class="banner"
+      class="update-banner"
       color-scheme="primary"
       :banner-message="bannerMessage"
       href-link="https://github.com/chatwoot/chatwoot/releases"
@@ -137,7 +137,7 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
-.banner {
+.update-banner {
   height: var(--space-larger);
   align-items: center;
   font-size: var(--font-size-small) !important;
