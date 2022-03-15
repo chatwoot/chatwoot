@@ -6,7 +6,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     return if channel.reauthorization_required?
 
     process_mail_for_channel(channel)
-  rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError 
+  rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError
     channel.authorization_error!
   rescue StandardError => e
     channel.authorization_error!
