@@ -24,15 +24,12 @@ export default {
     preChatFormOptions() {
       let requireEmail = false;
       let preChatMessage = '';
-      let preChatFields = null;
       const options = window.chatwootWebChannel.preChatFormOptions || {};
       requireEmail = options.require_email;
       preChatMessage = options.pre_chat_message;
-      preChatFields = options.pre_chat_fields;
       return {
         requireEmail,
         preChatMessage,
-        preChatFields,
       };
     },
   },
