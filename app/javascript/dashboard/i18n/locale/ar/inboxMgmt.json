@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "نماذج ما قبل الدردشة تمكنك من التقاط معلومات المستخدم قبل بدء المحادثة معك.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "تمكين نموذج الدردشة السابقة",
         "OPTIONS": {
