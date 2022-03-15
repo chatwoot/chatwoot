@@ -2,6 +2,7 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
+  OPERATOR_TYPES_5,
 } from '../../FilterInput/FilterOperatorTypes';
 
 const filterTypes = [
@@ -85,6 +86,30 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_3,
     attributeModel: 'additional',
   },
+  {
+    attributeKey: 'created_at',
+    attributeI18nKey: 'CREATED_AT',
+    inputType: 'date',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_5,
+    attributeModel: 'standard',
+  },
+  {
+    attributeKey: 'last_activity_at',
+    attributeI18nKey: 'LAST_ACTIVITY',
+    inputType: 'date',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_5,
+    attributeModel: 'standard',
+  },
+  {
+    attributeKey: 'referer',
+    attributeI18nKey: 'REFERER_LINK',
+    inputType: 'plain_text',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_5,
+    attributeModel: 'standard',
+  },
 ];
 
 export const filterAttributeGroups = [
@@ -119,6 +144,14 @@ export const filterAttributeGroups = [
       {
         key: 'labels',
         i18nKey: 'LABELS',
+      },
+      {
+        key: 'created_at',
+        i18nKey: 'CREATED_AT',
+      },
+      {
+        key: 'last_activity_at',
+        i18nKey: 'LAST_ACTIVITY',
       },
     ],
   },

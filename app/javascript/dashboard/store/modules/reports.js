@@ -5,7 +5,6 @@ import * as types from '../mutation-types';
 import Report from '../../api/reports';
 
 import { downloadCsvFile } from '../../helper/downloadCsvFile';
-import { formatTime } from '@chatwoot/utils';
 
 const state = {
   fetchingStatus: false,
@@ -21,6 +20,7 @@ const state = {
     incoming_messages_count: 0,
     outgoing_messages_count: 0,
     resolutions_count: 0,
+    previous: {},
   },
 };
 
@@ -125,18 +125,6 @@ const mutations = {
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
-    // Average First Response Time
-    let avgFirstResTimeInHr = 0;
-    if (summaryData.avg_first_response_time) {
-      avgFirstResTimeInHr = formatTime(summaryData.avg_first_response_time);
-    }
-    // Average Resolution Time
-    let avgResolutionTimeInHr = 0;
-    if (summaryData.avg_resolution_time) {
-      avgResolutionTimeInHr = formatTime(summaryData.avg_resolution_time);
-    }
-    _state.accountSummary.avg_first_response_time = avgFirstResTimeInHr;
-    _state.accountSummary.avg_resolution_time = avgResolutionTimeInHr;
   },
 };
 
