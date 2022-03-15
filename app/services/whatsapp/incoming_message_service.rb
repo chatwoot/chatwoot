@@ -73,7 +73,7 @@ class Whatsapp::IncomingMessageService
     return :audio if %w[audio voice].include?(file_type)
     return :video if ['video'].include?(file_type)
 
-    'document'
+    :file
   end
 
   def attach_files
