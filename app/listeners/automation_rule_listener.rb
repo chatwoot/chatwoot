@@ -7,7 +7,7 @@ class AutomationRuleListener < BaseListener
 
     @rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
-      AutomationRules::ActionService.new(rule, account, conversation.id).perform if conditions_match.present?
+      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
 
@@ -18,8 +18,8 @@ class AutomationRuleListener < BaseListener
     return unless rule_present?('conversation_status_changed', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation.id).perform
-      AutomationRules::ActionService.new(rule, account, conversation.id).perform if conditions_match.present?
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
 
@@ -30,8 +30,8 @@ class AutomationRuleListener < BaseListener
     return unless rule_present?('conversation_created', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation.id).perform
-      ::AutomationRules::ActionService.new(rule, account, conversation.id).perform if conditions_match.present?
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
 
@@ -42,8 +42,8 @@ class AutomationRuleListener < BaseListener
     return unless rule_present?('message_created', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation_id).message_conditions
-      ::AutomationRules::ActionService.new(rule, account, message.conversation_id).perform if conditions_match.present?
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation).message_conditions
+      ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
     end
   end
 

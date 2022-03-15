@@ -31,7 +31,11 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   private
 
   def automation_rules_permit
-    params.permit!.except(:format, :controller, :action, :automation_rule)
+    params.permit(
+      :name, :description, :event_name, :account_id, :active,
+      conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
+      actions: [:action_name, { action_params: [{}] }]
+    )
   end
 
   def fetch_automation_rule
