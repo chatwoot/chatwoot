@@ -38,7 +38,7 @@
         class="mt-5"
         :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
         :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.PLACEHOLDER')"
-        type="number"
+        type="text"
         :error="$v.phoneNumber && phoneNumberErrorMessage"
       />
     </div>
