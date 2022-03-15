@@ -45,7 +45,8 @@ export const actions = {
       const response = await LabelsAPI.create(cannedObj);
       commit(types.ADD_LABEL, response.data);
     } catch (error) {
-      throw new Error(error);
+      const errorMessage = error?.response?.data?.message;
+      throw new Error(errorMessage);
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isCreating: false });
     }
