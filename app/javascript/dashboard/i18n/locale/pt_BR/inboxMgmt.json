@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formulários de bate-papo permitem que você capture informações de usuário antes de iniciar uma conversa com você.",
-      "SET_FIELDS": "Campos do formulário Pré Chat",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Campos",
-        "REQUIRED": "Obrigatório"
-      },
       "ENABLE": {
         "LABEL": "Ativar formulário de bate-papo antes",
         "OPTIONS": {
