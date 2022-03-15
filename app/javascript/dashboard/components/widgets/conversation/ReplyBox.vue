@@ -429,8 +429,8 @@ export default {
         const el = this.$refs.advancedEditor.$el.querySelector(
           '.ProseMirror-woot-style > p > img'
         );
-        const imgElWrap = el.parentNode;
         if (el) {
+          const imgElWrap = el.parentNode;
           this.removeFocusEditorInputFileld();
           this.$nextTick(() => {
             imgElWrap.removeChild(el);
