@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "Полное имя",
         "PLACEHOLDER": "Пожалуйста, введите ваше ФИО",
-        "REQUIRED_ERROR": "Необходимо указать имя"
+        "ERROR": "Необходимо указать имя"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Email",
         "PLACEHOLDER": "Пожалуйста, введите ваш адрес электронной почты",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Пожалуйста, введите действительный адрес электронной почты"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "Номер телефона",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "ERROR": "Неправильный адрес электронной почты"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
