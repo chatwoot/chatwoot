@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirm Deletion",
       "MESSAGE": "Are you sure to delete ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Yes, Delete ",
-      "NO": "No, Keep "
+      "YES": "Yes, Delete",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
