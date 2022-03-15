@@ -431,11 +431,6 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Förre chattformulär gör det möjligt för dig att samla in användarinformation innan de börjar samtala med dig.",
-      "SET_FIELDS": "Pre chat form fields",
-      "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "REQUIRED": "Required"
-      },
       "ENABLE": {
         "LABEL": "Aktivera förchattformulär",
         "OPTIONS": {
