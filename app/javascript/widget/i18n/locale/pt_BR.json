@@ -43,19 +43,12 @@
       "FULL_NAME": {
         "LABEL": "Nome Completo",
         "PLACEHOLDER": "Por favor, digite seu nome completo",
-        "REQUIRED_ERROR": "Nome Completo é mandatório"
+        "ERROR": "Nome Completo é mandatório"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, digite seu e-mail",
-        "REQUIRED_ERROR": "Endereço de e-mail é obrigatório",
-        "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
-      },
-      "PHONE_NUMBER": {
-        "LABEL": "Número de Telefone",
-        "PLACEHOLDER": "Por favor, digite seu número de telefone",
-        "REQUIRED_ERROR": "O número de telefone é obrigatório",
-        "VALID_ERROR": "Número de telefone deve ser do formato E.164, por exemplo: +1415555555"
+        "ERROR": "Endereço de e-mail inválido"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
