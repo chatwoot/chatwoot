@@ -44,6 +44,15 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def toggle_status
+    head :not_found && return if conversation.nil?
+    unless conversation.resolved?
+      conversation.status = 'resolved'
+      conversation.save
+    end
+    head :ok
+  end
+
   private
 
   def trigger_typing_event(event)
