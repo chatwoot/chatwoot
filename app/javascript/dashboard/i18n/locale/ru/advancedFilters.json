@@ -22,11 +22,11 @@
       "is_not_present": "Отсутствует",
       "is_greater_than": "Больше чем",
       "is_less_than": "Меньше чем",
-      "days_before": "Is x days before"
+      "days_before": "x дней до"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Истина",
+      "FALSE": "Ложь"
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Число",
       "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия"
     },
     "GROUPS": {
