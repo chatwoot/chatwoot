@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Узнайте больше"
   },
   "FORMS": {
     "MULTISELECT": {
