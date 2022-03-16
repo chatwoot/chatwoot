@@ -34,8 +34,6 @@ class Api::V1::Widget::BaseController < ApplicationController
     )
     @contact = @contact_inbox&.contact
     raise ActiveRecord::RecordNotFound unless @contact
-
-    Current.contact = @contact
   end
 
   def create_conversation
@@ -70,7 +68,20 @@ class Api::V1::Widget::BaseController < ApplicationController
         mergee_contact: @contact
       ).perform
     else
-      @contact.update!(email: email, name: contact_name)
+      @contact.update!(email: email)
+    end
+  end
+
+  def update_contact_phone_number(phone_number)
+    contact_with_phone_number = @current_account.contacts.find_by(phone_number: phone_number)
+    if contact_with_phone_number
+      @contact = ::ContactMergeAction.new(
+        account: @current_account,
+        base_contact: contact_with_phone_number,
+        mergee_contact: @contact
+      ).perform
+    else
+      @contact.update!(phone_number: phone_number)
     end
   end
 
@@ -80,6 +91,10 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def contact_name
     params[:contact][:name] || contact_email.split('@')[0]
+  end
+
+  def contact_phone_number
+    params[:contact][:phone_number]
   end
 
   def browser_params
