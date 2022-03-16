@@ -367,7 +367,7 @@
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Выберите Операторов"
       }
     },
     "TABLE": {
