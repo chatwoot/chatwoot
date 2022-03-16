@@ -78,6 +78,8 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
+import { isEmptyObject } from 'dashboard/helper/commons';
+import { getStandardCustomFields } from 'dashboard/helper/inbox';
 export default {
   components: {
     draggable,
@@ -94,12 +96,18 @@ export default {
     return {
       preChatFormEnabled: false,
       preChatMessage: '',
-      preChatFieldOptions: [],
       preChatFields: [],
     };
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    preChatFieldOptions() {
+      const { pre_chat_form_options: preChatFormOptions } = this.inbox;
+      if (!isEmptyObject(preChatFormOptions)) {
+        return preChatFormOptions;
+      }
+      return getStandardCustomFields();
+    },
   },
   watch: {
     inbox() {
@@ -111,15 +119,12 @@ export default {
   },
   methods: {
     setDefaults() {
-      const {
-        pre_chat_form_enabled: preChatFormEnabled,
-        pre_chat_form_options: preChatFormOptions,
-      } = this.inbox;
+      const { pre_chat_form_enabled: preChatFormEnabled } = this.inbox;
       this.preChatFormEnabled = preChatFormEnabled;
       const {
         pre_chat_message: preChatMessage,
         pre_chat_fields: preChatFields,
-      } = preChatFormOptions || {};
+      } = this.preChatFieldOptions || {};
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },
