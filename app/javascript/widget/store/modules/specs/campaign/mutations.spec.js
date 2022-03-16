@@ -25,4 +25,12 @@ describe('#mutations', () => {
       expect(state.activeCampaign).toEqual(campaigns[0]);
     });
   });
+
+  describe('#setCampaignExecuted', () => {
+    it('set campaign executed flag', () => {
+      const state = { records: [], uiFlags: {}, campaignHasExecuted: false };
+      mutations.setCampaignExecuted(state, true);
+      expect(state.campaignHasExecuted).toEqual(true);
+    });
+  });
 });
