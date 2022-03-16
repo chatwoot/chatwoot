@@ -129,7 +129,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             as: :json
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to be true
-        expect(Conversations::ActivityMessageJob).to have_been_enqueued.with(
+        expect(Conversations::ActivityMessageJob).to have_been_enqueued.at_least(:once).with(
           conversation,
           {
             account_id: conversation.account_id,
