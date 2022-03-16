@@ -97,6 +97,8 @@ export default {
 
   &.small {
     font-size: var(--font-size-micro);
+    padding: var(--space-micro) var(--space-smaller);
+    line-height: 1.2;
   }
 
   .label--icon {

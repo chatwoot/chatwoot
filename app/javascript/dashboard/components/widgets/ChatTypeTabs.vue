@@ -52,5 +52,9 @@ export default {
 <style lang="scss" scoped>
 .smooth {
   padding-bottom: var(--space-small);
+
+  &::v-deep .button {
+    padding: var(--space-smaller) var(--space-small);
+  }
 }
 </style>

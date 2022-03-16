@@ -17,7 +17,10 @@
     />
     <div class="message">
       <div class="header">
-        <div v-if="showAssignee && assignee.name" class="assignee-wrap">
+        <div
+          v-if="showAssignee && assignee.name && false"
+          class="assignee-name-wrap"
+        >
           <thumbnail
             v-tooltip.top-end="assignee.name"
             class="assignee-avatar"
@@ -76,6 +79,28 @@
           </span>
         </div>
       </div>
+      <div v-if="showAssignee && assignee.name" class="footer">
+        <div class="assignee-name-wrap">
+          <fluent-icon size="12" icon="person" class="assignee-arrow" />
+          <thumbnail
+            v-if="false"
+            v-tooltip.top-end="assignee.name"
+            class="assignee-avatar"
+            :src="assignee.thumbnail"
+            :username="assignee.name"
+            size="14px"
+          />
+          <span class="assignee-name">Nithin David</span>
+        </div>
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :bg-color="label.color"
+          small
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -90,6 +115,7 @@ import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -106,7 +132,13 @@ export default {
     Thumbnail,
   },
 
-  mixins: [inboxMixin, timeMixin, conversationMixin, messageFormatterMixin],
+  mixins: [
+    inboxMixin,
+    timeMixin,
+    conversationMixin,
+    messageFormatterMixin,
+    conversationLabelMixin,
+  ],
   props: {
     activeLabel: {
       type: String,
@@ -150,6 +182,10 @@ export default {
       currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
     }),
+
+    conversationId() {
+      return this.chat.id;
+    },
 
     chatMetadata() {
       return this.chat.meta || {};
@@ -258,7 +294,7 @@ export default {
 .conversation {
   display: flex;
   position: relative;
-  border-radius: var(--border-radius-large);
+  border-radius: var(--border-radius-medium);
   cursor: pointer;
   margin: var(--space-smaller) var(--space-small);
   padding: var(--space-small);
@@ -268,7 +304,7 @@ export default {
   }
 
   &.active {
-    background: var(--color-background);
+    background: var(--w-25);
   }
 
   &.unread-chat {
@@ -350,6 +386,7 @@ export default {
   display: flex;
   align-items: center;
   padding-top: var(--space-smaller);
+  padding-bottom: var(--space-micro);
 
   .badge {
     color: var(--white);
@@ -357,14 +394,14 @@ export default {
   }
 }
 
-.assignee-wrap {
+.assignee-name-wrap {
   display: flex;
   align-items: center;
-  margin-right: var(--space-micro);
+  margin-right: var(--space-smaller);
 }
 
 .assignee-arrow {
-  color: var(--s-500);
+  color: var(--w-700);
 }
 
 .assignee-avatar {
@@ -391,5 +428,30 @@ export default {
     margin-right: 0;
     max-width: 12rem;
   }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-smaller);
+
+  .label {
+    margin-bottom: 0;
+  }
+}
+
+.assignee-name {
+  font-size: var(--font-size-mini);
+  padding-left: var(--space-smaller);
+}
+
+.assignee-name-wrap {
+  border-radius: var(--border-radius-small);
+  padding: 0 var(--space-smaller) 0 var(--space-smaller);
+  border: 1px solid var(--w-75);
+  background: var(--w-25);
+  color: var(--w-800);
+  flex-shrink: 0;
+  font-weight: var(--font-weight-medium);
 }
 </style>
