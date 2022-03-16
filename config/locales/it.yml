@@ -56,7 +56,7 @@ it:
     activity:
       status:
         resolved: "La conversazione è stata contrassegnata come risolta da %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "La conversazione è stata risolta da %{contact_name}"
         open: "La conversazione è stata riaperta da %{user_name}"
         pending: "La conversazione è stata contrassegnata come in attesa da %{user_name}"
         snoozed: "La conversazione è stata posticipata da %{user_name}"
