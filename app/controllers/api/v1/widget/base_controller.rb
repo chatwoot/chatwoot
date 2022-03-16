@@ -34,6 +34,8 @@ class Api::V1::Widget::BaseController < ApplicationController
     )
     @contact = @contact_inbox&.contact
     raise ActiveRecord::RecordNotFound unless @contact
+
+    Current.contact = @contact
   end
 
   def create_conversation
