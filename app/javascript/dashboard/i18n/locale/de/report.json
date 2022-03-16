@@ -11,23 +11,23 @@
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -131,11 +131,11 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -194,11 +194,11 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -257,11 +257,11 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -320,11 +320,11 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -375,7 +375,7 @@
         "CONTACT_NAME": "Kontakt",
         "AGENT_NAME": "Zugewiesener Agent",
         "RATING": "Bewertung",
-        "FEEDBACK_TEXT": "Kommentar"
+        "FEEDBACK_TEXT": "Feedback-Kommentar"
       }
     },
     "METRIC": {
