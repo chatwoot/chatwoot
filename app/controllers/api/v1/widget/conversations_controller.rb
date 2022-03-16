@@ -47,7 +47,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def toggle_status
     head :not_found && return if conversation.nil?
     unless conversation.resolved?
-      conversation.status = 'resolved'
+      conversation.status = :resolved
       conversation.save
     end
     head :ok
