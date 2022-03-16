@@ -21,7 +21,7 @@
         },
         "EVENT": {
           "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
+          "PLACEHOLDER": "Si prega di selezionarne uno",
           "ERROR": "Event is required"
         },
         "CONDITIONS": {
