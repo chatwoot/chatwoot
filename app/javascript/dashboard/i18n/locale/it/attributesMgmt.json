@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Attributi personalizzati",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
+    "LOADING": "Recupero degli attributi personalizzati",
+    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Aggiungi attributo personalizzato",
       "SUBMIT": "Crea",
       "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {
           "LABEL": "Nome visualizzato",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "Inserisci il nome di visualizzazione dell'attributo personalizzato",
           "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
           "LABEL": "Descrizione",
-          "PLACEHOLDER": "Enter custom attribute description",
+          "PLACEHOLDER": "Inserisci una descrizione dell'attributo personalizzato",
           "ERROR": "La descrizione è obbligatoria"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "Si applica a",
+          "PLACEHOLDER": "Si prega di selezionarne uno",
           "ERROR": "Il modello è obbligatorio"
         },
         "TYPE": {
@@ -29,49 +29,49 @@
           "PLACEHOLDER": "Seleziona un tipo",
           "ERROR": "Il tipo è obbligatorio",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Elenco valori",
+            "PLACEHOLDER": "Inserisci il valore e premi il tasto Invio",
+            "ERROR": "Deve avere almeno un valore"
           }
         },
         "KEY": {
           "LABEL": "Chiave",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "Inserisci la chiave dell'attributo personalizzato",
+          "ERROR": "La chiave è obbligatoria",
+          "IN_VALID": "Chiave non valida"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiunto con successo",
+        "ERROR_MESSAGE": "Impossibile creare un attributo personalizzato, riprova più tardi"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Attributo personalizzato eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
       },
       "CONFIRM": {
         "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
         "PLACE_HOLDER": "Digita {attributeName} per confermare",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
         "YES": "Elimina ",
         "NO": "Annulla"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Modifica attributo personalizzato",
       "UPDATE_BUTTON_TEXT": "Aggiorna",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Elenco valori",
+          "PLACEHOLDER": "Inserire i valori e premere il tasto Invio"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiornato con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore durante l'aggiornamento dell'attributo personalizzato, si prega di riprovare"
       }
     },
     "TABS": {
@@ -91,8 +91,8 @@
         "DELETE": "Elimina"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Non ci sono attributi personalizzati creati",
+        "NOT_FOUND": "Non ci sono attributi personalizzati configurati"
       }
     }
   }
