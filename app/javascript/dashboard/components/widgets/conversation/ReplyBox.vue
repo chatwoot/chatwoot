@@ -645,10 +645,17 @@ export default {
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         const upload = new DirectUpload(
           file.file,
-          '/rails/active_storage/direct_uploads',
-          null,
-          file.file.name
+          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
+          {
+            directUploadWillCreateBlobWithXHR: xhr => {
+              xhr.setRequestHeader(
+                'api_access_token',
+                this.currentUser.access_token
+              );
+            },
+          }
         );
+
         upload.create((error, blob) => {
           if (error) {
             this.showAlert(error);

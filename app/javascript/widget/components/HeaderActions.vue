@@ -1,6 +1,14 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
+      v-if="conversationStatus === 'open'"
+      class="button transparent compact"
+      :title="$t('END_CONVERSATION')"
+      @click="resolveConversation"
+    >
+      <fluent-icon icon="sign-out" size="22" class="text-black-900" />
+    </button>
+    <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button "
       @click="popoutWindow"
@@ -19,6 +27,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -35,6 +44,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      conversationAttributes: 'conversationAttributes/getConversationParams',
+    }),
     isIframe() {
       return IFrameHelper.isIFrame();
     },
@@ -42,7 +54,13 @@ export default {
       return RNHelper.isRNWebView();
     },
     showHeaderActions() {
-      return this.isIframe || this.isRNWebView;
+      return this.isIframe || this.isRNWebView || this.hasWidgetOptions;
+    },
+    conversationStatus() {
+      return this.conversationAttributes.status;
+    },
+    hasWidgetOptions() {
+      return this.showPopoutButton || this.conversationStatus === 'open';
     },
     actionButtonDarkMode() {
       return this.isDarkOrWhiteOrAutoMode({
@@ -79,6 +97,9 @@ export default {
       } else if (RNHelper.isRNWebView) {
         RNHelper.sendMessage({ type: 'close-widget' });
       }
+    },
+    resolveConversation() {
+      this.$store.dispatch('conversation/resolveConversation');
     },
   },
 };
