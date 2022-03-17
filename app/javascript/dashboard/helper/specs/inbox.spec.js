@@ -1,5 +1,33 @@
-import { getInboxClassByType } from '../inbox';
-
+import { getInboxClassByType, getCustomFields } from '../inbox';
+const customFields = {
+  pre_chat_message: 'Share your queries or comments here.',
+  pre_chat_fields: [
+    {
+      label: 'Email Id',
+      name: 'emailAddress',
+      type: 'email',
+      field_type: 'standard',
+      required: false,
+      enabled: false,
+    },
+    {
+      label: 'Full name',
+      name: 'fullName',
+      type: 'text',
+      field_type: 'standard',
+      required: false,
+      enabled: false,
+    },
+    {
+      label: 'Phone number',
+      name: 'phoneNumber',
+      type: 'text',
+      field_type: 'standard',
+      required: false,
+      enabled: false,
+    },
+  ],
+};
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
     it('should return correct class for web widget', () => {
@@ -32,6 +60,30 @@ describe('#Inbox Helpers', () => {
     });
     it('should return correct class for Email', () => {
       expect(getInboxClassByType('Channel::Email')).toEqual('mail');
+    });
+  });
+  describe('getCustomFields', () => {
+    it('should return correct custom fields form options passed', () => {
+      expect(getCustomFields(customFields)).toEqual(customFields);
+    });
+    it('should return correct custom fields if empty form options passed', () => {
+      const preChatFormOptions = {};
+      expect(getCustomFields(preChatFormOptions)).toEqual(customFields);
+    });
+    it('should return correct custom fields if default form options passed', () => {
+      const preChatFormOptions = {
+        pre_chat_message: 'Share your queries here.',
+        require_email: true,
+      };
+      expect(
+        getCustomFields(preChatFormOptions).pre_chat_fields[0].required
+      ).toEqual(true);
+      expect(
+        getCustomFields(preChatFormOptions).pre_chat_fields[0].enabled
+      ).toEqual(true);
+      expect(getCustomFields(preChatFormOptions).pre_chat_message).toEqual(
+        'Share your queries here.'
+      );
     });
   });
 });

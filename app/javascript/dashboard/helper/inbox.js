@@ -37,7 +37,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
-export const getStandardCustomFields = preChatFormOptions => {
+export const getCustomFields = preChatFormOptions => {
   if (
     !isEmptyObject(preChatFormOptions) &&
     'pre_chat_fields' in preChatFormOptions
