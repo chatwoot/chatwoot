@@ -49,6 +49,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return if permitted_params(channel_attributes)[:channel].blank?
 
     validate_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
   end
