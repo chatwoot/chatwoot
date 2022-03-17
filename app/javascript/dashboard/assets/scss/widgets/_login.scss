@@ -4,10 +4,10 @@
 }
 
 .flex-divided-view {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   flex: 1;
+  justify-content: center;
 }
 
 .form--wrap {
@@ -15,17 +15,17 @@
 }
 
 .auth--footer {
-  margin-top: var(--space-three);
-  margin-bottom: var(--space-two);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-two);
+  margin-top: var(--space-three);
 }
 
 @media screen and (max-width: 1200px) {
   .flex-divided-view {
     display: flex;
-    justify-content: center;
     flex: 0.9;
+    justify-content: center;
   }
 
   .form--wrap {
