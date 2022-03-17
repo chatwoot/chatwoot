@@ -1,6 +1,7 @@
 {
   "LOGIN": {
     "TITLE": "Login to Chatwoot",
+    "DESCRIPTION": "login to your chatwoot account",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "Email eg: someone@example.com"

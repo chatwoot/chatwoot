@@ -1,37 +1,54 @@
 <template>
-  <form
-    class="login-box medium-4 column align-self-middle"
-    @submit.prevent="submit()"
-  >
-    <h4>{{ $t('RESET_PASSWORD.TITLE') }}</h4>
-    <div class="column log-in-form">
-      <label :class="{ error: $v.credentials.email.$error }">
-        {{ $t('RESET_PASSWORD.EMAIL.LABEL') }}
-        <input
-          v-model.trim="credentials.email"
-          type="text"
-          :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
-          @input="$v.credentials.email.$touch"
-        />
-        <span v-if="$v.credentials.email.$error" class="message">
-          {{ $t('RESET_PASSWORD.EMAIL.ERROR') }}
-        </span>
-      </label>
-      <woot-submit-button
-        :disabled="$v.credentials.email.$invalid || resetPassword.showLoading"
-        :button-text="$t('RESET_PASSWORD.SUBMIT')"
-        :loading="resetPassword.showLoading"
-        button-class="expanded"
+  <div class="reset--password flex-divided-view">
+    <div class="form--wrap w-full">
+      <auth-header
+        :title="$t('RESET_PASSWORD.TITLE')"
+        :sub-title="$t('RESET_PASSWORD.DESCRIPTION')"
       />
+      <form class="w-full" @submit.prevent="submit()">
+        <div class="input-wrap">
+          <auth-input
+            v-model.trim="credentials.email"
+            type="email"
+            icon-name="mail"
+            :class="{ error: $v.credentials.email.$error }"
+            :label="$t('RESET_PASSWORD.EMAIL.LABEL')"
+            :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
+            :error="
+              $v.credentials.email.$error
+                ? $t('RESET_PASSWORD.EMAIL.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.email.$touch"
+          />
+        </div>
+        <auth-submit-button
+          :label="$t('RESET_PASSWORD.SUBMIT')"
+          :is-disabled="
+            $v.credentials.email.$invalid || resetPassword.showLoading
+          "
+          :is-loading="resetPassword.showLoading"
+          icon="arrow-chevron-right"
+          @click="submit()"
+        />
+      </form>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
+import AuthInput from './components/AuthInput';
+import AuthHeader from 'dashboard/routes/auth/components/AuthHeader';
+import AuthSubmitButton from './components/AuthSubmitButton';
 
 export default {
+  components: {
+    AuthInput,
+    AuthHeader,
+    AuthSubmitButton,
+  },
   data() {
     return {
       // We need to initialize the component with any
@@ -82,3 +99,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.reset--password {
+  flex-direction: column;
+  margin: var(--space-larger) 0;
+}
+
+.input-wrap {
+  padding-bottom: var(--space-one);
+}
+</style>

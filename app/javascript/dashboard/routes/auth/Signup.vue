@@ -1,96 +1,97 @@
 <template>
-  <div class="medium-10 column signup">
-    <div class="text-center medium-12 signup--hero">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="hero--logo"
+  <!-- <div class="row signup"> -->
+  <div class="sign-up flex-divided-view">
+    <div class="form--wrap w-full">
+      <auth-header
+        :title="$t('REGISTER.TITLE')"
+        :sub-title="$t('REGISTER.TRY_WOOT')"
       />
-      <h2 class="hero--title">
-        {{ $t('REGISTER.TRY_WOOT') }}
-      </h2>
-    </div>
-    <div class="row align-center">
-      <div class="small-12 medium-6 large-5 column">
-        <form class="signup--box login-box" @submit.prevent="submit">
-          <woot-input
-            v-model="credentials.fullName"
-            :class="{ error: $v.credentials.fullName.$error }"
-            :label="$t('REGISTER.FULL_NAME.LABEL')"
-            :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.fullName.$error
-                ? $t('REGISTER.FULL_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.fullName.$touch"
-          />
-          <woot-input
-            v-model.trim="credentials.email"
-            type="email"
-            :class="{ error: $v.credentials.email.$error }"
-            :label="$t('REGISTER.EMAIL.LABEL')"
-            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
-            :error="
-              $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
-            "
-            @blur="$v.credentials.email.$touch"
-          />
-          <woot-input
-            v-model="credentials.accountName"
-            :class="{ error: $v.credentials.accountName.$error }"
-            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
-            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.accountName.$error
-                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.accountName.$touch"
-          />
-          <woot-input
-            v-model.trim="credentials.password"
-            type="password"
-            :class="{ error: $v.credentials.password.$error }"
-            :label="$t('LOGIN.PASSWORD.LABEL')"
-            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-            :error="
-              $v.credentials.password.$error
-                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.password.$touch"
-          />
-
-          <woot-input
-            v-model.trim="credentials.confirmPassword"
-            type="password"
-            :class="{ error: $v.credentials.confirmPassword.$error }"
-            :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
-            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-            :error="
-              $v.credentials.confirmPassword.$error
-                ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.confirmPassword.$touch"
-          />
+      <div class="w-ful column">
+        <form @submit.prevent="submit">
+          <div class="input-wrap">
+            <auth-input
+              v-model="credentials.fullName"
+              :class="{ error: $v.credentials.fullName.$error }"
+              :label="$t('REGISTER.FULL_NAME.LABEL')"
+              icon-name="person"
+              :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
+              :error="
+                $v.credentials.fullName.$error
+                  ? $t('REGISTER.FULL_NAME.ERROR')
+                  : ''
+              "
+              @blur="$v.credentials.fullName.$touch"
+            />
+            <auth-input
+              v-model.trim="credentials.email"
+              type="email"
+              :class="{ error: $v.credentials.email.$error }"
+              icon-name="mail"
+              :label="$t('REGISTER.EMAIL.LABEL')"
+              :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
+              :error="
+                $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
+              "
+              @blur="$v.credentials.email.$touch"
+            />
+            <auth-input
+              v-model="credentials.accountName"
+              :class="{ error: $v.credentials.accountName.$error }"
+              icon-name="person-account"
+              :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
+              :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+              :error="
+                $v.credentials.accountName.$error
+                  ? $t('REGISTER.ACCOUNT_NAME.ERROR')
+                  : ''
+              "
+              @blur="$v.credentials.accountName.$touch"
+            />
+            <auth-input
+              v-model.trim="credentials.password"
+              type="password"
+              :class="{ error: $v.credentials.password.$error }"
+              icon-name="lock-closed"
+              :label="$t('LOGIN.PASSWORD.LABEL')"
+              :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+              :error="
+                $v.credentials.password.$error
+                  ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+                  : ''
+              "
+              @blur="$v.credentials.password.$touch"
+            />
+            <auth-input
+              v-model.trim="credentials.confirmPassword"
+              type="password"
+              :class="{ error: $v.credentials.confirmPassword.$error }"
+              icon-name="lock-shield"
+              :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
+              :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+              :error="
+                $v.credentials.confirmPassword.$error
+                  ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+                  : ''
+              "
+              @blur="$v.credentials.confirmPassword.$touch"
+            />
+          </div>
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
               :sitekey="globalConfig.hCaptchaSiteKey"
               @verify="onRecaptchaVerified"
             />
           </div>
-          <woot-submit-button
-            :disabled="isSignupInProgress || !hasAValidCaptcha"
-            :button-text="$t('REGISTER.SUBMIT')"
-            :loading="isSignupInProgress"
-            button-class="large expanded"
-          >
-          </woot-submit-button>
+          <auth-submit-button
+            :label="$t('REGISTER.SUBMIT')"
+            :is-disabled="isSignupInProgress || !hasAValidCaptcha"
+            :is-loading="isSignupInProgress"
+            icon="arrow-chevron-right"
+            @click="submit"
+          />
           <p class="accept--terms" v-html="termsLink"></p>
         </form>
-        <div class="column text-center sigin--footer">
+        <div class="column text-center auth--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
           <router-link to="/app/login">
             {{
@@ -114,8 +115,15 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import AuthInput from './components/AuthInput';
+import AuthHeader from './components/AuthHeader';
+import AuthSubmitButton from './components/AuthSubmitButton';
+
 export default {
   components: {
+    AuthInput,
+    AuthHeader,
+    AuthSubmitButton,
     VueHcaptcha,
   },
   mixins: [globalConfigMixin, alertMixin],
@@ -208,52 +216,29 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.signup {
-  .signup--hero {
-    margin-bottom: var(--space-larger);
+.sign-up {
+  margin: var(--space-medium) 0;
+}
 
-    .hero--logo {
-      width: 180px;
-    }
+.input-wrap {
+  padding-bottom: var(--space-medium);
+}
 
-    .hero--title {
-      margin-top: var(--space-large);
-      font-weight: var(--font-weight-light);
-    }
-  }
+.accept--terms {
+  text-align: center;
+  margin: var(--space-normal) 0 0 0;
+}
 
-  .signup--box {
-    padding: var(--space-large);
+.h-captcha--box {
+  justify-content: center;
+  display: flex;
+  margin-bottom: var(--space-one);
+}
 
-    label {
-      font-size: var(--font-size-default);
-      color: var(--b-600);
-
-      input {
-        padding: var(--space-slab);
-        height: var(--space-larger);
-        font-size: var(--font-size-default);
-      }
-    }
-  }
-
-  .sigin--footer {
-    padding: var(--space-medium);
-    font-size: var(--font-size-default);
-
-    > a {
-      font-weight: var(--font-weight-bold);
-    }
-  }
-
-  .accept--terms {
-    font-size: var(--font-size-small);
-    text-align: center;
-    margin: var(--space-normal) 0 0 0;
-  }
-
-  .h-captcha--box {
-    margin-bottom: var(--space-one);
+@media screen and (max-width: 1200px) {
+  .sign-up {
+    margin-top: var(--space-larger);
+    width: 100%;
   }
 }
 </style>

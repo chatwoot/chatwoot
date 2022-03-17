@@ -1,5 +1,7 @@
 <template>
-  <loading-state :message="$t('CONFIRM_EMAIL')"></loading-state>
+  <div class="flex-divided-view">
+    <loading-state :message="$t('CONFIRM_EMAIL')"></loading-state>
+  </div>
 </template>
 <script>
 import LoadingState from '../../components/widgets/LoadingState';

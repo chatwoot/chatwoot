@@ -1,7 +1,7 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
+    "TITLE": "Sign Up",
+    "TRY_WOOT": "Create your chatwoot account",
     "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Account name",

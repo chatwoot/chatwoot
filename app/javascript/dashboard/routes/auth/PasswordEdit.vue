@@ -1,60 +1,74 @@
 <template>
-  <form
-    class="login-box medium-4 column align-self-middle"
-    @submit.prevent="login()"
-  >
-    <div class="column log-in-form">
-      <h4>{{ $t('SET_NEW_PASSWORD.TITLE') }}</h4>
-      <label :class="{ error: $v.credentials.password.$error }">
-        {{ $t('LOGIN.PASSWORD.LABEL') }}
-        <input
-          v-model.trim="credentials.password"
-          type="password"
-          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-          @input="$v.credentials.password.$touch"
+  <div class="password-edit flex-divided-view">
+    <div class="form--wrap w-full">
+      <auth-header
+        :title="$t('SET_NEW_PASSWORD.TITLE')"
+        :sub-title="$t('SET_NEW_PASSWORD.DESCRIPTION')"
+      />
+      <form class="" @submit.prevent="login()">
+        <div class="input-wrap">
+          <auth-input
+            v-model.trim="credentials.password"
+            type="password"
+            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+            icon-name="lock-closed"
+            :class="{ error: $v.credentials.password.$error }"
+            :label="$t('LOGIN.PASSWORD.LABEL')"
+            :error="
+              $v.credentials.password.$error
+                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+                : ''
+            "
+            @input="$v.credentials.password.$touch"
+            @blur="$v.credentials.password.$touch"
+          />
+          <auth-input
+            v-model.trim="credentials.confirmPassword"
+            type="password"
+            icon-name="lock-shield"
+            :class="{ error: $v.credentials.confirmPassword.$error }"
+            :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
+            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+            :error="
+              $v.credentials.confirmPassword.$error
+                ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.confirmPassword.$touch"
+            @input="$v.credentials.confirmPassword.$touch"
+          />
+        </div>
+        <auth-submit-button
+          :label="$t('SET_NEW_PASSWORD.SUBMIT')"
+          :is-disabled="
+            $v.credentials.password.$invalid ||
+              $v.credentials.confirmPassword.$invalid ||
+              newPasswordAPI.showLoading
+          "
+          :is-loading="newPasswordAPI.showLoading"
+          icon="arrow-chevron-right"
+          @click="login()"
         />
-        <span v-if="$v.credentials.password.$error" class="message">
-          {{ $t('SET_NEW_PASSWORD.PASSWORD.ERROR') }}
-        </span>
-      </label>
-      <label :class="{ error: $v.credentials.confirmPassword.$error }">
-        {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL') }}
-        <input
-          v-model.trim="credentials.confirmPassword"
-          type="password"
-          :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-          @input="$v.credentials.confirmPassword.$touch"
-        />
-        <span v-if="$v.credentials.confirmPassword.$error" class="message">
-          {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR') }}
-        </span>
-      </label>
-      <woot-submit-button
-        :disabled="
-          $v.credentials.password.$invalid ||
-            $v.credentials.confirmPassword.$invalid ||
-            newPasswordAPI.showLoading
-        "
-        :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
-        :loading="newPasswordAPI.showLoading"
-        button-class="expanded"
-      >
-      </woot-submit-button>
-      <!-- <input type="submit" class="button " v-on:click.prevent="login()" v-bind:value="" > -->
+        <!-- <input type="submit" class="button " v-on:click.prevent="login()" v-bind:value="" > -->
+      </form>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
+import AuthInput from './components/AuthInput';
+import AuthHeader from 'dashboard/routes/auth/components/AuthHeader';
+import AuthSubmitButton from './components/AuthSubmitButton';
 
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 export default {
   components: {
-    WootSubmitButton,
+    AuthInput,
+    AuthHeader,
+    AuthSubmitButton,
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
@@ -131,3 +145,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.password-edit {
+  flex-direction: column;
+  margin: var(--space-larger) 0;
+}
+
+.input-wrap {
+  padding-bottom: var(--space-one);
+}
+</style>

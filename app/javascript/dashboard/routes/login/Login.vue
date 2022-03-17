@@ -1,81 +1,85 @@
 <template>
-  <div class="medium-12 column login">
-    <div class="text-center medium-12 login__hero align-self-top">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="hero__logo"
-      />
-      <h2 class="hero__title">
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
-      </h2>
-    </div>
-    <div class="row align-center">
-      <div v-if="!email" class="small-12 medium-4 column">
-        <form class="login-box column align-self-top" @submit.prevent="login()">
-          <div class="column log-in-form">
-            <label :class="{ error: $v.credentials.email.$error }">
-              {{ $t('LOGIN.EMAIL.LABEL') }}
-              <input
+  <div class="log-in">
+    <div class="login-form--wrap flex-divided-view">
+      <div class="form--wrap w-full">
+        <auth-header
+          :title="
+            useInstallationName(
+              $t('LOGIN.TITLE'),
+              globalConfig.installationName
+            )
+          "
+          :sub-title="$t('LOGIN.DESCRIPTION')"
+        />
+        <div v-if="!email" class="w-full">
+          <form class="" @submit.prevent="login()">
+            <div>
+              <auth-input
                 v-model.trim="credentials.email"
-                type="text"
-                data-testid="email_input"
+                :class="{ error: $v.credentials.email.$error }"
+                :label="$t('LOGIN.EMAIL.LABEL')"
+                icon-name="mail"
+                type="email"
                 :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-                @input="$v.credentials.email.$touch"
+                @blur="$v.credentials.email.$touch"
               />
-            </label>
-            <label :class="{ error: $v.credentials.password.$error }">
-              {{ $t('LOGIN.PASSWORD.LABEL') }}
-              <input
+              <auth-input
                 v-model.trim="credentials.password"
+                :class="{ error: $v.credentials.password.$error }"
+                :label="$t('LOGIN.PASSWORD.LABEL')"
+                icon-name="lock-closed"
                 type="password"
-                data-testid="password_input"
                 :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-                @input="$v.credentials.password.$touch"
+                @blur="$v.credentials.password.$touch"
               />
-            </label>
-            <woot-submit-button
-              :disabled="
+            </div>
+            <auth-submit-button
+              :label="$t('LOGIN.SUBMIT')"
+              :is-disabled="
                 $v.credentials.email.$invalid ||
                   $v.credentials.password.$invalid ||
                   loginApi.showLoading
               "
-              :button-text="$t('LOGIN.SUBMIT')"
-              :loading="loginApi.showLoading"
-              button-class="large expanded"
-            >
-            </woot-submit-button>
+              :is-loading="loginApi.showLoading"
+              icon="arrow-chevron-right"
+              @click="login()"
+            />
+          </form>
+          <div class="column text-center auth--footer">
+            <p v-if="!globalConfig.disableUserProfileUpdate">
+              <router-link to="auth/reset/password">
+                {{ $t('LOGIN.FORGOT_PASSWORD') }}
+              </router-link>
+            </p>
+            <p v-if="showSignupLink()">
+              <router-link to="auth/signup">
+                {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
+              </router-link>
+            </p>
           </div>
-        </form>
-        <div class="column text-center sigin__footer">
-          <p v-if="!globalConfig.disableUserProfileUpdate">
-            <router-link to="auth/reset/password">
-              {{ $t('LOGIN.FORGOT_PASSWORD') }}
-            </router-link>
-          </p>
-          <p v-if="showSignupLink()">
-            <router-link to="auth/signup">
-              {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-            </router-link>
-          </p>
         </div>
+        <woot-spinner v-else size="" />
       </div>
-      <woot-spinner v-else size="" />
     </div>
+    <auth-right-screen />
   </div>
 </template>
 
 <script>
 import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
+import AuthHeader from 'dashboard/routes/auth/components/AuthHeader';
+import AuthRightScreen from 'dashboard/routes/auth/components/AuthRightScreen';
+import AuthInput from 'dashboard/routes/auth/components/AuthInput';
+import AuthSubmitButton from 'dashboard/routes/auth/components/AuthSubmitButton';
 
 export default {
   components: {
-    WootSubmitButton,
+    AuthHeader,
+    AuthRightScreen,
+    AuthInput,
+    AuthSubmitButton,
   },
   mixins: [globalConfigMixin],
   props: {
@@ -172,3 +176,21 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.log-in {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.login-form--wrap {
+  flex-direction: column;
+  margin: var(--space-medium) 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .login-form--wrap {
+    margin: var(--space-larger) 0;
+  }
+}
+</style>
