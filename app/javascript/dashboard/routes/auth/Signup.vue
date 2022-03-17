@@ -75,8 +75,14 @@
             "
             @blur="$v.credentials.confirmPassword.$touch"
           />
+          <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
+            <vue-hcaptcha
+              :sitekey="globalConfig.hCaptchaSiteKey"
+              @verify="onRecaptchaVerified"
+            />
+          </div>
           <woot-submit-button
-            :disabled="isSignupInProgress"
+            :disabled="isSignupInProgress || !hasAValidCaptcha"
             :button-text="$t('REGISTER.SUBMIT')"
             :loading="isSignupInProgress"
             button-class="large expanded"
@@ -107,8 +113,11 @@ import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
-
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 export default {
+  components: {
+    VueHcaptcha,
+  },
   mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
@@ -118,6 +127,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: '',
+        hCaptchaClientResponse: '',
       },
       isSignupInProgress: false,
       error: '',
@@ -153,9 +163,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
     termsLink() {
       return this.$t('REGISTER.TERMS_ACCEPT')
         .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
@@ -163,6 +171,12 @@ export default {
           'https://www.chatwoot.com/privacy-policy',
           this.globalConfig.privacyURL
         );
+    },
+    hasAValidCaptcha() {
+      if (this.globalConfig.hCaptchaSiteKey) {
+        return !!this.credentials.hCaptchaClientResponse;
+      }
+      return true;
     },
   },
   methods: {
@@ -186,6 +200,9 @@ export default {
       } finally {
         this.isSignupInProgress = false;
       }
+    },
+    onRecaptchaVerified(token) {
+      this.credentials.hCaptchaClientResponse = token;
     },
   },
 };
@@ -233,6 +250,10 @@ export default {
     font-size: var(--font-size-small);
     text-align: center;
     margin: var(--space-normal) 0 0 0;
+  }
+
+  .h-captcha--box {
+    margin-bottom: var(--space-one);
   }
 }
 </style>

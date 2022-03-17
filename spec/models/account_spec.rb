@@ -18,7 +18,7 @@ RSpec.describe Account do
   it { is_expected.to have_many(:web_widgets).class_name('::Channel::WebWidget').dependent(:destroy_async) }
   it { is_expected.to have_many(:webhooks).dependent(:destroy_async) }
   it { is_expected.to have_many(:notification_settings).dependent(:destroy_async) }
-  it { is_expected.to have_many(:events) }
+  it { is_expected.to have_many(:reporting_events) }
   it { is_expected.to have_many(:kbase_portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:kbase_categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }

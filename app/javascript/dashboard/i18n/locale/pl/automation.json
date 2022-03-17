@@ -1,17 +1,17 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
+    "HEADER": "Automatyzacja",
+    "HEADER_BTN_TXT": "Dodaj regułę automatyzacji",
     "LOADING": "Fetching automation rules",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "Dodaj regułę automatyzacji",
       "SUBMIT": "Stwórz",
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Nazwa reguły",
+          "PLACEHOLDER": "Wprowadź nazwę reguły",
           "ERROR": "Name is required"
         },
         "DESC": {

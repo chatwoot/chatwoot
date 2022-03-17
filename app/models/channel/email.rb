@@ -16,8 +16,10 @@
 #  smtp_authentication       :string           default("login")
 #  smtp_domain               :string           default("")
 #  smtp_email                :string           default("")
+#  smtp_enable_ssl_tls       :boolean          default(FALSE)
 #  smtp_enable_starttls_auto :boolean          default(TRUE)
 #  smtp_enabled              :boolean          default(FALSE)
+#  smtp_openssl_verify_mode  :string           default("none")
 #  smtp_password             :string           default("")
 #  smtp_port                 :integer          default(0)
 #  created_at                :datetime         not null
@@ -35,7 +37,8 @@ class Channel::Email < ApplicationRecord
 
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email, :imap_enabled, :imap_email, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_inbox_synced_at,
-                    :smtp_enabled, :smtp_email, :smtp_password, :smtp_address, :smtp_port, :smtp_domain].freeze
+                    :smtp_enabled, :smtp_email, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,
+                    :smtp_enable_ssl_tls, :smtp_openssl_verify_mode].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true

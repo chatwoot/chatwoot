@@ -1,7 +1,8 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="shadow-sm rounded-lg bg-white mb-1 z-50 relative"
+    class="shadow-sm bg-white mb-1 z-50 relative"
+    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
   >
     <chat-input-wrap
       :on-send-message="handleSendMessage"
@@ -36,12 +37,13 @@ import CustomButton from 'shared/components/Button';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-
+import routerMixin from 'widget/mixins/routerMixin';
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
   },
+  mixins: [routerMixin],
   props: {
     msg: {
       type: String,
@@ -52,8 +54,9 @@ export default {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
-      getConversationSize: 'conversation/getConversationSize',
+      conversationSize: 'conversation/getConversationSize',
       currentUser: 'contacts/getCurrentUser',
+      isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -78,12 +81,11 @@ export default {
       'clearConversationAttributes',
     ]),
     async handleSendMessage(content) {
-      const conversationSize = this.getConversationSize;
       await this.sendMessage({
         content,
       });
       // Update conversation attributes on new conversation
-      if (conversationSize === 0) {
+      if (this.conversationSize === 0) {
         this.getAttributes();
       }
     },
@@ -93,7 +95,12 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
-      window.bus.$emit(BUS_EVENTS.START_NEW_CONVERSATION);
+
+      // To create a new conversation, we are redirecting
+      // the user to pre-chat with contact fields disabled
+      // Pass disableContactFields params to the route
+      // This would disable the contact fields in the pre-chat form
+      this.replaceRoute('prechat-form', { disableContactFields: true });
     },
     async sendTranscript() {
       const { email } = this.currentUser;

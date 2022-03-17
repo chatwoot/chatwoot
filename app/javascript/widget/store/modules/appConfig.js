@@ -6,14 +6,15 @@ import {
 } from '../types';
 
 const state = {
-  showPopoutButton: false,
   hideMessageBubble: false,
-  position: 'right',
-  isWebWidgetTriggered: false,
   isCampaignViewClicked: false,
+  isWebWidgetTriggered: false,
   isWidgetOpen: false,
-  widgetColor: '',
+  position: 'right',
   referrerHost: '',
+  showPopoutButton: false,
+  widgetColor: '',
+  widgetStyle: 'standard',
 };
 
 export const getters = {
@@ -23,14 +24,19 @@ export const getters = {
   getIsWidgetOpen: $state => $state.isWidgetOpen,
   getWidgetColor: $state => $state.widgetColor,
   getReferrerHost: $state => $state.referrerHost,
+  isWidgetStyleFlat: $state => $state.widgetStyle === 'flat',
 };
 
 export const actions = {
-  setAppConfig({ commit }, { showPopoutButton, position, hideMessageBubble }) {
+  setAppConfig(
+    { commit },
+    { showPopoutButton, position, hideMessageBubble, widgetStyle = 'rounded' }
+  ) {
     commit(SET_WIDGET_APP_CONFIG, {
-      showPopoutButton: !!showPopoutButton,
-      position: position || 'right',
       hideMessageBubble: !!hideMessageBubble,
+      position: position || 'right',
+      showPopoutButton: !!showPopoutButton,
+      widgetStyle,
     });
   },
   toggleWidgetOpen({ commit }, isWidgetOpen) {
@@ -49,6 +55,7 @@ export const mutations = {
     $state.showPopoutButton = data.showPopoutButton;
     $state.position = data.position;
     $state.hideMessageBubble = data.hideMessageBubble;
+    $state.widgetStyle = data.widgetStyle;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;

@@ -1,8 +1,20 @@
 import queryString from 'query-string';
+import { DEFAULT_REDIRECT_URL } from '../constants';
 
 export const frontendURL = (path, params) => {
   const stringifiedParams = params ? `?${queryString.stringify(params)}` : '';
   return `/app/${path}${stringifiedParams}`;
+};
+
+export const getLoginRedirectURL = (ssoAccountId, user) => {
+  const { accounts = [] } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
+  if (ssoAccount) {
+    return frontendURL(`accounts/${ssoAccountId}/dashboard`);
+  }
+  return DEFAULT_REDIRECT_URL;
 };
 
 export const conversationUrl = ({

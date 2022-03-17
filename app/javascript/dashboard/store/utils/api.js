@@ -38,11 +38,17 @@ export const setAuthCredentials = response => {
   setUser(response.data.data, expiryDate);
 };
 
+export const clearBrowserSessionCookies = () => {
+  Cookies.remove('auth_data');
+  Cookies.remove('user');
+};
+
 export const clearCookiesOnLogout = () => {
   window.bus.$emit(CHATWOOT_RESET);
   window.bus.$emit(ANALYTICS_RESET);
-
-  Cookies.remove('auth_data');
-  Cookies.remove('user');
-  window.location = frontendURL('login');
+  clearBrowserSessionCookies();
+  const globalConfig = window.globalConfig || {};
+  const logoutRedirectLink =
+    globalConfig.LOGOUT_REDIRECT_LINK || frontendURL('login');
+  window.location = logoutRedirectLink;
 };

@@ -1,9 +1,9 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
+        "TITLE": "Filtruj kontakty",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "ADD_NEW_FILTER": "Dodaj filtr",
+        "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Prześlij",
         "CANCEL_BUTTON_LABEL": "Anuluj",

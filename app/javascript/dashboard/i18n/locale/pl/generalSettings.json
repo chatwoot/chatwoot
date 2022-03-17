@@ -89,7 +89,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Raporty",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Rozmowa",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
@@ -120,9 +120,9 @@
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
       "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Rozwiąż rozmowę",
+      "SEND_TRANSCRIPT": "Wyślij transkrypt rozmowy",
+      "SNOOZE_CONVERSATION": "Wycisz rozmowę",
       "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
       "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
       "UNTIL_TOMORROW": "Do jutra"

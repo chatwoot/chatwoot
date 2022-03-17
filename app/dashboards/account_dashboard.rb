@@ -7,6 +7,8 @@ class AccountDashboard < Administrate::BaseDashboard
   # Each different type represents an Administrate::Field object,
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
+
+  enterprise_attribute_types = ChatwootApp.enterprise? ? { limits: Enterprise::AccountLimitsField } : {}
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
@@ -16,7 +18,7 @@ class AccountDashboard < Administrate::BaseDashboard
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     account_users: Field::HasMany
-  }.freeze
+  }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
   # an array of attributes that will be displayed on the model's index page.
@@ -33,7 +35,8 @@ class AccountDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = %i[
+  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[limits] : []
+  SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
     created_at
@@ -41,15 +44,16 @@ class AccountDashboard < Administrate::BaseDashboard
     locale
     conversations
     account_users
-  ].freeze
+  ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = %i[
+  enterprise_form_attributes = ChatwootApp.enterprise? ? %i[limits] : []
+  FORM_ATTRIBUTES = (%i[
     name
     locale
-  ].freeze
+  ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS
   # a hash that defines filters that can be used while searching via the search
@@ -68,5 +72,9 @@ class AccountDashboard < Administrate::BaseDashboard
   #
   def display_resource(account)
     "##{account.id} #{account.name}"
+  end
+
+  def permitted_attributes
+    super + [limits: {}]
   end
 end

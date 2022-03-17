@@ -47,6 +47,7 @@
         class="message--read"
         :data="message"
         :is-a-tweet="isATweet"
+        :has-instagram-story="hasInstagramStory"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span class="text-uppercase">
@@ -64,6 +65,7 @@
         class="message--unread"
         :data="message"
         :is-a-tweet="isATweet"
+        :has-instagram-story="hasInstagramStory"
       />
     </ul>
     <div
@@ -213,6 +215,10 @@ export default {
 
     isATweet() {
       return this.conversationType === 'tweet';
+    },
+
+    hasInstagramStory() {
+      return this.conversationType === 'instagram_direct_message';
     },
 
     selectedTweet() {

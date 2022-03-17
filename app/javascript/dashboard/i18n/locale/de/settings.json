@@ -19,6 +19,18 @@
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Persönliche Nachrichtensignatur",
+        "NOTE": "Erstelle eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Du von der Plattform sendest. Verwende den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
+        "BTN_TEXT": "Nachrichten-Signatur speichern",
+        "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
+        "API_SUCCESS": "Signatur erfolgreich gespeichert"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Nachrichten-Signatur",
+        "ERROR": "Nachrichten-Signatur darf nicht leer sein",
+        "PLACEHOLDER": "Füge hier Deine persönliche Nachrichtensignatur ein."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Passwort",
         "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt.",

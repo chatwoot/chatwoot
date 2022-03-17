@@ -1,9 +1,33 @@
 <template>
   <div class="row app-wrapper">
-    <sidebar :route="currentRoute" :class="sidebarClassName"></sidebar>
+    <sidebar
+      :route="currentRoute"
+      :class="sidebarClassName"
+      @toggle-account-modal="toggleAccountModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
+      @show-add-label-popup="showAddLabelPopup"
+    ></sidebar>
     <section class="app-content columns" :class="contentClassName">
       <router-view></router-view>
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+        @show-create-account-modal="openCreateAccountModal"
+      />
+      <add-account-modal
+        :show="showCreateAccountModal"
+        @close-account-create-modal="closeCreateAccountModal"
+      />
+      <woot-key-shortcut-modal
+        v-if="showShortcutModal"
+        @close="closeKeyShortcutModal"
+        @clickaway="closeKeyShortcutModal"
+      />
+      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
+        <add-label-modal @close="hideAddLabelPopup" />
+      </woot-modal>
     </section>
   </div>
 </template>
@@ -12,16 +36,28 @@
 import Sidebar from '../../components/layout/Sidebar';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 
 export default {
   components: {
     Sidebar,
     CommandBar,
+    WootKeyShortcutModal,
+    AddAccountModal,
+    AccountSelector,
+    AddLabelModal,
   },
   data() {
     return {
       isSidebarOpen: false,
       isOnDesktop: true,
+      showAccountModal: false,
+      showCreateAccountModal: false,
+      showAddLabelModal: false,
+      showShortcutModal: false,
     };
   },
   computed: {
@@ -67,6 +103,28 @@ export default {
     },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    openCreateAccountModal() {
+      this.showAccountModal = false;
+      this.showCreateAccountModal = true;
+    },
+    closeCreateAccountModal() {
+      this.showCreateAccountModal = false;
+    },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
+    },
+    toggleKeyShortcutModal() {
+      this.showShortcutModal = true;
+    },
+    closeKeyShortcutModal() {
+      this.showShortcutModal = false;
+    },
+    showAddLabelPopup() {
+      this.showAddLabelModal = true;
+    },
+    hideAddLabelPopup() {
+      this.showAddLabelModal = false;
     },
   },
 };

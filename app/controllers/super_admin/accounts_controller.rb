@@ -33,11 +33,11 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
-  # def resource_params
-  #   params.require(resource_class.model_name.param_key).
-  #     permit(dashboard.permitted_attributes).
-  #     transform_values { |value| value == "" ? nil : value }
-  # end
+  def resource_params
+    permitted_params = super
+    permitted_params[:limits] = permitted_params[:limits].to_h.compact
+    permitted_params
+  end
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information

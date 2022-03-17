@@ -50,7 +50,9 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: automationsList[0] });
+      axios.patch.mockResolvedValue({
+        data: { payload: automationsList[0] },
+      });
       await actions.update({ commit }, automationsList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_AUTOMATION_UI_FLAG, { isUpdating: true }],

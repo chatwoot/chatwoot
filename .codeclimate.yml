@@ -49,3 +49,4 @@ exclude_patterns:
   - 'app/javascript/dashboard/routes/dashboard/contacts/contactFilterItems/index.js'
   - 'app/javascript/dashboard/routes/dashboard/settings/automation/constants.js'
   - 'app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js'
+  - 'app/javascript/dashboard/routes/dashboard/settings/reports/constants.js'

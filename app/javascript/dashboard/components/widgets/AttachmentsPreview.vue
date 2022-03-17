@@ -7,7 +7,7 @@
     >
       <div class="thumb-wrap">
         <img
-          v-if="isTypeImage(attachment.resource.content_type)"
+          v-if="isTypeImage(attachment.resource)"
           class="image-thumb"
           :src="attachment.thumb"
         />
@@ -15,16 +15,17 @@
       </div>
       <div class="file-name-wrap">
         <span class="item">
-          {{ attachment.resource.filename }}
+          {{ fileName(attachment.resource) }}
         </span>
       </div>
       <div class="file-size-wrap">
         <span class="item">
-          {{ formatFileSize(attachment.resource.byte_size) }}
+          {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
       <div class="remove-file-wrap">
         <woot-button
+          v-if="!isTypeAudio(attachment.resource)"
           class="remove--attachment clear secondary"
           icon="dismiss"
           @click="() => onRemoveAttachment(index)"
@@ -50,11 +51,20 @@ export default {
     onRemoveAttachment(index) {
       this.removeAttachment(index);
     },
-    formatFileSize(size) {
+    formatFileSize(file) {
+      const size = file.byte_size || file.size;
       return formatBytes(size, 0);
     },
-    isTypeImage(type) {
+    isTypeImage(file) {
+      const type = file.content_type || file.type;
       return type.includes('image');
+    },
+    isTypeAudio(file) {
+      const type = file.content_type || file.type;
+      return type.includes('audio');
+    },
+    fileName(file) {
+      return file.filename || file.name;
     },
   },
 };

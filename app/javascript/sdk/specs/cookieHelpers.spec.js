@@ -1,4 +1,8 @@
-import { getUserCookieName, getUserString, hasUserKeys } from '../../packs/sdk';
+import {
+  getUserCookieName,
+  getUserString,
+  hasUserKeys,
+} from '../cookieHelpers';
 
 describe('#getUserCookieName', () => {
   it('returns correct cookie name', () => {

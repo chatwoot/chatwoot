@@ -64,7 +64,7 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at], coder: JSON
+                                         :external_created_at, :story_sender, :story_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -136,6 +136,14 @@ class Message < ApplicationRecord
     I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
   end
 
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
+  end
+
   private
 
   def ensure_content_type
@@ -192,13 +200,6 @@ class Message < ApplicationRecord
 
   def email_notifiable_channel?
     email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
-  end
-
-  def email_notifiable_message?
-    return false unless outgoing? || input_csat?
-    return false if private?
-
-    true
   end
 
   def can_notify_via_mail?

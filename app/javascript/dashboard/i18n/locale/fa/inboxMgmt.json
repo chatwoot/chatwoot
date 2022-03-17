@@ -149,22 +149,22 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "شناسه حساب‌کاربری",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "لطفا شناسه حساب Bandwidth خود را وارد کنید",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "API key",
+            "PLACEHOLDER": "لطفاً کلید Bandwith API خود را وارد کنید",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "لطفا Bandwith API Secret خود را وارد کنید",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "شناسه برنامه",
+            "PLACEHOLDER": "لطفا شناسه برنامه Bandwidth خود را وارد کنید",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
             "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "ایجاد کانال Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "ما نتوانستیم اعتبارنامه Bandwidth را احراز هویت کنیم، لطفاً دوباره امتحان کنید"
           },
           "API_CALLBACK": {
             "TITLE": "آدرس URL مربوط به API",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "شما باید URL بازگشت به تماس پیام را در Bandwidth با URL ذکر شده در اینجا پیکربندی کنید."
           }
         }
       },
@@ -521,7 +521,11 @@
       "DOMAIN": {
         "LABEL": "دامنه",
         "PLACE_HOLDER": "دامنه"
-      }
+      },
+      "ENCRYPTION": "رمزگذاری",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL"
     }
   }
 }

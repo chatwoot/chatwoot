@@ -70,6 +70,53 @@ describe AutomationRuleListener do
     end
   end
 
+  describe '#conversation_updated' do
+    before do
+      automation_rule.update!(
+        event_name: 'conversation_updated',
+        name: 'Call actions conversation updated',
+        description: 'Add labels, assign team after conversation updated'
+      )
+    end
+
+    let!(:event) do
+      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+    end
+
+    context 'when rule matches' do
+      it 'triggers automation rule to assign team' do
+        expect(conversation.team_id).not_to eq(team.id)
+
+        automation_rule
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.team_id).to eq(team.id)
+      end
+
+      it 'triggers automation rule to add label' do
+        expect(conversation.labels).to eq([])
+
+        automation_rule
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
+      end
+
+      it 'triggers automation rule to assign best agents' do
+        expect(conversation.assignee).to be_nil
+
+        automation_rule
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        expect(conversation.assignee).to eq(user_1)
+      end
+    end
+  end
+
   describe '#message_created' do
     before do
       automation_rule.update!(

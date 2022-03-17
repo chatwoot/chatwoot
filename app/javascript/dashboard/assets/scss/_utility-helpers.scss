@@ -54,3 +54,9 @@
 .text-y-800 {
   color: var(--y-800);
 }
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

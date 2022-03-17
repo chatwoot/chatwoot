@@ -71,29 +71,29 @@
       "AGENT": "AGENT",
       "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Dodaj agentów",
-      "ADD_AGENTS": "Adding Agents to your Team...",
+      "ADD_AGENTS": "Dodaj agenta do swojego zespołu...",
       "SELECT": "wybierz",
-      "SELECT_ALL": "select all agents",
+      "SELECT_ALL": "zaznacz wszystkich agentów",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
       "TITLE": "Dodaj agentów do zespołu - %{teamName}",
       "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie.",
       "SELECT": "wybierz",
-      "SELECT_ALL": "select all agents",
+      "SELECT_ALL": "zaznacz wszystkich agentów",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "Dodaj agentów",
       "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
+      "TITLE": "Twój zespół jest gotowy!",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
       "BUTTON_TEXT": "Zakończ"
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "SUCCESS_MESSAGE": "Zespół został usunięty pomyślnie.",
         "ERROR_MESSAGE": "Couldn't delete the team. Try again."
       },
       "CONFIRM": {

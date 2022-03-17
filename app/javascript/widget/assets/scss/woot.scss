@@ -57,3 +57,30 @@ body {
     padding-left: $space-normal;
   }
 }
+
+.is-flat-design {
+  .chat-bubble {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    box-shadow: none;
+  }
+
+  button {
+    border-radius: 0 !important;
+  }
+
+  input {
+    border-radius: 0;
+  }
+
+  .chat-message--input {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    &.is-focused {
+      box-shadow: none !important;
+    }
+  }
+}

@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "קוד קצר",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "נא להזין קוד קצר",
           "ERROR": "קוד קצר נדרש"
         },
         "CONTENT": {

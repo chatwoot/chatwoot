@@ -40,6 +40,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
 
+          resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
 
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :direct_uploads, only: [:create]
             end
             member do
               post :mute
@@ -178,6 +180,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -187,6 +190,7 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do

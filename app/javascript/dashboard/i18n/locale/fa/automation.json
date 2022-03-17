@@ -72,10 +72,10 @@
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "کلون",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "اتوماسیون با موفقیت کلون شد",
+        "ERROR_MESSAGE": "نمی‌توان قانون اتوماسیون را کلون کرد، لطفاً بعداً دوباره امتحان کنید"
       }
     },
     "FORM": {

@@ -179,8 +179,8 @@
     "SEARCH_BUTTON": "Szukaj",
     "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
     "FILTER_CONTACTS": "Filtruj",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Zapisz filtr",
+    "FILTER_CONTACTS_DELETE": "Usuń filtr",
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
@@ -244,12 +244,12 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Dodaj atrybuty",
     "BUTTON": "Dodaj niestandardowy atrybut",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "Brak niestandardowych atrybutów dostępnych dla tego kontaktu.",
     "COPY_SUCCESSFUL": "Pomyślnie skopiowano do schowka",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Dodaj atrybut",
+      "DELETE": "Usuń atrybut",
+      "EDIT": "Dodaj atrybut"
     },
     "ADD": {
       "TITLE": "Dodaj niestandardowy atrybut",
@@ -268,64 +268,64 @@
         "PLACEHOLDER": "Np.: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "Dodaj niestandardowy atrybut ",
+        "SUCCESS": "Atrybut dodany pomyślnie",
+        "ERROR": "Nie można dodać atrybutu. Spróbuj ponownie później"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Atrybut zaktualizowany pomyślnie",
+        "ERROR": "Nie można dodać atrybutu. Spróbuj ponownie później"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Atrybut usunięty pomyślnie",
+        "ERROR": "Nie można usunąć atrybutu. Spróbuj ponownie później"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Dodaj atrybuty",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "Szukaj atrybutów",
+        "NO_RESULT": "Nie znaleziono atrybutów"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Wybierz wartość",
+          "SEARCH_INPUT_PLACEHOLDER": "Wyszukaj wartość",
+          "NO_RESULT": "Brak wyników"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Wymagana jest prawidłowa wartość",
+      "INVALID_URL": "Nieprawidłowy adres URL"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Połącz kontakty",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Połącz kontakty w celu połączenia dwóch profili w jeden, w tym wszystkich atrybutów i konwersacji. W przypadku konfliktu atrybuty głównego kontaktu będą miały pierwszeństwo.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Kontakt podstawowy",
+      "HELP_LABEL": "Do przechowywania"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Kontakt do scalenia",
+      "PLACEHOLDER": "Szukaj kontaktów",
+      "HELP_LABEL": "Do usunięcia"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt z <strong>%{childContactName}</strong> zostanie usunięty.",
+      "ATTRIBUTE_WARNING": "Dane kontaktowe <strong>%{childContactName}</strong> zostaną skopiowane do <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "Błąd"
     },
     "FORM": {
       "SUBMIT": " Połącz kontakty",
       "CANCEL": "Anuluj",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Wybierz kontakt podrzędny do scalenia"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "Kontakt pomyślnie scalony",
+      "ERROR_MESSAGE": "Nie można scalić kontaktów, spróbuj ponownie!"
     }
   }
 }

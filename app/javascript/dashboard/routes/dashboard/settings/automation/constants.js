@@ -58,8 +58,8 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'message_contains',
-        name: 'Message Contains',
+        key: 'content',
+        name: 'Message Content',
         attributeI18nKey: 'MESSAGE_CONTAINS',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
@@ -76,11 +76,11 @@ export const AUTOMATIONS = {
         name: 'Add a label',
         attributeI18nKey: 'ADD_LABEL',
       },
-      {
-        key: 'send_message',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_MESSAGE',
-      },
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_MESSAGE',
+      // },
     ],
   },
   conversation_created: {
@@ -120,11 +120,11 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      {
-        key: 'send_message',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_MESSAGE',
-      },
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_MESSAGE',
+      // },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
@@ -183,11 +183,11 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      {
-        key: 'send_message',
-        name: 'Send an email to team',
-        attributeI18nKey: 'SEND_MESSAGE',
-      },
+      // {
+      //   key: 'send_email_to_team',
+      //   name: 'Send an email to team',
+      //   attributeI18nKey: 'SEND_MESSAGE',
+      // },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
@@ -222,8 +222,8 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'add_label',
     label: 'Add a label',
   },
-  {
-    key: 'send_message',
-    label: 'Send an email to team',
-  },
+  // {
+  //   key: 'send_email_to_team',
+  //   label: 'Send an email to team',
+  // },
 ];
