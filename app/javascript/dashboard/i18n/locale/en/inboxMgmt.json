@@ -434,6 +434,9 @@
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
+        "LABEL": "Label",
+        "KEY": "Key",
+        "TYPE": "Type",
         "REQUIRED": "Required"
       },
       "ENABLE": {

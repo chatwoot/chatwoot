@@ -33,7 +33,13 @@
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
+              </th>
+              <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
+              </th>
+              <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
               </th>
               <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
@@ -49,8 +55,14 @@
                   @click="handlePreChatFieldOptions($event, 'enabled', item)"
                 />
               </td>
+              <td>
+                <input v-model.trim="item.label" type="text" />
+              </td>
               <td :class="{ 'disabled-text': !item['enabled'] }">
-                {{ item.label }}
+                {{ item.name }}
+              </td>
+              <td :class="{ 'disabled-text': !item['enabled'] }">
+                {{ item.type }}
               </td>
               <td>
                 <input
@@ -79,6 +91,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
 import { getStandardCustomFields } from 'dashboard/helper/inbox';
+
 export default {
   components: {
     draggable,
@@ -99,7 +112,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+      attributes: 'attributes/getAttributes',
+    }),
     preChatFieldOptions() {
       const { pre_chat_form_options: preChatFormOptions } = this.inbox;
       return getStandardCustomFields(preChatFormOptions);
