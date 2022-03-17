@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
       "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
-      "PLACE_HOLDER": "Bitte {contactName} zur Bestätigung eingeben",
-      "YES": "Ja, löschen ",
-      "NO": "Nein, behalten "
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalten"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
@@ -146,7 +145,7 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Gespräch starten",
     "TITLE": "Neue Unterhaltung",
-    "DESC": "Starte eine Unterhaltung mit einer neuen Nachricht",
+    "DESC": "Starten Sie eine neue Konversation, indem Sie eine neue Nachricht senden.",
     "NO_INBOX": "Konnte keinen Posteingang finden, um eine neue Unterhaltung mit diesem Kontakt zu starten.",
     "FORM": {
       "TO": {
@@ -183,7 +182,7 @@
     "FILTER_CONTACTS_DELETE": "Filter löschen",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
-      "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
+      "404": "Keine Kontakte entsprechen Ihrer Suche 🔍",
       "NO_CONTACTS": "Keine Kontakte verfügbar",
       "TABLE_HEADER": {
         "NAME": "Name",
@@ -238,7 +237,7 @@
     "BUTTON": {
       "PILL_BUTTON_NOTES": "Notizen",
       "PILL_BUTTON_EVENTS": "Veranstaltungen",
-      "PILL_BUTTON_CONVO": "gespräche"
+      "PILL_BUTTON_CONVO": "Konversation"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -260,8 +259,8 @@
       "CANCEL": "Stornieren",
       "NAME": {
         "LABEL": "Benutzerdefinierter Attributname",
-        "PLACEHOLDER": "Bsp.: Shopify Id",
-        "ERROR": "Ungültiger eigener Attributname"
+        "PLACEHOLDER": "Beispiel: Shopify-ID",
+        "ERROR": "Ungültiger benutzerdefinierter Attributname"
       },
       "VALUE": {
         "LABEL": "Attributwert",
