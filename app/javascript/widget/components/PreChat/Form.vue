@@ -10,7 +10,7 @@
       {{ headerMessage }}
     </div>
     <form-input
-      v-if="options.requireEmail"
+      v-if="areContactFieldsVisible"
       v-model="fullName"
       class="mt-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
@@ -21,7 +21,7 @@
       "
     />
     <form-input
-      v-if="options.requireEmail"
+      v-if="areContactFieldsVisible"
       v-model="emailAddress"
       class="mt-5"
       :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
@@ -77,6 +77,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    disableContactFields: {
+      type: Boolean,
+      default: false,
+    },
   },
   validations() {
     const identityValidations = {
@@ -99,7 +103,7 @@ export default {
     if (this.hasActiveCampaign) {
       return identityValidations;
     }
-    if (this.options.requireEmail) {
+    if (this.areContactFieldsVisible) {
       return {
         ...identityValidations,
         ...messageValidation,
@@ -134,6 +138,9 @@ export default {
         return this.$t('PRE_CHAT_FORM.CAMPAIGN_HEADER');
       }
       return this.options.preChatMessage;
+    },
+    areContactFieldsVisible() {
+      return this.options.requireEmail && !this.disableContactFields;
     },
   },
   methods: {

@@ -25,6 +25,7 @@
       </div>
       <div class="remove-file-wrap">
         <woot-button
+          v-if="!isTypeAudio(attachment.resource)"
           class="remove--attachment clear secondary"
           icon="dismiss"
           @click="() => onRemoveAttachment(index)"
@@ -57,6 +58,10 @@ export default {
     isTypeImage(file) {
       const type = file.content_type || file.type;
       return type.includes('image');
+    },
+    isTypeAudio(file) {
+      const type = file.content_type || file.type;
+      return type.includes('audio');
     },
     fileName(file) {
       return file.filename || file.name;

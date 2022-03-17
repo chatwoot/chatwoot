@@ -13,7 +13,7 @@ export default {
         .post('auth/sign_in', creds)
         .then(response => {
           setAuthCredentials(response);
-          resolve();
+          resolve(response.data);
         })
         .catch(error => {
           reject(error.response);
