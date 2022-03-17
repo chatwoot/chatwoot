@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Bekräfta borttagning",
       "MESSAGE": "Är du säker på att ta bort ",
-      "PLACE_HOLDER": "Vänligen skriv {contactName} för att bekräfta",
-      "YES": "Ja, ta bort ",
-      "NO": "Nej, behåll "
+      "YES": "Ja, ta bort",
+      "NO": "Nej, behåll"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakten har tagits bort",

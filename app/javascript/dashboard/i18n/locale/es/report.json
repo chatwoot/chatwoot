@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplicar",
       "PLACEHOLDER": "Seleccione rango de fechas"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar por",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mes"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mes"
+      },
+      {
+        "id": 4,
+        "groupBy": "Año"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "Reporte de encuestas de satisfacción",
     "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Elegir agentes"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contacto",

@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
-      "PRIVATE_MSG_INPUT": "Shift + wprowadź dla nowej linii. Będzie to widoczne tylko dla agentów"
+      "PRIVATE_MSG_INPUT": "Shift + wprowadź dla nowej linii. Będzie to widoczne tylko dla agentów",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Odpowiedz",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać",
       "DRAG_DROP": "Przeciągnij i upuść tutaj, aby dołączyć",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Dodaj bcc",
         "CC": {

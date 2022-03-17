@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
       "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-      "PLACE_HOLDER": "Voer {contactName} in om te bevestigen",
-      "YES": "Ja, verwijderen ",
-      "NO": "Nee, Behouden "
+      "YES": "Ja, verwijderen",
+      "NO": "Nee, Behouden"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contactpersoon werd succesvol verwijderd",
