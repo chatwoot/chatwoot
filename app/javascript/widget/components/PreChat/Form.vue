@@ -201,14 +201,22 @@ export default {
   },
   methods: {
     isContactFieldVisible(field, item) {
+      const itemExists = this.preChatFields.find(
+        option => option.name === field
+      );
       return (
+        itemExists &&
         item.name === field &&
         this.preChatFields.find(option => option.name === field).enabled &&
         !this.disableContactFields
       );
     },
     isContactFieldRequired(field) {
+      const itemExists = this.preChatFields.find(
+        option => option.name === field
+      );
       return (
+        itemExists &&
         this.preChatFields.find(option => option.name === field).required &&
         !this.disableContactFields
       );

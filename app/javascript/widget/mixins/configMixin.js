@@ -28,12 +28,37 @@ export default {
       const options = window.chatwootWebChannel.preChatFormOptions || {};
       requireEmail = options.require_email;
       preChatMessage = options.pre_chat_message;
-      preChatFields = options.pre_chat_fields;
+
+      preChatFields =
+        options.pre_chat_fields ||
+        this.getDefaultPreChatFields({ requireEmail });
       return {
         requireEmail,
         preChatMessage,
         preChatFields,
       };
+    },
+  },
+  methods: {
+    getDefaultPreChatFields({ requireEmail }) {
+      return [
+        {
+          label: 'Email Id',
+          name: 'emailAddress',
+          type: 'email',
+          field_type: 'standard',
+          required: requireEmail || false,
+          enabled: requireEmail || false,
+        },
+        {
+          label: 'Full name',
+          name: 'fullName',
+          type: 'text',
+          field_type: 'standard',
+          required: true,
+          enabled: true,
+        },
+      ];
     },
   },
 };

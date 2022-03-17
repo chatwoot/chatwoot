@@ -13,6 +13,25 @@ global.chatwootWidgetDefaults = {
   useInboxAvatarForBot: true,
 };
 
+const preChatFields = [
+  {
+    label: 'Email Id',
+    name: 'emailAddress',
+    type: 'email',
+    field_type: 'standard',
+    required: false,
+    enabled: false,
+  },
+  {
+    label: 'Full name',
+    name: 'fullName',
+    type: 'text',
+    field_type: 'standard',
+    required: true,
+    enabled: true,
+  },
+];
+
 describe('configMixin', () => {
   test('returns config', () => {
     const Component = {
@@ -40,6 +59,10 @@ describe('configMixin', () => {
     expect(wrapper.vm.preChatFormOptions).toEqual({
       requireEmail: false,
       preChatMessage: '',
+      preChatFields: preChatFields,
     });
+    expect(wrapper.vm.getDefaultPreChatFields({ requireEmail: false })).toEqual(
+      preChatFields
+    );
   });
 });
