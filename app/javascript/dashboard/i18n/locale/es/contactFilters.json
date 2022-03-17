@@ -21,8 +21,9 @@
             "does_not_contain": "No contiene",
             "is_present": "Está presente",
             "is_not_present": "No está presente",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than"
+            "is_greater_than": "Es mayor que",
+            "is_lesser_than": "Es menor que",
+            "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
             "NAME": "Nombre",
@@ -31,15 +32,17 @@
             "IDENTIFIER": "Idenrificador",
             "CITY": "Ciudad",
             "COUNTRY": "País",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+            "CUSTOM_ATTRIBUTE_LIST": "Lista",
+            "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+            "CUSTOM_ATTRIBUTE_LINK": "Enlace",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
+            "CREATED_AT": "Created At",
+            "LAST_ACTIVITY": "Última actividad"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Filtros estándar",
+            "ADDITIONAL_FILTERS": "Filtros adicionales",
             "CUSTOM_ATTRIBUTES": "Atributos personalizados"
         }
     }

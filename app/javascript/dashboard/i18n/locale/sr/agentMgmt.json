@@ -1,0 +1,113 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenti",
+    "HEADER_BTN_TXT": "Dodaj agenta",
+    "LOADING": "Preuzimanje liste agenata",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "There are no agents associated to this account",
+      "TITLE": "Upravljajte agentima u Vašem timu",
+      "DESC": "Možete dodati ili ukloniti agente iz Vašeg tima.",
+      "NAME": "Ime",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Akcije",
+      "VERIFIED": "Provereno",
+      "VERIFICATION_PENDING": "Verifikacija na čekanju"
+    },
+    "ADD": {
+      "TITLE": "Dodajte agenta u Vaš tim",
+      "DESC": "Možete dodati ljude koji će moći da rukovode podrškom za vaše prijemno sanduče.",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ime agenta",
+          "PLACEHOLDER": "Unesite ime agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Uloga",
+          "PLACEHOLDER": "Izaberite ulogu",
+          "ERROR": "Uloga je obavezna"
+        },
+        "EMAIL": {
+          "LABEL": "E-mail adresa",
+          "PLACEHOLDER": "Unesite e-mail adresu agenta"
+        },
+        "SUBMIT": "Dodaj agenta"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent je uspešno dodat",
+        "EXIST_MESSAGE": "E-mail adresa agenta je već u upotrebi, pokušajte sa drugom e-mail adresom",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent je uspešno obrisan",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredi agenta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ime agenta",
+          "PLACEHOLDER": "Unesite ime agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Uloga",
+          "PLACEHOLDER": "Izaberite ulogu",
+          "ERROR": "Uloga je obavezna"
+        },
+        "EMAIL": {
+          "LABEL": "E-mail adresa",
+          "PLACEHOLDER": "Unesite e-mail adresu agenta"
+        },
+        "SUBMIT": "Uredi agenta"
+      },
+      "BUTTON_TEXT": "Uredi",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent je uspešno ažuriran",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Resetuj šifru",
+        "ADMIN_SUCCESS_MESSAGE": "Agentu je poslana e-mail poruka sa instrukcijama za promenu šifre",
+        "SUCCESS_MESSAGE": "Šifra agenta je uspešno promenjena",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nema rezultata."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nijedan",
+      "TITLE": {
+        "AGENT": "Izaberite agenta",
+        "TEAM": "Izaberite tim"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nema pronađenih agenata",
+          "TEAM": "Nema pronađenih timova"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Traži agente",
+          "TEAM": "Traži tim"
+        }
+      }
+    }
+  }
+}

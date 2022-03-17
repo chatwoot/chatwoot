@@ -34,7 +34,7 @@
       }
     },
     "MERGE_CONTACT": "Gộp liên lạc",
-    "CONTACT_ACTIONS": "Hành động của liên lạc",
+    "CONTACT_ACTIONS": "Hành động của người liên hệ",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
@@ -60,7 +60,7 @@
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Nhập",
     "TITLE": "Nhập liên lạc",
-    "DESC": "Nhập liên lạc qua một file CSV.",
+    "DESC": "Nhập liên lạc bằng một file CSV.",
     "DOWNLOAD_LABEL": "Tải xuống file CSV mẫu.",
     "FORM": {
       "LABEL": "CSV File",
@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
       "MESSAGE": "Bạn có muốn xoá? ",
-      "PLACE_HOLDER": "Vui lòng nhập {contactName} để xác nhận",
-      "YES": "Có, xoá ",
-      "NO": "Không, giữ "
+      "YES": "Có, Xoá",
+      "NO": "Không, giữ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
@@ -220,12 +219,12 @@
       "TITLE": "Ghi chú"
     },
     "LIST": {
-      "LABEL": "thêm một ghi chú"
+      "LABEL": "đã thêm một ghi chú"
     },
     "ADD": {
       "BUTTON": "Thêm",
       "PLACEHOLDER": "Thêm ghi chú",
-      "TITLE": "Ấn Shift + Enter để thêm ghi chú"
+      "TITLE": "Ấn Shift + Enter để thêm một ghi chú"
     },
     "CONTENT_HEADER": {
       "DELETE": "Xoá ghi chú"
@@ -236,8 +235,8 @@
       "TITLE": "Hoạt động"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "ghi chú",
-      "PILL_BUTTON_EVENTS": "sự kiện",
+      "PILL_BUTTON_NOTES": "các ghi chú",
+      "PILL_BUTTON_EVENTS": "các sự kiện",
       "PILL_BUTTON_CONVO": "các cuộc hội thoại"
     }
   },
@@ -273,16 +272,16 @@
         "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
       },
       "UPDATE": {
-        "SUCCESS": "Thuộc tính cập nhật thành công",
+        "SUCCESS": "Thuộc tính được cập nhật thành công",
         "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
       },
       "DELETE": {
-        "SUCCESS": "Thuộc tính xoá thành công",
+        "SUCCESS": "Thuộc tính được xoá thành công",
         "ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Thêm thuộc tính",
-        "PLACEHOLDER": "Tìm kiếm thuộc tính",
+        "TITLE": "Thêm nhiều thuộc tính",
+        "PLACEHOLDER": "Tìm kiếm nhiều thuộc tính",
         "NO_RESULT": "Không có thuộc tính nào được tìm thấy"
       },
       "ATTRIBUTE_TYPE": {
@@ -299,8 +298,8 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Gộp liên lạc",
-    "DESCRIPTION": "Gộp liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và cuộc hội thoại. Trong trường hợp xung đột, các thuộc tính của địa chỉ liên hệ Chính sẽ được ưu tiên.",
+    "TITLE": "Gộp các liên hệ",
+    "DESCRIPTION": "Gộp các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và cuộc hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
     "PRIMARY": {
       "TITLE": "Liên lạc chính",
       "HELP_LABEL": "Được giữ"
@@ -308,7 +307,7 @@
     "CHILD": {
       "TITLE": "Liên lạc cần gộp",
       "PLACEHOLDER": "Tìm kiếm liên hệ",
-      "HELP_LABEL": "Sẽ xoá"
+      "HELP_LABEL": "Sẽ được xoá"
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
@@ -319,10 +318,10 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Gộp liên lạc",
+      "SUBMIT": " Gộp các liên hệ",
       "CANCEL": "Huỷ",
       "CHILD_CONTACT": {
-        "ERROR": "Chọn liên lạc con để gộp"
+        "ERROR": "Chọn một liên lạc con để gộp"
       },
       "SUCCESS_MESSAGE": "Liên lạc được gộp thành công",
       "ERROR_MESSAGE": "Không thể gộp liên lạc, thử lại!"

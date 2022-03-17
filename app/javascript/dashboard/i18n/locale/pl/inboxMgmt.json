@@ -462,7 +462,8 @@
         "HOURS": "godzin",
         "VALIDATION_ERROR": "Czas rozpoczęcia powinien być przed czasem zakończenia.",
         "CHOOSE": "Wybierz"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

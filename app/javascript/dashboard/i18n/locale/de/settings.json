@@ -6,7 +6,7 @@
     "DELETE_AVATAR": "Avatar löschen",
     "AVATAR_DELETE_SUCCESS": "Avatar wurde erfolgreich gelöscht",
     "AVATAR_DELETE_FAILED": "Beim Löschen des Avatars ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
-    "UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert",
+    "UPDATE_SUCCESS": "Ihr Profil wurde erfolgreich aktualisiert",
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
@@ -52,8 +52,8 @@
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
-        "CONVERSATION_MENTION": "Sende E-Mail-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird"
+        "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -64,8 +64,8 @@
         "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
-        "CONVERSATION_MENTION": "Sende Push-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird",
+        "CONVERSATION_MENTION": "Senden Sie Push-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
@@ -73,7 +73,7 @@
         "LABEL": "Profilbild"
       },
       "NAME": {
-        "LABEL": "Dein Name",
+        "LABEL": "Ihr vollständiger Name",
         "ERROR": "Bitte geben Sie einen gültigen Namen ein",
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
       },
@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "CONVERSATIONS": "Gespräche",
     "ALL_CONVERSATIONS": "Alle Unterhaltungen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Posteingang",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Setzen Sie sich als"
+    "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
