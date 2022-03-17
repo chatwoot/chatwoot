@@ -20,16 +20,16 @@
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Assinatura de mensagens pessoais",
+        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens que você envia a partir da plataforma. Use o editor de conteúdo rico para criar uma assinatura altamente personalizada.",
+        "BTN_TEXT": "Salvar assinatura da mensagem",
+        "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
+        "API_SUCCESS": "Assinatura salva com sucesso"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Assinatura da mensagem",
+        "ERROR": "Assinatura da mensagem não pode estar vazia",
+        "PLACEHOLDER": "Insira aqui a assinatura de sua mensagem pessoal."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
-    "SET_AVAILABILITY_TITLE": "Defina como"
+    "SET_AVAILABILITY_TITLE": "Defina como",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

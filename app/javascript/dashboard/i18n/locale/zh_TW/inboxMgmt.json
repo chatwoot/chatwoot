@@ -462,7 +462,8 @@
         "HOURS": "小時",
         "VALIDATION_ERROR": "開始時間必須在關閉時間之前",
         "CHOOSE": "選擇"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

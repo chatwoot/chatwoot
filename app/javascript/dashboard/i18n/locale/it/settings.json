@@ -3,9 +3,9 @@
     "LINK": "Impostazioni profilo",
     "TITLE": "Impostazioni profilo",
     "BTN_TEXT": "Aggiorna profilo",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "DELETE_AVATAR": "Elimina avatar",
+    "AVATAR_DELETE_SUCCESS": "L'avatar è stato eliminato con successo",
+    "AVATAR_DELETE_FAILED": "C'è un errore durante l'eliminazione dell'avatar, si prega di riprovare",
     "UPDATE_SUCCESS": "Il tuo profilo è stato aggiornato con successo",
     "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
     "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente l'accesso, siccome le tue credenziali di accesso sono state modificate",
@@ -20,16 +20,16 @@
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Firma del messaggio personale",
+        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla piattaforma. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
+        "BTN_TEXT": "Salva firma del messaggio",
+        "API_ERROR": "Impossibile salvare la firma! Riprova",
+        "API_SUCCESS": "Firma salvata con successo"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Firma del messaggio",
+        "ERROR": "La firma del messaggio non può essere vuota",
+        "PLACEHOLDER": "Inserisci qui la firma del tuo messaggio personale."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
@@ -101,38 +101,38 @@
         "PLACEHOLDER": "Inserisci la password attuale"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nuova password",
         "ERROR": "Inserisci una password di lunghezza 6 o più",
         "PLACEHOLDER": "Inserisci una nuova password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Conferma nuova password",
         "ERROR": "La password di conferma deve corrispondere alla password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Inserisci nuovamente la nuova password"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Cambia",
-    "CHANGE_ACCOUNTS": "Cambia Profilo/Account",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CHANGE_ACCOUNTS": "Cambia account",
+    "CONTACT_SUPPORT": "Contatta il supporto",
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
-    "KEYBOARD_SHORTCUTS": "Tasti Scorciatoie",
-    "LOGOUT": "Disconnetti"
+    "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
+    "LOGOUT": "Disconnettiti"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "giorni di prova rimanenti.",
-    "TRAIL_BUTTON": "Acquista Ora",
-    "DELETED_USER": "Deleted User"
+    "TRAIL_BUTTON": "Acquista ora",
+    "DELETED_USER": "Utente eliminato"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
-      "COPY_SUCCESSFUL": "Codice copiato negli appunti con successo"
+      "COPY_SUCCESSFUL": "Codice copiato negli appunti correttamente"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Scaricare",
+      "DOWNLOAD": "Scarica",
       "UPLOADING": "Caricamento..."
     },
     "FORM_BUBBLE": {
@@ -142,13 +142,14 @@
   "CONFIRM_EMAIL": "Verifica...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Aggiungi Posta In Arrivo"
+      "NEW_INBOX": "Aggiungi Casella"
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualizzazione attuale:",
     "CONVERSATIONS": "Conversazioni",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Menzioni",
     "REPORTS": "Segnalazioni",
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
@@ -159,33 +160,34 @@
     "CANNED_RESPONSES": "Risposte predefinite",
     "INTEGRATIONS": "Integrazioni",
     "PROFILE_SETTINGS": "Impostazioni profilo",
-    "ACCOUNT_SETTINGS": "Impostazioni Account",
+    "ACCOUNT_SETTINGS": "Impostazioni account",
     "APPLICATIONS": "Applicazioni",
     "LABELS": "Etichette",
     "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
     "AUTOMATION": "Automazione",
     "TEAMS": "Teams",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "Tutti I Contatti",
+    "CUSTOM_VIEWS_FOLDER": "Cartelle",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Tutti i contatti",
     "TAGGED_WITH": "Etichettato con",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Nuova etichetta",
+    "NEW_TEAM": "Nuovo team",
+    "NEW_INBOX": "Nuova casella di posta",
     "REPORTS_OVERVIEW": "Panoramica",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campagne",
-    "ONGOING": "In Corso",
+    "ONGOING": "In corso",
     "ONE_OFF": "Uno fuori",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
-    "NEW_ACCOUNT": "Nuovo Account",
+    "NEW_ACCOUNT": "Nuovo account",
     "SELECTOR_SUBTITLE": "Crea un nuovo account",
     "API": {
       "SUCCESS_MESSAGE": "Account creato con successo",
@@ -194,7 +196,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome del conto",
+        "LABEL": "Nome account",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Invia"
@@ -206,12 +208,12 @@
       "RESOLVE_AND_NEXT": "Risolvi e vai alla prossima",
       "NAVIGATE_DROPDOWN": "Naviga con gli elementi a discesa",
       "RESOLVE_CONVERSATION": "Risolvi la conversazione",
-      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla Dashboard di conversazione",
-      "ADD_ATTACHMENT": "File Allegato",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla dashboard Conversazioni",
+      "ADD_ATTACHMENT": "Aggiungi allegato",
       "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
-      "TOGGLE_SIDEBAR": "Attiva/Disattiva Barra Laterale",
+      "TOGGLE_SIDEBAR": "Attiva/Disattiva barra laterale",
       "GO_TO_REPORTS_SIDEBAR": "Vai alla barra laterale dei rapporti",
-      "MOVE_TO_NEXT_TAB": "Sposta nella scheda successiva nell'elenco delle conversazioni",
+      "MOVE_TO_NEXT_TAB": "Vai alla scheda successiva nell'elenco delle conversazioni",
       "GO_TO_SETTINGS": "Vai alle impostazioni",
       "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",

@@ -3,9 +3,9 @@
     "LINK": "Profil ayarları",
     "TITLE": "Profil ayarları",
     "BTN_TEXT": "Profili Güncelle",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "DELETE_AVATAR": "Profil Resmini Sil",
+    "AVATAR_DELETE_SUCCESS": "Profil resmi başarıyla silindi",
+    "AVATAR_DELETE_FAILED": "Profil resmi silinirken hata oluştu, lütfen tekrar deneyin",
     "UPDATE_SUCCESS": "Profiliniz başarıyla güncellendi",
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
@@ -20,21 +20,21 @@
         "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "İmzanız",
+        "NOTE": "Oluşturacağınız imzanız bu platformdan yapacağınız tüm yazışmalara eklenecektir. Daha fazla özelleştirmek için zengin metin editörünü kullanın.",
+        "BTN_TEXT": "İmzanızı kaydedin",
+        "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
+        "API_SUCCESS": "İmza başarıyla kaydedildi"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
+        "LABEL": "İmzanız",
+        "ERROR": "İmza boş bırakılamaz",
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
         "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Şifre değiştir"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
@@ -43,9 +43,9 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "NONE": "Hiç",
+        "ASSIGNED": "Atanmış Görüşmeler",
+        "ALL_CONVERSATIONS": "Tüm Görüşmeler"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
@@ -96,35 +96,35 @@
         "PLACEHOLDER": "Lütfen e-posta adresinizi girin, bu görüşmelerde görüntülenecektir"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Şu anki şifreniz",
+        "ERROR": "Lütfen mevcut şifrenizi giriniz",
+        "PLACEHOLDER": "Lütfen mevcut şifrenizi giriniz"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Yeni şifre",
         "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
         "PLACEHOLDER": "Lütfen yeni bir şifre girin"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Yeni şifreyi onayla",
         "ERROR": "Onay parolası, parolayla eşleşmelidir",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Lütfen yeni şifrenizi tekrar giriniz"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Değişiktir",
     "CHANGE_ACCOUNTS": "Hesap değiştir",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Desteğe Bağlan",
     "SELECTOR_SUBTITLE": "Aşağıdaki listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profil ayarları",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
     "LOGOUT": "Çıkış Yap"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "gün deneme kaldı.",
     "TRAIL_BUTTON": "Şimdi satın al",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Silinmiş Kullanıcı"
   },
   "COMPONENTS": {
     "CODE": {
@@ -146,9 +146,10 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "CONVERSATIONS": "Konuşmalar",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Tüm Görüşmeler",
+    "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
@@ -160,28 +161,29 @@
     "INTEGRATIONS": "Entegrasyonlar",
     "PROFILE_SETTINGS": "Profil ayarları",
     "ACCOUNT_SETTINGS": "Hesap ayarları",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Uygulamalar",
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
-    "AUTOMATION": "Automation",
-    "TEAMS": "Teams",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "AUTOMATION": "Otomasyon",
+    "TEAMS": "Ekipler",
+    "CUSTOM_VIEWS_FOLDER": "Klasörler",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
+    "ALL_CONTACTS": "Tüm Kişiler",
     "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "NEW_LABEL": "Yeni etiket",
+    "NEW_TEAM": "Yeni ekip",
+    "NEW_INBOX": "Yeni mesaj kutusu",
+    "REPORTS_OVERVIEW": "Önizleme",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanyalar",
-    "ONGOING": "Ongoing",
+    "ONGOING": "Giden",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Kullanıcılar",
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "REPORTS_TEAM": "Ekip",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
@@ -202,10 +204,10 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
+      "OPEN_CONVERSATION": "Görüşmeyi aç",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
       "ADD_ATTACHMENT": "Add Attachment",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
