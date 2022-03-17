@@ -36,18 +36,11 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'chat';
   }
 };
-
-export const getCustomFields = preChatFormOptions => {
-  if (
-    !isEmptyObject(preChatFormOptions) &&
-    'pre_chat_fields' in preChatFormOptions
-  ) {
-    return preChatFormOptions;
-  }
-  const {
-    require_email: requireEmail,
-    pre_chat_message: preChatMessage,
-  } = preChatFormOptions;
+export const getStandardFields = ({
+  requireEmail,
+  emailEnabled,
+  preChatMessage,
+}) => {
   return {
     pre_chat_message: preChatMessage || 'Share your queries or comments here.',
     pre_chat_fields: [
@@ -57,7 +50,7 @@ export const getCustomFields = preChatFormOptions => {
         type: 'email',
         field_type: 'standard',
         required: requireEmail || false,
-        enabled: requireEmail || false,
+        enabled: emailEnabled || false,
       },
       {
         label: 'Full name',
@@ -77,4 +70,22 @@ export const getCustomFields = preChatFormOptions => {
       },
     ],
   };
+};
+
+export const getCustomFields = preChatFormOptions => {
+  if (
+    !isEmptyObject(preChatFormOptions) &&
+    'pre_chat_fields' in preChatFormOptions
+  ) {
+    return preChatFormOptions;
+  }
+  const {
+    require_email: requireEmail,
+    pre_chat_message: preChatMessage,
+  } = preChatFormOptions;
+  return getStandardFields({
+    requireEmail,
+    emailEnabled: requireEmail,
+    preChatMessage,
+  });
 };

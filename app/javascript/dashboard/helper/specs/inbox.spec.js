@@ -1,33 +1,10 @@
-import { getInboxClassByType, getCustomFields } from '../inbox';
-const customFields = {
-  pre_chat_message: 'Share your queries or comments here.',
-  pre_chat_fields: [
-    {
-      label: 'Email Id',
-      name: 'emailAddress',
-      type: 'email',
-      field_type: 'standard',
-      required: false,
-      enabled: false,
-    },
-    {
-      label: 'Full name',
-      name: 'fullName',
-      type: 'text',
-      field_type: 'standard',
-      required: false,
-      enabled: false,
-    },
-    {
-      label: 'Phone number',
-      name: 'phoneNumber',
-      type: 'text',
-      field_type: 'standard',
-      required: false,
-      enabled: false,
-    },
-  ],
-};
+import {
+  getInboxClassByType,
+  getCustomFields,
+  getStandardFields,
+} from '../inbox';
+import inboxFixture from './inboxFixture';
+const { customFields } = inboxFixture;
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
     it('should return correct class for web widget', () => {
@@ -84,6 +61,25 @@ describe('#Inbox Helpers', () => {
       expect(getCustomFields(preChatFormOptions).pre_chat_message).toEqual(
         'Share your queries here.'
       );
+    });
+  });
+  describe('getStandardFields', () => {
+    it('should return correct custom fields if default form options passed', () => {
+      const requireEmail = false;
+      const emailEnabled = true;
+      const preChatMessage = 'Share your queries or comments here.';
+      expect(
+        getStandardFields({ requireEmail, emailEnabled, preChatMessage })
+          .pre_chat_fields[0].required
+      ).toEqual(false);
+      expect(
+        getStandardFields({ requireEmail, emailEnabled, preChatMessage })
+          .pre_chat_fields[0].enabled
+      ).toEqual(true);
+      expect(
+        getStandardFields({ requireEmail, emailEnabled, preChatMessage })
+          .pre_chat_message
+      ).toEqual('Share your queries here.');
     });
   });
 });
