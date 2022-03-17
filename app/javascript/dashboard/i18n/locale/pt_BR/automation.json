@@ -1,6 +1,6 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automação",
+    "HEADER": "Automatizações",
     "HEADER_BTN_TXT": "Adicionar regra de automação",
     "LOADING": "Buscando regras de automação",
     "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e automatizar processos existentes que requerem esforço manual. Você pode fazer muitas coisas com automação, incluindo adicionar rótulos e atribuir a conversa ao melhor agente. Então, a equipe se concentra no que faz melhor e passa mais pouco tempo em tarefas manuais.</p>",
@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Editar regra de automação",
-      "SUBMIT": "Alterar",
+      "SUBMIT": "Atualizar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Regra de automação atualizada com sucesso",
@@ -84,6 +84,24 @@
       "DELETE": "Excluir",
       "CANCEL": "Cancelar",
       "RESET_MESSAGE": "Alterar o tipo de evento irá redefinir as condições e eventos que você adicionou abaixo"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Ativar regra de automação",
+      "DEACTIVATION_TITLE": "Desativar regra de automação",
+      "ACTIVATION_DESCRIPTION": "Esta ação ativará a regra de automação '{automationName}'. Tem certeza que deseja continuar?",
+      "DEACTIVATION_DESCRIPTION": "Esta ação irá desativar a regra de automação '{automationName}'. Tem certeza que deseja continuar?",
+      "ACTIVATION_SUCCESFUL": "Regra de automação ativada com sucesso",
+      "DEACTIVATION_SUCCESFUL": "Regra de automação desativada com sucesso",
+      "ACTIVATION_ERROR": "Não foi possível ativar a automação, por favor tente novamente mais tarde",
+      "DEACTIVATION_ERROR": "Não foi possível desativar a automação, por favor, tente novamente mais tarde",
+      "CONFIRMATION_LABEL": "Sim",
+      "CANCEL_LABEL": "Não"
     }
   }
 }

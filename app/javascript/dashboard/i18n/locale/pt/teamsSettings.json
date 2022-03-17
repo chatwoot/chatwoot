@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Criar nova equipa",
     "HEADER": "Equipas",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Equipas</b></p> <p>Equipas permite que você organize os seus agentes em grupos baseados nas suas responsabilidades. <br /> Um agente pode fazer parte de várias equipas. Você pode atribuir conversas a uma equipa quando estiverem a trabalhar colaborativamente. </p>",
     "LIST": {
       "404": "Não há equipas configuradas para esta conta.",
       "EDIT_TEAM": "Editar equipa"

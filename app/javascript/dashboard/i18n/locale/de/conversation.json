@@ -20,11 +20,11 @@
     "CLICK_HERE": "Hier klicken",
     "LOADING_INBOXES": "Posteingänge laden",
     "LOADING_CONVERSATIONS": "Gespräche laden",
-    "CANNOT_REPLY": "Du kannst nicht Antworten aufgrund von",
+    "CANNOT_REPLY": "Sie können nicht antworten, weil",
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
     "ASSIGN_TO_ME": "Mir zuweisen",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Du kannst auf diese Unterhaltung nur mit einer Vorlagen-Nachricht antworten aufgrund von",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Sie können auf diese Konversation nur mit einer Nachrichtenvorlage antworten wegen",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "SELECT_A_TWEET_TO_REPLY": "Bitte wählen Sie einen Tweet aus, auf welchen Sie antworten möchten.",
     "REPLYING_TO": "Sie antworten auf:",
@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
       "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
-      "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar"
+      "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
+      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren"
     },
     "REPLYBOX": {
       "REPLY": "Antworten",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
+      "TIP_AUDIORECORDER_ICON": "Audio aufzeichnen",
+      "TIP_AUDIORECORDER_PERMISSION": "Zugriff auf Audio zulassen",
+      "TIP_AUDIORECORDER_ERROR": "Audio konnte nicht geöffnet werden",
       "ENTER_TO_SEND": "Zum senden ENTER drücken",
-      "DRAG_DROP": "Ziehen und Ablegen hierher, um anzuhängen",
+      "DRAG_DROP": "Zum Anhängen hierher ziehen und ablegen",
+      "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
+      "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "BCC hinzufügen",
         "CC": {
@@ -91,7 +99,7 @@
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
     "CHANGE_AGENT": "Konversationsempfänger geändert",
-    "CHANGE_TEAM": "Teamzuordnung dieser Konversation geändert",
+    "CHANGE_TEAM": "Das Konversationsteam hat sich geändert",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
@@ -114,7 +122,7 @@
     "SUBMIT": "Speichern",
     "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
-    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
+    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
     "FORM": {
       "SEND_TO_CONTACT": "Das Transkript an den Kunden senden",
       "SEND_TO_AGENT": "Transkript an den zugewiesenen Agenten senden",
@@ -127,25 +135,25 @@
   },
   "ONBOARDING": {
     "TITLE": "Hallo 👋, Willkommen bei %{installationName}!",
-    "DESCRIPTION": "Vielen Dank für deine Anmeldung. Wir möchten, dass du das Beste aus %{installationName} bekommst. Hier sind ein paar Dinge, die du in %{installationName} tun kannst, um wunderbare Erfahrungen zu machen.",
-    "READ_LATEST_UPDATES": "Lese unsere neuesten Updates",
+    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
     "ALL_CONVERSATION": {
-      "TITLE": "All Ihre Unterhaltungen an einem Ort",
-      "DESCRIPTION": "Siehe alle Unterhaltungen deiner Kunden in einem einzigen Dashboard an. Du kannst die Unterhaltungen nach dem eingehenden Kanal, dem Label oder dem Status filtern."
+      "TITLE": "All Ihre Konversationen an einem Ort",
+      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern."
     },
     "TEAM_MEMBERS": {
       "TITLE": "Laden Sie Ihre Teammitglieder ein",
       "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
-      "NEW_LINK": "Klicke hier, um ein Teammitglied einzuladen"
+      "NEW_LINK": "Klicken Sie hier, um ein Teammitglied einzuladen"
     },
     "INBOXES": {
-      "TITLE": "Posteingang verbinden",
-      "DESCRIPTION": "Verbinde verschiedene Kanäle, über die Deine Kunden mit Dir sprechen können. Dies kann ein Live-Chat, die Facebook- oder Twitter-Seite oder sogar Deine WhatsApp-Nummer sein.",
+      "TITLE": "Posteingänge verbinden",
+      "DESCRIPTION": "Verbinden Sie verschiedene Kanäle, über die Ihre Kunden mit Ihnen sprechen würden. Das kann ein Website-Live-Chat, Ihre Facebook- oder Twitter-Seite oder sogar Ihre WhatsApp-Nummer sein.",
       "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
     },
     "LABELS": {
-      "TITLE": "Unterhaltungen mit Labels organisieren",
-      "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, deine Unterhaltung zu kategorisieren. Erstelle Labels wie #support, #rechnungs-anfrage etc., damit du diese später in einer Unterhaltung verwenden kannst.",
+      "TITLE": "Organisieren Sie Konversationen mit Labels",
+      "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, Ihre Konversation zu kategorisieren. Erstellen Sie einige Labels wie #support-enquiry, #billing-quest etc., damit Sie sie später in einem Gespräch verwenden können.",
       "NEW_LINK": "Hier klicken, um Tags zu erstellen"
     }
   },
@@ -158,9 +166,9 @@
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Kontakt-Details",
-      "CONVERSATION_ACTIONS": "Aktionen für Unterhaltung",
+      "CONVERSATION_ACTIONS": "Konversationsaktionen",
       "CONVERSATION_LABELS": "Konversationslabels",
-      "CONVERSATION_INFO": "Informationen über Unterhaltung",
+      "CONVERSATION_INFO": "Konversationsinformationen",
       "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Gespräche"
     }

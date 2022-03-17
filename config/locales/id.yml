@@ -42,6 +42,7 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
@@ -50,10 +51,12 @@ id:
       conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Pesan ini telah terhapus
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Percakapan telah dibuka kembali oleh %{user_name}"
         pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
         snoozed: "Percakapan telah ditunda oleh %{user_name}"
