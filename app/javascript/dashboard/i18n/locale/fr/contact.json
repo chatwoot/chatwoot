@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmer la suppression",
       "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
-      "PLACE_HOLDER": "Veuillez taper {contactName} pour confirmer",
-      "YES": "Oui, supprimer ",
-      "NO": "Non, Conserver "
+      "YES": "Oui, supprimer",
+      "NO": "Non, Conserver"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact supprimé avec succès",

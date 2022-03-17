@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "اکنون می‌توانید ایمیل‌ها را در دامنه سفارشی خود دریافت کنید."
       }
     },
-    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید."
+    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
+    "LEARN_MORE": "بیشتر بدانید"
   },
   "FORMS": {
     "MULTISELECT": {
