@@ -36,6 +36,29 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'chat';
   }
 };
+
+export const getCustomFields = ({ standardFields, customAttributes }) => {
+  let customFields = [];
+  const { pre_chat_fields: preChatFields } = standardFields;
+  customAttributes.forEach(attribute => {
+    const itemExist = preChatFields.find(
+      item => item.name === attribute.attribute_key
+    );
+    if (!itemExist) {
+      customFields.push({
+        label: attribute.attribute_display_name,
+        name: attribute.attribute_key,
+        type: attribute.attribute_display_type,
+        values: attribute.attribute_values,
+        field_type: 'custom',
+        required: false,
+        enabled: false,
+      });
+    }
+  });
+  return customFields;
+};
+
 export const getStandardFields = ({
   requireEmail,
   emailEnabled,
@@ -72,7 +95,10 @@ export const getStandardFields = ({
   };
 };
 
-export const getCustomFields = preChatFormOptions => {
+export const getPreChatFields = ({
+  preChatFormOptions,
+  customAttributes = [],
+}) => {
   if (
     !isEmptyObject(preChatFormOptions) &&
     'pre_chat_fields' in preChatFormOptions
@@ -83,9 +109,16 @@ export const getCustomFields = preChatFormOptions => {
     require_email: requireEmail,
     pre_chat_message: preChatMessage,
   } = preChatFormOptions;
-  return getStandardFields({
+  const standardFields = getStandardFields({
     requireEmail,
     emailEnabled: requireEmail,
     preChatMessage,
   });
+  const customFields = getCustomFields({ standardFields, customAttributes });
+  const finalFields = {
+    pre_chat_message: standardFields.pre_chat_message,
+    pre_chat_fields: [...standardFields.pre_chat_fields, ...customFields],
+  };
+
+  return finalFields;
 };

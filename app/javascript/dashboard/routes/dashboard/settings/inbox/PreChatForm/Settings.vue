@@ -90,7 +90,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
-import { getCustomFields } from 'dashboard/helper/inbox';
+import { getPreChatFields } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -114,11 +114,14 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
-      attributes: 'attributes/getAttributes',
+      customAttributes: 'attributes/getAttributes',
     }),
     preChatFieldOptions() {
       const { pre_chat_form_options: preChatFormOptions } = this.inbox;
-      return getCustomFields(preChatFormOptions);
+      return getPreChatFields({
+        preChatFormOptions,
+        customAttributes: this.customAttributes,
+      });
     },
   },
   watch: {
@@ -137,6 +140,7 @@ export default {
         pre_chat_message: preChatMessage,
         pre_chat_fields: preChatFields,
       } = this.preChatFieldOptions || {};
+
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },

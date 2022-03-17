@@ -1,10 +1,11 @@
 import {
   getInboxClassByType,
-  getCustomFields,
+  getPreChatFields,
   getStandardFields,
+  getCustomFields,
 } from '../inbox';
 import inboxFixture from './inboxFixture';
-const { customFields } = inboxFixture;
+const { customFields, customAttributes } = inboxFixture;
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
     it('should return correct class for web widget', () => {
@@ -39,32 +40,9 @@ describe('#Inbox Helpers', () => {
       expect(getInboxClassByType('Channel::Email')).toEqual('mail');
     });
   });
-  describe('getCustomFields', () => {
-    it('should return correct custom fields form options passed', () => {
-      expect(getCustomFields(customFields)).toEqual(customFields);
-    });
-    it('should return correct custom fields if empty form options passed', () => {
-      const preChatFormOptions = {};
-      expect(getCustomFields(preChatFormOptions)).toEqual(customFields);
-    });
-    it('should return correct custom fields if default form options passed', () => {
-      const preChatFormOptions = {
-        pre_chat_message: 'Share your queries here.',
-        require_email: true,
-      };
-      expect(
-        getCustomFields(preChatFormOptions).pre_chat_fields[0].required
-      ).toEqual(true);
-      expect(
-        getCustomFields(preChatFormOptions).pre_chat_fields[0].enabled
-      ).toEqual(true);
-      expect(getCustomFields(preChatFormOptions).pre_chat_message).toEqual(
-        'Share your queries here.'
-      );
-    });
-  });
+
   describe('getStandardFields', () => {
-    it('should return correct custom fields if default form options passed', () => {
+    it('should return correct standard fields if default form options passed', () => {
       const requireEmail = false;
       const emailEnabled = true;
       const preChatMessage = 'Share your queries or comments here.';
@@ -80,6 +58,92 @@ describe('#Inbox Helpers', () => {
         getStandardFields({ requireEmail, emailEnabled, preChatMessage })
           .pre_chat_message
       ).toEqual('Share your queries here.');
+    });
+  });
+  describe('getCustomFields', () => {
+    it('should return correct custom fields', () => {
+      const requireEmail = false;
+      const emailEnabled = true;
+      const preChatMessage = 'Share your queries or comments here.';
+      const standardFields = getStandardFields({
+        requireEmail,
+        emailEnabled,
+        preChatMessage,
+      });
+      expect(getCustomFields({ standardFields, customAttributes })).toEqual([
+        {
+          enabled: false,
+          field_type: 'custom',
+          label: 'Order Id',
+          name: 'order_id',
+          required: false,
+          type: 'number',
+          values: [],
+        },
+      ]);
+    });
+  });
+  describe('getPreChatFields', () => {
+    it('should return correct pre-chat fields form options passed', () => {
+      expect(getPreChatFields({ preChatFormOptions: customFields })).toEqual(
+        customFields
+      );
+    });
+    it('should return correct pre-chat fields if empty form options passed', () => {
+      const preChatFormOptions = {};
+      expect(
+        getPreChatFields({ preChatFormOptions, customAttributes })
+          .pre_chat_fields
+      ).toEqual([
+        {
+          label: 'Email Id',
+          name: 'emailAddress',
+          type: 'email',
+          field_type: 'standard',
+          required: false,
+          enabled: false,
+        },
+        {
+          label: 'Full name',
+          name: 'fullName',
+          type: 'text',
+          field_type: 'standard',
+          required: false,
+          enabled: false,
+        },
+        {
+          label: 'Phone number',
+          name: 'phoneNumber',
+          type: 'text',
+          field_type: 'standard',
+          required: false,
+          enabled: false,
+        },
+        {
+          label: 'Order Id',
+          name: 'order_id',
+          type: 'number',
+          values: [],
+          field_type: 'custom',
+          required: false,
+          enabled: false,
+        },
+      ]);
+    });
+    it('should return correct pre-chat fields if default form options passed', () => {
+      const preChatFormOptions = {
+        pre_chat_message: 'Share your queries here.',
+        require_email: true,
+      };
+      expect(
+        getPreChatFields(preChatFormOptions).pre_chat_fields[0].required
+      ).toEqual(true);
+      expect(
+        getPreChatFields(preChatFormOptions).pre_chat_fields[0].enabled
+      ).toEqual(true);
+      expect(getPreChatFields(preChatFormOptions).pre_chat_message).toEqual(
+        'Share your queries here.'
+      );
     });
   });
 });
