@@ -57,7 +57,7 @@ describe('#Inbox Helpers', () => {
       expect(
         getStandardFields({ requireEmail, emailEnabled, preChatMessage })
           .pre_chat_message
-      ).toEqual('Share your queries here.');
+      ).toEqual('Share your queries or comments here.');
     });
   });
   describe('getCustomFields', () => {
@@ -136,12 +136,12 @@ describe('#Inbox Helpers', () => {
         require_email: true,
       };
       expect(
-        getPreChatFields(preChatFormOptions).pre_chat_fields[0].required
+        getPreChatFields({ preChatFormOptions }).pre_chat_fields[0].required
       ).toEqual(true);
       expect(
-        getPreChatFields(preChatFormOptions).pre_chat_fields[0].enabled
+        getPreChatFields({ preChatFormOptions }).pre_chat_fields[0].enabled
       ).toEqual(true);
-      expect(getPreChatFields(preChatFormOptions).pre_chat_message).toEqual(
+      expect(getPreChatFields({ preChatFormOptions }).pre_chat_message).toEqual(
         'Share your queries here.'
       );
     });
