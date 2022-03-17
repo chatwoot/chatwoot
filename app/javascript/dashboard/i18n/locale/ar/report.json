@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "تطبيق",
       "PLACEHOLDER": "اختر نطاق المدة"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "تجميع بواسطة",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      },
+      {
+        "id": 3,
+        "groupBy": "الشهر"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      },
+      {
+        "id": 3,
+        "groupBy": "الشهر"
+      },
+      {
+        "id": 4,
+        "groupBy": "السنة"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "تقارير CSAT",
     "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "اختر الوكلاء"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "جهات الاتصال",

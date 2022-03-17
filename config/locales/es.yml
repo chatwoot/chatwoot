@@ -42,6 +42,7 @@ es:
       conversations_count: Cantidad de conversaciones
       avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
       avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
@@ -50,10 +51,12 @@ es:
       conversation_mention: "Ha sido mencionado en la conversación [ID - %{display_id}] por %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Este mensaje se ha eliminado
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "La conversación fue reabierta por %{user_name}"
         pending: "La conversación fue marcada como pendiente por %{user_name}"
         snoozed: "La conversación fue pospuesta por %{user_name}"
