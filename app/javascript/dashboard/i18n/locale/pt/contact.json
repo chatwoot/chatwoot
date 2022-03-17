@@ -1,11 +1,11 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Não disponível",
-    "EMAIL_ADDRESS": "Endereço de e-mail",
+    "EMAIL_ADDRESS": "Endereço de email",
     "PHONE_NUMBER": "Número de telefone",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "COMPANY": "Empresa",
-    "LOCATION": "Local:",
+    "LOCATION": "Localização",
     "CONVERSATION_TITLE": "Detalhes da conversa",
     "VIEW_PROFILE": "Ver Perfil",
     "BROWSER": "Navegador",
@@ -20,7 +20,7 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Etiquetas de Contato",
+        "TITLE": "Etiquetas de Contacto",
         "ERROR": "Não foi possível atualizar as Etiquetas"
       },
       "CONVERSATION": {
@@ -43,7 +43,7 @@
     "EDIT_LABEL": "Alterar",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atributos personalizados",
-      "CONTACT_LABELS": "Etiquetas de Contato",
+      "CONTACT_LABELS": "Etiquetas de Contacto",
       "PREVIOUS_CONVERSATIONS": "Conversas anteriores"
     }
   },
@@ -54,14 +54,14 @@
   },
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "Novo Contato",
-    "TITLE": "Criar novo contato",
-    "DESC": "Adicionar informações básicas sobre o contato."
+    "TITLE": "Criar novo contacto",
+    "DESC": "Adicionar informações básicas sobre o contacto."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Importar",
     "TITLE": "Importar Contactos",
     "DESC": "Importar contactos através de um ficheiro CSV.",
-    "DOWNLOAD_LABEL": "Descarregue uma amostra CSV.",
+    "DOWNLOAD_LABEL": "Descarregar uma amostra CSV.",
     "FORM": {
       "LABEL": "Ficheiro CSV",
       "SUBMIT": "Importar",
@@ -72,12 +72,12 @@
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Apagar Contacto",
-    "TITLE": "Apagar contacto",
+    "TITLE": "Excluir contato",
     "DESC": "Apagar detalhes do contacto",
     "CONFIRM": {
       "TITLE": "Confirmar Exclusão",
       "MESSAGE": "Tem certeza que deseja excluir ",
-      "YES": "Sim, excluir",
+      "YES": "Sim, Apagar",
       "NO": "Não, Manter"
     },
     "API": {
@@ -87,10 +87,10 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "submeter",
-      "CANCEL": "cancelar",
+      "SUBMIT": "Submeter",
+      "CANCEL": "Cancelar",
       "AVATAR": {
-        "LABEL": "Contatar Avatar"
+        "LABEL": "Avatar do Contacto"
       },
       "NAME": {
         "PLACEHOLDER": "Digite o nome completo do contato",
@@ -152,8 +152,8 @@
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Recebidas",
-        "ERROR": "Escolher uma caixa de entrada"
+        "LABEL": "Caixa de Entrada",
+        "ERROR": "Selecione uma caixa de entrada"
       },
       "SUBJECT": {
         "LABEL": "Assunto",
@@ -166,7 +166,7 @@
         "ERROR": "A mensagem não pode estar vazia"
       },
       "SUBMIT": "Enviar mensagem",
-      "CANCEL": "cancelar",
+      "CANCEL": "Cancelar",
       "SUCCESS_MESSAGE": "Mensagem enviada!",
       "GO_TO_CONVERSATION": "Visualizar",
       "ERROR_MESSAGE": "Não foi possível enviar! Tente novamente"
