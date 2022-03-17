@@ -1,4 +1,5 @@
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { isEmptyObject } from 'dashboard/helper/commons';
 
 export const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
@@ -36,17 +37,27 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
-export const getStandardCustomFields = () => {
+export const getStandardCustomFields = preChatFormOptions => {
+  if (
+    !isEmptyObject(preChatFormOptions) &&
+    'pre_chat_fields' in preChatFormOptions
+  ) {
+    return preChatFormOptions;
+  }
+  const {
+    require_email: requireEmail,
+    pre_chat_message: preChatMessage,
+  } = preChatFormOptions;
   return {
-    pre_chat_message: 'Share your queries or comments here.',
+    pre_chat_message: preChatMessage || 'Share your queries or comments here.',
     pre_chat_fields: [
       {
         label: 'Email Id',
         name: 'emailAddress',
         type: 'email',
         field_type: 'standard',
-        required: false,
-        enabled: false,
+        required: requireEmail || false,
+        enabled: requireEmail || false,
       },
       {
         label: 'Full name',

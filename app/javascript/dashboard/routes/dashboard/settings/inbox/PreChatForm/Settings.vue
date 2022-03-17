@@ -78,7 +78,6 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
-import { isEmptyObject } from 'dashboard/helper/commons';
 import { getStandardCustomFields } from 'dashboard/helper/inbox';
 export default {
   components: {
@@ -103,10 +102,7 @@ export default {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
     preChatFieldOptions() {
       const { pre_chat_form_options: preChatFormOptions } = this.inbox;
-      if (!isEmptyObject(preChatFormOptions)) {
-        return preChatFormOptions;
-      }
-      return getStandardCustomFields();
+      return getStandardCustomFields(preChatFormOptions);
     },
   },
   watch: {
