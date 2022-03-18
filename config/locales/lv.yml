@@ -42,6 +42,7 @@ lv:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +51,12 @@ lv:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: This message was deleted
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Conversation was reopened by %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

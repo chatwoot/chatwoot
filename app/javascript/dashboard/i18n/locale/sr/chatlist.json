@@ -1,0 +1,86 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Preuzimanje razgovora",
+    "LOAD_MORE_CONVERSATIONS": "Učitaj više razgovora",
+    "EOF": "Svi razgovori su učitani 🎉",
+    "LIST": {
+      "404": "Ne postoje aktivni razgovori u ovoj grupi."
+    },
+    "TAB_HEADING": "Razgovori",
+    "MENTION_HEADING": "Spominjanja",
+    "SEARCH": {
+      "INPUT": "Tražite osobe, razgovore, gotove odgovore .."
+    },
+    "FILTER_ALL": "Sve",
+    "STATUS_TABS": [
+      {
+        "NAME": "Otvoreni",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Rešeni",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Moji",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Nedodeljen",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Svi",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Otvoreni"
+      },
+      "resolved": {
+        "TEXT": "Rešeni"
+      },
+      "pending": {
+        "TEXT": "Nerešen"
+      },
+      "snoozed": {
+        "TEXT": "Odložen"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Slikovita poruka"
+      },
+      "audio": {
+        "CONTENT": "Govorna poruka"
+      },
+      "video": {
+        "CONTENT": "Video poruka"
+      },
+      "file": {
+        "CONTENT": "Prilog"
+      },
+      "location": {
+        "CONTENT": "Lokacija"
+      },
+      "fallback": {
+        "CONTENT": "je podelio link"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Primljeno putem e-maila",
+    "VIEW_TWEET_IN_TWITTER": "Pogledaj tweet na Twitteru",
+    "REPLY_TO_TWEET": "Odgovori na tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Uspešno poslano",
+    "NO_MESSAGES": "Nema poruka",
+    "NO_CONTENT": "Nema sadržaja",
+    "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
+    "SHOW_QUOTED_TEXT": "Prikaži citirani tekst"
+  }
+}

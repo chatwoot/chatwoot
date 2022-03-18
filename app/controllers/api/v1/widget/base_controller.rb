@@ -1,5 +1,6 @@
 class Api::V1::Widget::BaseController < ApplicationController
   include SwitchLocale
+  include WebsiteTokenHelper
 
   before_action :set_web_widget
   before_action :set_contact
@@ -17,23 +18,6 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def conversation
     @conversation ||= conversations.last
-  end
-
-  def auth_token_params
-    @auth_token_params ||= ::Widget::TokenService.new(token: request.headers['X-Auth-Token']).decode_token
-  end
-
-  def set_web_widget
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
-    @current_account = @web_widget.account
-  end
-
-  def set_contact
-    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-      source_id: auth_token_params[:source_id]
-    )
-    @contact = @contact_inbox&.contact
-    raise ActiveRecord::RecordNotFound unless @contact
   end
 
   def create_conversation
@@ -92,10 +76,6 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def timestamp_params
     { timestamp: permitted_params[:message][:timestamp] }
-  end
-
-  def permitted_params
-    params.permit(:website_token)
   end
 
   def message_params

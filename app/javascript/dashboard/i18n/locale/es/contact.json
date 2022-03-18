@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar eliminación",
       "MESSAGE": "¿Está seguro de eliminar ",
-      "PLACE_HOLDER": "Por favor, escriba {contactName} para confirmar",
-      "YES": "Sí, eliminar ",
-      "NO": "No, mantenerlo "
+      "YES": "Sí, eliminar",
+      "NO": "No, mantenerlo"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -179,7 +178,7 @@
     "SEARCH_BUTTON": "Buscar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_SAVE": "Guardar filtro",
     "FILTER_CONTACTS_DELETE": "Eliminar filtro",
     "LIST": {
       "LOADING_MESSAGE": "Cargando contactos...",
