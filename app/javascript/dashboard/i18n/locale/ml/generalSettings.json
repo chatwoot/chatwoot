@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത ഡൊമെയ്‌നിൽ നിങ്ങൾക്ക് ഇപ്പോൾ ഇമെയിലുകൾ സ്വീകരിക്കാൻ കഴിയും."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {

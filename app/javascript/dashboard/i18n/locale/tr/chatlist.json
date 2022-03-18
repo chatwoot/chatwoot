@@ -7,7 +7,7 @@
       "404": "Bu grupta aktif görüşme yok."
     },
     "TAB_HEADING": "Konuşmalar",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Bahsedilmeler",
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
@@ -76,10 +76,11 @@
     "RECEIVED_VIA_EMAIL": "E-posta ile alındı",
     "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Instagram hikayesine git",
+    "SENT": "Başarıyla gönderildi",
     "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "İçerik yok",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "NO_CONTENT": "Kullanılabilir içerik yok",
+    "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
+    "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster"
   }
 }
