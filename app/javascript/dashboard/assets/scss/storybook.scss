@@ -9,7 +9,7 @@
 
 @import '~spinkit/scss/spinners/7-three-bounce';
 @import '~vue-multiselect/dist/vue-multiselect.min.css';
-@import '~shared/assets/stylesheets/ionicons';
+@import 'shared/assets/stylesheets/ionicons';
 
 @import 'mixins';
 @import 'foundation-settings';
@@ -17,7 +17,7 @@
 @import 'foundation-sites/scss/foundation';
 
 @include foundation-prototype-spacing;
-@import '~bourbon/core/bourbon';
+@import 'bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);
 

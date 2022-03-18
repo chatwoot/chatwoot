@@ -56,6 +56,7 @@
     "tailwindcss": "^1.9.6",
     "url-loader": "^2.0.0",
     "v-tooltip": "~2.1.3",
+    "vite-plugin-vue2": "^1.9.3",
     "vue": "2.6.12",
     "vue-axios": "~1.2.2",
     "vue-chartjs": "3.5.1",
@@ -111,6 +112,8 @@
     "lint-staged": "10.5.4",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
+    "vite": "^2.9.0-beta.3",
+    "vite-plugin-ruby": "^3.0.8",
     "vue-jest": "3.0.7",
     "webpack-dev-server": "3.11.2"
   },

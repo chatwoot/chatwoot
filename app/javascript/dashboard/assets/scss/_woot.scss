@@ -16,7 +16,7 @@
 @import 'date-picker';
 
 @import 'foundation-sites/scss/foundation';
-@import '~bourbon/core/bourbon';
+@import 'bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);
 
@@ -48,5 +48,5 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
+@import 'shared/assets/stylesheets/ionicons';
 @import 'utility-helpers';

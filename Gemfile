@@ -56,7 +56,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker', '~> 5.x'
+gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 

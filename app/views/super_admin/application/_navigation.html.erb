@@ -7,8 +7,9 @@ for all resources in the admin dashboard,
 as defined by the routes in the `admin/` namespace
 %>
 
-<%= javascript_pack_tag 'superadmin_pages' %>
-<%= stylesheet_pack_tag 'superadmin_pages' %>
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'superadmin_pages' %>
+<%= vite_stylesheet_tag 'superadmin_pages' %>
 
 <%
   sidebar_icons = {
@@ -56,7 +57,7 @@ as defined by the routes in the `admin/` namespace
     </li>
   </ul>
   <ul class="logout">
-   
+
     <li class="navigation__link">
       <i class="ion ion-log-out"></i>
       <%= link_to "Logout", super_admin_logout_url %>

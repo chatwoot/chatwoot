@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
 import TextArea from 'shared/components/TextArea.vue';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'Feedback',
