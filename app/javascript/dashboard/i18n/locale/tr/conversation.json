@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
-      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir"
+      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Cevapla",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
+      "TIP_AUDIORECORDER_ICON": "Ses kaydet",
+      "TIP_AUDIORECORDER_PERMISSION": "Mikrofon erişimine izin ver",
+      "TIP_AUDIORECORDER_ERROR": "Mikrofon açılamadı",
       "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Ses kaydetmeye başla",
+      "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -181,7 +189,7 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "Özellik ekle",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
