@@ -10,25 +10,12 @@
       <fluent-icon icon="alert" />
       <span v-if="unreadCount" class="badge warning">{{ unreadCount }}</span>
     </woot-button>
-    <notification-panel
-      v-if="isNotificationPanel"
-      @close="closeNotificationPanel"
-    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 
 export default {
-  components: {
-    NotificationPanel,
-  },
-  data() {
-    return {
-      isNotificationPanel: false,
-    };
-  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -44,20 +31,14 @@ export default {
         : '99+';
     },
     isNotificationPanelActive() {
-      return (
-        this.isNotificationPanel === true ||
-        this.$route.name === 'notifications_index'
-      );
+      return this.$route.name === 'notifications_index';
     },
   },
   methods: {
     openNotificationPanel() {
       if (this.$route.name !== 'notifications_index') {
-        this.isNotificationPanel = true;
+        this.$emit('open-notification-panel');
       }
-    },
-    closeNotificationPanel() {
-      this.isNotificationPanel = false;
     },
   },
 };
