@@ -56,7 +56,7 @@ el:
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Η συνομιλία επιλύθηκε από τον %{contact_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
         pending: "Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}"
         snoozed: "Η συνομιλία σημάνθηκε ως \"καθυστερημένη\" (snoozed) από τον %{user_name}"
