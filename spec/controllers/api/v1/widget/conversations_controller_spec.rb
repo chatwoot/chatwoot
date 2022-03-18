@@ -123,6 +123,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     context 'when user end conversation from widget' do
       it 'resolves the conversation' do
         expect(conversation.open?).to be true
+
         get '/api/v1/widget/conversations/toggle_status',
             headers: { 'X-Auth-Token' => token },
             params: { website_token: web_widget.website_token },
@@ -130,6 +131,15 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to be true
+        expect(Conversations::ActivityMessageJob).to have_been_enqueued.at_least(:once).with(
+          conversation,
+          {
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            message_type: :activity,
+            content: "Conversation was resolved by #{contact.name}"
+          }
+        )
       end
     end
   end
