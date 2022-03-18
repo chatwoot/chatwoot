@@ -66,14 +66,6 @@ export const actions = {
         id: contactId,
         data: response.data.payload,
       });
-      commit(
-        types.default.SET_ALL_CONVERSATION,
-        {},
-        {
-          root: true,
-        }
-      );
-
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isFetching: false,
       });
