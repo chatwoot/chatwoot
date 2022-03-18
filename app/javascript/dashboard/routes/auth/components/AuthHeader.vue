@@ -39,7 +39,7 @@ export default {
 }
 
 .header--wrap {
-  margin: var(--space-large) 0 var(--space-large) 0;
+  margin: var(--space-large) 0 3.6rem 0;
 }
 
 .hero--title {
