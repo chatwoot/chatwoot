@@ -14,8 +14,6 @@
           :hide-inbox-name="false"
           :hide-thumbnail="true"
           class="compact"
-          :has-previous-conversations="true"
-          @click="cardClick(conversation)"
         />
       </div>
     </div>
@@ -67,24 +65,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('contactConversations/get', this.contactId);
-  },
-  methods: {
-    openPreviousConversations(chat) {
-      this.$router.push({
-        name: 'inbox_conversation',
-        params: {
-          conversation_id: chat.id,
-        },
-      });
-    },
-    cardClick(chat) {
-      if (this.$route.name === 'inbox_conversation') {
-        this.openPreviousConversations(chat);
-        this.$router.go();
-      } else {
-        this.openPreviousConversations(chat);
-      }
-    },
   },
 };
 </script>

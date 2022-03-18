@@ -142,10 +142,6 @@ export default {
       type: String,
       default: '',
     },
-    hasPreviousConversations: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   computed: {
@@ -249,24 +245,20 @@ export default {
   },
   methods: {
     cardClick(chat) {
-      if (this.hasPreviousConversations) {
-        this.$emit('click');
-      } else {
-        const { activeInbox } = this;
-        const path = conversationUrl({
-          accountId: this.accountId,
-          activeInbox,
-          id: chat.id,
-          label: this.activeLabel,
-          teamId: this.teamId,
-          foldersId: this.foldersId,
-          conversationType: this.conversationType,
-        });
-        if (this.isActiveChat) {
-          return;
-        }
-        router.push({ path: frontendURL(path) });
+      const { activeInbox } = this;
+      const path = conversationUrl({
+        accountId: this.accountId,
+        activeInbox,
+        id: chat.id,
+        label: this.activeLabel,
+        teamId: this.teamId,
+        foldersId: this.foldersId,
+        conversationType: this.conversationType,
+      });
+      if (this.isActiveChat) {
+        return;
       }
+      router.push({ path: frontendURL(path) });
     },
   },
 };
