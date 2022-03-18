@@ -304,7 +304,7 @@
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "FILTER_DROPDOWN_LABEL": "Escolher Equipa",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
