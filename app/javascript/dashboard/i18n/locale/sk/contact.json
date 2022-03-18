@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Potvrdiť vymazanie",
       "MESSAGE": "Určite chcete vymazať ",
-      "PLACE_HOLDER": "Prosím, zadajte {contactName} pre potvrdenie",
-      "YES": "Áno, vymazať ",
-      "NO": "Nie, ponechať "
+      "YES": "Áno, vymazať",
+      "NO": "Nie, ponechať"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt úspešne odstránený",

@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
-      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter"
+      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Svar",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Vis rik tekstredigering",
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Trykk enter for å sende",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {

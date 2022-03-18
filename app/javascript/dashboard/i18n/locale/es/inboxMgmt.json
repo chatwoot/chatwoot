@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Habilitar bienvenida al canal",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Enviar un mensaje de bienvenida al usuario cuando inicie la conversación.",
           "ENABLED": "Activado",
           "DISABLED": "Deshabilitado"
         },
@@ -136,35 +136,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "Canal SMS",
+        "DESC": "Comience a apoyar a sus clientes a través de SMS.",
         "PROVIDERS": {
           "LABEL": "Proveedor de API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Ancho de banda"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "No pudimos guardar el canal SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID de Cuenta",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Introduzca su ID de cuenta de Bandwidth",
             "ERROR": "Este campo es obligatorio"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "Clave de API",
+            "PLACEHOLDER": "Por favor, introduzca su clave API de Bandwith",
             "ERROR": "Este campo es obligatorio"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "API secreta",
+            "PLACEHOLDER": "Por favor ingrese su Bandwith API Secret",
             "ERROR": "Este campo es obligatorio"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID de la aplicación",
+            "PLACEHOLDER": "Introduzca su ID de cuenta de Bandwidth",
             "ERROR": "Este campo es obligatorio"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
             "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Crear Canal de Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "No pudimos autenticar credenciales de Bandwidth, por favor inténtalo de nuevo"
           },
           "API_CALLBACK": {
             "TITLE": "URL de devolución de llamada",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Tienes que configurar la URL de devolución de llamada de mensaje en Bandwidth con la URL mencionada aquí."
           }
         }
       },
@@ -415,13 +415,13 @@
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
       "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "Si está activado, el método setUser de SDKs de Chatwoot no funcionará a menos que se proporcione el `identifier_hash` para cada usuario.",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Usa el token `inbox_identifier` que se muestra aquí para autenticar tus clientes API.",
       "FORWARD_EMAIL_TITLE": "Reenviar al correo",
       "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensajes después de la conversación resuelta",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -462,7 +462,8 @@
         "HOURS": "horas",
         "VALIDATION_ERROR": "La hora de inicio debe ser antes de la hora de cierre.",
         "CHOOSE": "Elegir"
-      }
+      },
+      "ALL_DAY": "Todo el día"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -522,10 +523,10 @@
         "LABEL": "Dominio",
         "PLACE_HOLDER": "Dominio"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Cifrado",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
+      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificación SSL"
     }
   }
 }
