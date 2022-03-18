@@ -17,6 +17,34 @@
     </div>
 
     <div class="medium-8 columns">
+      <input
+        id="useMessagingService"
+        v-model="useMessagingService"
+        type="checkbox"
+      />
+      <label for="useMessagingService">
+        Use a Twilio Messaging Service (recommended)
+      </label>
+      <label
+        v-if="useMessagingService"
+        :class="{ error: $v.messagingServiceSID.$error }"
+      >
+        {{ $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.LABEL') }}
+        <input
+          v-model.trim="messagingServiceSID"
+          type="text"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.PLACEHOLDER')
+          "
+          @blur="$v.messagingServiceSID.$touch"
+        />
+        <span v-if="$v.messagingServiceSID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.ERROR')
+        }}</span>
+      </label>
+    </div>
+
+    <div v-if="!useMessagingService" class="medium-8 columns">
       <label :class="{ error: $v.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
         <input
@@ -91,6 +119,8 @@ export default {
       authToken: '',
       medium: this.type,
       channelName: '',
+      messagingServiceSID: '',
+      useMessagingService: true,
       phoneNumber: '',
     };
   },
@@ -99,12 +129,25 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
   },
-  validations: {
-    channelName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
-    authToken: { required },
-    accountSID: { required },
-    medium: { required },
+  validations() {
+    if (this.phoneNumber) {
+      return {
+        channelName: { required },
+        messagingServiceSID: {},
+        phoneNumber: { shouldStartWithPlusSign },
+        authToken: { required },
+        accountSID: { required },
+        medium: { required },
+      };
+    }
+    return {
+      channelName: { required },
+      messagingServiceSID: { required },
+      phoneNumber: {},
+      authToken: { required },
+      accountSID: { required },
+      medium: { required },
+    };
   },
   methods: {
     async createChannel() {
@@ -122,7 +165,10 @@ export default {
               medium: this.medium,
               account_sid: this.accountSID,
               auth_token: this.authToken,
-              phone_number: `+${this.phoneNumber.replace(/\D/g, '')}`,
+              messaging_service_sid: this.messagingServiceSID,
+              phone_number: this.messagingServiceSID
+                ? null
+                : `+${this.phoneNumber.replace(/\D/g, '')}`,
             },
           }
         );

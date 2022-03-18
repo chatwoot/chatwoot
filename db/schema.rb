@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_120357) do
+ActiveRecord::Schema.define(version: 2022_03_17_171031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -250,14 +250,16 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|
-    t.string "phone_number", null: false
+    t.string "phone_number"
     t.string "auth_token", null: false
     t.string "account_sid", null: false
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
+    t.string "messaging_service_sid"
     t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|

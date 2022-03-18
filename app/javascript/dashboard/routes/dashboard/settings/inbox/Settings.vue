@@ -550,7 +550,8 @@ export default {
     },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
-        return `${this.inbox.name} (${this.inbox.phone_number})`;
+        return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
+          this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
