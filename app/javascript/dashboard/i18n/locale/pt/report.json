@@ -300,10 +300,10 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Resumo de Equipa",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "DOWNLOAD_TEAM_REPORTS": "Descarregar relatórios de equipa",
     "FILTER_DROPDOWN_LABEL": "Escolher Equipa",
     "METRICS": {
       "CONVERSATIONS": {
@@ -367,7 +367,7 @@
     "NO_RECORDS": "Sem dados CSAT disponíveis para reposta.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Escolher Agentes"
       }
     },
     "TABLE": {
