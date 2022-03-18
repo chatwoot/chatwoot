@@ -25,8 +25,8 @@
       "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Verdadeiro",
+      "FALSE": "Falso"
     },
     "ATTRIBUTES": {
       "STATUS": "SItuação",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Endereço",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Criado Em",
       "LAST_ACTIVITY": "Última atividade"
     },
     "GROUPS": {
