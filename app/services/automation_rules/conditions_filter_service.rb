@@ -18,9 +18,9 @@ class AutomationRules::ConditionsFilterService < FilterService
       contact_filter = contact_filters[query_hash['attribute_key']]
 
       if conversation_filter
-        @query_string += query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
+        @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
       elsif contact_filter
-        @query_string += query_string('contacts', contact_filter, query_hash.with_indifferent_access, current_index)
+        @query_string += conversation_query_string('contacts', contact_filter, query_hash.with_indifferent_access, current_index)
       end
     end
 
@@ -64,11 +64,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   end
 
-  def query_string(table_name, current_filter, query_hash, current_index)
+  def conversation_query_string(table_name, current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
-
     filter_operator_value = filter_operation(query_hash, current_index)
+
+    return custom_attribute_query(query_hash, 'contacts', current_index) if current_filter.nil?
 
     case current_filter['attribute_type']
     when 'additional_attributes'
@@ -80,6 +81,12 @@ class AutomationRules::ConditionsFilterService < FilterService
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
     end
+  end
+
+  private
+
+  def custom_attribute(attribute_key)
+    @custom_attribute = Current.account.custom_attribute_definitions.find_by(attribute_key: attribute_key)
   end
 
   def base_relation
