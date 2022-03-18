@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "確認刪除",
       "MESSAGE": "您確定要刪除嗎？ ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "是，刪除 ",
-      "NO": "不，保留 "
+      "YES": "是，刪除",
+      "NO": "不，保留"
     },
     "API": {
       "SUCCESS_MESSAGE": "聯絡人刪除成功",

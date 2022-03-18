@@ -42,6 +42,7 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    default_group_by: ημέρα
   notifications:
     notification_title:
       conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
@@ -50,10 +51,12 @@ el:
       conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
   conversations:
     messages:
+      instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
       deleted: Το μήνυμα διαγράφηκε
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
+        contact_resolved: "Η συνομιλία επιλύθηκε από τον %{contact_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
         pending: "Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}"
         snoozed: "Η συνομιλία σημάνθηκε ως \"καθυστερημένη\" (snoozed) από τον %{user_name}"

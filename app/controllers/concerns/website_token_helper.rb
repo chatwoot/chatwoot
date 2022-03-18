@@ -14,6 +14,8 @@ module WebsiteTokenHelper
     )
     @contact = @contact_inbox&.contact
     raise ActiveRecord::RecordNotFound unless @contact
+
+    Current.contact = @contact
   end
 
   def permitted_params
