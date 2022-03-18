@@ -22,6 +22,7 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
   "START_CONVERSATION": "Unterhaltung beginnen",
+  "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "UNREAD_VIEW": {
@@ -42,7 +43,7 @@
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Vollständiger Name",
-        "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt",
+        "PLACEHOLDER": "Bitte geben Sie Ihren vollständigen Namen ein",
         "ERROR": "Vollständiger Name ist erforderlich"
       },
       "EMAIL_ADDRESS": {
@@ -56,7 +57,7 @@
         "ERROR": "Nachricht ist zu kurz"
       }
     },
-    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie das Gespräch beginnen"
+    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen"
   },
   "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -65,9 +66,9 @@
     }
   },
   "CSAT": {
-    "TITLE": "Bewerte deine Unterhaltung",
+    "TITLE": "Bewerten Sie Ihre Konversation",
     "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",
-    "PLACEHOLDER": "Erzähl uns mehr..."
+    "PLACEHOLDER": "Erzählen Sie uns mehr..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Chat-Protokoll anfordern",

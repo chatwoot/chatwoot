@@ -6,28 +6,28 @@
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "NAME": "Konversationen",
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Übernehmen",
       "PLACEHOLDER": "Zeitraum auswählen"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Tag"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Tag"
+      },
+      {
+        "id": 2,
+        "groupBy": "Woche"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Tag"
+      },
+      {
+        "id": 2,
+        "groupBy": "Woche"
+      },
+      {
+        "id": 3,
+        "groupBy": "Monat"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Tag"
+      },
+      {
+        "id": 2,
+        "groupBy": "Woche"
+      },
+      {
+        "id": 3,
+        "groupBy": "Monat"
+      },
+      {
+        "id": 4,
+        "groupBy": "Jahr"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "Agenten-Übersicht",
@@ -70,27 +119,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -133,27 +182,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -196,27 +245,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -259,27 +308,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "(Durchschnitt)"
+        "DESC": "( Durchschnitt )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "(Gesamt)"
+        "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
@@ -316,12 +365,17 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT-Berichte",
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Agenten wählen"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Kontakt",
         "AGENT_NAME": "Zugewiesener Agent",
         "RATING": "Bewertung",
-        "FEEDBACK_TEXT": "Kommentar"
+        "FEEDBACK_TEXT": "Feedback-Kommentar"
       }
     },
     "METRIC": {
