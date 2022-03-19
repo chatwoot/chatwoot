@@ -149,6 +149,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import { objectStore } from 'dashboard/helper/localStore';
 
 export default {
   components: {
@@ -413,7 +414,9 @@ export default {
   watch: {
     currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
+
       if (this.isOnPrivateNote) {
+        this.getFromDraft();
         return;
       }
 
@@ -424,12 +427,8 @@ export default {
       }
 
       if (oldConversation.id !== conversation.id) {
-        const draft = this.message;
-        if (draft) {
-          localStorage.setItem(oldConversation.id, draft || '');
-        }
-        this.message = '';
-        this.setFromDraft();
+        this.setToDraft(oldConversation.id, this.replyType);
+        this.getFromDraft();
       }
       this.setCCEmailFromLastChat();
     },
@@ -446,10 +445,14 @@ export default {
         this.showMentions = false;
       }
     },
+    replyType(updatedReplyType, oldReplyType) {
+      this.setToDraft(this.conversationId, oldReplyType);
+      this.getFromDraft();
+    },
   },
 
   mounted() {
-    this.setFromDraft();
+    this.getFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -462,16 +465,28 @@ export default {
     document.removeEventListener('paste', this.onPaste);
   },
   methods: {
-    setFromDraft() {
+    setToDraft(conversationId, replyType) {
+      const draft = this.message;
+      if (draft) {
+        objectStore.set(`draft-${conversationId}-${replyType}`, draft || '');
+      }
+      this.message = '';
+    },
+    getFromDraft() {
       if (this.conversationId) {
-        const draft = localStorage.getItem(this.conversationId) || '';
-
-        this.message = draft;
+        try {
+          const key = `draft-${this.conversationId}-${this.replyType}`;
+          const draft = objectStore.get(key) || '';
+          this.message = `${draft}`;
+        } catch (error) {
+          this.message = '';
+        }
       }
     },
     removeFromDraft() {
       if (this.conversationId) {
-        localStorage.setItem(this.conversationId, '');
+        const key = `draft-${this.conversationId}-${this.replyType}`;
+        objectStore.remove(key, '');
       }
     },
     onPaste(e) {

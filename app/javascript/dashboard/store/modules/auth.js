@@ -7,6 +7,7 @@ import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
+import { objectStore } from 'dashboard/helper/localStore';
 
 const state = {
   currentUser: {
@@ -94,6 +95,7 @@ export const actions = {
         .login(credentials)
         .then(response => {
           commit(types.default.SET_CURRENT_USER);
+          objectStore.clear();
           window.axios = createAxios(axios);
           actionCable.init(Vue);
 
@@ -128,6 +130,7 @@ export const actions = {
   },
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
+    objectStore.clear();
   },
 
   updateProfile: async ({ commit }, params) => {
