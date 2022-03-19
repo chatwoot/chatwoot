@@ -41,12 +41,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
   end
 
-  def summary_params
+  def current_summary_params
     {
       type: params[:type].to_sym,
-      since: params[:since],
-      until: params[:until],
       id: params[:id],
+      since: range[:current][:since],
+      until: range[:current][:until],
+      group_by: params[:group_by]
+    }
+  end
+
+  def previous_summary_params
+    {
+      type: params[:type].to_sym,
+      id: params[:id],
+      since: range[:previous][:since],
+      until: range[:previous][:until],
       group_by: params[:group_by]
     }
   end
@@ -63,8 +73,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     }
   end
 
+  def range
+    {
+      current: {
+        since: params[:since],
+        until: params[:until]
+      },
+      previous: {
+        since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
+        until: params[:since]
+      }
+    }
+  end
+
   def summary_metrics
-    builder = V2::ReportBuilder.new(Current.account, summary_params)
-    builder.summary
+    summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
+    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
+    summary
   end
 end

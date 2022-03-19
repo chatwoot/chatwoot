@@ -36,6 +36,19 @@
       />
     </button>
     <a
+      v-if="hasInstagramStory && (isIncoming || isOutgoing) && linkToStory"
+      :href="linkToStory"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
+        icon="open"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </a>
+    <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
       target="_blank"
@@ -67,6 +80,14 @@ export default {
       type: String,
       default: '',
     },
+    storySender: {
+      type: String,
+      default: '',
+    },
+    storyId: {
+      type: String,
+      default: '',
+    },
     isEmail: {
       type: Boolean,
       default: true,
@@ -76,6 +97,10 @@ export default {
       default: true,
     },
     isATweet: {
+      type: Boolean,
+      default: true,
+    },
+    hasInstagramStory: {
       type: Boolean,
       default: true,
     },
@@ -118,6 +143,13 @@ export default {
       const { screenName, sourceId } = this;
       return `https://twitter.com/${screenName ||
         this.inbox.name}/status/${sourceId}`;
+    },
+    linkToStory() {
+      if (!this.storyId || !this.storySender) {
+        return '';
+      }
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showSentIndicator() {
       return this.isOutgoing && this.sourceId && this.isAnEmailChannel;

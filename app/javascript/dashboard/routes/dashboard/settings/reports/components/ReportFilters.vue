@@ -255,7 +255,6 @@ export default {
   },
   methods: {
     onDateRangeChange() {
-      console.log(this.from, this.to);
       this.$emit('date-range-change', {
         from: this.from,
         to: this.to,

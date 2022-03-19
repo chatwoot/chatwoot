@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "CONVERSATIONS": "Диалоги",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
-    "SET_AVAILABILITY_TITLE": "Установить себя"
+    "SET_AVAILABILITY_TITLE": "Установить себя",
+    "BETA": "Бета"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",

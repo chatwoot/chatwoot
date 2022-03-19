@@ -43,7 +43,7 @@ en:
       failed: Signup failed
     contacts:
       import:
-        failed: File is blank  
+        failed: File is blank
 
   reports:
     period: Reporting period %{since} to %{until}
@@ -67,10 +67,12 @@ en:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: This message was deleted
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Conversation was reopened by %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

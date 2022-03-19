@@ -462,7 +462,8 @@
         "HOURS": "horas",
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
-      }
+      },
+      "ALL_DAY": "Todos os Dias"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -522,10 +523,10 @@
         "LABEL": "Domínio",
         "PLACE_HOLDER": "Domínio"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Criptografia",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
+      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificação SSL"
     }
   }
 }

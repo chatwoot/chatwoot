@@ -1,4 +1,5 @@
 class Api::V1::Accounts::Conversations::BaseController < Api::V1::Accounts::BaseController
+  include EnsureCurrentAccountHelper
   before_action :conversation
 
   private

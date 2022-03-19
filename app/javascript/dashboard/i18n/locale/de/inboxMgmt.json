@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p><b>Posteingang</b></p> <p> Wenn du eine Webseite oder eine Facebook-Seite mit Chatwood verbindest, wird dieser Kanal als <b>Posteingang</b> bezeichnet. Dabei können unbegrenzte viele Posteingänge angelegt werden. </p><p> Klicke auf <b>Posteingang hinzufügen</b>, um eine Webseite oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard du kannst alle Unterhaltungen aus allen deinen Posteingängen an einem Ort sehen und unter der Registerkarte \"Unterhaltungen\" beantworten. </p><p> Du kannst dir auch nur Konversationen anzeigen lassen, die in einen bestimmten Posteingang enthalten sind, indem du auf den Posteingangsnamen auf der linken Seite des Dashboards klicken. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird diese als bInbox</b> bezeichnet. Sie können unbegrenzte Posteingänge in Ihrem Chatwoot-Konto haben. </p><p Klicken Sie auf <b>Posteingang hinzufügen</b>, um eine Website oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort sehen und unter der Registerkarte 'Konversationen' darauf antworten. </p><p> Sie können auch zu einem Posteingang spezifische Konversationen anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
@@ -42,8 +42,8 @@
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
-        "PICK_NAME": "Wähle einen Namen für deinen Posteingang",
-        "PICK_A_VALUE": "Wähle einen Wert"
+        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang",
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
@@ -74,7 +74,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Willkommens-Schlagzeile",
-          "PLACEHOLDER": "Wir machen es einfach, mit uns in Verbindung zu treten. Fragen Sie uns etwas oder teilen Sie Ihr Feedback."
+          "PLACEHOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Grußnachricht des Kanals",
@@ -91,7 +91,7 @@
           "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
           "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
           "IN_A_DAY": "Innerhalb eines Tages",
-          "HELP_TEXT": "Die Reaktionszeit wird im Live-Chat-Widget angezeigt"
+          "HELP_TEXT": "Diese Antwortzeit wird im Live-Chat-Widget angezeigt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
@@ -297,7 +297,7 @@
         }
       },
       "AUTH": {
-        "TITLE": "Wähle einen Kanal",
+        "TITLE": "Wählen Sie einen Kanal",
         "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
@@ -403,7 +403,7 @@
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "ENABLE_CSAT": "CSAT aktivieren",
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
@@ -420,7 +420,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Erlaube Nachrichten nach aufgelösten Konversationen",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -430,7 +430,7 @@
       "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Chatformulare ermöglichen es dir, Benutzerinformationen zu erfassen, bevor ein Gespräch begonnen wird.",
+      "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
@@ -462,7 +462,8 @@
         "HOURS": "Stunden",
         "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
         "CHOOSE": "Auswählen"
-      }
+      },
+      "ALL_DAY": "Den ganzen Tag"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -476,7 +477,7 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: imap.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -504,7 +505,7 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
