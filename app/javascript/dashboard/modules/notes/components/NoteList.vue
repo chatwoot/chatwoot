@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import AddNote from './AddNote';
-import ContactNote from './ContactNote';
-import Spinner from 'shared/components/Spinner';
+import AddNote from './AddNote.vue';
+import ContactNote from './ContactNote.vue';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {

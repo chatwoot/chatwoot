@@ -1,4 +1,4 @@
-import AppContainer from './Dashboard';
+import AppContainer from './Dashboard.vue';
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as contactRoutes } from './contacts/routes';

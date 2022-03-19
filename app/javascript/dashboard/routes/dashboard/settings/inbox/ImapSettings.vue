@@ -71,7 +71,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingsSection from 'dashboard/components/SettingsSection';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 
 export default {

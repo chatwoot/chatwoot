@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Thumbnail from '../../../components/widgets/Thumbnail';
+import Thumbnail from '../../../components/widgets/Thumbnail.vue';
 
 export default {
   components: {

@@ -29,8 +29,8 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
-import CampaignsTable from './CampaignsTable';
-import EditCampaign from './EditCampaign';
+import CampaignsTable from './CampaignsTable.vue';
+import EditCampaign from './EditCampaign.vue';
 export default {
   components: {
     CampaignsTable,

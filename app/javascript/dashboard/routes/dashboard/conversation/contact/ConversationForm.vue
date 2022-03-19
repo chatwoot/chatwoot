@@ -88,7 +88,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';

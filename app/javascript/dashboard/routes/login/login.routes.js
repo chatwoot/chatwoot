@@ -1,4 +1,4 @@
-import Login from './Login';
+import Login from './Login.vue';
 import { frontendURL } from '../../helper/URLHelper';
 
 export default {

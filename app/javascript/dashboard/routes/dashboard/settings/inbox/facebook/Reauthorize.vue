@@ -14,7 +14,7 @@
 
 <script>
 /* global FB */
-import SettingsSection from '../../../../../components/SettingsSection';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

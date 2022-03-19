@@ -430,15 +430,15 @@ import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
-import SettingsSection from '../../../../components/SettingsSection';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
+import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import FacebookReauthorize from './facebook/Reauthorize';
-import PreChatFormSettings from './PreChatForm/Settings';
-import WeeklyAvailability from './components/WeeklyAvailability';
-import GreetingsEditor from 'shared/components/GreetingsEditor';
-import ImapSettings from './ImapSettings';
-import SmtpSettings from './SmtpSettings';
+import FacebookReauthorize from './facebook/Reauthorize.vue';
+import PreChatFormSettings from './PreChatForm/Settings.vue';
+import WeeklyAvailability from './components/WeeklyAvailability.vue';
+import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import ImapSettings from './ImapSettings.vue';
+import SmtpSettings from './SmtpSettings.vue';
 
 export default {
   components: {

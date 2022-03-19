@@ -11,9 +11,9 @@
   </div>
 </template>
 <script>
-import CsatMetrics from './components/CsatMetrics';
-import CsatTable from './components/CsatTable';
-import ReportFilterSelector from './components/FilterSelector';
+import CsatMetrics from './components/CsatMetrics.vue';
+import CsatTable from './components/CsatTable.vue';
+import ReportFilterSelector from './components/FilterSelector.vue';
 import { mapGetters } from 'vuex';
 
 export default {

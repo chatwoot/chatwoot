@@ -56,7 +56,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 export default {
   name: 'ChatInputWrap',

@@ -44,7 +44,7 @@
 import { mapGetters } from 'vuex';
 import adminMixin from '../../../mixins/isAdmin';
 import accountMixin from '../../../mixins/account';
-import OnboardingView from './OnboardingView';
+import OnboardingView from './OnboardingView.vue';
 
 export default {
   components: {

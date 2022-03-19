@@ -30,7 +30,7 @@ import { mapGetters } from 'vuex';
 import { required, email } from 'vuelidate/lib/validators';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {

@@ -1,7 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import NotificationsView from './components/NotificationsView.vue';
 import { frontendURL } from '../../../helper/URLHelper';
-import SettingsWrapper from '../settings/Wrapper';
+import SettingsWrapper from '../settings/Wrapper.vue';
 
 export const routes = [
   {

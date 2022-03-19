@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import ReportFilters from './ReportFilters';
+import ReportFilters from './ReportFilters.vue';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { GROUP_BY_FILTER } from '../constants';

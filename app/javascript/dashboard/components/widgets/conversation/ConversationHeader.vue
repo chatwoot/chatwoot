@@ -48,15 +48,15 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import MoreActions from './MoreActions';
-import Thumbnail from '../Thumbnail';
+import MoreActions from './MoreActions.vue';
+import Thumbnail from '../Thumbnail.vue';
 import agentMixin from '../../../mixins/agentMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import wootConstants from '../../../constants';
 import differenceInHours from 'date-fns/differenceInHours';
-import InboxName from '../InboxName';
+import InboxName from '../InboxName.vue';
 
 export default {
   components: {

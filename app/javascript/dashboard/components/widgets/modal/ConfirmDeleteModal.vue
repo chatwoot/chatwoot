@@ -23,7 +23,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import Modal from '../../Modal';
+import Modal from '../../Modal.vue';
 
 export default {
   components: {

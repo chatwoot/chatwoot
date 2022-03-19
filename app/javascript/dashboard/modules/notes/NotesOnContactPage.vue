@@ -9,7 +9,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import NoteList from './components/NoteList';
+import NoteList from './components/NoteList.vue';
 
 export default {
   components: {

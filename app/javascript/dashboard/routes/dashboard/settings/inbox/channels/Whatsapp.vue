@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import PageHeader from '../../SettingsSubPageHeader';
-import Twilio from './Twilio';
-import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import Twilio from './Twilio.vue';
+import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 
 export default {
   components: {

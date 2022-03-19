@@ -85,12 +85,12 @@
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import Thumbnail from '../Thumbnail';
+import Thumbnail from '../Thumbnail.vue';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
-import InboxName from '../InboxName';
+import InboxName from '../InboxName.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
 const ATTACHMENT_ICONS = {

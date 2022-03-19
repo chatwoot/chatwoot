@@ -32,8 +32,8 @@ import { EditorState } from 'prosemirror-state';
 import { defaultMarkdownParser } from 'prosemirror-markdown';
 import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
-import TagAgents from '../conversation/TagAgents';
-import CannedResponse from '../conversation/CannedResponse';
+import TagAgents from '../conversation/TagAgents.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 

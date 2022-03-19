@@ -121,7 +121,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
-const semver = require('semver');
+import semver from 'semver';
 
 export default {
   mixins: [accountMixin, alertMixin, configMixin],

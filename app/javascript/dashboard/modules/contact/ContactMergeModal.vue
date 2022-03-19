@@ -19,7 +19,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import MergeContact from 'dashboard/modules/contact/components/MergeContact';
+import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
 

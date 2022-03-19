@@ -113,15 +113,15 @@ import copy from 'copy-text-to-clipboard';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 
-import BubbleMailHead from './bubble/MailHead';
-import BubbleText from './bubble/Text';
-import BubbleImage from './bubble/Image';
-import BubbleFile from './bubble/File';
+import BubbleMailHead from './bubble/MailHead.vue';
+import BubbleText from './bubble/Text.vue';
+import BubbleImage from './bubble/Image.vue';
+import BubbleFile from './bubble/File.vue';
 import BubbleVideo from './bubble/Video.vue';
-import BubbleActions from './bubble/Actions';
+import BubbleActions from './bubble/Actions.vue';
 
-import Spinner from 'shared/components/Spinner';
-import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
+import Spinner from 'shared/components/Spinner.vue';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';

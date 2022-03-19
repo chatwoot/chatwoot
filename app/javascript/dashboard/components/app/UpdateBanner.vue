@@ -16,7 +16,7 @@ import LocalStorage from '../../helper/localStorage';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 
-const semver = require('semver');
+import semver from 'semver';
 const dismissedUpdates = new LocalStorage('dismissedUpdates');
 
 export default {

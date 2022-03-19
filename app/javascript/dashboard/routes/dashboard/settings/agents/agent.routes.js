@@ -1,5 +1,5 @@
-import SettingsContent from '../Wrapper';
-import AgentHome from './Index';
+import SettingsContent from '../Wrapper.vue';
+import AgentHome from './Index.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

@@ -21,9 +21,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ChatList from '../../../components/ChatList';
-import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import PopOverSearch from './search/PopOverSearch';
+import ChatList from '../../../components/ChatList.vue';
+import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
+import PopOverSearch from './search/PopOverSearch.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 

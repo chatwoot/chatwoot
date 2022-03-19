@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import LabelDropdownItem from './LabelDropdownItem';
+import LabelDropdownItem from './LabelDropdownItem.vue';
 
 export default {
   title: 'Components/Label/Item',

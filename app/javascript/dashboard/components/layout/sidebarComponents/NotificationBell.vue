@@ -10,7 +10,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import PrimaryNavItem from './PrimaryNavItem';
+import PrimaryNavItem from './PrimaryNavItem.vue';
 
 export default {
   components: { PrimaryNavItem },

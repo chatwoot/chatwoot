@@ -65,7 +65,7 @@ import { mapGetters } from 'vuex';
 import adminMixin from '../../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 
-import SecondaryChildNavItem from './SecondaryChildNavItem';
+import SecondaryChildNavItem from './SecondaryChildNavItem.vue';
 
 export default {
   components: { SecondaryChildNavItem },

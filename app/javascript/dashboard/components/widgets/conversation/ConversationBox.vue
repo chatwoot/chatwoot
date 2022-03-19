@@ -28,10 +28,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
-import ConversationHeader from './ConversationHeader';
-import EmptyState from './EmptyState';
-import MessagesView from './MessagesView';
+import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
+import ConversationHeader from './ConversationHeader.vue';
+import EmptyState from './EmptyState.vue';
+import MessagesView from './MessagesView.vue';
 
 export default {
   components: {

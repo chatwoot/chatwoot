@@ -52,7 +52,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 
 const validEmail = (value = '') => value.includes('@');
 

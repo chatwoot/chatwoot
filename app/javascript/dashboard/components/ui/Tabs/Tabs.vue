@@ -1,3 +1,11 @@
+<template>
+  <ul class="tabs">
+    {{
+      tabItems
+    }}
+  </ul>
+</template>
+<script>
 export default {
   name: 'WootTabs',
   props: {
@@ -6,8 +14,8 @@ export default {
       default: 0,
     },
   },
-  render() {
-    const Tabs = this.$slots.default
+  tabItems() {
+    return this.$slots.default
       .filter(
         node =>
           node.componentOptions &&
@@ -18,14 +26,6 @@ export default {
         data.index = index;
         return node;
       });
-    return (
-      <ul
-        class={{
-          tabs: true,
-        }}
-      >
-        {Tabs}
-      </ul>
-    );
   },
 };
+</script>

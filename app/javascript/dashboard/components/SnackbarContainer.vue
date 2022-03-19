@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import WootSnackbar from './Snackbar';
+import WootSnackbar from './Snackbar.vue';
 
 export default {
   components: {

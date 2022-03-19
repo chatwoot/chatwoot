@@ -112,7 +112,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
 export default {

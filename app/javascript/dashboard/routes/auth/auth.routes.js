@@ -1,8 +1,8 @@
-import Auth from './Auth';
-import Confirmation from './Confirmation';
-import Signup from './Signup';
-import PasswordEdit from './PasswordEdit';
-import ResetPassword from './ResetPassword';
+import Auth from './Auth.vue';
+import Confirmation from './Confirmation.vue';
+import Signup from './Signup.vue';
+import PasswordEdit from './PasswordEdit.vue';
+import ResetPassword from './ResetPassword.vue';
 import { frontendURL } from '../../helper/URLHelper';
 
 export default {

@@ -61,8 +61,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingsSection from 'dashboard/components/SettingsSection';
-import BusinessDay from './BusinessDay';
+import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import BusinessDay from './BusinessDay.vue';
 import {
   timeSlotParse,
   timeSlotTransform,

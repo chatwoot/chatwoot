@@ -2,7 +2,7 @@
   <base-icon :size="size" :icon="icon" :type="type" :icons="icons" />
 </template>
 <script>
-import BaseIcon from './Icon';
+import BaseIcon from './Icon.vue';
 import icons from './dashboard-icons.json';
 
 export default {

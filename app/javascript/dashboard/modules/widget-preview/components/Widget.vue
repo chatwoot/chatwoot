@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import WidgetHead from './WidgetHead';
-import WidgetBody from './WidgetBody';
-import WidgetFooter from './WidgetFooter';
+import WidgetHead from './WidgetHead.vue';
+import WidgetBody from './WidgetBody.vue';
+import WidgetFooter from './WidgetFooter.vue';
 
 export default {
   name: 'Widget',

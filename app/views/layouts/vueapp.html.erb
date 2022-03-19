@@ -56,8 +56,9 @@
       }
     </script>
     <% end %>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'application' %>
+    <%= vite_stylesheet_tag 'application' %>
   </head>
   <body>
     <div id="app"></div>

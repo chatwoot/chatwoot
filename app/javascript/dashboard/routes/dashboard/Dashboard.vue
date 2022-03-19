@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import Sidebar from '../../components/layout/Sidebar';
+import Sidebar from '../../components/layout/Sidebar.vue';
 import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
-import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
+import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
+import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 
 export default {

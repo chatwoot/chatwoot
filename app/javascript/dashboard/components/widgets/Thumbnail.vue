@@ -84,7 +84,7 @@
  * Badge - Chat source indication { fb / telegram }
  * Username - User name for avatar
  */
-import Avatar from './Avatar';
+import Avatar from './Avatar.vue';
 
 export default {
   components: {

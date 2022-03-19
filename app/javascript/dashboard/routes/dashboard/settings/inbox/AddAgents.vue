@@ -49,7 +49,7 @@ import { mapGetters } from 'vuex';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
-import PageHeader from '../SettingsSubPageHeader';
+import PageHeader from '../SettingsSubPageHeader.vue';
 
 export default {
   components: {

@@ -140,17 +140,17 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatFilter from './widgets/conversation/ChatFilter';
-import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter';
-import ChatTypeTabs from './widgets/ChatTypeTabs';
-import ConversationCard from './widgets/conversation/ConversationCard';
+import ChatFilter from './widgets/conversation/ChatFilter.vue';
+import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
+import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
+import ConversationCard from './widgets/conversation/ConversationCard.vue';
 import timeMixin from '../mixins/time';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
-import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 
 import {

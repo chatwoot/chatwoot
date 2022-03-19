@@ -70,7 +70,7 @@
 <script>
 import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WootSubmitButton from '../../components/buttons/FormSubmitButton';
+import WootSubmitButton from '../../components/buttons/FormSubmitButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {

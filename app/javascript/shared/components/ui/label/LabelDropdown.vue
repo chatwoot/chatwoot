@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import LabelDropdownItem from './LabelDropdownItem';
+import LabelDropdownItem from './LabelDropdownItem.vue';
 export default {
   components: {
     LabelDropdownItem,

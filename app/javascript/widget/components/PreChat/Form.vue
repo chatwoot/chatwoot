@@ -58,7 +58,7 @@
 import CustomButton from 'shared/components/Button';
 import FormInput from '../Form/Input';
 import FormTextArea from '../Form/TextArea';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';

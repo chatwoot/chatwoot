@@ -18,7 +18,11 @@ export default defineConfig({
       widget: resolve('./app/javascript/widget'),
       '~widget': resolve('./app/javascript/widget'),
       '~survey': resolve('./app/javascript/survey'),
-      '~dashboard': resolve('./app/javascript/dashboard')
+      '~dashboard': resolve('./app/javascript/dashboard'),
+      vue: 'vue/dist/vue.js'
     },
   },
+  define: {
+    'process.env': process.env
+  }
 })

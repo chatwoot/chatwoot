@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 

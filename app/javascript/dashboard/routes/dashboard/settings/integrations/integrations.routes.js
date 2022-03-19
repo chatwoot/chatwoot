@@ -1,7 +1,7 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
-import Webhook from './Webhook';
-import ShowIntegration from './ShowIntegration';
+import Index from './Index.vue';
+import SettingsContent from '../Wrapper.vue';
+import Webhook from './Webhook.vue';
+import ShowIntegration from './ShowIntegration.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {

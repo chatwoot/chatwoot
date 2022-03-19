@@ -1,4 +1,4 @@
-import SettingsContent from '../Wrapper';
+import SettingsContent from '../Wrapper.vue';
 import Index from './Index.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 

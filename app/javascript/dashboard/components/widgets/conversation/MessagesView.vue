@@ -98,8 +98,8 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ReplyBox from './ReplyBox';
-import Message from './Message';
+import ReplyBox from './ReplyBox.vue';
+import Message from './Message.vue';
 import conversationMixin from '../../../mixins/conversations';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { getTypingUsersText } from '../../../helper/commons';

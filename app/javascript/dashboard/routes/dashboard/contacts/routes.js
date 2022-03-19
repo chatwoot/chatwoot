@@ -1,6 +1,6 @@
 /* eslint arrow-body-style: 0 */
-import ContactsView from './components/ContactsView';
-import ContactManageView from './pages/ContactManageView';
+import ContactsView from './components/ContactsView.vue';
+import ContactManageView from './pages/ContactManageView.vue';
 import { frontendURL } from '../../../helper/URLHelper';
 
 export const routes = [

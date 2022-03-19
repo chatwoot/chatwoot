@@ -123,7 +123,7 @@ import {
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider.vue';
 
 import wootConstants from '../../constants';
 import {

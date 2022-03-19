@@ -102,12 +102,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 
-import ContactInfo from './contact/ContactInfo';
-import ConversationInfo from './ConversationInfo';
+import ContactInfo from './contact/ContactInfo.vue';
+import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';

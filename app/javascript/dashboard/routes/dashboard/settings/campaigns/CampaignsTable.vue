@@ -19,14 +19,14 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
-import Label from 'dashboard/components/ui/Label';
+import Label from 'dashboard/components/ui/Label.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import timeMixin from 'dashboard/mixins/time';
-import InboxName from 'dashboard/components/widgets/InboxName';
+import InboxName from 'dashboard/components/widgets/InboxName.vue';
 
 export default {
   components: {
@@ -99,11 +99,11 @@ export default {
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TITLE'),
           fixed: 'left',
           align: 'left',
-          renderBodyCell: ({ row }) => (
-            <div class="row--title-block">
-              <h6 class="sub-block-title title text-truncate">{row.title}</h6>
-            </div>
-          ),
+          // renderBodyCell: ({ row }) => (
+          //   <div class="row--title-block">
+          //     <h6 class="sub-block-title title text-truncate">{row.title}</h6>
+          //   </div>
+          // ),
         },
 
         {
@@ -112,27 +112,27 @@ export default {
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.MESSAGE'),
           align: 'left',
           width: 350,
-          renderBodyCell: ({ row }) => {
-            if (row.message) {
-              return (
-                <div class="text-truncate">
-                  <span
-                    domPropsInnerHTML={this.formatMessage(row.message)}
-                  ></span>
-                </div>
-              );
-            }
-            return '';
-          },
+          // renderBodyCell: ({ row }) => {
+          //   if (row.message) {
+          //     return (
+          //       <div class="text-truncate">
+          //         <span
+          //           domPropsInnerHTML={this.formatMessage(row.message)}
+          //         ></span>
+          //       </div>
+          //     );
+          //   }
+          //   return '';
+          // },
         },
         {
           field: 'inbox',
           key: 'inbox',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.INBOX'),
           align: 'left',
-          renderBodyCell: ({ row }) => {
-            return <InboxName inbox={row.inbox} />;
-          },
+          // renderBodyCell: ({ row }) => {
+          //   return <InboxName inbox={row.inbox} />;
+          // },
         },
       ];
       if (this.isOngoingType) {
@@ -143,41 +143,41 @@ export default {
             key: 'enabled',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
             align: 'left',
-            renderBodyCell: ({ row }) => {
-              const labelText = row.enabled
-                ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-                : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
-              const colorScheme = row.enabled ? 'success' : 'secondary';
-              return <Label title={labelText} colorScheme={colorScheme} />;
-            },
+            // renderBodyCell: ({ row }) => {
+            //   const labelText = row.enabled
+            //     ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
+            //     : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+            //   const colorScheme = row.enabled ? 'success' : 'secondary';
+            //   return <Label title={labelText} colorScheme={colorScheme} />;
+            // },
           },
           {
             field: 'sender',
             key: 'sender',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
             align: 'left',
-            renderBodyCell: ({ row }) => {
-              if (row.sender) return <UserAvatarWithName user={row.sender} />;
-              return this.$t('CAMPAIGN.LIST.SENDER.BOT');
-            },
+            // renderBodyCell: ({ row }) => {
+            //   if (row.sender) return <UserAvatarWithName user={row.sender} />;
+            //   return this.$t('CAMPAIGN.LIST.SENDER.BOT');
+            // },
           },
           {
             field: 'url',
             key: 'url',
             title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
             align: 'left',
-            renderBodyCell: ({ row }) => (
-              <div class="text-truncate">
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  href={row.url}
-                  title={row.url}
-                >
-                  {row.url}
-                </a>
-              </div>
-            ),
+            // renderBodyCell: ({ row }) => (
+            //   <div class="text-truncate">
+            //     <a
+            //       target="_blank"
+            //       rel="noopener noreferrer nofollow"
+            //       href={row.url}
+            //       title={row.url}
+            //     >
+            //       {row.url}
+            //     </a>
+            //   </div>
+            // ),
           },
           {
             field: 'timeOnPage',
@@ -191,27 +191,27 @@ export default {
             key: 'buttons',
             title: '',
             align: 'left',
-            renderBodyCell: row => (
-              <div class="button-wrapper">
-                <WootButton
-                  variant="clear"
-                  icon="edit"
-                  color-scheme="secondary"
-                  classNames="grey-btn"
-                  onClick={() => this.$emit('on-edit-click', row)}
-                >
-                  {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
-                </WootButton>
-                <WootButton
-                  variant="link"
-                  icon="dismiss-circle"
-                  color-scheme="secondary"
-                  onClick={() => this.$emit('on-delete-click', row)}
-                >
-                  {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
-                </WootButton>
-              </div>
-            ),
+            // renderBodyCell: row => (
+            //   <div class="button-wrapper">
+            //     <WootButton
+            //       variant="clear"
+            //       icon="edit"
+            //       color-scheme="secondary"
+            //       classNames="grey-btn"
+            //       onClick={() => this.$emit('on-edit-click', row)}
+            //     >
+            //       {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
+            //     </WootButton>
+            //     <WootButton
+            //       variant="link"
+            //       icon="dismiss-circle"
+            //       color-scheme="secondary"
+            //       onClick={() => this.$emit('on-delete-click', row)}
+            //     >
+            //       {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
+            //     </WootButton>
+            //   </div>
+            // ),
           },
         ];
       }
@@ -222,15 +222,15 @@ export default {
           key: 'campaign_status',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
           align: 'left',
-          renderBodyCell: ({ row }) => {
-            const labelText =
-              row.campaign_status === 'completed'
-                ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
-                : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
-            const colorScheme =
-              row.campaign_status === 'completed' ? 'secondary' : 'success';
-            return <Label title={labelText} colorScheme={colorScheme} />;
-          },
+          // renderBodyCell: ({ row }) => {
+          //   const labelText =
+          //     row.campaign_status === 'completed'
+          //       ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
+          //       : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+          //   const colorScheme =
+          //     row.campaign_status === 'completed' ? 'secondary' : 'success';
+          //   return <Label title={labelText} colorScheme={colorScheme} />;
+          // },
         },
         {
           field: 'scheduledAt',
@@ -243,18 +243,18 @@ export default {
           key: 'buttons',
           title: '',
           align: 'left',
-          renderBodyCell: row => (
-            <div class="button-wrapper">
-              <WootButton
-                variant="link"
-                icon="dismiss-circle"
-                color-scheme="secondary"
-                onClick={() => this.$emit('on-delete-click', row)}
-              >
-                {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
-              </WootButton>
-            </div>
-          ),
+          // renderBodyCell: row => (
+          //   <div class="button-wrapper">
+          //     <WootButton
+          //       variant="link"
+          //       icon="dismiss-circle"
+          //       color-scheme="secondary"
+          //       onClick={() => this.$emit('on-delete-click', row)}
+          //     >
+          //       {this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
+          //     </WootButton>
+          //   </div>
+          // ),
         },
       ];
     },

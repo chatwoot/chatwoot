@@ -30,7 +30,7 @@
 <script>
 import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
 export default {
   components: {

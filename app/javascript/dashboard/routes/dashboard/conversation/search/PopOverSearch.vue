@@ -53,7 +53,7 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
-import ResultItem from './ResultItem';
+import ResultItem from './ResultItem.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {

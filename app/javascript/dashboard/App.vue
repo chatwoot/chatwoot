@@ -16,10 +16,10 @@
 <script>
 import { accountIdFromPathname } from './helper/URLHelper';
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
-import NetworkNotification from './components/NetworkNotification';
+import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
-import WootSnackbarBox from './components/SnackbarContainer';
+import WootSnackbarBox from './components/SnackbarContainer.vue';
 
 export default {
   name: 'App',
