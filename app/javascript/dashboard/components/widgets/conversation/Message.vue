@@ -153,6 +153,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    userReadMessage: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
