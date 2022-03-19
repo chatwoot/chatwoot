@@ -18,6 +18,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
+    isWidgetVisible: true,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale: chatwootSettings.locale,
