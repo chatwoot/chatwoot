@@ -179,9 +179,9 @@ export default {
       } finally {
         this.isUpdating = false;
       }
+      console.log();
     },
     setLocale(locale) {
-      console.log(locale);
       this.$root.$i18n.locale = locale || 'en';
     },
   },
