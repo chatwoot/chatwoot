@@ -31,6 +31,16 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.events.toggleBubble(state);
     },
 
+    showWidget() {
+      document.querySelector('.woot--bubble-holder').style.display = 'block';
+      window.$chatwoot.isWidgetVisible = true;
+    },
+
+    hideWidget() {
+      document.querySelector('.woot--bubble-holder').style.display = 'none';
+      window.$chatwoot.isWidgetVisible = false;
+    },
+
     setUser(identifier, user) {
       if (typeof identifier !== 'string' && typeof identifier !== 'number') {
         throw new Error('Identifier should be a string or a number');
