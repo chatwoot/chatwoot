@@ -42,6 +42,7 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
@@ -50,10 +51,12 @@ hu:
       conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Az üzenet törölve lett
     activity:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
         pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
         snoozed: "A beszélgetést %{user_name} elnémította"

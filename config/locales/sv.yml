@@ -42,6 +42,7 @@ sv:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
@@ -50,10 +51,12 @@ sv:
       conversation_mention: "Du har nämnts i konversationen [ID - %{display_id}] av %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Detta meddelande har tagits bort
     activity:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Konversationen öppnades igen av %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

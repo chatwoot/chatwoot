@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "削除の確認",
       "MESSAGE": "削除してもよろしいですか？ ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "削除する ",
-      "NO": "いいえ "
+      "YES": "削除する",
+      "NO": "いいえ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
