@@ -240,7 +240,7 @@
     "HEADER": "Visão Geral da Caixa de Entrada",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Descarregar relatórios de caixa de entrada",
     "FILTER_DROPDOWN_LABEL": "Escolher caixa de entrada",
     "METRICS": {
       "CONVERSATIONS": {
