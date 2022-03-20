@@ -101,21 +101,21 @@
         "PLACEHOLDER": "Por favor, digite a password atual"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nova senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
         "PLACEHOLDER": "Por favor, digite uma nova senha"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirme a nova senha",
         "ERROR": "Confirme a senha deve corresponder à senha",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Por favor, digite novamente a sua senha nova"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar de conta",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contactar Suporte",
     "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
@@ -124,7 +124,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Usuário Excluído"
   },
   "COMPONENTS": {
     "CODE": {
@@ -164,7 +164,7 @@
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatização",
     "TEAMS": "Equipas",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
