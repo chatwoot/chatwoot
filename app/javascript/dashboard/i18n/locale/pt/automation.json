@@ -86,20 +86,20 @@
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save"
+      "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar Regra de Automação",
       "DEACTIVATION_TITLE": "Desativar Regra de Automação",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_DESCRIPTION": "Esta ação irá ativar a regra de automação '{automationName}'. Tem a certeza que deseja continuar?",
+      "DEACTIVATION_DESCRIPTION": "Esta ação irá desativar a regra de automação '{automationName}'. Tem a certeza que deseja continuar?",
+      "ACTIVATION_SUCCESFUL": "Regra de Automação Ativada com Sucesso",
+      "DEACTIVATION_SUCCESFUL": "Regra de Automação Desativada com Sucesso",
+      "ACTIVATION_ERROR": "Não foi possível Ativar a Automação, por favor, tente novamente mais tarde",
+      "DEACTIVATION_ERROR": "Não foi possível Desativar a Automação, por favor, tente novamente mais tarde",
       "CONFIRMATION_LABEL": "Sim",
       "CANCEL_LABEL": "Não"
     }
