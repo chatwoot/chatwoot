@@ -469,7 +469,7 @@
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
       "UPDATE": "Atualizar configurações IMAP",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
