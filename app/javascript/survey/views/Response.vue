@@ -144,6 +144,7 @@ export default {
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
+        this.setLocale(result.data.locale);
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
@@ -178,6 +179,9 @@ export default {
       } finally {
         this.isUpdating = false;
       }
+    },
+    setLocale(locale) {
+      this.$root.$i18n.locale = locale || 'en';
     },
   },
 };
