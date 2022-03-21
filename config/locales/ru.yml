@@ -42,6 +42,7 @@ ru:
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
+    default_group_by: день
   notifications:
     notification_title:
       conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"
@@ -50,10 +51,12 @@ ru:
       conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Это сообщение было удалено
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
+        contact_resolved: "Разговор был закрыт %{contact_name}"
         open: "%{user_name} открыл заново диалог"
         pending: "Разговор был помечен как ожидающий %{user_name}"
         snoozed: "Разговор был помечен как отложенный %{user_name}"
