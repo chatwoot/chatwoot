@@ -45,4 +45,11 @@ export const mutations = {
       Vue.set($state.records[item.id], 'read_at', true);
     });
   },
+
+  [types.ADD_NOTIFICATION]($state, notification) {
+    Vue.set($state.records, notification.id, {
+      ...($state.records[notification.id] || {}),
+      ...notification,
+    });
+  },
 };
