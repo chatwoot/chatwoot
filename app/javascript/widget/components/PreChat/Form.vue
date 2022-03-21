@@ -12,6 +12,7 @@
       :label="getLabel(item)"
       :placeholder="getPlaceHolder(item.name)"
       :validation="getValidation(item)"
+      :options="getOptions(item)"
       :validation-messages="{
         isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
@@ -100,8 +101,12 @@ export default {
       return this.options.preChatFields || [];
     },
     enabledPreChatFields() {
-      console.log('preChatFields', this.preChatFields);
-      return this.preChatFields.filter(field => field.enabled);
+      return this.preChatFields
+        .filter(field => field.enabled)
+        .map(field => ({
+          ...field,
+          type: this.findFieldType(field.type),
+        }));
     },
   },
   methods: {
@@ -151,18 +156,60 @@ export default {
         );
       return `${fieldName} is required`;
     },
-    getValidation(item) {
-      if (!this.isValidationEnabled(item.name)) {
+    getValidation({ type, name }) {
+      if (!this.isValidationEnabled(name)) {
         return '';
       }
-      switch (item.name) {
-        case 'emailAddress':
-          return 'bail|required|email';
-        case 'phoneNumber':
-          return 'bail|required|isPhoneE164OrEmpty';
-        default:
-          return 'required';
+      if (name === 'emailAddress') {
+        return 'bail|required|email';
       }
+      if (name === 'phoneNumber') {
+        return 'bail|required|isPhoneE164OrEmpty';
+      }
+      if (type === 'url') {
+        return 'bail|required|url';
+      }
+      if (type === 'date') {
+        return 'bail|required|date';
+      }
+      if (type === 'text' || type === 'select') {
+        return 'bail|required';
+      }
+
+      return '';
+    },
+    findFieldType(type) {
+      if (type === 'link') {
+        return 'url';
+      }
+      if (type === 'checkbox') {
+        return 'radio';
+      }
+
+      if (type === 'list') {
+        return 'select';
+      }
+
+      return type;
+    },
+    getOptions(item) {
+      if (item.type === 'radio') {
+        return {
+          True: 'True',
+          False: 'False',
+        };
+      }
+      if (item.type === 'select') {
+        let values = {};
+        item.values.forEach((value, index) => {
+          values = {
+            ...values,
+            [index]: value,
+          };
+        });
+        return values;
+      }
+      return null;
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
