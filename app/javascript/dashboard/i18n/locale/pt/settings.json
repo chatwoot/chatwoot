@@ -101,21 +101,21 @@
         "PLACEHOLDER": "Por favor, digite a password atual"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nova senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
         "PLACEHOLDER": "Por favor, digite uma nova senha"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirme a nova senha",
         "ERROR": "Confirme a senha deve corresponder à senha",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Por favor, digite novamente a sua senha nova"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar de conta",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contactar Suporte",
     "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
@@ -124,7 +124,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Usuário Excluído"
   },
   "COMPONENTS": {
     "CODE": {
@@ -164,15 +164,15 @@
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatização",
     "TEAMS": "Equipas",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "CUSTOM_VIEWS_FOLDER": "Pastas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os contatos",
     "TAGGED_WITH": "Etiquetada com",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Nova equipa",
+    "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_OVERVIEW": "Visão geral",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
@@ -181,8 +181,8 @@
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "REPORTS_TEAM": "Equipa",
+    "SET_AVAILABILITY_TITLE": "Defina-se como",
     "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
@@ -215,7 +215,7 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir para barra lateral de Relatórios",
       "MOVE_TO_NEXT_TAB": "Mover para próximo separador da lista de conversas",
       "GO_TO_SETTINGS": "Ir para as configurações",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo estado de conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
       "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
       "SWITCH_TO_REPLY": "Mudar para resposta",
