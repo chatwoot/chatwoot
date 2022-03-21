@@ -42,6 +42,7 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    default_group_by: اليوم
   notifications:
     notification_title:
       conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
@@ -50,10 +51,12 @@ ar:
       conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
   conversations:
     messages:
+      instagram_story_content: "أشار %{story_sender} إليك في القصة: "
       deleted: تم حذف هذه الرسالة
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
+        contact_resolved: "تم حل المحادثة بواسطة %{contact_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"

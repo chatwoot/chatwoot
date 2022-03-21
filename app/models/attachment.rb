@@ -34,7 +34,7 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
 
-  enum file_type: [:image, :audio, :video, :file, :location, :fallback]
+  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention]
 
   def push_event_data
     return unless file_type
