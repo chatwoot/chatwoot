@@ -7,7 +7,7 @@ import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
-import { objectStore } from 'dashboard/helper/localStore';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
 
 const state = {
   currentUser: {
@@ -95,10 +95,9 @@ export const actions = {
         .login(credentials)
         .then(response => {
           commit(types.default.SET_CURRENT_USER);
-          objectStore.clear();
+          LocalStorage.clear(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-
           window.location = getLoginRedirectURL(ssoAccountId, response.data);
           resolve();
         })
@@ -130,7 +129,7 @@ export const actions = {
   },
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
-    objectStore.clear();
+    LocalStorage.clear(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
   },
 
   updateProfile: async ({ commit }, params) => {

@@ -149,7 +149,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
-import { objectStore } from 'dashboard/helper/localStore';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 
 export default {
   components: {
@@ -415,8 +415,12 @@ export default {
     currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
 
-      if (this.isOnPrivateNote) {
+      if (oldConversation.id !== conversation.id) {
+        this.setToDraft(oldConversation.id, this.replyType);
         this.getFromDraft();
+      }
+
+      if (this.isOnPrivateNote) {
         return;
       }
 
@@ -426,10 +430,6 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
-      if (oldConversation.id !== conversation.id) {
-        this.setToDraft(oldConversation.id, this.replyType);
-        this.getFromDraft();
-      }
       this.setCCEmailFromLastChat();
     },
     message(updatedMessage) {
@@ -465,10 +465,18 @@ export default {
     document.removeEventListener('paste', this.onPaste);
   },
   methods: {
+    getSavedDraftMessages() {
+      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
+    },
     setToDraft(conversationId, replyType) {
       const draft = this.message;
+
       if (draft) {
-        objectStore.set(`draft-${conversationId}-${replyType}`, draft || '');
+        const savedDraftMessages = this.getSavedDraftMessages();
+        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
+          ...savedDraftMessages,
+          [`draft-${conversationId}-${replyType}`]: draft || '',
+        });
       }
       this.message = '';
     },
@@ -476,8 +484,8 @@ export default {
       if (this.conversationId) {
         try {
           const key = `draft-${this.conversationId}-${this.replyType}`;
-          const draft = objectStore.get(key) || '';
-          this.message = `${draft}`;
+          const savedDraftMessages = this.getSavedDraftMessages();
+          this.message = `${savedDraftMessages[key] || ''}`;
         } catch (error) {
           this.message = '';
         }
@@ -486,7 +494,9 @@ export default {
     removeFromDraft() {
       if (this.conversationId) {
         const key = `draft-${this.conversationId}-${this.replyType}`;
-        objectStore.remove(key, '');
+        const draftMessages = this.getSavedDraftMessages();
+        delete draftMessages[key];
+        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, draftMessages);
       }
     },
     onPaste(e) {
