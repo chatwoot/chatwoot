@@ -18,7 +18,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
-    isWidgetVisible: true,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale: chatwootSettings.locale,
@@ -32,14 +31,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.events.toggleBubble(state);
     },
 
-    showWidget() {
-      document.querySelector('.woot--bubble-holder').style.display = 'block';
-      window.$chatwoot.isWidgetVisible = true;
-    },
-
-    hideWidget() {
-      document.querySelector('.woot--bubble-holder').style.display = 'none';
-      window.$chatwoot.isWidgetVisible = false;
+    toggleBubbleVisibility(visibility) {
+      document.querySelector('.woot--bubble-holder').style.display = visibility
+        ? 'block'
+        : 'none';
+      window.$chatwoot.hideMessageBubble = visibility;
     },
 
     setUser(identifier, user) {
