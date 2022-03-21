@@ -1,56 +1,57 @@
 <template>
-  <form
+  <FormulateForm
+    v-model="formValues"
     class="flex flex-1 flex-col p-6 overflow-y-auto"
-    @submit.prevent="onSubmit"
+    @submit="onSubmit"
   >
-    <div
-      v-if="shouldShowHeaderMessage"
-      class="text-black-800 text-sm leading-5"
-    >
-      {{ headerMessage }}
-    </div>
-    <div v-for="(item, index) in preChatFields" :key="index">
-      <form-input
-        v-if="isContactFieldVisible('fullName', item)"
-        v-model="fullName"
-        class="mt-5"
-        :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
-        type="text"
-        :error="
-          $v.fullName && $v.fullName.$error
-            ? $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.REQUIRED_ERROR')
-            : ''
-        "
-      />
-      <form-input
+    <div v-for="(item, index) in enabledPreChatFields" :key="index">
+      <FormulateInput
         v-if="isContactFieldVisible('emailAddress', item)"
-        v-model="emailAddress"
-        class="mt-5"
+        name="emailAddress"
+        type="email"
         :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
         :placeholder="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.PLACEHOLDER')"
-        type="email"
-        :error="$v.emailAddress && emailErrorMessage"
+        validation="bail|required|email"
+        :validation-messages="{
+          email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+          required: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.REQUIRED_ERROR'),
+        }"
       />
-      <form-input
+      <FormulateInput
+        v-if="isContactFieldVisible('fullName', item)"
+        name="fullName"
+        type="text"
+        :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
+        :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
+        validation="required"
+        :validation-messages="{
+          required: $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.REQUIRED_ERROR'),
+        }"
+      />
+      <FormulateInput
         v-if="isContactFieldVisible('phoneNumber', item)"
-        v-model="phoneNumber"
-        class="mt-5"
+        name="phoneNumber"
+        type="text"
         :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
         :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.PLACEHOLDER')"
-        type="text"
-        :error="$v.phoneNumber && phoneNumberErrorMessage"
+        validation="bail|required|isPhoneE164OrEmpty"
+        :validation-messages="{
+          isPhoneE164OrEmpty: $t(
+            'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'
+          ),
+          required: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.REQUIRED_ERROR'),
+        }"
       />
     </div>
-
-    <form-text-area
+    <FormulateInput
       v-if="!hasActiveCampaign"
-      v-model="message"
-      class="my-5"
+      name="message"
+      type="textarea"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
+      validation="required"
     />
+
     <custom-button
       class="font-medium my-5"
       block
@@ -61,25 +62,19 @@
       <spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </custom-button>
-  </form>
+  </FormulateForm>
 </template>
 
 <script>
 import CustomButton from 'shared/components/Button';
-import FormInput from '../Form/Input';
-import FormTextArea from '../Form/TextArea';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
-import { required, minLength, email } from 'vuelidate/lib/validators';
 
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
 export default {
   components: {
-    FormInput,
-    FormTextArea,
     CustomButton,
     Spinner,
   },
@@ -94,56 +89,10 @@ export default {
       default: false,
     },
   },
-  validations() {
-    let identityValidations = {};
-    if (this.isValidationEnabled('emailAddress')) {
-      identityValidations = {
-        ...identityValidations,
-        emailAddress: {
-          required,
-          email,
-        },
-      };
-    }
-    if (this.isValidationEnabled('phoneNumber')) {
-      identityValidations = {
-        ...identityValidations,
-        phoneNumber: {
-          required,
-          isPhoneE164OrEmpty,
-        },
-      };
-    }
-    if (this.isValidationEnabled('fullName')) {
-      identityValidations = {
-        ...identityValidations,
-        fullName: {
-          required,
-        },
-      };
-    }
-
-    const messageValidation = {
-      message: {
-        required,
-        minLength: minLength(1),
-      },
-    };
-    // For campaign, message field is not required
-    if (this.hasActiveCampaign) {
-      return identityValidations;
-    }
-    return {
-      ...identityValidations,
-      ...messageValidation,
-    };
-  },
   data() {
     return {
-      fullName: '',
-      emailAddress: '',
-      phoneNumber: '',
       message: '',
+      formValues: {},
     };
   },
   computed: {
@@ -170,33 +119,8 @@ export default {
     preChatFields() {
       return this.options.preChatFields || [];
     },
-    emailErrorMessage() {
-      let errorMessage = '';
-      if (!this.$v.emailAddress.$error) {
-        errorMessage = '';
-      } else if (!this.$v.emailAddress.required) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.REQUIRED_ERROR'
-        );
-      } else if (!this.$v.emailAddress.email) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'
-        );
-      }
-      return errorMessage;
-    },
-    phoneNumberErrorMessage() {
-      let errorMessage = '';
-      if (!this.$v.phoneNumber.$error) {
-        errorMessage = '';
-      } else if (!this.$v.phoneNumber.required) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.REQUIRED_ERROR'
-        );
-      } else if (!this.$v.phoneNumber.email) {
-        errorMessage = this.$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR');
-      }
-      return errorMessage;
+    enabledPreChatFields() {
+      return this.preChatFields.filter(field => field.enabled);
     },
   },
   methods: {
@@ -228,15 +152,12 @@ export default {
       );
     },
     onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
+      const { emailAddress, fullName, phoneNumber, message } = this.formValues;
       this.$emit('submit', {
-        fullName: this.fullName,
-        phoneNumber: this.phoneNumber,
-        emailAddress: this.emailAddress,
-        message: this.message,
+        fullName,
+        phoneNumber,
+        emailAddress,
+        message,
         activeCampaignId: this.activeCampaign.id,
       });
     },
