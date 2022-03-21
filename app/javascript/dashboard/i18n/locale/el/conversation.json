@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Υπογραφή μηνύματος",
+      "ENABLE_SIGN_TOOLTIP": "Ενεργοποίηση υπογραφής",
+      "DISABLE_SIGN_TOOLTIP": "Απενεργοποίηση υπογραφής",
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
-      "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες."
+      "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
+      "CLICK_HERE": "Πατήστε εδώ για ενημέρωση"
     },
     "REPLYBOX": {
       "REPLY": "Απάντηση",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Προβολή επεξεργαστή εμπλουτισμένου κειμένου",
       "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
       "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
+      "TIP_AUDIORECORDER_ICON": "Εγγραφή ήχου",
+      "TIP_AUDIORECORDER_PERMISSION": "Να επιτρέπεται η πρόσβαση στον ήχο",
+      "TIP_AUDIORECORDER_ERROR": "Αδυναμία ανοίγματος ήχου",
       "ENTER_TO_SEND": "Εισαγωγή για αποστολή",
       "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
+      "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
+      "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Προσθήκη bcc",
         "CC": {

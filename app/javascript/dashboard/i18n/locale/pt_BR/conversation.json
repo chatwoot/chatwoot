@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
+      "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
+      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
-      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes"
+      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
+      "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
+      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
+      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
+      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
+      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adicionar cco",
         "CC": {
@@ -187,7 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "De",
     "TO": "Para",
     "BCC": "CCO",
     "CC": "Cc",

@@ -4,7 +4,7 @@
         "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf 'Senden', um die Kontakte zu filtern.",
         "ADD_NEW_FILTER": "Filter hinzufügen",
         "CLEAR_ALL_FILTERS": "Alle Filter löschen",
-        "FILTER_DELETE_ERROR": "Du solltest mindestens einen Filter zum Speichern haben",
+        "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
         "SUBMIT_BUTTON_LABEL": "Einreichen",
         "CANCEL_BUTTON_LABEL": "Stornieren",
         "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
@@ -22,7 +22,8 @@
             "is_present": "Ist anwesend",
             "is_not_present": "Ist nicht anwesend",
             "is_greater_than": "Ist größer als",
-            "is_lesser_than": "Ist kleiner als"
+            "is_lesser_than": "Ist kleiner als",
+            "days_before": "Ist x Tage her"
         },
         "ATTRIBUTES": {
             "NAME": "Name",
@@ -35,7 +36,9 @@
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
             "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Erstellt am",
+            "LAST_ACTIVITY": "Letzte Aktivität"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standardfilter",
