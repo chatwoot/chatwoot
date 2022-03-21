@@ -119,6 +119,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.attachments.count).to be 1
       end
     end
   end
