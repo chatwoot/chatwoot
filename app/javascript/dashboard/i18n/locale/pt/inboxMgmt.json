@@ -61,7 +61,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Introduza o seu URL Webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nome Caixa de Entrada",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Por favor, insira um nome para a caixa de entrada",
           "ERROR": "Este campo é obrigatório"
         },
         "PHONE_NUMBER": {
@@ -137,14 +137,14 @@
       },
       "SMS": {
         "TITLE": "Canal SMS",
-        "DESC": "Start supporting your customers via SMS.",
+        "DESC": "Comece a apoiar os seus clientes via SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Banda"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Não conseguimos salvar o canal de SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
@@ -469,7 +469,7 @@
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
       "UPDATE": "Atualizar configurações IMAP",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
