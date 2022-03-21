@@ -1,10 +1,13 @@
 require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
+  ATTRIBUTE_MODEL = 'contact_attribute'.freeze
+
   def initialize(rule, conversation = nil)
     super([], nil)
     @rule = rule
     @conversation = conversation
+    @account = conversation.account
     file = File.read('./lib/filters/filter_keys.json')
     @filters = JSON.parse(file)
   end
@@ -21,6 +24,9 @@ class AutomationRules::ConditionsFilterService < FilterService
         @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
       elsif contact_filter
         @query_string += conversation_query_string('contacts', contact_filter, query_hash.with_indifferent_access, current_index)
+      elsif custom_attribute(query_hash['attribute_key'], @account)
+        # send table name according to attribute key right now we are supporting contact based custom attribute filter
+        @query_string += custom_attribute_query(query_hash.with_indifferent_access, 'contacts', current_index)
       end
     end
 
@@ -69,8 +75,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     query_operator = query_hash['query_operator']
     filter_operator_value = filter_operation(query_hash, current_index)
 
-    return custom_attribute_query(query_hash, 'contacts', current_index) if current_filter.nil?
-
     case current_filter['attribute_type']
     when 'additional_attributes'
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
@@ -84,10 +88,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   private
-
-  def custom_attribute(attribute_key)
-    @custom_attribute = Current.account.custom_attribute_definitions.find_by(attribute_key: attribute_key)
-  end
 
   def base_relation
     Conversation.where(id: @conversation.id).joins('LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id')
