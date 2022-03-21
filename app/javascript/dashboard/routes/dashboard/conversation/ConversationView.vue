@@ -80,7 +80,11 @@ export default {
       return false;
     },
   },
-
+  watch: {
+    conversationId() {
+      this.fetchConversationIfUnavailable();
+    },
+  },
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();
