@@ -5,9 +5,13 @@ import * as types from '../mutation-types';
 import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
-import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+import {
+  setUser,
+  getHeaderExpiry,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
-import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
 
 const state = {
   currentUser: {
@@ -95,7 +99,7 @@ export const actions = {
         .login(credentials)
         .then(response => {
           commit(types.default.SET_CURRENT_USER);
-          LocalStorage.remove(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
+          clearLocalStorageOnLogout();
           window.axios = createAxios(axios);
           actionCable.init(Vue);
           window.location = getLoginRedirectURL(ssoAccountId, response.data);
@@ -129,7 +133,6 @@ export const actions = {
   },
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
-    LocalStorage.remove(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES);
   },
 
   updateProfile: async ({ commit }, params) => {
