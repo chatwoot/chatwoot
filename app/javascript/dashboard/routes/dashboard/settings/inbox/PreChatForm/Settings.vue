@@ -36,6 +36,11 @@
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
               </th>
               <th scope="col">
+                {{
+                  $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER')
+                }}
+              </th>
+              <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
               </th>
               <th scope="col">
@@ -57,6 +62,9 @@
               </td>
               <td>
                 <input v-model.trim="item.label" type="text" />
+              </td>
+              <td>
+                <input v-model.trim="item.placeholder" type="text" />
               </td>
               <td :class="{ 'disabled-text': !item['enabled'] }">
                 {{ item.name }}

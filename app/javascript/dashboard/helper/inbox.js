@@ -47,6 +47,7 @@ export const getCustomFields = ({ standardFields, customAttributes }) => {
     if (!itemExist) {
       customFields.push({
         label: attribute.attribute_display_name,
+        placeholder: attribute.attribute_display_name,
         name: attribute.attribute_key,
         type: attribute.attribute_display_type,
         values: attribute.attribute_values,
@@ -69,6 +70,7 @@ export const getStandardFields = ({
     pre_chat_fields: [
       {
         label: 'Email Id',
+        placeholder: 'Please enter your email address',
         name: 'emailAddress',
         type: 'email',
         field_type: 'standard',
@@ -77,6 +79,7 @@ export const getStandardFields = ({
       },
       {
         label: 'Full name',
+        placeholder: 'Please enter your full name',
         name: 'fullName',
         type: 'text',
         field_type: 'standard',
@@ -85,6 +88,7 @@ export const getStandardFields = ({
       },
       {
         label: 'Phone number',
+        placeholder: 'Please enter your phone number',
         name: 'phoneNumber',
         type: 'text',
         field_type: 'standard',

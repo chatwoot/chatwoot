@@ -10,7 +10,7 @@
       :name="item.name"
       :type="item.type"
       :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item.name)"
+      :placeholder="getPlaceHolder(item)"
       :validation="getValidation(item)"
       :options="getOptions(item)"
       :validation-messages="{
@@ -137,17 +137,16 @@ export default {
         this.isContactFieldVisible(field, { name: field })
       );
     },
-    getLabel(item) {
-      if (this.labels[item.item])
-        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[item.item]}.LABEL`);
-      return item.label;
+    getLabel({ name, label }) {
+      if (this.labels[name])
+        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.LABEL`);
+      return label;
     },
-    getPlaceHolder(fieldName) {
-      if (this.labels[fieldName])
-        return this.$t(
-          `PRE_CHAT_FORM.FIELDS.${this.labels[fieldName]}.PLACEHOLDER`
-        );
-      return fieldName;
+    getPlaceHolder({ name, placeholder }) {
+      if (this.labels[name])
+        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
+
+      return placeholder;
     },
     getRequiredErrorMessage(fieldName) {
       if (this.labels[fieldName])

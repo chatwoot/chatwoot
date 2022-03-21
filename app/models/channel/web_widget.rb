@@ -33,7 +33,8 @@ class Channel::WebWidget < ApplicationRecord
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
-                                              { pre_chat_fields: [:label, :name, :enabled, :type, :enabled, :required, { values: [] }] }] },
+                                              { pre_chat_fields:
+                                                [:label, :placeholder, :name, :enabled, :type, :enabled, :required, { values: [] }] }] },
                     { selected_feature_flags: [] }].freeze
 
   validates :website_url, presence: true

@@ -75,6 +75,7 @@ describe('#Inbox Helpers', () => {
           enabled: false,
           field_type: 'custom',
           label: 'Order Id',
+          placeholder: 'Order Id',
           name: 'order_id',
           required: false,
           type: 'number',
@@ -98,6 +99,7 @@ describe('#Inbox Helpers', () => {
         {
           label: 'Email Id',
           name: 'emailAddress',
+          placeholder: 'Please enter your email address',
           type: 'email',
           field_type: 'standard',
           required: false,
@@ -106,6 +108,7 @@ describe('#Inbox Helpers', () => {
         {
           label: 'Full name',
           name: 'fullName',
+          placeholder: 'Please enter your full name',
           type: 'text',
           field_type: 'standard',
           required: false,
@@ -114,6 +117,7 @@ describe('#Inbox Helpers', () => {
         {
           label: 'Phone number',
           name: 'phoneNumber',
+          placeholder: 'Please enter your phone number',
           type: 'text',
           field_type: 'standard',
           required: false,
@@ -122,6 +126,7 @@ describe('#Inbox Helpers', () => {
         {
           label: 'Order Id',
           name: 'order_id',
+          placeholder: 'Order Id',
           type: 'number',
           values: [],
           field_type: 'custom',
