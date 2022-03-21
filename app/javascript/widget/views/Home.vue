@@ -48,7 +48,7 @@ export default {
       const isUserEmailAvailable = !!this.currentUser.email;
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form', {
-          disableContactFields: !isUserEmailAvailable,
+          disableContactFields: isUserEmailAvailable,
         });
       }
       return this.replaceRoute('messages');
