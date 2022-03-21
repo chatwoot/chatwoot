@@ -7,12 +7,12 @@
     "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
-    "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong cuộc trò chuyện",
+    "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các cuộc trò chuyện",
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
-      "RESULT_TITLE": "Kết quả tìm kiếm",
+      "RESULT_TITLE": "Các kết quả tìm kiếm",
       "LOADING_MESSAGE": "Định dạng dữ liệu...",
-      "PLACEHOLDER": "Nhập để tìm kiếm tin nhắn",
+      "PLACEHOLDER": "Nhập bất kỳ văn bản nào để tìm kiếm tin nhắn",
       "NO_MATCHING_RESULTS": "Không tìm thấy kết quả."
     },
     "UNREAD_MESSAGES": "Tin nhắn chưa đọc",
@@ -30,10 +30,10 @@
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
-    "UPLOADING_ATTACHMENTS": "Đang tải đính kèm...",
+    "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
-    "NO_RESPONSE": "Không có kết quả trả về",
+    "NO_RESPONSE": "Không có phản hồi",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
     "HEADER": {
@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Chữ ký tin nhắn",
+      "ENABLE_SIGN_TOOLTIP": "Bật chữ ký",
+      "DISABLE_SIGN_TOOLTIP": "Tắt chữ ký",
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
-      "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý"
+      "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Trả lời",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
       "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
       "TIP_ATTACH_ICON": "Đính kèm files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Nhấn Enter để gửi",
       "DRAG_DROP": "Kéo thả vào đây để đính kèm",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Thêm bcc",
         "CC": {
@@ -91,7 +99,7 @@
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
     "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
     "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi",
-    "CHANGE_TEAM": "Nhóm của cuộc trò chuyện đã thay đổi",
+    "CHANGE_TEAM": "Nhóm của cuộc trò chuyện đã được thay đổi",
     "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
     "SENT_BY": "Gửi bởi:",
@@ -187,7 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Từ",
     "TO": "Đến",
     "BCC": "Bcc",
     "CC": "Cc",

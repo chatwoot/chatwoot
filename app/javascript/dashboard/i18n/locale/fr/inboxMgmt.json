@@ -462,7 +462,8 @@
         "HOURS": "heures",
         "VALIDATION_ERROR": "L'heure de début doit être avant l'heure de fermeture.",
         "CHOOSE": "Sélectionner"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

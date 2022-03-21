@@ -8,8 +8,8 @@
       "SUBMIT": "送出"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "重新發送訊息",
+      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,7 +22,8 @@
     "IN_A_DAY": "通常在一天內回覆"
   },
   "START_CONVERSATION": "開始對話",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "繼續對話",
   "START_NEW_CONVERSATION": "開始一個新對話",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新訊息",
@@ -56,22 +57,22 @@
         "ERROR": "訊息過短"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "無效的欄位"
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "為此對話評分",
+    "SUBMITTED_TITLE": "感謝您提交的評分",
     "PLACEHOLDER": "告訴我們更多..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "BUTTON_TEXT": "請求對話記錄",
+    "SEND_EMAIL_SUCCESS": "對話記錄已成功發送",
     "SEND_EMAIL_ERROR": "出現錯誤，請重試"
   }
 }

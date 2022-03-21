@@ -61,7 +61,9 @@ class AutomationRules::ActionService
   end
 
   def add_label(labels)
-    @conversation.add_automation_labels(labels)
+    return if labels.empty?
+
+    @conversation.add_labels(labels)
   end
 
   def send_email_to_team(params)

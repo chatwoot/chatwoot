@@ -221,14 +221,6 @@ describe AutomationRuleListener do
         allow(mailer).to receive(:conversation_transcript)
       end
 
-      it 'triggers automation rule send email to the team' do
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
-
-        listener.conversation_updated(event)
-      end
-
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
 
