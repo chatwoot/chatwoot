@@ -61,10 +61,18 @@
                 />
               </td>
               <td>
-                <input v-model.trim="item.label" type="text" />
+                <input
+                  v-model.trim="item.label"
+                  type="text"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                />
               </td>
               <td>
-                <input v-model.trim="item.placeholder" type="text" />
+                <input
+                  v-model.trim="item.placeholder"
+                  type="text"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                />
               </td>
               <td :class="{ 'disabled-text': !item['enabled'] }">
                 {{ item.name }}
