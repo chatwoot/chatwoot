@@ -4,45 +4,20 @@
     class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit="onSubmit"
   >
-    <div v-for="(item, index) in enabledPreChatFields" :key="index">
-      <FormulateInput
-        v-if="isContactFieldVisible('emailAddress', item)"
-        name="emailAddress"
-        type="email"
-        :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.PLACEHOLDER')"
-        validation="bail|required|email"
-        :validation-messages="{
-          email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-          required: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.REQUIRED_ERROR'),
-        }"
-      />
-      <FormulateInput
-        v-if="isContactFieldVisible('fullName', item)"
-        name="fullName"
-        type="text"
-        :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
-        validation="required"
-        :validation-messages="{
-          required: $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.REQUIRED_ERROR'),
-        }"
-      />
-      <FormulateInput
-        v-if="isContactFieldVisible('phoneNumber', item)"
-        name="phoneNumber"
-        type="text"
-        :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.PLACEHOLDER')"
-        validation="bail|required|isPhoneE164OrEmpty"
-        :validation-messages="{
-          isPhoneE164OrEmpty: $t(
-            'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'
-          ),
-          required: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.REQUIRED_ERROR'),
-        }"
-      />
-    </div>
+    <FormulateInput
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item.name)"
+      :validation="getValidation(item)"
+      :validation-messages="{
+        isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: getRequiredErrorMessage(item.name),
+      }"
+    />
     <FormulateInput
       v-if="!hasActiveCampaign"
       name="message"
@@ -93,6 +68,11 @@ export default {
     return {
       message: '',
       formValues: {},
+      labels: {
+        emailAddress: 'EMAIL_ADDRESS',
+        fullName: 'FULL_NAME',
+        phoneNumber: 'PHONE_NUMBER',
+      },
     };
   },
   computed: {
@@ -120,6 +100,7 @@ export default {
       return this.options.preChatFields || [];
     },
     enabledPreChatFields() {
+      console.log('preChatFields', this.preChatFields);
       return this.preChatFields.filter(field => field.enabled);
     },
   },
@@ -150,6 +131,38 @@ export default {
         this.isContactFieldRequired(field) &&
         this.isContactFieldVisible(field, { name: field })
       );
+    },
+    getLabel(item) {
+      if (this.labels[item.item])
+        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[item.item]}.LABEL`);
+      return item.label;
+    },
+    getPlaceHolder(fieldName) {
+      if (this.labels[fieldName])
+        return this.$t(
+          `PRE_CHAT_FORM.FIELDS.${this.labels[fieldName]}.PLACEHOLDER`
+        );
+      return fieldName;
+    },
+    getRequiredErrorMessage(fieldName) {
+      if (this.labels[fieldName])
+        return this.$t(
+          `PRE_CHAT_FORM.FIELDS.${this.labels[fieldName]}.REQUIRED_ERROR`
+        );
+      return `${fieldName} is required`;
+    },
+    getValidation(item) {
+      if (!this.isValidationEnabled(item.name)) {
+        return '';
+      }
+      switch (item.name) {
+        case 'emailAddress':
+          return 'bail|required|email';
+        case 'phoneNumber':
+          return 'bail|required|isPhoneE164OrEmpty';
+        default:
+          return 'required';
+      }
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
