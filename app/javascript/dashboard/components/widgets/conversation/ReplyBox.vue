@@ -150,6 +150,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { trimMessage } from '../../../store/modules/conversations/helpers';
 
 export default {
   components: {
@@ -468,16 +469,19 @@ export default {
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
-    setToDraft(conversationId, replyType) {
-      const draft = this.message;
-
-      if (draft) {
+    saveDraft(conversationId, replyType) {
+      if (this.message) {
         const savedDraftMessages = this.getSavedDraftMessages();
         LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
           ...savedDraftMessages,
-          [`draft-${conversationId}-${replyType}`]: draft || '',
+          [`draft-${conversationId}-${replyType}`]: trimMessage(
+            this.message || ''
+          ),
         });
       }
+    },
+    setToDraft(conversationId, replyType) {
+      this.saveDraft(conversationId, replyType);
       this.message = '';
     },
     getFromDraft() {
@@ -654,6 +658,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
+      this.saveDraft(this.conversationId, this.replyType);
     },
     onFocus() {
       this.isFocused = true;
