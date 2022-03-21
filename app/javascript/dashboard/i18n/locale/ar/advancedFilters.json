@@ -22,7 +22,7 @@
       "is_not_present": "غير موجود",
       "is_greater_than": "هو أكبر من",
       "is_less_than": "هو أقل من",
-      "days_before": "Is x days before"
+      "days_before": "قبل x أيام"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "صحيح",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
       "CUSTOM_ATTRIBUTE_LINK": "الرابط",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط"
     },
     "GROUPS": {
