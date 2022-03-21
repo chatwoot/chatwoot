@@ -1,37 +1,37 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
+    "HEADER": "Automazioni",
     "HEADER_BTN_TXT": "Aggiungi regola di automazione",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "Recupero delle regole di automazione",
+    "SIDEBAR_TXT": "<p><b>Regole di automazione</b> <p>L'automazione può sostituire e automatizzare i processi esistenti che richiedono uno sforzo manuale. È possibile fare molte cose con l'automazione, tra cui l'aggiunta di etichette e l'assegnazione di una conversazione al miglior agente. Così il team si concentra su quello che fanno meglio e spende meno tempo per le attività manuali.</p>",
     "ADD": {
       "TITLE": "Aggiungi regola di automazione",
       "SUBMIT": "Crea",
       "CANCEL_BUTTON_TEXT": "annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Nome regola",
+          "PLACEHOLDER": "Inserisci il nome della regola",
           "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
           "LABEL": "Descrizione",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Inserisci la descrizione della regola",
           "ERROR": "La descrizione è obbligatoria"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Evento",
           "PLACEHOLDER": "Si prega di selezionarne uno",
-          "ERROR": "Event is required"
+          "ERROR": "L'evento è obbligatorio"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Condizioni"
         },
         "ACTIONS": {
           "LABEL": "Azioni"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "CONDITION_BUTTON_LABEL": "Aggiungi condizione",
       "ACTION_BUTTON_LABEL": "Add Action",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule added successfully",
