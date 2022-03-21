@@ -20,9 +20,9 @@
 class AutomationRule < ApplicationRecord
   belongs_to :account
 
-  validates :account, presence: true
   validate :json_conditions_format
   validate :json_actions_format
+  validates :account_id, presence: true
 
   scope :active, -> { where(active: true) }
 
