@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Vahvista poistaminen",
       "MESSAGE": "Oletko varma että haluat poistaa ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Kyllä, poista ",
-      "NO": "Ei, säilytä "
+      "YES": "Kyllä, poista",
+      "NO": "Ei, säilytä"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

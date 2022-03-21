@@ -42,6 +42,7 @@ ca:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
@@ -50,10 +51,12 @@ ca:
       conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Aquest missatge a sigut eliminat
     activity:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "La conversa es va reobrir per %{user_name}"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

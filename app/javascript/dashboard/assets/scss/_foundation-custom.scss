@@ -26,7 +26,8 @@
 
 code {
   border: 0;
-  font-family: 'Monaco', Verdana;
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    '"Liberation Mono"', '"Courier New"', 'monospace';
   font-size: $font-size-mini;
 
   &.hljs {
