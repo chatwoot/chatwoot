@@ -42,7 +42,7 @@ gem 'down', '~> 5.0'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
-gem 'image_processing'
+gem 'image_processing', '~> 1.12.2'
 
 ##-- gems for database --#
 gem 'groupdate'
