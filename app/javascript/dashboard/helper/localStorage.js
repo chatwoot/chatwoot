@@ -26,6 +26,7 @@ export const LocalStorage = {
   },
 
   remove(key) {
-    localStorage.removeItem(key);
+    window.localStorage.removeItem(key);
+    window.localStorage.removeItem(key + ':ts');
   },
 };
