@@ -31,6 +31,11 @@ describe('darkModeMixin', () => {
   });
 
   it('if dark theme', () => {
+    getters = {
+      'appConfig/darkMode': () => darkModeValues[1],
+    };
+    store = new Vuex.Store({ getters });
+
     const Component = {
       render() {},
       mixins: [darkModeMixin],
@@ -41,17 +46,25 @@ describe('darkModeMixin', () => {
         dark: 'bg-600',
         light: 'bg-100',
       })
-    ).toBe('bg-100');
+    ).toBe('bg-600');
   });
 
   it('if auto theme', () => {
+    getters = {
+      'appConfig/darkMode': () => darkModeValues[2],
+    };
+    store = new Vuex.Store({ getters });
+
     const Component = {
       render() {},
       mixins: [darkModeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(
-      wrapper.vm.isDarkOrWhiteOrAutoMode({ dark: 'bg-600', light: 'bg-100' })
-    ).toBe('bg-100');
+      wrapper.vm.isDarkOrWhiteOrAutoMode({
+        dark: 'bg-600',
+        light: 'bg-100',
+      })
+    ).toBe('bg-100 bg-600');
   });
 });
