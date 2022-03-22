@@ -3,7 +3,7 @@
     <div class="prechat--title">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
-    <form class="medium-6" @submit.prevent="updateInbox">
+    <form @submit.prevent="updateInbox">
       <label class="medium-9 columns">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
@@ -33,14 +33,6 @@
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
-              </th>
-              <th scope="col">
-                {{
-                  $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER')
-                }}
-              </th>
-              <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
               </th>
               <th scope="col">
@@ -49,6 +41,7 @@
               <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
               </th>
+              <th scope="col">Translations</th>
             </tr>
           </thead>
           <draggable v-model="preChatFields" tag="tbody">
@@ -58,20 +51,6 @@
                 <toggle-button
                   :active="item['enabled']"
                   @click="handlePreChatFieldOptions($event, 'enabled', item)"
-                />
-              </td>
-              <td>
-                <input
-                  v-model.trim="item.label"
-                  type="text"
-                  :class="{ 'disabled-text': !item['enabled'] }"
-                />
-              </td>
-              <td>
-                <input
-                  v-model.trim="item.placeholder"
-                  type="text"
-                  :class="{ 'disabled-text': !item['enabled'] }"
                 />
               </td>
               <td :class="{ 'disabled-text': !item['enabled'] }">
@@ -88,6 +67,46 @@
                   :disabled="!item['enabled']"
                   @click="handlePreChatFieldOptions($event, 'required', item)"
                 />
+              </td>
+              <td v-if="item.translations && item.translations.length">
+                <tr
+                  v-for="(translation, key) in item.translations.slice(0, 3)"
+                  :key="key"
+                >
+                  <!-- <td scope="row">
+                    <input
+                      v-model="translation['active']"
+                      type="checkbox"
+                      :value="`${translation.locale}-required`"
+                      :disabled="!item['enabled']"
+                      @click="
+                        handleTranslationsOption(
+                          $event,
+                          'active',
+                          item,
+                          translation
+                        )
+                      "
+                    />
+                  </td>-->
+                  <td :class="{ 'disabled-text': !item['enabled'] }">
+                    {{ translation.locale }}
+                  </td>
+                  <td>
+                    <input
+                      v-model.trim="translation.label"
+                      type="text"
+                      :class="{ 'disabled-text': !item['enabled'] }"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      v-model.trim="translation.placeholder"
+                      type="text"
+                      :class="{ 'disabled-text': !item['enabled'] }"
+                    />
+                  </td>
+                </tr>
               </td>
             </tr>
           </draggable>
@@ -156,7 +175,6 @@ export default {
         pre_chat_message: preChatMessage,
         pre_chat_fields: preChatFields,
       } = this.preChatFieldOptions || {};
-
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },
@@ -167,7 +185,27 @@ export default {
         }
       });
     },
+
+    handleTranslationsOption(event, type, item, translation) {
+      this.preChatFields.forEach((field, index) => {
+        if (field.name === item.name) {
+          item.translations.forEach((t, i) => {
+            if (t.locale === translation.locale) {
+              this.preChatFields[index].locale = translation.locale;
+              this.preChatFields[index].translations[i].active = true;
+            } else {
+              this.preChatFields[index].translations[i].active = false;
+            }
+          });
+        }
+      });
+    },
+
     async updateInbox() {
+      delete this.preChatFields.translations;
+      this.preChatFields.forEach((t, i) => {
+        delete this.preChatFields[i].translations;
+      });
       try {
         const payload = {
           id: this.inbox.id,

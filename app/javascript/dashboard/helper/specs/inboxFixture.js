@@ -1,3 +1,10 @@
+import translationFixture from './translationFixture';
+
+const {
+  emailTranslations,
+  fullNameTranslations,
+  phoneNumberTranslations,
+} = translationFixture;
 export default {
   customFields: {
     pre_chat_message: 'Share your queries or comments here.',
@@ -9,6 +16,7 @@ export default {
         field_type: 'standard',
         required: false,
         enabled: false,
+        translations: emailTranslations,
       },
       {
         label: 'Full name',
@@ -17,6 +25,7 @@ export default {
         field_type: 'standard',
         required: false,
         enabled: false,
+        translations: fullNameTranslations,
       },
       {
         label: 'Phone number',
@@ -25,6 +34,7 @@ export default {
         field_type: 'standard',
         required: false,
         enabled: false,
+        translations: phoneNumberTranslations,
       },
     ],
   },

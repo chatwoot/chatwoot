@@ -34,7 +34,9 @@ class Channel::WebWidget < ApplicationRecord
                     :continuity_via_email, :hmac_mandatory,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
-                                                [:label, :placeholder, :name, :enabled, :type, :enabled, :required, { values: [] }] }] },
+                                                [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
+                                                 :locale, { values: [] },
+                                                 { translations: [:label, :placeholder, :locale, :active] }] }] },
                     { selected_feature_flags: [] }].freeze
 
   validates :website_url, presence: true
