@@ -166,6 +166,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
+    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
 
     if outgoing? && conversation.messages.outgoing.count == 1
@@ -174,6 +176,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
+    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
   end
 
