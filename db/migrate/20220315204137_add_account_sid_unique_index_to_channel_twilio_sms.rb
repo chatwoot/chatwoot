@@ -1,12 +1,12 @@
 class AddAccountSidUniqueIndexToChannelTwilioSms < ActiveRecord::Migration[6.1]
   def change
     has_duplicates = Channel::TwilioSms
-      .select(1)
-      .where.not(account_sid: nil)
-      .where.not(phone_number: nil)
-      .group(:account_sid, :phone_number)
-      .having('count(*) > 1')
-      .exists?
+                     .select(1)
+                     .where.not(account_sid: nil)
+                     .where.not(phone_number: nil)
+                     .group(:account_sid, :phone_number)
+                     .having('count(*) > 1')
+                     .exists?
 
     if has_duplicates
       raise <<~ERR.squish
