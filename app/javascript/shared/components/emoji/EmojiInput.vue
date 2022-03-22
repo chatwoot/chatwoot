@@ -136,6 +136,23 @@ $font-size-medium: 18px;
     overflow: auto;
     margin: 0;
     padding: $space-smaller 0 0;
+    
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px
+    }
+    
+    &::-webkit-scrollbar-track {
+      background-color: $color-body;
+      border-radius: $space-small;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      border-radius: $space-small;
+      border: 5px solid transparent;
+      background-clip: content-box;
+      background-color: $color-border-dark;
+    }
 
     > li {
       align-items: center;
