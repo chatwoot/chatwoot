@@ -40,12 +40,16 @@ export default {
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
     }),
   },
   methods: {
     startConversation() {
+      const isUserEmailAvailable = !!this.currentUser.email;
       if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.replaceRoute('prechat-form');
+        return this.replaceRoute('prechat-form', {
+          disableContactFields: isUserEmailAvailable,
+        });
       }
       return this.replaceRoute('messages');
     },
