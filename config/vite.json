@@ -1,6 +1,9 @@
 {
   "all": {
     "sourceCodeDir": "app/javascript",
+    "entrypointsDir": "packs",
+    "publicOutputDir": "packs",
+    "assetsDir": "js",
     "watchAdditionalPaths": []
   },
   "development": {

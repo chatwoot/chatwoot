@@ -8,7 +8,7 @@ import gzipPlugin from "rollup-plugin-gzip";
 export default defineConfig({
   plugins: [
     RubyPlugin(),
-    Vue2Plugin(),
+    Vue2Plugin({ jsx: true }),
     gzipPlugin(),
     // Create brotli copies of relevant assets
     gzipPlugin({
@@ -34,12 +34,13 @@ export default defineConfig({
     'process.env': process.env
   },
   build: {
-    lib: {
-      entry: resolve(__dirname, 'app/javascript/packs/sdk.js'),
-      name: 'ChatwootWidgetSDK',
-      fileName: () => `packs/js/sdk.js`,
-      formats: ['cjs']
-    },
+    rollupOptions: {
+      output: {
+        entryFileNames: (chunkInfo) => {
+          return chunkInfo.name === 'packs/sdk.js' ? `js/sdk.js` : `js/[name].[hash].js`
+        }
+      }
+    }
   },
   css: { preprocessorOptions: { scss: { charset: false } } },
   esbuild: {

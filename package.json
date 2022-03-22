@@ -51,6 +51,7 @@
     "prosemirror-view": "1.18.4",
     "query-string": "5",
     "recordrtc": "^5.6.2",
+    "sass": "^1.49.9",
     "semver": "7.3.5",
     "spinkit": "~1.2.5",
     "tailwindcss": "^1.9.6",
