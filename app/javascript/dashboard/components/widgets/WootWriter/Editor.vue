@@ -186,10 +186,10 @@ export default {
         blur: () => {
           this.onBlur();
         },
-        paste: (e, clipboardEvent) => {
-          const data = clipboardEvent.clipboardData.files;
+        paste: (view, event) => {
+          const data = event.clipboardData.files;
           if (data.length > 0) {
-            clipboardEvent.preventDefault();
+            event.preventDefault();
           }
         },
       },
