@@ -1,9 +1,9 @@
 {
   "FILTER": {
     "TITLE": "Gespräche filtern",
-    "SUBTITLE": "Füge unten Filter hinzu und klicke auf 'Filter anwenden', um Konversationen zu filtern.",
+    "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf „Filter anwenden“, um Konversationen zu filtern.",
     "ADD_NEW_FILTER": "Filter hinzufügen",
-    "FILTER_DELETE_ERROR": "Du solltest mindestens einen Filter zum Speichern haben",
+    "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
     "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
     "CANCEL_BUTTON_LABEL": "Stornieren",
     "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
@@ -21,7 +21,12 @@
       "is_present": "Ist anwesend",
       "is_not_present": "Ist nicht anwesend",
       "is_greater_than": "Ist größer als",
-      "is_lesser_than": "Ist kleiner als"
+      "is_less_than": "Ist kleiner als",
+      "days_before": "Ist x Tage her"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Ja",
+      "FALSE": "Nein"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
@@ -38,7 +43,9 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
       "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Erstellt am",
+      "LAST_ACTIVITY": "Letzte Aktivität"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardfilter",

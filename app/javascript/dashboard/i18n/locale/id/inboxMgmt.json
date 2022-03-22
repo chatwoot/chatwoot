@@ -462,7 +462,8 @@
         "HOURS": "jam",
         "VALIDATION_ERROR": "Waktu mulai harus sebelum waktu tutup.",
         "CHOOSE": "Pilih"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      },
+      {
+        "id": 0,
+        "groupBy": "ماه"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      },
+      {
+        "id": 0,
+        "groupBy": "ماه"
+      },
+      {
+        "id": 0,
+        "groupBy": "سال"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "نمای کلی ایجنت ها",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "ایجنت را انتخاب کنید"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "مخاطب",
