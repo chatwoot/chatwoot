@@ -1,5 +1,5 @@
 class RoundRobin::AssignmentService
-  pattr_initialize [:conversation]
+  pattr_initialize [:conversation, { allowed_member_ids: [] }]
 
   def perform
     # online agents will get priority
@@ -15,7 +15,7 @@ class RoundRobin::AssignmentService
   end
 
   def round_robin_manage_service
-    @round_robin_manage_service ||= RoundRobin::ManageService.new(inbox: conversation.inbox)
+    @round_robin_manage_service ||= RoundRobin::ManageService.new(inbox: conversation.inbox, allowed_member_ids: allowed_member_ids)
   end
 
   def round_robin_key
