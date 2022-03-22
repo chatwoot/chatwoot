@@ -40,7 +40,8 @@ export default defineConfig({
           return chunkInfo.name === 'packs/sdk.js' ? `js/sdk.js` : `js/[name].[hash].js`
         }
       }
-    }
+    },
+    target: 'es2015'
   },
   css: { preprocessorOptions: { scss: { charset: false } } },
   esbuild: {
