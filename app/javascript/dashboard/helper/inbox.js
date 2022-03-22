@@ -169,13 +169,18 @@ export const getPreChatFields = ({
       return {
         ...item,
         translations:
-          item.translations || standardFieldKeys[item.name]
-            ? getTranslations({
-                key: standardFieldKeys[item.name].key,
-                label: standardFieldKeys[item.name].label,
-                placeholder: standardFieldKeys[item.name].placeholder,
-              })
-            : [],
+          item.translations ||
+          getTranslations({
+            key: standardFieldKeys[item.name]
+              ? standardFieldKeys[item.name].key
+              : item.name,
+            label: standardFieldKeys[item.name]
+              ? standardFieldKeys[item.name].label
+              : item.label,
+            placeholder: standardFieldKeys[item.name]
+              ? standardFieldKeys[item.name].placeholder
+              : item.placeholder,
+          }),
       };
     });
     const customFields = getCustomFields({
