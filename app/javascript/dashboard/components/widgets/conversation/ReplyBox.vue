@@ -54,7 +54,6 @@
       />
       <woot-message-editor
         v-else
-        ref="advancedEditor"
         v-model="message"
         class="input"
         :is-private="isOnPrivateNote"
@@ -202,7 +201,6 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
-      hasFiles: false,
     };
   },
   computed: {
@@ -425,19 +423,6 @@ export default {
       this.setCCEmailFromLastChat();
     },
     message(updatedMessage) {
-      if (this.hasFiles === true) {
-        const el = this.$refs.advancedEditor.$el.querySelector(
-          '.ProseMirror-woot-style > p > img'
-        );
-        if (el) {
-          const imgElWrap = el.parentNode;
-          this.removeFocusEditorInputFileld();
-          this.$nextTick(() => {
-            imgElWrap.removeChild(el);
-          });
-        }
-        this.hasFiles = false;
-      }
       this.hasSlashCommand =
         updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
@@ -473,16 +458,10 @@ export default {
       if (!data.length || !data[0]) {
         return;
       }
-      this.hasFiles = true;
       data.forEach(file => {
         const { name, type, size } = file;
         this.onFileUpload({ name, type, size, file: file });
       });
-    },
-    removeFocusEditorInputFileld() {
-      this.$refs.advancedEditor.$el
-        .querySelector('div.ProseMirror-woot-style')
-        .blur();
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;

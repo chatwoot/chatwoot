@@ -186,6 +186,12 @@ export default {
         blur: () => {
           this.onBlur();
         },
+        paste: (e, clipboardEvent) => {
+          const data = clipboardEvent.clipboardData.files;
+          if (data.length > 0) {
+            clipboardEvent.preventDefault();
+          }
+        },
       },
     });
     this.focusEditorInputField();
