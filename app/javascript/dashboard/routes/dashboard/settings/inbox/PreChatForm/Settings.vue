@@ -202,10 +202,6 @@ export default {
     },
 
     async updateInbox() {
-      delete this.preChatFields.translations;
-      this.preChatFields.forEach((t, i) => {
-        delete this.preChatFields[i].translations;
-      });
       try {
         const payload = {
           id: this.inbox.id,
