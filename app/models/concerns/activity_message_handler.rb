@@ -20,6 +20,8 @@ module ActivityMessageHandler
   def create_status_change_message(user_name)
     content = if user_name
                 I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+              elsif Current.contact.present?
+                I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
               elsif resolved?
                 I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
               end

@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Potvrdit odstranění",
       "MESSAGE": "Opravdu chcete odstranit ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Ano, odstranit ",
-      "NO": "Ne, zachovat "
+      "YES": "Ano, odstranit",
+      "NO": "Ne, zachovat"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

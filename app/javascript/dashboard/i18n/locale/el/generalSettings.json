@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
       }
     },
-    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας."
+    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας.",
+    "LEARN_MORE": "Μάθετε περισσότερα"
   },
   "FORMS": {
     "MULTISELECT": {
