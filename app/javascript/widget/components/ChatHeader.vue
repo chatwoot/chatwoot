@@ -34,7 +34,7 @@ import { mapGetters } from 'vuex';
 
 import availabilityMixin from 'widget/mixins/availability';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
 
 export default {

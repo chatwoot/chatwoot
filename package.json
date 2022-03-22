@@ -112,10 +112,12 @@
     "lint-staged": "10.5.4",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
+    "rollup-plugin-gzip": "^3.0.0",
     "vite": "^2.9.0-beta.3",
     "vite-plugin-ruby": "^3.0.8",
     "vue-jest": "3.0.7",
-    "webpack-dev-server": "3.11.2"
+    "webpack-dev-server": "3.11.2",
+    "zlib": "^1.0.5"
   },
   "engines": {
     "node": ">=10.x",

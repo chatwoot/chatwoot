@@ -54,12 +54,12 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import ChatCard from 'shared/components/ChatCard';
-import ChatForm from 'shared/components/ChatForm';
-import ChatOptions from 'shared/components/ChatOptions';
-import ChatArticle from './template/Article';
-import EmailInput from './template/EmailInput';
-import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
+import ChatCard from 'shared/components/ChatCard.vue';
+import ChatForm from 'shared/components/ChatForm.vue';
+import ChatOptions from 'shared/components/ChatOptions.vue';
+import ChatArticle from './template/Article.vue';
+import EmailInput from './template/EmailInput.vue';
+import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 
 export default {
   name: 'AgentMessageBubble',

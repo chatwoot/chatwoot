@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import CardButton from 'shared/components/CardButton';
+import CardButton from 'shared/components/CardButton.vue';
 
 export default {
   components: {

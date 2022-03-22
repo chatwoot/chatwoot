@@ -33,7 +33,7 @@
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 

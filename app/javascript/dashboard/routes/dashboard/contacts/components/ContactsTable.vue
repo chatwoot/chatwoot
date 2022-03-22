@@ -117,34 +117,34 @@ export default {
           align: 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
-          // renderBodyCell: ({ row }) => (
-          //   <woot-button
-          //     variant="clear"
-          //     onClick={() => this.onClickContact(row.id)}
-          //   >
-          //     <div class="row--user-block">
-          //       <Thumbnail
-          //         src={row.thumbnail}
-          //         size="32px"
-          //         username={row.name}
-          //         status={row.availability_status}
-          //       />
-          //       <div class="user-block">
-          //         <h6 class="sub-block-title text-truncate">
-          //           <router-link
-          //             to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
-          //             class="user-name"
-          //           >
-          //             {row.name}
-          //           </router-link>
-          //         </h6>
-          //         <button class="button clear small link view-details--button">
-          //           {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-          //         </button>
-          //       </div>
-          //     </div>
-          //   </woot-button>
-          // ),
+          renderBodyCell: ({ row }) => (
+            <woot-button
+              variant="clear"
+              onClick={() => this.onClickContact(row.id)}
+            >
+              <div class="row--user-block">
+                <Thumbnail
+                  src={row.thumbnail}
+                  size="32px"
+                  username={row.name}
+                  status={row.availability_status}
+                />
+                <div class="user-block">
+                  <h6 class="sub-block-title text-truncate">
+                    <router-link
+                      to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
+                      class="user-name"
+                    >
+                      {row.name}
+                    </router-link>
+                  </h6>
+                  <button class="button clear small link view-details--button">
+                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                  </button>
+                </div>
+              </div>
+            </woot-button>
+          ),
         },
         {
           field: 'email',
@@ -153,21 +153,21 @@ export default {
           align: 'left',
           sortBy: this.sortConfig.email || '',
           width: 240,
-          // renderBodyCell: ({ row }) => {
-          //   if (row.email)
-          //     return (
-          //       <div class="text-truncate">
-          //         <a
-          //           target="_blank"
-          //           rel="noopener noreferrer nofollow"
-          //           href={`mailto:${row.email}`}
-          //         >
-          //           {row.email}
-          //         </a>
-          //       </div>
-          //     );
-          //   return '---';
-          // },
+          renderBodyCell: ({ row }) => {
+            if (row.email)
+              return (
+                <div class="text-truncate">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={`mailto:${row.email}`}
+                  >
+                    {row.email}
+                  </a>
+                </div>
+              );
+            return '---';
+          },
         },
         {
           field: 'phone_number',
@@ -196,46 +196,46 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: 'left',
           sortBy: this.sortConfig.country || '',
-          // renderBodyCell: ({ row }) => {
-          //   if (row.country) {
-          //     return (
-          //       <div class="text-truncate">
-          //         {`${flag(row.countryCode)} ${row.country}`}
-          //       </div>
-          //     );
-          //   }
-          //   return '---';
-          // },
+          renderBodyCell: ({ row }) => {
+            if (row.country) {
+              return (
+                <div class="text-truncate">
+                  {`${flag(row.countryCode)} ${row.country}`}
+                </div>
+              );
+            }
+            return '---';
+          },
         },
         {
           field: 'profiles',
           key: 'profiles',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
           align: 'left',
-          // renderBodyCell: ({ row }) => {
-          //   const { profiles } = row;
+          renderBodyCell: ({ row }) => {
+            const { profiles } = row;
 
-          //   const items = Object.keys(profiles);
+            const items = Object.keys(profiles);
 
-          //   if (!items.length) return '---';
+            if (!items.length) return '---';
 
-          //   return (
-          //     <div class="cell--social-profiles">
-          //       {items.map(
-          //         profile =>
-          //           profiles[profile] && (
-          //             <a
-          //               target="_blank"
-          //               rel="noopener noreferrer nofollow"
-          //               href={`https://${profile}.com/${profiles[profile]}`}
-          //             >
-          //               <FluentIcon icon={`brand-${profile}`} />
-          //             </a>
-          //           )
-          //       )}
-          //     </div>
-          //   );
-          // },
+            return (
+              <div class="cell--social-profiles">
+                {items.map(
+                  profile =>
+                    profiles[profile] && (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={`https://${profile}.com/${profiles[profile]}`}
+                      >
+                        <FluentIcon icon={`brand-${profile}`} />
+                      </a>
+                    )
+                )}
+              </div>
+            );
+          },
         },
         {
           field: 'last_activity_at',

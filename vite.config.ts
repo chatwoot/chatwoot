@@ -2,11 +2,19 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import RubyPlugin from 'vite-plugin-ruby'
 import { createVuePlugin as Vue2Plugin } from 'vite-plugin-vue2'
+import { brotliCompressSync } from "zlib";
+import gzipPlugin from "rollup-plugin-gzip";
 
 export default defineConfig({
   plugins: [
     RubyPlugin(),
-    Vue2Plugin()
+    Vue2Plugin(),
+    gzipPlugin(),
+    // Create brotli copies of relevant assets
+    gzipPlugin({
+      customCompression: (content) => brotliCompressSync(Buffer.from(content)),
+      fileName: ".br",
+    }),
   ],
   resolve: {
     alias: {
@@ -24,5 +32,18 @@ export default defineConfig({
   },
   define: {
     'process.env': process.env
+  },
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'app/javascript/packs/sdk.js'),
+      name: 'ChatwootWidgetSDK',
+      fileName: () => `packs/js/sdk.js`,
+      formats: ['cjs']
+    },
+  },
+  css: { preprocessorOptions: { scss: { charset: false } } },
+  esbuild: {
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment'
   }
 })
