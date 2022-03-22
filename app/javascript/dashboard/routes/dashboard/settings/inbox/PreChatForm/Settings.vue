@@ -1,6 +1,6 @@
 <template>
   <div class="settings--content">
-    <div class="prechat--title">
+    <div class="pre-chat--title">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
     <form @submit.prevent="updateInbox">
@@ -46,20 +46,26 @@
           </thead>
           <draggable v-model="preChatFields" tag="tbody">
             <tr v-for="(item, index) in preChatFields" :key="index">
-              <th scope="col"><fluent-icon icon="drag" /></th>
-              <td scope="row">
+              <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
+              <td class="pre-chat-field">
                 <toggle-button
                   :active="item['enabled']"
                   @click="handlePreChatFieldOptions($event, 'enabled', item)"
                 />
               </td>
-              <td :class="{ 'disabled-text': !item['enabled'] }">
+              <td
+                class="pre-chat-field"
+                :class="{ 'disabled-text': !item['enabled'] }"
+              >
                 {{ item.name }}
               </td>
-              <td :class="{ 'disabled-text': !item['enabled'] }">
+              <td
+                class="pre-chat-field"
+                :class="{ 'disabled-text': !item['enabled'] }"
+              >
                 {{ item.type }}
               </td>
-              <td>
+              <td class="pre-chat-field">
                 <input
                   v-model="item['required']"
                   type="checkbox"
@@ -69,11 +75,24 @@
                 />
               </td>
               <td v-if="item.translations && item.translations.length">
-                <tr
-                  v-for="(translation, key) in item.translations.slice(0, 3)"
-                  :key="key"
-                >
-                  <!-- <td scope="row">
+                <div class="translation">
+                  <table>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">locale</th>
+                        <th scope="col">label</th>
+                        <th scope="col">placeholder</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(translation, key) in item.translations.slice(
+                          0,
+                          10
+                        )"
+                        :key="key"
+                      >
+                        <!-- <td scope="row">
                     <input
                       v-model="translation['active']"
                       type="checkbox"
@@ -89,24 +108,27 @@
                       "
                     />
                   </td>-->
-                  <td :class="{ 'disabled-text': !item['enabled'] }">
-                    {{ translation.locale }}
-                  </td>
-                  <td>
-                    <input
-                      v-model.trim="translation.label"
-                      type="text"
-                      :class="{ 'disabled-text': !item['enabled'] }"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      v-model.trim="translation.placeholder"
-                      type="text"
-                      :class="{ 'disabled-text': !item['enabled'] }"
-                    />
-                  </td>
-                </tr>
+                        <td :class="{ 'disabled-text': !item['enabled'] }">
+                          {{ translation.locale }}
+                        </td>
+                        <td>
+                          <input
+                            v-model.trim="translation.label"
+                            type="text"
+                            :class="{ 'disabled-text': !item['enabled'] }"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            v-model.trim="translation.placeholder"
+                            type="text"
+                            :class="{ 'disabled-text': !item['enabled'] }"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </td>
             </tr>
           </draggable>
@@ -223,15 +245,14 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .settings--content {
   font-size: var(--font-size-default);
 }
-.prechat--title {
+.pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
 }
 .disabled-text {
-  font-size: var(--font-size-small);
   color: var(--s-500);
 }
 table thead th {
@@ -239,5 +260,29 @@ table thead th {
 }
 checkbox {
   margin: 0;
+}
+.translation {
+  border: 1px solid var(--b-200);
+  overflow: auto;
+  height: 300px;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--b-200);
+    }
+    th,
+    td {
+      padding: var(--space-half) var(--space-one);
+    }
+    thead {
+      border: none;
+    }
+  }
+}
+.pre-chat-field {
+  vertical-align: top;
 }
 </style>
