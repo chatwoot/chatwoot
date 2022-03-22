@@ -499,8 +499,11 @@ export default {
       if (this.conversationId) {
         const key = `draft-${this.conversationId}-${this.replyType}`;
         const draftMessages = this.getSavedDraftMessages();
-        delete draftMessages[key];
-        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, draftMessages);
+        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
       }
     },
     onPaste(e) {
