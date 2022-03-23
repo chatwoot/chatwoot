@@ -73,7 +73,7 @@ export default {
 .preview-item__wrap {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto;
   margin-top: var(--space-normal);
   max-height: 20rem;
 }
