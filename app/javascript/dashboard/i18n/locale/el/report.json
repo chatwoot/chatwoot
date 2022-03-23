@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Εφαρμογή",
       "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Ομαδοποίηση Κατά",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      },
+      {
+        "id": 3,
+        "groupBy": "Μήνα"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Ημέρα"
+      },
+      {
+        "id": 2,
+        "groupBy": "Εβδομάδα"
+      },
+      {
+        "id": 3,
+        "groupBy": "Μήνα"
+      },
+      {
+        "id": 4,
+        "groupBy": "Έτος"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "Επισκόπηση Πρακτόρων",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "Αναφορές CSAT",
     "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Επιλέξτε Πράκτορες"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Επαφές",

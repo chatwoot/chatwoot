@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
       "MESSAGE": "Er du sikker på du vil slette ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Ja, Slet ",
-      "NO": "Nej, Behold "
+      "YES": "Ja, Slet",
+      "NO": "Nej, Behold"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

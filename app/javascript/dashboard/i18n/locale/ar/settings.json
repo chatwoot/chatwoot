@@ -20,16 +20,16 @@
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "توقيع الرسالة الشخصية",
+        "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",
+        "BTN_TEXT": "حفظ توقيع الرسالة",
+        "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
+        "API_SUCCESS": "تم حفظ التوقيع بنجاح"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "توقيع الرسالة",
+        "ERROR": "توقيع الرسالة لا يمكن أن يكون فارغاً",
+        "PLACEHOLDER": "أدخل توقيع رسالتك الشخصية هنا."
       },
       "PASSWORD_SECTION": {
         "TITLE": "كلمة المرور",
@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
-    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ"
+    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
+    "BETA": "تجريبي"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

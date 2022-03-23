@@ -19,7 +19,6 @@ describe('#actions', () => {
           types.default.SET_CONTACT_CONVERSATIONS,
           { id: 1, data: conversationList },
         ],
-        [types.default.SET_ALL_CONVERSATION, conversationList, { root: true }],
         [
           types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
           { isFetching: false },

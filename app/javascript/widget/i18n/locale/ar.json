@@ -22,6 +22,7 @@
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
   },
   "START_CONVERSATION": "ابدأ المحادثة",
+  "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",
   "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
   "UNREAD_VIEW": {
@@ -66,7 +67,7 @@
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",
-    "SUBMITTED_TITLE": "شكرا لك على تقديم التقييم",
+    "SUBMITTED_TITLE": "شكرا لك على تقييم المحادثة",
     "PLACEHOLDER": "أخبرنا المزيد..."
   },
   "EMAIL_TRANSCRIPT": {

@@ -1,41 +1,41 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatización",
+    "HEADER": "Automatizaciones",
     "HEADER_BTN_TXT": "Añadir regla de automatización",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "Obteniendo reglas de automatización",
+    "SIDEBAR_TXT": "<p><b>Reglas de automatización</b> <p>Automatización puede reemplazar y automatizar procesos existentes que requieren esfuerzo manual. Puedes hacer muchas cosas con la automatización, incluyendo añadir etiquetas y asignar la conversación al mejor agente. Así que el equipo se centra en lo que hacen mejor y gasta más poco tiempo en tareas manuales.</p>",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Nombre de regla",
+          "PLACEHOLDER": "Introduzca el nombre de regla",
           "ERROR": "El nombre es requerido"
         },
         "DESC": {
           "LABEL": "Descripción",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Introduce la descripción de la regla",
           "ERROR": "Descripción requerida"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Evento",
           "PLACEHOLDER": "Por favor, seleccione uno",
-          "ERROR": "Event is required"
+          "ERROR": "El evento es requerido"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Condiciones"
         },
         "ACTIONS": {
           "LABEL": "Acciones"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Añadir condición",
+      "ACTION_BUTTON_LABEL": "Añadir Acción",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regla de automatización añadida correctamente",
+        "ERROR_MESSAGE": "No se pudo crear una regla de automatización, por favor inténtalo de nuevo más tarde"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Nombre",
         "Descripción",
         "Activo",
-        "Created on"
+        "Creado el"
       ],
-      "404": "No automation rules found"
+      "404": "No se encontraron reglas de automatización"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Eliminar regla de automatización",
       "SUBMIT": "Eliminar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "CONFIRM": {
@@ -58,13 +58,13 @@
         "NO": "No, mantenerlo "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "SUCCESS_MESSAGE": "Regla de automatización eliminada correctamente",
         "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
       }
     },
     "EDIT": {
       "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Editar",
+      "SUBMIT": "Actualizar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
@@ -84,6 +84,24 @@
       "DELETE": "Eliminar",
       "CANCEL": "Cancelar",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Si",
+      "CANCEL_LABEL": "No"
     }
   }
 }
