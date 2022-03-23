@@ -87,6 +87,28 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to eq(true)
       end
+
+      it 'does not create resolved activity messages when snoozed conversation is opened' do
+        conversation.snoozed!
+
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(Conversations::ActivityMessageJob).not_to have_been_enqueued.at_least(:once).with(
+          conversation,
+          {
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            message_type: :activity,
+            content: "Conversation was resolved by #{contact.name}"
+          }
+        )
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.open?).to eq(true)
+      end
     end
   end
 
