@@ -114,8 +114,6 @@ class Notification < ApplicationRecord
     user.notifications.where(account_id: account_id, read_at: nil).count
   end
 
-  delegate :count, to: :notifications
-
   private
 
   def process_notification_delivery
