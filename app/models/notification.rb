@@ -52,13 +52,24 @@ class Notification < ApplicationRecord
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
       primary_actor_id: primary_actor_id,
-      primary_actor: primary_actor.push_event_data,
+      primary_actor: primary_actor_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
-      created_at: created_at,
-      account_id: account_id
+      created_at: created_at.to_i,
+      account_id: account_id,
+      push_message_title: push_message_title,
+      unread_count: unread_count,
+      count: count
     }
+  end
+
+  def primary_actor_data
+    if %w[assigned_conversation_new_message conversation_mention].include? notification_type
+      conversation.push_event_data
+    else
+      primary_actor.push_event_data
+    end
   end
 
   def fcm_push_data
@@ -98,6 +109,12 @@ class Notification < ApplicationRecord
 
     primary_actor
   end
+
+  def unread_count
+    user.notifications.where(account_id: account_id, read_at: nil).count
+  end
+
+  delegate :count, to: :notifications
 
   private
 

@@ -47,9 +47,13 @@ export const mutations = {
   },
 
   [types.ADD_NOTIFICATION]($state, notification) {
+    const { unread_count: unreadCount, count } = notification;
+
     Vue.set($state.records, notification.id, {
       ...($state.records[notification.id] || {}),
       ...notification,
     });
+    Vue.set($state.meta, 'unreadCount', unreadCount);
+    Vue.set($state.meta, 'count', count);
   },
 };
