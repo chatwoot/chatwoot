@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
-      "PRIVATE_MSG_INPUT": "Shift + 輸入新行。這只對客服可以看見"
+      "PRIVATE_MSG_INPUT": "Shift + 輸入新行。這只對客服可以看見",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "回覆",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "按下 Enter 傳送",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "密件副本",
         "CC": {

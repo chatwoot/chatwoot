@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app-wrapper app-root">
+    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
@@ -13,24 +14,27 @@
 </template>
 
 <script>
+import { accountIdFromPathname } from './helper/URLHelper';
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
-import WootSnackbarBox from './components/SnackbarContainer';
 import NetworkNotification from './components/NetworkNotification';
-import { accountIdFromPathname } from './helper/URLHelper';
+import UpdateBanner from './components/app/UpdateBanner.vue';
+import WootSnackbarBox from './components/SnackbarContainer';
 
 export default {
   name: 'App',
 
   components: {
-    WootSnackbarBox,
     AddAccountModal,
     NetworkNotification,
+    UpdateBanner,
+    WootSnackbarBox,
   },
 
   data() {
     return {
       showAddAccountModal: false,
+      latestChatwootVersion: null,
     };
   },
 
@@ -38,6 +42,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
     hasAccounts() {
       return (
@@ -72,8 +77,12 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const { locale } = this.getAccount(accountId);
+        const {
+          locale,
+          latest_chatwoot_version: latestChatwootVersion,
+        } = this.getAccount(accountId);
         this.setLocale(locale);
+        this.latestChatwootVersion = latestChatwootVersion;
       }
     },
   },
@@ -82,6 +91,11 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
+.update-banner {
+  height: var(--space-larger);
+  align-items: center;
+  font-size: var(--font-size-small) !important;
+}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

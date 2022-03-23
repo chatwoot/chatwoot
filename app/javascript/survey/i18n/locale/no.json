@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "RATING": {
+      "LABEL": "Vurder samtalen din",
+      "SUCCESS_MESSAGE": "Takk for at du ga din vurdering"
+    },
+    "FEEDBACK": {
+      "LABEL": "Do you have any thoughts you'd like to share?",
+      "PLACEHOLDER": "Your feedback (optional)",
+      "BUTTON_TEXT": "Submit feedback"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Survey updated successfully",
+      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+    }
+  },
+  "POWERED_BY": "Drevet av Chatwoot"
+}

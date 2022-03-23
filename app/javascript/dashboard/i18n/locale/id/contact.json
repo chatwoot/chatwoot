@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Konfirmasi Penghapusan",
       "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-      "PLACE_HOLDER": "Silakan ketik {contactName} untuk konfirmasi",
-      "YES": "Ya, Hapus ",
-      "NO": "Tidak, Simpan "
+      "YES": "Ya, Hapus",
+      "NO": "Tidak, Simpan"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontak berhasil dihapus",

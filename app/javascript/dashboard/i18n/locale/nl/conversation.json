@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
-      "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers"
+      "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Beantwoorden",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter to send",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {

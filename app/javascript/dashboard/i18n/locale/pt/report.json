@@ -59,10 +59,59 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Confirmar",
       "PLACEHOLDER": "Escolher intervalo de tempo"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar Por",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mês"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mês"
+      },
+      {
+        "id": 4,
+        "groupBy": "Ano"
+      }
+    ]
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Visão Geral de Agentes",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar relatórios de agentes",
@@ -125,11 +174,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Visão Geral de Etiquetas",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Descarregar relatórios de etiquetas",
+    "FILTER_DROPDOWN_LABEL": "Selecionar Etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -188,10 +237,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Visão Geral da Caixa de Entrada",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Descarregar relatórios de caixa de entrada",
     "FILTER_DROPDOWN_LABEL": "Escolher caixa de entrada",
     "METRICS": {
       "CONVERSATIONS": {
@@ -251,11 +300,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Resumo de Equipa",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Descarregar relatórios de equipa",
+    "FILTER_DROPDOWN_LABEL": "Escolher Equipa",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "Relatórios CSAT",
     "NO_RECORDS": "Sem dados CSAT disponíveis para reposta.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Escolher Agentes"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contato",

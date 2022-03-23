@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posta",
-    "SIDEBAR_TXT": "<p><b>Posta in arrivo</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Posta in arrivo</b>. Puoi avere caselle di posta illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Posta in arrivo</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella di posta in arrivo facendo clic sul nome della casella di posta in arrivo nel riquadro sinistro del cruscotto. </p>",
+    "SIDEBAR_TXT": "<p><b>Casella</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Casella</b>. Puoi avere caselle illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Casella</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella facendo clic sul nome della casella nel riquadro sinistro del cruscotto. </p>",
     "LIST": {
       "404": "Non ci sono caselle allegate a questo account."
     },
@@ -12,14 +12,14 @@
         "body": "Scegli il provider che vuoi integrare con Chatwoot."
       },
       {
-        "title": "Crea Inbox",
+        "title": "Crea casella",
         "route": "Canale",
-        "body": "Autenticare il tuo account e creare una casella di posta."
+        "body": "Autentica il tuo account e creare una casella."
       },
       {
-        "title": "Aggiungi Agenti",
+        "title": "Aggiungi agenti",
         "route": "Inboxes_add_agenti",
-        "body": "Aggiungi agenti alla casella di posta creata."
+        "body": "Aggiungi agenti alla casella creata."
       },
       {
         "title": "Voila!",
@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Nome Posta In Arrivo",
+        "LABEL": "Nome casella",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
       },
       "WEBSITE_NAME": {
@@ -38,11 +38,11 @@
       },
       "FB": {
         "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
-        "CHOOSE_PAGE": "Scegli una Pagina",
+        "CHOOSE_PAGE": "Scegli una pagina",
         "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
-        "INBOX_NAME": "Nome Posta In Arrivo",
-        "ADD_NAME": "Aggiungi un nome per la tua casella di posta in arrivo",
-        "PICK_NAME": "Scegli un nome per la tua casella di posta in arrivo",
+        "INBOX_NAME": "Nome casella",
+        "ADD_NAME": "Aggiungi un nome per la tua casella",
+        "PICK_NAME": "Scegli un nome per la tua casella",
         "PICK_A_VALUE": "Scegli un valore"
       },
       "TWITTER": {
@@ -55,7 +55,7 @@
       "WEBSITE_CHANNEL": {
         "TITLE": "Canale sito web",
         "DESC": "Crea un canale per il tuo sito web ed inizia a sostenere i tuoi clienti tramite il nostro widget per siti web.",
-        "LOADING_MESSAGE": "Creazione del Canale di Supporto Sito Web",
+        "LOADING_MESSAGE": "Creazione del canale di supporto sito web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canale"
         },
@@ -65,7 +65,7 @@
           "ERROR": "Inserisci un URL valido"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Dominio del Sito",
+          "LABEL": "Dominio del sito",
           "PLACEHOLDER": "Inserisci il dominio del tuo sito web (es: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
@@ -97,7 +97,7 @@
           "LABEL": "Colore del widget",
           "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
         },
-        "SUBMIT_BUTTON": "Crea posta in arrivo"
+        "SUBMIT_BUTTON": "Crea casella"
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -113,11 +113,11 @@
         },
         "AUTH_TOKEN": {
           "LABEL": "Token di autenticazione",
-          "PLACEHOLDER": "Inserisci il tuo Token Autenticazione Twilio",
+          "PLACEHOLDER": "Inserisci il tuo token di autenticazione Twilio",
           "ERROR": "Questo campo è obbligatorio"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nome Posta In Arrivo",
+          "LABEL": "Nome casella",
           "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "Questo campo è obbligatorio"
         },
@@ -127,7 +127,7 @@
           "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
+          "TITLE": "URL di callback",
           "SUBTITLE": "È necessario configurare l'URL di callback del messaggio in Twilio con l'URL menzionato qui."
         },
         "SUBMIT_BUTTON": "Crea un canale Twilio",
@@ -148,7 +148,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID Account",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "Questo campo è obbligatorio"
           },
@@ -168,7 +168,7 @@
             "ERROR": "Questo campo è obbligatorio"
           },
           "INBOX_NAME": {
-            "LABEL": "Nome Posta In Arrivo",
+            "LABEL": "Nome casella",
             "PLACEHOLDER": "Please enter a inbox name",
             "ERROR": "Questo campo è obbligatorio"
           },
@@ -182,7 +182,7 @@
             "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
+            "TITLE": "URL di callback",
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
           }
         }
@@ -196,7 +196,7 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Nome Posta In Arrivo",
+          "LABEL": "Nome casella",
           "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "Questo campo è obbligatorio"
         },
@@ -279,7 +279,7 @@
           "ERROR_MESSAGE": "We were not able to save the LINE channel"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
+          "TITLE": "URL di callback",
           "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
@@ -302,42 +302,42 @@
       },
       "AGENTS": {
         "TITLE": "Agenti",
-        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei.",
+        "DESC": "Qui puoi aggiungere agenti per gestire la tua casella appena creata. Solo questi agenti selezionati avranno accesso alla tua casella. Gli operatori che non fanno parte di questa casella non saranno in grado di vedere o rispondere ai messaggi in questa casella quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle, dovresti aggiungerti come agente a tutte le caselle che crei.",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
-        "TITLE": "Dettagli Inbox",
-        "DESC": "Dal menu a tendina sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua posta in arrivo per una migliore identificazione."
+        "TITLE": "Dettagli casella",
+        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua casella per una migliore identificazione."
       },
       "FINISH": {
-        "TITLE": "Lo Chioda!",
-        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella di posta.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di essere :)"
+        "TITLE": "Azzeccato!",
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di esserlo :)"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autenticazione con Facebook...",
       "ERROR_FB_AUTH": "Qualcosa è andato storto, per favore aggiorna la pagina...",
-      "CREATING_CHANNEL": "Creazione della posta in arrivo...",
-      "TITLE": "Configura dettagli posta in arrivo",
+      "CREATING_CHANNEL": "Creazione della casella...",
+      "TITLE": "Configura dettagli casella",
       "DESC": ""
     },
     "AGENTS": {
       "BUTTON_TEXT": "Aggiungi agenti",
-      "ADD_AGENTS": "Aggiunta di agenti alla tua posta in arrivo..."
+      "ADD_AGENTS": "Aggiunta di agenti alla tua casella..."
     },
     "FINISH": {
-      "TITLE": "La posta in arrivo è pronta!",
+      "TITLE": "La casella è pronta!",
       "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
       "BUTTON_TEXT": "Portami lì",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella di posta."
+      "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella."
     },
     "REAUTH": "Riautorizza",
     "VIEW": "Visualizza",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Impostazioni di Posta in arrivo, aggiornate con successo",
+        "SUCCESS_MESSAGE": "Impostazioni della casella, aggiornate con successo",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare il colore del widget. Riprova più tardi."
       },
@@ -366,18 +366,18 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox eliminato con successo",
-        "ERROR_MESSAGE": "Impossibile eliminare la posta in arrivo. Riprova più tardi.",
+        "SUCCESS_MESSAGE": "Casella eliminata con successo",
+        "ERROR_MESSAGE": "Impossibile eliminare la casella. Riprova più tardi.",
         "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
         "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
@@ -398,10 +398,10 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
-      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag",
+      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag body",
       "INBOX_AGENTS": "Agenti",
-      "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella di posta",
-      "UPDATE": "Aggiornamento",
+      "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella",
+      "UPDATE": "Aggiorna",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
@@ -409,9 +409,9 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
-      "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta.",
+      "INBOX_UPDATE_TITLE": "Impostazioni della casella",
+      "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
@@ -462,7 +462,8 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

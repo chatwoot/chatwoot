@@ -22,7 +22,8 @@
             "is_present": "Присъства",
             "is_not_present": "Не присъства",
             "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than"
+            "is_lesser_than": "Is lesser than",
+            "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
             "NAME": "Име",
@@ -35,7 +36,9 @@
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
             "CUSTOM_ATTRIBUTE_NUMBER": "Number",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Created At",
+            "LAST_ACTIVITY": "Последна активност"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standard Filters",

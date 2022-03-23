@@ -108,7 +108,9 @@ class User < ApplicationRecord
   end
 
   def current_account_user
-    account_users.find_by(account_id: Current.account.id) if Current.account
+    # We want to avoid subsequent queries in case where the association is preloaded.
+    # using where here will trigger n+1 queries.
+    account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
   end
 
   def available_name

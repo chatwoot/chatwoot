@@ -3,7 +3,7 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Label hinzufügen",
     "LOADING": "Label werden abgerufen",
-    "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
+    "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen",
     "SIDEBAR_TXT": "<p><b>Labels</b> <p>Mit Labels können Sie Konversationen kategorisieren und priorisieren. Sie können einer Konversation aus der Seitenleiste ein Label zuweisen. <br /><br />Labels sind an das Konto gebunden und können verwendet werden, um benutzerdefinierte Arbeitsabläufe in Ihrem Unternehmen zu erstellen. Sie können einen Label eine benutzerdefinierte Farbe zuordnen, um die Identifizierung des Labels zu erleichtern. Sie können das Label in der Seitenleiste anzeigen, um die Unterhaltungen einfach zu filtern.</p>",
     "LIST": {
       "404": "In diesem Konto sind keine Labels verfügbar.",
@@ -61,7 +61,7 @@
       },
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
-        "MESSAGE": "Bist du sicher, dass du das löschen möchtest ",
+        "MESSAGE": "Sind Sie sicher, dass Sie das löschen möchten ",
         "YES": "Ja, löschen",
         "NO": "Nein, behalten "
       }

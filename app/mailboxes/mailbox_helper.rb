@@ -5,7 +5,7 @@ module MailboxHelper
     @message = @conversation.messages.create(
       account_id: @conversation.account_id,
       sender: @conversation.contact,
-      content: mail_content,
+      content: mail_content&.truncate(150_000),
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',
       content_type: 'incoming_email',
@@ -50,10 +50,10 @@ module MailboxHelper
   end
 
   def mail_content
-    if processed_mail.html_content.present?
-      processed_mail.html_content[:reply]
-    elsif processed_mail.text_content.present?
+    if processed_mail.text_content.present?
       processed_mail.text_content[:reply]
+    elsif processed_mail.html_content.present?
+      processed_mail.html_content[:reply]
     end
   end
 end
