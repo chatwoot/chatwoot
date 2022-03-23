@@ -2,11 +2,11 @@
   "CONVERSATION": {
     "404": "Si prega di selezionare una conversazione dal pannello sinistro",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua posta in arrivo.",
+    "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua casella.",
     "NO_MESSAGE_2": " per inviare un messaggio alla tua pagina!",
-    "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna posta in arrivo.",
+    "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna casella.",
     "NO_INBOX_2": " per iniziare",
-    "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna posta in arrivo. Per favore contatta il tuo amministratore",
+    "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella. Per favore contatta il tuo amministratore",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
       "TITLE": "Search messages",
@@ -18,7 +18,7 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Clicca qui",
-    "LOADING_INBOXES": "Caricamento posta in arrivo",
+    "LOADING_INBOXES": "Caricamento casella",
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta predefinita.",
-      "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti"
+      "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Rispondi",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter to send",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {

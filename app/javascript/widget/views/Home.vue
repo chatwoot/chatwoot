@@ -15,7 +15,6 @@
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import { mapGetters } from 'vuex';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import routerMixin from 'widget/mixins/routerMixin';
 export default {
   name: 'Home',
@@ -34,28 +33,23 @@ export default {
     },
   },
   data() {
-    return {
-      isOnCollapsedView: false,
-      isOnNewConversation: false,
-    };
+    return {};
   },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
     }),
-  },
-  mounted() {
-    bus.$on(BUS_EVENTS.START_NEW_CONVERSATION, () => {
-      this.isOnCollapsedView = true;
-      this.isOnNewConversation = true;
-    });
   },
   methods: {
     startConversation() {
+      const isUserEmailAvailable = !!this.currentUser.email;
       if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.replaceRoute('prechat-form');
+        return this.replaceRoute('prechat-form', {
+          disableContactFields: isUserEmailAvailable,
+        });
       }
       return this.replaceRoute('messages');
     },

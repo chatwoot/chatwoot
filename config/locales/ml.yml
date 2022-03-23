@@ -42,6 +42,7 @@ ml:
       conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: ദിവസം
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +51,12 @@ ml:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: ഈ സന്ദേശം ഇല്ലാതാക്കി
     activity:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
         pending: "%{user_name} സംഭാഷണം തീർച്ചപ്പെടുത്താത്തതായി അടയാളപ്പെടുത്തി"
         snoozed: "Conversation was snoozed by %{user_name}"

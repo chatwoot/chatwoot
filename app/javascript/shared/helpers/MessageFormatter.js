@@ -1,4 +1,4 @@
-import marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { escapeHtml } from './HTMLSanitizer';
 
@@ -47,7 +47,12 @@ class MessageFormatter {
       const markedDownOutput = marked(withHash);
       return markedDownOutput;
     }
-    return marked(this.message, { breaks: true, gfm: true });
+    DOMPurify.addHook('afterSanitizeAttributes', node => {
+      if ('target' in node) node.setAttribute('target', '_blank');
+    });
+    return DOMPurify.sanitize(
+      marked(this.message, { breaks: true, gfm: true })
+    );
   }
 
   get formattedMessage() {

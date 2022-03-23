@@ -11,7 +11,12 @@
           v-model="appliedFilters[i]"
           :filter-groups="filterGroups"
           :grouped-filters="true"
-          :input-type="getInputType(appliedFilters[i].attribute_key)"
+          :input-type="
+            getInputType(
+              appliedFilters[i].attribute_key,
+              appliedFilters[i].filter_operator
+            )
+          "
           :operators="getOperators(appliedFilters[i].attribute_key)"
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
@@ -86,6 +91,12 @@ export default {
       $each: {
         values: {
           required,
+          ensureBetween0to999(value, prop) {
+            if (prop.filter_operator === 'days_before') {
+              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
+            }
+            return true;
+          },
         },
       },
     },
@@ -161,7 +172,9 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.attributeModel;
     },
-    getInputType(key) {
+    getInputType(key, operator) {
+      if (key === 'created_at' || key === 'last_activity_at')
+        if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type.inputType;
     },

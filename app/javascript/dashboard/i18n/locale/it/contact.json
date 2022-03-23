@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Conferma eliminazione",
       "MESSAGE": "Sei sicuro di voler eliminare ",
-      "PLACE_HOLDER": "Digita {contactName} per confermare",
-      "YES": "Sì, elimina ",
-      "NO": "No, Conserva "
+      "YES": "Sì, elimina",
+      "NO": "No, conserva"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -179,15 +178,15 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Salva filtro",
+    "FILTER_CONTACTS_DELETE": "Elimina filtro",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
         "NAME": "Nome",
-        "PHONE_NUMBER": "Phone Number",
+        "PHONE_NUMBER": "Numero di telefono",
         "CONVERSATIONS": "Conversazioni",
         "LAST_ACTIVITY": "Last Activity",
         "COUNTRY": "Country",
