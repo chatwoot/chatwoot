@@ -50,10 +50,10 @@ module MailboxHelper
   end
 
   def mail_content
-    if processed_mail.text_content.present?
-      processed_mail.text_content[:reply]
-    elsif processed_mail.html_content.present?
+    if processed_mail.html_content.present?
       processed_mail.html_content[:reply]
+    elsif processed_mail.text_content.present?
+      processed_mail.text_content[:reply]
     end
   end
 end
