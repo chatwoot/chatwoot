@@ -22,7 +22,8 @@
     "IN_A_DAY": "Normalmente responde en un día"
   },
   "START_CONVERSATION": "Iniciar conversación",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continuar conversación",
   "START_NEW_CONVERSATION": "Iniciar una nueva conversación",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",

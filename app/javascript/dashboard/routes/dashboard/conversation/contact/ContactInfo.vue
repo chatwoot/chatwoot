@@ -126,17 +126,15 @@
         @close="toggleMergeModal"
       />
     </div>
-    <woot-confirm-delete-modal
+    <woot-delete-modal
       v-if="showDeleteModal"
       :show.sync="showDeleteModal"
+      :on-close="closeDelete"
+      :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-      :confirm-value="contact.name"
-      :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
+      :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -221,21 +219,10 @@ export default {
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
     // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.YES')} ${this.contact.name}`;
-    },
-    deleteRejectText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.NO')} ${this.contact.name}`;
-    },
     confirmDeleteMessage() {
       return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
         this.contact.name
       } ?`;
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.PLACE_HOLDER', {
-        contactName: this.contact.name,
-      })}`;
     },
   },
   methods: {

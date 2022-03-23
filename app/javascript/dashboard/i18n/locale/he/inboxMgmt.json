@@ -462,7 +462,8 @@
         "HOURS": "שעות",
         "VALIDATION_ERROR": "שעת ההתחלה צריכה להיות לפני שעת הסגירה.",
         "CHOOSE": "בחר"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

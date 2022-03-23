@@ -15,8 +15,8 @@
         "ACCOUNT": "Verbindung trennen"
       },
       "MESSAGE": {
-        "INBOX": "Bist du sicher, das du das löschen möchtest?",
-        "ACCOUNT": "Sind Sie sicher, dass Sie die Verbindung trennen möchten?"
+        "INBOX": "Sind Sie sicher, dass Sie das löschen möchten?",
+        "ACCOUNT": "Möchten Sie die Verbindung wirklich trennen?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Ja, löschen",

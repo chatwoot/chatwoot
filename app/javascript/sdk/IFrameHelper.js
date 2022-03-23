@@ -119,7 +119,8 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    getAlertAudio().then(() =>
+    const { baseUrl = '' } = window.$chatwoot;
+    getAlertAudio(baseUrl).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -152,7 +153,7 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      
+
       dispatchWindowEvent({ eventName: CHATWOOT_READY });
 
       window.playAudioAlert = () => {};
