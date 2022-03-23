@@ -18,6 +18,8 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
+    return timeseries if %w[avg_first_response_time avg_resolution_time].include?(params[:metric])
+
     timeseries.each_with_object([]) do |p, arr|
       arr << { value: p[1], timestamp: p[0].to_time.to_i }
     end
@@ -95,11 +97,17 @@ class V2::ReportBuilder
   end
 
   def avg_first_response_time
-    (get_grouped_values scope.reporting_events.where(name: 'first_response')).average(:value)
+    first_response_events = (get_grouped_values scope.reporting_events.where(name: 'first_response'))
+    first_response_events.average(:value).each_with_object([]) do |p, arr|
+      arr << { value: p[1], count: first_response_events.count[p[0]], timestamp: p[0].to_time.to_i }
+    end
   end
 
   def avg_resolution_time
-    (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved')).average(:value)
+    conversation_resolved_events = (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved'))
+    conversation_resolved_events.average(:value).each_with_object([]) do |p, arr|
+      arr << { value: p[1], count: conversation_resolved_events.count[p[0]], timestamp: p[0].to_time.to_i }
+    end
   end
 
   def avg_resolution_time_summary

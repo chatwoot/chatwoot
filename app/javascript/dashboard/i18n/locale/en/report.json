@@ -18,7 +18,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
+        "NAME": "First Response Time",
         "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
@@ -98,7 +98,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
+        "NAME": "First Response Time",
         "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
@@ -161,7 +161,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
+        "NAME": "First Response Time",
         "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
@@ -224,7 +224,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
+        "NAME": "First Response Time",
         "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
@@ -287,7 +287,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
+        "NAME": "First Response Time",
         "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
