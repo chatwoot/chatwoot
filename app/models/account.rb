@@ -140,7 +140,7 @@ class Account < ApplicationRecord
   end
 
   def remove_account_sequences
-    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{self.id}")
-    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{self.id}")
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
   end
 end
