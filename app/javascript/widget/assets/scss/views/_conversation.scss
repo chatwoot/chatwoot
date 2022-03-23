@@ -51,7 +51,7 @@
 
   .has-attachment {
     overflow: hidden;
-    
+
     :not([audio]) {
       padding: 0;
     }
@@ -222,7 +222,7 @@
 
   :not([audio]) {
     max-width: 100%;
-  }  
+  }
 
   >a {
     color: $color-primary;
