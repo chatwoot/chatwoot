@@ -21,6 +21,14 @@ class AutomationRules::ActionService
 
   private
 
+  def send_attachments(file_params)
+    return if @rule.event_name == 'message_created'
+
+    params = { content: nil, private: false, attachments: file_params }
+    mb = Messages::MessageBuilder.new(@administrator, @conversation, params)
+    mb.perform
+  end
+
   def send_email_transcript(email)
     ConversationReplyMailer.with(account: conversation.account).conversation_transcript(@conversation, email)&.deliver_later
   end
