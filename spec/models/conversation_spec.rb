@@ -482,7 +482,7 @@ RSpec.describe Conversation, type: :model do
     let!(:notification) { create(:notification, notification_type: 'conversation_creation', primary_actor: conversation) }
 
     it 'delete associated notifications if conversation is deleted' do
-      conversation.destroy
+      conversation.destroy!
       expect { notification.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
