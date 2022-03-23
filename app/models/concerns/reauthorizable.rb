@@ -39,10 +39,11 @@ module Reauthorizable
 
     if (is_a? Integrations::Hook) && slack?
       AdministratorNotifications::ChannelNotificationsMailer.with(account: account).slack_disconnect.deliver_later
+    elsif is_a? Channel::FacebookPage
+      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).facebook_disconnect(inbox).deliver_later
+    elsif is_a? Channel::Email
+      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).email_disconnect(inbox).deliver_later
     end
-    return unless is_a? Channel::FacebookPage
-
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).facebook_disconnect(inbox).deliver_later
   end
 
   # call this after you successfully Reauthorized the object in UI
