@@ -113,6 +113,35 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.count).to eq(1)
       end
+
+      it 'Saves the in automation actions to send an attachments' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        params[:attachments] = [file]
+        params[:actions] = [
+          {
+            action_name: :send_message,
+            action_params: ['Welcome to the chatwoot platform.']
+          },
+          {
+            action_name: :update_additional_attributes,
+            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+          },
+          {
+            action_name: :send_attachments
+          }
+        ]
+
+        expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(1)
+        automation_rule = account.automation_rules.first
+        expect(automation_rule.file.presence).to be_truthy
+      end
     end
   end
 

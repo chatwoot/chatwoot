@@ -21,10 +21,10 @@ class AutomationRules::ActionService
 
   private
 
-  def send_attachments(file_params)
+  def send_attachments(_file_params)
     return if @rule.event_name == 'message_created'
 
-    params = { content: nil, private: false, attachments: file_params }
+    params = { content: nil, private: false, attachments: [@rule.file_blob] }
     mb = Messages::MessageBuilder.new(@administrator, @conversation, params)
     mb.perform
   end
