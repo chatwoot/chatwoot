@@ -7,7 +7,6 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def create
-    binding.pry
     @automation_rule = Current.account.automation_rules.create(automation_rules_permit)
   end
 
