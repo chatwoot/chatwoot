@@ -688,7 +688,7 @@ DEPENDENCIES
   hairtrigger
   hashie
   html2text
-  image_processing
+  image_processing (~> 1.12.2)
   jbuilder
   json_refs
   json_schemer

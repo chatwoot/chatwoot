@@ -20,16 +20,16 @@
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Firma de mensaje personal",
+        "NOTE": "Cree una firma de mensaje personal que se añadiría a todos los mensajes que envíe desde la plataforma. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
+        "BTN_TEXT": "Guardar firma de mensaje",
+        "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
+        "API_SUCCESS": "Firma guardada correctamente"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Firma del mensaje",
+        "ERROR": "La firma del mensaje no puede estar vacía",
+        "PLACEHOLDER": "Introduzca aquí su firma de mensaje personal."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
@@ -146,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
@@ -181,7 +182,8 @@
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Bandeja de entrada",
     "REPORTS_TEAM": "Equipo",
-    "SET_AVAILABILITY_TITLE": "Ponte como"
+    "SET_AVAILABILITY_TITLE": "Ponte como",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

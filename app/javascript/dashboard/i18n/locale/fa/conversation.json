@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "امضای پیام",
+      "ENABLE_SIGN_TOOLTIP": "امضا را فعال کنید",
+      "DISABLE_SIGN_TOOLTIP": "غیرفعال کردن امضا",
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
-      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود"
+      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
+      "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید"
     },
     "REPLYBOX": {
       "REPLY": "پاسخ",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
+      "TIP_AUDIORECORDER_ICON": "ضبط صدا",
+      "TIP_AUDIORECORDER_PERMISSION": "اجازه دسترسی به صدا",
+      "TIP_AUDIORECORDER_ERROR": "صدا را نمی‌توان باز کند",
       "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
+      "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
+      "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "افزودن bcc",
         "CC": {

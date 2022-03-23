@@ -141,7 +141,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "پهنای‌باند"
+          "BANDWIDTH": "Bandwidth"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
@@ -462,7 +462,8 @@
         "HOURS": "ساعت",
         "VALIDATION_ERROR": "زمان شروع باید قبل از زمان بسته شدن باشد.",
         "CHOOSE": "انتخاب کنید"
-      }
+      },
+      "ALL_DAY": "تمام روز"
     },
     "IMAP": {
       "TITLE": "IMAP",
