@@ -79,7 +79,7 @@ export const AUTOMATIONS = {
       // {
       //   key: 'send_email_to_team',
       //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
+      //   attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
       // },
     ],
   },
@@ -186,7 +186,7 @@ export const AUTOMATIONS = {
       // {
       //   key: 'send_email_to_team',
       //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
+      //   attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
       // },
       {
         key: 'assign_agent',

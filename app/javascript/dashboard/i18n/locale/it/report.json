@@ -59,14 +59,63 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Applica",
       "PLACEHOLDER": "Seleziona intervallo di date"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Raggruppa per",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Giorno"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Giorno"
+      },
+      {
+        "id": 2,
+        "groupBy": "Settimana"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Giorno"
+      },
+      {
+        "id": 2,
+        "groupBy": "Settimana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mese"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Giorno"
+      },
+      {
+        "id": 2,
+        "groupBy": "Settimana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mese"
+      },
+      {
+        "id": 4,
+        "groupBy": "Anno"
+      }
+    ]
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Panoramica degli agenti",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTER_DROPDOWN_LABEL": "Seleziona agente",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -125,11 +174,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Panoramica etichette",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Scarica report etichette",
+    "FILTER_DROPDOWN_LABEL": "Seleziona etichetta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -188,11 +237,11 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Panoramica casella",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Seleziona Posta in arrivo",
+    "DOWNLOAD_INBOX_REPORTS": "Scarica report casella",
+    "FILTER_DROPDOWN_LABEL": "Seleziona Casella",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -251,11 +300,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Panoramica team",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Scarica report del team",
+    "FILTER_DROPDOWN_LABEL": "Seleziona team",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapporti CSAT",
     "NO_RECORDS": "Non ci sono risposte al sondaggio CSAT disponibili.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Scegli agenti"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contatto",

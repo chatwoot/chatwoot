@@ -42,6 +42,7 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +51,12 @@ uk:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Це повідомлення було видалено
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Розмову знову відкрито %{user_name}"
         pending: "Бесіда була позначена як очікується %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

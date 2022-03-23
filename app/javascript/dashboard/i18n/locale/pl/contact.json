@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Potwierdź usunięcie",
       "MESSAGE": "Czy na pewno chcesz usunąć ",
-      "PLACE_HOLDER": "Wpisz {contactName} aby potwierdzić",
-      "YES": "Tak, usuń ",
-      "NO": "Nie, zachowaj "
+      "YES": "Tak, usuń",
+      "NO": "Nie, zachowaj"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt został usunięty pomyślnie",
