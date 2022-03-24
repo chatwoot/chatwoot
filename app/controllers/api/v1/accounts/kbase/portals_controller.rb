@@ -14,7 +14,7 @@ class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::Kbase::Ba
   end
 
   def destroy
-    @portal.destroy
+    @portal.destroy!
     head :ok
   end
 
