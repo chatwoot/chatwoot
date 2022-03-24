@@ -76,7 +76,7 @@ export const METRIC_CHART = {
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
             beginAtZero: true,
-            stepSize: 60,
+            precision: 2,
           },
           gridLines: {
             drawOnChartArea: false,
@@ -119,7 +119,7 @@ export const METRIC_CHART = {
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
             beginAtZero: true,
-            stepSize: 60,
+            precision: 2,
           },
           gridLines: {
             drawOnChartArea: false,
