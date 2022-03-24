@@ -73,17 +73,19 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'validate length of additional_attributes value' do
-      conversation.additional_attributes = { company_name: 'some_company' * 200 }
+      conversation.additional_attributes = { company_name: 'some_company' * 200, contact_number: 19999999999 }
       conversation.valid?
       error_messages = conversation.errors.messages
       expect(error_messages[:additional_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:additional_attributes][1]).to eq('contact_number value should be < 9999999999')
     end
 
     it 'validate length of custom_attributes value' do
-      conversation.custom_attributes = { company_name: 'some_company' * 200 }
+      conversation.custom_attributes = { company_name: 'some_company' * 200, contact_number: 19999999999  }
       conversation.valid?
       error_messages = conversation.errors.messages
       expect(error_messages[:custom_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:custom_attributes][1]).to eq('contact_number value should be < 9999999999')
     end
   end
 
