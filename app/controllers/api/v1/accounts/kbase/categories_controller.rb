@@ -14,7 +14,7 @@ class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase:
   end
 
   def destroy
-    @category.destroy
+    @category.destroy!
     head :ok
   end
 
