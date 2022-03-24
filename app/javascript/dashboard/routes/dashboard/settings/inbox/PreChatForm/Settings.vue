@@ -39,16 +39,15 @@
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
               </th>
               <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
+              </th>
+              <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
               </th>
               <th scope="col">
                 {{
                   $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER')
                 }}
-              </th>
-
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
               </th>
             </tr>
           </thead>
@@ -73,6 +72,15 @@
               >
                 {{ item.type }}
               </td>
+              <td class="pre-chat-field">
+                <input
+                  v-model="item['required']"
+                  type="checkbox"
+                  :value="`${item.name}-required`"
+                  :disabled="!item['enabled']"
+                  @click="handlePreChatFieldOptions($event, 'required', item)"
+                />
+              </td>
               <td
                 class="pre-chat-field"
                 :class="{ 'disabled-text': !item['enabled'] }"
@@ -93,16 +101,6 @@
                   :disabled="isFieldEditable(item)"
                 />
               </td>
-
-              <td class="pre-chat-field">
-                <input
-                  v-model="item['required']"
-                  type="checkbox"
-                  :value="`${item.name}-required`"
-                  :disabled="!item['enabled']"
-                  @click="handlePreChatFieldOptions($event, 'required', item)"
-                />
-              </td>
             </tr>
           </draggable>
         </table>
@@ -120,7 +118,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
-import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/inbox';
+import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
 
 export default {
   components: {

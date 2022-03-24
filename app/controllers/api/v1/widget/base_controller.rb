@@ -39,7 +39,8 @@ class Api::V1::Widget::BaseController < ApplicationController
         browser: browser_params,
         referer: permitted_params[:message][:referer_url],
         initiated_at: timestamp_params
-      }
+      },
+      custom_attributes: permitted_params[:custom_attributes]
     }
   end
 

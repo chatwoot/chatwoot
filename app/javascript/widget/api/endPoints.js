@@ -17,6 +17,7 @@ const createConversation = params => {
         timestamp: new Date().toString(),
         referer_url: referrerURL,
       },
+      custom_attributes: params.customAttributes,
     },
   };
 };

@@ -109,6 +109,36 @@ export default {
           type: this.findFieldType(field.type),
         }));
     },
+    conversationCustomAttributes() {
+      let conversationAttributes = {};
+      this.preChatFields.forEach(field => {
+        if (
+          field.name in this.formValues &&
+          field.field_type === 'conversation_attribute'
+        ) {
+          conversationAttributes = {
+            ...conversationAttributes,
+            [field.name]: this.formValues[field.name],
+          };
+        }
+      });
+      return conversationAttributes;
+    },
+    contactCustomAttributes() {
+      let contactAttributes = {};
+      this.preChatFields.forEach(field => {
+        if (
+          field.name in this.formValues &&
+          field.field_type === 'contact_attribute'
+        ) {
+          contactAttributes = {
+            ...contactAttributes,
+            [field.name]: this.formValues[field.name],
+          };
+        }
+      });
+      return contactAttributes;
+    },
   },
   methods: {
     isContactFieldVisible(field, item) {
@@ -218,6 +248,8 @@ export default {
         emailAddress,
         message,
         activeCampaignId: this.activeCampaign.id,
+        conversationCustomAttributes: this.conversationCustomAttributes,
+        contactCustomAttributes: this.contactCustomAttributes,
       });
     },
   },
