@@ -1,9 +1,13 @@
 class RoundRobin::AssignmentService
   pattr_initialize [:conversation, { allowed_member_ids: [] }]
 
+  def find_assignee
+    round_robin_manage_service.available_agent(priority_list: online_agents)
+  end
+
   def perform
     # online agents will get priority
-    new_assignee = round_robin_manage_service.available_agent(priority_list: online_agents)
+    new_assignee = find_assignee
     conversation.update(assignee: new_assignee) if new_assignee
   end
 

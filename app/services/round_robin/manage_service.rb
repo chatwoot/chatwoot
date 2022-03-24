@@ -45,6 +45,8 @@ class RoundRobin::ManageService
 
   # priority list is usually the members who are online passed from assignmebt service
   def get_member_via_priority_list(priority_list)
+    return if priority_list.blank?
+
     # when allowed member ids is passed we will be looking to get members from that list alone
     priority_list = priority_list.intersection(allowed_member_ids) if allowed_member_ids.present?
     return if priority_list.blank?

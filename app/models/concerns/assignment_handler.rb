@@ -13,18 +13,18 @@ module AssignmentHandler
     return unless team_id_changed?
 
     validate_current_assignee_team
-    set_assignee_from_team if assignee.blank?
+    self.assignee ||= find_assignee_from_team
   end
 
   def validate_current_assignee_team
     self.assignee_id = nil if team&.members&.exclude?(assignee)
   end
 
-  def set_assignee_from_team
+  def find_assignee_from_team
     return if team&.allow_auto_assign.blank?
 
     team_members = inbox.members.ids & team.members.ids
-    ::RoundRobin::AssignmentService.new(conversation: self, allowed_member_ids: team_members).perform
+    ::RoundRobin::AssignmentService.new(conversation: self, allowed_member_ids: team_members).find_assignee
   end
 
   def notify_assignment_change
