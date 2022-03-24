@@ -83,7 +83,8 @@ describe AutomationRuleListener do
         listener.conversation_status_changed(event)
 
         conversation.reload
-        expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
+        binding.pry
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
 
       it 'triggers automation rule to assign best agents' do
@@ -199,7 +200,7 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
 
         conversation.reload
-        expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
         expect(conversation.assignee).to eq(user_1)
       end
 
@@ -246,7 +247,6 @@ describe AutomationRuleListener do
         )
         expect(conversation.team_id).not_to eq(team.id)
 
-        automation_rule
         listener.conversation_updated(event)
 
         conversation.reload
@@ -286,7 +286,7 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
 
         conversation.reload
-        expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
 
       it 'triggers automation rule to assign best agents' do
@@ -377,7 +377,7 @@ describe AutomationRuleListener do
         listener.message_created(event)
 
         conversation.reload
-        expect(conversation.labels.pluck(:name)).to eq(%w[support priority_customer])
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
 
       it 'triggers automation rule to assign best agent' do
