@@ -16,7 +16,7 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @webhook.destroy
+    @webhook.destroy!
     head :ok
   end
 
