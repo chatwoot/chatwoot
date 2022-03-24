@@ -120,7 +120,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).toHaveBeenCalledWith('scrollToMessage');
+      expect(global.bus.$emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
     it('update message if it exist in the store', () => {

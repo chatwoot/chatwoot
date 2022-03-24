@@ -34,6 +34,9 @@
               :readable-time="readableTime"
               @error="onImageLoadError"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
             <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
