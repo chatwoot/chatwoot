@@ -1,7 +1,6 @@
 <template>
   <textarea
     ref="textarea"
-    :class="inputColor"
     :placeholder="placeholder"
     :value="value"
     @input="onInput"
@@ -13,9 +12,7 @@
 
 <script>
 const TYPING_INDICATOR_IDLE_TIME = 4000;
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 export default {
-  mixins: [darkModeMixin],
   props: {
     placeholder: {
       type: String,
@@ -34,12 +31,6 @@ export default {
     return {
       idleTimer: null,
     };
-  },
-  computed: {
-    inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
-    },
   },
   watch: {
     value() {

@@ -11,6 +11,7 @@
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
+      :class="inputColor"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
@@ -96,6 +97,10 @@ export default {
     },
     showSendButton() {
       return this.userInput.length > 0;
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
