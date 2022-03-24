@@ -1,4 +1,3 @@
 backend: bin/rails s -p 3000
 worker: bundle exec sidekiq -C config/sidekiq.yml
 vite: bin/vite dev
-web: bin/rails s
