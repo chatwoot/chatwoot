@@ -18,7 +18,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @agent.current_account_user.destroy
+    @agent.current_account_user.destroy!
     head :ok
   end
 
