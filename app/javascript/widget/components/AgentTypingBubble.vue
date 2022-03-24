@@ -5,7 +5,7 @@
       <div class="message-wrap">
         <div
           class="typing-bubble chat-bubble agent"
-          :class="agentTypingBubbleDarkMode"
+          :class="$d('bg-white', 'dark:bg-slate-50')"
         >
           <img
             src="~widget/assets/images/typing.gif"
@@ -18,18 +18,10 @@
 </template>
 
 <script>
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkModeMixing from 'widget/mixins/darkModeMixin.js';
 export default {
   name: 'AgentTypingBubble',
-  mixins: [isDarkOrWhiteOrAutoMode],
-  computed: {
-    agentTypingBubbleDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-50',
-        light: 'bg-white',
-      });
-    },
-  },
+  mixins: [darkModeMixing],
 };
 </script>
 

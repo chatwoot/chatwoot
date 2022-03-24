@@ -24,7 +24,7 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, agentChatBubbleDarkMode)"
+          :class="(wrapClass, $d('bg-white', 'dark:bg-slate-50'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
@@ -40,7 +40,7 @@
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           class="agent-name"
-          :class="agentNameDarkMode"
+          :class="$d('text-slate-700', 'dark:text-slate-200')"
         >
           {{ agentName }}
         </p>
@@ -69,7 +69,7 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'AgentMessage',
@@ -80,7 +80,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin, messageMixin, isDarkOrWhiteOrAutoMode],
+  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -103,18 +103,6 @@ export default {
       }
       if (!this.message.content) return false;
       return true;
-    },
-    agentNameDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:text-slate-200',
-        light: 'text-slate-700',
-      });
-    },
-    agentChatBubbleDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-50',
-        light: 'bg-white',
-      });
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

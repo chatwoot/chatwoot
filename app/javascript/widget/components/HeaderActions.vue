@@ -13,7 +13,11 @@
       class="button transparent compact new-window--button "
       @click="popoutWindow"
     >
-      <fluent-icon icon="open" size="22" :class="actionButtonDarkMode" />
+      <fluent-icon
+        icon="open"
+        size="22"
+        :class="$d('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
     <button
       class="button transparent compact close-button"
@@ -22,7 +26,11 @@
       }"
       @click="closeWindow"
     >
-      <fluent-icon icon="dismiss" size="24" :class="actionButtonDarkMode" />
+      <fluent-icon
+        icon="dismiss"
+        size="24"
+        :class="$d('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
   </div>
 </template>
@@ -31,12 +39,12 @@ import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-  mixins: [isDarkOrWhiteOrAutoMode],
+  mixins: [darkModeMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -61,12 +69,6 @@ export default {
     },
     hasWidgetOptions() {
       return this.showPopoutButton || this.conversationStatus === 'open';
-    },
-    actionButtonDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:text-slate-50',
-        light: 'text-black-900',
-      });
     },
   },
   methods: {

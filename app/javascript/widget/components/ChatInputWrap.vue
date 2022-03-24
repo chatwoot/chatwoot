@@ -1,7 +1,7 @@
 <template>
   <div
-    class="chat-message--input"
-    :class="inputFieldDarkMode"
+    class="chat-message--input is-focused"
+    :class="$d('bg-white ', 'dark:bg-slate-50')"
     @keydown.esc="hideEmojiPicker"
   >
     <resizable-text-area
@@ -10,8 +10,8 @@
       v-model="userInput"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input"
-      :class="inputFieldDarkMode"
+      class="form-input user-message-input is-focused"
+      :class="$d('bg-white ', 'dark:bg-slate-50')"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
@@ -58,7 +58,7 @@ import configMixin from '../mixins/configMixin';
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatInputWrap',
@@ -69,7 +69,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, isDarkOrWhiteOrAutoMode],
+  mixins: [clickaway, configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -99,12 +99,6 @@ export default {
     },
     showSendButton() {
       return this.userInput.length > 0;
-    },
-    inputFieldDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-50 is-focused',
-        light: 'bg-white is-focused',
-      });
     },
   },
   watch: {

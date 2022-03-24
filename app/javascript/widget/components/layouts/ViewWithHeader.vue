@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-full h-full flex flex-col"
-    :class="widgetWindowDarkMode"
+    :class="$d('bg-slate-50', 'dark:bg-slate-800')"
     @keydown.esc="closeWindow"
   >
     <div
@@ -11,7 +11,7 @@
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
         },
-        widgetHeaderDarkMode)
+        $d('bg-white', 'dark:bg-slate-900'))
       "
     >
       <transition
@@ -58,7 +58,7 @@ import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -69,7 +69,7 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin, isDarkOrWhiteOrAutoMode],
+  mixins: [configMixin, darkModeMixin],
   data() {
     return {
       showPopoutButton: false,
@@ -90,19 +90,6 @@ export default {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
-    },
-    widgetWindowDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-800',
-        light: 'bg-slate-50',
-      });
-    },
-
-    widgetHeaderDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-900',
-        light: 'bg-white',
-      });
     },
   },
   methods: {

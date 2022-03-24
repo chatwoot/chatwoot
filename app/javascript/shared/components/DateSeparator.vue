@@ -1,14 +1,18 @@
 <template>
-  <div class="date--separator" :class="dateSeparatorDarkMode">
+  <div
+    class="date--separator"
+    :class="$d('text-slate-700', 'dark:text-slate-200')"
+  >
     {{ formattedDate }}
   </div>
 </template>
 
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
 export default {
-  mixins: [isDarkOrWhiteOrAutoMode],
+  mixins: [darkModeMixin],
   props: {
     date: {
       type: String,
@@ -21,12 +25,6 @@ export default {
         date: this.date,
         todayText: this.$t('TODAY'),
         yesterdayText: this.$t('YESTERDAY'),
-      });
-    },
-    dateSeparatorDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:text-slate-200',
-        light: 'text-slate-700',
       });
     },
   },

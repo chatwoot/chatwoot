@@ -1,7 +1,7 @@
 <template>
   <div
     class="customer-satisfaction"
-    :class="customerSatisfactionDarkMode"
+    :class="$d('bg-white', 'dark:bg-slate-50')"
     :style="{ borderColor: widgetColor }"
   >
     <h6 class="title">
@@ -45,14 +45,14 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
   },
-  mixins: [isDarkOrWhiteOrAutoMode],
+  mixins: [darkModeMixin],
   props: {
     messageContentAttributes: {
       type: Object,
@@ -73,15 +73,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    customerSatisfactionDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-50',
-        light: 'bg-white',
-      });
-    },
+    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },

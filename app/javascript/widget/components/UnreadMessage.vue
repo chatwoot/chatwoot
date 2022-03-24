@@ -2,7 +2,7 @@
   <div class="chat-bubble-wrap">
     <button
       class="chat-bubble agent"
-      :class="widgetUnreadBubbleDarkMode"
+      :class="$d('bg-white', 'dark:bg-slate-50')"
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">
@@ -29,11 +29,11 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from '../constants/widgetBusEvents';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin, isDarkOrWhiteOrAutoMode],
+  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -57,12 +57,6 @@ export default {
       return `${this.$t('UNREAD_VIEW.COMPANY_FROM')} ${
         this.channelConfig.websiteName
       }`;
-    },
-    widgetUnreadBubbleDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:bg-slate-50',
-        light: 'bg-white',
-      });
     },
     avatarUrl() {
       // eslint-disable-next-line

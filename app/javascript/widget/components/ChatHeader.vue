@@ -13,7 +13,7 @@
       <div>
         <div
           class="font-medium text-base flex items-center"
-          :class="widgetTitleDarkMode"
+          :class="$d('text-black-900', 'dark:text-slate-50')"
         >
           <span class="mr-1" v-html="title" />
           <div
@@ -23,7 +23,10 @@
             "
           />
         </div>
-        <div class="text-xs mt-1" :class="waitMessageDarkMode">
+        <div
+          class="text-xs mt-1"
+          :class="$d('text-black-700', 'dark:text-slate-400')"
+        >
           {{ replyWaitMessage }}
         </div>
       </div>
@@ -39,7 +42,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions';
 import routerMixin from 'widget/mixins/routerMixin';
-import isDarkOrWhiteOrAutoMode from 'widget/mixins/darkModeMixin.js';
+import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatHeader',
@@ -47,7 +50,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [availabilityMixin, routerMixin, isDarkOrWhiteOrAutoMode],
+  mixins: [availabilityMixin, routerMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -74,18 +77,6 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    widgetTitleDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:text-slate-50',
-        light: 'text-black-900',
-      });
-    },
-    waitMessageDarkMode() {
-      return this.isDarkOrWhiteOrAutoMode({
-        dark: 'dark:text-slate-400',
-        light: 'text-black-700',
-      });
-    },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;

@@ -2,12 +2,10 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters({
-      darkMode: 'appConfig/darkMode',
-    }),
+    ...mapGetters({ darkMode: 'appConfig/darkMode' }),
   },
   methods: {
-    isDarkOrWhiteOrAutoMode({ dark, light }) {
+    $d(light, dark) {
       if (this.darkMode === 'light') {
         return light;
       }
