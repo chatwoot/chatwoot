@@ -54,6 +54,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              },
              message: {
                content: 'This is a test message'
+             },
+             custom_attributes: {
+               order_id: 123
              }
            },
            as: :json
