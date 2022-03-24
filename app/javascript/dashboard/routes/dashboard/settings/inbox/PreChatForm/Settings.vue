@@ -264,7 +264,7 @@ checkbox {
 .translation {
   border: 1px solid var(--b-200);
   overflow: auto;
-  height: 300px;
+  height: 200px;
   table {
     border-collapse: collapse;
     width: 100%;
