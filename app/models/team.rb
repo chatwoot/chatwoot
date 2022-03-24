@@ -38,7 +38,7 @@ class Team < ApplicationRecord
   end
 
   def remove_member(user_id)
-    team_members.find_by(user_id: user_id)&.destroy
+    team_members.find_by(user_id: user_id)&.destroy!
   end
 
   def messages

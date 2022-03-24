@@ -10,7 +10,7 @@ class Api::V1::Accounts::Contacts::NotesController < Api::V1::Accounts::Contacts
   end
 
   def destroy
-    @note.destroy
+    @note.destroy!
     head :ok
   end
 
