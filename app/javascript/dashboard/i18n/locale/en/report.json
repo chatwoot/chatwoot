@@ -19,11 +19,13 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -99,11 +101,13 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -162,11 +166,13 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -225,11 +231,13 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -288,11 +296,13 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",

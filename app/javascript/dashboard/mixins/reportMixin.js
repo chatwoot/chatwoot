@@ -35,7 +35,7 @@ export default {
           const total = this.accountReport.data
             .map(item => item.count)
             .reduce((prev, curr) => prev + curr, 0);
-          return `Total number of conversations used for computation: ${total}`;
+          return `${this.metrics[this.currentSelection].INFO_TEXT} ${total}`;
         }
         return '';
       };

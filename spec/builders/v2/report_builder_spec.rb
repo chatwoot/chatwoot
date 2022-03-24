@@ -128,8 +128,6 @@ describe ::V2::ReportBuilder do
         builder = V2::ReportBuilder.new(account, params)
         metrics = builder.timeseries
 
-        byebug
-
         expect(metrics[Time.zone.today].to_f).to be 0.48e4
       end
 

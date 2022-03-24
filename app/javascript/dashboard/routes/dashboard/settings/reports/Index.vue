@@ -160,6 +160,7 @@ export default {
         NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
         KEY: REPORTS_KEYS[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
+        INFO_TEXT: this.$t(`REPORT.METRICS.${key}.INFO_TEXT`),
       }));
     },
   },
