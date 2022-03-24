@@ -20,7 +20,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   end
 
   def destroy
-    @hook.destroy
+    @hook.destroy!
 
     head :ok
   end

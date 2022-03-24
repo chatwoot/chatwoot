@@ -73,7 +73,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @inbox.destroy
+    @inbox.destroy!
     head :ok
   end
 

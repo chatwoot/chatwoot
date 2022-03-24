@@ -83,7 +83,7 @@ describe AutomationRuleListener do
         listener.conversation_status_changed(event)
 
         conversation.reload
-        binding.pry
+
         expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
 
