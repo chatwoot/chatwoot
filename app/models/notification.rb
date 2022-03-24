@@ -58,9 +58,7 @@ class Notification < ApplicationRecord
       user: user&.push_event_data,
       created_at: created_at.to_i,
       account_id: account_id,
-      push_message_title: push_message_title,
-      unread_count: unread_count,
-      count: count
+      push_message_title: push_message_title
     }
   end
 
@@ -114,6 +112,10 @@ class Notification < ApplicationRecord
     user.notifications.where(account_id: account_id, read_at: nil).count
   end
 
+  def count
+    user.notifications.count
+  end
+
   private
 
   def process_notification_delivery
@@ -126,6 +128,6 @@ class Notification < ApplicationRecord
   end
 
   def dispatch_create_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self, unread_count: unread_count, count: count)
   end
 end

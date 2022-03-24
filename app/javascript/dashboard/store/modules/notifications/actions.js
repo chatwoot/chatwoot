@@ -53,7 +53,7 @@ export const actions = {
     }
   },
 
-  addNotification({ commit }, notification) {
-    commit(types.ADD_NOTIFICATION, notification);
+  addNotification({ commit }, data) {
+    commit(types.ADD_NOTIFICATION, data);
   },
 };
