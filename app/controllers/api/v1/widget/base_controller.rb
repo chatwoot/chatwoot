@@ -40,7 +40,7 @@ class Api::V1::Widget::BaseController < ApplicationController
         referer: permitted_params[:message][:referer_url],
         initiated_at: timestamp_params
       },
-      custom_attributes: permitted_params[:custom_attributes]
+      custom_attributes: permitted_params[:custom_attributes].presence || {}
     }
   end
 
@@ -71,11 +71,11 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_email
-    permitted_params[:contact][:email].downcase
+    permitted_params[:contact][:email].downcase if permitted_params[:contact].present?
   end
 
   def contact_name
-    params[:contact][:name] || contact_email.split('@')[0]
+    params[:contact][:name] || contact_email.split('@')[0] if contact_email.present?
   end
 
   def contact_phone_number
