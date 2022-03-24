@@ -51,7 +51,10 @@
 
   .has-attachment {
     overflow: hidden;
-    padding: 0;
+
+    :not([audio]) {
+      padding: 0;
+    }
 
     &.has-text {
       margin-top: $space-smaller;
@@ -213,10 +216,13 @@
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
-  max-width: 100%;
   padding: $space-slab $space-normal;
   text-align: left;
   word-break: break-word;
+
+  :not([audio]) {
+    max-width: 100%;
+  }
 
   >a {
     color: $color-primary;
