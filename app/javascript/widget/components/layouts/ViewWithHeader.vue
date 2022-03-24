@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-full h-full flex flex-col"
-    :class="$d('bg-slate-50', 'dark:bg-slate-800')"
+    :class="$dm('bg-slate-50', 'dark:bg-slate-800')"
     @keydown.esc="closeWindow"
   >
     <div
@@ -11,7 +11,7 @@
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
         },
-        $d('bg-white', 'dark:bg-slate-900'))
+        $dm('bg-white', 'dark:bg-slate-900'))
       "
     >
       <transition

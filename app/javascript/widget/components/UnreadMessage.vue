@@ -2,7 +2,7 @@
   <div class="chat-bubble-wrap">
     <button
       class="chat-bubble agent"
-      :class="$d('bg-white', 'dark:bg-slate-50')"
+      :class="$dm('bg-white', 'dark:bg-slate-50')"
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">

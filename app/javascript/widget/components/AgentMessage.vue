@@ -24,7 +24,7 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="(wrapClass, $d('bg-white', 'dark:bg-slate-50'))"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-50'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
@@ -43,7 +43,7 @@
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           class="agent-name"
-          :class="$d('text-slate-700', 'dark:text-slate-200')"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
         >
           {{ agentName }}
         </p>

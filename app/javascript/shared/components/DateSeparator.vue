@@ -1,7 +1,7 @@
 <template>
   <div
     class="date--separator"
-    :class="$d('text-slate-700', 'dark:text-slate-200')"
+    :class="$dm('text-slate-700', 'dark:text-slate-200')"
   >
     {{ formattedDate }}
   </div>

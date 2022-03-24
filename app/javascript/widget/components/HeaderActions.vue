@@ -16,7 +16,7 @@
       <fluent-icon
         icon="open"
         size="22"
-        :class="$d('text-black-900', 'dark:text-slate-50')"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
       />
     </button>
     <button
@@ -29,7 +29,7 @@
       <fluent-icon
         icon="dismiss"
         size="24"
-        :class="$d('text-black-900', 'dark:text-slate-50')"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
       />
     </button>
   </div>

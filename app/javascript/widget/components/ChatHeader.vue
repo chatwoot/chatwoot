@@ -13,7 +13,7 @@
       <div>
         <div
           class="font-medium text-base flex items-center"
-          :class="$d('text-black-900', 'dark:text-slate-50')"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span class="mr-1" v-html="title" />
           <div
@@ -25,7 +25,7 @@
         </div>
         <div
           class="text-xs mt-1"
-          :class="$d('text-black-700', 'dark:text-slate-400')"
+          :class="$dm('text-black-700', 'dark:text-slate-400')"
         >
           {{ replyWaitMessage }}
         </div>

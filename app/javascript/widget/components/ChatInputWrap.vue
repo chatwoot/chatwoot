@@ -1,7 +1,7 @@
 <template>
   <div
     class="chat-message--input is-focused"
-    :class="$d('bg-white ', 'dark:bg-slate-50')"
+    :class="$dm('bg-white ', 'dark:bg-slate-50')"
     @keydown.esc="hideEmojiPicker"
   >
     <resizable-text-area
@@ -11,7 +11,7 @@
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
-      :class="$d('bg-white ', 'dark:bg-slate-50')"
+      :class="$dm('bg-white ', 'dark:bg-slate-50')"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"

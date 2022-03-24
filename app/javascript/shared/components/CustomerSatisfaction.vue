@@ -1,7 +1,7 @@
 <template>
   <div
     class="customer-satisfaction"
-    :class="$d('bg-white', 'dark:bg-slate-50')"
+    :class="$dm('bg-white', 'dark:bg-slate-50')"
     :style="{ borderColor: widgetColor }"
   >
     <h6 class="title">

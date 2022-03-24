@@ -5,7 +5,7 @@
       <div class="message-wrap">
         <div
           class="typing-bubble chat-bubble agent"
-          :class="$d('bg-white', 'dark:bg-slate-50')"
+          :class="$dm('bg-white', 'dark:bg-slate-50')"
         >
           <img
             src="~widget/assets/images/typing.gif"

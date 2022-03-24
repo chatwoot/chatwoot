@@ -22,7 +22,7 @@ describe('darkModeMixin', () => {
       mixins: [darkModeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.$d('bg-100', 'bg-600')).toBe('bg-100');
+    expect(wrapper.vm.$dm('bg-100', 'bg-600')).toBe('bg-100');
   });
 
   it('if dark theme', () => {
@@ -36,7 +36,7 @@ describe('darkModeMixin', () => {
       mixins: [darkModeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.$d('bg-100', 'bg-600')).toBe('bg-600');
+    expect(wrapper.vm.$dm('bg-100', 'bg-600')).toBe('bg-600');
   });
 
   it('if auto theme', () => {
@@ -50,6 +50,6 @@ describe('darkModeMixin', () => {
       mixins: [darkModeMixin],
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.$d('bg-100', 'bg-600')).toBe('bg-100 bg-600');
+    expect(wrapper.vm.$dm('bg-100', 'bg-600')).toBe('bg-100 bg-600');
   });
 });
