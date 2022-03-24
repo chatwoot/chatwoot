@@ -70,7 +70,7 @@ export default {
       return this.emailAttributes.subject || '';
     },
     showHead() {
-      return this.toMails || this.ccMails || this.bccMails;
+      return this.toMails || this.ccMails || this.bccMails || this.fromMail;
     },
   },
 };

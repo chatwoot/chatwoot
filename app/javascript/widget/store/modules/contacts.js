@@ -24,17 +24,38 @@ export const actions = {
   },
   update: async ({ dispatch }, { identifier, user: userObject }) => {
     try {
+      const {
+        email,
+        name,
+        avatar_url,
+        identifier_hash,
+        phone_number,
+        company_name,
+        city,
+        country_code,
+        description,
+        custom_attributes,
+        social_profiles,
+      } = userObject;
       const user = {
-        email: userObject.email,
-        name: userObject.name,
-        avatar_url: userObject.avatar_url,
-        identifier_hash: userObject.identifier_hash,
-        phone_number: userObject.phone_number,
+        email,
+        name,
+        avatar_url,
+        identifier_hash,
+        phone_number,
+        additional_attributes: {
+          company_name,
+          city,
+          description,
+          country_code,
+          social_profiles,
+        },
+        custom_attributes,
       };
       await ContactsAPI.update(identifier, user);
 
       dispatch('get');
-      if (userObject.identifier_hash) {
+      if (identifier_hash) {
         dispatch('conversation/clearConversations', {}, { root: true });
         dispatch('conversation/fetchOldConversations', {}, { root: true });
       }

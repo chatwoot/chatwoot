@@ -100,7 +100,8 @@ export default {
   display: flex;
   background: var(--color-background-light);
   margin: 0;
-  height: calc(100vh - var(--space-jumbo));
+  height: 100%;
+  min-height: 0;
 }
 
 .conversation-sidebar-wrap {

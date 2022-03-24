@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
-      "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents"
+      "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Respon",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Intro per enviar",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {

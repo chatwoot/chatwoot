@@ -80,6 +80,7 @@ export default {
   mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
+    ssoAccountId: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
     config: { type: String, default: '' },
     email: { type: String, default: '' },
@@ -138,6 +139,7 @@ export default {
           : this.credentials.email,
         password: this.credentials.password,
         sso_auth_token: this.ssoAuthToken,
+        ssoAccountId: this.ssoAccountId,
       };
       this.$store
         .dispatch('login', credentials)

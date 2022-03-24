@@ -1,18 +1,10 @@
 class ActionCableListener < BaseListener
   include Events::Types
 
-  def conversation_created(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
-  end
-
-  def conversation_read(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, CONVERSATION_READ, conversation.push_event_data)
+  def notification_created(event)
+    notification, account = extract_notification_and_account(event)
+    tokens = [event.data[:notification].user.pubsub_token]
+    broadcast(account, tokens, NOTIFICATION_CREATED, notification.push_event_data)
   end
 
   def message_created(event)
@@ -26,10 +18,23 @@ class ActionCableListener < BaseListener
   def message_updated(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    contact = conversation.contact
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data)
+  end
+
+  def conversation_created(event)
+    conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
+
+    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
+  end
+
+  def conversation_read(event)
+    conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, CONVERSATION_READ, conversation.push_event_data)
   end
 
   def conversation_status_changed(event)

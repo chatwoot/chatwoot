@@ -44,6 +44,9 @@ export default {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'sms';
     },
+    isASmsInbox() {
+      return this.channelType === INBOX_TYPES.SMS || this.isATwilioSMSChannel;
+    },
     isATwilioWhatsappChannel() {
       const { medium: medium = '' } = this.inbox;
       return this.isATwilioChannel && medium === 'whatsapp';

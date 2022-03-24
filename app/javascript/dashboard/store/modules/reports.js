@@ -20,6 +20,7 @@ const state = {
     incoming_messages_count: 0,
     outgoing_messages_count: 0,
     resolutions_count: 0,
+    previous: {},
   },
 };
 
@@ -124,24 +125,6 @@ const mutations = {
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
-    // Average First Response Time
-    let avgFirstResTimeInHr = 0;
-    if (summaryData.avg_first_response_time) {
-      avgFirstResTimeInHr = (
-        summaryData.avg_first_response_time / 3600
-      ).toFixed(2);
-      avgFirstResTimeInHr = `${avgFirstResTimeInHr} Hr`;
-    }
-    // Average Resolution Time
-    let avgResolutionTimeInHr = 0;
-    if (summaryData.avg_resolution_time) {
-      avgResolutionTimeInHr = (summaryData.avg_resolution_time / 3600).toFixed(
-        2
-      );
-      avgResolutionTimeInHr = `${avgResolutionTimeInHr} Hr`;
-    }
-    _state.accountSummary.avg_first_response_time = avgFirstResTimeInHr;
-    _state.accountSummary.avg_resolution_time = avgResolutionTimeInHr;
   },
 };
 

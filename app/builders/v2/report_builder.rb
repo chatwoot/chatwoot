@@ -95,15 +95,15 @@ class V2::ReportBuilder
   end
 
   def avg_first_response_time
-    (get_grouped_values scope.events.where(name: 'first_response')).average(:value)
+    (get_grouped_values scope.reporting_events.where(name: 'first_response')).average(:value)
   end
 
   def avg_resolution_time
-    (get_grouped_values scope.events.where(name: 'conversation_resolved')).average(:value)
+    (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved')).average(:value)
   end
 
   def avg_resolution_time_summary
-    avg_rt = scope.events
+    avg_rt = scope.reporting_events
                   .where(name: 'conversation_resolved', created_at: range)
                   .average(:value)
 
@@ -113,7 +113,7 @@ class V2::ReportBuilder
   end
 
   def avg_first_response_time_summary
-    avg_frt = scope.events
+    avg_frt = scope.reporting_events
                    .where(name: 'first_response', created_at: range)
                    .average(:value)
 

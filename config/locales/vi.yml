@@ -42,6 +42,7 @@ vi:
       conversations_count: Số cuộc trò chuyện
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    default_group_by: ngày
   notifications:
     notification_title:
       conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
@@ -50,10 +51,12 @@ vi:
       conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Tin nhắn đã bị xoá
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
         pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
         snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"
