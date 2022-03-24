@@ -154,10 +154,8 @@ describe AutomationRuleListener do
 
   describe '#conversation_updated with contacts attributes' do
     before do
-      Contact.first.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' },
-                            additional_attributes: { 'company': 'Marvel' })
-      Contact.last.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' },
-                           additional_attributes: { 'company': 'Marvel' })
+      conversation.contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' },
+                                   additional_attributes: { 'company': 'Marvel' })
 
       automation_rule.update!(
         event_name: 'conversation_updated',
@@ -188,7 +186,6 @@ describe AutomationRuleListener do
       it 'triggers automation rule to assign team' do
         expect(conversation.team_id).not_to eq(team.id)
 
-        automation_rule
         listener.conversation_updated(event)
 
         conversation.reload
@@ -199,7 +196,6 @@ describe AutomationRuleListener do
         expect(conversation.labels).to eq([])
         expect(conversation.assignee).to be_nil
 
-        automation_rule
         listener.conversation_updated(event)
 
         conversation.reload
@@ -209,8 +205,6 @@ describe AutomationRuleListener do
 
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
-
-        automation_rule
 
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
 
@@ -223,8 +217,6 @@ describe AutomationRuleListener do
 
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
-
-        automation_rule
 
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
 
