@@ -44,10 +44,6 @@ const defaultChartOptions = {
 export default {
   extends: Bar,
   props: {
-    chartType: {
-      type: String,
-      default: 'Bar',
-    },
     collection: {
       type: Object,
       default: () => {},
