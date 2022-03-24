@@ -33,7 +33,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   describe 'POST /api/v1/widget/messages' do
     context 'when post request is made' do
       it 'creates message in conversation' do
-        conversation.destroy # Test all params
+        conversation.destroy! # Test all params
         message_params = { content: 'hello world', timestamp: Time.current }
         post api_v1_widget_messages_url,
              params: { website_token: web_widget.website_token, message: message_params },
@@ -46,7 +46,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
 
       it 'does not create the message' do
-        conversation.destroy # Test all params
+        conversation.destroy! # Test all params
         message_params = { content: "#{'h' * 150 * 1000}a", timestamp: Time.current }
         post api_v1_widget_messages_url,
              params: { website_token: web_widget.website_token, message: message_params },
