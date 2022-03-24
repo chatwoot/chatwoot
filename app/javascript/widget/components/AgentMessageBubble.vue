@@ -5,9 +5,13 @@
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      :class="$dm('bg-white', 'dark:bg-slate-700')"
     >
-      <div class="message-content" v-html="formatMessage(message, false)"></div>
+      <div
+        class="message-content"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        v-html="formatMessage(message, false)"
+      ></div>
       <email-input
         v-if="isTemplateEmail"
         :message-id="messageId"

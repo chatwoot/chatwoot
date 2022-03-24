@@ -2,7 +2,11 @@
   <header class="flex justify-between p-5 w-full">
     <div class="flex items-center">
       <button v-if="showBackButton" @click="onBackButtonClick">
-        <fluent-icon icon="chevron-left" size="24" />
+        <fluent-icon
+          icon="chevron-left"
+          size="24"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        />
       </button>
       <img
         v-if="avatarUrl"

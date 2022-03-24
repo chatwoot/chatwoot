@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-const darkModeValues = ['light', 'dark', 'auto'];
+const darkModeValues = ['light', 'auto'];
 
 describe('darkModeMixin', () => {
   let getters;
@@ -23,20 +23,6 @@ describe('darkModeMixin', () => {
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.$dm('bg-100', 'bg-600')).toBe('bg-100');
-  });
-
-  it('if dark theme', () => {
-    getters = {
-      'appConfig/darkMode': () => darkModeValues[1],
-    };
-    store = new Vuex.Store({ getters });
-
-    const Component = {
-      render() {},
-      mixins: [darkModeMixin],
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.$dm('bg-100', 'bg-600')).toBe('bg-600');
   });
 
   it('if auto theme', () => {

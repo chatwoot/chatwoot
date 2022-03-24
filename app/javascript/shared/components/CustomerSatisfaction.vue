@@ -1,10 +1,10 @@
 <template>
   <div
     class="customer-satisfaction"
-    :class="$dm('bg-white', 'dark:bg-slate-50')"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
     :style="{ borderColor: widgetColor }"
   >
-    <h6 class="title">
+    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
       {{ title }}
     </h6>
     <div class="ratings">
@@ -25,6 +25,7 @@
       <input
         v-model="feedback"
         class="form-input"
+        :class="inputColor"
         :placeholder="$t('CSAT.PLACEHOLDER')"
         @keydown.enter="onSubmit"
       />
@@ -83,6 +84,10 @@ export default {
     },
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
     },
     title() {
       return this.isRatingSubmitted
@@ -196,6 +201,10 @@ export default {
       border-top: 1px solid $color-border;
       padding: $space-one;
       width: 100%;
+
+      &::placeholder {
+        color: $color-light-gray;
+      }
     }
 
     .button {

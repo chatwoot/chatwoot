@@ -6,7 +6,11 @@
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
-      <fluent-icon icon="sign-out" size="22" class="text-black-900" />
+      <fluent-icon
+        icon="sign-out"
+        size="22"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
     <button
       v-if="showPopoutButton"

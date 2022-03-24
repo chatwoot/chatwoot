@@ -1,7 +1,7 @@
 <template>
   <div
     class="chat-message--input is-focused"
-    :class="$dm('bg-white ', 'dark:bg-slate-50')"
+    :class="$dm('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
     <resizable-text-area
@@ -11,7 +11,6 @@
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
-      :class="$dm('bg-white ', 'dark:bg-slate-50')"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
@@ -20,6 +19,7 @@
     <div class="button-wrap">
       <chat-attachment-button
         v-if="showAttachment"
+        :class="$dm('text-black-900', 'dark:text-slate-100')"
         :on-attach="onSendAttachment"
       />
       <button
@@ -28,10 +28,7 @@
         aria-label="Emoji picker"
         @click="toggleEmojiPicker"
       >
-        <fluent-icon
-          icon="emoji"
-          :class="{ 'text-woot-500': showEmojiPicker }"
-        />
+        <fluent-icon icon="emoji" :class="emojiIconColor" />
       </button>
       <emoji-input
         v-if="showEmojiPicker"
@@ -99,6 +96,11 @@ export default {
     },
     showSendButton() {
       return this.userInput.length > 0;
+    },
+    emojiIconColor() {
+      return this.showEmojiPicker
+        ? `'text-woot-500'${this.$dm('text-black-900', 'dark:text-slate-100')}`
+        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
