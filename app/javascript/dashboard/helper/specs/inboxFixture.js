@@ -1,40 +1,36 @@
-import translationFixture from './translationFixture';
-
-const {
-  emailTranslations,
-  fullNameTranslations,
-  phoneNumberTranslations,
-} = translationFixture;
 export default {
   customFields: {
     pre_chat_message: 'Share your queries or comments here.',
     pre_chat_fields: [
       {
-        label: 'Email Id',
+        label: 'Email Address',
         name: 'emailAddress',
         type: 'email',
         field_type: 'standard',
         required: false,
         enabled: false,
-        translations: emailTranslations,
+        editable: true,
+        placeholder: 'Please enter your email address',
       },
       {
-        label: 'Full name',
+        label: 'Full Name',
         name: 'fullName',
         type: 'text',
         field_type: 'standard',
         required: false,
         enabled: false,
-        translations: fullNameTranslations,
+        placeholder: 'Please enter your full name',
+        editable: true,
       },
       {
-        label: 'Phone number',
+        label: 'Phone Number',
         name: 'phoneNumber',
         type: 'text',
         field_type: 'standard',
         required: false,
         enabled: false,
-        translations: phoneNumberTranslations,
+        placeholder: 'Please enter your phone number',
+        editable: true,
       },
     ],
   },

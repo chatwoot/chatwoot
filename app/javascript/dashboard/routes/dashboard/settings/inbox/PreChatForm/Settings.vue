@@ -39,9 +39,17 @@
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
               </th>
               <th scope="col">
+                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
+              </th>
+              <th scope="col">
+                {{
+                  $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER')
+                }}
+              </th>
+
+              <th scope="col">
                 {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
               </th>
-              <th scope="col">Translations</th>
             </tr>
           </thead>
           <draggable v-model="preChatFields" tag="tbody">
@@ -65,6 +73,27 @@
               >
                 {{ item.type }}
               </td>
+              <td
+                class="pre-chat-field"
+                :class="{ 'disabled-text': !item['enabled'] }"
+              >
+                <input
+                  v-model.trim="item.label"
+                  type="text"
+                  :disabled="isFieldEditable(item)"
+                />
+              </td>
+              <td
+                class="pre-chat-field"
+                :class="{ 'disabled-text': !item['enabled'] }"
+              >
+                <input
+                  v-model.trim="item.placeholder"
+                  type="text"
+                  :disabled="isFieldEditable(item)"
+                />
+              </td>
+
               <td class="pre-chat-field">
                 <input
                   v-model="item['required']"
@@ -73,62 +102,6 @@
                   :disabled="!item['enabled']"
                   @click="handlePreChatFieldOptions($event, 'required', item)"
                 />
-              </td>
-              <td v-if="item.translations && item.translations.length">
-                <div class="translation">
-                  <table>
-                    <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">locale</th>
-                        <th scope="col">label</th>
-                        <th scope="col">placeholder</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(translation, key) in item.translations.slice(
-                          0,
-                          10
-                        )"
-                        :key="key"
-                      >
-                        <!-- <td scope="row">
-                    <input
-                      v-model="translation['active']"
-                      type="checkbox"
-                      :value="`${translation.locale}-required`"
-                      :disabled="!item['enabled']"
-                      @click="
-                        handleTranslationsOption(
-                          $event,
-                          'active',
-                          item,
-                          translation
-                        )
-                      "
-                    />
-                  </td>-->
-                        <td :class="{ 'disabled-text': !item['enabled'] }">
-                          {{ translation.locale }}
-                        </td>
-                        <td>
-                          <input
-                            v-model.trim="translation.label"
-                            type="text"
-                            :class="{ 'disabled-text': !item['enabled'] }"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            v-model.trim="translation.placeholder"
-                            type="text"
-                            :class="{ 'disabled-text': !item['enabled'] }"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
               </td>
             </tr>
           </draggable>
@@ -147,7 +120,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import draggable from 'vuedraggable';
 import ToggleButton from 'dashboard/components/buttons/ToggleButton';
-import { getPreChatFields } from 'dashboard/helper/inbox';
+import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -200,25 +173,13 @@ export default {
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },
+    isFieldEditable(item) {
+      return !!standardFieldKeys[item.name];
+    },
     handlePreChatFieldOptions(event, type, item) {
       this.preChatFields.forEach((field, index) => {
         if (field.name === item.name) {
           this.preChatFields[index][type] = !item[type];
-        }
-      });
-    },
-
-    handleTranslationsOption(event, type, item, translation) {
-      this.preChatFields.forEach((field, index) => {
-        if (field.name === item.name) {
-          item.translations.forEach((t, i) => {
-            if (t.locale === translation.locale) {
-              this.preChatFields[index].locale = translation.locale;
-              this.preChatFields[index].translations[i].active = true;
-            } else {
-              this.preChatFields[index].translations[i].active = false;
-            }
-          });
         }
       });
     },
@@ -260,29 +221,5 @@ table thead th {
 }
 checkbox {
   margin: 0;
-}
-.translation {
-  border: 1px solid var(--b-200);
-  overflow: auto;
-  height: 200px;
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    th {
-      position: sticky;
-      top: 0;
-      background: var(--b-200);
-    }
-    th,
-    td {
-      padding: var(--space-half) var(--space-one);
-    }
-    thead {
-      border: none;
-    }
-  }
-}
-.pre-chat-field {
-  vertical-align: top;
 }
 </style>

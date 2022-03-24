@@ -1,8 +1,11 @@
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { isEmptyObject } from 'dashboard/helper/commons';
 import i18n from 'widget/i18n/index';
+const defaultTranslations = Object.fromEntries(
+  Object.entries(i18n).filter(([key]) => key.includes('en'))
+).en;
 
-const standardFieldKeys = {
+export const standardFieldKeys = {
   emailAddress: {
     key: 'EMAIL_ADDRESS',
     label: 'Email Id',
@@ -19,23 +22,6 @@ const standardFieldKeys = {
     placeholder: 'Please enter your phone number',
   },
 };
-export const getTranslations = ({ key, label, placeholder }) => {
-  let translations = [];
-  Object.keys(i18n).forEach(locale => {
-    const translation = {
-      locale,
-      label: i18n[locale].PRE_CHAT_FORM.FIELDS[key]
-        ? i18n[locale].PRE_CHAT_FORM.FIELDS[key].LABEL
-        : label,
-      placeholder: i18n[locale].PRE_CHAT_FORM.FIELDS[key]
-        ? i18n[locale].PRE_CHAT_FORM.FIELDS[key].PLACEHOLDER
-        : placeholder,
-    };
-    translations = [...translations, translation];
-  });
-  return translations;
-};
-
 export const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
     case INBOX_TYPES.WEB:
@@ -72,6 +58,17 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
+export const getLabel = ({ key, label }) => {
+  return defaultTranslations.PRE_CHAT_FORM.FIELDS[key]
+    ? defaultTranslations.PRE_CHAT_FORM.FIELDS[key].LABEL
+    : label;
+};
+export const getPlaceHolder = ({ key, placeholder }) => {
+  return defaultTranslations.PRE_CHAT_FORM.FIELDS[key]
+    ? defaultTranslations.PRE_CHAT_FORM.FIELDS[key].PLACEHOLDER
+    : placeholder;
+};
+
 export const getCustomFields = ({ standardFields, customAttributes }) => {
   let customFields = [];
   const { pre_chat_fields: preChatFields } = standardFields;
@@ -89,11 +86,6 @@ export const getCustomFields = ({ standardFields, customAttributes }) => {
         field_type: 'custom',
         required: false,
         enabled: false,
-        translations: getTranslations({
-          key: attribute.attribute_key,
-          label: attribute.attribute_display_name,
-          placeholder: attribute.attribute_display_name,
-        }),
       });
     }
   });
@@ -109,47 +101,40 @@ export const getStandardFields = ({
     pre_chat_message: preChatMessage || 'Share your queries or comments here.',
     pre_chat_fields: [
       {
-        label: 'Email Id',
-        placeholder: 'Please enter your email address',
+        label: getLabel({ key: 'emailAddress', label: 'Email Address' }),
+        placeholder: getPlaceHolder({
+          key: 'emailAddress',
+          placeholder: 'Please enter your email address',
+        }),
         name: 'emailAddress',
         type: 'email',
         field_type: 'standard',
         required: requireEmail || false,
         enabled: emailEnabled || false,
-        locale: 'en',
-        translations: getTranslations({
-          key: 'EMAIL_ADDRESS',
-          label: 'Email Id',
-          placeholder: 'Please enter your email address',
-        }),
       },
       {
-        label: 'Full name',
-        placeholder: 'Please enter your full name',
+        label: getLabel({ key: 'fullName', label: 'Full name' }),
+        placeholder: getPlaceHolder({
+          key: 'fullName',
+          placeholder: 'Please enter your full name',
+        }),
         name: 'fullName',
         type: 'text',
         field_type: 'standard',
         required: false,
         enabled: false,
-        translations: getTranslations({
-          key: 'FULL_NAME',
-          label: 'Full Name',
-          placeholder: 'Please enter your full name',
-        }),
       },
       {
-        label: 'Phone number',
-        placeholder: 'Please enter your phone number',
+        label: getLabel({ key: 'phoneNumber', label: 'Phone number' }),
+        placeholder: getPlaceHolder({
+          key: 'phoneNumber',
+          placeholder: 'Please enter your phone number',
+        }),
         name: 'phoneNumber',
         type: 'text',
         field_type: 'standard',
         required: false,
         enabled: false,
-        translations: getTranslations({
-          key: 'PHONE_NUMBER',
-          label: 'Phone Number',
-          placeholder: 'Please enter your phone number',
-        }),
       },
     ],
   };
@@ -164,25 +149,24 @@ export const getPreChatFields = ({
     'pre_chat_fields' in preChatFormOptions
   ) {
     const { pre_chat_message, pre_chat_fields } = preChatFormOptions;
-
     const preChatFields = pre_chat_fields.map(item => {
       return {
         ...item,
-        translations:
-          item.translations ||
-          getTranslations({
-            key: standardFieldKeys[item.name]
-              ? standardFieldKeys[item.name].key
-              : item.name,
-            label: standardFieldKeys[item.name]
-              ? standardFieldKeys[item.name].label
-              : item.label,
-            placeholder: standardFieldKeys[item.name]
-              ? standardFieldKeys[item.name].placeholder
-              : item.placeholder,
-          }),
+        label: getLabel({
+          key: standardFieldKeys[item.name]
+            ? standardFieldKeys[item.name].key
+            : item.name,
+          label: item.label ? item.label : item.name,
+        }),
+        placeholder: getPlaceHolder({
+          key: standardFieldKeys[item.name]
+            ? standardFieldKeys[item.name].key
+            : item.name,
+          placeholder: item.placeholder ? item.placeholder : item.name,
+        }),
       };
     });
+
     const customFields = getCustomFields({
       standardFields: { pre_chat_fields: preChatFields },
       customAttributes,

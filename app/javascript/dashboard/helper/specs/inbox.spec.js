@@ -5,14 +5,7 @@ import {
   getCustomFields,
 } from '../inbox';
 import inboxFixture from './inboxFixture';
-import translationFixture from './translationFixture';
 
-const {
-  emailTranslations,
-  fullNameTranslations,
-  phoneNumberTranslations,
-  orderIdTranslations,
-} = translationFixture;
 const { customFields, customAttributes } = inboxFixture;
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
@@ -88,7 +81,6 @@ describe('#Inbox Helpers', () => {
           required: false,
           type: 'number',
           values: [],
-          translations: orderIdTranslations,
         },
       ]);
     });
@@ -106,15 +98,13 @@ describe('#Inbox Helpers', () => {
           .pre_chat_fields
       ).toEqual([
         {
-          label: 'Email Id',
+          label: 'Email Address',
           name: 'emailAddress',
           placeholder: 'Please enter your email address',
           type: 'email',
           field_type: 'standard',
-          locale: 'en',
           required: false,
           enabled: false,
-          translations: emailTranslations,
         },
         {
           label: 'Full name',
@@ -124,7 +114,6 @@ describe('#Inbox Helpers', () => {
           field_type: 'standard',
           required: false,
           enabled: false,
-          translations: fullNameTranslations,
         },
         {
           label: 'Phone number',
@@ -134,7 +123,6 @@ describe('#Inbox Helpers', () => {
           field_type: 'standard',
           required: false,
           enabled: false,
-          translations: phoneNumberTranslations,
         },
         {
           label: 'Order Id',
@@ -145,7 +133,6 @@ describe('#Inbox Helpers', () => {
           field_type: 'custom',
           required: false,
           enabled: false,
-          translations: orderIdTranslations,
         },
       ]);
     });

@@ -35,8 +35,7 @@ class Channel::WebWidget < ApplicationRecord
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
-                                                 :locale, { values: [] },
-                                                 { translations: [:label, :placeholder, :locale, :active] }] }] },
+                                                 :locale, { values: [] }] }] },
                     { selected_feature_flags: [] }].freeze
 
   validates :website_url, presence: true

@@ -138,24 +138,12 @@ export default {
         this.isContactFieldVisible(field, { name: field })
       );
     },
-    getLabel({ name, label, translations }) {
-      const translation = translations.find(item => {
-        return item.locale === this.locale;
-      });
-      if (translation) {
-        return translation.label;
-      }
+    getLabel({ name, label }) {
       if (this.labels[name])
         return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.LABEL`);
       return label;
     },
-    getPlaceHolder({ name, placeholder, translations }) {
-      const translation = translations.find(item => {
-        return item.locale === this.locale;
-      });
-      if (translation) {
-        return translation.placeholder;
-      }
+    getPlaceHolder({ name, placeholder }) {
       if (this.labels[name])
         return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
       return placeholder;
