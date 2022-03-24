@@ -50,6 +50,8 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
+  validates :additional_attributes, jsonb_attributes_length: true
+  validates :custom_attributes, jsonb_attributes_length: true
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
