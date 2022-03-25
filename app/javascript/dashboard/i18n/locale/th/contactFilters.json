@@ -11,17 +11,17 @@
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "และ",
+            "OR": "หรือ"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
+            "equal_to": "เท่ากับ",
+            "not_equal_to": "ไม่เท่ากับ",
             "contains": "Contains",
             "does_not_contain": "Does not contain",
             "is_present": "Is present",
             "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "is_greater_than": "มากกว่า",
             "is_lesser_than": "Is lesser than",
             "days_before": "Is x days before"
         },
@@ -34,10 +34,10 @@
             "COUNTRY": "ประเทศ",
             "CUSTOM_ATTRIBUTE_LIST": "List",
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_NUMBER": "ตัวเลข",
+            "CUSTOM_ATTRIBUTE_LINK": "ลิ้งก์",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CREATED_AT": "สร้างเมื่อ",
             "LAST_ACTIVITY": "ล่าสุดเมื่อ"
         },
         "GROUPS": {
