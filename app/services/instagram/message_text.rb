@@ -20,6 +20,8 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     # person can connect the channel and then delete the inbox
     return if @inbox.blank?
 
+    return unsend_message if message_is_deleted?
+
     ensure_contact(contact_id)
 
     create_message
@@ -44,6 +46,19 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
   def agent_message_via_echo?
     @messaging[:message][:is_echo].present?
+  end
+
+  def message_is_deleted?
+    @messaging[:message][:is_deleted].present?
+  end
+
+  def unsend_message
+    message_to_delete = @inbox.messages.find_by(
+      source_id: @messaging[:message][:mid]
+    )
+    return if message_to_delete.blank?
+
+    message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
 
   def create_message
