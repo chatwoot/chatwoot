@@ -54,7 +54,7 @@
           "ERROR": "O tempo na página é obrigatório"
         },
         "ENABLED": "Ativar a campanha",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Ativar apenas durante o horário de trabalho",
         "SUBMIT": "Adicionar Campanha"
       },
       "API": {
