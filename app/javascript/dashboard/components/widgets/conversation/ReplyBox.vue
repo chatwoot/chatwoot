@@ -447,7 +447,6 @@ export default {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
-
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
@@ -464,7 +463,13 @@ export default {
     document.addEventListener('paste', this.onPaste);
 
     this.setCCEmailFromLastChat();
-    this.doAutoSaveDraft = debounce(this.saveDraft, 5000);
+    this.doAutoSaveDraft = debounce(
+      () => {
+        this.saveDraft(this.conversationId, this.replyType);
+      },
+      5000,
+      false
+    );
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
