@@ -9,7 +9,7 @@ export default {
         field_type: 'standard',
         required: false,
         enabled: false,
-        editable: true,
+
         placeholder: 'Please enter your email address',
       },
       {
@@ -20,7 +20,6 @@ export default {
         required: false,
         enabled: false,
         placeholder: 'Please enter your full name',
-        editable: true,
       },
       {
         label: 'Phone Number',
@@ -30,7 +29,6 @@ export default {
         required: false,
         enabled: false,
         placeholder: 'Please enter your phone number',
-        editable: true,
       },
     ],
   },

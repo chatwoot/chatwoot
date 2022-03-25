@@ -2,6 +2,7 @@ import {
   getPreChatFields,
   getStandardFields,
   getCustomFields,
+  getFormattedPreChatFields,
 } from '../preChat';
 import inboxFixture from './inboxFixture';
 
@@ -46,6 +47,44 @@ describe('#Pre chat Helpers', () => {
           field_type: 'conversation_attribute',
           type: 'number',
           values: [],
+        },
+      ]);
+    });
+  });
+  describe('getFormattedPreChatFields', () => {
+    it('should return correct custom fields', () => {
+      expect(
+        getFormattedPreChatFields({
+          preChatFields: customFields.pre_chat_fields,
+        })
+      ).toEqual([
+        {
+          label: 'Email Address',
+          name: 'emailAddress',
+          placeholder: 'Please enter your email address',
+          type: 'email',
+          field_type: 'standard',
+
+          required: false,
+          enabled: false,
+        },
+        {
+          label: 'Full Name',
+          name: 'fullName',
+          placeholder: 'Please enter your full name',
+          type: 'text',
+          field_type: 'standard',
+          required: false,
+          enabled: false,
+        },
+        {
+          label: 'Phone Number',
+          name: 'phoneNumber',
+          placeholder: 'Please enter your phone number',
+          type: 'text',
+          field_type: 'standard',
+          required: false,
+          enabled: false,
         },
       ]);
     });

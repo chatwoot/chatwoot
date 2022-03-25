@@ -104,61 +104,69 @@ export const getStandardFields = ({
   };
 };
 
+export const getFormattedPreChatFields = ({ preChatFields }) => {
+  return preChatFields.map(item => {
+    return {
+      ...item,
+      label: getLabel({
+        key: standardFieldKeys[item.name]
+          ? standardFieldKeys[item.name].key
+          : item.name,
+        label: item.label ? item.label : item.name,
+      }),
+      placeholder: getPlaceHolder({
+        key: standardFieldKeys[item.name]
+          ? standardFieldKeys[item.name].key
+          : item.name,
+        placeholder: item.placeholder ? item.placeholder : item.name,
+      }),
+    };
+  });
+};
+
 export const getPreChatFields = ({
   preChatFormOptions = {},
   customAttributes = [],
 }) => {
+  const {
+    pre_chat_message,
+    pre_chat_fields,
+    require_email: requireEmail,
+  } = preChatFormOptions;
+  let customFields = {};
+  let preChatMessage = '';
+  let preChatFields = {};
   if (
     !isEmptyObject(preChatFormOptions) &&
     'pre_chat_fields' in preChatFormOptions
   ) {
-    const { pre_chat_message, pre_chat_fields } = preChatFormOptions;
-    const preChatFields = pre_chat_fields.map(item => {
-      return {
-        ...item,
-        label: getLabel({
-          key: standardFieldKeys[item.name]
-            ? standardFieldKeys[item.name].key
-            : item.name,
-          label: item.label ? item.label : item.name,
-        }),
-        placeholder: getPlaceHolder({
-          key: standardFieldKeys[item.name]
-            ? standardFieldKeys[item.name].key
-            : item.name,
-          placeholder: item.placeholder ? item.placeholder : item.name,
-        }),
-      };
+    const formattedPreChatFields = getFormattedPreChatFields({
+      preChatFields: pre_chat_fields,
     });
 
-    const customFields = getCustomFields({
-      standardFields: { pre_chat_fields: preChatFields },
+    customFields = getCustomFields({
+      standardFields: { pre_chat_fields: formattedPreChatFields },
       customAttributes,
     });
-    const finalFields = {
-      pre_chat_message,
-      pre_chat_fields: [...preChatFields, ...customFields],
-    };
-
-    return finalFields;
+    preChatMessage = pre_chat_message;
+    preChatFields = [...formattedPreChatFields, ...customFields];
+  } else {
+    const standardFields = getStandardFields({
+      requireEmail,
+      emailEnabled: requireEmail,
+      preChatMessage: pre_chat_message,
+    });
+    customFields = getCustomFields({
+      standardFields,
+      customAttributes,
+    });
+    preChatMessage = standardFields.pre_chat_message;
+    preChatFields = [...standardFields.pre_chat_fields, ...customFields];
   }
 
-  const {
-    require_email: requireEmail,
-    pre_chat_message: preChatMessage,
-  } = preChatFormOptions;
-  const standardFields = getStandardFields({
-    requireEmail,
-    emailEnabled: requireEmail,
-    preChatMessage,
-  });
-  const customFields = getCustomFields({
-    standardFields,
-    customAttributes,
-  });
   const finalFields = {
-    pre_chat_message: standardFields.pre_chat_message,
-    pre_chat_fields: [...standardFields.pre_chat_fields, ...customFields],
+    pre_chat_message: preChatMessage,
+    pre_chat_fields: preChatFields,
   };
 
   return finalFields;
