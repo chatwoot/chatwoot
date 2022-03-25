@@ -6,6 +6,7 @@ import {
   getUserCookieName,
   hasUserKeys,
 } from '../sdk/cookieHelpers';
+import { addClass, removeClass } from '../sdk/DOMHelpers';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
@@ -32,10 +33,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     },
 
     toggleBubbleVisibility(visibility) {
-      document.querySelector('.woot--bubble-holder').style.display = visibility
-        ? 'block'
-        : 'none';
-      window.$chatwoot.hideMessageBubble = !!visibility;
+      if (visibility === 'hide') {
+        document.querySelector('.woot--bubble-holder').style.display = 'none';
+        window.$chatwoot.hideMessageBubble = true;
+      } else if (visibility === 'show') {
+        document.querySelector('.woot--bubble-holder').style.display = 'block';
+        window.$chatwoot.hideMessageBubble = false;
+      }
     },
 
     setUser(identifier, user) {
