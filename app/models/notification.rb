@@ -108,10 +108,6 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
-  def count
-    user.notifications.count
-  end
-
   private
 
   def process_notification_delivery
@@ -124,6 +120,6 @@ class Notification < ApplicationRecord
   end
 
   def dispatch_create_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self, count: count)
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
   end
 end
