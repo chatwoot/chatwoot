@@ -18,7 +18,7 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @team.destroy
+    @team.destroy!
     head :ok
   end
 
