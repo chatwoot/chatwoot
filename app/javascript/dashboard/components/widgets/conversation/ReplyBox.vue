@@ -204,6 +204,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      doAutoSaveDraft: () => {},
     };
   },
   computed: {
@@ -463,15 +464,13 @@ export default {
     document.addEventListener('paste', this.onPaste);
 
     this.setCCEmailFromLastChat();
+    this.doAutoSaveDraft = debounce(this.saveDraft, 5000);
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
   },
   methods: {
-    doAutoSaveDraft() {
-      debounce(this.saveDraft, 5000, true);
-    },
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
