@@ -6,7 +6,6 @@ import {
   getUserCookieName,
   hasUserKeys,
 } from '../sdk/cookieHelpers';
-import { addClass, removeClass } from '../sdk/DOMHelpers';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
