@@ -459,11 +459,16 @@ export default {
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
 
+    this.draftAutoSaveInterval = setInterval(() => {
+      this.saveDraft();
+    }, 10000);
+
     this.setCCEmailFromLastChat();
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
+    clearInterval(this.draftAutoSaveInterval);
   },
   methods: {
     getSavedDraftMessages() {
@@ -472,12 +477,19 @@ export default {
     saveDraft(conversationId, replyType) {
       if (this.message) {
         const savedDraftMessages = this.getSavedDraftMessages();
-        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
-          ...savedDraftMessages,
-          [`draft-${conversationId}-${replyType}`]: trimMessage(
-            this.message || ''
-          ),
-        });
+        const key = `draft-${conversationId}-${replyType}`;
+        const draftToSave = trimMessage(this.message || '');
+
+        const currentDraft = savedDraftMessages[key];
+
+        if (currentDraft !== draftToSave) {
+          LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
+            ...savedDraftMessages,
+            [key]: draftToSave,
+          });
+
+          this.showAlert(this.$t('CONVERSATION.DRAFT_SAVED'));
+        }
       }
     },
     setToDraft(conversationId, replyType) {
