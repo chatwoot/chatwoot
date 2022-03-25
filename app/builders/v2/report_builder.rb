@@ -34,6 +34,14 @@ class V2::ReportBuilder
     }
   end
 
+  def conversation_metrics
+    if params[:type].equal?(:account)
+      conversations
+    else
+      agent_metrics
+    end
+  end
+
   private
 
   def scope
@@ -120,5 +128,28 @@ class V2::ReportBuilder
     return 0 if avg_frt.blank?
 
     avg_frt
+  end
+
+  def agent_metrics
+    users = @account.users
+    users = users.where(id: params[:user_id]) if params[:user_id].present?
+    users.each_with_object([]) do |u, arr|
+      @user = u
+      arr << {
+        user: { id: u.id, name: u.name, thumbnail: u.avatar_url },
+        metric: conversations
+      }
+    end
+  end
+
+  def conversations
+    @open_conversations = scope.conversations.open
+    first_response_count = scope.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
+    metric = {
+      open: @open_conversations.count,
+      unattended: @open_conversations.count - first_response_count
+    }
+    metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric
   end
 end

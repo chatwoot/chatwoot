@@ -212,6 +212,7 @@ Rails.application.routes.draw do
             get :inboxes
             get :labels
             get :teams
+            get :conversations
           end
         end
       end
