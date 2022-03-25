@@ -3,6 +3,7 @@
     <sidebar
       :route="currentRoute"
       :class="sidebarClassName"
+      @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
@@ -25,6 +26,10 @@
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
+      <notification-panel
+        v-if="isNotificationPanel"
+        @close="closeNotificationPanel"
+      />
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <add-label-modal @close="hideAddLabelPopup" />
       </woot-modal>
@@ -40,6 +45,7 @@ import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShor
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 
 export default {
   components: {
@@ -49,6 +55,7 @@ export default {
     AddAccountModal,
     AccountSelector,
     AddLabelModal,
+    NotificationPanel,
   },
   data() {
     return {
@@ -58,6 +65,7 @@ export default {
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
+      isNotificationPanel: false,
     };
   },
   computed: {
@@ -125,6 +133,12 @@ export default {
     },
     hideAddLabelPopup() {
       this.showAddLabelModal = false;
+    },
+    openNotificationPanel() {
+      this.isNotificationPanel = true;
+    },
+    closeNotificationPanel() {
+      this.isNotificationPanel = false;
     },
   },
 };
