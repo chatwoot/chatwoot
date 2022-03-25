@@ -481,16 +481,10 @@ export default {
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimMessage(this.message || '');
 
-        const currentDraft = savedDraftMessages[key];
-
-        if (currentDraft !== draftToSave) {
-          LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
-            ...savedDraftMessages,
-            [key]: draftToSave,
-          });
-
-          this.showAlert(this.$t('CONVERSATION.DRAFT_SAVED'));
-        }
+        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
+          ...savedDraftMessages,
+          [key]: draftToSave,
+        });
       }
     },
     setToDraft(conversationId, replyType) {
