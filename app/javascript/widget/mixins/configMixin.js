@@ -18,6 +18,7 @@ export default {
     hasAttachmentsEnabled() {
       return this.channelConfig.enabledFeatures.includes('attachments');
     },
+
     preChatFormEnabled() {
       return window.chatwootWebChannel.preChatFormEnabled;
     },
@@ -37,6 +38,13 @@ export default {
         preChatMessage,
         preChatFields,
       };
+    },
+    shouldShowPreChatForm() {
+      const { preChatFields } = this.preChatFormOptions;
+      // Check if at least one enabled filed in pre-chat fields
+      const hasEnabledFields =
+        preChatFields.filter(field => field.enabled).length > 0;
+      return this.preChatFormEnabled && hasEnabledFields;
     },
   },
   methods: {

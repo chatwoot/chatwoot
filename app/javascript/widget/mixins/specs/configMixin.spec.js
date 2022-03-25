@@ -7,6 +7,7 @@ global.chatwootWebChannel = {
   hasAConnectedAgentBot: 'AgentBot',
   enabledFeatures: ['emoji_picker', 'attachments'],
   preChatFormOptions: { require_email: false, pre_chat_message: '' },
+  preChatFormEnabled: true,
 };
 
 global.chatwootWidgetDefaults = {
@@ -55,14 +56,17 @@ describe('configMixin', () => {
         pre_chat_message: '',
         require_email: false,
       },
+      preChatFormEnabled: true,
     });
     expect(wrapper.vm.preChatFormOptions).toEqual({
       requireEmail: false,
       preChatMessage: '',
       preChatFields: preChatFields,
     });
+    expect(wrapper.vm.preChatFormEnabled).toEqual(true);
     expect(wrapper.vm.getDefaultPreChatFields({ requireEmail: false })).toEqual(
       preChatFields
     );
+    expect(wrapper.vm.shouldShowPreChatForm).toEqual(true);
   });
 });
