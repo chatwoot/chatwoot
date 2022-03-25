@@ -79,6 +79,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_destroy :remove_account_sequences
 
   def agents
     users.where(account_users: { role: :agent })
@@ -136,5 +137,10 @@ class Account < ApplicationRecord
 
   def validate_limit_keys
     # method overridden in enterprise module
+  end
+
+  def remove_account_sequences
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
   end
 end
