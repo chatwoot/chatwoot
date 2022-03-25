@@ -78,9 +78,16 @@
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
               ref="hCaptcha"
+              :class="{ error: !hasAValidCaptcha && needAValidCaptcha }"
               :sitekey="globalConfig.hCaptchaSiteKey"
               @verify="onRecaptchaVerified"
             />
+            <span
+              v-if="!hasAValidCaptcha && needAValidCaptcha"
+              class="captcha-error"
+            >
+              {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
+            </span>
           </div>
           <woot-submit-button
             :disabled="isSignupInProgress || !hasAValidCaptcha"
@@ -130,6 +137,7 @@ export default {
         confirmPassword: '',
         hCaptchaClientResponse: '',
       },
+      needAValidCaptcha: false,
       isSignupInProgress: false,
       error: '',
     };
@@ -210,6 +218,7 @@ export default {
     resetCaptcha() {
       this.$refs.hCaptcha.reset();
       this.credentials.hCaptchaClientResponse = '';
+      this.needAValidCaptcha = true;
     },
   },
 };
@@ -261,6 +270,17 @@ export default {
 
   .h-captcha--box {
     margin-bottom: var(--space-one);
+
+    .captcha-error {
+      color: var(--r-400);
+      font-size: var(--font-size-small);
+    }
+
+    &::v-deep .error {
+      iframe {
+        border: 1px solid var(--r-500);
+      }
+    }
   }
 }
 </style>
