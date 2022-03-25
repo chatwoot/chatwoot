@@ -77,6 +77,7 @@
           />
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
+              ref="hCaptcha"
               :sitekey="globalConfig.hCaptchaSiteKey"
               @verify="onRecaptchaVerified"
             />
@@ -183,6 +184,7 @@ export default {
     async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
+        this.$refs.hCaptcha.reset();
         return;
       }
       this.isSignupInProgress = true;
@@ -194,6 +196,7 @@ export default {
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
         if (error.response && error.response.data.message) {
+          this.$refs.hCaptcha.reset();
           errorMessage = error.response.data.message;
         }
         this.showAlert(errorMessage);
