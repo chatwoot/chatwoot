@@ -108,10 +108,6 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
-  def unread_count
-    user.notifications.where(account_id: account_id, read_at: nil).count
-  end
-
   def count
     user.notifications.count
   end
@@ -128,6 +124,6 @@ class Notification < ApplicationRecord
   end
 
   def dispatch_create_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self, unread_count: unread_count, count: count)
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self, count: count)
   end
 end
