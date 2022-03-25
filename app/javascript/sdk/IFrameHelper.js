@@ -31,6 +31,7 @@ import {
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
+import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -194,17 +195,8 @@ export const IFrameHelper = {
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
       const cwCookie = Cookies.get('cw_conversation');
-      let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
-      if (cwCookie) {
-        widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}&locale=${locale}`;
-      }
-      const popoutWindow = window.open(
-        widgetUrl,
-        `webwidget_session_${websiteToken}`,
-        'resizable=off,width=400,height=600'
-      );
       window.$chatwoot.toggle('close');
-      popoutWindow.focus();
+      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
     closeWindow: () => {
