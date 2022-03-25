@@ -12,7 +12,6 @@ describe('debounce', () => {
   });
 
   test('execute just once with immediate false', () => {
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 100; i++) {
       debouncedFunc();
     }
