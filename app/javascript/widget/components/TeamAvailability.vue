@@ -1,7 +1,7 @@
 <template>
   <div class="px-5">
     <div class="flex items-center justify-between mb-4">
-      <div class="text-black-700">
+      <div class="text-black-700 max-w-xs">
         <div class="text-base leading-5 font-medium mb-1">
           {{
             isOnline
