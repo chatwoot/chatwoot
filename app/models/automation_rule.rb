@@ -37,7 +37,7 @@ class AutomationRule < ApplicationRecord
 
     attributes = conditions.map { |obj, _| obj['attribute_key'] }
     conditions = attributes - CONDITIONS_ATTRS
-    conditions = conditions - account.custom_attribute_definitions.pluck(:attribute_key)
+    conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 

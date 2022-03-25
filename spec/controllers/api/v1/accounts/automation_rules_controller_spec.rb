@@ -87,17 +87,17 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       it 'throws an error for unknown attributes in condtions' do
         expect(account.automation_rules.count).to eq(0)
         params[:conditions] << {
-                                 attribute_key: 'unknown_attribute',
-                                 filter_operator: 'equal_to',
-                                 values: ['en'],
-                                 query_operator: 'AND'
-                               }
+          attribute_key: 'unknown_attribute',
+          filter_operator: 'equal_to',
+          values: ['en'],
+          query_operator: 'AND'
+        }
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
              headers: administrator.create_new_auth_token,
              params: params
 
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(account.automation_rules.count).to eq(0)
       end
 
