@@ -12,7 +12,7 @@ describe('debounce', () => {
   });
 
   test('execute just once with immediate false', () => {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i+=1) {
       debouncedFunc();
     }
 
