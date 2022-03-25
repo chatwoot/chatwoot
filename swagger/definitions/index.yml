@@ -12,6 +12,8 @@ request_error:
 
 generic_id:
   $ref: ./resource/extension/generic.yml
+canned_response:
+  $ref: ./resource/canned_response.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
