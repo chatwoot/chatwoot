@@ -19,7 +19,7 @@ class V2::ReportBuilder
   # For backward compatible with old report
   def build
     timeseries.each_with_object([]) do |p, arr|
-      arr << { value: p[1], timestamp: p[0].to_time.to_i }
+      arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i }
     end
   end
 
