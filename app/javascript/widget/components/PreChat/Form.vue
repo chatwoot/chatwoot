@@ -111,14 +111,11 @@ export default {
     },
     conversationCustomAttributes() {
       let conversationAttributes = {};
-      this.preChatFields.forEach(field => {
-        if (
-          field.name in this.formValues &&
-          field.field_type === 'conversation_attribute'
-        ) {
+      this.enabledPreChatFields.forEach(field => {
+        if (field.field_type === 'conversation_attribute') {
           conversationAttributes = {
             ...conversationAttributes,
-            [field.name]: this.formValues[field.name],
+            [field.name]: this.formValues[field.name] || this.getValue(field),
           };
         }
       });
@@ -126,14 +123,11 @@ export default {
     },
     contactCustomAttributes() {
       let contactAttributes = {};
-      this.preChatFields.forEach(field => {
-        if (
-          field.name in this.formValues &&
-          field.field_type === 'contact_attribute'
-        ) {
+      this.enabledPreChatFields.forEach(field => {
+        if (field.field_type === 'contact_attribute') {
           contactAttributes = {
             ...contactAttributes,
-            [field.name]: this.formValues[field.name],
+            [field.name]: this.getValue(field),
           };
         }
       });
@@ -154,6 +148,14 @@ export default {
         return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
       return placeholder;
     },
+    getValue({ name, type }) {
+      if (type === 'select') {
+        return this.enabledPreChatFields.find(option => option.name === name)
+          .values[this.formValues[name]];
+      }
+      return this.formValues[name] || null;
+    },
+
     getRequiredErrorMessage(fieldName) {
       if (this.labels[fieldName])
         return this.$t(
@@ -187,10 +189,6 @@ export default {
       if (type === 'link') {
         return 'url';
       }
-      if (type === 'checkbox') {
-        return 'radio';
-      }
-
       if (type === 'list') {
         return 'select';
       }
@@ -198,12 +196,6 @@ export default {
       return type;
     },
     getOptions(item) {
-      if (item.type === 'radio') {
-        return {
-          True: 'True',
-          False: 'False',
-        };
-      }
       if (item.type === 'select') {
         let values = {};
         item.values.forEach((value, index) => {
