@@ -1,7 +1,10 @@
 <template>
   <div class="px-5">
     <div class="flex items-center justify-between mb-4">
-      <div :class="$dm('text-black-700', 'dark:text-slate-50')">
+      <div
+        class="max-w-xs"
+        :class="$dm('text-black-700', 'dark:text-slate-50')"
+      >
         <div class="text-base leading-5 font-medium mb-1">
           {{
             isOnline
