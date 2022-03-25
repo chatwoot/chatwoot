@@ -35,7 +35,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       document.querySelector('.woot--bubble-holder').style.display = visibility
         ? 'block'
         : 'none';
-      window.$chatwoot.hideMessageBubble = visibility;
+      window.$chatwoot.hideMessageBubble = !!visibility;
     },
 
     setUser(identifier, user) {
