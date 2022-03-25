@@ -188,9 +188,9 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
-  def notifications_meta(account)
+  def notifications_meta
     {
-      unread_count: notifications.where(account_id: account.id, read_at: nil).count,
+      unread_count: notifications.where(read_at: nil).count,
       count: notifications.count
     }
   end
