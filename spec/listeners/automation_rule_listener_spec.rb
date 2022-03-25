@@ -40,7 +40,7 @@ describe AutomationRuleListener do
                                         { 'action_name' => 'send_attachments' }
                                       ])
     file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-    automation_rule.file = file
+    automation_rule.files.attach(file)
     automation_rule.save
   end
 

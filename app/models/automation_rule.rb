@@ -19,7 +19,7 @@
 #
 class AutomationRule < ApplicationRecord
   belongs_to :account
-  has_one_attached :file
+  has_many_attached :files
 
   validate :json_conditions_format
   validate :json_actions_format
@@ -27,7 +27,7 @@ class AutomationRule < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[country_code status message_type browser_language assignee_id team_id referer is_priority_customer company].freeze
+  CONDITIONS_ATTRS = %w[country_code status message_type browser_language assignee_id team_id referer city].freeze
   ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents send_attachments].freeze
 
   private
@@ -37,7 +37,7 @@ class AutomationRule < ApplicationRecord
 
     attributes = conditions.map { |obj, _| obj['attribute_key'] }
     conditions = attributes - CONDITIONS_ATTRS
-
+    conditions = conditions - account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 

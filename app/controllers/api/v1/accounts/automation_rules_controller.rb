@@ -8,6 +8,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def create
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
+    @automation_rule.actions = params[:actions]
 
     render json: { error: @automation_rule.errors.messages }, status: :unprocessable_entity and return unless @automation_rule.valid?
 
@@ -42,8 +43,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     return if params[:attachments].blank?
 
     params[:attachments].each do |uploaded_attachment|
-      @automation_rule.file = uploaded_attachment
-      @automation_rule.save
+      @automation_rule.files.attach(uploaded_attachment)
     end
   end
 
