@@ -66,6 +66,9 @@ agent_bot_create_update_payload:
 user_create_update_payload:
   $ref: ./request/user/create_update_payload.yml
 
+canned_response_create_update_payload:
+  $ref: ./request/canned_response/create_update_payload.yml
+
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml
