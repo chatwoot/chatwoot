@@ -137,6 +137,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { debounce } from 'shared/helpers/TimeHelpers';
 
 import {
   isEscape,
@@ -445,6 +446,8 @@ export default {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
+
+      this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
       this.setToDraft(this.conversationId, oldReplyType);
@@ -459,18 +462,16 @@ export default {
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
 
-    this.draftAutoSaveInterval = setInterval(() => {
-      this.saveDraft();
-    }, 10000);
-
     this.setCCEmailFromLastChat();
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
-    clearInterval(this.draftAutoSaveInterval);
   },
   methods: {
+    doAutoSaveDraft() {
+      debounce(this.saveDraft, 5000, true);
+    },
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
