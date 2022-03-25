@@ -184,7 +184,7 @@ export default {
     async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.$refs.hCaptcha.reset();
+        this.resetCaptcha();
         return;
       }
       this.isSignupInProgress = true;
@@ -196,7 +196,7 @@ export default {
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
         if (error.response && error.response.data.message) {
-          this.$refs.hCaptcha.reset();
+          this.resetCaptcha();
           errorMessage = error.response.data.message;
         }
         this.showAlert(errorMessage);
@@ -206,6 +206,10 @@ export default {
     },
     onRecaptchaVerified(token) {
       this.credentials.hCaptchaClientResponse = token;
+    },
+    resetCaptcha() {
+      this.$refs.hCaptcha.reset();
+      this.credentials.hCaptchaClientResponse = '';
     },
   },
 };
