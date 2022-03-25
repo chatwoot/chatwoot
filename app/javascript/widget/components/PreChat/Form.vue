@@ -99,7 +99,7 @@ export default {
       return this.options.preChatMessage;
     },
     preChatFields() {
-      return this.options.preChatFields || [];
+      return this.disableContactFields ? [] : this.options.preChatFields;
     },
     enabledPreChatFields() {
       return this.preChatFields
@@ -141,32 +141,8 @@ export default {
     },
   },
   methods: {
-    isContactFieldVisible(field, item) {
-      const itemExists = this.preChatFields.find(
-        option => option.name === field
-      );
-      return (
-        itemExists &&
-        item.name === field &&
-        this.preChatFields.find(option => option.name === field).enabled &&
-        !this.disableContactFields
-      );
-    },
     isContactFieldRequired(field) {
-      const itemExists = this.preChatFields.find(
-        option => option.name === field
-      );
-      return (
-        itemExists &&
-        this.preChatFields.find(option => option.name === field).required &&
-        !this.disableContactFields
-      );
-    },
-    isValidationEnabled(field) {
-      return (
-        this.isContactFieldRequired(field) &&
-        this.isContactFieldVisible(field, { name: field })
-      );
+      return this.preChatFields.find(option => option.name === field).required;
     },
     getLabel({ name, label }) {
       if (this.labels[name])
@@ -186,7 +162,7 @@ export default {
       return `${fieldName} is required`;
     },
     getValidation({ type, name }) {
-      if (!this.isValidationEnabled(name)) {
+      if (!this.isContactFieldRequired(name)) {
         return '';
       }
       if (name === 'emailAddress') {
