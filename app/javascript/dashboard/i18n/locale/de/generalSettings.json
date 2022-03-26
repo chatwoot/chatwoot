@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Push-Benachrichtigungen",
     "MARK_ALL_DONE": "Alle als Erledigt markieren",
+    "DELETE_TITLE": "Gelöscht",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ungelesene Benachrichtigungen",
+      "ALL_NOTIFICATIONS": "Alle Benachrichtigungen anzeigen",
+      "LOADING_UNREAD_MESSAGE": "Ungelesene Benachrichtigungen werden geladen...",
+      "EMPTY_MESSAGE": "Sie haben keine ungelesenen Benachrichtigungen"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
       "404": "Keine Benachrichtigungen",
