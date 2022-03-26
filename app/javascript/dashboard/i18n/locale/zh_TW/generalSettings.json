@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "通知",
     "MARK_ALL_DONE": "全部標記完成",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "載入更多通知...",
       "404": "沒有通知",
