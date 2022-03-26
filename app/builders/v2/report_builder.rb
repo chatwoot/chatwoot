@@ -133,10 +133,10 @@ class V2::ReportBuilder
   def agent_metrics
     users = @account.users
     users = users.where(id: params[:user_id]) if params[:user_id].present?
-    users.each_with_object([]) do |u, arr|
-      @user = u
+    users.each_with_object([]) do |user, arr|
+      @user = user
       arr << {
-        user: { id: u.id, name: u.name, thumbnail: u.avatar_url },
+        user: { id: user.id, name: user.name, thumbnail: user.avatar_url },
         metric: conversations
       }
     end

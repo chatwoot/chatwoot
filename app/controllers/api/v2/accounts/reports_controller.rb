@@ -36,6 +36,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversations
+    return head :unprocessable_entity if params[:type].blank?
+
     render json: conversation_metrics
   end
 
