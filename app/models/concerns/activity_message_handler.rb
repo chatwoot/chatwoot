@@ -19,6 +19,7 @@ module ActivityMessageHandler
 
   def create_status_change_message(user_name)
     return send_automation_activity if Current.executed_by.present?
+
     content = if user_name
                 I18n.t("conversations.activity.status.#{status}", user_name: user_name)
               elsif Current.contact.present? && resolved?
