@@ -57,11 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
+      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط"
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "CLICK_HERE": "انقر هنا للتحديث"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
+      "TIP_AUDIORECORDER_ICON": "تسجيل الصوت",
+      "TIP_AUDIORECORDER_PERMISSION": "السماح بالوصول إلى الصوت",
+      "TIP_AUDIORECORDER_ERROR": "تعذر فتح الصوت",
       "ENTER_TO_SEND": "زر الإدخل للإرسال",
       "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "START_AUDIO_RECORDING": "بدء التسجيل الصوتي",
+      "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "إضافة bcc",
         "CC": {

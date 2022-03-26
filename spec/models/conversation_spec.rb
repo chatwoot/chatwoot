@@ -58,6 +58,37 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '.validate jsonb attributes' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        assignee: nil
+      )
+    end
+
+    it 'validate length of additional_attributes value' do
+      conversation.additional_attributes = { company_name: 'some_company' * 200, contact_number: 19_999_999_999 }
+      conversation.valid?
+      error_messages = conversation.errors.messages
+      expect(error_messages[:additional_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:additional_attributes][1]).to eq('contact_number value should be < 9999999999')
+    end
+
+    it 'validate length of custom_attributes value' do
+      conversation.custom_attributes = { company_name: 'some_company' * 200, contact_number: 19_999_999_999 }
+      conversation.valid?
+      error_messages = conversation.errors.messages
+      expect(error_messages[:custom_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:custom_attributes][1]).to eq('contact_number value should be < 9999999999')
+    end
+  end
+
   describe '.after_update' do
     let!(:account) { create(:account) }
     let!(:old_assignee) do
@@ -482,7 +513,7 @@ RSpec.describe Conversation, type: :model do
     let!(:notification) { create(:notification, notification_type: 'conversation_creation', primary_actor: conversation) }
 
     it 'delete associated notifications if conversation is deleted' do
-      conversation.destroy
+      conversation.destroy!
       expect { notification.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end

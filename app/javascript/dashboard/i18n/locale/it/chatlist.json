@@ -7,7 +7,7 @@
       "404": "Non ci sono conversazioni attive in questo gruppo."
     },
     "TAB_HEADING": "Conversazioni",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Menzioni",
     "SEARCH": {
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
@@ -76,7 +76,8 @@
     "RECEIVED_VIA_EMAIL": "Ricevuto via email",
     "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
     "REPLY_TO_TWEET": "Rispondi a questo tweet",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Vai alla storia di instagram",
+    "SENT": "Inviato correttamente",
     "NO_MESSAGES": "Nessun messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",
