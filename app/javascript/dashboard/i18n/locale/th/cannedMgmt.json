@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "หรัสสั้นๆ",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "กรุณากรอกคำย่อ",
           "ERROR": "จำเป็นต้องระบุหรัสสั่น"
         },
         "CONTENT": {
