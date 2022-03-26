@@ -18,6 +18,7 @@ module ActivityMessageHandler
   end
 
   def create_status_change_message(user_name)
+    return send_automation_activity if Current.executed_by.present?
     content = if user_name
                 I18n.t("conversations.activity.status.#{status}", user_name: user_name)
               elsif Current.contact.present? && resolved?
@@ -27,6 +28,10 @@ module ActivityMessageHandler
               end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def send_automation_activity
+    I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
   end
 
   def create_label_added(user_name, labels = [])

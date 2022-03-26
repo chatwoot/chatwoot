@@ -21,21 +21,27 @@ class AutomationRules::ActionService
 
   private
 
-  def send_email_transcript(email)
-    ConversationReplyMailer.with(account: conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+  def send_email_transcript(emails)
+    emails.each do |email|
+      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+    end
   end
 
   def mute_conversation(_params)
     @conversation.mute!
   end
 
+  def snooze_conversation(_params)
+    @conversation.ensure_snooze_until_reset
+  end
+
   def change_status(status)
     @conversation.update!(status: status[0])
   end
 
-  def send_webhook_events(webhook_url)
+  def send_webhook_event(webhook_url)
     payload = @conversation.webhook_data.merge(event: "automation_event: #{@rule.event_name}")
-    WebhookJob.perform_later(webhook_url, payload)
+    WebhookJob.perform_later(webhook_url[0], payload)
   end
 
   def send_message(message)
