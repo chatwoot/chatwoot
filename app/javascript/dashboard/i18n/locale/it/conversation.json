@@ -196,7 +196,7 @@
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "A",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
