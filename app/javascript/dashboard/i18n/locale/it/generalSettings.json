@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifiche",
     "MARK_ALL_DONE": "Contrassegna tutto come fatto",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Caricamento notifiche...",
       "404": "Nessuna notifica",
@@ -89,7 +96,7 @@
     "SEARCH_PLACEHOLDER": "Cerca o salta a",
     "SECTIONS": {
       "GENERAL": "Generale",
-      "REPORTS": "Segnalazioni",
+      "REPORTS": "Rapporti",
       "CONVERSATION": "Conversazioni",
       "CHANGE_ASSIGNEE": "Cambia assegnatario",
       "CHANGE_TEAM": "Cambia Team",
