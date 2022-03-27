@@ -154,6 +154,21 @@
   delete:
     $ref: ./application/agents/delete.yml
 
+# Agents
+/api/v1/accounts/{account_id}/canned_responses:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/canned_responses/index.yml
+  post:
+    $ref: ./application/canned_responses/create.yml
+/api/v1/accounts/{account_id}/canned_responses/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/canned_responses/update.yml
+  delete:
+    $ref: ./application/canned_responses/delete.yml
 
 # Contacts
 /api/v1/accounts/{account_id}/contacts:

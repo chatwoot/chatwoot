@@ -50,3 +50,6 @@ exclude_patterns:
   - 'app/javascript/dashboard/routes/dashboard/settings/automation/constants.js'
   - 'app/javascript/dashboard/components/widgets/FilterInput/FilterOperatorTypes.js'
   - 'app/javascript/dashboard/routes/dashboard/settings/reports/constants.js'
+  - 'app/javascript/dashboard/i18n/index.js'
+  - 'app/javascript/widget/i18n/index.js'
+  - 'app/javascript/survey/i18n/index.js'

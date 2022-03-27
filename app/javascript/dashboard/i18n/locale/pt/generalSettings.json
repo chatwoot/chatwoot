@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Saiba mais"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -79,7 +79,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Desconectado do Chatwoot"
     },
     "BUTTON": {
       "REFRESH": "Atualizar"
@@ -116,17 +116,17 @@
       "GO_TO_NOTIFICATIONS": "Ir para Notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
-      "ASSIGN_A_TEAM": "Assign a team",
+      "ASSIGN_A_TEAM": "Atribuir uma equipa",
       "MUTE_CONVERSATION": "Silenciar Conversa",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "UNMUTE_CONVERSATION": "Reativar conversa",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
+      "REOPEN_CONVERSATION": "Reabrir conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_NEXT_REPLY": "Até à próxima resposta",
+      "UNTIL_NEXT_WEEK": "Até à próxima semana",
+      "UNTIL_TOMORROW": "Até amanhã"
     }
   }
 }

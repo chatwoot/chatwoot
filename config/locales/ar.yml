@@ -56,7 +56,7 @@ ar:
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "تم حل المحادثة بواسطة %{contact_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
