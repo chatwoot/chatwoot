@@ -15,8 +15,8 @@ export default {
           chat.private !== true
       ).length;
     },
-    userReadMessage(m, contact_last_seen) {
-      return contact_last_seen - m.created_at > 0;
+    userReadMessage(created_at, contact_last_seen) {
+      return !(contact_last_seen - created_at < 0);
     },
     readMessages(m) {
       return m.messages.filter(

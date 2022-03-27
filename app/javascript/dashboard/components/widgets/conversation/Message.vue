@@ -60,6 +60,7 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
+          :message-read="showReadTicks"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -267,6 +268,9 @@ export default {
     },
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
+    },
+    showReadTicks() {
+      return this.isOutgoing && this.userReadMessage;
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
