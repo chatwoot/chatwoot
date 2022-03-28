@@ -48,7 +48,6 @@ export const shouldPlayAudio = (
   isDocHidden
 ) => {
   if (!isDocHidden) {
-    showBadgeOnFavicon();
     return false;
   }
   const {
