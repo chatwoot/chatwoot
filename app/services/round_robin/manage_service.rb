@@ -34,8 +34,8 @@ class RoundRobin::ManageService
   private
 
   def fetch_user_id
-    if allowed_member_ids.present?
-      user_id = queue.intersection(allowed_member_ids.map(&:to_s)).pop
+    if allowed_member_ids_in_str.present?
+      user_id = queue.intersection(allowed_member_ids_in_str).pop
       pop_push_to_queue(user_id)
       user_id
     else
@@ -46,11 +46,9 @@ class RoundRobin::ManageService
   # priority list is usually the members who are online passed from assignmebt service
   def get_member_via_priority_list(priority_list)
     return if priority_list.blank?
-
     # when allowed member ids is passed we will be looking to get members from that list alone
-    priority_list = priority_list.intersection(allowed_member_ids) if allowed_member_ids.present?
+    priority_list = priority_list.intersection(allowed_member_ids_in_str) if allowed_member_ids_in_str.present?
     return if priority_list.blank?
-
     user_id = queue.intersection(priority_list.map(&:to_s)).pop
     pop_push_to_queue(user_id)
     user_id
@@ -73,5 +71,9 @@ class RoundRobin::ManageService
 
   def round_robin_key
     format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: inbox.id)
+  end
+
+  def allowed_member_ids_in_str
+    allowed_member_ids.map(&:to_s)
   end
 end
