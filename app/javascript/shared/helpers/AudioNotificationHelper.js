@@ -47,7 +47,8 @@ export const shouldPlayAudio = (
   userId,
   isDocHidden
 ) => {
-  if (!isDocHidden) {
+  if (!isDocHidden && message.message_type === MESSAGE_TYPE.INCOMING) {
+    showBadgeOnFavicon();
     return false;
   }
   const {
