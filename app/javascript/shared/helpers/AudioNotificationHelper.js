@@ -47,16 +47,16 @@ export const shouldPlayAudio = (
   userId,
   isDocHidden
 ) => {
-  if (!isDocHidden && message.message_type === MESSAGE_TYPE.INCOMING) {
-    showBadgeOnFavicon();
-    return false;
-  }
   const {
     conversation_id: incomingConvId,
     sender_id: senderId,
     message_type: messageType,
     private: isPrivate,
   } = message;
+  if (!isDocHidden && messageType === MESSAGE_TYPE.INCOMING) {
+    showBadgeOnFavicon();
+    return false;
+  }
   const isFromCurrentUser = userId === senderId;
 
   const playAudio =
