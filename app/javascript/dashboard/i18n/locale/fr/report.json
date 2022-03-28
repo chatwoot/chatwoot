@@ -18,12 +18,14 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -130,12 +132,14 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -193,12 +197,14 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -256,12 +262,14 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -319,12 +327,14 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
