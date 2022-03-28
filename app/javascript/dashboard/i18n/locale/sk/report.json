@@ -18,12 +18,14 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -130,12 +132,14 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -193,12 +197,14 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -256,12 +262,14 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -319,12 +327,14 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
