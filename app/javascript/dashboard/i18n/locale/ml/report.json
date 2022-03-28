@@ -18,12 +18,14 @@
         "DESC": "( ആകെ )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -130,12 +132,14 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -193,12 +197,14 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -256,12 +262,14 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -319,12 +327,14 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
