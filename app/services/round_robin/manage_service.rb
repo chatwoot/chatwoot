@@ -76,6 +76,7 @@ class RoundRobin::ManageService
   end
 
   def allowed_member_ids_in_str
-    allowed_member_ids.map(&:to_s)
+    # note: the values which are returned from redis for priority list are string
+    @allowed_member_ids_in_str ||= allowed_member_ids.map(&:to_s)
   end
 end
