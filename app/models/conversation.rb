@@ -188,7 +188,6 @@ class Conversation < ApplicationRecord
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
                                                                                 custom_attributes]).present?
 
-    binding.pry
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
@@ -212,10 +211,11 @@ class Conversation < ApplicationRecord
     end
   end
 
-  def dispatcher_dispatch(event_name, previous_changes=nil)
+  def dispatcher_dispatch(event_name, changed_attributes = nil)
     return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
 
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?, previous_changes: previous_changes)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
+                                                                       changed_attributes: changed_attributes)
   end
 
   def conversation_status_changed_to_open?
