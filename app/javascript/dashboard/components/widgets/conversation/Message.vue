@@ -154,7 +154,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    userReadMessage: {
+    hasUserReadMessage: {
       type: Boolean,
       default: false,
     },

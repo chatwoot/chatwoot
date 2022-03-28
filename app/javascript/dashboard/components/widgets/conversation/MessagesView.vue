@@ -48,8 +48,11 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
-        :user-read-message="
-          userReadMessage(message.created_at, currentChat.contact_last_seen_at)
+        :has-user-read-message="
+          hasUserReadMessage(
+            message.created_at,
+            currentChat.contact_last_seen_at
+          )
         "
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
@@ -69,8 +72,11 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
-        :user-read-message="
-          userReadMessage(message.created_at, currentChat.contact_last_seen_at)
+        :has-user-read-message="
+          hasUserReadMessage(
+            message.created_at,
+            currentChat.contact_last_seen_at
+          )
         "
       />
     </ul>
