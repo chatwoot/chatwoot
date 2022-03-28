@@ -72,7 +72,10 @@
   },
   "DELETE_NOTE": {
     "CONFIRM":{
-      "MESSAGE": "Are you want sure to delete this note?"
+      "TITLE": "Confirm Deletion",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, Keep it"
     }
   },
   "DELETE_CONTACT": {

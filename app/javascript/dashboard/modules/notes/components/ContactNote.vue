@@ -16,26 +16,26 @@
       </div>
       <div class="actions">
         <woot-button
-            v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
-            variant="smooth"
-            size="tiny"
-            icon="delete"
-            color-scheme="secondary"
-            @click="toggleDeleteModal"
-        />
-        <woot-delete-modal
-            v-if="showDeleteModal"
-            :show.sync="showDeleteModal"
-            :on-close="closeDelete"
-            :on-confirm="confirmDeletion"
-            :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
-            :message="$t('DELETE_NOTE.CONFIRM.MESSAGE')"
-            :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
-            :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
+          v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
+          variant="smooth"
+          size="tiny"
+          icon="delete"
+          color-scheme="secondary"
+          @click="toggleDeleteModal"
         />
       </div>
+      <woot-delete-modal
+        v-if="showDeleteModal"
+        :show.sync="showDeleteModal"
+        :on-close="closeDelete"
+        :on-confirm="confirmDeletion"
+        :title="$t('DELETE_NOTE.CONFIRM.TITLE')"
+        :message="$t('DELETE_NOTE.CONFIRM.MESSAGE')"
+        :confirm-text="$t('DELETE_NOTE.CONFIRM.YES')"
+        :reject-text="$t('DELETE_NOTE.CONFIRM.NO')"
+      />
     </div>
-    <p class="note__content" v-html="formatMessage(note || '')"/>
+    <p class="note__content" v-html="formatMessage(note || '')" />
   </div>
 </template>
 
@@ -62,8 +62,7 @@ export default {
     },
     user: {
       type: Object,
-      default: () => {
-      },
+      default: () => {},
     },
     createdAt: {
       type: Number,
@@ -100,7 +99,7 @@ export default {
     },
     closeDelete() {
       this.showDeleteModal = false;
-    }
+    },
   },
 };
 </script>
