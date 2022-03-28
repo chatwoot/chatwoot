@@ -8,6 +8,6 @@ class ContactAvatarJob < ApplicationJob
     )
     contact.avatar.attach(io: avatar_file, filename: avatar_file.original_filename, content_type: avatar_file.content_type)
   rescue Down::Error => e
-    Rails.logger.info "Exception: invalid avatar url #{avatar_url} : #{e.message}"
+    Rails.logger.error "Exception: invalid avatar url #{avatar_url} : #{e.message}"
   end
 end
