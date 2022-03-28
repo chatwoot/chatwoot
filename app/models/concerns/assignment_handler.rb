@@ -12,18 +12,19 @@ module AssignmentHandler
   def ensure_assignee_is_from_team
     return unless team_id_changed?
 
-    ensure_current_assignee_team
-    self.assignee_id ||= find_team_assignee_id_for_inbox if team&.allow_auto_assign.present?
+    validate_current_assignee_team
+    self.assignee ||= find_assignee_from_team
   end
 
-  def ensure_current_assignee_team
+  def validate_current_assignee_team
     self.assignee_id = nil if team&.members&.exclude?(assignee)
   end
 
-  def find_team_assignee_id_for_inbox
-    members = inbox.members.ids & team.members.ids
-    # TODO: User round robin to determine the next agent instead of using sample
-    members.sample
+  def find_assignee_from_team
+    return if team&.allow_auto_assign.blank?
+
+    team_members = inbox.members.ids & team.members.ids
+    ::RoundRobin::AssignmentService.new(conversation: self, allowed_member_ids: team_members).find_assignee
   end
 
   def notify_assignment_change
