@@ -21,8 +21,8 @@ class BaseListener
     [contact, contact.account]
   end
 
-  def extract_previous_changes(event)
-    previous_changes = event.data[:previous_changes]
-    [previous_changes]
+  def extract_changed_attributes(event)
+    changed_attributes = event.data[:changed_attributes]
+    [changed_attributes]
   end
 end
