@@ -40,7 +40,7 @@
 #  fk_rails_...  (contact_inbox_id => contact_inboxes.id) ON DELETE => cascade
 #  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
 #
-
+require 'uri'
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
@@ -52,6 +52,7 @@ class Conversation < ApplicationRecord
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
@@ -239,6 +240,21 @@ class Conversation < ApplicationRecord
 
   def mute_period
     6.hours
+  end
+
+  def validate_referer_url
+    return unless additional_attributes['referer']
+
+    errors.add(:referer_url, 'invalid') unless url_valid?(additional_attributes['referer'])
+  end
+
+  def url_valid?(url)
+    url = begin
+      URI.parse(url)
+    rescue StandardError
+      false
+    end
+    url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)
   end
 
   # creating db triggers
