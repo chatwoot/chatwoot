@@ -3,7 +3,7 @@ import { IFrameHelper } from 'widget/helpers/utils';
 
 import { showBadgeOnFavicon } from './faviconHelper';
 
-export const initOnEvents = ['click', 'touchstart', 'keypress'];
+export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
 export const getAlertAudio = async (baseUrl = '') => {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const playsound = audioBuffer => {
@@ -47,6 +47,10 @@ export const shouldPlayAudio = (
   userId,
   isDocHidden
 ) => {
+  if (!isDocHidden) {
+    showBadgeOnFavicon();
+    return false;
+  }
   const {
     conversation_id: incomingConvId,
     sender_id: senderId,
