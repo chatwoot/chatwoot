@@ -270,7 +270,7 @@ export default {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
     },
     showReadTicks() {
-      return this.isOutgoing && this.userReadMessage;
+      return this.isOutgoing && this.hasUserReadMessage;
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
