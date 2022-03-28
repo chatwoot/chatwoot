@@ -18,12 +18,14 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -130,12 +132,14 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -193,12 +197,14 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -256,12 +262,14 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -319,12 +327,14 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
