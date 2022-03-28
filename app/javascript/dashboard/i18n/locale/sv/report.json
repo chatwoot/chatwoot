@@ -18,12 +18,14 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -130,12 +132,14 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -193,12 +197,14 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -256,12 +262,14 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -319,12 +327,14 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
