@@ -54,7 +54,8 @@ RSpec.describe Conversation, type: :model do
     it 'runs after_create callbacks' do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false, changed_attributes: nil)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: nil)
     end
   end
 
