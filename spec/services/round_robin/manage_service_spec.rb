@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RoundRobin::ManageService do
-  subject(:round_robin_manage_service) { ::RoundRobin::ManageService.new(inbox: inbox) }
+  subject(:round_robin_manage_service) { described_class.new(inbox: inbox) }
 
   let!(:account) { create(:account) }
   let!(:inbox) { create(:inbox, account: account) }
@@ -18,8 +18,9 @@ describe RoundRobin::ManageService do
     it 'gets intersection of priority list and agent queue. get and move agent to the end of the list' do
       expected_queue = [inbox_members[2].user_id, inbox_members[4].user_id, inbox_members[3].user_id, inbox_members[1].user_id,
                         inbox_members[0].user_id].map(&:to_s)
-      expect(round_robin_manage_service.available_agent(priority_list: [inbox_members[3].user_id,
-                                                                        inbox_members[2].user_id])).to eq inbox_members[2].user
+      # prority list will be ids in string, since thats what redis supplies to us
+      expect(round_robin_manage_service.available_agent(priority_list: [inbox_members[3].user_id.to_s,
+                                                                        inbox_members[2].user_id.to_s])).to eq inbox_members[2].user
       expect(round_robin_manage_service.send(:queue)).to eq(expected_queue)
     end
 
@@ -38,6 +39,33 @@ describe RoundRobin::ManageService do
       round_robin_manage_service.available_agent
       # the service have refreshed the redis queue before performing
       expect(round_robin_manage_service.send(:queue).sort.map(&:to_i)).to eq(inbox_members.map(&:user_id).sort)
+    end
+
+    context 'when allowed_member_ids is passed' do
+      it 'will get the first allowed member and move it to the end of the queue' do
+        expected_queue = [inbox_members[3].user_id, inbox_members[2].user_id, inbox_members[4].user_id, inbox_members[1].user_id,
+                          inbox_members[0].user_id].map(&:to_s)
+        expect(described_class.new(inbox: inbox,
+                                   allowed_member_ids: [inbox_members[3].user_id,
+                                                        inbox_members[2].user_id]).available_agent).to eq inbox_members[2].user
+        expect(described_class.new(inbox: inbox,
+                                   allowed_member_ids: [inbox_members[3].user_id,
+                                                        inbox_members[2].user_id]).available_agent).to eq inbox_members[3].user
+        expect(round_robin_manage_service.send(:queue)).to eq(expected_queue)
+      end
+
+      it 'will get union of priority list and allowed_member_ids and move it to the end of the queue' do
+        expected_queue = [inbox_members[3].user_id, inbox_members[4].user_id, inbox_members[2].user_id, inbox_members[1].user_id,
+                          inbox_members[0].user_id].map(&:to_s)
+        # prority list will be ids in string, since thats what redis supplies to us
+        expect(described_class.new(inbox: inbox,
+                                   allowed_member_ids: [inbox_members[3].user_id,
+                                                        inbox_members[2].user_id])
+                                    .available_agent(
+                                      priority_list: [inbox_members[3].user_id.to_s]
+                                    )).to eq inbox_members[3].user
+        expect(round_robin_manage_service.send(:queue)).to eq(expected_queue)
+      end
     end
   end
 end
