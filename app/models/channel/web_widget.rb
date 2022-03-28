@@ -86,7 +86,7 @@ class Channel::WebWidget < ApplicationRecord
       )
       contact_inbox
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
     end
   end
 end
