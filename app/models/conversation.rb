@@ -40,12 +40,13 @@
 #  fk_rails_...  (contact_inbox_id => contact_inboxes.id) ON DELETE => cascade
 #  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
 #
-require 'uri'
+
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
   include RoundRobinHandler
   include ActivityMessageHandler
+  include UrlHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -246,15 +247,6 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     errors.add(:referer_url, 'invalid') unless url_valid?(additional_attributes['referer'])
-  end
-
-  def url_valid?(url)
-    url = begin
-      URI.parse(url)
-    rescue StandardError
-      false
-    end
-    url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)
   end
 
   # creating db triggers
