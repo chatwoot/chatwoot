@@ -27,7 +27,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     end
     ensure_contact_avatar
   rescue Koala::Facebook::AuthenticationError
-    Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
+    Rails.logger.error "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
     Sentry.capture_exception(e)
     true
