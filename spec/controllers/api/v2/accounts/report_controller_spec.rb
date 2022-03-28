@@ -7,6 +7,9 @@ RSpec.describe 'Reports API', type: :request do
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
+  let(:default_timezone) { ActiveSupport::TimeZone[0]&.name }
+  let(:date_timestamp) { Time.current.in_time_zone(default_timezone).beginning_of_day.to_i }
+  let(:params) { { timezone_offset: Time.zone.utc_offset } }
 
   before do
     create_list(:conversation, 10, account: account, inbox: inbox,
@@ -23,12 +26,14 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        metric: 'conversations_count',
-        type: :account,
-        since: Time.zone.today.to_time.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          metric: 'conversations_count',
+          type: :account,
+          since: date_timestamp.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for agents' do
         get "/api/v2/accounts/#{account.id}/reports",
@@ -48,7 +53,7 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        current_day_metric = json_response.select { |x| x['timestamp'] == Time.zone.today.to_time.to_i }
+        current_day_metric = json_response.select { |x| x['timestamp'] == date_timestamp }
         expect(current_day_metric.length).to eq(1)
         expect(current_day_metric[0]['value']).to eq(10)
       end
@@ -127,11 +132,13 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        type: :account,
-        since: Time.zone.today.to_time.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          type: :account,
+          since: date_timestamp.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for agents' do
         get "/api/v2/accounts/#{account.id}/reports/summary",
@@ -166,10 +173,12 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        since: 30.days.ago.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          since: 30.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for agents' do
         get "/api/v2/accounts/#{account.id}/reports/agents.csv",
@@ -199,10 +208,12 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        since: 30.days.ago.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          since: 30.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for inboxes' do
         get "/api/v2/accounts/#{account.id}/reports/inboxes",
@@ -232,10 +243,12 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        since: 30.days.ago.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          since: 30.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for labels' do
         get "/api/v2/accounts/#{account.id}/reports/labels.csv",
@@ -265,10 +278,12 @@ RSpec.describe 'Reports API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = {
-        since: 30.days.ago.to_i.to_s,
-        until: Time.zone.today.to_time.to_i.to_s
-      }
+      let(:params) do
+        super().merge(
+          since: 30.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
 
       it 'returns unauthorized for teams' do
         get "/api/v2/accounts/#{account.id}/reports/teams.csv",

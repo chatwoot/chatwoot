@@ -1333,6 +1333,167 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/canned_responses": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "get-account-canned-response",
+        "summary": "List all Canned Responses in an Account",
+        "description": "Get Details of Canned Responses in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all canned responses",
+              "items": {
+                "$ref": "#/definitions/canned_response"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "add-new-canned-response-to-account",
+        "summary": "Add a New Canned Response",
+        "description": "Add a new Canned Response to Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/canned_responses/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "update-canned-response-in-account",
+        "summary": "Update Canned Response in Account",
+        "description": "Update a Canned Response in Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "delete-canned-response-from-account",
+        "summary": "Remove a Canned Response from Account",
+        "description": "Remove a Canned Response from Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Canned Response not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
@@ -3549,6 +3710,27 @@
         }
       }
     },
+    "canned_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID of the canned response"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
+        }
+      }
+    },
     "contact": {
       "type": "object",
       "properties": {
@@ -4193,6 +4375,19 @@
         "custom_attributes": {
           "type": "object",
           "description": "Custom attributes you want to associate with the user"
+        }
+      }
+    },
+    "canned_response_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
         }
       }
     },
@@ -4894,6 +5089,7 @@
       "tags": [
         "Account AgentBots",
         "Agent",
+        "Canned Response",
         "Contact",
         "Conversation",
         "Conversation Assignment",

@@ -31,6 +31,7 @@ import {
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
+import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -154,8 +155,6 @@ export const IFrameHelper = {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
 
-      dispatchWindowEvent({ eventName: CHATWOOT_READY });
-
       window.playAudioAlert = () => {};
 
       initOnEvents.forEach(e => {
@@ -190,6 +189,12 @@ export const IFrameHelper = {
       }
 
       onBubbleClick(bubbleState);
+    },
+
+    popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
+      const cwCookie = Cookies.get('cw_conversation');
+      window.$chatwoot.toggle('close');
+      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
     closeWindow: () => {
