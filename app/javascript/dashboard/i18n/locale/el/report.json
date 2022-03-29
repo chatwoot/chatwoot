@@ -18,14 +18,14 @@
         "DESC": "(Σύνολο)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -132,14 +132,14 @@
         "DESC": "(Σύνολο)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -197,14 +197,14 @@
         "DESC": "(Σύνολο)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -262,14 +262,14 @@
         "DESC": "(Σύνολο)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -327,14 +327,14 @@
         "DESC": "(Σύνολο)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
