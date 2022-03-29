@@ -18,8 +18,14 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
-    timeseries.each_with_object([]) do |p, arr|
-      arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i }
+    if %w[avg_first_response_time avg_resolution_time].include?(params[:metric])
+      timeseries.each_with_object([]) do |p, arr|
+        arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: @grouped_values.count[p[0]] }
+      end
+    else
+      timeseries.each_with_object([]) do |p, arr|
+        arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i }
+      end
     end
   end
 
@@ -68,7 +74,7 @@ class V2::ReportBuilder
   end
 
   def get_grouped_values(object_scope)
-    object_scope.group_by_period(
+    @grouped_values = object_scope.group_by_period(
       params[:group_by] || DEFAULT_GROUP_BY,
       :created_at,
       default_value: 0,
