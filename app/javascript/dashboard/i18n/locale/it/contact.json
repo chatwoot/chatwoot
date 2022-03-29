@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contatti salvati con successo",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Conferma eliminazione",
+      "MESSAGE": "Sei sicuro di voler eliminare questa nota?",
+      "YES": "Sì, eliminala",
+      "NO": "No, conserva"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Elimina contatto",
     "TITLE": "Elimina contatto",
@@ -222,96 +230,96 @@
       "LABEL": "ha aggiunto una nota"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Aggiungi",
+      "PLACEHOLDER": "Aggiungi una nota",
+      "TITLE": "Maiusc + Invio per creare una nota"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Elimina nota"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Attività"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "note",
+      "PILL_BUTTON_EVENTS": "eventi",
       "PILL_BUTTON_CONVO": "conversazioni"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Aggiungi attributi",
+    "BUTTON": "Aggiungi attributo personalizzato",
+    "NOT_AVAILABLE": "Non sono disponibili attributi personalizzati per questo contatto.",
     "COPY_SUCCESSFUL": "Copiato negli appunti con successo",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "Copia attributo",
+      "DELETE": "Elimina attributo",
       "EDIT": "Modifica attributo"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Crea attributo personalizzato",
+      "DESC": "Aggiungi informazioni personalizzate a questo contatto."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Aggiungi attributo",
       "CANCEL": "Annulla",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Nome attributo personalizzato",
+        "PLACEHOLDER": "Es: id shopify",
+        "ERROR": "Nome dell'attributo personalizzato non valido"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Valore attributo",
+        "PLACEHOLDER": "Es: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Crea nuovo attributo ",
         "SUCCESS": "Attributo aggiunto con successo",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Impossibile aggiungere l'attributo. Riprova più tardi"
       },
       "UPDATE": {
         "SUCCESS": "Attributo aggiornato con successo",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Impossibile aggiornare l'attributo. Riprova più tardi"
       },
       "DELETE": {
         "SUCCESS": "Attributo eliminato con successo",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Impossibile eliminare l'attributo. Riprova più tardi"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Aggiungi attributi",
+        "PLACEHOLDER": "Cerca attributi",
+        "NO_RESULT": "Nessun attributo trovato"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Seleziona valore",
+          "SEARCH_INPUT_PLACEHOLDER": "Cerca valore",
+          "NO_RESULT": "Nessun risultato trovato"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Valore valido richiesto",
+      "INVALID_URL": "URL non valido"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Unisci contatti",
+    "DESCRIPTION": "Unisci i contatti per combinare due profili in uno, inclusi tutti gli attributi e le conversazioni. In caso di conflitto, gli attributi del contatto primario avranno la precedenza.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Contatto primario",
+      "HELP_LABEL": "Da mantenere"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Contatto da unire",
+      "PLACEHOLDER": "Cerca un contatto",
+      "HELP_LABEL": "Da eliminare"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "TITLE": "Riepilogo",
+      "DELETE_WARNING": "Il contatto di <strong>%{childContactName}</strong> verrà eliminato.",
       "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>%{childContactName}</strong> verranno copiati in <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -324,7 +332,7 @@
         "ERROR": "Seleziona un contatto figlio da unire"
       },
       "SUCCESS_MESSAGE": "Contatto unito con successo",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Impossibile unire i contatti, riprova!"
     }
   }
 }
