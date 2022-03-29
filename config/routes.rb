@@ -52,8 +52,8 @@ Rails.application.routes.draw do
               post :reauthorize_page
             end
           end
-          resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, except: [:edit] do
+          resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
@@ -145,7 +145,7 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          resources :webhooks, except: [:show]
+          resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
@@ -212,6 +212,7 @@ Rails.application.routes.draw do
             get :inboxes
             get :labels
             get :teams
+            get :conversations
           end
         end
       end

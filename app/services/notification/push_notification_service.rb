@@ -66,7 +66,7 @@ class Notification::PushNotificationService
   rescue Webpush::ExpiredSubscription
     subscription.destroy!
   rescue Errno::ECONNRESET, Net::OpenTimeout, Net::ReadTimeout => e
-    Rails.logger.info "Webpush operation error: #{e.message}"
+    Rails.logger.error "Webpush operation error: #{e.message}"
   end
 
   def send_fcm_push(subscription)

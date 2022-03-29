@@ -58,7 +58,9 @@ class FilterService
   end
 
   def string_filter_values(query_hash)
-    query_hash['values'][0]
+    return query_hash['values'][0] if query_hash['values'].is_a?(Array)
+
+    query_hash['values']
   end
 
   def lt_gt_filter_values(query_hash)

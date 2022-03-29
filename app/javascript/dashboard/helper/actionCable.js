@@ -22,6 +22,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'contact.deleted': this.onContactDelete,
       'contact.updated': this.onContactUpdate,
       'conversation.mentioned': this.onConversationMentioned,
+      'notification.created': this.onNotificationCreated,
     };
   }
 
@@ -133,6 +134,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onContactUpdate = data => {
     this.app.$store.dispatch('contacts/updateContact', data);
+  };
+
+  onNotificationCreated = data => {
+    this.app.$store.dispatch('notifications/addNotification', data);
   };
 }
 
