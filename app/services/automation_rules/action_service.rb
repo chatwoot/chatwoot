@@ -57,7 +57,7 @@ class AutomationRules::ActionService
     return if @rule.event_name == 'message_created'
 
     params = { content: message[0], private: false }
-    mb = Messages::MessageBuilder.new(@administrator, @conversation, params)
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
 
@@ -92,10 +92,6 @@ class AutomationRules::ActionService
     when 'message_created'
       TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])&.deliver_now
     end
-  end
-
-  def administrator
-    @administrator ||= @account.administrators.first
   end
 
   def agent_belongs_to_account?(agent_ids)

@@ -241,7 +241,7 @@ describe AutomationRuleListener do
 
         conversation.reload
 
-        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.first.content).to eq('Send this message.')
       end
 
       it 'triggers automation_rule with contact standard attributes' do
