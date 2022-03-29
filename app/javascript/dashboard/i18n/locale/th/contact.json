@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "บันทึกรายชื่อเรียบร้อยแล้ว",
     "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "ยืนยันการลบ",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, Keep it"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "ลบผู้ติดต่อ",
     "TITLE": "ลบผู้ติดต่อ",
