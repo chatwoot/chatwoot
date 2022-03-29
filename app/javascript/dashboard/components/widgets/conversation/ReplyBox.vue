@@ -480,7 +480,7 @@ export default {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
     saveDraft(conversationId, replyType) {
-      if (this.message) {
+      if (this.message || this.message === '') {
         const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimMessage(this.message || '');
