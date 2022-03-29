@@ -15,6 +15,12 @@ describe AutomationRuleListener do
   end
 
   before do
+    create(:custom_attribute_definition,
+           attribute_key: 'customer_type',
+           account: account,
+           attribute_model: 'contact_attribute',
+           attribute_display_type: 'list',
+           attribute_values: %w[regular platinum gold])
     create(:team_member, user: user_1, team: team)
     create(:team_member, user: user_2, team: team)
     create(:account_user, user: user_2, account: account)
@@ -77,6 +83,7 @@ describe AutomationRuleListener do
         listener.conversation_status_changed(event)
 
         conversation.reload
+
         expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
 
@@ -142,6 +149,108 @@ describe AutomationRuleListener do
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_status_changed(event)
+      end
+    end
+  end
+
+  describe '#conversation_updated with contacts attributes' do
+    before do
+      conversation.contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' },
+                                   additional_attributes: { 'company': 'Marvel' })
+
+      automation_rule.update!(
+        event_name: 'conversation_updated',
+        name: 'Call actions conversation updated',
+        description: 'Add labels, assign team after conversation updated',
+        conditions: [
+          {
+            attribute_key: 'company',
+            filter_operator: 'equal_to',
+            values: ['Marvel'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'customer_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+      )
+    end
+
+    let!(:event) do
+      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+    end
+
+    context 'when rule matches with additional_attributes and custom_attributes' do
+      it 'triggers automation rule to assign team' do
+        expect(conversation.team_id).not_to eq(team.id)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.team_id).to eq(team.id)
+      end
+
+      it 'triggers automation rule to add label and assign best agents' do
+        expect(conversation.labels).to eq([])
+        expect(conversation.assignee).to be_nil
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
+        expect(conversation.assignee).to eq(user_1)
+      end
+
+      it 'triggers automation rule send email transcript to the mentioned email' do
+        mailer = double
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        allow(mailer).to receive(:conversation_transcript)
+      end
+
+      it 'triggers automation rule send message to the contacts' do
+        expect(conversation.messages).to be_empty
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        expect(conversation.messages.last.content).to eq('Send this message.')
+      end
+
+      it 'triggers automation_rule with contact standard attributes' do
+        automation_rule.update!(
+          conditions: [
+            {
+              attribute_key: 'email',
+              filter_operator: 'contains',
+              values: ['example.com'],
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'customer_type',
+              filter_operator: 'equal_to',
+              values: ['platinum'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+        expect(conversation.team_id).not_to eq(team.id)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.team_id).to eq(team.id)
       end
     end
   end
