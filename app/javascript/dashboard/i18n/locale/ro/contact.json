@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacte salvate cu succes",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmă ștergerea",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nu, păstreaza"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Șterge contact",
     "TITLE": "Șterge contact",
