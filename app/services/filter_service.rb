@@ -87,10 +87,26 @@ class FilterService
     ]
   end
 
+  def custom_attribute_query(query_hash, table_name, current_index)
+    attribute_key = query_hash[:attribute_key]
+    query_operator = query_hash[:query_operator]
+
+    attribute_type = custom_attribute(attribute_key, @account).try(:attribute_display_type)
+    filter_operator_value = filter_operation(query_hash, current_index)
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+
+    if custom_attribute(attribute_key, @account)
+      "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    else
+      ' '
+    end
+  end
+
   private
 
-  def custom_attribute(attribute_key)
-    @custom_attribute = Current.account.custom_attribute_definitions.where(
+  def custom_attribute(attribute_key, account = nil)
+    current_account = account || Current.account
+    @custom_attribute = current_account.custom_attribute_definitions.where(
       attribute_model: self.class::ATTRIBUTE_MODEL
     ).find_by(attribute_key: attribute_key)
   end
