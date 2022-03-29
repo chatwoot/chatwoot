@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Möchten Sie diese Notiz wirklich löschen?",
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalte es"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kontakt löschen",
     "TITLE": "Kontakt löschen",
