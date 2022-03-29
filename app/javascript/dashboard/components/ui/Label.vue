@@ -48,6 +48,10 @@ export default {
       type: String,
       default: '',
     },
+    color: {
+      type: String,
+      default: '',
+    },
     colorScheme: {
       type: String,
       default: '',
@@ -55,7 +59,7 @@ export default {
   },
   computed: {
     textColor() {
-      return getContrastingTextColor(this.bgColor);
+      return this.color || getContrastingTextColor(this.bgColor);
     },
     labelClass() {
       return `label ${this.colorScheme} ${this.small ? 'small' : ''}`;
@@ -97,6 +101,9 @@ export default {
 
   &.small {
     font-size: var(--font-size-micro);
+    padding: var(--space-micro) var(--space-smaller);
+    line-height: 1.2;
+    letter-spacing: 0.15px;
   }
 
   .label--icon {
