@@ -18,14 +18,14 @@
         "DESC": "(总计)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -132,14 +132,14 @@
         "DESC": "(总计)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -197,14 +197,14 @@
         "DESC": "(总计)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -262,14 +262,14 @@
         "DESC": "(总计)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -327,14 +327,14 @@
         "DESC": "(总计)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "用于计算的对话总数："
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
