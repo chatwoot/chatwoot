@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "تأكيد الحذف",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "لا، احتفظ به"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "حذف جهة الاتصال",
     "TITLE": "حذف جهة الاتصال",
