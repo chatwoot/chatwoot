@@ -18,14 +18,14 @@
         "DESC": "( Всего )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -132,14 +132,14 @@
         "DESC": "( Всего )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -197,14 +197,14 @@
         "DESC": "( Всего )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -262,14 +262,14 @@
         "DESC": "( Всего )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -327,14 +327,14 @@
         "DESC": "( Всего )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
