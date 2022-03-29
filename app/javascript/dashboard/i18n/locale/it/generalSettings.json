@@ -60,12 +60,12 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifiche",
     "MARK_ALL_DONE": "Contrassegna tutto come fatto",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "eliminato",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "Notifiche non lette",
+      "ALL_NOTIFICATIONS": "Visualizza tutte le notifiche",
+      "LOADING_UNREAD_MESSAGE": "Caricamento notifiche non lette...",
+      "EMPTY_MESSAGE": "Non hai notifiche non lette"
     },
     "LIST": {
       "LOADING_MESSAGE": "Caricamento notifiche...",
