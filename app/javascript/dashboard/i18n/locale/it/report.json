@@ -18,14 +18,14 @@
         "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -132,14 +132,14 @@
         "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -197,14 +197,14 @@
         "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -262,14 +262,14 @@
         "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -327,14 +327,14 @@
         "DESC": "( Totale )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
