@@ -1,5 +1,4 @@
-export const hexToHSLAsArray = H => {
-  // Convert hex to RGB first
+export const hexToRGB = H => {
   let r = 0;
   let g = 0;
   let b = 0;
@@ -12,10 +11,10 @@ export const hexToHSLAsArray = H => {
     g = '0x' + H[3] + H[4];
     b = '0x' + H[5] + H[6];
   }
-  // Then to HSL
-  r /= 255;
-  g /= 255;
-  b /= 255;
+  return [r, g, b];
+};
+
+export const rgbToHSL = (r, g, b) => {
   let cmin = Math.min(r, g, b);
   let cmax = Math.max(r, g, b);
   let delta = cmax - cmin;
@@ -38,6 +37,18 @@ export const hexToHSLAsArray = H => {
   l = +(l * 100).toFixed(1);
 
   return [h, s, l];
+};
+
+export const hexToHSLAsArray = H => {
+  // Convert hex to RGB first
+  let [r, g, b] = hexToRGB(H);
+
+  // Then to HSL
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  return rgbToHSL(r, g, b);
 };
 
 export const hexToHSL = hex => {
