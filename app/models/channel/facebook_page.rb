@@ -45,7 +45,7 @@ class Channel::FacebookPage < ApplicationRecord
         source_id: instagram_id
       )
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
     end
   end
 
