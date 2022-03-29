@@ -18,14 +18,14 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -132,14 +132,14 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -197,14 +197,14 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -262,14 +262,14 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -327,14 +327,14 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
