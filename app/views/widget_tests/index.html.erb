@@ -40,7 +40,7 @@ window.addEventListener('chatwoot:ready', function() {
   console.log('chatwoot:ready', window.$chatwoot);
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
-      identifier_hash: 'a<%= user_hash %>',
+      identifier_hash: '<%= user_hash %>',
       email: 'jane@example.com',
       name: 'Jane Doe',
       phone_number: ''
@@ -49,6 +49,6 @@ window.addEventListener('chatwoot:ready', function() {
 })
 
 window.addEventListener('chatwoot:error', function(e) {
-  console.log('chatwoot:error', e.details)
+  console.log('chatwoot:error', e.detail)
 })
 </script>
