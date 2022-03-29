@@ -391,3 +391,35 @@
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/summary.yml'
+
+# Conversation metrics for account
+/api/v2/accounts/{account_id}/reports/conversations:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - account
+      required: true
+      description: Type of report
+  get:
+    $ref: './application/reports/conversation/account.yml'
+
+# Conversation metrics for agent
+/api/v2/accounts/{account_id}/reports/conversations/:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - agent
+      required: true
+      description: Type of report
+    - in: query
+      name: user_id
+      type: string
+      description: The numeric ID of the user
+  get:
+    $ref: './application/reports/conversation/agent.yml'
